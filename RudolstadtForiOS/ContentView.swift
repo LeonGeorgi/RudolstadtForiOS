@@ -10,28 +10,42 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection = 0
- 
+    @ObservedObject var dataProvider = DataProvider()
+
     var body: some View {
-        TabView(selection: $selection){
-            Text("First View")
-                .font(.title)
-                .tabItem {
-                    VStack {
-                        Image("first")
-                        Text("First")
-                    }
+        TabView(selection: $selection) {
+            ProgramView(data: dataProvider.data)
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "music.note.list")
+                            Text("Program")
+                        }
+                    }.tag(0)
+            ScheduleView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "calendar")
+                            Text("Schedule")
+                        }
+                    }.tag(1)
+            NewsListView(data: dataProvider.data)
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "envelope.fill")
+                            Text("News")
+                        }
+                    }.tag(2)
+            MoreView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "ellipsis")
+                            Text("More")
+                        }
+                    }.tag(3)
+        }.onAppear {
+                    self.dataProvider.loadData()
                 }
-                .tag(0)
-            Text("Second View")
-                .font(.title)
-                .tabItem {
-                    VStack {
-                        Image("second")
-                        Text("Second")
-                    }
-                }
-                .tag(1)
-        }
+                .accentColor(.green)
     }
 }
 

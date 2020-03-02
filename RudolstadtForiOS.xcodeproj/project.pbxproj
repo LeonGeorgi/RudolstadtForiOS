@@ -3,10 +3,25 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32A1103D587A93CEF1ED3821 /* StageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1196C00ED0C0CB3B54B0B /* StageDetailView.swift */; };
+		32A113FE435299701D6A0911 /* StageEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118441741FCBDC5D0E11C /* StageEventItem.swift */; };
+		32A114021446CCFD6F2CFF91 /* ProgramEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11AA1B9948E22911ABFCB /* ProgramEventItem.swift */; };
+		32A11464F6D60597E7D35CFA /* NewsItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1197920EC9D4F132321A3 /* NewsItemDetailView.swift */; };
+		32A115146FA426B5FCCECC70 /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11091D6A3CE9818BEFC50 /* ArtistImageView.swift */; };
+		32A11565E27B84EF9E216510 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11BF710CBDB63B6F79299 /* EventDetailView.swift */; };
+		32A116DBA30D000DFE5B7666 /* ArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114464C408D8BF68CFCE9 /* ArtistListView.swift */; };
+		32A116EAB59E230ECA97C7AB /* ProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11F215114BCD557848E24 /* ProgramView.swift */; };
+		32A11750EDD17A73779B6769 /* NewsItemItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B859AE5DD3690A457DA /* NewsItemItemView.swift */; };
+		32A11B74C7755285007F0417 /* StageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11767FE0F18ECB9E14CCB /* StageListView.swift */; };
+		32A11E86195DFF3E23F17A34 /* ArtistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11ED1F95A277587C2C422 /* ArtistDetailView.swift */; };
+		32A11ECA86F96148A5F0273F /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0056E8B3607AB148AC /* NewsListView.swift */; };
+		32A11F1E45921B31CA8FA915 /* ArtistEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EB409F58E0AC6918667 /* ArtistEventItem.swift */; };
+		32A11F7A36FE7137F9CDD514 /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B4F380583703A85954A /* StageMapView.swift */; };
+		35633CA424082F1E002E9E93 /* StageProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35633CA324082F1E002E9E93 /* StageProgramView.swift */; };
 		3590435A24017C63003FBBD4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590435924017C63003FBBD4 /* AppDelegate.swift */; };
 		3590435C24017C63003FBBD4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590435B24017C63003FBBD4 /* SceneDelegate.swift */; };
 		3590435E24017C63003FBBD4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590435D24017C63003FBBD4 /* ContentView.swift */; };
@@ -15,6 +30,12 @@
 		3590436624017C65003FBBD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3590436424017C65003FBBD4 /* LaunchScreen.storyboard */; };
 		3590437124017C66003FBBD4 /* RudolstadtForiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590437024017C66003FBBD4 /* RudolstadtForiOSTests.swift */; };
 		3590437C24017C66003FBBD4 /* RudolstadtForiOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590437B24017C66003FBBD4 /* RudolstadtForiOSUITests.swift */; };
+		3590438A240180E9003FBBD4 /* TimeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35904389240180E9003FBBD4 /* TimeProgramView.swift */; };
+		3590438C24018140003FBBD4 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590438B24018140003FBBD4 /* DataModel.swift */; };
+		359043902401844F003FBBD4 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590438F2401844F003FBBD4 /* ScheduleView.swift */; };
+		359043942401848F003FBBD4 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359043932401848F003FBBD4 /* MoreView.swift */; };
+		3590439624018910003FBBD4 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590439524018910003FBBD4 /* DataProvider.swift */; };
+		359043982401898B003FBBD4 /* DataUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359043972401898B003FBBD4 /* DataUpdater.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +56,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		32A11091D6A3CE9818BEFC50 /* ArtistImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistImageView.swift; sourceTree = "<group>"; };
+		32A114464C408D8BF68CFCE9 /* ArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistListView.swift; sourceTree = "<group>"; };
+		32A11767FE0F18ECB9E14CCB /* StageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageListView.swift; sourceTree = "<group>"; };
+		32A118441741FCBDC5D0E11C /* StageEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageEventItem.swift; sourceTree = "<group>"; };
+		32A1196C00ED0C0CB3B54B0B /* StageDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageDetailView.swift; sourceTree = "<group>"; };
+		32A1197920EC9D4F132321A3 /* NewsItemDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemDetailView.swift; sourceTree = "<group>"; };
+		32A11AA1B9948E22911ABFCB /* ProgramEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramEventItem.swift; sourceTree = "<group>"; };
+		32A11B0056E8B3607AB148AC /* NewsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListView.swift; sourceTree = "<group>"; };
+		32A11B4F380583703A85954A /* StageMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageMapView.swift; sourceTree = "<group>"; };
+		32A11B859AE5DD3690A457DA /* NewsItemItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemItemView.swift; sourceTree = "<group>"; };
+		32A11BF710CBDB63B6F79299 /* EventDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
+		32A11EB409F58E0AC6918667 /* ArtistEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistEventItem.swift; sourceTree = "<group>"; };
+		32A11ED1F95A277587C2C422 /* ArtistDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailView.swift; sourceTree = "<group>"; };
+		32A11F215114BCD557848E24 /* ProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramView.swift; sourceTree = "<group>"; };
+		35633CA324082F1E002E9E93 /* StageProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageProgramView.swift; sourceTree = "<group>"; };
 		3590435624017C63003FBBD4 /* RudolstadtForiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RudolstadtForiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3590435924017C63003FBBD4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3590435B24017C63003FBBD4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +85,12 @@
 		3590437724017C66003FBBD4 /* RudolstadtForiOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RudolstadtForiOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3590437B24017C66003FBBD4 /* RudolstadtForiOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtForiOSUITests.swift; sourceTree = "<group>"; };
 		3590437D24017C66003FBBD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35904389240180E9003FBBD4 /* TimeProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeProgramView.swift; sourceTree = "<group>"; };
+		3590438B24018140003FBBD4 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		3590438F2401844F003FBBD4 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		359043932401848F003FBBD4 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
+		3590439524018910003FBBD4 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		359043972401898B003FBBD4 /* DataUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUpdater.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +118,71 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32A1100A8330120BE2CE8710 /* Stage */ = {
+			isa = PBXGroup;
+			children = (
+				32A1196C00ED0C0CB3B54B0B /* StageDetailView.swift */,
+				32A118441741FCBDC5D0E11C /* StageEventItem.swift */,
+				32A11B4F380583703A85954A /* StageMapView.swift */,
+			);
+			path = Stage;
+			sourceTree = "<group>";
+		};
+		32A11512A21FDE172DC85A7D /* News */ = {
+			isa = PBXGroup;
+			children = (
+				32A1197920EC9D4F132321A3 /* NewsItemDetailView.swift */,
+				32A11B859AE5DD3690A457DA /* NewsItemItemView.swift */,
+				32A11B0056E8B3607AB148AC /* NewsListView.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		32A11546B30B3A5CF2E5D44D /* Artist */ = {
+			isa = PBXGroup;
+			children = (
+				32A11EB409F58E0AC6918667 /* ArtistEventItem.swift */,
+				32A11091D6A3CE9818BEFC50 /* ArtistImageView.swift */,
+				32A11ED1F95A277587C2C422 /* ArtistDetailView.swift */,
+			);
+			path = Artist;
+			sourceTree = "<group>";
+		};
+		32A1181447F835548420AFE9 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				32A11BF710CBDB63B6F79299 /* EventDetailView.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		32A11ED5F0B9C44881B6B521 /* Program */ = {
+			isa = PBXGroup;
+			children = (
+				32A114464C408D8BF68CFCE9 /* ArtistListView.swift */,
+				32A11AA1B9948E22911ABFCB /* ProgramEventItem.swift */,
+				32A11F215114BCD557848E24 /* ProgramView.swift */,
+				32A11546B30B3A5CF2E5D44D /* Artist */,
+				32A1100A8330120BE2CE8710 /* Stage */,
+				32A1181447F835548420AFE9 /* Event */,
+				32A11767FE0F18ECB9E14CCB /* StageListView.swift */,
+			);
+			path = Program;
+			sourceTree = "<group>";
+		};
+		358032072406857700612017 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				35904389240180E9003FBBD4 /* TimeProgramView.swift */,
+				359043932401848F003FBBD4 /* MoreView.swift */,
+				3590438F2401844F003FBBD4 /* ScheduleView.swift */,
+				35633CA324082F1E002E9E93 /* StageProgramView.swift */,
+				32A11ED5F0B9C44881B6B521 /* Program */,
+				32A11512A21FDE172DC85A7D /* News */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		3590434D24017C63003FBBD4 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +206,7 @@
 		3590435824017C63003FBBD4 /* RudolstadtForiOS */ = {
 			isa = PBXGroup;
 			children = (
+				358032072406857700612017 /* Views */,
 				3590435924017C63003FBBD4 /* AppDelegate.swift */,
 				3590435B24017C63003FBBD4 /* SceneDelegate.swift */,
 				3590435D24017C63003FBBD4 /* ContentView.swift */,
@@ -106,6 +214,9 @@
 				3590436424017C65003FBBD4 /* LaunchScreen.storyboard */,
 				3590436724017C65003FBBD4 /* Info.plist */,
 				3590436124017C65003FBBD4 /* Preview Content */,
+				3590438B24018140003FBBD4 /* DataModel.swift */,
+				3590439524018910003FBBD4 /* DataProvider.swift */,
+				359043972401898B003FBBD4 /* DataUpdater.swift */,
 			);
 			path = RudolstadtForiOS;
 			sourceTree = "<group>";
@@ -152,6 +263,9 @@
 			dependencies = (
 			);
 			name = RudolstadtForiOS;
+			packageProductDependencies = (
+				35633C9B240802C0002E9E93 /* XCSwiftPackageProductDependency */,
+			);
 			productName = RudolstadtForiOS;
 			productReference = 3590435624017C63003FBBD4 /* RudolstadtForiOS.app */;
 			productType = "com.apple.product-type.application";
@@ -224,6 +338,9 @@
 				Base,
 			);
 			mainGroup = 3590434D24017C63003FBBD4;
+			packageReferences = (
+				35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference */,
+			);
 			productRefGroup = 3590435724017C63003FBBD4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -267,9 +384,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35633CA424082F1E002E9E93 /* StageProgramView.swift in Sources */,
 				3590435A24017C63003FBBD4 /* AppDelegate.swift in Sources */,
+				359043982401898B003FBBD4 /* DataUpdater.swift in Sources */,
+				359043942401848F003FBBD4 /* MoreView.swift in Sources */,
+				3590439624018910003FBBD4 /* DataProvider.swift in Sources */,
 				3590435C24017C63003FBBD4 /* SceneDelegate.swift in Sources */,
 				3590435E24017C63003FBBD4 /* ContentView.swift in Sources */,
+				359043902401844F003FBBD4 /* ScheduleView.swift in Sources */,
+				3590438C24018140003FBBD4 /* DataModel.swift in Sources */,
+				3590438A240180E9003FBBD4 /* TimeProgramView.swift in Sources */,
+				32A116DBA30D000DFE5B7666 /* ArtistListView.swift in Sources */,
+				32A114021446CCFD6F2CFF91 /* ProgramEventItem.swift in Sources */,
+				32A116EAB59E230ECA97C7AB /* ProgramView.swift in Sources */,
+				32A11464F6D60597E7D35CFA /* NewsItemDetailView.swift in Sources */,
+				32A11750EDD17A73779B6769 /* NewsItemItemView.swift in Sources */,
+				32A11ECA86F96148A5F0273F /* NewsListView.swift in Sources */,
+				32A11F1E45921B31CA8FA915 /* ArtistEventItem.swift in Sources */,
+				32A115146FA426B5FCCECC70 /* ArtistImageView.swift in Sources */,
+				32A11E86195DFF3E23F17A34 /* ArtistDetailView.swift in Sources */,
+				32A1103D587A93CEF1ED3821 /* StageDetailView.swift in Sources */,
+				32A113FE435299701D6A0911 /* StageEventItem.swift in Sources */,
+				32A11F7A36FE7137F9CDD514 /* StageMapView.swift in Sources */,
+				32A11565E27B84EF9E216510 /* EventDetailView.swift in Sources */,
+				32A11B74C7755285007F0417 /* StageListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,7 +582,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RudolstadtForiOS;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -464,7 +602,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RudolstadtForiOS;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -594,6 +732,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.10;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		35633C9B240802C0002E9E93 /* XCSwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference */;
+			productName = URLImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3590434E24017C63003FBBD4 /* Project object */;
 }
