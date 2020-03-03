@@ -16,12 +16,16 @@ struct ProgramView: View {
                 NavigationLink(destination: ArtistListView()) {
                     ProgramItemText(title: "Arists")
                 }
+                NavigationLink(destination: MarkedArtistListView()) {
+                    ProgramItemText(title: "Marked artists")
+                }
                 NavigationLink(destination: TimeProgramView()) {
                     ProgramItemText(title: "Program by time")
                 }
                 NavigationLink(destination: StageProgramView()) {
                     ProgramItemText(title: "Program by stage")
                 }
+
                 NavigationLink(destination: StageListView()) {
                     ProgramItemText(title: "Stages")
                 }

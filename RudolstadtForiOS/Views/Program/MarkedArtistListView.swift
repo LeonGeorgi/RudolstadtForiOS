@@ -11,50 +11,38 @@ import URLImage
 
 struct MarkedArtistListView: View {
     @EnvironmentObject var dataStore: DataStore
-    @State private var showingSheet = false
-    @State var filterArtistTypes = Set(ArtistType.allCases)
+    @EnvironmentObject var settings: UserSettings
 
-    @State var seachText = ""
-
-    func selectedArtists() -> [Artist] {
-        return dataStore.artists.filter { artist in
-            filterArtistTypes.contains(artist.artistType)
+    func artists() -> [Artist] {
+        let artists = dataStore.artists.map { artist in
+            (artist: artist, rating: settings.ratings[String(artist.id)])
+        }
+        let filteredArtists = artists.filter { item in
+            item.rating != nil && item.rating! > 0
+        }
+        let sortedArtists = filteredArtists.sorted { first, second in
+            first.rating! > second.rating!
+        }
+        return sortedArtists.map { artist, rating in
+            artist
         }
     }
 
     var body: some View {
         List {
-            SearchBar(text: $seachText)
-                    .listRowInsets(EdgeInsets())
-            ForEach(selectedArtists()) { (artist: Artist) in
+            ForEach(artists()) { (artist: Artist) in
                 NavigationLink(destination: ArtistDetailView(artist: artist)) {
                     ArtistCell(artist: artist)
                 }
 
             }
-        }.gesture(DragGesture().onChanged { _ in
-                    UIApplication.shared.endEditing(true)
-                })
-                .navigationBarTitle("Artists")
-                .navigationBarItems(trailing: Button(action: {
-                    self.showingSheet = true
-                }) {
-                    Text("Filter")
-                })
-                .sheet(isPresented: $showingSheet) {
-                    NavigationView {
-                        ArtistTypeFilterView(selectedArtistTypes: self.$filterArtistTypes)
-                                .navigationBarItems(trailing: Button(action: { self.showingSheet = false }) {
-                                    Text("Done")
-                                })
-                    }
-                }
+        }.navigationBarTitle("Marked")
     }
 }
 
 struct MarkedArtistListView_Previews: PreviewProvider {
     static var previews: some View {
         MarkedArtistListView()
-        .environmentObject(DataStore())
+                .environmentObject(DataStore())
     }
 }

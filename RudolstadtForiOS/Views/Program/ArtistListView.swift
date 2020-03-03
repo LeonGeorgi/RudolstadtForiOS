@@ -24,8 +24,8 @@ struct ArtistListView: View {
 
     var body: some View {
         List {
-            SearchBar(text: $seachText)
-                    .listRowInsets(EdgeInsets())
+            /*SearchBar(text: $seachText)
+                    .listRowInsets(EdgeInsets())*/
             ForEach(selectedArtists()) { (artist: Artist) in
                 NavigationLink(destination: ArtistDetailView(artist: artist)) {
                     ArtistCell(artist: artist)

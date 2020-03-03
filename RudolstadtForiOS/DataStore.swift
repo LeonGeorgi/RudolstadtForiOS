@@ -36,7 +36,7 @@ final class DataStore: ObservableObject {
     @Published var stages: [Stage] = []
     @Published var events: [Event] = []
     @Published var news: [NewsItem] = []
-    static let year = 2018
+    static let year = 2017
 
     func loadData() {
         artists = DataStore.readArtistsFromFile()
@@ -67,7 +67,7 @@ final class DataStore: ObservableObject {
     }
 
     static func readLinesFromFile(named fileName: String) -> [Substring.SubSequence] {
-        let dataFile = DataUpdater.cacheUrl.appendingPathComponent(fileName)
+        let dataFile = DataUpdater.cacheUrl.appendingPathComponent("\(DataStore.year)_\(fileName)")
         let fileAsString = (try? String(contentsOf: dataFile)) ?? ""
         return fileAsString.split(separator: "\n")
     }

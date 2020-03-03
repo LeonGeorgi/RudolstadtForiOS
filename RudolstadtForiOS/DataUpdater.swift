@@ -30,7 +30,7 @@ class DataUpdater {
         var downloadedFileNames: Set<String> = Set()
         for fileName in fileNames {
             if let url = URL(string: "\(baseUrl)/\(year)/\(fileName)") {
-                downloadFile(url: url, destination: cacheUrl.appendingPathComponent(fileName)) {
+                downloadFile(url: url, destination: cacheUrl.appendingPathComponent("\(DataStore.year)_\(fileName)")) {
                     downloadedFileNames.insert(fileName)
                     if downloadedFileNames == fileNames {
                         print("Downloaded all files")

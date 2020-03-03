@@ -30,6 +30,8 @@ final class UserSettings: ObservableObject {
     @UserDefault(key: "\(DataStore.year)/savedEvents", defaultValue: [])
     var savedEvents: [Int]
 
+
+
     private var notificationSubscription: AnyCancellable?
 
     init() {
