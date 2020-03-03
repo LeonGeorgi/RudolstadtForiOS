@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ArtistDetailView: View {
     let artist: Artist
+
+    @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
 
     var artistEvents: [Event] {
@@ -18,11 +20,43 @@ struct ArtistDetailView: View {
         }
     }
 
-    @State var rate: Bool = false
+    func rateArtist(rating: Int) {
+        print(settings.ratings)
+        var ratings = settings.ratings
+        ratings["\(self.artist.id)"] = rating
+        print(ratings)
+        settings.ratings = ratings
+
+    }
+
+    func artistRating() -> Int {
+        return settings.ratings["\(self.artist.id)"] ?? 0
+    }
+
     var body: some View {
         List {
             Section(footer: Text(artist.name)) {
                 ArtistImageView(artist: artist, fullImage: true).listRowInsets(EdgeInsets())
+            }
+
+            Section {
+                HStack {
+                    Spacer()
+                    ForEach(0..<5) { index in
+                        Image(systemName: "star.fill")
+                                .font(.system(size: 30))
+                                .foregroundColor(self.artistRating() >= index + 1 ? .accentColor : .secondary)
+                                .onTapGesture {
+                                    if self.artistRating() != index + 1 {
+                                        self.rateArtist(rating: index + 1)
+                                    } else {
+                                        self.rateArtist(rating: 0)
+                                    }
+                                }
+
+                    }
+                    Spacer()
+                }.padding(.vertical)
             }
             //.cornerRadius(10)
             //.shadow(radius: 10)
@@ -61,25 +95,6 @@ struct ArtistDetailView: View {
 
         }.listStyle(GroupedListStyle())
                 .navigationBarTitle(Text(self.artist.name), displayMode: .large)
-                .navigationBarItems(trailing: Button(action: {
-                    self.rate = true
-                }) {
-                    HStack {
-                        Image(systemName: "star")
-                        Text("0/5")
-                    }
-                })
-                .actionSheet(isPresented: $rate) {
-                    ActionSheet(title: Text("Rate \(artist.name)"), buttons: [
-                        .default(Text("☆☆☆☆☆")),
-                        .default(Text("★☆☆☆☆")),
-                        .default(Text("★★☆☆☆")),
-                        .default(Text("★★★☆☆")),
-                        .default(Text("★★★★☆")),
-                        .default(Text("★★★★★")),
-                        .cancel()
-                    ])
-                }
     }
 }
 

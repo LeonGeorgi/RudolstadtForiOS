@@ -12,13 +12,13 @@ import URLImage
 struct ArtistListView: View {
     @EnvironmentObject var dataStore: DataStore
     @State private var showingSheet = false
-    @State var selectedArtistTypes = Set(ArtistType.allCases)
+    @State var filterArtistTypes = Set(ArtistType.allCases)
 
     @State var seachText = ""
 
     func selectedArtists() -> [Artist] {
         return dataStore.artists.filter { artist in
-            selectedArtistTypes.contains(artist.artistType)
+            filterArtistTypes.contains(artist.artistType)
         }
     }
 
@@ -28,13 +28,7 @@ struct ArtistListView: View {
                     .listRowInsets(EdgeInsets())
             ForEach(selectedArtists()) { (artist: Artist) in
                 NavigationLink(destination: ArtistDetailView(artist: artist)) {
-                    HStack {
-                        ArtistImageView(artist: artist, fullImage: false)
-                                .frame(width: 80, height: 45)
-                                .cornerRadius(4)
-                        Text(artist.name)
-                                .lineLimit(1)
-                    }
+                    ArtistCell(artist: artist)
                 }
 
             }
@@ -49,7 +43,7 @@ struct ArtistListView: View {
                 })
                 .sheet(isPresented: $showingSheet) {
                     NavigationView {
-                        ArtistTypeFilterView(selectedArtistTypes: self.$selectedArtistTypes)
+                        ArtistTypeFilterView(selectedArtistTypes: self.filterArtistTypes)
                                 .navigationBarItems(trailing: Button(action: { self.showingSheet = false }) {
                                     Text("Done")
                                 })
@@ -61,5 +55,6 @@ struct ArtistListView: View {
 struct ArtistListView_Previews: PreviewProvider {
     static var previews: some View {
         ArtistListView()
+        .environmentObject(DataStore())
     }
 }

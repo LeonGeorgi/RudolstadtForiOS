@@ -17,7 +17,7 @@ struct StageProgramEventCell: View {
                 HStack(alignment: .center) {
                     ZStack {
                         ArtistImageView(artist: event.artist, fullImage: false)
-                                .blur(radius: 2)
+                                .overlay(Color.black.opacity(0.5))
                                 .frame(width: 80, height: 45)
                                 .cornerRadius(4)
 

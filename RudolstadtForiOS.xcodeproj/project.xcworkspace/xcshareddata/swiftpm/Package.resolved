@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "CodableCSV",
+        "repositoryURL": "https://github.com/dehesa/CodableCSV",
+        "state": {
+          "branch": null,
+          "revision": "891a6833e823f56ae3dd943fc9f646667a27876b",
+          "version": "0.3.3"
+        }
+      },
+      {
         "package": "URLImage",
         "repositoryURL": "https://github.com/dmytro-anokhin/url-image",
         "state": {

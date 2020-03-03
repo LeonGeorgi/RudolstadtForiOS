@@ -134,7 +134,7 @@ struct Event: Identifiable {
 
     var date: Date {
         var dateComponents = DateComponents()
-        dateComponents.year = 2018
+        dateComponents.year = DataStore.year
         dateComponents.month = 7
         dateComponents.day = dayInJuly
         dateComponents.timeZone = TimeZone(abbreviation: "CEST")
@@ -148,7 +148,7 @@ struct Event: Identifiable {
 
     var festivalDate: Date {
         var dateComponents = DateComponents()
-        dateComponents.year = 2018
+        dateComponents.year = DataStore.year
         dateComponents.month = 7
         dateComponents.day = festivalDay
         dateComponents.timeZone = TimeZone(abbreviation: "CEST")

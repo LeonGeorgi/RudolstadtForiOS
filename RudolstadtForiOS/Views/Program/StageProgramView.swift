@@ -22,7 +22,6 @@ struct StageProgramView: View {
         }
     }
 
-
     @State var selectedDay: Int = -1
 
     var events: Dictionary<Int, [StageEvents]> {
@@ -44,7 +43,9 @@ struct StageProgramView: View {
     }
 
     var eventDays: [Int] {
-        events.keys.sorted()
+        return Set(dataStore.events.lazy.map { (event: Event) in
+            event.festivalDay
+        }).sorted(by: <)
     }
 
     func sortStages(_ stages: [StageEvents]) -> [StageEvents] {
@@ -66,14 +67,23 @@ struct StageProgramView: View {
             }.padding(.leading, 10)
                     .padding(.trailing, 10)
                     .pickerStyle(SegmentedPickerStyle())
-            List {
-                ForEach(events[selectedDay] ?? []) { (item: StageEvents) in
-                    Section(header: Text("\(item.stage.germanName)")) {
-                        ForEach(item.events) { (event: Event) in
-                            NavigationLink(destination: EventDetailView(
-                                    event: event
-                            )) {
-                                StageProgramEventCell(event: event)
+
+
+            if events[selectedDay] == nil {
+                Spacer()
+                Text("No events available for the current filter settings.")
+                        .foregroundColor(.secondary)
+                Spacer()
+            } else {
+                List {
+                    ForEach(events[selectedDay] ?? []) { (item: StageEvents) in
+                        Section(header: Text("\(item.stage.germanName)")) {
+                            ForEach(item.events) { (event: Event) in
+                                NavigationLink(destination: EventDetailView(
+                                        event: event
+                                )) {
+                                    StageProgramEventCell(event: event)
+                                }
                             }
                         }
                     }
@@ -104,7 +114,7 @@ struct StageProgramView: View {
 
     func shortWeekDay(day: Int) -> String {
         var dateComponents = DateComponents()
-        dateComponents.year = 2018
+        dateComponents.year = DataStore.year
         dateComponents.month = 7
         dateComponents.day = day
         dateComponents.timeZone = TimeZone(abbreviation: "CEST")

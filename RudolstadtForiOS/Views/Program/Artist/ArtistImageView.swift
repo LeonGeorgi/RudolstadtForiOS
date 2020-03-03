@@ -15,21 +15,34 @@ struct ArtistImageView: View {
     var body: some View {
         VStack {
             if fullImage && artist.fullImageUrl != nil {
-                URLImage(artist.fullImageUrl!) { (proxy: ImageProxy) in
+                URLImage(artist.fullImageUrl!, placeholder: { _ in
+                    Image("placeholder")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .clipped()
+                }) { (proxy: ImageProxy) in
                     proxy.image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .clipped()
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .clipped()
                 }
             } else if artist.thumbImageUrl != nil {
-                URLImage(artist.thumbImageUrl!) { (proxy: ImageProxy) in
+                URLImage(artist.thumbImageUrl!, placeholder: { _ in
+                    Image("placeholder")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .clipped()
+                }) { (proxy: ImageProxy) in
                     proxy.image
+                            .resizable()                     // Make image resizable
+                            .aspectRatio(contentMode: .fill) // Fill the frame
+                            .clipped()
+                }
+            } else {
+                Image("placeholder")
                         .resizable()                     // Make image resizable
                         .aspectRatio(contentMode: .fill) // Fill the frame
                         .clipped()
-                }
-            } else {
-                Image(systemName: "person.2.fill")
             }
         }
     }

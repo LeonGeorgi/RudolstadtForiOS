@@ -36,6 +36,7 @@ final class DataStore: ObservableObject {
     @Published var stages: [Stage] = []
     @Published var events: [Event] = []
     @Published var news: [NewsItem] = []
+    static let year = 2018
 
     func loadData() {
         artists = DataStore.readArtistsFromFile()
@@ -45,15 +46,23 @@ final class DataStore: ObservableObject {
         events = DataStore.readEventsFromFile(stages: stages, artists: artists, tags: tags)
         news = DataStore.readNewsFromFile()
 
-        DataUpdater.updateData {
+        if artists.isEmpty {
+            DataUpdater.updateData {
+                let artists = DataStore.readArtistsFromFile()
+                let areas = DataStore.readAreasFromFile()
+                let stages = DataStore.readStagesFromFile(areas: areas)
+                let tags = DataStore.readTagsFromFile()
+                let events = DataStore.readEventsFromFile(stages: stages, artists: artists, tags: tags)
+                let news = DataStore.readNewsFromFile()
 
-            let artists = DataStore.readArtistsFromFile()
-            let areas = DataStore.readAreasFromFile()
-            let stages = DataStore.readStagesFromFile(areas: areas)
-            let tags = DataStore.readTagsFromFile()
-            let events = DataStore.readEventsFromFile(stages: stages, artists: artists, tags: tags)
-            let news = DataStore.readNewsFromFile()
-
+                DispatchQueue.main.async {
+                    self.artists = artists
+                    self.areas = areas
+                    self.stages = stages
+                    self.events = events
+                    self.news = news
+                }
+            }
         }
     }
 

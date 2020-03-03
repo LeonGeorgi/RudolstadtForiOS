@@ -17,7 +17,7 @@ class DataUpdater {
     static let stagesFileName = "stages.dat"
     static let tagsFileName = "tags.dat"
 
-    static let year = "2018"
+    static let year = "\(DataStore.year)"
     static let thumbUrl = "https://rudolstadt-festival.de/data/\(year)/images/thumbs"
     static let fullImageUrl = "https://rudolstadt-festival.de/data/\(year)/images/full"
 
@@ -25,16 +25,19 @@ class DataUpdater {
 
     static func updateData(onUpdate: @escaping () -> ()) {
         let baseUrl = "https://rudolstadt-festival.de/data"
-        let fileNames = [newsFileName, areasFileName, artistsFileName, eventsFileName, stagesFileName, tagsFileName]
-        return;
-        DispatchQueue.global().async {
-            for fileName in fileNames {
-                if let url = URL(string: "\(baseUrl)/\(year)/\(fileName)") {
-                    print(url)
-                    downloadFile(url: url, destination: cacheUrl.appendingPathComponent(fileName))
+        let fileNames = Set([newsFileName, areasFileName, artistsFileName, eventsFileName, stagesFileName, tagsFileName])
+        //return;
+        var downloadedFileNames: Set<String> = Set()
+        for fileName in fileNames {
+            if let url = URL(string: "\(baseUrl)/\(year)/\(fileName)") {
+                downloadFile(url: url, destination: cacheUrl.appendingPathComponent(fileName)) {
+                    downloadedFileNames.insert(fileName)
+                    if downloadedFileNames == fileNames {
+                        print("Downloaded all files")
+                        onUpdate()
+                    }
                 }
             }
-            onUpdate()
         }
     }
 
@@ -77,7 +80,9 @@ class DataUpdater {
                 print("Cannot download image for artist \(artist.name)")
                 continue
             }
-            downloadFile(url: url, destination: destinationFolder.appendingPathComponent(imageName))
+            downloadFile(url: url, destination: destinationFolder.appendingPathComponent(imageName)) {
+                //TODO
+            }
         }
 
 
@@ -91,7 +96,7 @@ class DataUpdater {
 
     }
 
-    static func downloadFile(url: URL, destination: URL, overwrite: Bool = true) -> Bool {
+    static func downloadFile(url: URL, destination: URL, overwrite: Bool = true, onUpdate: @escaping () -> Void) -> Bool {
         print("Downloading from \(url)")
         var success = false
 
@@ -104,6 +109,7 @@ class DataUpdater {
             }
             do {
                 try FileManager.default.moveItem(atPath: fileLocation.path, toPath: destination.path)
+                onUpdate()
                 success = true
             } catch {
                 print(error)
