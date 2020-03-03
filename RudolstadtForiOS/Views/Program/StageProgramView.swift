@@ -73,7 +73,7 @@ struct StageProgramView: View {
                             NavigationLink(destination: EventDetailView(
                                     event: event
                             )) {
-                                ProgramEventCell(event: event)
+                                StageProgramEventCell(event: event)
                             }
                         }
                     }

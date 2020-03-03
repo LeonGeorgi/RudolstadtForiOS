@@ -40,7 +40,7 @@ struct TimeProgramView: View {
                 NavigationLink(destination: EventDetailView(
                         event: event
                 )) {
-                    ProgramEventCell(event: event)
+                    TimeProgramEventCell(event: event)
                 }
             }
         }.navigationBarTitle("Program", displayMode: .inline)

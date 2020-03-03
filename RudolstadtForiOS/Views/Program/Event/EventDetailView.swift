@@ -19,10 +19,12 @@ struct EventDetailView: View {
             NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
                 HStack(spacing: 10) {
                     Text(event.artist.name)
+                            .font(.system(size: 22))
+                            .fontWeight(.bold)
                     //.lineLimit(2)
                     Spacer()
                     ArtistImageView(artist: event.artist, fullImage: false)
-                            .frame(width: 40, height: 40)
+                            .frame(width: 75, height: 75)
                             .cornerRadius(.infinity)
                 }
             }
