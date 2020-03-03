@@ -17,7 +17,6 @@
 		32A116EAB59E230ECA97C7AB /* ProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11F215114BCD557848E24 /* ProgramView.swift */; };
 		32A11750EDD17A73779B6769 /* NewsItemItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B859AE5DD3690A457DA /* NewsItemItemView.swift */; };
 		32A11915F653E2F5DEC434CA /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11E01B8F156ADC9DC4BB1 /* UserSettings.swift */; };
-		32A11ADB0D015458C5D44B08 /* no_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 32A11256DC80312DC26111DB /* no_image.jpg */; };
 		32A11B697C33EDF8288364FD /* ArtistTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11C725224601FB122E1ED /* ArtistTypeFilterView.swift */; };
 		32A11B74C7755285007F0417 /* StageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11767FE0F18ECB9E14CCB /* StageListView.swift */; };
 		32A11C794DA3FE15B95D9027 /* ArtistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114CB00A20BFE9D3E3F68 /* ArtistCell.swift */; };
@@ -65,7 +64,6 @@
 
 /* Begin PBXFileReference section */
 		32A11091D6A3CE9818BEFC50 /* ArtistImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistImageView.swift; sourceTree = "<group>"; };
-		32A11256DC80312DC26111DB /* no_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = no_image.jpg; sourceTree = "<group>"; };
 		32A1139233BC05532C24D9E2 /* StageProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageProgramEventCell.swift; sourceTree = "<group>"; };
 		32A114464C408D8BF68CFCE9 /* ArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistListView.swift; sourceTree = "<group>"; };
 		32A114A0B0D83E903607A773 /* MarkedArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkedArtistListView.swift; sourceTree = "<group>"; };
@@ -211,7 +209,6 @@
 				3590436F24017C66003FBBD4 /* RudolstadtForiOSTests */,
 				3590437A24017C66003FBBD4 /* RudolstadtForiOSUITests */,
 				3590435724017C63003FBBD4 /* Products */,
-				32A11256DC80312DC26111DB /* no_image.jpg */,
 			);
 			sourceTree = "<group>";
 		};
@@ -386,7 +383,6 @@
 				3590436624017C65003FBBD4 /* LaunchScreen.storyboard in Resources */,
 				3590436324017C65003FBBD4 /* Preview Assets.xcassets in Resources */,
 				3590436024017C65003FBBD4 /* Assets.xcassets in Resources */,
-				32A11ADB0D015458C5D44B08 /* no_image.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
