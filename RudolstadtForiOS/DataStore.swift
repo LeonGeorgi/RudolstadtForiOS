@@ -18,43 +18,43 @@ extension StringProtocol {
 extension Artist {
     var thumbImage: Image {
         get {
-            return DataProvider.createImage(artist: self, directoryName: "thumbs")
+            return DataStore.createImage(artist: self, directoryName: "thumbs")
         }
     }
 
     var fullImage: Image {
         get {
-            return DataProvider.createImage(artist: self, directoryName: "full")
+            return DataStore.createImage(artist: self, directoryName: "full")
         }
     }
 }
 
-final class DataProvider: ObservableObject {
+final class DataStore: ObservableObject {
 
-    @Published var data: FestivalData = .empty
+    @Published var artists: [Artist] = []
+    @Published var areas: [Area] = []
+    @Published var stages: [Stage] = []
+    @Published var events: [Event] = []
+    @Published var news: [NewsItem] = []
 
     func loadData() {
-        let artists = DataProvider.readArtistsFromFile()
-        let areas = DataProvider.readAreasFromFile()
-        let stages = DataProvider.readStagesFromFile(areas: areas)
-        let tags = DataProvider.readTagsFromFile()
-        let events = DataProvider.readEventsFromFile(stages: stages, artists: artists, tags: tags)
-        let news = DataProvider.readNewsFromFile()
+        artists = DataStore.readArtistsFromFile()
+        areas = DataStore.readAreasFromFile()
+        stages = DataStore.readStagesFromFile(areas: areas)
+        let tags = DataStore.readTagsFromFile()
+        events = DataStore.readEventsFromFile(stages: stages, artists: artists, tags: tags)
+        news = DataStore.readNewsFromFile()
 
-        data = FestivalData(artists: artists, areas: areas, events: events, news: news, stages: stages, tags: tags)
+        DataUpdater.updateData {
 
-//        DataUpdater.updateData {
-//
-//            let loadedArtists = DataProvider.readArtistsFromFile()
-//            let loadedAreas = DataProvider.readAreasFromFile()
-//            let loadedStages = DataProvider.readStagesFromFile(areas: loadedAreas)
-//            let loadedTags = DataProvider.readTagsFromFile()
-//            let loadedEvents = DataProvider.readEventsFromFile(stages: loadedStages, artists: loadedArtists, tags: loadedTags)
-//            DispatchQueue.main.async {
-//                self.artists = loadedArtists
-//                self.events = loadedEvents
-//            }
-//        }
+            let artists = DataStore.readArtistsFromFile()
+            let areas = DataStore.readAreasFromFile()
+            let stages = DataStore.readStagesFromFile(areas: areas)
+            let tags = DataStore.readTagsFromFile()
+            let events = DataStore.readEventsFromFile(stages: stages, artists: artists, tags: tags)
+            let news = DataStore.readNewsFromFile()
+
+        }
     }
 
     static func readLinesFromFile(named fileName: String) -> [Substring.SubSequence] {

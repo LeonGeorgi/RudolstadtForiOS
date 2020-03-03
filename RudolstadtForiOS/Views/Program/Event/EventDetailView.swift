@@ -11,12 +11,12 @@ import MapKit
 
 struct EventDetailView: View {
     let event: Event
-    let data: FestivalData
+    @EnvironmentObject var dataStore: DataStore
 
     var body: some View {
         List {
 
-            NavigationLink(destination: ArtistDetailView(artist: event.artist, data: data)) {
+            NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
                 HStack(spacing: 10) {
                     Text(event.artist.name)
                     //.lineLimit(2)
@@ -27,7 +27,7 @@ struct EventDetailView: View {
                 }
             }
 
-            NavigationLink(destination: StageDetailView(stage: event.stage, data: data)) {
+            NavigationLink(destination: StageDetailView(stage: event.stage)) {
                 Text(event.stage.germanName)
             }
             if event.tag != nil {
@@ -68,7 +68,7 @@ struct EventDetailView: View {
 struct EventDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            EventDetailView(event: .example, data: .example)
+            EventDetailView(event: .example)
         }
     }
 }

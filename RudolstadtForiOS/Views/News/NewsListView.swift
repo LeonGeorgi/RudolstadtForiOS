@@ -9,12 +9,11 @@
 import SwiftUI
 
 struct NewsListView: View {
-
-    let data: FestivalData
+    @EnvironmentObject var dataStore: DataStore
 
     var body: some View {
         NavigationView {
-            List(data.news) { (newsItem: NewsItem) in
+            List(dataStore.news) { (newsItem: NewsItem) in
                 NewsItemItemView(newsItem: newsItem)
             }.navigationBarTitle("News")
         }
@@ -23,6 +22,6 @@ struct NewsListView: View {
 
 struct NewsListView_Previews: PreviewProvider {
     static var previews: some View {
-        NewsListView(data: .empty)
+        NewsListView()
     }
 }

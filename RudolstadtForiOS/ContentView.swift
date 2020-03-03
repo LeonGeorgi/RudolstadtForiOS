@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection = 0
-    @ObservedObject var dataProvider = DataProvider()
+    @EnvironmentObject var dataStore: DataStore
 
     var body: some View {
         TabView(selection: $selection) {
-            ProgramView(data: dataProvider.data)
+            ProgramView()
                     .tabItem {
                         VStack {
                             Image(systemName: "music.note.list")
@@ -28,7 +28,7 @@ struct ContentView: View {
                             Text("Schedule")
                         }
                     }.tag(1)
-            NewsListView(data: dataProvider.data)
+            NewsListView()
                     .tabItem {
                         VStack {
                             Image(systemName: "envelope.fill")
@@ -43,7 +43,7 @@ struct ContentView: View {
                         }
                     }.tag(3)
         }.onAppear {
-                    self.dataProvider.loadData()
+                    self.dataStore.loadData()
                 }
                 .accentColor(.green)
     }

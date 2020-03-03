@@ -9,13 +9,13 @@ import MapKit
 
 struct StageDetailView: View {
     let stage: Stage
-    let data: FestivalData
+    @EnvironmentObject var dataStore: DataStore
 
     @State var nearbyStages: [StageDistance] = []
     @State var selectedDay: Int = -1
 
     var events: Dictionary<Int, [Event]> {
-        Dictionary(grouping: data.events.filter { event in
+        Dictionary(grouping: dataStore.events.filter { event in
             event.stage.id == stage.id
         }) { (event: Event) in
             event.festivalDay
@@ -29,13 +29,25 @@ struct StageDetailView: View {
 
     var body: some View {
         List {
-            VStack(alignment: .leading) {
-                if stage.germanDescription != nil {
-                    Text(stage.germanDescription!)
-                            .font(.headline)
+            HStack {
+                VStack(alignment: .leading) {
+                    if stage.germanDescription != nil {
+                        Text(stage.germanDescription!)
+                                .font(.headline)
+                    }
+                    Text(stage.area.germanName)
+                            .font(.subheadline)
                 }
-                Text(stage.area.germanName)
-                        .font(.subheadline)
+
+                if stage.stageNumber != nil {
+                    Spacer()
+                    Text(String(stage.stageNumber!))
+                            .frame(width: 40, height: 40)
+                            .background(Color.accentColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(.infinity)
+
+                }
             }
             if !eventDays.isEmpty {
                 Section(header: Text("EVENTS")) {
@@ -47,7 +59,7 @@ struct StageDetailView: View {
                             .padding(.trailing, 10)
                             .pickerStyle(SegmentedPickerStyle())
                     ForEach(events[selectedDay] ?? []) { (event: Event) in
-                        NavigationLink(destination: EventDetailView(event: event, data: self.data)) {
+                        NavigationLink(destination: EventDetailView(event: event)) {
                             StageEventItem(event: event)
                         }.buttonStyle(PlainButtonStyle())
 
@@ -72,8 +84,7 @@ struct StageDetailView: View {
                         first.distance < second.distance
                     }) { (stageDistance: StageDistance) in
                         NavigationLink(destination: StageDetailView(
-                                stage: stageDistance.stage,
-                                data: self.data
+                                stage: stageDistance.stage
                         )) {
                             VStack(alignment: .leading) {
                                 Text(stageDistance.stage.germanName).lineLimit(1)
@@ -94,7 +105,7 @@ struct StageDetailView: View {
     }
 
     func calculateNearbyStages() {
-        self.nearbyStages = data.stages.filter { stage in
+        self.nearbyStages = dataStore.stages.filter { stage in
             stage.area.id == self.stage.area.id && stage.id != self.stage.id
         }.map { stage in
             StageDistance(stage: stage, distance: calculateAirDistance(first: self.stage, second: stage))
@@ -165,6 +176,6 @@ extension Int: Identifiable {
 
 struct StageDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        StageDetailView(stage: .example, data: .example)
+        StageDetailView(stage: .example)
     }
 }

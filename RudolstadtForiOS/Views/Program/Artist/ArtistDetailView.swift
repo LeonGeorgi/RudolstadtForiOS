@@ -10,10 +10,10 @@ import SwiftUI
 
 struct ArtistDetailView: View {
     let artist: Artist
-    let data: FestivalData
+    @EnvironmentObject var dataStore: DataStore
 
     var artistEvents: [Event] {
-        return data.events.filter {
+        return dataStore.events.filter {
             $0.artist.id == artist.id
         }
     }
@@ -31,7 +31,7 @@ struct ArtistDetailView: View {
                 Section(header: Text("Events".uppercased())) {
 
                     ForEach(artistEvents) { (event: Event) in
-                        NavigationLink(destination: EventDetailView(event: event, data: self.data)) {
+                        NavigationLink(destination: EventDetailView(event: event)) {
                             ArtistEventItem(event: event)
                         }
                     }
@@ -85,6 +85,6 @@ struct ArtistDetailView: View {
 
 struct ArtistDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ArtistDetailView(artist: .example, data: .example)
+        ArtistDetailView(artist: .example)
     }
 }

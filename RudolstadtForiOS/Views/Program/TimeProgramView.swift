@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TimeProgramView: View {
 
-    let data: FestivalData
+    @EnvironmentObject var dataStore: DataStore
 
     @State var selectedDay: Int = 0
 
@@ -25,12 +25,11 @@ struct TimeProgramView: View {
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
                     .pickerStyle(SegmentedPickerStyle())
-            List(data.events.filter {
+            List(dataStore.events.filter {
                 $0.festivalDay == selectedDay + 5
             }) { (event: Event) in
                 NavigationLink(destination: EventDetailView(
-                        event: event,
-                        data: self.data
+                        event: event
                 )) {
                     ProgramEventItem(event: event)
                 }
@@ -49,6 +48,6 @@ struct TimeProgramView: View {
 
 struct TimeProgramView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgramView(data: .example)
+        ProgramView()
     }
 }

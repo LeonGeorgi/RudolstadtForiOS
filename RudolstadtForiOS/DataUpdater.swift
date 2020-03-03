@@ -66,7 +66,7 @@ class DataUpdater {
         }
 
 
-        let artists = DataProvider.readArtistsFromFile()
+        let artists = DataStore.readArtistsFromFile()
         for artist in artists {
             guard let imageName = artist.imageName else {
                 print("Artist \(artist.name) has no imageName.")

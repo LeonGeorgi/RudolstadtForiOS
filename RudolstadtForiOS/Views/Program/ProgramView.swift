@@ -9,20 +9,21 @@
 import SwiftUI
 
 struct ProgramView: View {
-    let data: FestivalData
-
     var body: some View {
 
         NavigationView {
             List {
-                NavigationLink(destination: ArtistListView(data: data)) {
-                    Text("Arists")
+                NavigationLink(destination: ArtistListView()) {
+                    ProgramItemText(title: "Arists")
                 }
-                NavigationLink(destination: TimeProgramView(data: data)) {
-                    Text("Program by time")
+                NavigationLink(destination: TimeProgramView()) {
+                    ProgramItemText(title: "Program by time")
                 }
-                NavigationLink(destination: StageProgramView(data: data)) {
-                    Text("Program by stage")
+                NavigationLink(destination: StageProgramView()) {
+                    ProgramItemText(title: "Program by stage")
+                }
+                NavigationLink(destination: StageListView()) {
+                    ProgramItemText(title: "Stages")
                 }
 
             }.navigationBarTitle("Program")
@@ -32,6 +33,6 @@ struct ProgramView: View {
 
 struct ProgramView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgramView(data: .example)
+        ProgramView()
     }
 }

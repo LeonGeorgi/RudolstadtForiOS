@@ -8,26 +8,6 @@
 
 import Foundation
 
-struct FestivalData {
-    let artists: [Artist]
-    let areas: [Area]
-    let events: [Event]
-    let news: [NewsItem]
-    let stages: [Stage]
-    let tags: [Tag]
-
-    static let empty = FestivalData(artists: [], areas: [], events: [], news: [], stages: [], tags: [])
-
-    static let example = FestivalData(
-            artists: [.example, .example],
-            areas: [.example, .example],
-            events: [.example, .example],
-            news: [.example, .example],
-            stages: [.example, .example],
-            tags: [.example, .example]
-    )
-}
-
 struct Artist: Identifiable {
     let id: Int
     let artistType: ArtistType
@@ -83,10 +63,14 @@ enum ArtistType: Int {
     case other = 4;
 }
 
-struct Area: Identifiable {
+struct Area: Identifiable, Hashable {
     let id: Int
     let germanName: String
     let englishName: String
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 
     static let example = Area(
             id: 3,
@@ -145,6 +129,17 @@ struct Event: Identifiable {
         let splittedTime = timeAsString.split(separator: ":")
         dateComponents.hour = Int(splittedTime[0])
         dateComponents.minute = Int(splittedTime[1])
+
+        let userCalendar = Calendar.current // user calendar
+        return userCalendar.date(from: dateComponents)!
+    }
+
+    var festivalDate: Date {
+        var dateComponents = DateComponents()
+        dateComponents.year = 2018
+        dateComponents.month = 7
+        dateComponents.day = festivalDay
+        dateComponents.timeZone = TimeZone(abbreviation: "CEST")
 
         let userCalendar = Calendar.current // user calendar
         return userCalendar.date(from: dateComponents)!
