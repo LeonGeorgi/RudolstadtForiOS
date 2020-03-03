@@ -9,19 +9,19 @@
 /* Begin PBXBuildFile section */
 		32A1103D587A93CEF1ED3821 /* StageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1196C00ED0C0CB3B54B0B /* StageDetailView.swift */; };
 		32A113FE435299701D6A0911 /* StageEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118441741FCBDC5D0E11C /* StageEventItem.swift */; };
-		32A114021446CCFD6F2CFF91 /* ProgramEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11AA1B9948E22911ABFCB /* ProgramEventItem.swift */; };
+		32A114021446CCFD6F2CFF91 /* ProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11AA1B9948E22911ABFCB /* ProgramEventCell.swift */; };
 		32A11464F6D60597E7D35CFA /* NewsItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1197920EC9D4F132321A3 /* NewsItemDetailView.swift */; };
 		32A115146FA426B5FCCECC70 /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11091D6A3CE9818BEFC50 /* ArtistImageView.swift */; };
 		32A11565E27B84EF9E216510 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11BF710CBDB63B6F79299 /* EventDetailView.swift */; };
 		32A116DBA30D000DFE5B7666 /* ArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114464C408D8BF68CFCE9 /* ArtistListView.swift */; };
 		32A116EAB59E230ECA97C7AB /* ProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11F215114BCD557848E24 /* ProgramView.swift */; };
 		32A11750EDD17A73779B6769 /* NewsItemItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B859AE5DD3690A457DA /* NewsItemItemView.swift */; };
+		32A11B697C33EDF8288364FD /* ArtistTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11C725224601FB122E1ED /* ArtistTypeFilterView.swift */; };
 		32A11B74C7755285007F0417 /* StageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11767FE0F18ECB9E14CCB /* StageListView.swift */; };
 		32A11E86195DFF3E23F17A34 /* ArtistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11ED1F95A277587C2C422 /* ArtistDetailView.swift */; };
 		32A11ECA86F96148A5F0273F /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0056E8B3607AB148AC /* NewsListView.swift */; };
 		32A11F1E45921B31CA8FA915 /* ArtistEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EB409F58E0AC6918667 /* ArtistEventItem.swift */; };
 		32A11F7A36FE7137F9CDD514 /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B4F380583703A85954A /* StageMapView.swift */; };
-		3563DE3E240E462400B6BEEF /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 35633C9B240802C0002E9E93 /* URLImage */; };
 		3563DE40240E46F000B6BEEF /* TimeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE3F240E46EF00B6BEEF /* TimeProgramView.swift */; };
 		3563DE44240E472600B6BEEF /* StageProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE43240E472600B6BEEF /* StageProgramView.swift */; };
 		3563DE46240E476C00B6BEEF /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE45240E476B00B6BEEF /* DataStore.swift */; };
@@ -65,11 +65,12 @@
 		32A118441741FCBDC5D0E11C /* StageEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageEventItem.swift; sourceTree = "<group>"; };
 		32A1196C00ED0C0CB3B54B0B /* StageDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageDetailView.swift; sourceTree = "<group>"; };
 		32A1197920EC9D4F132321A3 /* NewsItemDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemDetailView.swift; sourceTree = "<group>"; };
-		32A11AA1B9948E22911ABFCB /* ProgramEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramEventItem.swift; sourceTree = "<group>"; };
+		32A11AA1B9948E22911ABFCB /* ProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramEventCell.swift; sourceTree = "<group>"; };
 		32A11B0056E8B3607AB148AC /* NewsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListView.swift; sourceTree = "<group>"; };
 		32A11B4F380583703A85954A /* StageMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageMapView.swift; sourceTree = "<group>"; };
 		32A11B859AE5DD3690A457DA /* NewsItemItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemItemView.swift; sourceTree = "<group>"; };
 		32A11BF710CBDB63B6F79299 /* EventDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
+		32A11C725224601FB122E1ED /* ArtistTypeFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistTypeFilterView.swift; sourceTree = "<group>"; };
 		32A11EB409F58E0AC6918667 /* ArtistEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistEventItem.swift; sourceTree = "<group>"; };
 		32A11ED1F95A277587C2C422 /* ArtistDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailView.swift; sourceTree = "<group>"; };
 		32A11F215114BCD557848E24 /* ProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramView.swift; sourceTree = "<group>"; };
@@ -103,7 +104,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3563DE3E240E462400B6BEEF /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,7 +169,7 @@
 				3563DE43240E472600B6BEEF /* StageProgramView.swift */,
 				3563DE3F240E46EF00B6BEEF /* TimeProgramView.swift */,
 				32A114464C408D8BF68CFCE9 /* ArtistListView.swift */,
-				32A11AA1B9948E22911ABFCB /* ProgramEventItem.swift */,
+				32A11AA1B9948E22911ABFCB /* ProgramEventCell.swift */,
 				32A11F215114BCD557848E24 /* ProgramView.swift */,
 				32A11546B30B3A5CF2E5D44D /* Artist */,
 				32A1100A8330120BE2CE8710 /* Stage */,
@@ -186,6 +186,7 @@
 				3590438F2401844F003FBBD4 /* ScheduleView.swift */,
 				32A11ED5F0B9C44881B6B521 /* Program */,
 				32A11512A21FDE172DC85A7D /* News */,
+				32A11C725224601FB122E1ED /* ArtistTypeFilterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -272,7 +273,7 @@
 			);
 			name = RudolstadtForiOS;
 			packageProductDependencies = (
-				35633C9B240802C0002E9E93 /* URLImage */,
+				35633C9B240802C0002E9E93 /* XCSwiftPackageProductDependency */,
 			);
 			productName = RudolstadtForiOS;
 			productReference = 3590435624017C63003FBBD4 /* RudolstadtForiOS.app */;
@@ -347,7 +348,7 @@
 			);
 			mainGroup = 3590434D24017C63003FBBD4;
 			packageReferences = (
-				35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference "url-image" */,
+				35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference */,
 			);
 			productRefGroup = 3590435724017C63003FBBD4 /* Products */;
 			projectDirPath = "";
@@ -403,7 +404,7 @@
 				359043902401844F003FBBD4 /* ScheduleView.swift in Sources */,
 				3590438C24018140003FBBD4 /* DataModel.swift in Sources */,
 				32A116DBA30D000DFE5B7666 /* ArtistListView.swift in Sources */,
-				32A114021446CCFD6F2CFF91 /* ProgramEventItem.swift in Sources */,
+				32A114021446CCFD6F2CFF91 /* ProgramEventCell.swift in Sources */,
 				32A116EAB59E230ECA97C7AB /* ProgramView.swift in Sources */,
 				32A11464F6D60597E7D35CFA /* NewsItemDetailView.swift in Sources */,
 				32A11750EDD17A73779B6769 /* NewsItemItemView.swift in Sources */,
@@ -418,6 +419,7 @@
 				32A11565E27B84EF9E216510 /* EventDetailView.swift in Sources */,
 				3563DE4A240E47B700B6BEEF /* ProgramItemText.swift in Sources */,
 				32A11B74C7755285007F0417 /* StageListView.swift in Sources */,
+				32A11B697C33EDF8288364FD /* ArtistTypeFilterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,7 +746,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference "url-image" */ = {
+		35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
 			requirement = {
@@ -755,9 +757,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		35633C9B240802C0002E9E93 /* URLImage */ = {
+		35633C9B240802C0002E9E93 /* XCSwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference "url-image" */;
+			package = 35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference */;
 			productName = URLImage;
 		};
 /* End XCSwiftPackageProductDependency section */

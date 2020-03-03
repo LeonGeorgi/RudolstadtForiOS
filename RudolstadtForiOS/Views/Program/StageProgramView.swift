@@ -12,11 +12,22 @@ struct StageProgramView: View {
 
     @EnvironmentObject var dataStore: DataStore
 
+    @State private var showingSheet = false
+    @State var selectedArtistTypes = Set(ArtistType.allCases)
+
+
+    func filteredEvents() -> [Event] {
+        return dataStore.events.filter { event in
+            selectedArtistTypes.contains(event.artist.artistType)
+        }
+    }
+
+
     @State var selectedDay: Int = -1
 
     var events: Dictionary<Int, [StageEvents]> {
         var result: Dictionary<Int, Dictionary<Stage, [Event]>> = Dictionary()
-        for event in dataStore.events {
+        for event in filteredEvents() {
             if !result.keys.contains(event.festivalDay) {
                 result[event.festivalDay] = Dictionary()
             }
@@ -62,18 +73,27 @@ struct StageProgramView: View {
                             NavigationLink(destination: EventDetailView(
                                     event: event
                             )) {
-                                ProgramEventItem(event: event)
+                                ProgramEventCell(event: event)
                             }
                         }
                     }
                 }
             }
         }.navigationBarTitle("Program", displayMode: .inline)
+
                 .navigationBarItems(trailing: Button(action: {
-                    // TODO
+                    self.showingSheet = true
                 }) {
                     Text("Filter")
                 })
+                .sheet(isPresented: $showingSheet) {
+                    NavigationView {
+                        ArtistTypeFilterView(selectedArtistTypes: self.$selectedArtistTypes)
+                                .navigationBarItems(trailing: Button(action: { self.showingSheet = false }) {
+                                    Text("Done")
+                                })
+                    }
+                }
                 .onAppear {
                     if self.selectedDay == -1 {
                         self.selectedDay = self.eventDays.first ?? -1

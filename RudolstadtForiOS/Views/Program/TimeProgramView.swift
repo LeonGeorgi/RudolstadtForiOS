@@ -11,8 +11,17 @@ import SwiftUI
 struct TimeProgramView: View {
 
     @EnvironmentObject var dataStore: DataStore
+    @State private var showingSheet = false
+    @State var selectedArtistTypes = Set(ArtistType.allCases)
+
 
     @State var selectedDay: Int = 0
+
+    func filteredEvents() -> [Event] {
+        return dataStore.events.filter { event in
+            selectedArtistTypes.contains(event.artist.artistType)
+        }
+    }
 
     var body: some View {
         VStack {
@@ -25,23 +34,29 @@ struct TimeProgramView: View {
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
                     .pickerStyle(SegmentedPickerStyle())
-            List(dataStore.events.filter {
+            List(filteredEvents().filter {
                 $0.festivalDay == selectedDay + 5
             }) { (event: Event) in
                 NavigationLink(destination: EventDetailView(
                         event: event
                 )) {
-                    ProgramEventItem(event: event)
+                    ProgramEventCell(event: event)
                 }
             }
-        }
-
-                .navigationBarTitle("Program", displayMode: .inline)
+        }.navigationBarTitle("Program", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
-                    // TODO
+                    self.showingSheet = true
                 }) {
                     Text("Filter")
                 })
+                .sheet(isPresented: $showingSheet) {
+                    NavigationView {
+                        ArtistTypeFilterView(selectedArtistTypes: self.$selectedArtistTypes)
+                                .navigationBarItems(trailing: Button(action: { self.showingSheet = false }) {
+                                    Text("Done")
+                                })
+                    }
+                }
 
     }
 }

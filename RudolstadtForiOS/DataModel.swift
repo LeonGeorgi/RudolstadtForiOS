@@ -55,12 +55,24 @@ struct Artist: Identifiable {
 }
 
 
-enum ArtistType: Int {
+enum ArtistType: Int, Identifiable, CaseIterable {
+    var id: Int {
+        self.rawValue
+    }
 
     case stage = 1
     case dance = 2
     case street = 3
     case other = 4;
+
+    var germanName: String {
+        switch self {
+        case .stage: return "Bühnenmusik"
+        case .dance: return "Tanz"
+        case .street: return "Straßenmusik"
+        case .other: return "Sonstige"
+        }
+    }
 }
 
 struct Area: Identifiable, Hashable {

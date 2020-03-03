@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ProgramEventItem: View {
+struct ProgramEventCell: View {
     let event: Event
 
     var body: some View {
@@ -47,6 +47,6 @@ struct ProgramEventItem: View {
 
 struct ProgramEventItem_Previews: PreviewProvider {
     static var previews: some View {
-        ProgramEventItem(event: .example)
+        ProgramEventCell(event: .example)
     }
 }
