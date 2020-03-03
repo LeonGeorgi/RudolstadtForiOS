@@ -26,6 +26,7 @@
 		32A11F1E45921B31CA8FA915 /* ArtistEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EB409F58E0AC6918667 /* ArtistEventItem.swift */; };
 		32A11F1F9E51D18B72475D29 /* StageProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1139233BC05532C24D9E2 /* StageProgramEventCell.swift */; };
 		32A11F7A36FE7137F9CDD514 /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B4F380583703A85954A /* StageMapView.swift */; };
+		32A11FBB3645AF66F4E70E79 /* MarkedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114A0B0D83E903607A773 /* MarkedArtistListView.swift */; };
 		3563DE40240E46F000B6BEEF /* TimeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE3F240E46EF00B6BEEF /* TimeProgramView.swift */; };
 		3563DE44240E472600B6BEEF /* StageProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE43240E472600B6BEEF /* StageProgramView.swift */; };
 		3563DE46240E476C00B6BEEF /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE45240E476B00B6BEEF /* DataStore.swift */; };
@@ -67,6 +68,7 @@
 		32A11256DC80312DC26111DB /* no_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = no_image.jpg; sourceTree = "<group>"; };
 		32A1139233BC05532C24D9E2 /* StageProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageProgramEventCell.swift; sourceTree = "<group>"; };
 		32A114464C408D8BF68CFCE9 /* ArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistListView.swift; sourceTree = "<group>"; };
+		32A114A0B0D83E903607A773 /* MarkedArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkedArtistListView.swift; sourceTree = "<group>"; };
 		32A114CB00A20BFE9D3E3F68 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
 		32A11767FE0F18ECB9E14CCB /* StageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageListView.swift; sourceTree = "<group>"; };
 		32A118441741FCBDC5D0E11C /* StageEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageEventItem.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				32A1181447F835548420AFE9 /* Event */,
 				32A11767FE0F18ECB9E14CCB /* StageListView.swift */,
 				32A1139233BC05532C24D9E2 /* StageProgramEventCell.swift */,
+				32A114A0B0D83E903607A773 /* MarkedArtistListView.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				32A11F1F9E51D18B72475D29 /* StageProgramEventCell.swift in Sources */,
 				32A11915F653E2F5DEC434CA /* UserSettings.swift in Sources */,
 				32A11C794DA3FE15B95D9027 /* ArtistCell.swift in Sources */,
+				32A11FBB3645AF66F4E70E79 /* MarkedArtistListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

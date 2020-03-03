@@ -12,6 +12,7 @@ import MapKit
 struct EventDetailView: View {
     let event: Event
     @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var settings: UserSettings
 
     var body: some View {
         List {
@@ -21,7 +22,6 @@ struct EventDetailView: View {
                     Text(event.artist.name)
                             .font(.system(size: 22))
                             .fontWeight(.bold)
-                    //.lineLimit(2)
                     Spacer()
                     ArtistImageView(artist: event.artist, fullImage: false)
                             .frame(width: 75, height: 75)
@@ -52,15 +52,23 @@ struct EventDetailView: View {
                 }.listRowInsets(EdgeInsets())
             }
 
-
-            //.overlay(RoundedRectangle(cornerRadius: 4)
-            //    .stroke(Color.gray, lineWidth: 1))
         }.listStyle(GroupedListStyle())
                 .navigationBarTitle(Text("\(event.weekDay) \(event.timeAsString)"), displayMode: .large)
                 .navigationBarItems(trailing: Button(action: {
-
+                    let eventId = self.event.id
+                    if self.settings.savedEvents.contains(eventId) {
+                        if let index = self.settings.savedEvents.firstIndex(of: eventId) {
+                            self.settings.savedEvents.remove(at: index)
+                        }
+                    } else {
+                        self.settings.savedEvents.append(eventId)
+                    }
                 }) {
-                    Text("Save")
+                    if self.settings.savedEvents.contains(self.event.id) {
+                        Text("Remove")
+                    } else {
+                        Text("Save")
+                    }
                 })
                 .listStyle(PlainListStyle())
     }

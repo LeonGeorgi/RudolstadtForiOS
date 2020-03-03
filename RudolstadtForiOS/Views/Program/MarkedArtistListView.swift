@@ -9,7 +9,7 @@
 import SwiftUI
 import URLImage
 
-struct ArtistListView: View {
+struct MarkedArtistListView: View {
     @EnvironmentObject var dataStore: DataStore
     @State private var showingSheet = false
     @State var filterArtistTypes = Set(ArtistType.allCases)
@@ -52,9 +52,9 @@ struct ArtistListView: View {
     }
 }
 
-struct ArtistListView_Previews: PreviewProvider {
+struct MarkedArtistListView_Previews: PreviewProvider {
     static var previews: some View {
-        ArtistListView()
+        MarkedArtistListView()
         .environmentObject(DataStore())
     }
 }

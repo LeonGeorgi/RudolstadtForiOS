@@ -11,6 +11,8 @@ import SwiftUI
 struct StageProgramEventCell: View {
     let event: Event
 
+    @EnvironmentObject var settings: UserSettings
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
@@ -39,8 +41,14 @@ struct StageProgramEventCell: View {
 
                         }
                         Text(event.artist.name)
+                                .font(.subheadline)
                                 .lineLimit(event.tag == nil ? 2 : 1)
 
+                    }
+                    if self.settings.savedEvents.contains(self.event.id) {
+                        Spacer()
+                        Image(systemName: "bookmark.fill")
+                                .foregroundColor(.yellow)
                     }
                 }
 

@@ -24,8 +24,11 @@ struct UserDefault<T> {
 final class UserSettings: ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
 
-    @UserDefault(key: "ratings", defaultValue: Dictionary())
+    @UserDefault(key: "\(DataStore.year)/ratings", defaultValue: Dictionary())
     var ratings: Dictionary<String, Int>
+
+    @UserDefault(key: "\(DataStore.year)/savedEvents", defaultValue: [])
+    var savedEvents: [Int]
 
     private var notificationSubscription: AnyCancellable?
 

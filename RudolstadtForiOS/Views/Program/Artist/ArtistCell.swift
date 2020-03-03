@@ -38,6 +38,7 @@ struct ArtistCell: View {
                                     .foregroundColor(.accentColor)
                         }
                     }
+                    .padding(.bottom, 4)
                 }
             }
         }
