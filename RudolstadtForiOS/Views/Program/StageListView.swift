@@ -42,7 +42,7 @@ struct StageListView: View {
                         }
                     }
                 }
-            }.navigationBarTitle("News")
+            }.navigationBarTitle("Stages")
         }
     }
 }
