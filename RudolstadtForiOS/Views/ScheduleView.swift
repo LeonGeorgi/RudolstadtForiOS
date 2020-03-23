@@ -15,7 +15,6 @@ struct ScheduleView: View {
 
     @State private var showingSheet = false
     @State var selectedDay: Int = -1
-    @State var generatedEvents: [Event] = []
 
     var eventDays: [Int] {
         Set(dataStore.events.lazy.map { (event: Event) in
@@ -47,12 +46,6 @@ struct ScheduleView: View {
             }
                     .navigationBarTitle("Schedule")
                     .navigationBarItems(trailing: Button(action: {
-                        self.generatedEvents = ScheduleGenerator(
-                                allEvents: self.dataStore.events,
-                                storedEventIds: self.settings.savedEvents,
-                                allArtists: self.dataStore.artists,
-                                artistRatings: self.settings.ratings
-                        ).generate()
                         self.showingSheet = true
                     }) {
                         Text("Generate")
@@ -63,7 +56,7 @@ struct ScheduleView: View {
                         }
                     }
                     .sheet(isPresented: $showingSheet) {
-                        GeneratedScheduleView(generatedEvents: self.$generatedEvents)
+                        GeneratedScheduleView()
                                 .environmentObject(self.dataStore)
                                 .environmentObject(self.settings)
                     }

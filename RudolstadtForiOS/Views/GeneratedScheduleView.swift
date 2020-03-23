@@ -14,9 +14,10 @@ struct GeneratedScheduleView: View {
     @EnvironmentObject var settings: UserSettings
 
     @State private var showingSheet = false
+    @State private var showingAlert = false
     @State var selectedDay: Int = -1
-    @State var smartRecommendations = true
-    @Binding var generatedEvents: [Event]
+    @State var smartRecommendations = false
+    @State var alertEvent: Event?
 
     var eventDays: [Int] {
         Set(dataStore.events.lazy.map { (event: Event) in
@@ -26,7 +27,12 @@ struct GeneratedScheduleView: View {
 
     func eventsToShow() -> [Event] {
         if smartRecommendations {
-            return generatedEvents
+            return ScheduleGenerator(
+                            allEvents: self.dataStore.events,
+                            storedEventIds: self.settings.savedEvents,
+                            allArtists: self.dataStore.artists,
+                            artistRatings: self.settings.ratings
+                    ).generate()
         } else {
             let savedEvents = dataStore.events.filter { event in
                 settings.savedEvents.contains(event.id)
@@ -56,6 +62,21 @@ struct GeneratedScheduleView: View {
                 !(first.startTimeInMinutes > second.endTimeInMinutes || first.endTimeInMinutes < second.startTimeInMinutes)
     }
 
+    func createAlert() -> Alert {
+        if alertEvent != nil {
+            return Alert(
+                    title: Text("Save \(alertEvent!.artist.name) at \(alertEvent!.shortWeekDay) \(alertEvent!.timeAsString)?"),
+                    message: Text("The event will be added to your schedule."),
+                    primaryButton: .default(Text("Save")) {
+                        if !self.settings.savedEvents.contains(self.alertEvent!.id) {
+                            self.settings.savedEvents.append(self.alertEvent!.id)
+                        }
+                    }, secondaryButton: .cancel())
+        } else {
+            return Alert(title: Text("Something went wrong"))
+        }
+    }
+
     var body: some View {
         NavigationView {
             VStack {
@@ -71,12 +92,12 @@ struct GeneratedScheduleView: View {
                     event.festivalDay == selectedDay
                 }) { event in
                     Button(action: {
-                        if !self.settings.savedEvents.contains(event.id) {
-                            self.settings.savedEvents.append(event.id)
-                        }
+                        self.alertEvent = event
+                        self.showingAlert = true
                     }) {
                         TimeProgramEventCell(event: event)
-                    }.disabled(self.settings.savedEvents.contains(event.id))
+                    }.buttonStyle(PlainButtonStyle())
+                            .disabled(self.settings.savedEvents.contains(event.id))
                 }
             }.navigationBarTitle("Generated events", displayMode: .inline)
                     .navigationBarItems(trailing: Button(action: {
@@ -88,6 +109,9 @@ struct GeneratedScheduleView: View {
                         if self.selectedDay == -1 {
                             self.selectedDay = self.eventDays.first ?? -1
                         }
+                    }
+                    .alert(isPresented: self.$showingAlert) {
+                        createAlert()
                     }
         }
     }
