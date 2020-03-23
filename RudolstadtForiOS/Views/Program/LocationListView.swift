@@ -25,7 +25,7 @@ struct LocationListView: View {
     var body: some View {
         List {
             ForEach(stages) { (areaStages: AreaStages) in
-                Section(header: Text(areaStages.area.germanName)) {
+                Section(header: Text(areaStages.area.localizedName)) {
                     ForEach(areaStages.stages) { (stage: Stage) in
                         NavigationLink(destination: StageDetailView(stage: stage)) {
                             HStack {
@@ -36,7 +36,7 @@ struct LocationListView: View {
                                         .foregroundColor(.white)
                                         .cornerRadius(.infinity)
                                 }
-                                Text(stage.germanName)
+                                Text(stage.localizedName)
                             }
                         }
                     }

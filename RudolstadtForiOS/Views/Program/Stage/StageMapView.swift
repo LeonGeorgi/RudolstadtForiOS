@@ -64,7 +64,7 @@ struct StageMapView: UIViewRepresentable {
         ]
         let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
         let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = "\(stage.germanName)"
+        mapItem.name = "\(stage.localizedName)"
         mapItem.openInMaps(launchOptions: options)
     }
 }
@@ -76,7 +76,7 @@ final class StageAnnotation: NSObject, MKAnnotation {
 
     init(stage: Stage) {
         self.id = String(stage.id)
-        self.title = stage.germanName
+        self.title = stage.localizedName
         self.coordinate = CLLocationCoordinate2D(latitude: stage.latitude, longitude: stage.longitude)
     }
 }

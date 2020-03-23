@@ -31,7 +31,7 @@ struct TimeProgramEventCell: View {
                     }
                     VStack(alignment: .leading) {
                         if event.tag != nil {
-                            Text(event.tag!.germanName.uppercased())
+                            Text(event.tag!.localizedName.uppercased())
                                     .font(.system(size: 11))
                                     .fontWeight(.semibold)
                                     .foregroundColor(.accentColor)
@@ -41,7 +41,7 @@ struct TimeProgramEventCell: View {
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
                                 .lineLimit(1)
-                        Text(event.stage.germanName)
+                        Text(event.stage.localizedName)
                                 .lineLimit(1)
                                 .font(.footnote)
 

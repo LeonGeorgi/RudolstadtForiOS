@@ -30,10 +30,10 @@ struct EventDetailView: View {
             }
 
             NavigationLink(destination: StageDetailView(stage: event.stage)) {
-                Text(event.stage.germanName)
+                Text(event.stage.localizedName)
             }
             if event.tag != nil {
-                Text(event.tag!.germanName)
+                Text(event.tag!.localizedName)
                         .font(.system(size: 15, design: .rounded))
                         .padding(.vertical, 2)
                         .padding(.horizontal, 8)

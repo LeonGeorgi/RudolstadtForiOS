@@ -31,7 +31,7 @@ struct StageProgramEventCell: View {
                     }
                     VStack(alignment: .leading) {
                         if event.tag != nil {
-                            Text(event.tag!.germanName.uppercased())
+                            Text(event.tag!.localizedName.uppercased())
                                     .font(.system(size: 11))
                                     .fontWeight(.semibold)
                                     .foregroundColor(.accentColor)

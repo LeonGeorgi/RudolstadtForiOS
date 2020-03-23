@@ -69,7 +69,7 @@ struct GeneratedScheduleView: View {
 
     func intersect(first: Event, second: Event) -> Bool {
         first.festivalDay == second.festivalDay &&
-                !(first.startTimeInMinutes > second.endTimeInMinutes || first.endTimeInMinutes < second.startTimeInMinutes)
+                !(first.startTimeInMinutes >= second.endTimeInMinutes || first.endTimeInMinutes <= second.startTimeInMinutes)
     }
 
     func createAlert() -> Alert {

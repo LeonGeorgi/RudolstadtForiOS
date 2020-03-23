@@ -127,15 +127,15 @@ class ScheduleGenerator {
     func intersects(events: [Event], current: Event) -> Bool {
         return events.contains { event in
             let collides = intersect(first: event, second: current)
-            if collides {
+            /*if collides {
                 print("collides with \(event.shortWeekDay) \(event.timeAsString) \(event.artist.name)")
-            }
+            }*/
             return collides
         }
     }
 
     func intersect(first: Event, second: Event) -> Bool {
         first.festivalDay == second.festivalDay &&
-                !(first.startTimeInMinutes > second.endTimeInMinutes || first.endTimeInMinutes < second.startTimeInMinutes)
+                !(first.startTimeInMinutes >= second.endTimeInMinutes || first.endTimeInMinutes <= second.startTimeInMinutes)
     }
 }

@@ -14,7 +14,7 @@ struct ArtistEventItem: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             if event.tag != nil {
-                Text(event.tag!.germanName.uppercased())
+                Text(event.tag!.localizedName.uppercased())
                         .font(.caption)
                         //.padding(.vertical, 2)
                         //.padding(.horizontal, 6)
@@ -29,7 +29,7 @@ struct ArtistEventItem: View {
                         .padding(.trailing, 10)
                         .lineLimit(1)
                 //.frame(width: 80, alignment: .leading)
-                Text(event.stage.germanName).lineLimit(1)
+                Text(event.stage.localizedName).lineLimit(1)
             }
             if Bool.random() {
                 HStack(spacing: 5) {

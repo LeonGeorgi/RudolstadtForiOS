@@ -39,11 +39,11 @@ struct StageDetailView: View {
 
                 }
                 VStack(alignment: .leading) {
-                    if stage.germanDescription != nil {
-                        Text(stage.germanDescription!)
+                    if stage.localizedDescription != nil {
+                        Text(stage.localizedDescription!)
                                 .font(.headline)
                     }
-                    Text(stage.area.germanName)
+                    Text(stage.area.localizedName)
                             .font(.subheadline)
                 }
 
@@ -85,7 +85,7 @@ struct StageDetailView: View {
                                 stage: stageDistance.stage
                         )) {
                             VStack(alignment: .leading) {
-                                Text(stageDistance.stage.germanName).lineLimit(1)
+                                Text(stageDistance.stage.localizedName).lineLimit(1)
                                 Text("\(Int(stageDistance.distance / 10) * 10) METER")
                                         .font(.caption)
                             }
@@ -95,7 +95,7 @@ struct StageDetailView: View {
             }
 
         }.listStyle(GroupedListStyle())
-                .navigationBarTitle(stage.germanName)
+                .navigationBarTitle(stage.localizedName)
                 .onAppear {
                     self.calculateNearbyStages()
                     self.selectedDay = self.eventDays.first ?? -1

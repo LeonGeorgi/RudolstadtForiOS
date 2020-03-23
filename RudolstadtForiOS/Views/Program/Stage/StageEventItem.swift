@@ -23,7 +23,7 @@ struct StageEventItem: View {
                             Text(event.timeAsString)
                             Spacer()
                             if event.tag != nil {
-                                Text(event.tag!.germanName)
+                                Text(event.tag!.localizedName)
                                         .font(.system(.caption, design: .rounded))
                                         .padding(.vertical, 2)
                                         .padding(.horizontal, 6)

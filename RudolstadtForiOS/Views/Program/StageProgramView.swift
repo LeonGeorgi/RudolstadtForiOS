@@ -77,7 +77,7 @@ struct StageProgramView: View {
             } else {
                 List {
                     ForEach(events[selectedDay] ?? []) { (item: StageEvents) in
-                        Section(header: Text("\(item.stage.germanName)")) {
+                        Section(header: Text("\(item.stage.localizedName)")) {
                             ForEach(item.events) { (event: Event) in
                                 NavigationLink(destination: EventDetailView(
                                         event: event

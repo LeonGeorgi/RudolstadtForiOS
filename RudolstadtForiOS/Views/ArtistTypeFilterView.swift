@@ -31,7 +31,7 @@ struct ArtistTypeFilterView: View {
                                             .padding(.horizontal, 4)
                                 }
                             }
-                            Text(String(artistType.germanName))
+                            Text(String(artistType.localizedName))
                                     .foregroundColor(.primary)
                         }
                     }

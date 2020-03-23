@@ -22,7 +22,11 @@ struct Artist: Identifiable {
     let descriptionEnglish: String?
 
     var formattedDescription: String? {
-        return descriptionGerman?.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])
+        let isGerman = Locale.current.languageCode == "de"
+        return (isGerman ? descriptionGerman : descriptionEnglish)?.replacingOccurrences(
+                of: " ?<br> ?",
+                with: "\n", options: [.regularExpression]
+        )
     }
 
     var thumbImageUrl: URL? {
@@ -73,12 +77,38 @@ enum ArtistType: Int, Identifiable, CaseIterable {
         case .other: return "Sonstige"
         }
     }
+
+    var englishName: String {
+        switch self {
+        case .stage: return "Stage music"
+        case .dance: return "Dance"
+        case .street: return "Street music"
+        case .other: return "Other"
+        }
+    }
+
+
+    var localizedName: String {
+        if Locale.current.languageCode == "de" {
+            return germanName
+        } else {
+            return englishName
+        }
+    }
 }
 
 struct Area: Identifiable, Hashable {
     let id: Int
     let germanName: String
     let englishName: String
+
+    var localizedName: String {
+        if Locale.current.languageCode == "de" {
+            return germanName
+        } else {
+            return englishName
+        }
+    }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -127,7 +157,7 @@ struct Event: Identifiable {
 
     var secondaryInformation: String {
         if let tag = tag {
-            return "\(timeAsString) (\(tag.germanName))"
+            return "\(timeAsString) (\(tag.localizedName))"
         } else {
             return timeAsString
         }
@@ -135,9 +165,9 @@ struct Event: Identifiable {
 
     var shortInformation: String {
         if let tag = tag {
-            return "\(stage.germanName) (\(tag.germanName))"
+            return "\(stage.localizedName) (\(tag.localizedName))"
         } else {
-            return stage.germanName
+            return stage.localizedName
         }
     }
 
@@ -239,6 +269,23 @@ struct Stage: Identifiable, Hashable {
     let area: Area
     let unknownNumber: Int?
 
+
+    var localizedName: String {
+        if Locale.current.languageCode == "de" {
+            return germanName
+        } else {
+            return englishName
+        }
+    }
+
+    var localizedDescription: String? {
+        if Locale.current.languageCode == "de" {
+            return germanDescription
+        } else {
+            return englishDescription
+        }
+    }
+
     static let example = Stage(
             id: 24,
             germanName: "Große Bühne Heinepark",
@@ -260,6 +307,14 @@ struct Tag: Identifiable {
     let id: Int
     let germanName: String
     let englishName: String
+
+    var localizedName: String {
+        if Locale.current.languageCode == "de" {
+            return germanName
+        } else {
+            return englishName
+        }
+    }
 
     static let example = Tag(
             id: 6,
