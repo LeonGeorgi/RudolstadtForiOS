@@ -10,60 +10,69 @@ import SwiftUI
 
 struct ArtistDetailView: View {
     let artist: Artist
-
+    
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
-
+    
     var artistEvents: [Event] {
         return dataStore.events.filter {
             $0.artist.id == artist.id
         }
     }
-
+    
     func rateArtist(rating: Int) {
         print(settings.ratings)
         var ratings = settings.ratings
         ratings["\(self.artist.id)"] = rating
         print(ratings)
         settings.ratings = ratings
-
+        
     }
-
+    
     func artistRating() -> Int {
         return settings.ratings["\(self.artist.id)"] ?? 0
     }
-
+    
+    func ratingSymbol(rating: Int) -> String {
+        switch rating {
+        case 0: return "🤔"
+        case 1: return "🙂"
+        case 2: return "😊"
+        case 3: return "😍"
+        default: return "Invalid"
+        }
+    }
+    
     var body: some View {
         List {
             Section(footer: Text(artist.name)) {
                 ArtistImageView(artist: artist, fullImage: true).listRowInsets(EdgeInsets())
             }
-
+            
             Section {
                 HStack {
                     Spacer()
-                    ForEach(0..<5) { index in
-                        Image(systemName: "star.fill")
-                                .font(.system(size: 30))
-                                .foregroundColor(self.artistRating() >= index + 1 ? .accentColor : .secondary)
-                                .onTapGesture {
-                                    if self.artistRating() != index + 1 {
-                                        self.rateArtist(rating: index + 1)
-                                    } else {
-                                        self.rateArtist(rating: 0)
-                                    }
+                    ForEach(0..<4) { index in
+                        Text(self.ratingSymbol(rating: index))
+                            .font(.system(size: 35))
+                            //.grayscale(1.0)
+                            .saturation(self.artistRating() == index ? 1.0 : 0.0)
+                            .onTapGesture {
+                                if self.artistRating() != index {
+                                    self.rateArtist(rating: index)
                                 }
-
+                        }
+                        
                     }
                     Spacer()
-                }.padding(.vertical)
+                }//.padding(.vertical)
             }
             //.cornerRadius(10)
             //.shadow(radius: 10)
             //.padding()
             if !artistEvents.isEmpty {
                 Section(header: Text("Events".uppercased())) {
-
+                    
                     ForEach(artistEvents) { (event: Event) in
                         NavigationLink(destination: EventDetailView(event: event)) {
                             ArtistEventItem(event: event)
@@ -71,7 +80,7 @@ struct ArtistDetailView: View {
                     }
                 }
             }
-
+            
             if artist.url != nil || artist.youtubeID != nil || artist.facebookID != nil {
                 Section(header: Text("Links".uppercased())) {
                     if artist.url != nil {
@@ -87,19 +96,21 @@ struct ArtistDetailView: View {
             }
             if artist.formattedDescription != nil && artist.formattedDescription != "" {
                 Section(header: Text("Description".uppercased())) {
-
+                    
                     Text(artist.formattedDescription!)
-
+                    
                 }
             }
-
+            
         }.listStyle(GroupedListStyle())
-                .navigationBarTitle(Text(self.artist.name), displayMode: .large)
+            .navigationBarTitle(Text(self.artist.name), displayMode: .large)
     }
 }
 
 struct ArtistDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ArtistDetailView(artist: .example)
+            .environmentObject(DataStore())
+            .environmentObject(UserSettings())
     }
 }

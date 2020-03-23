@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		32A1103D587A93CEF1ED3821 /* StageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1196C00ED0C0CB3B54B0B /* StageDetailView.swift */; };
+		32A110CB9D921CF58AECF418 /* GeneratedScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114D5BF11E0ED1F6FBEE1 /* GeneratedScheduleView.swift */; };
 		32A113FE435299701D6A0911 /* StageEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118441741FCBDC5D0E11C /* StageEventItem.swift */; };
 		32A114021446CCFD6F2CFF91 /* TimeProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11AA1B9948E22911ABFCB /* TimeProgramEventCell.swift */; };
 		32A11464F6D60597E7D35CFA /* NewsItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1197920EC9D4F132321A3 /* NewsItemDetailView.swift */; };
@@ -16,6 +17,7 @@
 		32A116DBA30D000DFE5B7666 /* ArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114464C408D8BF68CFCE9 /* ArtistListView.swift */; };
 		32A116EAB59E230ECA97C7AB /* ProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11F215114BCD557848E24 /* ProgramView.swift */; };
 		32A11750EDD17A73779B6769 /* NewsItemItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B859AE5DD3690A457DA /* NewsItemItemView.swift */; };
+		32A1189C5125CF9292938DD9 /* ScheduleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A111236AA133AADA4872AD /* ScheduleGenerator.swift */; };
 		32A11915F653E2F5DEC434CA /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11E01B8F156ADC9DC4BB1 /* UserSettings.swift */; };
 		32A11B697C33EDF8288364FD /* ArtistTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11C725224601FB122E1ED /* ArtistTypeFilterView.swift */; };
 		32A11B74C7755285007F0417 /* StageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11767FE0F18ECB9E14CCB /* StageListView.swift */; };
@@ -26,6 +28,7 @@
 		32A11F1F9E51D18B72475D29 /* StageProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1139233BC05532C24D9E2 /* StageProgramEventCell.swift */; };
 		32A11F7A36FE7137F9CDD514 /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B4F380583703A85954A /* StageMapView.swift */; };
 		32A11FBB3645AF66F4E70E79 /* MarkedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114A0B0D83E903607A773 /* MarkedArtistListView.swift */; };
+		3555C1562427D4830036D21F /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3555C1552427D4830036D21F /* Util.swift */; };
 		3563DE40240E46F000B6BEEF /* TimeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE3F240E46EF00B6BEEF /* TimeProgramView.swift */; };
 		3563DE44240E472600B6BEEF /* StageProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE43240E472600B6BEEF /* StageProgramView.swift */; };
 		3563DE46240E476C00B6BEEF /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE45240E476B00B6BEEF /* DataStore.swift */; };
@@ -64,10 +67,12 @@
 
 /* Begin PBXFileReference section */
 		32A11091D6A3CE9818BEFC50 /* ArtistImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistImageView.swift; sourceTree = "<group>"; };
+		32A111236AA133AADA4872AD /* ScheduleGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleGenerator.swift; sourceTree = "<group>"; };
 		32A1139233BC05532C24D9E2 /* StageProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageProgramEventCell.swift; sourceTree = "<group>"; };
 		32A114464C408D8BF68CFCE9 /* ArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistListView.swift; sourceTree = "<group>"; };
 		32A114A0B0D83E903607A773 /* MarkedArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkedArtistListView.swift; sourceTree = "<group>"; };
 		32A114CB00A20BFE9D3E3F68 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
+		32A114D5BF11E0ED1F6FBEE1 /* GeneratedScheduleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedScheduleView.swift; sourceTree = "<group>"; };
 		32A11767FE0F18ECB9E14CCB /* StageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageListView.swift; sourceTree = "<group>"; };
 		32A118441741FCBDC5D0E11C /* StageEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageEventItem.swift; sourceTree = "<group>"; };
 		32A1196C00ED0C0CB3B54B0B /* StageDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageDetailView.swift; sourceTree = "<group>"; };
@@ -82,6 +87,8 @@
 		32A11EB409F58E0AC6918667 /* ArtistEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistEventItem.swift; sourceTree = "<group>"; };
 		32A11ED1F95A277587C2C422 /* ArtistDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailView.swift; sourceTree = "<group>"; };
 		32A11F215114BCD557848E24 /* ProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramView.swift; sourceTree = "<group>"; };
+		3555C1552427D4830036D21F /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		3555C1572427D6EC0036D21F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		3563DE3F240E46EF00B6BEEF /* TimeProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeProgramView.swift; sourceTree = "<group>"; };
 		3563DE43240E472600B6BEEF /* StageProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageProgramView.swift; sourceTree = "<group>"; };
 		3563DE45240E476B00B6BEEF /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
@@ -198,6 +205,7 @@
 				32A11ED5F0B9C44881B6B521 /* Program */,
 				32A11512A21FDE172DC85A7D /* News */,
 				32A11C725224601FB122E1ED /* ArtistTypeFilterView.swift */,
+				32A114D5BF11E0ED1F6FBEE1 /* GeneratedScheduleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -238,6 +246,8 @@
 				3590436124017C65003FBBD4 /* Preview Content */,
 				358032072406857700612017 /* Views */,
 				32A11E01B8F156ADC9DC4BB1 /* UserSettings.swift */,
+				3555C1552427D4830036D21F /* Util.swift */,
+				32A111236AA133AADA4872AD /* ScheduleGenerator.swift */,
 			);
 			path = RudolstadtForiOS;
 			sourceTree = "<group>";
@@ -358,6 +368,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 3590434D24017C63003FBBD4;
 			packageReferences = (
@@ -410,6 +421,7 @@
 				3563DE44240E472600B6BEEF /* StageProgramView.swift in Sources */,
 				3563DE46240E476C00B6BEEF /* DataStore.swift in Sources */,
 				3590435A24017C63003FBBD4 /* AppDelegate.swift in Sources */,
+				3555C1562427D4830036D21F /* Util.swift in Sources */,
 				359043982401898B003FBBD4 /* DataUpdater.swift in Sources */,
 				359043942401848F003FBBD4 /* MoreView.swift in Sources */,
 				3590435C24017C63003FBBD4 /* SceneDelegate.swift in Sources */,
@@ -438,6 +450,8 @@
 				32A11915F653E2F5DEC434CA /* UserSettings.swift in Sources */,
 				32A11C794DA3FE15B95D9027 /* ArtistCell.swift in Sources */,
 				32A11FBB3645AF66F4E70E79 /* MarkedArtistListView.swift in Sources */,
+				32A1189C5125CF9292938DD9 /* ScheduleGenerator.swift in Sources */,
+				32A110CB9D921CF58AECF418 /* GeneratedScheduleView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +491,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				3590436524017C65003FBBD4 /* Base */,
+				3555C1572427D6EC0036D21F /* de */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -488,6 +503,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -548,6 +564,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

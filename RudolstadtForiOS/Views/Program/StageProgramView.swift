@@ -61,7 +61,7 @@ struct StageProgramView: View {
         VStack {
             Picker("Date", selection: $selectedDay) {
                 ForEach(eventDays) { (day: Int) in
-                    Text(self.shortWeekDay(day: day)).tag(day)
+                    Text(Util.shortWeekDay(day: day)).tag(day)
 
                 }
             }.padding(.leading, 10)
@@ -110,20 +110,6 @@ struct StageProgramView: View {
                     }
                 }
 
-    }
-
-    func shortWeekDay(day: Int) -> String {
-        var dateComponents = DateComponents()
-        dateComponents.year = DataStore.year
-        dateComponents.month = 7
-        dateComponents.day = day
-        dateComponents.timeZone = TimeZone(abbreviation: "CEST")
-
-        let userCalendar = Calendar.current // user calendar
-        let date = userCalendar.date(from: dateComponents)!
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EE"
-        return dateFormatter.string(from: date)
     }
 }
 

@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct StageListView: View {
-
+    
     @EnvironmentObject var dataStore: DataStore
-
+    
     var stages: [AreaStages] {
         Dictionary(grouping: dataStore.stages) { (stage: Stage) in
             stage.area
@@ -21,7 +21,7 @@ struct StageListView: View {
             stages.area.id < stages2.area.id
         }
     }
-
+    
     var body: some View {
         List {
             ForEach(stages) { (areaStages: AreaStages) in
@@ -29,21 +29,21 @@ struct StageListView: View {
                     ForEach(areaStages.stages) { (stage: Stage) in
                         NavigationLink(destination: StageDetailView(stage: stage)) {
                             HStack {
-                                Text(stage.germanName)
                                 if stage.stageNumber != nil {
-                                    Spacer()
                                     Text(String(stage.stageNumber!))
-                                            .frame(width: 30, height: 30)
-                                            .background(Color.accentColor)
-                                            .foregroundColor(.white)
-                                            .cornerRadius(.infinity)
+                                        .frame(width: 30, height: 30)
+                                        .background(Color.accentColor)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(.infinity)
                                 }
+                                Text(stage.germanName)
                             }
                         }
                     }
                 }
-            }.navigationBarTitle("Stages")
+            }
         }
+        .navigationBarTitle("Stages")
     }
 }
 

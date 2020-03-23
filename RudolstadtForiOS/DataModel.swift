@@ -108,6 +108,15 @@ struct Event: Identifiable {
         }
     }
 
+    var startTimeInMinutes: Int {
+        let minutes = Calendar.current.component(.minute, from: date)
+        return festivalHour * 60 + minutes
+    }
+
+    var endTimeInMinutes: Int {
+        startTimeInMinutes + 60
+    }
+
     var festivalDay: Int {
         if festivalHour >= 24 {
             return dayInJuly - 1

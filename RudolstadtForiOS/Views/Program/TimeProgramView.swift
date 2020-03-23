@@ -15,7 +15,13 @@ struct TimeProgramView: View {
     @State var selectedArtistTypes = Set(ArtistType.allCases)
 
 
-    @State var selectedDay: Int = 0
+    @State var selectedDay: Int = -1
+
+    var eventDays: [Int] {
+        return Set(dataStore.events.lazy.map { (event: Event) in
+            event.festivalDay
+        }).sorted(by: <)
+    }
 
     func filteredEvents() -> [Event] {
         return dataStore.events.filter { event in
@@ -26,8 +32,8 @@ struct TimeProgramView: View {
     var body: some View {
         VStack {
             Picker("Date", selection: $selectedDay) {
-                ForEach(0..<4) { day in
-                    Text("\(day)").tag(day)
+                ForEach(eventDays) { (day: Int) in
+                    Text(Util.shortWeekDay(day: day)).tag(day)
 
                 }
             }
@@ -35,7 +41,7 @@ struct TimeProgramView: View {
                     .padding(.trailing, 10)
                     .pickerStyle(SegmentedPickerStyle())
             List(filteredEvents().filter {
-                $0.festivalDay == selectedDay + 5
+                $0.festivalDay == selectedDay
             }) { (event: Event) in
                 NavigationLink(destination: EventDetailView(
                         event: event
@@ -57,6 +63,12 @@ struct TimeProgramView: View {
                                 })
                     }
                 }
+
+        .onAppear {
+            if self.selectedDay == -1 {
+                self.selectedDay = self.eventDays.first ?? -1
+            }
+        }
 
     }
 }

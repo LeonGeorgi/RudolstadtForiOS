@@ -29,7 +29,15 @@ struct StageDetailView: View {
 
     var body: some View {
         List {
-            HStack {
+            HStack(spacing: 12) {
+                if stage.stageNumber != nil {
+                    Text(String(stage.stageNumber!))
+                            .frame(width: 40, height: 40)
+                            .background(Color.accentColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(.infinity)
+
+                }
                 VStack(alignment: .leading) {
                     if stage.germanDescription != nil {
                         Text(stage.germanDescription!)
@@ -39,24 +47,14 @@ struct StageDetailView: View {
                             .font(.subheadline)
                 }
 
-                if stage.stageNumber != nil {
-                    Spacer()
-                    Text(String(stage.stageNumber!))
-                            .frame(width: 40, height: 40)
-                            .background(Color.accentColor)
-                            .foregroundColor(.white)
-                            .cornerRadius(.infinity)
-
-                }
             }
             if !eventDays.isEmpty {
                 Section(header: Text("EVENTS")) {
                     Picker("Date", selection: $selectedDay) {
                         ForEach(eventDays) { day in
-                            Text("\(day)").tag(day)
+                            Text(Util.shortWeekDay(day: day)).tag(day)
                         }
-                    }.padding(.leading, 10)
-                            .padding(.trailing, 10)
+                    }
                             .pickerStyle(SegmentedPickerStyle())
                     ForEach(events[selectedDay] ?? []) { (event: Event) in
                         NavigationLink(destination: EventDetailView(event: event)) {
@@ -177,5 +175,7 @@ extension Int: Identifiable {
 struct StageDetailView_Previews: PreviewProvider {
     static var previews: some View {
         StageDetailView(stage: .example)
+            .environmentObject(DataStore())
+            .environmentObject(UserSettings())
     }
 }
