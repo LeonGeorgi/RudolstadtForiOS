@@ -43,7 +43,7 @@ struct EventDetailView: View {
                         .lineLimit(1)
             }
 
-            Section(header: Text("MAP")) {
+            Section(header: Text("event.map")) {
                 Button(action: {
                     StageMapView.openInMaps(stage: self.event.stage)
                 }) {
@@ -65,9 +65,9 @@ struct EventDetailView: View {
                     }
                 }) {
                     if self.settings.savedEvents.contains(self.event.id) {
-                        Text("Remove")
+                        Text("event.remove")
                     } else {
-                        Text("Save")
+                        Text("event.save")
                     }
                 })
                 .listStyle(PlainListStyle())

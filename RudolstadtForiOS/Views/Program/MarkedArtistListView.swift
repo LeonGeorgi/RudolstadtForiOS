@@ -36,7 +36,7 @@ struct MarkedArtistListView: View {
                 }
 
             }
-        }.navigationBarTitle("Marked")
+        }.navigationBarTitle("rated_artists.title")
     }
 }
 

@@ -14,23 +14,23 @@ struct ProgramView: View {
         NavigationView {
             List {
                 NavigationLink(destination: ArtistListView()) {
-                    ProgramItemText(title: "Arists")
+                    ProgramItemText(title: "artists.title")
                 }
                 NavigationLink(destination: MarkedArtistListView()) {
-                    ProgramItemText(title: "Marked artists")
+                    ProgramItemText(title: "rated_artists.title")
                 }
                 NavigationLink(destination: TimeProgramView()) {
-                    ProgramItemText(title: "Program by time")
+                    ProgramItemText(title: "program_by_time.title")
                 }
                 NavigationLink(destination: StageProgramView()) {
-                    ProgramItemText(title: "Program by stage")
+                    ProgramItemText(title: "program_by_stage.title")
                 }
 
-                NavigationLink(destination: StageListView()) {
-                    ProgramItemText(title: "Stages")
+                NavigationLink(destination: LocationListView()) {
+                    ProgramItemText(title: "locations.title")
                 }
 
-            }.navigationBarTitle("Program")
+            }.navigationBarTitle("program.title")
         }
     }
 }

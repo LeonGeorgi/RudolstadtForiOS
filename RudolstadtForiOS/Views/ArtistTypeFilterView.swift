@@ -38,6 +38,6 @@ struct ArtistTypeFilterView: View {
                 }
             }
         }.listStyle(GroupedListStyle())
-                .navigationBarTitle(Text("Filter artists"), displayMode: .inline)
+                .navigationBarTitle(Text("filter.artists.title"), displayMode: .inline)
     }
 }

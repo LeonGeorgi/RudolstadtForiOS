@@ -75,7 +75,6 @@ class ScheduleGenerator {
     ) -> (events: [Event], rating: Int, bestRatingReached: Bool) {
         var remArtists = remainingArtists
         let currentArtist = remArtists.remove(at: 0)
-        print(currentArtist.name)
         let currentArtistEvents = eventsFor(artist: currentArtist).sorted { event1, event2 in
             (!intersects(events: finalEvents, current: event1) &&
                     !intersects(events: currentPlannedEvents, current: event2)) ||
@@ -84,11 +83,8 @@ class ScheduleGenerator {
         }
         var plans: [([Event], Int)] = []
         for event in currentArtistEvents {
-            print((event.shortWeekDay, event.timeAsString))
             let collides = intersects(events: finalEvents, current: event) || intersects(events: currentPlannedEvents, current: event)
-            print("collides \(collides)")
             if !remArtists.isEmpty {
-                print("some artists remaining")
                 let (plan, rating, reached) = generateArrangement(
                         finalEvents: finalEvents,
                         remainingArtists: remArtists,
@@ -96,21 +92,16 @@ class ScheduleGenerator {
                         currentRating: currentRating + (collides ? 0 : 1),
                         bestPossibleRating: bestPossibleRating)
                 if reached {
-                    print("optimal plan found")
                     return (plan, rating, reached)
                 } else {
-                    print("plan added for \(currentArtist.name)")
                     plans.append((plan, rating))
                 }
             } else {
-                print("no artists remaining")
                 let newCurrentPlannedEvents = collides ? currentPlannedEvents : currentPlannedEvents + [event]
                 let newCurrentRating = currentRating + (collides ? 0 : 1)
                 if newCurrentRating >= bestPossibleRating {
-                    print("optimal plan found")
                     return (newCurrentPlannedEvents, newCurrentRating, true)
                 } else {
-                    print("plan added for \(currentArtist.name)")
                     plans.append((newCurrentPlannedEvents, newCurrentRating))
                 }
             }
@@ -118,7 +109,6 @@ class ScheduleGenerator {
         let bestPlan = plans.max { tuple, tuple2 in
             tuple.1 < tuple2.1
         }!
-        print(bestPlan.1)
         return (bestPlan.0, bestPlan.1, false)
     }
 

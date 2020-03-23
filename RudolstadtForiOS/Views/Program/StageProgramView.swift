@@ -71,7 +71,7 @@ struct StageProgramView: View {
 
             if events[selectedDay] == nil {
                 Spacer()
-                Text("No events available for the current filter settings.")
+                Text("filter.no_events_available")
                         .foregroundColor(.secondary)
                 Spacer()
             } else {
@@ -89,18 +89,18 @@ struct StageProgramView: View {
                     }
                 }
             }
-        }.navigationBarTitle("Program", displayMode: .inline)
+        }.navigationBarTitle("program_by_stage.short_title", displayMode: .inline)
 
                 .navigationBarItems(trailing: Button(action: {
                     self.showingSheet = true
                 }) {
-                    Text("Filter")
+                    Text("filter.button")
                 })
                 .sheet(isPresented: $showingSheet) {
                     NavigationView {
                         ArtistTypeFilterView(selectedArtistTypes: self.$selectedArtistTypes)
                                 .navigationBarItems(trailing: Button(action: { self.showingSheet = false }) {
-                                    Text("Done")
+                                    Text("filter.done")
                                 })
                     }
                 }

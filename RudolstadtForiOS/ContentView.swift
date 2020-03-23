@@ -18,28 +18,28 @@ struct ContentView: View {
                     .tabItem {
                         VStack {
                             Image(systemName: "music.note.list")
-                            Text("Program")
+                            Text("program.title")
                         }
                     }.tag(0)
             ScheduleView()
                     .tabItem {
                         VStack {
                             Image(systemName: "calendar")
-                            Text("Schedule")
+                            Text("schedule.title")
                         }
                     }.tag(1)
             NewsListView()
                     .tabItem {
                         VStack {
                             Image(systemName: "envelope.fill")
-                            Text("News")
+                            Text("news.short")
                         }
                     }.tag(2)
             MoreView()
                     .tabItem {
                         VStack {
                             Image(systemName: "ellipsis")
-                            Text("More")
+                            Text("more.title")
                         }
                     }.tag(3)
         }.onAppear {

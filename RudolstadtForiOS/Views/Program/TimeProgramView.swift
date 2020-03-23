@@ -49,17 +49,17 @@ struct TimeProgramView: View {
                     TimeProgramEventCell(event: event)
                 }
             }
-        }.navigationBarTitle("Program", displayMode: .inline)
+        }.navigationBarTitle("program_by_time.short_title", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
                     self.showingSheet = true
                 }) {
-                    Text("Filter")
+                    Text("filter.button")
                 })
                 .sheet(isPresented: $showingSheet) {
                     NavigationView {
                         ArtistTypeFilterView(selectedArtistTypes: self.$selectedArtistTypes)
                                 .navigationBarItems(trailing: Button(action: { self.showingSheet = false }) {
-                                    Text("Done")
+                                    Text("filter.done")
                                 })
                     }
                 }

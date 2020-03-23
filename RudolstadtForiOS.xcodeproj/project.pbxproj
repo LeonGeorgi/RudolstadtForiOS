@@ -12,6 +12,7 @@
 		32A113FE435299701D6A0911 /* StageEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118441741FCBDC5D0E11C /* StageEventItem.swift */; };
 		32A114021446CCFD6F2CFF91 /* TimeProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11AA1B9948E22911ABFCB /* TimeProgramEventCell.swift */; };
 		32A11464F6D60597E7D35CFA /* NewsItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1197920EC9D4F132321A3 /* NewsItemDetailView.swift */; };
+		32A1148283439C3A620133AE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A11A94CE0E06AC85E07B3F /* Localizable.strings */; };
 		32A115146FA426B5FCCECC70 /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11091D6A3CE9818BEFC50 /* ArtistImageView.swift */; };
 		32A11565E27B84EF9E216510 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11BF710CBDB63B6F79299 /* EventDetailView.swift */; };
 		32A116DBA30D000DFE5B7666 /* ArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114464C408D8BF68CFCE9 /* ArtistListView.swift */; };
@@ -20,8 +21,9 @@
 		32A1189C5125CF9292938DD9 /* ScheduleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A111236AA133AADA4872AD /* ScheduleGenerator.swift */; };
 		32A11915F653E2F5DEC434CA /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11E01B8F156ADC9DC4BB1 /* UserSettings.swift */; };
 		32A11B697C33EDF8288364FD /* ArtistTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11C725224601FB122E1ED /* ArtistTypeFilterView.swift */; };
-		32A11B74C7755285007F0417 /* StageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11767FE0F18ECB9E14CCB /* StageListView.swift */; };
+		32A11B74C7755285007F0417 /* LocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11767FE0F18ECB9E14CCB /* LocationListView.swift */; };
 		32A11C794DA3FE15B95D9027 /* ArtistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114CB00A20BFE9D3E3F68 /* ArtistCell.swift */; };
+		32A11DF280A8C0BBB74C460A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A11C2A725E087E2168B963 /* Localizable.strings */; };
 		32A11E86195DFF3E23F17A34 /* ArtistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11ED1F95A277587C2C422 /* ArtistDetailView.swift */; };
 		32A11ECA86F96148A5F0273F /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0056E8B3607AB148AC /* NewsListView.swift */; };
 		32A11F1E45921B31CA8FA915 /* ArtistEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EB409F58E0AC6918667 /* ArtistEventItem.swift */; };
@@ -73,13 +75,15 @@
 		32A114A0B0D83E903607A773 /* MarkedArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkedArtistListView.swift; sourceTree = "<group>"; };
 		32A114CB00A20BFE9D3E3F68 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
 		32A114D5BF11E0ED1F6FBEE1 /* GeneratedScheduleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedScheduleView.swift; sourceTree = "<group>"; };
-		32A11767FE0F18ECB9E14CCB /* StageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageListView.swift; sourceTree = "<group>"; };
+		32A11767FE0F18ECB9E14CCB /* LocationListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationListView.swift; sourceTree = "<group>"; };
+		32A1176A34B9CD609BD6E4B5 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = Localizable.strings; sourceTree = "<group>"; };
 		32A118441741FCBDC5D0E11C /* StageEventItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageEventItem.swift; sourceTree = "<group>"; };
 		32A1196C00ED0C0CB3B54B0B /* StageDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageDetailView.swift; sourceTree = "<group>"; };
 		32A1197920EC9D4F132321A3 /* NewsItemDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemDetailView.swift; sourceTree = "<group>"; };
 		32A11AA1B9948E22911ABFCB /* TimeProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeProgramEventCell.swift; sourceTree = "<group>"; };
 		32A11B0056E8B3607AB148AC /* NewsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListView.swift; sourceTree = "<group>"; };
 		32A11B4F380583703A85954A /* StageMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageMapView.swift; sourceTree = "<group>"; };
+		32A11B690236389F1A5A3CDD /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		32A11B859AE5DD3690A457DA /* NewsItemItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemItemView.swift; sourceTree = "<group>"; };
 		32A11BF710CBDB63B6F79299 /* EventDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
 		32A11C725224601FB122E1ED /* ArtistTypeFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistTypeFilterView.swift; sourceTree = "<group>"; };
@@ -149,6 +153,22 @@
 			path = Stage;
 			sourceTree = "<group>";
 		};
+		32A112B5776ED51632A5CD18 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				32A11A94CE0E06AC85E07B3F /* Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		32A114560CF0CDEFEF55CC63 /* de.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				32A11C2A725E087E2168B963 /* Localizable.strings */,
+			);
+			path = de.lproj;
+			sourceTree = "<group>";
+		};
 		32A11512A21FDE172DC85A7D /* News */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,7 +210,7 @@
 				32A11546B30B3A5CF2E5D44D /* Artist */,
 				32A1100A8330120BE2CE8710 /* Stage */,
 				32A1181447F835548420AFE9 /* Event */,
-				32A11767FE0F18ECB9E14CCB /* StageListView.swift */,
+				32A11767FE0F18ECB9E14CCB /* LocationListView.swift */,
 				32A1139233BC05532C24D9E2 /* StageProgramEventCell.swift */,
 				32A114A0B0D83E903607A773 /* MarkedArtistListView.swift */,
 			);
@@ -248,6 +268,8 @@
 				32A11E01B8F156ADC9DC4BB1 /* UserSettings.swift */,
 				3555C1552427D4830036D21F /* Util.swift */,
 				32A111236AA133AADA4872AD /* ScheduleGenerator.swift */,
+				32A114560CF0CDEFEF55CC63 /* de.lproj */,
+				32A112B5776ED51632A5CD18 /* en.lproj */,
 			);
 			path = RudolstadtForiOS;
 			sourceTree = "<group>";
@@ -394,6 +416,8 @@
 				3590436624017C65003FBBD4 /* LaunchScreen.storyboard in Resources */,
 				3590436324017C65003FBBD4 /* Preview Assets.xcassets in Resources */,
 				3590436024017C65003FBBD4 /* Assets.xcassets in Resources */,
+				32A11DF280A8C0BBB74C460A /* Localizable.strings in Resources */,
+				32A1148283439C3A620133AE /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,7 +468,7 @@
 				32A11F7A36FE7137F9CDD514 /* StageMapView.swift in Sources */,
 				32A11565E27B84EF9E216510 /* EventDetailView.swift in Sources */,
 				3563DE4A240E47B700B6BEEF /* ProgramItemText.swift in Sources */,
-				32A11B74C7755285007F0417 /* StageListView.swift in Sources */,
+				32A11B74C7755285007F0417 /* LocationListView.swift in Sources */,
 				32A11B697C33EDF8288364FD /* ArtistTypeFilterView.swift in Sources */,
 				32A11F1F9E51D18B72475D29 /* StageProgramEventCell.swift in Sources */,
 				32A11915F653E2F5DEC434CA /* UserSettings.swift in Sources */,
@@ -487,6 +511,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		32A11A94CE0E06AC85E07B3F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32A11B690236389F1A5A3CDD /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		32A11C2A725E087E2168B963 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32A1176A34B9CD609BD6E4B5 /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		3590436424017C65003FBBD4 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

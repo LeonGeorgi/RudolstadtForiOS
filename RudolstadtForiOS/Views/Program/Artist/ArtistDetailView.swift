@@ -71,8 +71,7 @@ struct ArtistDetailView: View {
             //.shadow(radius: 10)
             //.padding()
             if !artistEvents.isEmpty {
-                Section(header: Text("Events".uppercased())) {
-                    
+                Section(header: Text("artist.events")) {
                     ForEach(artistEvents) { (event: Event) in
                         NavigationLink(destination: EventDetailView(event: event)) {
                             ArtistEventItem(event: event)
@@ -82,12 +81,12 @@ struct ArtistDetailView: View {
             }
             
             if artist.url != nil || artist.youtubeID != nil || artist.facebookID != nil {
-                Section(header: Text("Links".uppercased())) {
+                Section(header: Text("artist.links")) {
                     if artist.url != nil {
-                        Text("Website")
+                        Text("artist.website")
                     }
                     if artist.youtubeID != nil {
-                        Text("Youtube")
+                        Text("YouTube")
                     }
                     if artist.facebookID != nil {
                         Text("Facebook")
@@ -95,7 +94,7 @@ struct ArtistDetailView: View {
                 }
             }
             if artist.formattedDescription != nil && artist.formattedDescription != "" {
-                Section(header: Text("Description".uppercased())) {
+                Section(header: Text("artist.description")) {
                     
                     Text(artist.formattedDescription!)
                     

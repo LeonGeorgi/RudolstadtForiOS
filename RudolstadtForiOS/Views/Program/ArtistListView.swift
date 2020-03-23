@@ -35,17 +35,17 @@ struct ArtistListView: View {
         }.gesture(DragGesture().onChanged { _ in
                     UIApplication.shared.endEditing(true)
                 })
-                .navigationBarTitle("Artists")
+                .navigationBarTitle("artists.title")
                 .navigationBarItems(trailing: Button(action: {
                     self.showingSheet = true
                 }) {
-                    Text("Filter")
+                    Text("filter.button")
                 })
                 .sheet(isPresented: $showingSheet) {
                     NavigationView {
                         ArtistTypeFilterView(selectedArtistTypes: self.$filterArtistTypes)
                                 .navigationBarItems(trailing: Button(action: { self.showingSheet = false }) {
-                                    Text("Done")
+                                    Text("filter.done")
                                 })
                     }
                 }

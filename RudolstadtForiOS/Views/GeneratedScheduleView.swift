@@ -17,6 +17,7 @@ struct GeneratedScheduleView: View {
     @State private var showingAlert = false
     @State var selectedDay: Int = -1
     @State var smartRecommendations = false
+    @State var showStoredEvents = true
     @State var alertEvent: Event?
 
     var eventDays: [Int] {
@@ -26,28 +27,37 @@ struct GeneratedScheduleView: View {
     }
 
     func eventsToShow() -> [Event] {
+        var recommendations: [Event]
         if smartRecommendations {
-            return ScheduleGenerator(
-                            allEvents: self.dataStore.events,
-                            storedEventIds: self.settings.savedEvents,
-                            allArtists: self.dataStore.artists,
-                            artistRatings: self.settings.ratings
-                    ).generate()
+            recommendations = ScheduleGenerator(
+                    allEvents: self.dataStore.events,
+                    storedEventIds: self.settings.savedEvents,
+                    allArtists: self.dataStore.artists,
+                    artistRatings: self.settings.ratings
+            ).generate()
         } else {
             let savedEvents = dataStore.events.filter { event in
                 settings.savedEvents.contains(event.id)
             }
-            return dataStore.events.filter { event in
-                savedEvents.contains {
-                    $0.id == event.id
-                } || (
-                        settings.ratings.keys.contains(String(event.artist.id)) &&
-                                savedEvents.contains {
-                                    $0.artist.id != event.artist.id
-                                } && !intersects(events: savedEvents, current: event)
-                )
+            recommendations = dataStore.events.filter { event in
+                settings.ratings.keys.contains(String(event.artist.id)) &&
+                        savedEvents.allSatisfy {
+                            $0.artist.id != event.artist.id
+                        } && !intersects(events: savedEvents, current: event)
+
             }
         }
+        if !showStoredEvents {
+            return recommendations
+        }
+        let savedEvents = dataStore.events.filter { event in
+            settings.savedEvents.contains(event.id)
+        }
+        recommendations.append(contentsOf: savedEvents)
+        recommendations.sort { event, event2 in
+            event.festivalDay < event2.festivalDay || event.startTimeInMinutes < event2.startTimeInMinutes
+        }
+        return recommendations
     }
 
     func intersects(events: [Event], current: Event) -> Bool {
@@ -65,9 +75,9 @@ struct GeneratedScheduleView: View {
     func createAlert() -> Alert {
         if alertEvent != nil {
             return Alert(
-                    title: Text("Save \(alertEvent!.artist.name) at \(alertEvent!.shortWeekDay) \(alertEvent!.timeAsString)?"),
-                    message: Text("The event will be added to your schedule."),
-                    primaryButton: .default(Text("Save")) {
+                    title: Text("Save \"\(alertEvent!.artist.name)\" at \(alertEvent!.shortWeekDay) \(alertEvent!.timeAsString)?"),
+                    message: Text("event.save.alert.message"),
+                    primaryButton: .default(Text("event.save")) {
                         if !self.settings.savedEvents.contains(self.alertEvent!.id) {
                             self.settings.savedEvents.append(self.alertEvent!.id)
                         }
@@ -99,11 +109,14 @@ struct GeneratedScheduleView: View {
                     }.buttonStyle(PlainButtonStyle())
                             .disabled(self.settings.savedEvents.contains(event.id))
                 }
-            }.navigationBarTitle("Generated events", displayMode: .inline)
-                    .navigationBarItems(trailing: Button(action: {
+            }.navigationBarTitle(Text(""), displayMode: .inline).navigationBarItems(leading: Button(action: {
+                        self.showStoredEvents.toggle()
+                    }) {
+                        self.showStoredEvents ? Text("recommendations.hide_saved") : Text("recommendations.show_saved")
+                    }, trailing: Button(action: {
                         self.smartRecommendations.toggle()
                     }) {
-                        Text(self.smartRecommendations ? "All" : "Best")
+                        self.smartRecommendations ? Text("recommendations.all") : Text("recommendations.smart")
                     })
                     .onAppear {
                         if self.selectedDay == -1 {

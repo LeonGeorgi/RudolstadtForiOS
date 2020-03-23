@@ -49,7 +49,7 @@ struct StageDetailView: View {
 
             }
             if !eventDays.isEmpty {
-                Section(header: Text("EVENTS")) {
+                Section(header: Text("stage.events")) {
                     Picker("Date", selection: $selectedDay) {
                         ForEach(eventDays) { day in
                             Text(Util.shortWeekDay(day: day)).tag(day)
@@ -67,7 +67,7 @@ struct StageDetailView: View {
                 }
             }
 
-            Section(header: Text("MAP")) {
+            Section(header: Text("stage.map")) {
                 Button(action: {
                     StageMapView.openInMaps(stage: self.stage)
                 }) {
@@ -77,7 +77,7 @@ struct StageDetailView: View {
                         .buttonStyle(PlainButtonStyle())
             }
             if !nearbyStages.isEmpty {
-                Section(header: Text("NEARBY STAGES")) {
+                Section(header: Text("stage.nearby")) {
                     ForEach(nearbyStages.sorted { first, second in
                         first.distance < second.distance
                     }) { (stageDistance: StageDistance) in

@@ -1,0 +1,44 @@
+"schedule.recommendations.button" = "Suggest";
+
+"news.short" = "News";
+"news.long" = "News";
+
+"artist.website" = "Website";
+"artist.events" = "EVENTS";
+"artist.links" = "LINKS";
+"artist.description" = "DESCRIPTION";
+
+"event.map" = "MAP";
+"event.save" = "Save";
+"event.save.alert.message" = "The event will be added to your schedule.";
+"Save \"<%@>\" at <%@> <%@>?" = "Save \"%1$@\" at %2$@ %3$@?";
+"event.remove" = "Remove";
+
+"stage.events" = "EVENTS";
+"stage.map" = "MAP";
+"stage.nearby" = "NEARBY LOCATIONS";
+
+"artists.title" = "Artists";
+
+"locations.title" = "Locations";
+
+"rated_artists.title" = "Saved artists";
+"program_by_time.title" = "Program by time";
+"program_by_time.short_title" = "Program";
+"program_by_stage.title" = "Program by stage";
+"program_by_stage.short_title" = "Program";
+"program.title" = "Program";
+
+"schedule.title" = "Schedule";
+
+"filter.button" = "Filter";
+"filter.done" = "Done";
+"filter.no_events_available" = "No events available for the current filter settings.";
+"filter.artists.title" = "Filter artists";
+
+"recommendations.hide_saved" = "Hide saved";
+"recommendations.show_saved" = "Show saved";
+"recommendations.all" = "All";
+"recommendations.smart" = "Best";
+
+"more.title" = "More";

@@ -11,8 +11,8 @@ import SwiftUI
 struct MoreView: View {
     var body: some View {
         NavigationView {
-            Text("More")
-                .navigationBarTitle("More")
+            Text("more.title")
+                .navigationBarTitle("more.title")
         }
     }
 }

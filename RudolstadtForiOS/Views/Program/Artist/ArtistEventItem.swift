@@ -36,7 +36,7 @@ struct ArtistEventItem: View {
                     Image(systemName: "exclamationmark.circle")
                             .font(.caption)
                             .foregroundColor(.orange)
-                    Text("gleichzeitig mit \"The Cat Empire\"")
+                    Text("gleichzeitig mit \"The Cat Empire\"") // TODO
                             .font(.caption)
                             .foregroundColor(.orange)
                 }

@@ -15,7 +15,7 @@ struct NewsListView: View {
         NavigationView {
             List(dataStore.news) { (newsItem: NewsItem) in
                 NewsItemItemView(newsItem: newsItem)
-            }.navigationBarTitle("News")
+            }.navigationBarTitle("news.long")
         }
     }
 }

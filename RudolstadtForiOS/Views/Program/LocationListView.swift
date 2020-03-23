@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct StageListView: View {
+struct LocationListView: View {
     
     @EnvironmentObject var dataStore: DataStore
     
@@ -43,7 +43,7 @@ struct StageListView: View {
                 }
             }
         }
-        .navigationBarTitle("Stages")
+        .navigationBarTitle("locations.title")
     }
 }
 
@@ -55,8 +55,8 @@ struct AreaStages: Identifiable {
     let stages: [Stage]
 }
 
-struct StageListView_Previews: PreviewProvider {
+struct LocationListView_Previews: PreviewProvider {
     static var previews: some View {
-        StageListView()
+        LocationListView()
     }
 }

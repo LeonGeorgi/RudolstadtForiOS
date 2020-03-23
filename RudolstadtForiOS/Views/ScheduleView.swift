@@ -44,11 +44,11 @@ struct ScheduleView: View {
                     TimeProgramEventCell(event: event)
                 }
             }
-                    .navigationBarTitle("Schedule")
+                    .navigationBarTitle("schedule.title")
                     .navigationBarItems(trailing: Button(action: {
                         self.showingSheet = true
                     }) {
-                        Text("Generate")
+                        Text("schedule.recommendations.button")
                     })
                     .onAppear {
                         if self.selectedDay == -1 {
@@ -59,6 +59,7 @@ struct ScheduleView: View {
                         GeneratedScheduleView()
                                 .environmentObject(self.dataStore)
                                 .environmentObject(self.settings)
+                                .accentColor(.green)
                     }
         }
     }
