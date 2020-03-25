@@ -50,12 +50,17 @@ class ScheduleGenerator {
             }.filter { artist in
                 !storedArtistIds.contains(artist.id)
             }
+            if artistsToAdd.isEmpty {
+                continue
+            }
+            print(rating)
             finalEvents.append(contentsOf: generateArrangement(
                     finalEvents: storedEvents + finalEvents,
                     remainingArtists: artistsToAdd,
                     currentPlannedEvents: [],
                     currentRating: 0,
                     bestPossibleRating: artistsToAdd.count).events)
+
 
         }
         for event in finalEvents {
@@ -75,6 +80,7 @@ class ScheduleGenerator {
     ) -> (events: [Event], rating: Int, bestRatingReached: Bool) {
         var remArtists = remainingArtists
         let currentArtist = remArtists.remove(at: 0)
+        print(currentArtist)
         let currentArtistEvents = eventsFor(artist: currentArtist).sorted { event1, event2 in
             (!intersects(events: finalEvents, current: event1) &&
                     !intersects(events: currentPlannedEvents, current: event2)) ||

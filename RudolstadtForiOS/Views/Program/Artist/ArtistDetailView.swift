@@ -74,7 +74,7 @@ struct ArtistDetailView: View {
                 Section(header: Text("artist.events")) {
                     ForEach(artistEvents) { (event: Event) in
                         NavigationLink(destination: EventDetailView(event: event)) {
-                            ArtistEventItem(event: event)
+                            ArtistEventCell(event: event)
                         }
                     }
                 }

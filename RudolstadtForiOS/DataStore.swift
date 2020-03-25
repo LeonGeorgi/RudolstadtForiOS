@@ -36,7 +36,7 @@ final class DataStore: ObservableObject {
     @Published var stages: [Stage] = []
     @Published var events: [Event] = []
     @Published var news: [NewsItem] = []
-    static let year = 2017
+    static let year = 2016
 
     func loadData() {
         artists = DataStore.readArtistsFromFile()
@@ -134,7 +134,8 @@ final class DataStore: ObservableObject {
 
     static func readEventsFromFile(stages: [Stage], artists: [Artist], tags: [Tag]) -> [Event] {
         let lines = readLinesFromFile(named: DataUpdater.eventsFileName)
-        return lines.map { line -> Event in
+        var events: [Event] = []
+        for line in lines {
             let eventInformation = parseInformationFromLine(line)
             let stageId = Int(eventInformation[3]) ?? -1
             let stage = stages.first {
@@ -142,23 +143,27 @@ final class DataStore: ObservableObject {
             }!
 
             let artistId = Int(eventInformation[4]) ?? -1
-            let artist = artists.first {
+            let firstArtist = artists.first {
                 $0.id == artistId
-            }!
+            }
+            guard let artist = firstArtist else {
+                continue
+            }
 
             let tagId = Int(eventInformation[5]) ?? -1
             let tag = tags.first {
                 $0.id == tagId
             }
-            return Event(
+            events.append(Event(
                     id: Int(eventInformation[0]) ?? -1,
                     dayInJuly: Int(eventInformation[1]) ?? -1,
                     timeAsString: String(eventInformation[2]),
                     stage: stage,
                     artist: artist,
                     tag: tag
-            )
+            ))
         }
+        return events
     }
 
     static func readTagsFromFile() -> [Tag] {

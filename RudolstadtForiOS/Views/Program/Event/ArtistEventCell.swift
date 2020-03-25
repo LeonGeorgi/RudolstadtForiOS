@@ -8,8 +8,24 @@
 
 import SwiftUI
 
-struct ArtistEventItem: View {
+struct ArtistEventCell: View {
     let event: Event
+
+    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var dataStore: DataStore
+
+    var savedEventIds: [Int] {
+        settings.savedEvents
+    }
+
+    func eventsThatIntersect() -> [Event] {
+        let savedEvents = dataStore.events.filter {
+            savedEventIds.contains($0.id)
+        }
+        return savedEvents.filter {
+            $0.artist.id != event.artist.id && $0.intersects(with: event)
+        }
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -31,23 +47,39 @@ struct ArtistEventItem: View {
                 //.frame(width: 80, alignment: .leading)
                 Text(event.stage.localizedName).lineLimit(1)
             }
-            if Bool.random() {
+            ForEach(eventsThatIntersect()) { (intersectingEvent: Event) in
                 HStack(spacing: 5) {
                     Image(systemName: "exclamationmark.circle")
                             .font(.caption)
                             .foregroundColor(.orange)
-                    Text("gleichzeitig mit \"The Cat Empire\"") // TODO
+                    Text("gleichzeitig mit \"\(intersectingEvent.artist.name)\"") // TODO
                             .font(.caption)
                             .foregroundColor(.orange)
                 }
             }
-
+        }.contextMenu {
+            Button(action: {
+                if !self.settings.savedEvents.contains(self.event.id) {
+                    self.settings.savedEvents.append(self.event.id)
+                } else {
+                    self.settings.savedEvents.remove(at: self.settings.savedEvents.firstIndex(of: self.event.id)!)
+                }
+            }) {
+                if self.settings.savedEvents.contains(self.event.id) {
+                    Text("event.remove")
+                    Image(systemName: "bookmark.fill")
+                } else {
+                    Text("event.save")
+                    Image(systemName: "bookmark")
+                            .font(.body)
+                }
+            }
         }
     }
 }
 
-struct ArtistConcertItem_Previews: PreviewProvider {
+struct ArtistEventCell_Previews: PreviewProvider {
     static var previews: some View {
-        ArtistEventItem(event: .example)
+        ArtistEventCell(event: .example)
     }
 }

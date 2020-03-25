@@ -210,8 +210,9 @@ struct Event: Identifiable {
 
     }
 
-    func isAtDay(day: Int) -> Bool {
-        return day == dayInJuly && timeAsString >= "05" || day == dayInJuly - 1 && timeAsString < "05"
+    func intersects(with other: Event) -> Bool {
+        festivalDay == other.festivalDay &&
+                !(startTimeInMinutes >= other.endTimeInMinutes || endTimeInMinutes <= other.startTimeInMinutes)
     }
 
     static let example = Event(
@@ -232,6 +233,12 @@ struct NewsItem: Identifiable {
     let shortDescription: String
     let longDescription: String
     let content: String
+
+    var isInCurrentLanguage: Bool {
+        let appIsInGerman = Locale.current.languageCode == "de"
+        let languageIsGerman = languageCode == "de"
+        return appIsInGerman && languageIsGerman || !appIsInGerman && !languageIsGerman
+    }
 
     var formattedLongDescription: String {
         return longDescription.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])

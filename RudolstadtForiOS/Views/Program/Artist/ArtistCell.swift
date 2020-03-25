@@ -42,6 +42,14 @@ struct ArtistCell: View {
                 }
                 
             }
+        }.contextMenu {
+            ForEach((0..<4).reversed()) { rating in
+                Button(action: {
+                    self.settings.ratings[String(self.artist.id)] = rating
+                }) {
+                    Text(self.ratingSymbol(rating: rating))
+                }
+            }
         }
     }
 }

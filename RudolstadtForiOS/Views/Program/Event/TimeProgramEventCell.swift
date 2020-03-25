@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct StageProgramEventCell: View {
+struct TimeProgramEventCell: View {
     let event: Event
 
     @EnvironmentObject var settings: UserSettings
@@ -36,13 +36,14 @@ struct StageProgramEventCell: View {
                                     .fontWeight(.semibold)
                                     .foregroundColor(.accentColor)
                                     .lineLimit(1)
-                                    .padding(.bottom, 2)
-
-
                         }
                         Text(event.artist.name)
                                 .font(.subheadline)
-                                .lineLimit(event.tag == nil ? 2 : 1)
+                                .fontWeight(.semibold)
+                                .lineLimit(1)
+                        Text(event.stage.localizedName)
+                                .lineLimit(1)
+                                .font(.footnote)
 
                     }
                     if self.settings.savedEvents.contains(self.event.id) {
@@ -53,13 +54,30 @@ struct StageProgramEventCell: View {
                 }
 
             }
+        }.contextMenu {
+            Button(action: {
+                if !self.settings.savedEvents.contains(self.event.id) {
+                    self.settings.savedEvents.append(self.event.id)
+                } else {
+                    self.settings.savedEvents.remove(at: self.settings.savedEvents.firstIndex(of: self.event.id)!)
+                }
+            }) {
+                if self.settings.savedEvents.contains(self.event.id) {
+                    Text("event.remove")
+                    Image(systemName: "bookmark.fill")
+                } else {
+                    Text("event.save")
+                    Image(systemName: "bookmark")
+                            .font(.body)
+                }
+            }
         }
 
     }
 }
 
-struct StageProgramEventCell_Previews: PreviewProvider {
+struct TimeProgramEventCell_Previews: PreviewProvider {
     static var previews: some View {
-        StageProgramEventCell(event: .example)
+        TimeProgramEventCell(event: .example)
     }
 }

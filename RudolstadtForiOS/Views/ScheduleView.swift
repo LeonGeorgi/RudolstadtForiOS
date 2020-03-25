@@ -13,7 +13,7 @@ struct ScheduleView: View {
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var settings: UserSettings
 
-    @State private var showingSheet = false
+    @State private var showingRecommendations = true
     @State var selectedDay: Int = -1
 
     var eventDays: [Int] {
@@ -24,6 +24,27 @@ struct ScheduleView: View {
 
     var storedEvents: [Int] {
         settings.savedEvents
+    }
+
+    var shownEvents: [Event] {
+        let savedEvents = dataStore.events.filter { (event: Event) in
+            storedEvents.contains(event.id)
+        }
+        if showingRecommendations {
+            var recommendations = ScheduleGenerator(
+                    allEvents: self.dataStore.events,
+                    storedEventIds: self.settings.savedEvents,
+                    allArtists: self.dataStore.artists,
+                    artistRatings: self.settings.ratings
+            ).generate()
+            recommendations.append(contentsOf: savedEvents)
+            recommendations.sort { event, event2 in
+                event.festivalDay < event2.festivalDay || event.startTimeInMinutes < event2.startTimeInMinutes
+            }
+            return recommendations
+        } else {
+            return savedEvents
+        }
     }
 
     var body: some View {
@@ -38,28 +59,28 @@ struct ScheduleView: View {
                         .padding(.trailing, 10)
                         .pickerStyle(SegmentedPickerStyle())
 
-                List(dataStore.events.filter { (event: Event) in
-                    event.festivalDay == selectedDay && storedEvents.contains(event.id)
+                List(shownEvents.filter { event in
+                    event.festivalDay == selectedDay
                 }) { event in
-                    TimeProgramEventCell(event: event)
+                    NavigationLink(destination: EventDetailView(event: event)) {
+                        ScheduleEventCell(event: event)
+                    }
                 }
             }
                     .navigationBarTitle("schedule.title")
                     .navigationBarItems(trailing: Button(action: {
-                        self.showingSheet = true
+                        self.showingRecommendations.toggle()
                     }) {
-                        Text("schedule.recommendations.button")
+                        if showingRecommendations {
+                            Text("schedule.recommendations.disable")
+                        } else {
+                            Text("schedule.recommendations.enable")
+                        }
                     })
                     .onAppear {
                         if self.selectedDay == -1 {
                             self.selectedDay = self.eventDays.first ?? -1
                         }
-                    }
-                    .sheet(isPresented: $showingSheet) {
-                        GeneratedScheduleView()
-                                .environmentObject(self.dataStore)
-                                .environmentObject(self.settings)
-                                .accentColor(.green)
                     }
         }
     }

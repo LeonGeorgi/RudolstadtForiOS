@@ -13,7 +13,7 @@ struct NewsListView: View {
 
     var body: some View {
         NavigationView {
-            List(dataStore.news) { (newsItem: NewsItem) in
+            List(dataStore.news.filter { item in item.isInCurrentLanguage }) { (newsItem: NewsItem) in
                 NewsItemItemView(newsItem: newsItem)
             }.navigationBarTitle("news.long")
         }

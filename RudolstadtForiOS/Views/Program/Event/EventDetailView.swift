@@ -14,18 +14,37 @@ struct EventDetailView: View {
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var settings: UserSettings
 
+    var savedEventIds: [Int] {
+        settings.savedEvents
+    }
+
+    func eventsThatIntersect() -> [Event] {
+        let savedEvents = dataStore.events.filter {
+            savedEventIds.contains($0.id)
+        }
+        return savedEvents.filter {
+            $0.artist.id != event.artist.id && $0.intersects(with: event)
+        }
+    }
+
     var body: some View {
         List {
 
             NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
-                HStack(spacing: 10) {
-                    Text(event.artist.name)
-                            .font(.system(size: 22))
-                            .fontWeight(.bold)
-                    Spacer()
+                HStack(spacing: 12) {
                     ArtistImageView(artist: event.artist, fullImage: false)
                             .frame(width: 75, height: 75)
                             .cornerRadius(.infinity)
+                    Text(event.artist.name)
+                            .font(.system(size: 22))
+                            .fontWeight(.bold)
+                            .padding(.trailing, 12)
+                    if (savedEventIds.contains(event.id)) {
+                        Spacer()
+                        Image(systemName: "bookmark.fill")
+                                .foregroundColor(.yellow)
+                                .font(.system(size: 22))
+                    }
                 }
             }
 
@@ -41,6 +60,17 @@ struct EventDetailView: View {
                         .foregroundColor(.white)
                         .cornerRadius(.infinity)
                         .lineLimit(1)
+            }
+            ForEach(eventsThatIntersect()) { (intersectingEvent: Event) in
+                NavigationLink(destination: EventDetailView(event: intersectingEvent)) {
+                    HStack(spacing: 10) {
+                        Image(systemName: "exclamationmark.circle")
+                                .foregroundColor(.orange)
+                        Text("gleichzeitig mit \"\(intersectingEvent.artist.name)\"") // TODO
+                                .lineLimit(2)
+                                .foregroundColor(.orange)
+                    }
+                }
             }
 
             Section(header: Text("event.map")) {

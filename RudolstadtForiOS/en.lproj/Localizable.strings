@@ -1,4 +1,5 @@
-"schedule.recommendations.button" = "Suggest";
+"schedule.recommendations.enable" = "Suggest. on";
+"schedule.recommendations.disable" = "Suggest. off";
 
 "news.short" = "News";
 "news.long" = "News";
