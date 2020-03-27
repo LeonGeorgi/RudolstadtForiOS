@@ -5,6 +5,7 @@ This is an unofficial client for the so called "Rudolstadt-Festival" written in 
 ![Screenshots](Screenshots.png "Screenshots")
 
 ## Special Features
+- Dark mode
 - Stage numbers
 - In-app map
 - Save events in-app
