@@ -3,3 +3,10 @@ This is an unofficial client for the so called "Rudolstadt-Festival" written in 
 
 ## Screenshots
 ![Screenshots](Screenshots.png "Screenshots")
+
+## Special Features
+- Stage numbers
+- In-app map
+- Save events in-app
+- Rate artists
+- Calculate best possible schedule according to artist rating (shown as recommendations)
