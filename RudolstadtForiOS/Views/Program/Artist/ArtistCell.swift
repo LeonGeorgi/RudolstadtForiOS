@@ -38,6 +38,7 @@ struct ArtistCell: View {
                 Text(artist.name)
                     .lineLimit(2)
                 if artistRating() != 0 {
+                    Spacer()
                     Text(ratingSymbol(rating: artistRating()))
                 }
                 
