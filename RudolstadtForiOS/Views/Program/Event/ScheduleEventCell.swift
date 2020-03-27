@@ -65,24 +65,8 @@ struct ScheduleEventCell: View {
 
             }
         }.contextMenu {
-            Button(action: {
-                if !self.settings.savedEvents.contains(self.event.id) {
-                    self.settings.savedEvents.append(self.event.id)
-                } else {
-                    self.settings.savedEvents.remove(at: self.settings.savedEvents.firstIndex(of: self.event.id)!)
-                }
-            }) {
-                if self.settings.savedEvents.contains(self.event.id) {
-                    Text("event.remove")
-                    Image(systemName: "bookmark.fill")
-                } else {
-                    Text("event.save")
-                    Image(systemName: "bookmark")
-                            .font(.body)
-                }
-            }
+            SaveEventButton(event: event)
         }
-
     }
 }
 

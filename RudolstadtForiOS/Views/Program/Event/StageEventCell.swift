@@ -10,6 +10,8 @@ import SwiftUI
 
 struct StageEventCell: View {
     let event: Event
+    
+    @EnvironmentObject var settings: UserSettings
 
     var body: some View {
         HStack {
@@ -40,6 +42,13 @@ struct StageEventCell: View {
                 }
 
             }
+            if self.settings.savedEvents.contains(self.event.id) {
+                Spacer()
+                Image(systemName: "bookmark.fill")
+                        .foregroundColor(.yellow)
+            }
+        }.contextMenu {
+            SaveEventButton(event: event)
         }
 
     }
