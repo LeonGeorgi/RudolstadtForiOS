@@ -2,21 +2,21 @@
   "object": {
     "pins": [
       {
-        "package": "CodableCSV",
-        "repositoryURL": "https://github.com/dehesa/CodableCSV",
+        "package": "SDWebImage",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
         "state": {
           "branch": null,
-          "revision": "891a6833e823f56ae3dd943fc9f646667a27876b",
-          "version": "0.3.3"
+          "revision": "2dcf1b65994d92ef8806f52dc41aa6fdd677489c",
+          "version": "5.6.1"
         }
       },
       {
-        "package": "URLImage",
-        "repositoryURL": "https://github.com/dmytro-anokhin/url-image",
+        "package": "SDWebImageSwiftUI",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImageSwiftUI",
         "state": {
           "branch": null,
-          "revision": "dc913391b6fc0c9de283ef111eb90d0e9abf4c36",
-          "version": "0.9.10"
+          "revision": "8984320cb6bff63a25cb432f5546975a484515e8",
+          "version": "1.1.0"
         }
       }
     ]

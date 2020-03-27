@@ -33,9 +33,8 @@
 		32A11ECA86F96148A5F0273F /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0056E8B3607AB148AC /* NewsListView.swift */; };
 		32A11F7A36FE7137F9CDD514 /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B4F380583703A85954A /* StageMapView.swift */; };
 		32A11FBB3645AF66F4E70E79 /* SavedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A114A0B0D83E903607A773 /* SavedArtistListView.swift */; };
-		3514E4B6242E4BF900CD0346 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 35633C9B240802C0002E9E93 /* URLImage */; };
-		3514E4B7242E4BF900CD0346 /* CodableCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 35F62722240EE40000DA095D /* CodableCSV */; };
 		3514E4B9242E701700CD0346 /* SaveEventButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3514E4B8242E701700CD0346 /* SaveEventButton.swift */; };
+		3514E4BC242E79F600CD0346 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3514E4BB242E79F600CD0346 /* SDWebImageSwiftUI */; };
 		3555C1562427D4830036D21F /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3555C1552427D4830036D21F /* Util.swift */; };
 		3563DE40240E46F000B6BEEF /* TimeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE3F240E46EF00B6BEEF /* TimeProgramView.swift */; };
 		3563DE44240E472600B6BEEF /* StageProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563DE43240E472600B6BEEF /* StageProgramView.swift */; };
@@ -133,8 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3514E4B7242E4BF900CD0346 /* CodableCSV in Frameworks */,
-				3514E4B6242E4BF900CD0346 /* URLImage in Frameworks */,
+				3514E4BC242E79F600CD0346 /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,8 +331,7 @@
 			);
 			name = RudolstadtForiOS;
 			packageProductDependencies = (
-				35633C9B240802C0002E9E93 /* URLImage */,
-				35F62722240EE40000DA095D /* CodableCSV */,
+				3514E4BB242E79F600CD0346 /* SDWebImageSwiftUI */,
 			);
 			productName = RudolstadtForiOS;
 			productReference = 3590435624017C63003FBBD4 /* RudolstadtForiOS.app */;
@@ -410,8 +407,7 @@
 			);
 			mainGroup = 3590434D24017C63003FBBD4;
 			packageReferences = (
-				35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference "url-image" */,
-				35F62721240EE40000DA095D /* XCRemoteSwiftPackageReference "CodableCSV" */,
+				3514E4BA242E79F600CD0346 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 3590435724017C63003FBBD4 /* Products */;
 			projectDirPath = "";
@@ -841,34 +837,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference "url-image" */ = {
+		3514E4BA242E79F600CD0346 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.10;
-			};
-		};
-		35F62721240EE40000DA095D /* XCRemoteSwiftPackageReference "CodableCSV" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dehesa/CodableCSV";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.3;
+				minimumVersion = 1.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		35633C9B240802C0002E9E93 /* URLImage */ = {
+		3514E4BB242E79F600CD0346 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 35633C9A240802C0002E9E93 /* XCRemoteSwiftPackageReference "url-image" */;
-			productName = URLImage;
-		};
-		35F62722240EE40000DA095D /* CodableCSV */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 35F62721240EE40000DA095D /* XCRemoteSwiftPackageReference "CodableCSV" */;
-			productName = CodableCSV;
+			package = 3514E4BA242E79F600CD0346 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

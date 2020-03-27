@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import URLImage
+import SDWebImageSwiftUI
 
 struct ArtistImageView: View {
     let artist: Artist
@@ -15,29 +15,27 @@ struct ArtistImageView: View {
     var body: some View {
         VStack {
             if fullImage && artist.fullImageUrl != nil {
-                URLImage(artist.fullImageUrl!, placeholder: { _ in
-                    Image("placeholder")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .clipped()
-                }) { (proxy: ImageProxy) in
-                    proxy.image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .clipped()
-                }
-            } else if artist.thumbImageUrl != nil {
-                URLImage(artist.thumbImageUrl!, placeholder: { _ in
-                    Image("placeholder")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .clipped()
-                }) { (proxy: ImageProxy) in
-                    proxy.image
+                WebImage(url: artist.fullImageUrl!)
+                    .placeholder {
+                        Image("placeholder")
                             .resizable()                     // Make image resizable
                             .aspectRatio(contentMode: .fill) // Fill the frame
                             .clipped()
                 }
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .clipped()
+            } else if artist.thumbImageUrl != nil {
+                WebImage(url: artist.thumbImageUrl!)
+                    .placeholder {
+                        Image("placeholder")
+                            .resizable()                     // Make image resizable
+                            .aspectRatio(contentMode: .fill) // Fill the frame
+                            .clipped()
+                }
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            .clipped()
             } else {
                 Image("placeholder")
                         .resizable()                     // Make image resizable
