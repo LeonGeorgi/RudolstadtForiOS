@@ -79,8 +79,8 @@ struct StageProgramView: View {
                     ForEach(events[selectedDay] ?? []) { (item: StageEvents) in
                         Section(header: Text("\(item.stage.localizedName)")) {
                             ForEach(item.events) { (event: Event) in
-                                NavigationLink(destination: EventDetailView(
-                                        event: event
+                                NavigationLink(destination: ArtistDetailView(
+                                        artist: event.artist
                                 )) {
                                     StageProgramEventCell(event: event)
                                 }

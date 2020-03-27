@@ -57,7 +57,7 @@ struct StageDetailView: View {
                     }
                             .pickerStyle(SegmentedPickerStyle())
                     ForEach(events[selectedDay] ?? []) { (event: Event) in
-                        NavigationLink(destination: EventDetailView(event: event)) {
+                        NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
                             StageEventCell(event: event)
                         }.buttonStyle(PlainButtonStyle())
 

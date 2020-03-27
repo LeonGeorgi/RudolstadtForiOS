@@ -11,12 +11,14 @@ struct NewsItemDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 10) {
-                Text(newsItem.formattedLongDescription)
-                        .font(.headline)
-
+            VStack(alignment: .leading) {
                 Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
                         .font(.subheadline)
+                        .padding(.bottom, 5)
+
+                Text(newsItem.formattedLongDescription)
+                        .font(.headline)
+                        .padding(.bottom, 15)
 
                 Text(newsItem.formattedContent)
             }.padding()

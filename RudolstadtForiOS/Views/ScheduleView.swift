@@ -62,7 +62,7 @@ struct ScheduleView: View {
                 List(shownEvents.filter { event in
                     event.festivalDay == selectedDay
                 }) { event in
-                    NavigationLink(destination: EventDetailView(event: event)) {
+                    NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
                         ScheduleEventCell(event: event)
                     }
                 }

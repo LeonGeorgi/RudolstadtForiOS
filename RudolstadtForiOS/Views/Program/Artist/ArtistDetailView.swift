@@ -73,7 +73,7 @@ struct ArtistDetailView: View {
             if !artistEvents.isEmpty {
                 Section(header: Text("artist.events")) {
                     ForEach(artistEvents) { (event: Event) in
-                        NavigationLink(destination: EventDetailView(event: event)) {
+                        NavigationLink(destination: StageDetailView(stage: event.stage)) {
                             ArtistEventCell(event: event)
                         }
                     }

@@ -43,8 +43,8 @@ struct TimeProgramView: View {
             List(filteredEvents().filter {
                 $0.festivalDay == selectedDay
             }) { (event: Event) in
-                NavigationLink(destination: EventDetailView(
-                        event: event
+                NavigationLink(destination: ArtistDetailView(
+                        artist: event.artist
                 )) {
                     TimeProgramEventCell(event: event)
                 }
