@@ -60,7 +60,7 @@ struct ScheduleEventCell: View {
                                     .font(.footnote)
 
                         }
-                    }.opacity(self.settings.savedEvents.contains(event.id) ? 1 : 0.6)
+                    }.opacity(self.settings.savedEvents.contains(event.id) ? 1 : 0.5)
                 }
 
             }
