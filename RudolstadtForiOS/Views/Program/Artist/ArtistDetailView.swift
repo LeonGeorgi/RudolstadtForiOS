@@ -83,13 +83,43 @@ struct ArtistDetailView: View {
             if artist.url != nil || artist.youtubeID != nil || artist.facebookID != nil {
                 Section(header: Text("artist.links")) {
                     if artist.url != nil {
-                        Text("artist.website")
+                        Button(action: {
+                            guard let url = URL(string: self.artist.url!) else {
+                                return
+                            }
+                            UIApplication.shared.open(url)
+                        }) {
+                            Text("artist.website")
+                        }
                     }
                     if artist.youtubeID != nil {
-                        Text("YouTube")
+                        Button(action: {
+                            guard let url = URL(string: "https://www.youtube.com/watch?v=\(self.artist.youtubeID!)") else {
+                                return
+                            }
+                            UIApplication.shared.open(url)
+                                
+                            
+                        }) {
+                            Text("YouTube")
+                        }
                     }
                     if artist.facebookID != nil {
-                        Text("Facebook")
+                        Button(action: {
+                            guard let url = URL(string: "fb://profile/\(self.artist.facebookID!)") else {
+                                return
+                            }
+                            if UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url)
+                            } else {
+                                guard let url = URL(string: "https://www.facebook.com/\(self.artist.facebookID!)") else {
+                                    return
+                                }
+                                UIApplication.shared.open(url)
+                            }
+                        }) {
+                            Text("Facebook")
+                        }
                     }
                 }
             }

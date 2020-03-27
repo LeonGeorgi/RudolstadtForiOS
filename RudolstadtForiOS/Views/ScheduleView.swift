@@ -66,8 +66,7 @@ struct ScheduleView: View {
                         ScheduleEventCell(event: event)
                     }
                 }
-            }
-                    .navigationBarTitle("schedule.title")
+            }.navigationBarTitle("schedule.title", displayMode: .inline)
                     .navigationBarItems(trailing: Button(action: {
                         self.showingRecommendations.toggle()
                     }) {
