@@ -33,16 +33,6 @@ struct ArtistDetailView: View {
         return settings.ratings["\(self.artist.id)"] ?? 0
     }
     
-    func ratingSymbol(rating: Int) -> String {
-        switch rating {
-        case 0: return "🤔"
-        case 1: return "🙂"
-        case 2: return "😊"
-        case 3: return "😍"
-        default: return "Invalid"
-        }
-    }
-    
     var body: some View {
         List {
             Section(footer: Text(artist.name)) {
@@ -53,7 +43,7 @@ struct ArtistDetailView: View {
                 HStack {
                     Spacer()
                     ForEach(0..<4) { index in
-                        Text(self.ratingSymbol(rating: index))
+                        RatingSymbol(rating: index)
                             .font(.system(size: 35))
                             //.grayscale(1.0)
                             .saturation(self.artistRating() == index ? 1.0 : 0.0)

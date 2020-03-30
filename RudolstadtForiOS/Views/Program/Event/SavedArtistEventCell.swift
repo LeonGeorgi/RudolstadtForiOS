@@ -17,16 +17,6 @@ struct SavedArtistEventCell: View {
         return settings.ratings["\(self.event.artist.id)"] ?? 0
     }
 
-    func ratingSymbol(rating: Int) -> String {
-        switch rating {
-        case 0: return "🤔"
-        case 1: return "🙂"
-        case 2: return "😊"
-        case 3: return "😍"
-        default: return "Invalid"
-        }
-    }
-
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
@@ -69,7 +59,7 @@ struct SavedArtistEventCell: View {
                         if !self.settings.savedEvents.contains(self.event.id) {
                             Spacer()
                         }
-                        Text(ratingSymbol(rating: artistRating()))
+                        ArtistRatingSymbol(artist: self.event.artist)
                     }
                 }
 

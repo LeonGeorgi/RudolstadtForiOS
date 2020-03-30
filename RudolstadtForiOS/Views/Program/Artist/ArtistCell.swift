@@ -15,18 +15,7 @@ struct ArtistCell: View {
     func artistRating() -> Int {
         return settings.ratings["\(self.artist.id)"] ?? 0
     }
-    
-    func ratingSymbol(rating: Int) -> String {
-        switch rating {
-        case 0: return "🤔"
-        case 1: return "🙂"
-        case 2: return "😊"
-        case 3: return "😍"
-        default: return "Invalid"
-        }
-    }
-    
-    
+
     var body: some View {
         HStack(spacing: 8) {
             ZStack(alignment: .bottomTrailing) {
@@ -39,7 +28,7 @@ struct ArtistCell: View {
                     .lineLimit(2)
                 if artistRating() != 0 {
                     Spacer()
-                    Text(ratingSymbol(rating: artistRating()))
+                    ArtistRatingSymbol(artist: artist)
                 }
                 
             }
@@ -48,7 +37,7 @@ struct ArtistCell: View {
                 Button(action: {
                     self.settings.ratings[String(self.artist.id)] = rating
                 }) {
-                    Text(self.ratingSymbol(rating: rating))
+                    RatingSymbol(rating: rating)
                 }
             }
         }

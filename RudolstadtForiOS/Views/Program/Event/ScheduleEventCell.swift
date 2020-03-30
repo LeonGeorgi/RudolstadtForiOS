@@ -15,6 +15,10 @@ struct ScheduleEventCell: View {
 
     @State private var showingAlert = false
 
+    func artistRating() -> Int {
+        return settings.ratings["\(self.event.artist.id)"] ?? 0
+    }
+
     func createAlert() -> Alert {
         Alert(
                 title: Text("Save \"\(event.artist.name)\" at \(event.shortWeekDay) \(event.timeAsString)?"),
@@ -59,6 +63,10 @@ struct ScheduleEventCell: View {
                                     .lineLimit(1)
                                     .font(.footnote)
 
+                        }
+                        if artistRating() != 0 {
+                            Spacer()
+                            ArtistRatingSymbol(artist: self.event.artist)
                         }
                     }.opacity(self.settings.savedEvents.contains(event.id) ? 1 : 0.5)
                 }
