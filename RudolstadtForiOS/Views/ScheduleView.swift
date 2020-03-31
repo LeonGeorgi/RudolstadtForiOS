@@ -26,21 +26,37 @@ struct ScheduleView: View {
         settings.savedEvents
     }
 
+    func intersects(events: [Event], current: Event) -> Bool {
+        events.contains { event in
+            let collides = event.intersects(with: current)
+            return collides
+        }
+    }
+
     var shownEvents: [Event] {
         let savedEvents = dataStore.events.filter { (event: Event) in
             storedEvents.contains(event.id)
         }
         if showingRecommendations {
-            var recommendations = ScheduleGenerator(
+            var recommendations = ScheduleGenerator2(
                     allEvents: self.dataStore.events,
                     storedEventIds: self.settings.savedEvents,
                     allArtists: self.dataStore.artists,
                     artistRatings: self.settings.ratings
             ).generate()
-            recommendations.append(contentsOf: savedEvents)
-            recommendations.sort { event, event2 in
-                event.festivalDay < event2.festivalDay || event.startTimeInMinutes < event2.startTimeInMinutes
-            }
+            //let relevantArtistIds = settings.ratings.filter { entry in entry.value > 0 }.keys.map { Int($0) }
+            /*let recommendations = dataStore.events.filter { event in
+                savedEvents.contains { inner in
+                    event.id == inner.id
+                } || (settings.ratings[String(event.artist.id)] ?? 0) > 0 &&
+                        savedEvents.allSatisfy {
+                            $0.artist.id != event.artist.id
+                        } && !intersects(events: savedEvents, current: event)
+
+            }*/
+            //recommendations.sort { event, event2 in
+            //    event.festivalDay < event2.festivalDay || event.startTimeInMinutes < event2.startTimeInMinutes
+            //}
             return recommendations
         } else {
             return savedEvents
