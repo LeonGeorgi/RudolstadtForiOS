@@ -36,7 +36,7 @@ final class DataStore: ObservableObject {
     @Published var stages: [Stage] = []
     @Published var events: [Event] = []
     @Published var news: [NewsItem] = []
-    static let year = 2018
+    static let year = 2016
 
     func loadData() {
         artists = DataStore.readArtistsFromFile()

@@ -62,41 +62,43 @@ class ScheduleGenerator2 {
         let iterations = max(200, min(interestingEvents.count * 10, 1000))
         print("Iterations: \(iterations)")
         print("Initial score \(score)")
-        while t < iterations {
-            // Step 2: Choose next element
-            // 2.1: Calculate artists not included
-            let solutionArtistIds = Set(solution.map {
-                $0.artist.id
-            })
-            let artistIds = Set(interestingArtistIds.filter { artistId in
-                !solutionArtistIds.contains(artistId)
-            })
+        var solutionArtistIds = Set(solution.map {
+            $0.artist.id
+        })
+        var remainingArtistIds = Set(interestingArtistIds.filter { artistId in
+            !solutionArtistIds.contains(artistId)
+        })
 
-            // 2.2: Calculate event to replace
-            let events = interestingEvents.filter { event in
-                artistIds.contains(event.artist.id)
+        for t in 0..<iterations {
+            let eventsOfRemainingArtists = interestingEvents.filter { event in
+                remainingArtistIds.contains(event.artist.id)
             }
-            guard let newEvent: Event = events.randomElement() else {
+
+            // Choose one event of an artist who does not occur in the schedule yet
+            guard let eventToAdd: Event = eventsOfRemainingArtists.randomElement() else {
                 print("Optimal solution found")
                 break
             }
 
-            // 2.3: Calculate replaced events
-            let replacedEvents: Array<Event> = solution.filter {
-                $0.intersects(with: newEvent)
+            // Calculate which events intersect with the new event
+            let eventsToRemove: Array<Event> = solution.filter {
+                $0.intersects(with: eventToAdd)
             }
 
-            // Step 3: Do or don't
+            // Calculate if the replacement should be carried out
+
             var replace: Bool = false
-            var scoreDiff = calculateScore(for: newEvent)
-            for event in replacedEvents {
+
+            var scoreDiff = calculateScore(for: eventToAdd)
+            for event in eventsToRemove {
                 scoreDiff -= calculateScore(for: event)
             }
+
             let oldScore = score
             let newScore = oldScore + scoreDiff
 
             if newScore >= oldScore {
-                // New solution is definitely not worse
+                // New solution is not worse than the old one
                 replace = true
             } else {
                 // Select with decreasing probability
@@ -108,17 +110,20 @@ class ScheduleGenerator2 {
             }
 
             if replace {
-                for event in replacedEvents {
+                // Do the actual replacement
+                for event in eventsToRemove {
                     if let index = solution.firstIndex(where: { $0.id == event.id }) {
                         solution.remove(at: index)
+                        // solutionArtistIds.remove(event.artist.id)
+                        remainingArtistIds.insert(event.artist.id)
                     }
                 }
-                solution.append(newEvent)
+                solution.append(eventToAdd)
+                // solutionArtistIds.insert(newEvent.artist.id)
+                remainingArtistIds.remove(eventToAdd.artist.id)
+
                 score = newScore
             }
-
-            t += 1
-
         }
         score = 0
         for event in solution {
