@@ -42,4 +42,11 @@
 "recommendations.all" = "All";
 "recommendations.smart" = "Best";
 
+"search.short" = "Search";
+"search.title" = "Search";
+"search.artists" = "Artists";
+"search.locations" = "Locations";
+"search.events" = "Events";
+"search.prompt" = "Artists, Stages, Events and more";
+
 "more.title" = "More";

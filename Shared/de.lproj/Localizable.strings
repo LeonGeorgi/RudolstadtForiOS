@@ -43,4 +43,12 @@
 "recommendations.all" = "Alle";
 "recommendations.smart" = "Beste";
 
+"search.short" = "Suche";
+"search.title" = "Suche";
+"search.artists" = "Künstler";
+"search.locations" = "Orte";
+"search.events" = "Veranstaltungen";
+"search.prompt" = "Künstler, Bühnen, Konzerte und mehr";
+
+
 "more.title" = "Mehr";

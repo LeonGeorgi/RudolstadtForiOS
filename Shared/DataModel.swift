@@ -35,6 +35,17 @@ struct Artist: Identifiable {
         return URL(string: "\(DataUpdater.fullImageUrl)/\(imageName)")
     }
 
+    func matches(searchTerm: String) -> Bool {
+        if searchTerm.isEmpty {
+            return true
+        }
+        return normalize(string: name).contains(searchTerm) ||
+                (formattedDescription.map {
+                            normalize(string: $0)
+                        }?
+                        .contains(searchTerm) ?? false)
+    }
+
     static let example = Artist(
             id: 0,
             artistType: .stage,
@@ -163,6 +174,28 @@ struct Event: Identifiable {
         }
     }
 
+    func matches(searchTerm: String) -> Bool {
+        if searchTerm.isEmpty {
+            return true
+        }
+        let normalizedArtistName = normalize(string: artist.name)
+        let normalizedStageName = normalize(string: stage.localizedName)
+        let normalizedTagName = tag.map {
+            normalize(string: $0.localizedName)
+        }
+        let normalizedTimeAsString = normalize(string: timeAsString)
+        let normalizedWeekDay = normalize(string: weekDay)
+        let normalizedShortWeekDay = normalize(string: shortWeekDay)
+        return searchTerm.split(separator: " ").allSatisfy { subTerm in
+            normalizedArtistName.contains(subTerm) ||
+                    normalizedStageName.contains(subTerm) ||
+                    (normalizedTagName?.contains(subTerm) ?? false) ||
+                    normalizedTimeAsString.contains(subTerm) ||
+                    normalizedWeekDay.contains(subTerm) ||
+                    normalizedShortWeekDay.contains(subTerm)
+        }
+    }
+
     var date: Date {
         var dateComponents = DateComponents()
         dateComponents.year = DataStore.year
@@ -239,6 +272,25 @@ struct NewsItem: Identifiable {
     var formattedContent: String {
         NewsItem.format(string: content)
     }
+
+    func matches(searchTerm: String) -> Bool {
+        if searchTerm.isEmpty {
+            return true
+        }
+        let normalizedDate = normalize(string: dateAsString)
+        let normalizedTime = normalize(string: timeAsString)
+        let normalizedShortDescription = normalize(string: shortDescription)
+        let normalizedLongDescription = normalize(string: formattedLongDescription)
+        let normalizedContent = normalize(string: formattedContent)
+        return searchTerm.split(separator: " ").allSatisfy { subTerm in
+            normalizedDate.contains(subTerm) ||
+                    normalizedTime.contains(subTerm) ||
+                    normalizedShortDescription.contains(subTerm) ||
+                    normalizedLongDescription.contains(subTerm) ||
+                    normalizedContent.contains(subTerm)
+        }
+    }
+
 
     static func format(string: String) -> String {
         let stringWithNewLines = string.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])

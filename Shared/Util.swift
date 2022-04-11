@@ -53,4 +53,16 @@ extension Array {
                     $0.element
                 }
     }
+
+    func withApplied(searchTerm rawSearchTerm: String, matcher: (Element, String) -> Bool) -> [Element] {
+        let trimmedSearchTerm = rawSearchTerm.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedSearchTerm.isEmpty {
+            return self
+        }
+
+        let searchTerm = normalize(string: trimmedSearchTerm)
+        return filter { element in
+            matcher(element, searchTerm)
+        }
+    }
 }
