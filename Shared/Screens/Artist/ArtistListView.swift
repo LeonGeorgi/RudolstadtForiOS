@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+
 // import URLImage
 
 struct ArtistListView: View {
@@ -14,25 +15,33 @@ struct ArtistListView: View {
     @State private var showingSheet = false
     @State var filterArtistTypes = Set(ArtistType.allCases)
 
-    @State var seachText = ""
+    @State var searchText = ""
 
-    func selectedArtists() -> [Artist] {
-        return dataStore.artists.filter { artist in
+    func normalize(string: String) -> String {
+        string.folding(options: [.diacriticInsensitive, .caseInsensitive, .widthInsensitive], locale: Locale.current)
+    }
+
+    func getFilteredArtists() -> [Artist] {
+        let artistsFilteredByType = dataStore.artists.filter { artist in
             filterArtistTypes.contains(artist.artistType)
         }
+        if searchText.isEmpty {
+            return artistsFilteredByType
+        }
+        return artistsFilteredByType.withApplied(searchTerm: searchText) { artist in artist.name }
     }
 
     var body: some View {
         List {
-            /*SearchBar(text: $seachText)
-                    .listRowInsets(EdgeInsets())*/
-            ForEach(selectedArtists()) { (artist: Artist) in
+            ForEach(getFilteredArtists()) { (artist: Artist) in
                 NavigationLink(destination: ArtistDetailView(artist: artist)) {
                     ArtistCell(artist: artist)
                 }
 
             }
-        }.gesture(DragGesture().onChanged { _ in
+        }
+                .searchable(text: $searchText)
+                .gesture(DragGesture().onChanged { _ in
                     // TODO: UIApplication.shared.endEditing(true)
                 })
                 .navigationBarTitle("artists.title")
