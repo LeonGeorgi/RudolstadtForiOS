@@ -22,18 +22,16 @@ struct ArtistListView: View {
     }
 
     func getFilteredArtists() -> [Artist] {
-        let artistsFilteredByType = dataStore.artists.filter { artist in
+        dataStore.artists.filter { artist in
             filterArtistTypes.contains(artist.artistType)
         }
-        if searchText.isEmpty {
-            return artistsFilteredByType
-        }
-        return artistsFilteredByType.withApplied(searchTerm: searchText) { artist in artist.name }
     }
 
     var body: some View {
         List {
-            ForEach(getFilteredArtists()) { (artist: Artist) in
+            ForEach(getFilteredArtists().withApplied(searchTerm: searchText) { artist in
+                artist.name
+            }) { (artist: Artist) in
                 NavigationLink(destination: ArtistDetailView(artist: artist)) {
                     ArtistCell(artist: artist)
                 }

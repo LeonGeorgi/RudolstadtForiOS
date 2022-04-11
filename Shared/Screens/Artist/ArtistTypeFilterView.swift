@@ -8,31 +8,29 @@ struct ArtistTypeFilterView: View {
             Section {
                 ForEach(ArtistType.allCases) { (artistType: ArtistType) in
                     Button(action: {
-                        if self.selectedArtistTypes.contains(artistType) {
+                        if selectedArtistTypes.contains(artistType) {
                             self.selectedArtistTypes.remove(artistType)
                         } else {
                             self.selectedArtistTypes.insert(artistType)
                         }
                     }) {
                         HStack {
+                            Text(String(artistType.localizedName))
+                                    .foregroundColor(.primary)
+                            Spacer()
                             VStack(alignment: .leading) {
-                                if self.selectedArtistTypes.contains(artistType) {
-                                    Image(systemName: "checkmark.circle")
-                                            .foregroundColor(.accentColor)
-                                            .padding(.horizontal, 4)
-                                } else {
-                                    Image(systemName: "circle")
+                                if selectedArtistTypes.contains(artistType) {
+                                    Image(systemName: "checkmark")
                                             .foregroundColor(.accentColor)
                                             .padding(.horizontal, 4)
                                 }
                             }
-                            Text(String(artistType.localizedName))
-                                    .foregroundColor(.primary)
                         }
                     }
                 }
             }
-        }.listStyle(GroupedListStyle())
+        }
+                .listStyle(GroupedListStyle())
                 .navigationBarTitle(Text("filter.artists.title"), displayMode: .inline)
     }
 }

@@ -23,6 +23,9 @@ func normalize(string: String) -> String {
 
 extension Array {
     func withApplied(searchTerm rawSearchTerm: String, mapper: (Element) -> String) -> [Element] {
+        if rawSearchTerm.isEmpty {
+            return self
+        }
 
         let searchTerm = normalize(string: rawSearchTerm)
         return filter { element in
