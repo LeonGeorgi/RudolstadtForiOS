@@ -233,12 +233,31 @@ struct NewsItem: Identifiable {
     }
 
     var formattedLongDescription: String {
-        longDescription.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])
-                .trimmingCharacters(in: .whitespacesAndNewlines)
+        NewsItem.format(string: longDescription)
     }
 
     var formattedContent: String {
-        content.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])
+        NewsItem.format(string: content)
+    }
+
+    static func format(string: String) -> String {
+        let stringWithNewLines = string.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard let data = stringWithNewLines.data(using: .utf8) else {
+            return stringWithNewLines
+        }
+
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: String.Encoding.utf8.rawValue
+        ]
+
+        guard let result = try? NSAttributedString(data: data, options: options, documentAttributes: nil) else {
+            return stringWithNewLines
+        }
+
+        return result.string
     }
 
     static let example = NewsItem(
