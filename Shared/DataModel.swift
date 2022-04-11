@@ -294,9 +294,11 @@ struct NewsItem: Identifiable {
 
     static func format(string: String) -> String {
         let stringWithNewLines = string.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])
+                .replacingOccurrences(of: "&#39;", with: "'")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
 
-        guard let data = stringWithNewLines.data(using: .utf8) else {
+        return stringWithNewLines
+        /*guard let data = stringWithNewLines.data(using: .utf8) else {
             return stringWithNewLines
         }
 
@@ -309,7 +311,7 @@ struct NewsItem: Identifiable {
             return stringWithNewLines
         }
 
-        return result.string
+        return result.string*/
     }
 
     static let example = NewsItem(

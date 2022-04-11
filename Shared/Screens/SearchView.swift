@@ -58,7 +58,7 @@ struct SearchView: View {
                                 Text(event.artist.name)
                                 Text(event.stage.localizedName)
                                 if let tag = event.tag {
-                                    Text(tag.localizedName )
+                                    Text(tag.localizedName)
                                 }
                             }
                         }
@@ -76,7 +76,7 @@ struct SearchView: View {
                     }
                 }
             }
-                    .searchable(text: $searchTerm, placement: .navigationBarDrawer(displayMode: .always),prompt: "search.prompt")
+                    .searchable(text: $searchTerm, placement: .navigationBarDrawer(displayMode: .always), prompt: "search.prompt")
                     .navigationBarTitle("search.title")
         }
     }
