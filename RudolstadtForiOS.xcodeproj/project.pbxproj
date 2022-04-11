@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		32A11008167D61F884FC47D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A112FBB6E762F9793E8E60 /* Localizable.strings */; };
+		32A11020A4D401D0A4CCEEA8 /* SavedArtistOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11A861D3FD3784C9516BB /* SavedArtistOverview.swift */; };
 		32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */; };
 		32A11109B3E2EF29D23B96E8 /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1157496D310116DCD5206 /* ArtistImageView.swift */; };
 		32A1111CA4E03E0903D86E29 /* ArtistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1107C6295E7BA267D0F71 /* ArtistCell.swift */; };
@@ -20,7 +21,6 @@
 		32A112A1CF3EDC6BC9BECDE4 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11314CA54C51CF1BFDF9D /* ScheduleView.swift */; };
 		32A112B24A555BB9F43659A1 /* RatingSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11C3491E3EF12BFE1CC75 /* RatingSymbol.swift */; };
 		32A112BC323E026BE8507F8E /* ArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118FFA2F41B67DECD8B61 /* ArtistListView.swift */; };
-		32A1134D6D94CAAA6F997E2B /* SavedArtistProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1165B8BAFA5478953D898 /* SavedArtistProgramView.swift */; };
 		32A1135BAD899B0CF291CD6D /* StageProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1110D3D7D56EA7EA6AF0B /* StageProgramEventCell.swift */; };
 		32A1138E193F6CB4137516BE /* TimeProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */; };
 		32A113D5D8EE2EBA383BC6EA /* ProgramItemText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A116351440B8AD1B03F8FE /* ProgramItemText.swift */; };
@@ -43,7 +43,6 @@
 		32A11735ED66446817C485FB /* SavedArtistEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D55D7F4788FE4AEC1A1 /* SavedArtistEventCell.swift */; };
 		32A1173EE6141DB87056E57E /* StageEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11E3751FD81FE837E074B /* StageEventCell.swift */; };
 		32A1176978B8CDBD08C500CF /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0EB895F91CC56EB642 /* StageMapView.swift */; };
-		32A1177934103985AB17B4CC /* SavedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11367CF19ADBF764627DA /* SavedArtistListView.swift */; };
 		32A1179C06896C80A8873E41 /* TimeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1115828015AC5C612989A /* TimeProgramView.swift */; };
 		32A117A7C3A3672735519404 /* StageProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118FC2F29A19FA8A3CE8E /* StageProgramView.swift */; };
 		32A1180E9DB81C4FE3A98D86 /* ProgramItemText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A116351440B8AD1B03F8FE /* ProgramItemText.swift */; };
@@ -51,8 +50,9 @@
 		32A118A07CA6F813F4380570 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1194705F0DC9D18C2B09B /* Util.swift */; };
 		32A118F15EE900F7D1D916E5 /* ArtistRatingSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */; };
 		32A1190D2BC1583EA5BCD4F4 /* SaveEventButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1136EDC420F6A3EAE3479 /* SaveEventButton.swift */; };
+		32A11972C4FB13538E57CF7C /* SavedArtistOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11A861D3FD3784C9516BB /* SavedArtistOverview.swift */; };
+		32A11996DE25FE370DEA062A /* SavedArtistProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A110A03818C0FCA81E788F /* SavedArtistProgramView.swift */; };
 		32A1199EB080E7865A284792 /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0EB895F91CC56EB642 /* StageMapView.swift */; };
-		32A119A358A4A9D19EFF314F /* SavedArtistProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1165B8BAFA5478953D898 /* SavedArtistProgramView.swift */; };
 		32A119A48263FCE5D5B77FE0 /* SavedArtistEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D55D7F4788FE4AEC1A1 /* SavedArtistEventCell.swift */; };
 		32A119B72F0FE2BE1FCF50FB /* ScheduleGenerator2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D4B68D9C986BBCB747A /* ScheduleGenerator2.swift */; };
 		32A11A2277ABC1B74840F05C /* TimeProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */; };
@@ -63,16 +63,18 @@
 		32A11C4891712FA79641C202 /* StageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118737B48B6BA52141F0D /* StageDetailView.swift */; };
 		32A11CAA37CE0922C9F393D7 /* StageProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1110D3D7D56EA7EA6AF0B /* StageProgramEventCell.swift */; };
 		32A11D09A42D86B69106B718 /* NewsItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D8DFB14F08269BDAB8F /* NewsItemDetailView.swift */; };
+		32A11D329BA4FD3EA5C0EEFE /* SavedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */; };
 		32A11D471C05E7D81DC6B78D /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1157496D310116DCD5206 /* ArtistImageView.swift */; };
 		32A11DF1A47E2B6156D38E77 /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A117348D2BF00F51BF852E /* NewsListView.swift */; };
 		32A11E6DA66C383089064DD4 /* ArtistEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EB2094A0029C6472DB7 /* ArtistEventCell.swift */; };
 		32A11E9B874719DD76F77CD0 /* StageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118737B48B6BA52141F0D /* StageDetailView.swift */; };
 		32A11EB5EC53FC5A4C48B3D8 /* NewsItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D8DFB14F08269BDAB8F /* NewsItemDetailView.swift */; };
 		32A11EE152A9E52253F8A2D3 /* StageProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118FC2F29A19FA8A3CE8E /* StageProgramView.swift */; };
-		32A11EF0F88977AE25B5946F /* SavedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11367CF19ADBF764627DA /* SavedArtistListView.swift */; };
 		32A11EF0FC00667B09CA5D0A /* StageEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11E3751FD81FE837E074B /* StageEventCell.swift */; };
+		32A11F0F0EA9274C1B81D700 /* SavedArtistProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A110A03818C0FCA81E788F /* SavedArtistProgramView.swift */; };
 		32A11F1703B29A8DBE6E672B /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EABD81D0BA97B963376 /* MoreView.swift */; };
 		32A11F2390384051C89FAB56 /* NewsItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11FA9E53D32EB6D58A19E /* NewsItemCell.swift */; };
+		32A11FE0801D8775F4F7E55D /* SavedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */; };
 		3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5928043624004F9471 /* Tests_iOS.swift */; };
 		3551CC5C28043624004F9471 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5B28043624004F9471 /* Tests_iOSLaunchTests.swift */; };
 		3551CC6628043624004F9471 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC6528043624004F9471 /* Tests_macOS.swift */; };
@@ -111,18 +113,18 @@
 
 /* Begin PBXFileReference section */
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
+		32A110A03818C0FCA81E788F /* SavedArtistProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedArtistProgramView.swift; sourceTree = "<group>"; };
 		32A1110D3D7D56EA7EA6AF0B /* StageProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageProgramEventCell.swift; sourceTree = "<group>"; };
 		32A1115828015AC5C612989A /* TimeProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeProgramView.swift; sourceTree = "<group>"; };
 		32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistRatingSymbol.swift; sourceTree = "<group>"; };
 		32A1124C6423229E27A0F0B5 /* ProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramView.swift; sourceTree = "<group>"; };
 		32A11302171E3C741D1E762D /* LocationListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationListView.swift; sourceTree = "<group>"; };
 		32A11314CA54C51CF1BFDF9D /* ScheduleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
-		32A11367CF19ADBF764627DA /* SavedArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedArtistListView.swift; sourceTree = "<group>"; };
 		32A1136EDC420F6A3EAE3479 /* SaveEventButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveEventButton.swift; sourceTree = "<group>"; };
 		32A1157496D310116DCD5206 /* ArtistImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistImageView.swift; sourceTree = "<group>"; };
 		32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleEventCell.swift; sourceTree = "<group>"; };
 		32A116351440B8AD1B03F8FE /* ProgramItemText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramItemText.swift; sourceTree = "<group>"; };
-		32A1165B8BAFA5478953D898 /* SavedArtistProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedArtistProgramView.swift; sourceTree = "<group>"; };
+		32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedArtistListView.swift; sourceTree = "<group>"; };
 		32A117348D2BF00F51BF852E /* NewsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListView.swift; sourceTree = "<group>"; };
 		32A118737B48B6BA52141F0D /* StageDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageDetailView.swift; sourceTree = "<group>"; };
 		32A118FC2F29A19FA8A3CE8E /* StageProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageProgramView.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		32A11925147B0DC31E33C3E6 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = Localizable.strings; sourceTree = "<group>"; };
 		32A1194705F0DC9D18C2B09B /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeProgramEventCell.swift; sourceTree = "<group>"; };
+		32A11A861D3FD3784C9516BB /* SavedArtistOverview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedArtistOverview.swift; sourceTree = "<group>"; };
 		32A11B0EB895F91CC56EB642 /* StageMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageMapView.swift; sourceTree = "<group>"; };
 		32A11C3491E3EF12BFE1CC75 /* RatingSymbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingSymbol.swift; sourceTree = "<group>"; };
 		32A11CB9E490D35A061D5106 /* ArtistDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailView.swift; sourceTree = "<group>"; };
@@ -198,7 +201,6 @@
 			children = (
 				32A1157496D310116DCD5206 /* ArtistImageView.swift */,
 				32A11D4A2C31A990A10DB370 /* ArtistTypeFilterView.swift */,
-				32A11367CF19ADBF764627DA /* SavedArtistListView.swift */,
 				32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */,
 				32A118D0B19F4C8931FB9933 /* Overview */,
 				32A1172F56E4E45800FFB647 /* Detail */,
@@ -298,10 +300,12 @@
 				32A116351440B8AD1B03F8FE /* ProgramItemText.swift */,
 				32A1115828015AC5C612989A /* TimeProgramView.swift */,
 				32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */,
-				32A1165B8BAFA5478953D898 /* SavedArtistProgramView.swift */,
 				32A118FC2F29A19FA8A3CE8E /* StageProgramView.swift */,
 				32A11D55D7F4788FE4AEC1A1 /* SavedArtistEventCell.swift */,
 				32A1110D3D7D56EA7EA6AF0B /* StageProgramEventCell.swift */,
+				32A110A03818C0FCA81E788F /* SavedArtistProgramView.swift */,
+				32A11A861D3FD3784C9516BB /* SavedArtistOverview.swift */,
+				32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -578,11 +582,9 @@
 				32A116CE36970F9B88DC2055 /* ProgramView.swift in Sources */,
 				32A113D5D8EE2EBA383BC6EA /* ProgramItemText.swift in Sources */,
 				32A11AF99C04FACE809D32A0 /* ArtistTypeFilterView.swift in Sources */,
-				32A1177934103985AB17B4CC /* SavedArtistListView.swift in Sources */,
 				32A1162709A0F6212A6C84D7 /* TimeProgramView.swift in Sources */,
 				32A118F15EE900F7D1D916E5 /* ArtistRatingSymbol.swift in Sources */,
 				32A11A2277ABC1B74840F05C /* TimeProgramEventCell.swift in Sources */,
-				32A1134D6D94CAAA6F997E2B /* SavedArtistProgramView.swift in Sources */,
 				32A11EE152A9E52253F8A2D3 /* StageProgramView.swift in Sources */,
 				32A119A48263FCE5D5B77FE0 /* SavedArtistEventCell.swift in Sources */,
 				32A11561A68DE3A255681965 /* LocationListView.swift in Sources */,
@@ -595,6 +597,9 @@
 				32A115A10E8AE4441C178095 /* ArtistCell.swift in Sources */,
 				32A1167A2BFBD49E2160B672 /* ArtistDetailView.swift in Sources */,
 				32A11E6DA66C383089064DD4 /* ArtistEventCell.swift in Sources */,
+				32A11F0F0EA9274C1B81D700 /* SavedArtistProgramView.swift in Sources */,
+				32A11972C4FB13538E57CF7C /* SavedArtistOverview.swift in Sources */,
+				32A11FE0801D8775F4F7E55D /* SavedArtistListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,11 +626,9 @@
 				32A1154AA5EEABD041A176C7 /* ProgramView.swift in Sources */,
 				32A1180E9DB81C4FE3A98D86 /* ProgramItemText.swift in Sources */,
 				32A11AFF963551622C6A48B9 /* ArtistTypeFilterView.swift in Sources */,
-				32A11EF0F88977AE25B5946F /* SavedArtistListView.swift in Sources */,
 				32A1179C06896C80A8873E41 /* TimeProgramView.swift in Sources */,
 				32A116285B893A6CED1CAB9D /* ArtistRatingSymbol.swift in Sources */,
 				32A1138E193F6CB4137516BE /* TimeProgramEventCell.swift in Sources */,
-				32A119A358A4A9D19EFF314F /* SavedArtistProgramView.swift in Sources */,
 				32A117A7C3A3672735519404 /* StageProgramView.swift in Sources */,
 				32A11735ED66446817C485FB /* SavedArtistEventCell.swift in Sources */,
 				32A111D43D702F38C6382630 /* LocationListView.swift in Sources */,
@@ -638,6 +641,9 @@
 				32A1111CA4E03E0903D86E29 /* ArtistCell.swift in Sources */,
 				32A116A708F55334C83246C6 /* ArtistDetailView.swift in Sources */,
 				32A115A10353E19E13E5F510 /* ArtistEventCell.swift in Sources */,
+				32A11996DE25FE370DEA062A /* SavedArtistProgramView.swift in Sources */,
+				32A11020A4D401D0A4CCEEA8 /* SavedArtistOverview.swift in Sources */,
+				32A11D329BA4FD3EA5C0EEFE /* SavedArtistListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

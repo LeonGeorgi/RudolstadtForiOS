@@ -12,12 +12,22 @@ struct LocationListView: View {
 
     @EnvironmentObject var dataStore: DataStore
 
+    @State(initialValue: "") var searchTerm: String
+
     var stages: [AreaStages] {
-        Dictionary(grouping: dataStore.stages) { (stage: Stage) in
+        let normalizedSearchTerm = normalize(string: searchTerm)
+        return Dictionary(grouping: dataStore.stages) { (stage: Stage) in
             stage.area
-        }.map { area, stages in
-                    AreaStages(area: area, stages: stages)
-                }.sorted { stages, stages2 in
+        }
+                .map { area, stages in
+                    AreaStages(area: area, stages: stages.filter { stage in
+                        stage.matches(searchTerm: normalizedSearchTerm)
+                    })
+                }
+                .filter { areaStages in
+                    !areaStages.stages.isEmpty
+                }
+                .sorted { stages, stages2 in
                     stages.area.id < stages2.area.id
                 }
     }
@@ -43,6 +53,7 @@ struct LocationListView: View {
                 }
             }
         }
+                .searchable(text: $searchTerm)
                 .navigationBarTitle("locations.title")
     }
 }

@@ -285,6 +285,22 @@ struct Stage: Identifiable, Hashable {
         }
     }
 
+    func matches(searchTerm: String) -> Bool {
+        if searchTerm.isEmpty {
+            return true
+        }
+        return normalize(string: localizedName).contains(searchTerm) ||
+                normalize(string: area.localizedName).contains(searchTerm) ||
+                (localizedDescription.map {
+                            normalize(string: $0)
+                        }?
+                        .contains(searchTerm) ?? false) ||
+                stageNumber.map {
+                            String($0)
+                        }?
+                        .contains(searchTerm) ?? false
+    }
+
     static let example = Stage(
             id: 24,
             germanName: "Große Bühne Heinepark",

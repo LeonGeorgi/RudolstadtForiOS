@@ -18,22 +18,28 @@ class Util {
 
 
 func normalize(string: String) -> String {
-    string.folding(options: [.diacriticInsensitive, .caseInsensitive, .widthInsensitive], locale: Locale.current)
+    string.folding(options: [.diacriticInsensitive, .caseInsensitive, .widthInsensitive], locale: Locale.current).trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
 extension Array {
+
     func withApplied(searchTerm rawSearchTerm: String, mapper: (Element) -> String) -> [Element] {
-        if rawSearchTerm.isEmpty {
+        let trimmedSearchTerm = rawSearchTerm.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedSearchTerm.isEmpty {
             return self
         }
 
-        let searchTerm = normalize(string: rawSearchTerm)
+        let searchTerm = normalize(string: trimmedSearchTerm)
         return filter { element in
             normalize(string: mapper(element)).contains(searchTerm)
         }
+                .enumerated()
                 .sorted { element1, element2 in
-                    let mapped1 = mapper(element1)
-                    let mapped2 = mapper(element2)
+                    let index1 = element1.offset
+                    let index2 = element2.offset
+
+                    let mapped1 = mapper(element1.element)
+                    let mapped2 = mapper(element2.element)
 
                     let string1 = normalize(string: mapped1)
                     let string2 = normalize(string: mapped2)
@@ -41,7 +47,10 @@ extension Array {
                     let s1 = string1.starts(with: searchTerm)
                     let s2 = string2.starts(with: searchTerm)
 
-                    return s1 && !s2 || ((s1 || s2) && string1 < string2)
+                    return s1 && !s2 || ((s1 || s2) && index1 < index2)
+                }
+                .map {
+                    $0.element
                 }
     }
 }

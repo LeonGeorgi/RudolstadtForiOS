@@ -8,7 +8,7 @@ struct ProgramView: View {
                 NavigationLink(destination: ArtistListView()) {
                     ProgramItemText(title: "artists.title")
                 }
-                NavigationLink(destination: SavedArtistListView()) {
+                NavigationLink(destination: SavedArtistOverview()) {
                     ProgramItemText(title: "rated_artists.title")
                 }
                 NavigationLink(destination: TimeProgramView()) {
