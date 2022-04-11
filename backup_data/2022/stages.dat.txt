@@ -1,0 +1,48 @@
+3~Große Bühne Heidecksburg~Big Stage Heidecksburg~Große Bühne im Hof der Heidecksburg~Courtyard of the castle~1~50.722817~11.338483~1~1
+4~Burgterrasse~Burgterrasse~Bühne Burgterrasse~~2~50.722515~11.339862~1~1
+67~Gewölbehalle in der Heidecksburg~Gewölbehalle in der Heidecksburg~Gewölbehalle der Heidecksburg~~3~50.722817~11.338483~1~1
+43~Schallhaus~Schallhaus~Schallhaus~~4~50.722263~11.341077~1~1
+44~Säulensäle~Säulensäle~Säulensäle~Temporary gallery at Heidecksburg Castle~5~50.722448~11.339431~1~1
+24~Große Bühne Heinepark~Große Bühne Heinepark~Große Bühne Heinepark~~6~50.717028~11.341074~3~1
+25~Konzertbühne~Konzertbühne~Konzertbühne Heinepark~Concert Stage~7~50.716427~11.334991~3~1
+26~Tanzzelt~Tanzzelt~Tanzzelt im Park~Dance Tent~8~50.716936~11.337864~3~1
+45~Bühne Bauernhäuser~Bühne Bauernhäuser~Bauernhäuser~Bauernhäuser~9~50.716372~11.34112~3~1
+46~Rast im Park~Rast im Park~Rast im Park~~10~50.716402~11.337054~3~1
+47~Kinderfest~Kinderfest~Kinderfest~Childrens Festival~11~50.717695~11.344081~3~2
+28~Podium Neumarkt~Stage Neumarkt~Malerischer Platz im westlichen Teil der Innenstadt - bestes Programm, bester Kaffee und andere kulinarische Genüsse~Picturesque square in the western part of the city center~12~50.720679~11.336635~2~2
+27~Große Bühne Markt~Große Bühne Markt~Große Bühne Markt~~14~50.720718~11.3402~2~2
+49~Marktplatz~Marketplace~Marktplatz~Marketplace~15~50.720718~11.3402~2~2
+29~Handwerkerhof~Handwerkerhof~Handwerkerhof~~16~50.721319~11.337719~2~2
+31~Schulplatz~Schulplatz~Podium Schulplatz~~17~50.721277~11.342375~2~2
+30~Freiligrathstraße~Freiligrathstraße~Podium Freiligrathstraße~Busker Stage Freiligrathstraße~18~50.720485~11.342292~2~2
+32~Bibliothek~Bibliothek~﻿Stadtbibliothek~~20~50.721216~11.342456~4~1
+33~Altes Rathaus~Altes Rathaus~Altes Rathaus~~21~50.721441~11.340342~4~1
+34~Stadtkirche~Stadtkirche~Kirche und Gemeindehaus~~22~50.721936~11.342821~4~1
+51~Gemeindesaal~Gemeindesaal~Gemeindesaal~~23~50.721873~11.343336~4~2
+35~Theater im Stadthaus~Theater im Stadthaus~Bühne im Stadthaus + Festival Office~~24~50.718901~11.339299~4~1
+39~saalgärten~saalgärten~Jugendklub saalgärten~~25~50.719220~11.348396~4~1
+37~Schminkkasten~Schminkkasten~Theater Rudolstadt~~26~50.718848~11.335812~4~1
+52~Turnhalle Sommerschule~Dancefloor Sommerschule~Turnhalle-Sommerschule~~28~50.719916~11.344150~4~1
+38~Freie Bühne - Heinepark~Free Stage~Freie Bühne - Heinepark~Free Stage~29~50.7164~11.3427~3~2
+50~Schillerhaus~Schillerhaus~Schillerhaus~~30~50.721107~11.335058~5~2
+64~Löwensaal~Löwensaal~Löwensaal~Löwensaal~32~50.720828~11.339483~4~1
+53~Schlossstraße 25~Schlossstraße 25~Schlossstraße 25~~33~50.719208~11.341453~5~2
+54~Instrumentenbauzentrum~Instrumentenbauzentrum~Instrumentenbauzentrum~~34~50.720834~11.338423~5~2
+55~KulTourDiele~KulTourDiele~KulTourDiele~~35~50.719663~11.336277~5~2
+56~Folkbude~Merchandising~Folkbude am Markt~~36~50.720725~11.340178~6~3
+57~Tourist-Information~Tourist-Information~Tourist-Information~Tourist Office~37~50.720646~11.339686~6~3
+61~Hof der Superintendentur~Courtyard Superintendentur~Bühne des Rotary Clubs Rudolstadt~Stage of the Rotary Club Rudolstadt~38~50.7214~11.3430~2~2
+42~Weinbergstraße 6~Weinbergstraße 6~Weinbergstraße 6~~39~50.7224~11.3327~5~2
+66~Hof Markt 8~Courtyard Markt 8~Stramu-Bühne im Hof~Busker Stage - Courtyard Markt 8~40~50.720856~11.340603~2~2
+23~Am Güntherbrunnen~Güntherbrunnen~Am Güntherbrunnen~Güntherbrunnen~41~50.7199~11.3371~2~2
+70~Weinbergstraße_4~Weinbergstraße_4~Weinbergstraße 4~~42~50.72258~11.33365~5~2
+1001~Zeltplatz „Große Wiese“~Campsite „Große Wiese“~~~~50.713385~11.332451~91~
+1002~Zeltplatz „Saalemaxx“~Campsite „Saalemaxx“~~~~50.706396~11.316648~91~
+1003~Caravanplatz „Bleichwiese“~Caravan site „Bleichwiese“~~~~50.717024~11.347697~91~
+1004~Gemeinschaftsunterkunft~Dorm room~~~~50.716798~11.323213~91~
+1005~Alle Ziele außer „P+R Oststraße“~Alle Ziele außer „P+R Oststraße“~~~~50.719185~11.336748~92~
+1006~Abfahrt nach „P+R Oststraße“~Abfahrt nach „P+R Oststraße“~~~~50.718278~11.338774~92~
+1008~Markt 8~Markt 8~~~~50.720691~11.340609~93~
+1009~Große Allee 1~Große Allee 1~~~~50.719672~11.334580~93~
+1010~Breitscheidstraße 67~Breitscheidstraße 67~~~~50.703844~11.325423~93~
+1011~Am Spielborn 2~Am Spielborn 2~~~~50.695970~11.326255~93~

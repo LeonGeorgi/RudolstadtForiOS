@@ -1,0 +1,9 @@
+1~Heidecksburg (Castle)~Heidecksburg (Castle)
+2~Innenstadt (Inner City)~Inner City
+3~Heinepark (City Park)~City Park
+4~Drinnen (Indoor)~Indoor
+5~Sonstige (Others)~Others
+6~Service~Service
+91~Zeltplätze / Gemeinschaftsunterkunft~Campsites / Dormroom
+92~P+R~P+R
+93~Sparkassen EC-Automaten~ATM

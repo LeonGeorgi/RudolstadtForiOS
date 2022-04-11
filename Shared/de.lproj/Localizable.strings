@@ -1,0 +1,46 @@
+"schedule.recommendations.enable" = "Vorschläge an";
+"schedule.recommendations.disable" = "Vorschläge aus";
+
+"news.short" = "News";
+"news.long" = "Neuigkeiten";
+
+"artist.website" = "Webseite";
+"artist.events" = "VERANSTALTUNGEN";
+"artist.links" = "LINKS";
+"artist.description" = "BESCHREIBUNG";
+
+"event.map" = "KARTE";
+"event.save" = "Speichern";
+"event.save.alert.message" = "Die Veranstaltung wird deinem Zeitplan hinzugefügt.";
+"Save \"<%@>\" at <%@> <%@>?" = "\"%1$@\" am %2$@ %3$@ speichern?";
+"event.remove" = "Entfernen";
+
+"stage.events" = "VERANSTALTUNGEN";
+"stage.map" = "KARTE";
+"stage.nearby" = "ORTE IN DER NÄHE";
+
+"artists.title" = "Künstler";
+
+"locations.title" = "Orte";
+
+"rated_artists.title" = "Gespeicherte Künstler";
+"program_by_time.title" = "Programm nach Zeit";
+"program_by_time.short_title" = "Programm";
+"program_by_stage.title" = "Programm nach Bühne";
+"program_by_stage.short_title" = "Programm";
+"program.title" = "Programm";
+
+"schedule.title" = "Zeitplan";
+
+"filter.button" = "Filtern";
+"filter.done" = "Fertig";
+"filter.no_events_available" = "Für die aktuellen Filtereinstellungen sind keine Veranstaltungen verfügbar.";
+"filter.artists.title" = "Künstler filtern";
+
+
+"recommendations.hide_saved" = "Gespeicherte ausblenden";
+"recommendations.show_saved" = "Gespeicherte zeigen";
+"recommendations.all" = "Alle";
+"recommendations.smart" = "Beste";
+
+"more.title" = "Mehr";

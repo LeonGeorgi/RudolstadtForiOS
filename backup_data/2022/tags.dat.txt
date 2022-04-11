@@ -1,0 +1,12 @@
+1~RUTH~RUTH
+6~Länderschwerpunkt~Country Special
+7~Instrumentenschwerpunkt~Instrument Special
+8~Workshops / Vorträge~Workshop
+9~Gespräch~Talk
+3~Kinderfest~Childrens Festival
+10~Mike Kamp trifft ...~Mike Kamp meets ...
+11~Club Culture~Club Culture
+12~Arbeiterlieder-Projekt~Arbeiterlieder-Projekt
+13~Ausstellungseröffnung~Exhibition opening
+14~Interview~Interview
+15~Gottesdienst~Gottesdienst
