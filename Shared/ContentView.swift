@@ -21,7 +21,7 @@ struct ContentView: View {
                         }
                     }
                     .tag(0)
-            ScheduleView()
+            RecommendationScheduleView()
                     .tabItem {
                         VStack {
                             Image(systemName: "calendar")
