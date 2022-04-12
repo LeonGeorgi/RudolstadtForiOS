@@ -35,7 +35,9 @@ struct SearchView: View {
                 if !artists.isEmpty {
                     Section(header: Text("search.artists")) {
                         ForEach(artists) { (artist: Artist) in
-                            Text(artist.name)
+                            NavigationLink(destination: ArtistDetailView(artist: artist)) {
+                                ArtistCell(artist: artist)
+                            }
                         }
                     }
                 }
@@ -43,7 +45,9 @@ struct SearchView: View {
                 if !stages.isEmpty {
                     Section(header: Text("search.locations")) {
                         ForEach(stages) { (stage: Stage) in
-                            Text(stage.localizedName)
+                            NavigationLink(destination: StageDetailView(stage: stage)) {
+                                StageCell(stage: stage)
+                            }
                         }
                     }
                 }
@@ -52,14 +56,8 @@ struct SearchView: View {
                 if !events.isEmpty {
                     Section(header: Text("search.events")) {
                         ForEach(events) { (event: Event) in
-                            VStack {
-                                Text(event.weekDay)
-                                Text(event.timeAsString)
-                                Text(event.artist.name)
-                                Text(event.stage.localizedName)
-                                if let tag = event.tag {
-                                    Text(tag.localizedName)
-                                }
+                            NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
+                                SearchEventCell(event: event)
                             }
                         }
                     }
@@ -67,15 +65,14 @@ struct SearchView: View {
                 if !news.isEmpty {
                     Section(header: Text("search.news")) {
                         ForEach(news) { (newsItem: NewsItem) in
-                            VStack {
-                                Text(newsItem.shortDescription)
-                                Text(newsItem.formattedLongDescription)
-                                Text(newsItem.dateAsString + " " + newsItem.timeAsString)
+                            NavigationLink(destination: NewsItemDetailView(newsItem: newsItem)) {
+                                NewsItemCell(newsItem: newsItem)
                             }
                         }
                     }
                 }
             }
+                    .listStyle(.insetGrouped)
                     .searchable(text: $searchTerm, placement: .navigationBarDrawer(displayMode: .always), prompt: "search.prompt")
                     .navigationBarTitle("search.title")
         }

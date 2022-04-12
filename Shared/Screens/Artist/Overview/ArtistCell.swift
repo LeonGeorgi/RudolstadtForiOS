@@ -12,7 +12,7 @@ struct ArtistCell: View {
         HStack(spacing: 8) {
             ZStack(alignment: .bottomTrailing) {
                 ArtistImageView(artist: artist, fullImage: false)
-                        .frame(width: 80, height: 45)
+                        .frame(width: 60, height: 40)
                         .cornerRadius(4)
             }
             HStack(alignment: .center, spacing: 4) {

@@ -38,16 +38,7 @@ struct LocationListView: View {
                 Section(header: Text(areaStages.area.localizedName)) {
                     ForEach(areaStages.stages) { (stage: Stage) in
                         NavigationLink(destination: StageDetailView(stage: stage)) {
-                            HStack {
-                                if stage.stageNumber != nil {
-                                    Text(String(stage.stageNumber!))
-                                            .frame(width: 30, height: 30)
-                                            .background(Color.accentColor)
-                                            .foregroundColor(.white)
-                                            .cornerRadius(.infinity)
-                                }
-                                Text(stage.localizedName)
-                            }
+                            StageCell(stage: stage)
                         }
                     }
                 }

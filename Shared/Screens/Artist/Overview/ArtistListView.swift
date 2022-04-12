@@ -39,9 +39,6 @@ struct ArtistListView: View {
             }
         }
                 .searchable(text: $searchText)
-                .gesture(DragGesture().onChanged { _ in
-                    // TODO: UIApplication.shared.endEditing(true)
-                })
                 .navigationBarTitle("artists.title")
                 .navigationBarItems(trailing: Button(action: {
                     self.showingSheet = true
