@@ -47,6 +47,7 @@
 "search.artists" = "Artists";
 "search.locations" = "Locations";
 "search.events" = "Events";
+"search.news" = "News";
 "search.prompt" = "Artists, Stages, Events and more";
 
 "more.title" = "More";
