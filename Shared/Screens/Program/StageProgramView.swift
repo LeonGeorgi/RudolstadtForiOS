@@ -110,7 +110,7 @@ struct StageProgramView: View {
                 .onAppear {
                     if case .success(let days) = eventDays {
                         if self.selectedDay == -1 {
-                            self.selectedDay = days.first ?? -1
+                            self.selectedDay = Util.getCurrentFestivalDay(eventDays: days) ?? days.first ?? -1
                         }
                     }
                 }

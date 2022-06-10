@@ -228,7 +228,7 @@ struct Event: Identifiable {
         dateComponents.day = festivalDay
         dateComponents.timeZone = TimeZone(abbreviation: "CEST")
 
-        let userCalendar = Calendar.current // user calendar
+        let userCalendar = Calendar.current
         return userCalendar.date(from: dateComponents)!
     }
 

@@ -110,7 +110,8 @@ struct StageDetailView: View {
                 .onAppear {
                     if case .success(let entities) = dataStore.data {
                         self.calculateNearbyStages(entities)
-                        self.selectedDay = self.eventDays(entities).first ?? -1
+                        let days = self.eventDays(entities)
+                        self.selectedDay = Util.getCurrentFestivalDay(eventDays: days) ?? days.first ?? -1
                     }
                 }
     }

@@ -57,12 +57,12 @@ struct SavedArtistProgramView: View {
             }
             
         }.onAppear {
-                    if self.selectedDay == -1 {
-                        if case .success(let eventDays) = self.eventDays {
-                            self.selectedDay = eventDays.first ?? -1
-                        }
-                    }
+            if self.selectedDay == -1 {
+                if case .success(let days) = self.eventDays {
+                    self.selectedDay = Util.getCurrentFestivalDay(eventDays: days) ?? days.first ?? -1
                 }
+            }
+        }
 
     }
 }

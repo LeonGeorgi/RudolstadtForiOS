@@ -14,12 +14,28 @@ class Util {
         dateFormatter.dateFormat = "EE"
         return dateFormatter.string(from: date)
     }
+    
+    static func getCurrentFestivalDay(eventDays: [Int]) -> Int? {
+        let components = Calendar.current.dateComponents([.hour, .day, .month, .year], from: Date.now)
+        guard let hour = components.hour, let day = components.day, let month = components.month, let year = components.year else {
+            return nil
+        }
+        if year != DataStore.year || month != 7 || !eventDays.contains(day) {
+            return nil
+        }
+        if hour <= 5 {
+            return day - 1
+        }
+        return day
+    }
+    
 }
 
 
 func normalize(string: String) -> String {
     string.folding(options: [.diacriticInsensitive, .caseInsensitive, .widthInsensitive], locale: Locale.current).trimmingCharacters(in: .whitespacesAndNewlines)
 }
+
 
 extension Array {
 
