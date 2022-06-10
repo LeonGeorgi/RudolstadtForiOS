@@ -9,13 +9,17 @@
 import SwiftUI
 
 struct NewsListView: View {
-    @EnvironmentObject var dataStore: DataStore
 
     var body: some View {
         NavigationView {
-            List(dataStore.news.filter { item in item.isInCurrentLanguage }) { (newsItem: NewsItem) in
-                NewsItemCell(newsItem: newsItem)
-            }.navigationBarTitle("news.long")
+            LoadingListView(noDataMessage: "news.empty", dataMapper: { entities in
+                entities.news.filter { item in item.isInCurrentLanguage }
+            }) { news in
+                List(news) { (newsItem: NewsItem) in
+                    NewsItemCell(newsItem: newsItem)
+                }
+            }
+            .navigationBarTitle("news.long")
         }
     }
 }

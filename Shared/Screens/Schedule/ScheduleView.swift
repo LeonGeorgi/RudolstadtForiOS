@@ -16,23 +16,26 @@ struct ScheduleView: View {
 
     @State var selectedDay: Int = -1
 
-    var eventDays: [Int] {
-        Set(dataStore.events.lazy.map { (event: Event) in
-            event.festivalDay
-        })
-                .sorted(by: <)
+    var eventDays: LoadingEntity<[Int]> {
+        dataStore.data.map { entities in
+            Set(entities.events.lazy.map { (event: Event) in
+                event.festivalDay
+            }).sorted(by: <)
+        }
     }
 
     var body: some View {
         VStack {
-            Picker("Date", selection: $selectedDay) {
-                ForEach(eventDays) { (day: Int) in
-                    Text(Util.shortWeekDay(day: day)).tag(day)
+            if case .success(let days) = eventDays {
+                Picker("Date", selection: $selectedDay) {
+                    ForEach(days) { (day: Int) in
+                        Text(Util.shortWeekDay(day: day)).tag(day)
+                    }
                 }
+                        .padding(.leading, 10)
+                        .padding(.trailing, 10)
+                        .pickerStyle(SegmentedPickerStyle())
             }
-                    .padding(.leading, 10)
-                    .padding(.trailing, 10)
-                    .pickerStyle(SegmentedPickerStyle())
 
             List(events.filter { event in
                 event.festivalDay == selectedDay
@@ -43,8 +46,10 @@ struct ScheduleView: View {
             }
         }
                 .onAppear {
-                    if selectedDay == -1 {
-                        self.selectedDay = eventDays.first ?? -1
+                    if case .success(let days) = eventDays {
+                        if selectedDay == -1 {
+                            self.selectedDay = days.first ?? -1
+                        }
                     }
                 }
 

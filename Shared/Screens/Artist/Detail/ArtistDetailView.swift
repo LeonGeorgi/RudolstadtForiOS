@@ -14,9 +14,11 @@ struct ArtistDetailView: View {
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
 
-    var artistEvents: [Event] {
-        dataStore.events.filter {
-            $0.artist.id == artist.id
+    var artistEvents: LoadingEntity<[Event]> {
+        dataStore.data.map { entities in
+            entities.events.filter {
+                $0.artist.id == artist.id
+            }
         }
     }
 
@@ -60,11 +62,18 @@ struct ArtistDetailView: View {
             //.cornerRadius(10)
             //.shadow(radius: 10)
             //.padding()
-            if !artistEvents.isEmpty {
-                Section(header: Text("artist.events")) {
-                    ForEach(artistEvents) { (event: Event) in
-                        NavigationLink(destination: StageDetailView(stage: event.stage)) {
-                            ArtistEventCell(event: event)
+            switch artistEvents {
+            case .loading:
+                Text("events.loading") // TODO: translate
+            case .failure(let reason):
+                Text("Failed to load: " + reason.rawValue)
+            case .success(let events):
+                if !events.isEmpty {
+                    Section(header: Text("artist.events")) {
+                        ForEach(events) { (event: Event) in
+                            NavigationLink(destination: StageDetailView(stage: event.stage)) {
+                                ArtistEventCell(event: event)
+                            }
                         }
                     }
                 }

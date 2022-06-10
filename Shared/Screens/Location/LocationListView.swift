@@ -14,9 +14,9 @@ struct LocationListView: View {
 
     @State(initialValue: "") var searchTerm: String
 
-    var stages: [AreaStages] {
+    func stages(_ entities: Entities) -> [AreaStages] {
         let normalizedSearchTerm = normalize(string: searchTerm)
-        return Dictionary(grouping: dataStore.stages) { (stage: Stage) in
+        return Dictionary(grouping: entities.stages) { (stage: Stage) in
             stage.area
         }
                 .map { area, stages in
@@ -33,19 +33,21 @@ struct LocationListView: View {
     }
 
     var body: some View {
-        List {
-            ForEach(stages) { (areaStages: AreaStages) in
-                Section(header: Text(areaStages.area.localizedName)) {
-                    ForEach(areaStages.stages) { (stage: Stage) in
-                        NavigationLink(destination: StageDetailView(stage: stage)) {
-                            StageCell(stage: stage)
+        LoadingListView(noDataMessage: "locations.empty", dataMapper: { entities in
+            stages(entities)
+        }) { stages in
+            List {
+                ForEach(stages) { (areaStages: AreaStages) in
+                    Section(header: Text(areaStages.area.localizedName)) {
+                        ForEach(areaStages.stages) { (stage: Stage) in
+                            NavigationLink(destination: StageDetailView(stage: stage)) {
+                                StageCell(stage: stage)
+                            }
                         }
                     }
                 }
-            }
-        }
-                .searchable(text: $searchTerm)
-                .navigationBarTitle("locations.title")
+            }.searchable(text: $searchTerm)
+        }.navigationBarTitle("locations.title")
     }
 }
 

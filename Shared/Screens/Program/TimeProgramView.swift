@@ -9,37 +9,44 @@ struct TimeProgramView: View { // TODO: rename
 
     @State var selectedDay: Int = -1
 
-    var eventDays: [Int] {
-        return Set(dataStore.events.lazy.map { (event: Event) in
-            event.festivalDay
-        })
-                .sorted(by: <)
+    var eventDays: LoadingEntity<[Int]> {
+        dataStore.data.map { entities in
+            Set(entities.events.lazy.map { (event: Event) in
+                event.festivalDay
+            }).sorted(by: <)
+        }
     }
 
-    func filteredEvents() -> [Event] {
-        return dataStore.events.filter { event in
+    func filteredEvents(_ entities: Entities) -> [Event] {
+        return entities.events.filter { event in
             selectedArtistTypes.contains(event.artist.artistType)
         }
     }
 
     var body: some View {
         VStack {
-            Picker("Date", selection: $selectedDay) {
-                ForEach(eventDays) { (day: Int) in
-                    Text(Util.shortWeekDay(day: day)).tag(day)
+            if case .success(let days) = eventDays {
+                Picker("Date", selection: $selectedDay) {
+                    ForEach(days) { (day: Int) in
+                        Text(Util.shortWeekDay(day: day)).tag(day)
 
+                    }
                 }
+                        .padding(.leading, 10)
+                        .padding(.trailing, 10)
+                        .pickerStyle(SegmentedPickerStyle())
             }
-                    .padding(.leading, 10)
-                    .padding(.trailing, 10)
-                    .pickerStyle(SegmentedPickerStyle())
-            List(filteredEvents().filter {
-                $0.festivalDay == selectedDay
-            }) { (event: Event) in
-                NavigationLink(destination: ArtistDetailView(
-                        artist: event.artist
-                )) {
-                    TimeProgramEventCell(event: event)
+            LoadingListView(noDataMessage: "events.empty", dataMapper: { entities in
+                filteredEvents(entities)
+            }) { events in
+                List(events.filter {
+                    $0.festivalDay == selectedDay
+                }) { (event: Event) in
+                    NavigationLink(destination: ArtistDetailView(
+                            artist: event.artist
+                    )) {
+                        TimeProgramEventCell(event: event)
+                    }
                 }
             }
         }
@@ -59,8 +66,10 @@ struct TimeProgramView: View { // TODO: rename
                 }
 
                 .onAppear {
-                    if self.selectedDay == -1 {
-                        self.selectedDay = self.eventDays.first ?? -1
+                    if case .success(let days) = eventDays {
+                        if self.selectedDay == -1 {
+                            self.selectedDay = days.first ?? -1
+                        }
                     }
                 }
 

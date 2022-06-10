@@ -8,36 +8,40 @@ struct StageProgramView: View {
     @State var selectedArtistTypes = Set(ArtistType.allCases)
 
 
-    func filteredEvents() -> [Event] {
-        dataStore.events.filter { event in
+    func filteredEvents(_ entities: Entities) -> [Event] {
+        entities.events.filter { event in
             selectedArtistTypes.contains(event.artist.artistType)
         }
     }
 
     @State var selectedDay: Int = -1
 
-    var events: Dictionary<Int, [StageEvents]> {
-        var result: Dictionary<Int, Dictionary<Stage, [Event]>> = Dictionary()
-        for event in filteredEvents() {
-            if !result.keys.contains(event.festivalDay) {
-                result[event.festivalDay] = Dictionary()
+    var events: LoadingEntity<Dictionary<Int, [StageEvents]>> {
+        dataStore.data.map { entities in
+            var result: Dictionary<Int, Dictionary<Stage, [Event]>> = Dictionary()
+            for event in filteredEvents(entities) {
+                if !result.keys.contains(event.festivalDay) {
+                    result[event.festivalDay] = Dictionary()
+                }
+                if !result[event.festivalDay]!.keys.contains(event.stage) {
+                    result[event.festivalDay]![event.stage] = []
+                }
+                result[event.festivalDay]![event.stage]!.append(event)
             }
-            if !result[event.festivalDay]!.keys.contains(event.stage) {
-                result[event.festivalDay]![event.stage] = []
+            return result.mapValues { dictionary in
+                sortStages(Array(dictionary.map { stage, events in
+                    StageEvents(stage: stage, events: events)
+                }))
             }
-            result[event.festivalDay]![event.stage]!.append(event)
-        }
-        return result.mapValues { dictionary in
-            sortStages(Array(dictionary.map { stage, events in
-                StageEvents(stage: stage, events: events)
-            }))
         }
     }
 
-    var eventDays: [Int] {
-        return Set(dataStore.events.lazy.map { (event: Event) in
-            event.festivalDay
-        }).sorted(by: <)
+    var eventDays: LoadingEntity<[Int]> {
+        dataStore.data.map { entities in
+            return Set(entities.events.lazy.map { (event: Event) in
+                event.festivalDay
+            }).sorted(by: <)
+        }
     }
 
     func sortStages(_ stages: [StageEvents]) -> [StageEvents] {
@@ -51,30 +55,37 @@ struct StageProgramView: View {
 
     var body: some View {
         VStack {
-            Picker("Date", selection: $selectedDay) {
-                ForEach(eventDays) { (day: Int) in
-                    Text(Util.shortWeekDay(day: day)).tag(day)
+            if case .success(let days) = eventDays {
+                Picker("Date", selection: $selectedDay) {
+                    ForEach(days) { (day: Int) in
+                        Text(Util.shortWeekDay(day: day)).tag(day)
 
-                }
-            }.padding(.leading, 10)
-                    .padding(.trailing, 10)
-                    .pickerStyle(SegmentedPickerStyle())
-
-
-            if events[selectedDay] == nil {
-                Spacer()
-                Text("filter.no_events_available")
-                        .foregroundColor(.secondary)
-                Spacer()
-            } else {
-                List {
-                    ForEach(events[selectedDay] ?? []) { (item: StageEvents) in
-                        Section(header: Text("\(item.stage.localizedName)")) {
-                            ForEach(item.events) { (event: Event) in
-                                NavigationLink(destination: ArtistDetailView(
-                                        artist: event.artist
-                                )) {
-                                    StageProgramEventCell(event: event)
+                    }
+                }.padding(.leading, 10)
+                        .padding(.trailing, 10)
+                        .pickerStyle(SegmentedPickerStyle())
+            }
+            switch events {
+                case .loading:
+                    Text("events.loading") // TODO: translate
+                case .failure(let reason):
+                    Text("Failed to load: " + reason.rawValue)
+                case .success(let events):
+                if events[selectedDay] == nil {
+                    Spacer()
+                    Text("filter.no_events_available")
+                            .foregroundColor(.secondary)
+                    Spacer()
+                } else {
+                    List {
+                        ForEach(events[selectedDay] ?? []) { (item: StageEvents) in
+                            Section(header: Text("\(item.stage.localizedName)")) {
+                                ForEach(item.events) { (event: Event) in
+                                    NavigationLink(destination: ArtistDetailView(
+                                            artist: event.artist
+                                    )) {
+                                        StageProgramEventCell(event: event)
+                                    }
                                 }
                             }
                         }
@@ -97,8 +108,10 @@ struct StageProgramView: View {
                     }
                 }
                 .onAppear {
-                    if self.selectedDay == -1 {
-                        self.selectedDay = self.eventDays.first ?? -1
+                    if case .success(let days) = eventDays {
+                        if self.selectedDay == -1 {
+                            self.selectedDay = days.first ?? -1
+                        }
                     }
                 }
 

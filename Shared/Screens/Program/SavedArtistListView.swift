@@ -7,8 +7,8 @@ struct SavedArtistListView: View {
 
     @State(initialValue: "") var searchTerm: String
 
-    func artists() -> [Artist] {
-        let artists = dataStore.artists.map { artist in
+    func artists(_ entities: Entities) -> [Artist] {
+        let artists = entities.artists.map { artist in
             (artist: artist, rating: settings.ratings[String(artist.id)])
         }
         let filteredArtists = artists.filter { item in
@@ -23,13 +23,18 @@ struct SavedArtistListView: View {
     }
 
     var body: some View {
-        List {
-            ForEach(artists().withApplied(searchTerm: searchTerm) { artist in artist.name }) { (artist: Artist) in
-                NavigationLink(destination: ArtistDetailView(artist: artist)) {
-                    ArtistCell(artist: artist)
+        LoadingListView(noDataMessage: "artists.saved.empty", dataMapper: { entities in
+            artists(entities)
+        }) { artistList in
+            List {
+                ForEach(artistList.withApplied(searchTerm: searchTerm) { artist in artist.name }) { (artist: Artist) in
+                    NavigationLink(destination: ArtistDetailView(artist: artist)) {
+                        ArtistCell(artist: artist)
+                    }
                 }
             }
         }
+        
                 .searchable(text: $searchTerm)
     }
 }

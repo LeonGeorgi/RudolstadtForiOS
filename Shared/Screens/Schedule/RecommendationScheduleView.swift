@@ -19,36 +19,45 @@ struct RecommendationScheduleView: View {
         settings.savedEvents
     }
 
-    var shownEvents: [Event] {
-        let savedEvents = dataStore.events.filter { (event: Event) in
-            storedEvents.contains(event.id)
-        }
-        if showingRecommendations {
-            let recommendations = ScheduleGenerator2(
-                    allEvents: self.dataStore.events,
-                    storedEventIds: self.settings.savedEvents,
-                    allArtists: self.dataStore.artists,
-                    artistRatings: self.settings.ratings
-            ).generate()
-            return recommendations
-        } else {
-            return savedEvents
+    var shownEvents: LoadingEntity<[Event]> {
+        dataStore.data.map { entities in
+            let savedEvents = entities.events.filter { (event: Event) in
+                storedEvents.contains(event.id)
+            }
+            if showingRecommendations {
+                let recommendations = ScheduleGenerator2(
+                        allEvents: entities.events,
+                        storedEventIds: self.settings.savedEvents,
+                        allArtists: entities.artists,
+                        artistRatings: self.settings.ratings
+                ).generate()
+                return recommendations
+            } else {
+                return savedEvents
+            }
         }
     }
 
     var body: some View {
         NavigationView {
-            ScheduleView(events: shownEvents)
-                    .navigationBarTitle("schedule.title", displayMode: .inline)
-                    .navigationBarItems(trailing: Button(action: {
-                        self.showingRecommendations.toggle()
-                    }) {
-                        if showingRecommendations {
-                            Text("schedule.recommendations.disable")
-                        } else {
-                            Text("schedule.recommendations.enable")
-                        }
-                    })
+            switch shownEvents {
+                case .loading:
+                    Text("events.loading") // TODO: translate
+                case .failure(let reason):
+                    Text("Failed to load: " + reason.rawValue)
+                case .success(let events):
+                    ScheduleView(events: events)
+                        .navigationBarTitle("schedule.title", displayMode: .inline)
+                        .navigationBarItems(trailing: Button(action: {
+                            self.showingRecommendations.toggle()
+                        }) {
+                            if showingRecommendations {
+                                Text("schedule.recommendations.disable")
+                            } else {
+                                Text("schedule.recommendations.enable")
+                            }
+                        })
+            }
         }
     }
 }

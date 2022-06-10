@@ -25,9 +25,6 @@ class ScheduleGenerator2 {
         let storedEvents = allEvents.filter { event in
             storedEventIds.contains(event.id)
         }
-        let storedArtistIds: Set<Int> = Set(storedEvents.map { event in
-            event.artist.id
-        })
         let interestingEvents = allEvents.filter { event in
             (artistRatings[event.artist.id] ?? 0) > 0 && !intersects(events: storedEvents, current: event)
         }
@@ -47,7 +44,6 @@ class ScheduleGenerator2 {
                 solution.append(event)
             }
         }
-        var t = 0
 
         // Calculate solution score
         var score = 0
@@ -57,7 +53,7 @@ class ScheduleGenerator2 {
         let iterations = max(200, min(interestingEvents.count * 10, 1000))
         print("Iterations: \(iterations)")
         print("Initial score \(score)")
-        var solutionArtistIds = Set(solution.map {
+        let solutionArtistIds = Set(solution.map {
             $0.artist.id
         })
         var remainingArtistIds = Set(interestingArtistIds.filter { artistId in

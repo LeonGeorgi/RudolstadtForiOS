@@ -14,16 +14,16 @@ struct StageDetailView: View {
     @State var nearbyStages: [StageDistance] = []
     @State var selectedDay: Int = -1
 
-    var events: Dictionary<Int, [Event]> {
-        Dictionary(grouping: dataStore.events.filter { event in
+    func events(_ entities: Entities) -> Dictionary<Int, [Event]> {
+        Dictionary(grouping: entities.events.filter { event in
             event.stage.id == stage.id
         }) { (event: Event) in
             event.festivalDay
         }
     }
 
-    var eventDays: [Int] {
-        events.keys.sorted()
+    func eventDays(_ entities: Entities) -> [Int] {
+        events(entities).keys.sorted()
     }
 
 
@@ -48,22 +48,33 @@ struct StageDetailView: View {
                 }
 
             }
-            if !eventDays.isEmpty {
+            switch dataStore.data {
+            case .loading:
                 Section(header: Text("stage.events")) {
-                    Picker("Date", selection: $selectedDay) {
-                        ForEach(eventDays) { day in
-                            Text(Util.shortWeekDay(day: day)).tag(day)
+                    Text("stage.events.loading") // TODO: translate
+                }
+            case.failure(let reason):
+                Section(header: Text("stage.events")) {
+                    Text("Failed to load: " + reason.rawValue)
+                }
+            case .success(let entities):
+                if !eventDays(entities).isEmpty {
+                    Section(header: Text("stage.events")) {
+                        Picker("Date", selection: $selectedDay) {
+                            ForEach(eventDays(entities)) { day in
+                                Text(Util.shortWeekDay(day: day)).tag(day)
+                            }
                         }
-                    }
-                            .pickerStyle(SegmentedPickerStyle())
-                    ForEach(events[selectedDay] ?? []) { (event: Event) in
-                        NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
-                            StageEventCell(event: event)
-                        }.buttonStyle(PlainButtonStyle())
+                                .pickerStyle(SegmentedPickerStyle())
+                        ForEach(events(entities)[selectedDay] ?? []) { (event: Event) in
+                            NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
+                                StageEventCell(event: event)
+                            }.buttonStyle(PlainButtonStyle())
+
+                        }
+
 
                     }
-
-
                 }
             }
 
@@ -97,13 +108,15 @@ struct StageDetailView: View {
         }.listStyle(GroupedListStyle())
                 .navigationBarTitle(stage.localizedName)
                 .onAppear {
-                    self.calculateNearbyStages()
-                    self.selectedDay = self.eventDays.first ?? -1
+                    if case .success(let entities) = dataStore.data {
+                        self.calculateNearbyStages(entities)
+                        self.selectedDay = self.eventDays(entities).first ?? -1
+                    }
                 }
     }
 
-    func calculateNearbyStages() {
-        self.nearbyStages = dataStore.stages.filter { stage in
+    func calculateNearbyStages(_ entities: Entities) {
+        self.nearbyStages = entities.stages.filter { stage in
                     stage.area.id == self.stage.area.id && stage.id != self.stage.id
                 }.map { stage in
                     StageDistance(stage: stage, distance: calculateAirDistance(first: self.stage, second: stage))

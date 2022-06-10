@@ -22,18 +22,29 @@ struct Artist: Identifiable {
     }
 
     var thumbImageUrl: URL? {
-        guard let imageName = imageName else {
+        guard var imageName = imageName else {
             return nil
         }
+        imageName = imageName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? imageName
+        
+        if artistType == .street {
+            return URL(string: "\(DataUpdater.streetMusicThumbUrl)/\(imageName)")
+        }
+        
         return URL(string: "\(DataUpdater.thumbUrl)/\(imageName)")
     }
 
     var fullImageUrl: URL? {
-        guard let imageName = imageName else {
+        guard var imageName = imageName else {
             return nil
+        }
+        imageName = imageName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? imageName
+        if artistType == .street {
+            return URL(string: "\(DataUpdater.streetMusicFullUrl)/\(imageName)")
         }
         return URL(string: "\(DataUpdater.fullImageUrl)/\(imageName)")
     }
+    
 
     func matches(searchTerm: String) -> Bool {
         if searchTerm.isEmpty {

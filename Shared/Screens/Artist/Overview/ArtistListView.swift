@@ -11,7 +11,6 @@ import SwiftUI
 // import URLImage
 
 struct ArtistListView: View {
-    @EnvironmentObject var dataStore: DataStore
     @State private var showingSheet = false
     @State var filterArtistTypes = Set(ArtistType.allCases)
 
@@ -21,21 +20,25 @@ struct ArtistListView: View {
         string.folding(options: [.diacriticInsensitive, .caseInsensitive, .widthInsensitive], locale: Locale.current)
     }
 
-    func getFilteredArtists() -> [Artist] {
-        dataStore.artists.filter { artist in
+    func getFilteredArtists(data: Entities) -> [Artist] {
+        data.artists.filter { artist in
             filterArtistTypes.contains(artist.artistType)
         }
     }
 
     var body: some View {
-        List {
-            ForEach(getFilteredArtists().withApplied(searchTerm: searchText) { artist in
+        LoadingListView(noDataMessage: "artists.none-found", noDataSubtitle: nil, dataMapper: { data in
+            getFilteredArtists(data: data).withApplied(searchTerm: searchText) { artist in
                 artist.name
-            }) { (artist: Artist) in
-                NavigationLink(destination: ArtistDetailView(artist: artist)) {
-                    ArtistCell(artist: artist)
-                }
+            }
+        }) { artists in
+            List {
+                ForEach(artists) { (artist: Artist) in
+                    NavigationLink(destination: ArtistDetailView(artist: artist)) {
+                        ArtistCell(artist: artist)
+                    }
 
+                }
             }
         }
                 .searchable(text: $searchText)
