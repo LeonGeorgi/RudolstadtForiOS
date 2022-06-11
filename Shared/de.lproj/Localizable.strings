@@ -54,3 +54,22 @@
 
 
 "more.title" = "Mehr";
+
+"park_and_ride.title" = "Park & Ride";
+"park_and_ride.navi.title" = "Adressen für das Navi";
+"park_and_ride.shuttle.title" = "Shuttle-Parkplätze";
+"park_and_ride.click_hint" = "Klick auf einen Eintrag, um ihn in Maps zu öffnen.";
+
+"park_and_ride.campsite.große_wiese.title" = "Zeltplatz \"Große Wiese\"";
+"park_and_ride.campsite.große_wiese.description" = "entspricht dem Navigationspunkt Macheleidstraße (am Navigationsziel der Straße weiter folgen)";
+"park_and_ride.campsite.saalemax.title" = "Zeltplatz \"Saalemaxx\"";
+"park_and_ride.campsite.saalemax.description" = "entspricht der Navi-Adresse \"Hugo Trinkler-Straße 6\"";
+"park_and_ride.campsite.caravan.title" = "Caravanplatz und Bulliplatz";
+"park_and_ride.campsite.caravan.description" = "unter der Navi-Adresse Röntgenstraße erreichbar";
+
+"park_and_ride.parking.schaala.title" = "P+R Schaala";
+"park_and_ride.parking.schaala.description" = "(von A71 kommend, nach dem Tunnel Ausschilderung beachten)";
+"park_and_ride.parking.oststraße.title" = "P+R Oststraße 28a";
+"park_and_ride.parking.oststraße.description" = "(von A4/B88 kommend)";
+"park_and_ride.parking.erich-correns-ring.title" = "Erich-Correns-Ring 18";
+"park_and_ride.parking.erich-correns-ring.description" = "(von A9/B281 oder B85/88 aus Süden kommend)";

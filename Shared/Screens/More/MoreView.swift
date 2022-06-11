@@ -3,8 +3,11 @@ import SwiftUI
 struct MoreView: View {
     var body: some View {
         NavigationView {
-            Text("more.title")
-                    .navigationBarTitle("more.title")
+            List {
+                NavigationLink("park_and_ride.title") {
+                    ParkAndRideView()
+                }
+            }.navigationBarTitle("more.title")
         }
     }
 }

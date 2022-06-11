@@ -87,6 +87,8 @@
 		32A11FE0801D8775F4F7E55D /* SavedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */; };
 		35028CC12804A0C3004F0E3F /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 35028CC02804A0C3004F0E3F /* SDWebImageSwiftUI */; };
 		35028CC42805BEA6004F0E3F /* HelperTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35028CC32805BEA6004F0E3F /* HelperTypes.swift */; };
+		3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732428547CE0008932A9 /* ParkAndRideView.swift */; };
+		3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732428547CE0008932A9 /* ParkAndRideView.swift */; };
 		3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5928043624004F9471 /* Tests_iOS.swift */; };
 		3551CC5C28043624004F9471 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5B28043624004F9471 /* Tests_iOSLaunchTests.swift */; };
 		3551CC6628043624004F9471 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC6528043624004F9471 /* Tests_macOS.swift */; };
@@ -160,6 +162,7 @@
 		32A11FA9E53D32EB6D58A19E /* NewsItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemCell.swift; sourceTree = "<group>"; };
 		32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		35028CC32805BEA6004F0E3F /* HelperTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperTypes.swift; sourceTree = "<group>"; };
+		3505732428547CE0008932A9 /* ParkAndRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkAndRideView.swift; sourceTree = "<group>"; };
 		3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtForiOSApp.swift; sourceTree = "<group>"; };
 		3551CC4228043623004F9471 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3551CC4328043624004F9471 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -306,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				32A11EABD81D0BA97B963376 /* MoreView.swift */,
+				3505732428547CE0008932A9 /* ParkAndRideView.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -617,6 +621,7 @@
 				32A1116B6BA8D17499860263 /* SaveEventButton.swift in Sources */,
 				32A118A07CA6F813F4380570 /* Util.swift in Sources */,
 				32A11EF0FC00667B09CA5D0A /* StageEventCell.swift in Sources */,
+				3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */,
 				32A116CE36970F9B88DC2055 /* ProgramView.swift in Sources */,
 				32A113D5D8EE2EBA383BC6EA /* ProgramItemText.swift in Sources */,
 				32A11AF99C04FACE809D32A0 /* ArtistTypeFilterView.swift in Sources */,
@@ -651,6 +656,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3551CC6C28043624004F9471 /* ContentView.swift in Sources */,
+				3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */,
 				3551CC6A28043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
 				32A11EB5EC53FC5A4C48B3D8 /* NewsItemDetailView.swift in Sources */,
 				32A1128745664A1934AD6E63 /* NewsItemCell.swift in Sources */,

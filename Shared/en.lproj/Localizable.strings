@@ -53,3 +53,21 @@
 
 "more.title" = "More";
 
+"park_and_ride.title" = "Park and Ride";
+"park_and_ride.navi.title" = "Addresses for the sat nav";
+"park_and_ride.shuttle.title" = "Shuttle details";
+"park_and_ride.click_hint" = "Click an entry to open it in Maps.";
+
+"park_and_ride.campsite.große_wiese.title" = "Campsite \"Große Wiese\" (Festival main campsite)";
+"park_and_ride.campsite.große_wiese.description" = "enter \"Macheleidstraße\" in navigation device";
+"park_and_ride.campsite.saalemax.title" = "Campsite \"Saalemaxx\" (Family campsite)";
+"park_and_ride.campsite.saalemax.description" = "enter \"Hugo Trinkler-Straße 6\" in navigation device";
+"park_and_ride.campsite.caravan.title" = "Caravan Space \"Bleichwiese\" and Bulliplatz";
+"park_and_ride.campsite.caravan.description" = "enter \"Röntgenstraße\" in navigation device";
+
+"park_and_ride.parking.schaala.title" = "P+R Schaala";
+"park_and_ride.parking.schaala.description" = "(coming from A 71)";
+"park_and_ride.parking.oststraße.title" = "P+R Oststraße 28a";
+"park_and_ride.parking.oststraße.description" = "(coming from A4/B88)";
+"park_and_ride.parking.erich-correns-ring.title" = "Erich-Correns-Ring 18";
+"park_and_ride.parking.erich-correns-ring.description" = "(from A9/B281 or B85/88 coming from south)";
