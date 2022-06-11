@@ -11,7 +11,7 @@ struct MoreView: View {
                 NavigationLink("bus.title") {
                     BusView()
                 }
-            }.navigationBarTitle("more.title", displayMode: .inline)
+            }.navigationBarTitle("more.title")
         }
     }
 }
