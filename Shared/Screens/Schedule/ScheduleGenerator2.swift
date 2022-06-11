@@ -26,7 +26,9 @@ class ScheduleGenerator2 {
             storedEventIds.contains(event.id)
         }
         let interestingEvents = allEvents.filter { event in
-            (artistRatings[event.artist.id] ?? 0) > 0 && !intersects(events: storedEvents, current: event)
+            (artistRatings[event.artist.id] ?? 0) > 0 &&
+            !intersects(events: storedEvents, current: event) &&
+            event.date >= Date.now
         }
         let interestingArtists = allArtists.filter { artist in
             (artistRatings[artist.id] ?? 0) > 0
