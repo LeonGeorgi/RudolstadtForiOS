@@ -8,6 +8,12 @@
 "artist.events" = "VERANSTALTUNGEN";
 "artist.links" = "LINKS";
 "artist.description" = "BESCHREIBUNG";
+"artist.rating.explanation.content" = "Markiere dein Interesse an dem Künstler aus.";
+"artist.rating.explanation.extra" = "🤔 - kein Interesse / unentschlossen
+🙂 - leichtes Interesse
+😊 - großes Interesse
+😍 - sehr großes Interesse
+Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künstler\" finden. Außerdem kann deine Markierung dazu verwendet werden, dir Vorschläge anzuzeigen, wann du Konzert von dem Künstler besuchen kannst. Die Daten bleiben dabei vollständig auf deinem Gerät.";
 
 "event.map" = "KARTE";
 "event.save" = "Speichern";

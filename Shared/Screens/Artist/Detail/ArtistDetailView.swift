@@ -13,6 +13,8 @@ struct ArtistDetailView: View {
 
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
+    
+    @State var showingRatingExplanation: Bool = false
 
     var artistEvents: LoadingEntity<[Event]> {
         dataStore.data.map { entities in
@@ -41,7 +43,12 @@ struct ArtistDetailView: View {
                 ArtistImageView(artist: artist, fullImage: true).listRowInsets(EdgeInsets())
             }
 
-            Section {
+            Section(footer: VStack(alignment: .leading) {
+                Text("artist.rating.explanation.content")
+                if showingRatingExplanation {
+                    Text("artist.rating.explanation.extra")
+                }
+            }) {
                 HStack {
                     Spacer()
                     ForEach(0..<4) { index in
@@ -57,6 +64,13 @@ struct ArtistDetailView: View {
 
                     }
                     Spacer()
+                    Image(systemName: "questionmark.circle.fill")
+                        .foregroundColor(.gray)
+                        .font(.system(size: 20))
+                        .onTapGesture {
+                            showingRatingExplanation.toggle()
+                        }
+                    
                 }//.padding(.vertical)
             }
             //.cornerRadius(10)

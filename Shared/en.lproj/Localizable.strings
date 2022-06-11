@@ -8,6 +8,12 @@
 "artist.events" = "EVENTS";
 "artist.links" = "LINKS";
 "artist.description" = "DESCRIPTION";
+"artist.rating.explanation.content" = "Mark your interest in this artist.";
+"artist.rating.explanation.extra" = "🤔 - no interest / undecided
+🙂 - slight interest
+😊 - great interest
+😍 - very great interest
+You can find the artists you find interesting in \"Saved artists\". Also, your marking can be used to show you suggestions for when you can attend concerts by the artist. The data will remain completely on your device.";
 
 "event.map" = "MAP";
 "event.save" = "Save";
