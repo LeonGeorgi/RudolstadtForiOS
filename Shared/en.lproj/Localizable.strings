@@ -52,6 +52,21 @@
 "search.prompt" = "Artists, Stages, Events and more";
 
 "more.title" = "More";
+"general.title" = "General";
+"general.headline" = "Germany‘s leading festival for Roots, Folk, World is back!";
+"general.content" = "Rudolstadt is celebrating its 30th anniversary with 300 performances between dancefloor and street session, tradition and avantgarde, classical songwriting and global pop. Musicians from all over the world will be performing in venues spread across the whole town.";
+"general.opnv.title" = "About LOCAL TRANSPORT by train an bus";
+"general.opnv.content" = "Free travel by bus and regional train in the districts of Saalfeld-Rudolstadt and in the Saale-Orla district
+
+# With festival wristbands, trips to and from the festival within the districts are free on all four days of the festival.
+# If you still have to go to Rudolstadt to exchange your wristband, you can use the bus and regional train on Thursday and Friday (Friday until 9 p.m.) free of charge with a personalized season ticket and ID card.
+# If you want to buy a ticket for the city center, you pay 3 € on the bus and receive a voucher that is credited to the purchase of a city center ticket at the central ticket office (Platz der OdF). In this case, the regular price must be paid on the regional train.
+# The buses run every 30 minutes.
+# Of course, the nationwide 9 € ticket is also valid without restrictions.";
+"general.extra.title" = "Please note!";
+"general.extra.content" = "Ticket sales are being made gradually. Until May 31, 75% of the tickets will initially go on sale as 2G tickets. On June 1, the remaining contingent will follow - with or without restrictions, depending on the current situation. The conditions set on June 1 will then also apply to the previously purchased tickets.
+
+Tickets for the Rudolstadt Festival are only available in advance. The same applies to the combination tickets with overnight stay on one of the camping sites. Day tickets for the festival area in the city center are available at the box office.";
 "bus.title" = "Bus";
 
 "park_and_ride.title" = "Park and Ride";

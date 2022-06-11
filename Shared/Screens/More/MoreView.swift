@@ -5,11 +5,16 @@ struct MoreView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink("park_and_ride.title") {
-                    ParkAndRideView()
+                NavigationLink(destination: GeneralView()) {
+                    ProgramItemText(title: "general.title")
                 }
-                NavigationLink("bus.title") {
-                    BusView()
+            
+                NavigationLink(destination: ParkAndRideView()) {
+                    ProgramItemText(title: "park_and_ride.title")
+                }
+            
+                NavigationLink(destination: BusView()) {
+                    ProgramItemText(title: "bus.title")
                 }
             }.navigationBarTitle("more.title")
         }

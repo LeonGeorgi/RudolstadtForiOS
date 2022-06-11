@@ -93,6 +93,8 @@
 		3505732928549B81008932A9 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732728549B81008932A9 /* WebView.swift */; };
 		3505732B28549BF8008932A9 /* BusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732A28549BF8008932A9 /* BusView.swift */; };
 		3505732C28549BF8008932A9 /* BusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732A28549BF8008932A9 /* BusView.swift */; };
+		3505732E2854A794008932A9 /* GeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732D2854A794008932A9 /* GeneralView.swift */; };
+		3505732F2854A794008932A9 /* GeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732D2854A794008932A9 /* GeneralView.swift */; };
 		3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5928043624004F9471 /* Tests_iOS.swift */; };
 		3551CC5C28043624004F9471 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5B28043624004F9471 /* Tests_iOSLaunchTests.swift */; };
 		3551CC6628043624004F9471 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC6528043624004F9471 /* Tests_macOS.swift */; };
@@ -169,6 +171,7 @@
 		3505732428547CE0008932A9 /* ParkAndRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkAndRideView.swift; sourceTree = "<group>"; };
 		3505732728549B81008932A9 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		3505732A28549BF8008932A9 /* BusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusView.swift; sourceTree = "<group>"; };
+		3505732D2854A794008932A9 /* GeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralView.swift; sourceTree = "<group>"; };
 		3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtForiOSApp.swift; sourceTree = "<group>"; };
 		3551CC4228043623004F9471 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3551CC4328043624004F9471 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -318,6 +321,7 @@
 				32A11EABD81D0BA97B963376 /* MoreView.swift */,
 				3505732428547CE0008932A9 /* ParkAndRideView.swift */,
 				3505732A28549BF8008932A9 /* BusView.swift */,
+				3505732D2854A794008932A9 /* GeneralView.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -632,6 +636,7 @@
 				32A11EF0FC00667B09CA5D0A /* StageEventCell.swift in Sources */,
 				3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */,
 				32A116CE36970F9B88DC2055 /* ProgramView.swift in Sources */,
+				3505732E2854A794008932A9 /* GeneralView.swift in Sources */,
 				32A113D5D8EE2EBA383BC6EA /* ProgramItemText.swift in Sources */,
 				32A11AF99C04FACE809D32A0 /* ArtistTypeFilterView.swift in Sources */,
 				32A1162709A0F6212A6C84D7 /* TimeProgramView.swift in Sources */,
@@ -671,6 +676,7 @@
 				32A11EB5EC53FC5A4C48B3D8 /* NewsItemDetailView.swift in Sources */,
 				32A1128745664A1934AD6E63 /* NewsItemCell.swift in Sources */,
 				32A11DF1A47E2B6156D38E77 /* NewsListView.swift in Sources */,
+				3505732F2854A794008932A9 /* GeneralView.swift in Sources */,
 				32A112281C396A44DF12BBB1 /* UserSettings.swift in Sources */,
 				32A11109B3E2EF29D23B96E8 /* ArtistImageView.swift in Sources */,
 				32A11E9B874719DD76F77CD0 /* StageDetailView.swift in Sources */,
