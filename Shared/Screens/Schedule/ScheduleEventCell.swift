@@ -11,17 +11,6 @@ struct ScheduleEventCell: View {
         settings.ratings["\(event.artist.id)"] ?? 0
     }
 
-    func createAlert() -> Alert {
-        Alert(
-                title: Text("Save \"\(event.artist.name)\" at \(event.shortWeekDay) \(event.timeAsString)?"),
-                message: Text("event.save.alert.message"),
-                primaryButton: .default(Text("event.save")) {
-                    if !settings.savedEvents.contains(event.id) {
-                        settings.savedEvents.append(event.id)
-                    }
-                }, secondaryButton: .cancel())
-    }
-
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
@@ -65,8 +54,8 @@ struct ScheduleEventCell: View {
 
             }
         }.contextMenu {
-                    SaveEventButton(event: event)
-                }
+            SaveEventButton(event: event)
+        }.id(settings.idFor(event: event))
     }
 }
 

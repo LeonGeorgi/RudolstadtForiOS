@@ -8,7 +8,7 @@
 "artist.events" = "VERANSTALTUNGEN";
 "artist.links" = "LINKS";
 "artist.description" = "BESCHREIBUNG";
-"artist.rating.explanation.content" = "Markiere dein Interesse an dem Künstler aus.";
+"artist.rating.explanation.content" = "Markiere dein Interesse an dem Künstler.";
 "artist.rating.explanation.extra" = "🤔 - kein Interesse / unentschlossen
 🙂 - leichtes Interesse
 😊 - großes Interesse
@@ -94,3 +94,12 @@ Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich.
 "park_and_ride.parking.oststraße.description" = "(von A4/B88 kommend)";
 "park_and_ride.parking.erich-correns-ring.title" = "Erich-Correns-Ring 18";
 "park_and_ride.parking.erich-correns-ring.description" = "(von A9/B281 oder B85/88 aus Süden kommend)";
+
+"faq.title" = "FAQ (Häufig gestellte Fragen)"
+"faq.schedule.question" = "Was ist der Zeitplan?";
+"faq.schedule.answer" = "In dem Zeitplan siehst du alle Veranstaltungen, die du gespeichert hast. Diese Ansicht ist daher dein persönlicher Ablaufplan und somit dein wichtigster Begleiter während des Festivals.";
+"faq.suggestions.question" = "Was bedeuten die Vorschläge in meinem Zeitplan?";
+"faq.suggestions.answer" = "Auf den Künstlerseiten kannst du mit Hilfe eines Emojis markieren, wie interessant du einen Künstler findest. Die Vorschläge in deinem Zeitplan basieren auf diesen Markierungen. Wenn du für einen Künstler noch keine Veranstaltungen in deinem Zeitplan gespeichert hast, dann wird dir für diesen Künstler ein Konzert im Zeitplan vorgeschlagen. Falls der Künstler an mehreren Termine auftritt, wird dir der Termin vorgeschlagen, der am günstigsten liegt, damit du kein Konzert von einem anderen Künstler, der dich interessiert, verpasst.
+Wenn dir diese Funktion nicht gefällt, kannst du sie auf dem Knopf oben rechts in der Zeitplan-Ansicht einfach ausschalten.";
+"faq.rating.question" = "Was bedeuten die Emojis auf den Künstlerseiten?";
+"faq.rating.answer" = "Mit Hilfe der Emojis kannst du markieren, wie interessant du einen Künstler findest. Wenn du einen Künstler nicht interessant findest oder dich noch nicht entschieden hast, dann belasse es einfach bei der Standard-Markierung (🤔). Die Künstler, die du mit einem anderen Emoji versehen hast, tauchen unter \"Programm\" > \"Gespeicherte Künstler\" auf. Außerdem kann dir die App dir basierend auf der Markierung Vorschläge machen, welche Konzerte du besuchen könntest. Künstler, die du mit einem höheren Interesse markiert hast, werden dabei bevorzugt. Für mehr Details, lies die Frage zu den Vorschlägen.";

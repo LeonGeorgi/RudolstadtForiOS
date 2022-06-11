@@ -46,17 +46,14 @@ struct TimeProgramEventCell: View {
                                 .font(.footnote)
 
                     }
-                    if self.settings.savedEvents.contains(self.event.id) {
-                        Spacer()
-                        Image(systemName: "bookmark.fill")
-                                .foregroundColor(.yellow)
-                    }
+                    Spacer()
+                    EventSavedIcon(event: self.event)
                 }
 
             }
         }.contextMenu {
-                    SaveEventButton(event: event)
-                }
+            SaveEventButton(event: event)
+        }.id(settings.idFor(event: self.event))
 
     }
 }

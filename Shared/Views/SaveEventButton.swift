@@ -6,7 +6,6 @@
 //  Copyright © 2020 Leon Georgi. All rights reserved.
 //
 
-import Foundation
 import SwiftUI
 
 struct SaveEventButton: View {
@@ -16,18 +15,14 @@ struct SaveEventButton: View {
 
     var body: some View {
         Button(action: {
-            if !settings.savedEvents.contains(event.id) {
-                settings.savedEvents.append(event.id)
-            } else {
-                settings.savedEvents.remove(at: settings.savedEvents.firstIndex(of: event.id)!)
-            }
+            settings.toggleSavedEvent(self.event)
         }) {
             if settings.savedEvents.contains(event.id) {
                 Text("event.remove")
-                //Image(systemName: "bookmark.fill")
+                Image(systemName: "bookmark.fill")
             } else {
                 Text("event.save")
-                //Image(systemName: "bookmark")
+                Image(systemName: "bookmark")
             }
         }
     }

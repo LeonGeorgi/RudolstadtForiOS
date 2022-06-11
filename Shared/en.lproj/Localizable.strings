@@ -93,3 +93,12 @@ Tickets for the Rudolstadt Festival are only available in advance. The same appl
 "park_and_ride.parking.oststraße.description" = "(coming from A4/B88)";
 "park_and_ride.parking.erich-correns-ring.title" = "Erich-Correns-Ring 18";
 "park_and_ride.parking.erich-correns-ring.description" = "(from A9/B281 or B85/88 coming from south)";
+
+"faq.title" = "FAQ (Frequently Asked Questions)"
+"faq.schedule.question" = "What is the schedule?";
+"faq.schedule.answer" = "The schedule shows you all of your saved events. Therefore, this screen is your personal agenda and your most important companion during the festival.";
+"faq.suggestions.question" = "What do the suggestions in my schedule mean?";
+"faq.suggestions.answer" = "On the artist pages, you can use an emoji to mark how interesting you find an artist. The suggestions in your schedule are based on these markings. If you didn't save any events for an artist in your schedule yet, a concert for this artist will be suggested to you in the schedule. If that artist is performing on more than one date, the most suitable date will be suggested to you so that you don't miss any concerts by other artists you are interested in.
+If you don't like this feature, you can easily turn it off by clicking the button in the upper right corner of the schedule screen.";
+"faq.rating.question" = "What do the emojis on the artist pages mean?";
+"faq.rating.answer" = "With the help of the emojis you can mark how interesting you find an artist. If you don't find an artist interesting or haven't decided yet, just leave it at the default marking (🤔). The artists you've marked with a different emoji will show up under \" Program\" > \"Saved artists\". Additionally, the app can give you suggestions on which concerts you could attend based on the marking. Artists you have marked with a higher interest will be preferred. For more details, read the question about suggestions.";

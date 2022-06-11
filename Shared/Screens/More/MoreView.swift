@@ -16,6 +16,13 @@ struct MoreView: View {
                 NavigationLink(destination: BusView()) {
                     ProgramItemText(title: "bus.title")
                 }
+                NavigationLink(destination: FAQView()) {
+                    ProgramItemText(title: "faq.title")
+                }
+                
+                NavigationLink(destination: FAQView()) {
+                    ProgramItemText(title: "about.title")
+                }
             }.navigationBarTitle("more.title")
         }
     }

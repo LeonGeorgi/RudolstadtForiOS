@@ -38,4 +38,16 @@ final class UserSettings: ObservableObject {
             self.objectWillChange.send()
         }
     }
+    
+    func toggleSavedEvent(_ event: Event) {
+        if !savedEvents.contains(event.id) {
+            savedEvents.append(event.id)
+        } else {
+            savedEvents.remove(at: savedEvents.firstIndex(of: event.id)!)
+        }
+    }
+    
+    func idFor(event: Event) -> String {
+        return "\(event.id)-\(savedEvents.contains(event.id))"
+    }
 }

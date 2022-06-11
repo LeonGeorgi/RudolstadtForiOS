@@ -18,10 +18,6 @@ struct ArtistEventCell: View {
         settings.savedEvents
     }
     
-    var isSaved: Bool {
-        settings.savedEvents.contains(event.id)
-    }
-    
     func eventsThatIntersect() -> LoadingEntity<[Event]> {
         dataStore.data.map { entities in
             let savedEvents = entities.events.filter {
@@ -39,19 +35,13 @@ struct ArtistEventCell: View {
                 if event.tag != nil {
                     Text(event.tag!.localizedName.uppercased())
                         .font(.caption)
-                    //.padding(.vertical, 2)
-                    //.padding(.horizontal, 6)
                         .foregroundColor(.accentColor)
-                    //.background(Color.accentColor)
-                    //.foregroundColor(.white)
-                    //.cornerRadius(100)
                         .lineLimit(1)
                 }
                 HStack(alignment: .bottom) {
                     Text("\(event.shortWeekDay) \(event.timeAsString)")
                         .padding(.trailing, 10)
                         .lineLimit(1)
-                    //.frame(width: 80, alignment: .leading)
                     Text(event.stage.localizedName).lineLimit(1)
                 }
                 switch eventsThatIntersect() {
@@ -73,14 +63,11 @@ struct ArtistEventCell: View {
                 }
                 
             }
-            if isSaved {
-                Spacer()
-                Image(systemName: "bookmark.fill")
-                    .foregroundColor(.yellow)
-            }
+            Spacer()
+            EventSavedIcon(event: self.event)
         }.contextMenu {
             SaveEventButton(event: event)
-        }
+        }.id(settings.idFor(event: event))
     }
 }
 

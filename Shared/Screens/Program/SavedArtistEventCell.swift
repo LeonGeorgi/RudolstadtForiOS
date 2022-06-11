@@ -42,23 +42,17 @@ struct SavedArtistEventCell: View {
                                 .font(.footnote)
 
                     }
-                    if self.settings.savedEvents.contains(self.event.id) {
-                        Spacer()
-                        Image(systemName: "bookmark.fill")
-                                .foregroundColor(.yellow)
-                    }
+                    Spacer()
                     if artistRating() != 0 {
-                        if !self.settings.savedEvents.contains(self.event.id) {
-                            Spacer()
-                        }
                         ArtistRatingSymbol(artist: self.event.artist)
                     }
+                    EventSavedIcon(event: self.event)
                 }
 
             }
         }.contextMenu {
-                    SaveEventButton(event: event)
-                }
+            SaveEventButton(event: event)
+        }.id(settings.idFor(event: event))
 
     }
 }

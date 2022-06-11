@@ -39,18 +39,15 @@ struct SearchEventCell: View {
                                 .font(.footnote)
 
                     }
-                    if settings.savedEvents.contains(event.id) {
-                        Spacer()
-                        Image(systemName: "bookmark.fill")
-                                .foregroundColor(.yellow)
-                    }
+                    Spacer()
+                    EventSavedIcon(event: self.event)
                 }
 
             }
         }
                 .contextMenu {
                     SaveEventButton(event: event)
-                }
+                }.id(settings.idFor(event: event))
 
     }
 }
