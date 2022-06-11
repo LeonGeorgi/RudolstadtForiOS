@@ -52,6 +52,7 @@
 "search.prompt" = "Artists, Stages, Events and more";
 
 "more.title" = "More";
+"bus.title" = "Bus";
 
 "park_and_ride.title" = "Park and Ride";
 "park_and_ride.navi.title" = "Addresses for the sat nav";

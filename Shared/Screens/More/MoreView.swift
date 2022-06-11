@@ -1,4 +1,5 @@
 import SwiftUI
+import WebKit
 
 struct MoreView: View {
     var body: some View {
@@ -7,7 +8,10 @@ struct MoreView: View {
                 NavigationLink("park_and_ride.title") {
                     ParkAndRideView()
                 }
-            }.navigationBarTitle("more.title")
+                NavigationLink("bus.title") {
+                    BusView()
+                }
+            }.navigationBarTitle("more.title", displayMode: .inline)
         }
     }
 }
