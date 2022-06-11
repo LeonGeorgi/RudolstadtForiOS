@@ -31,6 +31,7 @@
 "program.title" = "Programm";
 
 "schedule.title" = "Zeitplan";
+"schedule.empty.description" = "Du hast zur Zeit keine Veranstaltungen gespeichert. Drücke lange auf eine Veranstaltung und danach auf \"Speichern\", um sie dem Zeitplan hinzuzufügen.";
 
 "filter.button" = "Filtern";
 "filter.done" = "Fertig";

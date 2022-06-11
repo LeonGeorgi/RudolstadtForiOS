@@ -31,6 +31,7 @@
 "program.title" = "Program";
 
 "schedule.title" = "Schedule";
+"schedule.empty.description" = "You have no saved events at the moment. You can long-press an event and then click \"Save\" to add it to your schedule.";
 
 "filter.button" = "Filter";
 "filter.done" = "Done";
@@ -51,3 +52,4 @@
 "search.prompt" = "Artists, Stages, Events and more";
 
 "more.title" = "More";
+

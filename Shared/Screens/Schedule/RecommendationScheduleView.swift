@@ -18,7 +18,7 @@ struct RecommendationScheduleView: View {
     var storedEvents: [Int] {
         settings.savedEvents
     }
-
+    
     var shownEvents: LoadingEntity<[Event]> {
         dataStore.data.map { entities in
             let savedEvents = entities.events.filter { (event: Event) in

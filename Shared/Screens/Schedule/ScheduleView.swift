@@ -26,22 +26,30 @@ struct ScheduleView: View {
 
     var body: some View {
         VStack {
-            if case .success(let days) = eventDays {
-                Picker("Date", selection: $selectedDay) {
-                    ForEach(days) { (day: Int) in
-                        Text(Util.shortWeekDay(day: day)).tag(day)
+            if events.isEmpty {
+                Text("schedule.empty.description")
+                    .multilineTextAlignment(.center)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.horizontal, 20)
+            } else {
+                if case .success(let days) = eventDays {
+                    Picker("Date", selection: $selectedDay) {
+                        ForEach(days) { (day: Int) in
+                            Text(Util.shortWeekDay(day: day)).tag(day)
+                        }
                     }
+                            .padding(.leading, 10)
+                            .padding(.trailing, 10)
+                            .pickerStyle(SegmentedPickerStyle())
                 }
-                        .padding(.leading, 10)
-                        .padding(.trailing, 10)
-                        .pickerStyle(SegmentedPickerStyle())
-            }
 
-            List(events.filter { event in
-                event.festivalDay == selectedDay
-            }) { event in
-                NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
-                    ScheduleEventCell(event: event)
+                List(events.filter { event in
+                    event.festivalDay == selectedDay
+                }) { event in
+                    NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
+                        ScheduleEventCell(event: event)
+                    }
                 }
             }
         }
