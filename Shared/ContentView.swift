@@ -57,7 +57,7 @@ struct ContentView: View {
                     await dataStore.loadData()
                 }
                 .onAppear {
-                    dataStore.registerBackgroundTask()
+                    dataStore.setupUpdateNewsTask()
                 }
                 .accentColor(.orange)
     }

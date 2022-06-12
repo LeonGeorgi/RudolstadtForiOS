@@ -151,14 +151,40 @@ final class DataStore: ObservableObject {
         return !dataLoader.isFileOlderThan(fileName: files.news, date: someTimeAgo)
     }
 
-    func registerBackgroundTask() {
+    func setupUpdateNewsTask() {
+        registerUpdateNewsTask()
+        scheduleUpdateNewsTask()
+    }
+
+    private func registerUpdateNewsTask() {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "de.leongeorgi.RudolstadtForiOS.news.refresh", using: nil) { task in
-            self.executeBackgroundTask(task: task as! BGAppRefreshTask)
+            self.executeUpdateNewsTask(task: task as! BGAppRefreshTask)
         }
     }
 
-    func executeBackgroundTask(task: BGAppRefreshTask) {
-        // TODO
+    private func executeUpdateNewsTask(task: BGAppRefreshTask) {
+        if shouldNewsBeUpdated() {
+            Task {
+                let result = await downloadNews()
+                switch result {
+                case .success:
+                    task.setTaskCompleted(success: true)
+                case .failure:
+                    task.setTaskCompleted(success: false)
+                }
+            }
+        }
+    }
+
+    private func scheduleUpdateNewsTask() {
+        let request = BGAppRefreshTaskRequest(identifier: "de.leongeorgi.RudolstadtForiOS.news.refresh")
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 30 * 60)
+        do {
+            try BGTaskScheduler.shared.submit(request)
+            print("Scheduled news refresh")
+        } catch {
+            print("Could not schedule news refresh: \(error)")
+        }
     }
 }
 
