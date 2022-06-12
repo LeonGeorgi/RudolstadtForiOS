@@ -29,7 +29,7 @@ struct StageProgramEventCell: View {
                                 .foregroundColor(.white)
                                 .shadow(radius: 5)
                     }
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 0) {
                         if event.tag != nil {
                             Text(event.tag!.localizedName.uppercased())
                                     .font(.system(size: 11))
@@ -61,5 +61,6 @@ struct StageProgramEventCell: View {
 struct StageProgramEventCell_Previews: PreviewProvider {
     static var previews: some View {
         StageProgramEventCell(event: .example)
+            .environmentObject(UserSettings())
     }
 }

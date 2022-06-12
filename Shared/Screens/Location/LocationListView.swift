@@ -47,6 +47,7 @@ struct LocationListView: View {
                     }
                 }
             }.searchable(text: $searchTerm)
+                .listStyle(.grouped)
         }.navigationBarTitle("locations.title")
     }
 }

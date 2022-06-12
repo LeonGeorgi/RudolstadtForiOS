@@ -6,24 +6,40 @@ struct MoreView: View {
         NavigationView {
             List {
                 NavigationLink(destination: GeneralView()) {
-                    ProgramItemText(title: "general.title")
+                    ProgramEntry(
+                        iconName: "music.quarternote.3",
+                        label: "general.title"
+                    )
                 }
             
                 NavigationLink(destination: ParkAndRideView()) {
-                    ProgramItemText(title: "park_and_ride.title")
+                    ProgramEntry(
+                        iconName: "car",
+                        label: "park_and_ride.title"
+                    )
                 }
             
                 NavigationLink(destination: BusView()) {
-                    ProgramItemText(title: "bus.title")
+                    ProgramEntry(
+                        iconName: "bus",
+                        label: "bus.title"
+                    )
                 }
                 NavigationLink(destination: FAQView()) {
-                    ProgramItemText(title: "faq.title")
+                    ProgramEntry(
+                        iconName: "questionmark",
+                        label: "faq.title"
+                    )
                 }
                 
                 NavigationLink(destination: AboutView()) {
-                    ProgramItemText(title: "about.title")
+                    ProgramEntry(
+                        iconName: "info",
+                        label: "about.title"
+                    )
                 }
             }.navigationBarTitle("more.title")
+                .listStyle(.plain)
         }
     }
 }

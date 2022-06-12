@@ -89,7 +89,7 @@ struct StageProgramView: View {
                                 }
                             }
                         }
-                    }
+                    }.listStyle(.grouped)
                 }
             }
         }.navigationBarTitle("program_by_stage.short_title", displayMode: .inline)

@@ -12,8 +12,8 @@ struct ArtistCell: View {
         HStack(spacing: 8) {
             ZStack(alignment: .bottomTrailing) {
                 ArtistImageView(artist: artist, fullImage: false)
-                        .frame(width: 60, height: 40)
-                        .cornerRadius(4)
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
             }
             HStack(alignment: .center, spacing: 4) {
                 Text(artist.name)

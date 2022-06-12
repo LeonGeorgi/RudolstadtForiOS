@@ -15,6 +15,7 @@ struct ArtistListView: View {
     @State var filterArtistTypes = Set(ArtistType.allCases)
 
     @State var searchText = ""
+    let grid = true
 
     func normalize(string: String) -> String {
         string.folding(options: [.diacriticInsensitive, .caseInsensitive, .widthInsensitive], locale: Locale.current)
@@ -37,9 +38,8 @@ struct ArtistListView: View {
                     NavigationLink(destination: ArtistDetailView(artist: artist)) {
                         ArtistCell(artist: artist)
                     }
-
                 }
-            }
+            }.listStyle(.plain)
         }
                 .searchable(text: $searchText)
                 .navigationBarTitle("artists.title")

@@ -32,7 +32,7 @@ struct SavedArtistListView: View {
                         ArtistCell(artist: artist)
                     }
                 }
-            }
+            }.listStyle(.plain)
         }
         
                 .searchable(text: $searchTerm)

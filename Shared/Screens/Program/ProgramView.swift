@@ -6,23 +6,38 @@ struct ProgramView: View {
         NavigationView {
             List {
                 NavigationLink(destination: ArtistListView()) {
-                    ProgramItemText(title: "artists.title")
+                    ProgramEntry(
+                        iconName: "person.crop.rectangle.stack",
+                        label: "artists.title"
+                    )
                 }
                 NavigationLink(destination: SavedArtistOverview()) {
-                    ProgramItemText(title: "rated_artists.title")
+                    ProgramEntry(
+                        iconName: "bookmark",
+                        label: "rated_artists.title"
+                    )
                 }
                 NavigationLink(destination: TimeProgramView()) {
-                    ProgramItemText(title: "program_by_time.title")
+                    ProgramEntry(
+                        iconName: "clock",
+                        label: "program_by_time.title"
+                    )
                 }
                 NavigationLink(destination: StageProgramView()) {
-                    ProgramItemText(title: "program_by_stage.title")
+                    ProgramEntry(
+                        iconName: "music.mic",
+                        label: "program_by_stage.title"
+                    )
                 }
 
                 NavigationLink(destination: LocationListView()) {
-                    ProgramItemText(title: "locations.title")
+                    ProgramEntry(
+                        iconName: "map",
+                        label: "locations.title"
+                    )
                 }
 
-            }.navigationBarTitle("program.title")
+            }.listStyle(.plain).navigationBarTitle("program.title")
         }
     }
 }

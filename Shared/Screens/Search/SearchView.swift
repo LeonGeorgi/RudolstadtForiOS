@@ -80,7 +80,7 @@ struct SearchView: View {
                             }
                         }
                     }
-                            .listStyle(.insetGrouped)
+                        .listStyle(.grouped)
                             .searchable(text: $searchTerm, placement: .navigationBarDrawer(displayMode: .always), prompt: "search.prompt")
                             .navigationBarTitle("search.title")
             }

@@ -17,7 +17,7 @@ struct NewsListView: View {
             }) { news in
                 List(news) { (newsItem: NewsItem) in
                     NewsItemCell(newsItem: newsItem)
-                }
+                }.listStyle(.plain)
             }
             .navigationBarTitle("news.long")
         }

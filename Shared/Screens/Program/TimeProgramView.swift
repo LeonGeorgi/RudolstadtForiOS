@@ -47,7 +47,7 @@ struct TimeProgramView: View { // TODO: rename
                     )) {
                         TimeProgramEventCell(event: event)
                     }
-                }
+                }.listStyle(.plain)
             }
         }
                 .navigationBarTitle("program_by_time.short_title", displayMode: .inline)

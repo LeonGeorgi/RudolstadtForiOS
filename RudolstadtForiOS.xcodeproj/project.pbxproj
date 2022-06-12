@@ -103,6 +103,8 @@
 		350573382854FA4C008932A9 /* EventSavedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573362854FA4C008932A9 /* EventSavedIcon.swift */; };
 		3505733A2855B2C3008932A9 /* ContextCopyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573392855B2C3008932A9 /* ContextCopyButton.swift */; };
 		3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573392855B2C3008932A9 /* ContextCopyButton.swift */; };
+		3505733D2855BAF1008932A9 /* ProgramEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733C2855BAF1008932A9 /* ProgramEntry.swift */; };
+		3505733E2855BAF1008932A9 /* ProgramEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733C2855BAF1008932A9 /* ProgramEntry.swift */; };
 		3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5928043624004F9471 /* Tests_iOS.swift */; };
 		3551CC5C28043624004F9471 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5B28043624004F9471 /* Tests_iOSLaunchTests.swift */; };
 		3551CC6628043624004F9471 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC6528043624004F9471 /* Tests_macOS.swift */; };
@@ -184,6 +186,7 @@
 		350573332854F73C008932A9 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		350573362854FA4C008932A9 /* EventSavedIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSavedIcon.swift; sourceTree = "<group>"; };
 		350573392855B2C3008932A9 /* ContextCopyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextCopyButton.swift; sourceTree = "<group>"; };
+		3505733C2855BAF1008932A9 /* ProgramEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEntry.swift; sourceTree = "<group>"; };
 		3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtForiOSApp.swift; sourceTree = "<group>"; };
 		3551CC4228043623004F9471 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3551CC4328043624004F9471 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -359,11 +362,12 @@
 				32A1115828015AC5C612989A /* TimeProgramView.swift */,
 				32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */,
 				32A118FC2F29A19FA8A3CE8E /* StageProgramView.swift */,
-				32A11D55D7F4788FE4AEC1A1 /* SavedArtistEventCell.swift */,
 				32A1110D3D7D56EA7EA6AF0B /* StageProgramEventCell.swift */,
+				32A11D55D7F4788FE4AEC1A1 /* SavedArtistEventCell.swift */,
 				32A110A03818C0FCA81E788F /* SavedArtistProgramView.swift */,
 				32A11A861D3FD3784C9516BB /* SavedArtistOverview.swift */,
 				32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */,
+				3505733C2855BAF1008932A9 /* ProgramEntry.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -671,6 +675,7 @@
 				32A116DBBEBAB380329768B0 /* ArtistListView.swift in Sources */,
 				32A115A10E8AE4441C178095 /* ArtistCell.swift in Sources */,
 				3505732B28549BF8008932A9 /* BusView.swift in Sources */,
+				3505733D2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
 				32A1167A2BFBD49E2160B672 /* ArtistDetailView.swift in Sources */,
 				32A11E6DA66C383089064DD4 /* ArtistEventCell.swift in Sources */,
 				32A11F0F0EA9274C1B81D700 /* SavedArtistProgramView.swift in Sources */,
@@ -729,6 +734,7 @@
 				32A115A10353E19E13E5F510 /* ArtistEventCell.swift in Sources */,
 				32A11996DE25FE370DEA062A /* SavedArtistProgramView.swift in Sources */,
 				32A11020A4D401D0A4CCEEA8 /* SavedArtistOverview.swift in Sources */,
+				3505733E2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
 				32A11D329BA4FD3EA5C0EEFE /* SavedArtistListView.swift in Sources */,
 				3505732928549B81008932A9 /* WebView.swift in Sources */,
 				32A11A5EB7B117FBF994E013 /* RecommendationScheduleView.swift in Sources */,

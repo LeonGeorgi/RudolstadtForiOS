@@ -50,7 +50,7 @@ struct ScheduleView: View {
                     NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
                         ScheduleEventCell(event: event)
                     }
-                }
+                }.listStyle(.plain)
             }
         }
                 .onAppear {

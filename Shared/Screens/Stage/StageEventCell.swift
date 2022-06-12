@@ -10,15 +10,15 @@ struct StageEventCell: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .center) {
                     ArtistImageView(artist: event.artist, fullImage: false)
-                            .frame(width: 80, height: 45)
-                            .cornerRadius(4)
-                    VStack(alignment: .leading) {
+                            .frame(width: 45, height: 45)
+                            .clipShape(Circle())
+                    VStack(alignment: .leading, spacing: 0) {
                         HStack {
                             Text(event.timeAsString)
                             Spacer()
                             if event.tag != nil {
                                 Text(event.tag!.localizedName)
-                                        .font(.system(.caption, design: .rounded))
+                                        .font(.system(.caption2, design: .rounded))
                                         .padding(.vertical, 2)
                                         .padding(.horizontal, 6)
                                         .background(Color.accentColor)
@@ -46,5 +46,6 @@ struct StageEventCell: View {
 struct StageEventCell_Previews: PreviewProvider {
     static var previews: some View {
         StageEventCell(event: .example)
+            .environmentObject(UserSettings())
     }
 }
