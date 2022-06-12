@@ -8,6 +8,8 @@ import SwiftUI
 
 struct NewsItemCell: View {
     let newsItem: NewsItem
+    
+    @EnvironmentObject var settings: UserSettings
 
     var body: some View {
         NavigationLink(destination: NewsItemDetailView(newsItem: newsItem)) {
@@ -16,12 +18,13 @@ struct NewsItemCell: View {
                 Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
                         .font(.caption)
             }
-        }
+        }.opacity(settings.readNews.contains(newsItem.id) ? 0.5 : 1)
     }
 }
 
 struct NewsItemCell_Previews: PreviewProvider {
     static var previews: some View {
         NewsItemCell(newsItem: .example)
+            .environmentObject(UserSettings())
     }
 }

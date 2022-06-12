@@ -29,6 +29,9 @@ final class UserSettings: ObservableObject {
 
     @UserDefault(key: "\(DataStore.year)/savedEvents", defaultValue: [])
     var savedEvents: [Int]
+    
+    @UserDefault(key: "\(DataStore.year)/readNews", defaultValue: [])
+    var readNews: [Int]
 
 
     private var notificationSubscription: AnyCancellable?
@@ -49,5 +52,10 @@ final class UserSettings: ObservableObject {
     
     func idFor(event: Event) -> String {
         return "\(event.id)-\(savedEvents.contains(event.id))"
+    }
+    
+    func idFor(newsItem: NewsItem) -> String {
+        return "\(newsItem.id)-\(readNews.contains(newsItem.id))"
+
     }
 }

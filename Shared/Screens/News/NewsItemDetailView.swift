@@ -8,6 +8,8 @@ import SwiftUI
 
 struct NewsItemDetailView: View {
     let newsItem: NewsItem
+    
+    @EnvironmentObject var settings: UserSettings
 
     var body: some View {
         ScrollView {
@@ -23,6 +25,11 @@ struct NewsItemDetailView: View {
                 Text(newsItem.formattedContent)
             }.padding()
         }.navigationBarTitle(Text(newsItem.shortDescription), displayMode: .inline)
+            .onAppear {
+                if !settings.readNews.contains(newsItem.id) {
+                    settings.readNews.append(newsItem.id)
+                }
+            }
     }
 }
 
