@@ -13,7 +13,8 @@ struct FAQView: View {
             FAQCell(question: "faq.schedule.question", answer: "faq.schedule.answer")
             FAQCell(question: "faq.suggestions.question", answer: "faq.suggestions.answer")
             FAQCell(question: "faq.rating.question", answer: "faq.rating.answer")
-        }.navigationTitle("faq.title")
+        }.listStyle(GroupedListStyle())
+            .navigationTitle("faq.title")
     }
 }
 
@@ -26,7 +27,7 @@ struct FAQCell: View {
             Text(question)
                 .font(.headline)
             Text(answer)
-        }.padding(.vertical, 10)
+        }.padding(.vertical, 5)
 
     }
 }

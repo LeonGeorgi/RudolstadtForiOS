@@ -20,7 +20,7 @@ struct MoreView: View {
                     ProgramItemText(title: "faq.title")
                 }
                 
-                NavigationLink(destination: FAQView()) {
+                NavigationLink(destination: AboutView()) {
                     ProgramItemText(title: "about.title")
                 }
             }.navigationBarTitle("more.title")

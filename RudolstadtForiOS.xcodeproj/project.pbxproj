@@ -101,6 +101,8 @@
 		350573352854F73C008932A9 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573332854F73C008932A9 /* AboutView.swift */; };
 		350573372854FA4C008932A9 /* EventSavedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573362854FA4C008932A9 /* EventSavedIcon.swift */; };
 		350573382854FA4C008932A9 /* EventSavedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573362854FA4C008932A9 /* EventSavedIcon.swift */; };
+		3505733A2855B2C3008932A9 /* ContextCopyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573392855B2C3008932A9 /* ContextCopyButton.swift */; };
+		3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573392855B2C3008932A9 /* ContextCopyButton.swift */; };
 		3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5928043624004F9471 /* Tests_iOS.swift */; };
 		3551CC5C28043624004F9471 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5B28043624004F9471 /* Tests_iOSLaunchTests.swift */; };
 		3551CC6628043624004F9471 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC6528043624004F9471 /* Tests_macOS.swift */; };
@@ -181,6 +183,7 @@
 		350573302854F59B008932A9 /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
 		350573332854F73C008932A9 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		350573362854FA4C008932A9 /* EventSavedIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSavedIcon.swift; sourceTree = "<group>"; };
+		350573392855B2C3008932A9 /* ContextCopyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextCopyButton.swift; sourceTree = "<group>"; };
 		3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtForiOSApp.swift; sourceTree = "<group>"; };
 		3551CC4228043623004F9471 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3551CC4328043624004F9471 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -270,6 +273,7 @@
 				32A11760C2446A479758E817 /* LoadingListView.swift */,
 				3505732728549B81008932A9 /* WebView.swift */,
 				350573362854FA4C008932A9 /* EventSavedIcon.swift */,
+				350573392855B2C3008932A9 /* ContextCopyButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -661,6 +665,7 @@
 				32A1167A2316AC01B157FD8E /* ScheduleView.swift in Sources */,
 				32A116BE192EE63EA4089774 /* ScheduleGenerator2.swift in Sources */,
 				32A114D5C53D71E50A745B7C /* ScheduleEventCell.swift in Sources */,
+				3505733A2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
 				350573372854FA4C008932A9 /* EventSavedIcon.swift in Sources */,
 				32A116961BFEAF82D52B6574 /* MoreView.swift in Sources */,
 				32A116DBBEBAB380329768B0 /* ArtistListView.swift in Sources */,
@@ -700,6 +705,7 @@
 				32A112B24A555BB9F43659A1 /* RatingSymbol.swift in Sources */,
 				32A1190D2BC1583EA5BCD4F4 /* SaveEventButton.swift in Sources */,
 				32A111D06B3F187ED5308393 /* Util.swift in Sources */,
+				3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
 				32A1173EE6141DB87056E57E /* StageEventCell.swift in Sources */,
 				32A1154AA5EEABD041A176C7 /* ProgramView.swift in Sources */,
 				350573382854FA4C008932A9 /* EventSavedIcon.swift in Sources */,

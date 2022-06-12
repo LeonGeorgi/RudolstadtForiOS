@@ -95,7 +95,7 @@ Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich.
 "park_and_ride.parking.erich-correns-ring.title" = "Erich-Correns-Ring 18";
 "park_and_ride.parking.erich-correns-ring.description" = "(von A9/B281 oder B85/88 aus Süden kommend)";
 
-"faq.title" = "FAQ (Häufig gestellte Fragen)"
+"faq.title" = "FAQ (Häufig gestellte Fragen)";
 "faq.schedule.question" = "Was ist der Zeitplan?";
 "faq.schedule.answer" = "In dem Zeitplan siehst du alle Veranstaltungen, die du gespeichert hast. Diese Ansicht ist daher dein persönlicher Ablaufplan und somit dein wichtigster Begleiter während des Festivals.";
 "faq.suggestions.question" = "Was bedeuten die Vorschläge in meinem Zeitplan?";
@@ -103,3 +103,18 @@ Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich.
 Wenn dir diese Funktion nicht gefällt, kannst du sie auf dem Knopf oben rechts in der Zeitplan-Ansicht einfach ausschalten.";
 "faq.rating.question" = "Was bedeuten die Emojis auf den Künstlerseiten?";
 "faq.rating.answer" = "Mit Hilfe der Emojis kannst du markieren, wie interessant du einen Künstler findest. Wenn du einen Künstler nicht interessant findest oder dich noch nicht entschieden hast, dann belasse es einfach bei der Standard-Markierung (🤔). Die Künstler, die du mit einem anderen Emoji versehen hast, tauchen unter \"Programm\" > \"Gespeicherte Künstler\" auf. Außerdem kann dir die App dir basierend auf der Markierung Vorschläge machen, welche Konzerte du besuchen könntest. Künstler, die du mit einem höheren Interesse markiert hast, werden dabei bevorzugt. Für mehr Details, lies die Frage zu den Vorschlägen.";
+
+"about.title" = "Über die App";
+"about.official_app.title" = "Offizielle App";
+"about.github.title" = "GitHub öffnen";
+
+"about.app.content" = "Diese App ist nicht die offizielle Festival-App des Rudolstadt-Festivals. Sie wurde unbezahlt als Hobbyprojekt entwickelt, in der Hoffnung, die Nutzerfreundlichkeit der offiziellen App zu überbieten.
+
+Die App sammelt keinerlei Daten von dir. Alles, was du in der App machst, bleibt auf deinem Handy.";
+"about.developer.header" = "Über den Entwickler";
+"about.developer.content" = "Moin, ich bin Leon.
+Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (damals noch das \"TFF Rudolstadt\"). Seitdem bin ich immer wieder auf das Festival gegangen und finde nach wie vor große Freude daran. Mittlerweile bin ich 24 Jahre alt, habe einen Bachelor-Abschluss in Informatik und arbeite seit einigen Jahren neben meinem Studium als professioneller Softwareentwickler. Da ich schon relativ lange unzufrieden damit bin, dass bestimmte Dinge in der offiziellen App etwas unpraktisch sind, hatte ich die Idee, ich könne in meiner Freizeit selbst eine App für das Festival schreiben. Gesagt, getan! Eigentlich wollte ich die App einfach nur selbst benutzen, aber weil ich mit dem Ergebnis jetzt sehr zufrieden bin, habe ich mich dazu entschieden, sie zu veröffentlichen. Viel Spaß damit!";
+
+"copy.link.title" = "Link kopieren";
+"copy.email.title" = "E-Mail-Adresse kopieren";
+"email.send.title" = "E-Mail senden";
