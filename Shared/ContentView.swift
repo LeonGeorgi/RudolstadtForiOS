@@ -53,8 +53,11 @@ struct ContentView: View {
                     }
                     .tag(3)
         }
+                .task {
+                    await dataStore.loadData()
+                }
                 .onAppear {
-                    self.dataStore.loadData()
+                    dataStore.registerBackgroundTask()
                 }
                 .accentColor(.orange)
     }

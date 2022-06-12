@@ -28,10 +28,10 @@ struct Artist: Identifiable {
         imageName = imageName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? imageName
         
         if artistType == .street {
-            return URL(string: "\(DataUpdater.streetMusicThumbUrl)/\(imageName)")
+            return URL(string: "\(ImageUrlUtil.streetMusicThumbUrl)/\(imageName)")
         }
         
-        return URL(string: "\(DataUpdater.thumbUrl)/\(imageName)")
+        return URL(string: "\(ImageUrlUtil.thumbUrl)/\(imageName)")
     }
 
     var fullImageUrl: URL? {
@@ -40,9 +40,9 @@ struct Artist: Identifiable {
         }
         imageName = imageName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? imageName
         if artistType == .street {
-            return URL(string: "\(DataUpdater.streetMusicFullUrl)/\(imageName)")
+            return URL(string: "\(ImageUrlUtil.streetMusicFullUrl)/\(imageName)")
         }
-        return URL(string: "\(DataUpdater.fullImageUrl)/\(imageName)")
+        return URL(string: "\(ImageUrlUtil.fullImageUrl)/\(imageName)")
     }
     
 

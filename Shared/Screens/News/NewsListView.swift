@@ -11,6 +11,7 @@ import SwiftUI
 struct NewsListView: View {
     
     @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var dataStore: DataStore
 
     var body: some View {
         NavigationView {
@@ -37,6 +38,9 @@ struct NewsListView: View {
                             }.tint(.blue)
                         }
                 }.listStyle(.plain)
+                    .refreshable {
+                        await dataStore.updateAndLoadNewsIfNecessary()
+                    }
             }
             .navigationBarTitle("news.long")
         }

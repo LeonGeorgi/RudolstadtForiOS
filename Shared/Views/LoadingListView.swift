@@ -39,7 +39,9 @@ struct LoadingListView<ListValues, ListView: View> : View where ListValues : Ran
                 Text(reason.rawValue)
                         .padding(.bottom)
                 Button {
-                    retry()
+                    Task {
+                        await retry()
+                    }
                 } label: {
                     Text("list.reload")
                 }
@@ -49,8 +51,8 @@ struct LoadingListView<ListValues, ListView: View> : View where ListValues : Ran
         }
     }
 
-    func retry() {
-        dataStore.loadData()
+    func retry() async {
+        await dataStore.loadData()
     }
 
     var body: some View {
