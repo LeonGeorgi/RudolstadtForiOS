@@ -43,39 +43,7 @@ struct ArtistDetailView: View {
                 ArtistImageView(artist: artist, fullImage: true).listRowInsets(EdgeInsets())
             }
 
-            Section(footer: VStack(alignment: .leading) {
-                Text("artist.rating.explanation.content")
-                if showingRatingExplanation {
-                    Text("artist.rating.explanation.extra")
-                }
-            }) {
-                HStack {
-                    Spacer()
-                    ForEach(0..<4) { index in
-                        RatingSymbol(rating: index)
-                                .font(.system(size: 35))
-                                //.grayscale(1.0)
-                                .saturation(artistRating() == index ? 1.0 : 0.0)
-                                .onTapGesture {
-                                    if artistRating() != index {
-                                        self.rateArtist(rating: index)
-                                    }
-                                }
-
-                    }
-                    Spacer()
-                    Image(systemName: "questionmark.circle.fill")
-                        .foregroundColor(.gray)
-                        .font(.system(size: 20))
-                        .onTapGesture {
-                            showingRatingExplanation.toggle()
-                        }
-                    
-                }//.padding(.vertical)
-            }
-            //.cornerRadius(10)
-            //.shadow(radius: 10)
-            //.padding()
+            
             switch artistEvents {
             case .loading:
                 Text("events.loading") // TODO: translate
@@ -90,6 +58,14 @@ struct ArtistDetailView: View {
                             }
                         }
                     }
+                }
+            }
+            
+            if artist.formattedDescription != nil && artist.formattedDescription != "" {
+                Section(header: Text("artist.description")) {
+
+                    Text(artist.formattedDescription!)
+
                 }
             }
 
@@ -136,16 +112,62 @@ struct ArtistDetailView: View {
                     }
                 }
             }
-            if artist.formattedDescription != nil && artist.formattedDescription != "" {
-                Section(header: Text("artist.description")) {
-
-                    Text(artist.formattedDescription!)
-
+            Section(footer: VStack(alignment: .leading) {
+                Text("artist.rating.explanation.content")
+                if showingRatingExplanation {
+                    Text("artist.rating.explanation.extra")
                 }
+            }) {
+                HStack {
+                    Spacer()
+                    ForEach(0..<4) { index in
+                        RatingSymbol(rating: index)
+                                .font(.system(size: 35))
+                                //.grayscale(1.0)
+                                .saturation(artistRating() == index ? 1.0 : 0.0)
+                                .onTapGesture {
+                                    if artistRating() != index {
+                                        self.rateArtist(rating: index)
+                                    }
+                                }
+
+                    }
+                    Spacer()
+                    Image(systemName: "questionmark.circle.fill")
+                        .foregroundColor(.gray)
+                        .font(.system(size: 20))
+                        .onTapGesture {
+                            showingRatingExplanation.toggle()
+                        }
+                    
+                }//.padding(.vertical)
             }
+            //.cornerRadius(10)
+            //.shadow(radius: 10)
+            //.padding()
 
         }.listStyle(GroupedListStyle())
                 .navigationBarTitle(Text(artist.name), displayMode: .large)
+                .navigationBarItems(trailing: Button(action: {
+                    if artistRating() == 0 {
+                        self.rateArtist(rating: 3)
+                    } else {
+                        self.rateArtist(rating: 0)
+                    }
+                }) {
+                    switch artistRating() {
+                    case 0: Text("😍").saturation(0)
+                    default: ArtistRatingSymbol(artist: artist)
+                    }
+                }.contextMenu {
+                    ForEach((0..<4).reversed()) { rating in
+                        Button(action: {
+                            self.settings.ratings[String(self.artist.id)] = rating
+                        }) {
+                            RatingSymbol(rating: rating)
+                        }
+                    }
+                })
     }
 }
 

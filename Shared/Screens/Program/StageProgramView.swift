@@ -84,8 +84,8 @@ struct StageProgramView: View {
                                     NavigationLink(destination: ArtistDetailView(
                                             artist: event.artist
                                     )) {
-                                        StageProgramEventCell(event: event)
-                                    }
+                                        StageEventCell(event: event, imageWidth: 60, imageHeight: 52.5)
+                                    }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
                                 }
                             }
                         }

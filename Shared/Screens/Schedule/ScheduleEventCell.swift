@@ -16,18 +16,9 @@ struct ScheduleEventCell: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .center) {
                     HStack(alignment: .center) {
-                        ZStack {
-                            ArtistImageView(artist: event.artist, fullImage: false)
-                                    .overlay(Color.black.opacity(0.5))
-                                    .frame(width: 80, height: 45)
-                                    .cornerRadius(4)
+                        ArtistImageView(artist: event.artist, fullImage: false)
+                                .frame(width: 60, height: 52.5)
 
-                            Text(event.timeAsString)
-                                    .fontWeight(.bold)
-                                    .clipped()
-                                    .foregroundColor(.white)
-                                    .shadow(radius: 5)
-                        }
                         VStack(alignment: .leading) {
                             if event.tag != nil {
                                 Text(event.tag!.localizedName.uppercased())
@@ -40,9 +31,10 @@ struct ScheduleEventCell: View {
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                     .lineLimit(1)
-                            Text(event.stage.localizedName)
+                            
+                            Text("\(event.timeAsString) (\(event.stage.localizedName))")
                                     .lineLimit(1)
-                                    .font(.footnote)
+                                    .font(.subheadline)
 
                         }
                         if artistRating() != 0 {

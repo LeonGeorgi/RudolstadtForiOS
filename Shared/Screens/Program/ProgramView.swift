@@ -30,13 +30,6 @@ struct ProgramView: View {
                     )
                 }
 
-                NavigationLink(destination: LocationListView()) {
-                    ProgramEntry(
-                        iconName: "map",
-                        label: "locations.title"
-                    )
-                }
-
             }.listStyle(.plain).navigationBarTitle("program.title")
         }
     }

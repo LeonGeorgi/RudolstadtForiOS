@@ -30,7 +30,7 @@ struct SavedArtistListView: View {
                 ForEach(artistList.withApplied(searchTerm: searchTerm) { artist in artist.name }) { (artist: Artist) in
                     NavigationLink(destination: ArtistDetailView(artist: artist)) {
                         ArtistCell(artist: artist)
-                    }
+                    }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
                 }
             }.listStyle(.plain)
         }

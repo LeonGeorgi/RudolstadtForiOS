@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
     @State private var selection = 0
@@ -37,11 +38,11 @@ struct ContentView: View {
                         }
                     }
                     .tag(2)
-            SearchView()
+            MapOverview()
                     .tabItem {
                         VStack {
-                            Image(systemName: "magnifyingglass")
-                            Text("search.short")
+                            Image(systemName: "map.fill")
+                            Text("locations.title")
                         }
                     }
             MoreView()
@@ -58,8 +59,29 @@ struct ContentView: View {
                 }
                 .onAppear {
                     dataStore.setupUpdateNewsTask()
+                    //1
+                    UNUserNotificationCenter.current()
+                      //2
+                      .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                          //3
+                          print("Permission granted: \(granted) \(error)")
+                      }
+                    
+                    let content = UNMutableNotificationContent()
+                    content.title = "Feed the cat"
+                    content.subtitle = "It looks hungry"
+                    content.sound = UNNotificationSound.default
+
+                    // show this notification five seconds from now
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+
+                    // choose a random identifier
+                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+                    // add our notification request
+                    UNUserNotificationCenter.current().add(request)
                 }
-                .accentColor(.orange)
+                .accentColor(.red)
     }
 }
 

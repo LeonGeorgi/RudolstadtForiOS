@@ -46,7 +46,10 @@ struct TimeProgramView: View { // TODO: rename
                             artist: event.artist
                     )) {
                         TimeProgramEventCell(event: event)
-                    }
+
+
+                    }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
+
                 }.listStyle(.plain)
             }
         }
@@ -78,6 +81,8 @@ struct TimeProgramView: View { // TODO: rename
 
 struct TimeProgramView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgramView()
+        TimeProgramView()
+            .environmentObject(UserSettings())
+            .environmentObject(DataStore())
     }
 }

@@ -36,7 +36,7 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "program_by_stage.short_title" = "Program";
 "program.title" = "Program";
 
-"schedule.title" = "Schedule";
+"schedule.title" = "My schedule";
 "schedule.empty.description" = "You have no saved events at the moment. You can long-press an event and then click \"Save\" to add it to your schedule.";
 
 "filter.button" = "Filter";
@@ -117,3 +117,6 @@ When I was 8 years old, I went to the Rudolstadt Festival for the first time (at
 "copy.link.title" = "Copy link";
 "copy.email.title" = "Copy email address";
 "email.send.title" = "Send an email";
+
+"list.title" = "List";
+"map.title" = "Map";

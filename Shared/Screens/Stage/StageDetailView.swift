@@ -68,8 +68,9 @@ struct StageDetailView: View {
                                 .pickerStyle(SegmentedPickerStyle())
                         ForEach(events(entities)[selectedDay] ?? []) { (event: Event) in
                             NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
-                                StageEventCell(event: event)
+                                StageEventCell(event: event, imageWidth: 64, imageHeight: 56)
                             }.buttonStyle(PlainButtonStyle())
+                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
 
                         }
 

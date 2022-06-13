@@ -36,7 +36,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "program_by_stage.short_title" = "Programm";
 "program.title" = "Programm";
 
-"schedule.title" = "Zeitplan";
+"schedule.title" = "Mein Zeitplan";
 "schedule.empty.description" = "Du hast zur Zeit keine Veranstaltungen gespeichert. Drücke lange auf eine Veranstaltung und danach auf \"Speichern\", um sie dem Zeitplan hinzuzufügen.";
 
 "filter.button" = "Filtern";
@@ -118,3 +118,6 @@ Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (dama
 "copy.link.title" = "Link kopieren";
 "copy.email.title" = "E-Mail-Adresse kopieren";
 "email.send.title" = "E-Mail senden";
+
+"list.title" = "Liste";
+"map.title" = "Karte";

@@ -37,7 +37,7 @@ struct ArtistListView: View {
                 ForEach(artists) { (artist: Artist) in
                     NavigationLink(destination: ArtistDetailView(artist: artist)) {
                         ArtistCell(artist: artist)
-                    }
+                    }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
                 }
             }.listStyle(.plain)
         }

@@ -52,8 +52,8 @@ struct SavedArtistProgramView: View {
                             artist: event.artist
                     )) {
                         SavedArtistEventCell(event: event)
-                    }
-                }
+                    }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
+                }.listStyle(.plain)
             }
             
         }.onAppear {

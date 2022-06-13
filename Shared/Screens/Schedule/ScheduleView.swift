@@ -49,8 +49,9 @@ struct ScheduleView: View {
                 }) { event in
                     NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
                         ScheduleEventCell(event: event)
-                    }
+                    }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
                 }.listStyle(.plain)
+                    
             }
         }
                 .onAppear {
