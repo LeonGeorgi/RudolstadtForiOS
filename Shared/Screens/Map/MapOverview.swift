@@ -29,7 +29,7 @@ struct MapOverview: View {
         NavigationView {
             switch annotationItems {
                 case .loading:
-                    Text("map.loading") // TODO: translate
+                    Text("map.loading")
                 case .failure(let reason):
                     Text("Failed to load: " + reason.rawValue)
                 case .success(let locations):

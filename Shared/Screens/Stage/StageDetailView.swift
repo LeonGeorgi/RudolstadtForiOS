@@ -51,7 +51,7 @@ struct StageDetailView: View {
             switch dataStore.data {
             case .loading:
                 Section(header: Text("stage.events")) {
-                    Text("stage.events.loading") // TODO: translate
+                    Text("stage.events.loading")
                 }
             case.failure(let reason):
                 Section(header: Text("stage.events")) {

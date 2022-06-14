@@ -22,10 +22,13 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "event.remove" = "Remove";
 
 "stage.events" = "EVENTS";
+"stage.events.loading" = "Loading events…";
 "stage.map" = "MAP";
 "stage.nearby" = "NEARBY LOCATIONS";
 
 "artists.title" = "Artists";
+"artists.saved.empty" = "You have not saved any artists yet. Mark your interest on the artist page to save the artist here.";
+
 
 "locations.title" = "Locations";
 
@@ -35,6 +38,7 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "program_by_stage.title" = "Program by stage";
 "program_by_stage.short_title" = "Program";
 "program.title" = "Program";
+"program.days.loading" = "Loading days…";
 
 "schedule.title" = "My schedule";
 "schedule.empty.description" = "You have no saved events at the moment. You can long-press an event and then click \"Save\" to add it to your schedule.";
@@ -120,3 +124,13 @@ When I was 8 years old, I went to the Rudolstadt Festival for the first time (at
 
 "list.title" = "List";
 "map.title" = "Map";
+"map.loading" = "Loading map…";
+
+"events.loading" = "Loading events…";
+"events.intersecting.loading" = "Loading events…";
+"event.intersecting.with" = "at the same time as \"%@\"";
+
+"saved.concerts.title" = "Concerts";
+"saved.artists.title" = "Artists";
+
+"data.loading" = "Loading data…";

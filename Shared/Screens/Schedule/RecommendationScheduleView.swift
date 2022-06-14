@@ -42,7 +42,7 @@ struct RecommendationScheduleView: View {
         NavigationView {
             switch shownEvents {
                 case .loading:
-                    Text("events.loading") // TODO: translate
+                    Text("events.loading")
                 case .failure(let reason):
                     Text("Failed to load: " + reason.rawValue)
                 case .success(let events):

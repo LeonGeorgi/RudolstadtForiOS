@@ -36,7 +36,7 @@ final class DataStore: ObservableObject {
                 stages: "stages.dat",
                 tags: "tags.dat"
         )
-        cacheUrl = try! FileManager.default.url(for: .cachesDirectory, in: .allDomainsMask, appropriateFor: nil, create: false) // TODO
+        cacheUrl = try! FileManager.default.url(for: .cachesDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
         dataLoader = DataLoader(files: files, cacheUrl: cacheUrl)
         dataUpdater = DataUpdater(files: files, cacheUrl: cacheUrl)
 
@@ -125,7 +125,7 @@ final class DataStore: ObservableObject {
             let (news, _) = try dataLoader.readEntitiesFromFile(fileName: files.news, converter: dataLoader.convertLineToNewsItem)
             updateNewsEntities(news: news)
         } catch {
-            // TODO
+            print("Could not load news \(error)")
         }
     }
 

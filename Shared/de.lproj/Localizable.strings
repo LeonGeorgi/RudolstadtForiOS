@@ -22,10 +22,12 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "event.remove" = "Entfernen";
 
 "stage.events" = "VERANSTALTUNGEN";
+"stage.events.loading" = "Veranstaltungen laden…";
 "stage.map" = "KARTE";
 "stage.nearby" = "ORTE IN DER NÄHE";
 
 "artists.title" = "Künstler";
+"artists.saved.empty" = "Du hast noch keine Künstler gespeichert. Markiere dein Interesse auf der Künstlerseite, um den Künstler hier zu speichern.";
 
 "locations.title" = "Orte";
 
@@ -35,6 +37,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "program_by_stage.title" = "Programm nach Bühne";
 "program_by_stage.short_title" = "Programm";
 "program.title" = "Programm";
+"program.days.loading" = "Tage laden…";
 
 "schedule.title" = "Mein Zeitplan";
 "schedule.empty.description" = "Du hast zur Zeit keine Veranstaltungen gespeichert. Drücke lange auf eine Veranstaltung und danach auf \"Speichern\", um sie dem Zeitplan hinzuzufügen.";
@@ -121,3 +124,13 @@ Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (dama
 
 "list.title" = "Liste";
 "map.title" = "Karte";
+"map.loading" = "Karte lädt…";
+
+"events.loading" = "Veranstaltungen laden…";
+"events.intersecting.loading" = "Veranstaltungen laden…";
+"event.intersecting.with" = "gleichzeitig mit \"%@\"";
+
+"saved.concerts.title" = "Konzerte";
+"saved.artists.title" = "Künstler";
+
+"data.loading" = "Daten laden…";

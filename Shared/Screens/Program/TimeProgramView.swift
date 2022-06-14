@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct TimeProgramView: View { // TODO: rename
+struct TimeProgramView: View {
 
     @EnvironmentObject var dataStore: DataStore
     @State private var showingSheet = false

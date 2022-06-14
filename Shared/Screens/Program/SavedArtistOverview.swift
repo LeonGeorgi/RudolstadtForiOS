@@ -18,9 +18,9 @@ struct SavedArtistOverview: View {
                     self.showingArtists.toggle()
                 }) {
                     if showingArtists {
-                        Text("Konzerte") // TODO
+                        Text("saved.concerts.title")
                     } else {
-                        Text("Künstler") // TODO
+                        Text("saved.artists.title")
                     }
                 })
     }

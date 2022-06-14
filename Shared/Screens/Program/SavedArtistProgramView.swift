@@ -31,7 +31,7 @@ struct SavedArtistProgramView: View {
             Picker("Date", selection: $selectedDay) {
                 switch eventDays {
                 case .loading:
-                    Text("program.days.loading") // TODO: translate
+                    Text("program.days.loading")
                 case .failure(let reason):
                     Text("Failed to load: " + reason.rawValue)
                 case .success(let days):
@@ -42,7 +42,7 @@ struct SavedArtistProgramView: View {
             }.padding(.leading, 10)
                     .padding(.trailing, 10)
                     .pickerStyle(SegmentedPickerStyle())
-            LoadingListView(noDataMessage: "program.empty", dataMapper: { entities in
+            LoadingListView(noDataMessage: "artists.saved.empty", dataMapper: { entities in
                 filteredEvents(entities)
             }) { events in
                 List(events.filter {

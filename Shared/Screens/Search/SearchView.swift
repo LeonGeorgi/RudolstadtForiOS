@@ -34,7 +34,7 @@ struct SearchView: View {
         NavigationView {
             switch dataStore.data {
                 case .loading:
-                    Text("data.loading") // TODO: translate
+                    Text("data.loading")
                 case .failure(let reason):
                     Text("Failed to load: " + reason.rawValue)
                 case .success(let entities):

@@ -5,7 +5,7 @@ struct Artist: Identifiable {
     let artistType: ArtistType
     let someNumber: Int
     let name: String
-    let countries: String // TODO: split into list
+    let countries: String
     let url: String?
     let facebookID: String?
     let youtubeID: String?

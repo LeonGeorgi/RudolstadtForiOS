@@ -22,9 +22,13 @@ struct LoadingListView<ListValues, ListView: View> : View where ListValues : Ran
             Spacer()
             VStack {
                 Text(noDataMessage)
-                        .padding(.bottom)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gray)
+                    .padding(.bottom)
                 if let subtitle = noDataSubtitle {
                     Text(subtitle)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.gray)
                 }
             }
                     .padding()

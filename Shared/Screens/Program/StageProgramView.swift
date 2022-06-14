@@ -67,7 +67,7 @@ struct StageProgramView: View {
             }
             switch events {
                 case .loading:
-                    Text("events.loading") // TODO: translate
+                    Text("events.loading")
                 case .failure(let reason):
                     Text("Failed to load: " + reason.rawValue)
                 case .success(let events):
@@ -135,7 +135,7 @@ struct StageProgramView: View {
 
 struct StageEvents: Identifiable {
     var id: Int {
-        stage.id // TODO
+        stage.id
     }
 
     let stage: Stage

@@ -54,8 +54,8 @@ struct NewsListView: View {
                     }.disabled(refreshButtonDisabled)
                 }
                     
-            }
-        }.navigationBarTitle("news.long")
+            }.navigationTitle("news.long")
+        }
     }
 }
 

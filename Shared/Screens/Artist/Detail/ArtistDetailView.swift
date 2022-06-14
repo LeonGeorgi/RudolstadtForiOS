@@ -39,14 +39,14 @@ struct ArtistDetailView: View {
 
     var body: some View {
         List {
-            Section(footer: Text(artist.name)) {
+            Section(footer: artist.countries.isEmpty ? Text(artist.name) : Text("\(artist.name) (\(artist.countries))")) {
                 ArtistImageView(artist: artist, fullImage: true).listRowInsets(EdgeInsets())
             }
 
             
             switch artistEvents {
             case .loading:
-                Text("events.loading") // TODO: translate
+                Text("events.loading")
             case .failure(let reason):
                 Text("Failed to load: " + reason.rawValue)
             case .success(let events):

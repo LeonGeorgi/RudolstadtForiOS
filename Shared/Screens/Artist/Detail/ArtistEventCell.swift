@@ -46,7 +46,7 @@ struct ArtistEventCell: View {
                 }
                 switch eventsThatIntersect() {
                 case .loading:
-                    Text("events.intersecting.loading") // TODO: translate
+                    Text("events.intersecting.loading")
                 case .failure(let reason):
                     Text("Failed to load: " + reason.rawValue)
                 case .success(let intersectingEvents):
@@ -55,7 +55,7 @@ struct ArtistEventCell: View {
                             Image(systemName: "exclamationmark.circle")
                                 .font(.caption)
                                 .foregroundColor(.orange)
-                            Text("gleichzeitig mit \"\(intersectingEvent.artist.name)\"") // TODO: translate
+                            Text(String(format: NSLocalizedString("event.intersecting.with", comment: ""), intersectingEvent.artist.name))
                                 .font(.caption)
                                 .foregroundColor(.orange)
                         }
