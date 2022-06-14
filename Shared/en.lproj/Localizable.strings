@@ -41,7 +41,7 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "program.days.loading" = "Loading days…";
 
 "schedule.title" = "My schedule";
-"schedule.empty.description" = "You have no saved events at the moment. You can long-press an event and then click \"Save\" to add it to your schedule.";
+"schedule.empty.description" = "You have no saved events at the moment. You can click the bookmark symbol of an event to add it to your schedule.";
 
 "filter.button" = "Filter";
 "filter.done" = "Done";
@@ -99,7 +99,7 @@ Tickets for the Rudolstadt Festival are only available in advance. The same appl
 "park_and_ride.parking.erich-correns-ring.description" = "(from A9/B281 or B85/88 coming from south)";
 
 "faq.title" = "FAQ (Frequently Asked Questions)";
-"faq.schedule.question" = "What is the schedule?";
+"faq.schedule.question" = "What is \"my schedule\"?";
 "faq.schedule.answer" = "The schedule shows you all of your saved events. Therefore, this screen is your personal agenda and your most important companion during the festival.";
 "faq.suggestions.question" = "What do the suggestions in my schedule mean?";
 "faq.suggestions.answer" = "On the artist pages, you can use an emoji to mark how interesting you find an artist. The suggestions in your schedule are based on these markings. If you didn't save any events for an artist in your schedule yet, a concert for this artist will be suggested to you in the schedule. If that artist is performing on more than one date, the most suitable date will be suggested to you so that you don't miss any concerts by other artists you are interested in.

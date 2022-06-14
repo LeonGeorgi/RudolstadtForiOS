@@ -40,7 +40,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "program.days.loading" = "Tage laden…";
 
 "schedule.title" = "Mein Zeitplan";
-"schedule.empty.description" = "Du hast zur Zeit keine Veranstaltungen gespeichert. Drücke lange auf eine Veranstaltung und danach auf \"Speichern\", um sie dem Zeitplan hinzuzufügen.";
+"schedule.empty.description" = "Du hast zur Zeit keine Veranstaltungen gespeichert. Klicke auf das Lesezeichen-Symbol einer Veranstaltung, um sie deinem Zeitplan hinzuzufügen.";
 
 "filter.button" = "Filtern";
 "filter.done" = "Fertig";
@@ -99,8 +99,8 @@ Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich.
 "park_and_ride.parking.erich-correns-ring.description" = "(von A9/B281 oder B85/88 aus Süden kommend)";
 
 "faq.title" = "FAQ (Häufig gestellte Fragen)";
-"faq.schedule.question" = "Was ist der Zeitplan?";
-"faq.schedule.answer" = "In dem Zeitplan siehst du alle Veranstaltungen, die du gespeichert hast. Diese Ansicht ist daher dein persönlicher Ablaufplan und somit dein wichtigster Begleiter während des Festivals.";
+"faq.schedule.question" = "Was ist \"Mein Zeitplan\"?";
+"faq.schedule.answer" = "In deinem Zeitplan siehst du alle Veranstaltungen, die du gespeichert hast. Diese Ansicht ist daher dein persönlicher Ablaufplan und somit dein wichtigster Begleiter während des Festivals.";
 "faq.suggestions.question" = "Was bedeuten die Vorschläge in meinem Zeitplan?";
 "faq.suggestions.answer" = "Auf den Künstlerseiten kannst du mit Hilfe eines Emojis markieren, wie interessant du einen Künstler findest. Die Vorschläge in deinem Zeitplan basieren auf diesen Markierungen. Wenn du für einen Künstler noch keine Veranstaltungen in deinem Zeitplan gespeichert hast, dann wird dir für diesen Künstler ein Konzert im Zeitplan vorgeschlagen. Falls der Künstler an mehreren Termine auftritt, wird dir der Termin vorgeschlagen, der am günstigsten liegt, damit du kein Konzert von einem anderen Künstler, der dich interessiert, verpasst.
 Wenn dir diese Funktion nicht gefällt, kannst du sie auf dem Knopf oben rechts in der Zeitplan-Ansicht einfach ausschalten.";

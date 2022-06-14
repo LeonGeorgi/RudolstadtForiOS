@@ -955,6 +955,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RudolstadtForiOS--iOS--Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = RuFePlaner;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs your location to display the location on the map. The location is only used on your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -988,6 +989,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RudolstadtForiOS--iOS--Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = RuFePlaner;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs your location to display the location on the map. The location is only used on your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
