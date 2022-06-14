@@ -58,28 +58,11 @@ struct ContentView: View {
                     await dataStore.loadData()
                 }
                 .onAppear {
-                    dataStore.setupUpdateNewsTask()
-                    //1
                     UNUserNotificationCenter.current()
-                      //2
                       .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-                          //3
-                          print("Permission granted: \(granted) \(error)")
+                          print("Permission granted: \(granted), error: \(String(describing: error))")
                       }
-                    
-                    let content = UNMutableNotificationContent()
-                    content.title = "Feed the cat"
-                    content.subtitle = "It looks hungry"
-                    content.sound = UNNotificationSound.default
-
-                    // show this notification five seconds from now
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-
-                    // choose a random identifier
-                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-
-                    // add our notification request
-                    UNUserNotificationCenter.current().add(request)
+                    dataStore.setupUpdateNewsTask()
                 }
                 .accentColor(.red)
     }

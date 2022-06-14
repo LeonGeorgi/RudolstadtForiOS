@@ -12,6 +12,7 @@ struct NewsListView: View {
     
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
+    @State var refreshButtonDisabled: Bool = false
 
     var body: some View {
         NavigationView {
@@ -42,8 +43,19 @@ struct NewsListView: View {
                         await dataStore.updateAndLoadNewsIfNecessary()
                     }
             }
-            .navigationBarTitle("news.long")
-        }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Refresh") {
+                        refreshButtonDisabled = true
+                        Task {
+                            await dataStore.updateAndLoadNewsIfNecessary()
+                            refreshButtonDisabled = false
+                        }
+                    }.disabled(refreshButtonDisabled)
+                }
+                    
+            }
+        }.navigationBarTitle("news.long")
     }
 }
 

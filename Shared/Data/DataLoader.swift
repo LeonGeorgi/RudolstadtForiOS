@@ -44,6 +44,15 @@ class DataLoader {
         let allFilesUpToDate = !areasTooOld && !artistsTooOld && !stagesTooOld && !tagsTooOld && !eventsTooOld && !newsTooOld
         return (allFilesUpToDate, entities)
     }
+    
+    func readNewsFromFile() -> [NewsItem] {
+        do {
+            let (news, _) = try readEntitiesFromFile(fileName: files.news, converter: convertLineToNewsItem)
+            return news
+        } catch {
+            return []
+        }
+    }
 
     func convertLineToArtist(information: [Substring.SubSequence]) -> Artist {
         Artist(

@@ -48,6 +48,12 @@ final class DataStore: ObservableObject {
         if !filesUpToDate {
             await downloadAndSetData(resultFromCache: resultFromCache)
         }
+        
+        if case .success(let entities) = data {
+            UserSettings().oldNews = entities.news.map { newsItem in
+                newsItem.id
+            }
+        }
     }
 
     private func downloadAndSetData(resultFromCache: FileLoadingResult<Entities>) async {
@@ -164,15 +170,48 @@ final class DataStore: ObservableObject {
 
     private func executeUpdateNewsTask(task: BGAppRefreshTask) {
         if shouldNewsBeUpdated() {
+            scheduleUpdateNewsTask()
             Task {
                 let result = await downloadNews()
                 switch result {
                 case .success:
+                    sendNewsNotification()
                     task.setTaskCompleted(success: true)
                 case .failure:
                     task.setTaskCompleted(success: false)
                 }
             }
+        }
+    }
+    
+    private func sendNewsNotification() {
+        let news = dataLoader.readNewsFromFile()
+        let settings = UserSettings()
+        let oldNewsIds = settings.oldNews
+        let content = UNMutableNotificationContent()
+        content.title = "Downloaded news"
+        content.subtitle = "Sending notifications"
+        content.sound = UNNotificationSound.default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request)
+        for newsItem in news {
+            if !newsItem.isInCurrentLanguage || oldNewsIds.contains(newsItem.id) {
+                continue
+            }
+            let content = UNMutableNotificationContent()
+            content.title = newsItem.shortDescription
+            content.subtitle = newsItem.formattedLongDescription
+            content.sound = UNNotificationSound.default
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+            let request = UNNotificationRequest(identifier: String(newsItem.id), content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request)
+        }
+        settings.oldNews = news.map { newsItem in
+            newsItem.id
         }
     }
 

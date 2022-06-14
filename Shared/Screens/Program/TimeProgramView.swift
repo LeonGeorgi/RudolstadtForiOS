@@ -66,8 +66,21 @@ struct TimeProgramView: View { // TODO: rename
                                     Text("filter.done")
                                 })
                     }
+                }.horizontalSwipeGesture {
+                    let nextDay = selectedDay + 1
+                    if case .success(let days) = eventDays {
+                        if days.contains(nextDay) {
+                            selectedDay = nextDay
+                        }
+                    }
+                } onSwipeRight: {
+                    let previousDay = selectedDay - 1
+                    if case .success(let days) = eventDays {
+                        if days.contains(previousDay) {
+                            selectedDay = previousDay
+                        }
+                    }
                 }
-
                 .onAppear {
                     if case .success(let days) = eventDays {
                         if self.selectedDay == -1 {

@@ -29,7 +29,6 @@ struct ScheduleView: View {
             if events.isEmpty {
                 Text("schedule.empty.description")
                     .multilineTextAlignment(.center)
-                    .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding(.horizontal, 20)
             } else {
@@ -51,6 +50,21 @@ struct ScheduleView: View {
                         ScheduleEventCell(event: event)
                     }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
                 }.listStyle(.plain)
+                    .horizontalSwipeGesture {
+                        let nextDay = selectedDay + 1
+                        if case .success(let days) = eventDays {
+                            if days.contains(nextDay) {
+                                selectedDay = nextDay
+                            }
+                        }
+                    } onSwipeRight: {
+                        let previousDay = selectedDay - 1
+                        if case .success(let days) = eventDays {
+                            if days.contains(previousDay) {
+                                selectedDay = previousDay
+                            }
+                        }
+                    }
                     
             }
         }

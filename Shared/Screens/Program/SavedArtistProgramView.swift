@@ -54,6 +54,20 @@ struct SavedArtistProgramView: View {
                         SavedArtistEventCell(event: event)
                     }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
                 }.listStyle(.plain)
+            }.horizontalSwipeGesture {
+                let nextDay = selectedDay + 1
+                if case .success(let days) = eventDays {
+                    if days.contains(nextDay) {
+                        selectedDay = nextDay
+                    }
+                }
+            } onSwipeRight: {
+                let previousDay = selectedDay - 1
+                if case .success(let days) = eventDays {
+                    if days.contains(previousDay) {
+                        selectedDay = previousDay
+                    }
+                }
             }
             
         }.onAppear {

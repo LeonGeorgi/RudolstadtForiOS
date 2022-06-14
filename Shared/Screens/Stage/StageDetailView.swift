@@ -72,7 +72,18 @@ struct StageDetailView: View {
                             }.buttonStyle(PlainButtonStyle())
                                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
 
+                        }.horizontalSwipeGesture {
+                            let nextDay = selectedDay + 1
+                            if eventDays(entities).contains(nextDay) {
+                                selectedDay = nextDay
+                            }
+                        } onSwipeRight: {
+                            let previousDay = selectedDay - 1
+                            if eventDays(entities).contains(previousDay) {
+                                selectedDay = previousDay
+                            }
                         }
+
 
 
                     }

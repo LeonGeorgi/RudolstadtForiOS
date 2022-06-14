@@ -90,6 +90,21 @@ struct StageProgramView: View {
                             }
                         }
                     }.listStyle(.grouped)
+                        .horizontalSwipeGesture {
+                            let nextDay = selectedDay + 1
+                            if case .success(let days) = eventDays {
+                                if days.contains(nextDay) {
+                                    selectedDay = nextDay
+                                }
+                            }
+                        } onSwipeRight: {
+                            let previousDay = selectedDay - 1
+                            if case .success(let days) = eventDays {
+                                if days.contains(previousDay) {
+                                    selectedDay = previousDay
+                                }
+                            }
+                        }
                 }
             }
         }.navigationBarTitle("program_by_stage.short_title", displayMode: .inline)
