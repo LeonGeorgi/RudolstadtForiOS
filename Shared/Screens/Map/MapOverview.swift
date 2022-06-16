@@ -57,7 +57,7 @@ struct MapOverview: View {
             }
             
                 
-        }
+        }.navigationViewStyle(.stack)
     }
 }
 

@@ -30,7 +30,8 @@ struct ProgramView: View {
                     )
                 }
 
-            }.listStyle(.plain).navigationBarTitle("program.title")
+            }.listStyle(.plain)
+                .navigationBarTitle("program.title")
         }
     }
 }

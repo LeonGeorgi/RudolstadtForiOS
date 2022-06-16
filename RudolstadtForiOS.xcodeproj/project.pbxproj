@@ -113,7 +113,6 @@
 		350573412855D45B008932A9 /* NextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733F2855D45B008932A9 /* NextView.swift */; };
 		350573452857E9BE008932A9 /* MapOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573442857E9BE008932A9 /* MapOverview.swift */; };
 		350573472857F312008932A9 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573462857F312008932A9 /* MapView.swift */; };
-		3510FC7A285925E1000D90EF /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3510FC79285925E1000D90EF /* SDWebImageSwiftUI */; };
 		3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5928043624004F9471 /* Tests_iOS.swift */; };
 		3551CC5C28043624004F9471 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5B28043624004F9471 /* Tests_iOSLaunchTests.swift */; };
 		3551CC6628043624004F9471 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC6528043624004F9471 /* Tests_macOS.swift */; };
@@ -126,6 +125,8 @@
 		3551CC6E28043624004F9471 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3551CC4328043624004F9471 /* Assets.xcassets */; };
 		3551CC8128043DA2004F9471 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC8028043DA2004F9471 /* DataModel.swift */; };
 		3551CC8428043E8D004F9471 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC8328043E8D004F9471 /* DataStore.swift */; };
+		35CF484A285B7E4E00D13B6F /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */; };
+		35CF484D285B830600D13B6F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35CF484B285B830600D13B6F /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -205,7 +206,7 @@
 		3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtForiOSApp.swift; sourceTree = "<group>"; };
 		3551CC4228043623004F9471 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3551CC4328043624004F9471 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3551CC4828043624004F9471 /* RudolstadtForiOS (iOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RudolstadtForiOS (iOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3551CC4828043624004F9471 /* Rudolstadt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rudolstadt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3551CC4E28043624004F9471 /* RudolstadtForiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RudolstadtForiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3551CC5028043624004F9471 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		3551CC5528043624004F9471 /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,6 +217,8 @@
 		3551CC6728043624004F9471 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
 		3551CC8028043DA2004F9471 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		3551CC8328043E8D004F9471 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		35CF484C285B830600D13B6F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		35CF484F285B837800D13B6F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,7 +226,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3510FC7A285925E1000D90EF /* SDWebImageSwiftUI in Frameworks */,
+				35CF484A285B7E4E00D13B6F /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				32A113DC3088B0ED88072ADF /* Localizable.strings */,
+				35CF484B285B830600D13B6F /* InfoPlist.strings */,
 			);
 			path = de.lproj;
 			sourceTree = "<group>";
@@ -392,6 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				32A112FBB6E762F9793E8E60 /* Localizable.strings */,
+				35CF484E285B837800D13B6F /* InfoPlist.strings */,
 			);
 			path = en.lproj;
 			sourceTree = "<group>";
@@ -461,7 +466,7 @@
 		3551CC4928043624004F9471 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3551CC4828043624004F9471 /* RudolstadtForiOS (iOS).app */,
+				3551CC4828043624004F9471 /* Rudolstadt.app */,
 				3551CC4E28043624004F9471 /* RudolstadtForiOS.app */,
 				3551CC5528043624004F9471 /* Tests iOS.xctest */,
 				3551CC6128043624004F9471 /* Tests macOS.xctest */,
@@ -512,10 +517,10 @@
 			);
 			name = "RudolstadtForiOS (iOS)";
 			packageProductDependencies = (
-				3510FC79285925E1000D90EF /* SDWebImageSwiftUI */,
+				35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */,
 			);
 			productName = "RudolstadtForiOS (iOS)";
-			productReference = 3551CC4828043624004F9471 /* RudolstadtForiOS (iOS).app */;
+			productReference = 3551CC4828043624004F9471 /* Rudolstadt.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3551CC4D28043624004F9471 /* RudolstadtForiOS (macOS) */ = {
@@ -608,7 +613,7 @@
 			);
 			mainGroup = 3551CC3B28043622004F9471;
 			packageReferences = (
-				3510FC78285925E1000D90EF /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 3551CC4928043624004F9471 /* Products */;
 			projectDirPath = "";
@@ -628,6 +633,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3551CC6D28043624004F9471 /* Assets.xcassets in Resources */,
+				35CF484D285B830600D13B6F /* InfoPlist.strings in Resources */,
 				32A11ACDDD0BA72386A7E319 /* Localizable.strings in Resources */,
 				32A115480EF0AF9794B76632 /* Localizable.strings in Resources */,
 			);
@@ -832,6 +838,22 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
+		35CF484B285B830600D13B6F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				35CF484C285B830600D13B6F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		35CF484E285B837800D13B6F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				35CF484F285B837800D13B6F /* de */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -957,7 +979,7 @@
 				INFOPLIST_FILE = "RudolstadtForiOS--iOS--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Rudolstadt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs your location to display the location on the map. The location is only used on your device.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Turning on location services allows the app to show your position alongside all event locations on the map.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -970,7 +992,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
-				PRODUCT_NAME = "RudolstadtForiOS (iOS)";
+				PRODUCT_NAME = Rudolstadt;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -991,7 +1013,7 @@
 				INFOPLIST_FILE = "RudolstadtForiOS--iOS--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Rudolstadt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs your location to display the location on the map. The location is only used on your device.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Turning on location services allows the app to show your position alongside all event locations on the map.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1004,7 +1026,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
-				PRODUCT_NAME = "RudolstadtForiOS (iOS)";
+				PRODUCT_NAME = Rudolstadt;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1199,7 +1221,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3510FC78285925E1000D90EF /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+		35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
 			requirement = {
@@ -1210,9 +1232,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3510FC79285925E1000D90EF /* SDWebImageSwiftUI */ = {
+		35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3510FC78285925E1000D90EF /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			package = 35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */

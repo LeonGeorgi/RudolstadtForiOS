@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3551CC4728043624004F9471"
-               BuildableName = "RudolstadtForiOS (iOS).app"
+               BuildableName = "Rudolstadt.app"
                BlueprintName = "RudolstadtForiOS (iOS)"
                ReferencedContainer = "container:RudolstadtForiOS.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3551CC4728043624004F9471"
-            BuildableName = "RudolstadtForiOS (iOS).app"
+            BuildableName = "Rudolstadt.app"
             BlueprintName = "RudolstadtForiOS (iOS)"
             ReferencedContainer = "container:RudolstadtForiOS.xcodeproj">
          </BuildableReference>
