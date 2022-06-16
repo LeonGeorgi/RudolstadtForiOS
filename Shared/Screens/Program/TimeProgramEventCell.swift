@@ -13,6 +13,10 @@ struct TimeProgramEventCell: View {
 
     @EnvironmentObject var settings: UserSettings
 
+    func artistRating() -> Int {
+        settings.ratings["\(event.artist.id)"] ?? 0
+    }
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
@@ -44,6 +48,10 @@ struct TimeProgramEventCell: View {
 
                     }
                     Spacer()
+                    
+                    if artistRating() != 0 {
+                        ArtistRatingSymbol(artist: self.event.artist)
+                    }
                     EventSavedIcon(event: self.event)
                     
                 }

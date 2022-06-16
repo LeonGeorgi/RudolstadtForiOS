@@ -45,6 +45,7 @@ struct ContentView: View {
                             Text("locations.title")
                         }
                     }
+                    .tag(3)
             MoreView()
                     .tabItem {
                         VStack {
@@ -52,7 +53,7 @@ struct ContentView: View {
                             Text("more.title")
                         }
                     }
-                    .tag(3)
+                    .tag(4)
         }
                 .task {
                     await dataStore.loadData()

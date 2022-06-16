@@ -111,7 +111,7 @@ If you don't like this feature, you can easily turn it off by clicking the butto
 "about.official_app.title" = "Official app";
 "about.github.title" = "Open GitHub";
 
-"about.app.content" = "This app is not the official app of the Rudolstadt Festival. It was developed unpaid as a hobby project, hoping to beat the user experience of the official app.
+"about.app.content" = "This app is not the official app of the Rudolstadt Festival. It was developed unpaid as a hobby project, hoping to provide a more convenient user experience than the official app.
 
 The app does not collect any data from you. Everything you do in the app stays on your phone.";
 "about.developer.header" = "About the developer";

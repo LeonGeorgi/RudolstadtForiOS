@@ -158,7 +158,7 @@ struct Event: Identifiable {
     }
 
     var endTimeInMinutes: Int {
-        startTimeInMinutes + 90
+        startTimeInMinutes + 70
     }
 
     var festivalDay: Int {
