@@ -60,9 +60,6 @@ struct ContentView: View {
                     }
                     .tag(4)
         }
-                .task {
-                    await dataStore.loadData()
-                }
                 .onAppear {
                     UNUserNotificationCenter.current()
                       .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in

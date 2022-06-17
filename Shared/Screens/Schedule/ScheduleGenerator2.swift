@@ -123,11 +123,11 @@ class ScheduleGenerator2 {
             score += calculateScore(for: event)
         }
         print("Final score \(score)")
-        solution.sort { event, event2 in
+        return solution
+        /*solution.sort { event, event2 in
             event.festivalDay < event2.festivalDay || event.startTimeInMinutes < event2.startTimeInMinutes
         }
-        return solution
-
+        return solution*/
 
         /*for event in finalEvents {
             print((event.shortWeekDay, event.timeAsString, event.artist.name))
@@ -135,6 +135,15 @@ class ScheduleGenerator2 {
         /*return finalEvents.sorted { event, event2 in
             event.startTimeInMinutes < event2.startTimeInMinutes
         }*/
+    }
+    
+    func generateRecommendations() -> [Int] {
+        return generate().filter { event in
+            !storedEventIds.contains(event.id)
+        }.map { event in
+            event.id
+        }
+
     }
 
     func calculateScore(for event: Event) -> Int {

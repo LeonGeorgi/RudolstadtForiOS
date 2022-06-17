@@ -19,21 +19,20 @@ struct RecommendationScheduleView: View {
         settings.savedEvents
     }
     
-    var shownEvents: LoadingEntity<[Event]> {
+    var shownEvents: LoadingEntity<[Event]?> {
         dataStore.data.map { entities in
-            let savedEvents = entities.events.filter { (event: Event) in
-                storedEvents.contains(event.id)
-            }
             if showingRecommendations {
-                let recommendations = ScheduleGenerator2(
-                        allEvents: entities.events,
-                        storedEventIds: self.settings.savedEvents,
-                        allArtists: entities.artists,
-                        artistRatings: self.settings.ratings
-                ).generate()
-                return recommendations
+                if let recommendations = dataStore.recommendedEvents {
+                    return entities.events.filter { event in
+                        storedEvents.contains(event.id) || recommendations.contains(event.id)
+                    }
+                } else {
+                    return nil
+                }
             } else {
-                return savedEvents
+                return entities.events.filter { event in
+                    storedEvents.contains(event.id)
+                }
             }
         }
     }
@@ -46,6 +45,7 @@ struct RecommendationScheduleView: View {
                 case .failure(let reason):
                     Text("Failed to load: " + reason.rawValue)
                 case .success(let events):
+                if let events = events {
                     ScheduleView(events: events)
                         .navigationBarTitle("schedule.title", displayMode: .inline)
                         .navigationBarItems(trailing: Button(action: {
@@ -57,6 +57,10 @@ struct RecommendationScheduleView: View {
                                 Text("schedule.recommendations.enable")
                             }
                         })
+                } else {
+                    Text("recommendations.loading")
+                }
+                    
             }
         }
     }

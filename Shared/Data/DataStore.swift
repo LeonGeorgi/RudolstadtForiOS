@@ -19,6 +19,7 @@ extension StringProtocol {
 final class DataStore: ObservableObject {
 
     @Published var data: LoadingEntity<Entities> = .loading
+    @Published var recommendedEvents: [Int]? = nil
     static let year = 2022
 
     let files: DataFiles
@@ -40,6 +41,17 @@ final class DataStore: ObservableObject {
         dataLoader = DataLoader(files: files, cacheUrl: cacheUrl)
         dataUpdater = DataUpdater(files: files, cacheUrl: cacheUrl)
 
+    }
+    
+    func updateRecommentations(savedEventsIds: [Int], ratings: Dictionary<String, Int>) {
+        if case .success(let entities) = data {
+            let generator = ScheduleGenerator2(allEvents: entities.events, storedEventIds: savedEventsIds, allArtists: entities.artists, artistRatings: ratings)
+            let recommendations = generator.generateRecommendations()
+            DispatchQueue.main.async {
+                self.recommendedEvents = recommendations
+            }
+        }
+        
     }
 
     func loadData() async {

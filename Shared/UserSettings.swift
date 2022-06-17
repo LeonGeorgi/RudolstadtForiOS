@@ -23,6 +23,8 @@ struct UserDefault<T> {
 
 final class UserSettings: ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
+    
+    private var listener: (() -> ())? = nil
 
     @UserDefault(key: "\(DataStore.year)/ratings", defaultValue: Dictionary())
     var ratings: Dictionary<String, Int>
@@ -42,7 +44,14 @@ final class UserSettings: ObservableObject {
     init() {
         notificationSubscription = NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification).sink { a in
             self.objectWillChange.send()
+            if let listener = self.listener {
+                listener()
+            }
         }
+    }
+    
+    func onChange(listener: @escaping () -> ()) {
+        self.listener = listener
     }
     
     func toggleSavedEvent(_ event: Event) {

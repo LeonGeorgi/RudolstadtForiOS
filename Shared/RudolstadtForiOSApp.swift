@@ -16,6 +16,19 @@ struct RudolstadtForiOSApp: App {
             ContentView()
                     .environmentObject(dataStore)
                     .environmentObject(userSettings)
+                    .onAppear {
+                        userSettings.onChange {
+                            DispatchQueue.global(qos: .userInitiated).async {
+                                dataStore.updateRecommentations(savedEventsIds: userSettings.savedEvents, ratings: userSettings.ratings)
+                            }
+                        }
+                    }
+                    .task {
+                        await dataStore.loadData()
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            dataStore.updateRecommentations(savedEventsIds: userSettings.savedEvents, ratings: userSettings.ratings)
+                        }
+                    }
         }
     }
 }
