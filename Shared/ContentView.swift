@@ -15,6 +15,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selection) {
             ProgramView()
+                .navigationViewStyle(.stack)
                     .tabItem {
                         VStack {
                             Image(systemName: "music.note.list")
@@ -23,6 +24,7 @@ struct ContentView: View {
                     }
                     .tag(0)
             RecommendationScheduleView()
+                .navigationViewStyle(.stack)
                     .tabItem {
                         VStack {
                             Image(systemName: "calendar")
@@ -31,6 +33,7 @@ struct ContentView: View {
                     }
                     .tag(1)
             NewsListView()
+                .navigationViewStyle(.stack)
                     .tabItem {
                         VStack {
                             Image(systemName: "envelope.fill")
@@ -39,6 +42,7 @@ struct ContentView: View {
                     }
                     .tag(2)
             MapOverview()
+                .navigationViewStyle(.stack)
                     .tabItem {
                         VStack {
                             Image(systemName: "map.fill")
@@ -47,6 +51,7 @@ struct ContentView: View {
                     }
                     .tag(3)
             MoreView()
+                .navigationViewStyle(.stack)
                     .tabItem {
                         VStack {
                             Image(systemName: "ellipsis")

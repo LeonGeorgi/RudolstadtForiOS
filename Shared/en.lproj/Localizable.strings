@@ -126,6 +126,7 @@ When I was 8 years old, I went to the Rudolstadt Festival for the first time (at
 "map.title" = "Map";
 "map.loading" = "Loading map…";
 
+"events.empty" = "No events found";
 "events.loading" = "Loading events…";
 "events.intersecting.loading" = "Loading events…";
 "event.intersecting.with" = "at the same time as \"%@\"";

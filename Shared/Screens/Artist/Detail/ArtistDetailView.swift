@@ -41,6 +41,8 @@ struct ArtistDetailView: View {
         List {
             Section(footer: artist.countries.isEmpty ? Text(artist.name) : Text("\(artist.name) (\(artist.countries))")) {
                 ArtistImageView(artist: artist, fullImage: true).listRowInsets(EdgeInsets())
+                    .frame(maxHeight: 500)
+                    .clipped()
             }
 
             

@@ -40,7 +40,7 @@ final class UserSettings: ObservableObject {
     private var notificationSubscription: AnyCancellable?
 
     init() {
-        notificationSubscription = NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification).sink { _ in
+        notificationSubscription = NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification).sink { a in
             self.objectWillChange.send()
         }
     }

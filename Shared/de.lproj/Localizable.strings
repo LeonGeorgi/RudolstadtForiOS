@@ -126,6 +126,7 @@ Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (dama
 "map.title" = "Karte";
 "map.loading" = "Karte lädt…";
 
+"events.empty" = "Keine Veranstaltungen gefunden";
 "events.loading" = "Veranstaltungen laden…";
 "events.intersecting.loading" = "Veranstaltungen laden…";
 "event.intersecting.with" = "gleichzeitig mit \"%@\"";
