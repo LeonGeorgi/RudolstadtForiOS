@@ -30,8 +30,8 @@ struct StageDetailView: View {
     var body: some View {
         List {
             HStack(spacing: 12) {
-                if stage.stageNumber != nil {
-                    Text(String(stage.stageNumber!))
+                if let stageNumber = stage.getAdjustedStageNumber() {
+                    Text(String(stageNumber))
                             .frame(width: 40, height: 40)
                             .background(Color.accentColor)
                             .foregroundColor(.white)
@@ -53,7 +53,7 @@ struct StageDetailView: View {
                 Section(header: Text("stage.events")) {
                     Text("stage.events.loading")
                 }
-            case.failure(let reason):
+            case .failure(let reason):
                 Section(header: Text("stage.events")) {
                     Text("Failed to load: " + reason.rawValue)
                 }
@@ -69,34 +69,35 @@ struct StageDetailView: View {
                         ForEach(events(entities)[selectedDay] ?? []) { (event: Event) in
                             NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
                                 StageEventCell(event: event, imageWidth: 64, imageHeight: 56)
-                            }.buttonStyle(PlainButtonStyle())
-                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
+                            }
+                                    .buttonStyle(PlainButtonStyle())
+                                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
 
-                        }.horizontalSwipeGesture {
-                            let nextDay = selectedDay + 1
-                            if eventDays(entities).contains(nextDay) {
-                                selectedDay = nextDay
-                            }
-                        } onSwipeRight: {
-                            let previousDay = selectedDay - 1
-                            if eventDays(entities).contains(previousDay) {
-                                selectedDay = previousDay
-                            }
                         }
-
-
-
+                                .horizontalSwipeGesture {
+                                    let nextDay = selectedDay + 1
+                                    if eventDays(entities).contains(nextDay) {
+                                        selectedDay = nextDay
+                                    }
+                                } onSwipeRight: {
+                                    let previousDay = selectedDay - 1
+                                    if eventDays(entities).contains(previousDay) {
+                                        selectedDay = previousDay
+                                    }
+                                }
                     }
                 }
             }
 
+
             Section(header: Text("stage.map")) {
                 Button(action: {
-                    StageMapView.openInMaps(stage: self.stage)
+                    StageMapView.openInMaps(stage: stage)
                 }) {
                     StageMapView(stage: stage)
                             .frame(minHeight: 300)
-                }.listRowInsets(EdgeInsets())
+                }
+                        .listRowInsets(EdgeInsets())
                         .buttonStyle(PlainButtonStyle())
             }
             if !nearbyStages.isEmpty {
@@ -117,12 +118,13 @@ struct StageDetailView: View {
                 }
             }
 
-        }.listStyle(GroupedListStyle())
+        }
+                .listStyle(GroupedListStyle())
                 .navigationBarTitle(stage.localizedName)
                 .onAppear {
                     if case .success(let entities) = dataStore.data {
-                        self.calculateNearbyStages(entities)
-                        let days = self.eventDays(entities)
+                        calculateNearbyStages(entities)
+                        let days = eventDays(entities)
                         self.selectedDay = Util.getCurrentFestivalDay(eventDays: days) ?? days.first ?? -1
                     }
                 }
@@ -131,7 +133,8 @@ struct StageDetailView: View {
     func calculateNearbyStages(_ entities: Entities) {
         self.nearbyStages = entities.stages.filter { stage in
                     stage.area.id == self.stage.area.id && stage.id != self.stage.id
-                }.map { stage in
+                }
+                .map { stage in
                     StageDistance(stage: stage, distance: calculateAirDistance(first: self.stage, second: stage))
                 }
         /*for stage in allStages {

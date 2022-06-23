@@ -45,11 +45,8 @@ struct StageProgramView: View {
     }
 
     func sortStages(_ stages: [StageEvents]) -> [StageEvents] {
-        return stages.sorted { (first: StageEvents, second: StageEvents) in
-                    first.stage.id < second.stage.id
-                }
-                .sorted { (first: StageEvents, second: StageEvents) in
-                    first.stage.area.id < second.stage.area.id
+        stages.sorted { (first: StageEvents, second: StageEvents) in
+                    Util.compareStageNumbers(first.stage, second.stage)
                 }
     }
 

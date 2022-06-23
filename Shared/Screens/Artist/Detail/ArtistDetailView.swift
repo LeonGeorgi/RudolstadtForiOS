@@ -13,14 +13,12 @@ struct ArtistDetailView: View {
 
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
-    
+
     @State var showingRatingExplanation: Bool = false
 
-    var artistEvents: LoadingEntity<[Event]> {
-        dataStore.data.map { entities in
-            entities.events.filter {
-                $0.artist.id == artist.id
-            }
+    func artistEvents(_ entities: Entities) -> [Event] {
+        entities.events.filter {
+            $0.artist.id == artist.id
         }
     }
 
@@ -41,28 +39,30 @@ struct ArtistDetailView: View {
         List {
             Section(footer: artist.countries.isEmpty ? Text(artist.name) : Text("\(artist.name) (\(artist.countries))")) {
                 ArtistImageView(artist: artist, fullImage: true).listRowInsets(EdgeInsets())
-                    .frame(maxHeight: 500)
-                    .clipped()
+                        .frame(maxHeight: 500)
+                        .clipped()
             }
 
-            
-            switch artistEvents {
+
+            switch dataStore.data {
             case .loading:
                 Text("events.loading")
             case .failure(let reason):
                 Text("Failed to load: " + reason.rawValue)
-            case .success(let events):
-                if !events.isEmpty {
-                    Section(header: Text("artist.events")) {
-                        ForEach(events) { (event: Event) in
-                            NavigationLink(destination: StageDetailView(stage: event.stage)) {
-                                ArtistEventCell(event: event)
+            case .success(let entities):
+                if let events = artistEvents(entities) {
+                    if !events.isEmpty {
+                        Section(header: Text("artist.events")) {
+                            ForEach(events) { (event: Event) in
+                                NavigationLink(destination: StageDetailView(stage: event.stage)) {
+                                    ArtistEventCell(event: event)
+                                }
                             }
                         }
                     }
                 }
             }
-            
+
             if artist.formattedDescription != nil && artist.formattedDescription != "" {
                 Section(header: Text("artist.description")) {
 
@@ -136,19 +136,20 @@ struct ArtistDetailView: View {
                     }
                     Spacer()
                     Image(systemName: "questionmark.circle.fill")
-                        .foregroundColor(.gray)
-                        .font(.system(size: 20))
-                        .onTapGesture {
-                            showingRatingExplanation.toggle()
-                        }
-                    
+                            .foregroundColor(.gray)
+                            .font(.system(size: 20))
+                            .onTapGesture {
+                                showingRatingExplanation.toggle()
+                            }
+
                 }//.padding(.vertical)
             }
             //.cornerRadius(10)
             //.shadow(radius: 10)
             //.padding()
 
-        }.listStyle(GroupedListStyle())
+        }
+                .listStyle(GroupedListStyle())
                 .navigationBarTitle(Text(artist.name), displayMode: .large)
                 .navigationBarItems(trailing: Button(action: {
                     if artistRating() == 0 {
@@ -161,15 +162,16 @@ struct ArtistDetailView: View {
                     case 0: Text("😍").saturation(0)
                     default: ArtistRatingSymbol(artist: artist)
                     }
-                }.contextMenu {
-                    ForEach((0..<4).reversed()) { rating in
-                        Button(action: {
-                            self.settings.ratings[String(self.artist.id)] = rating
-                        }) {
-                            RatingSymbol(rating: rating)
-                        }
-                    }
-                })
+                }
+                        .contextMenu {
+                            ForEach((0..<4).reversed()) { rating in
+                                Button(action: {
+                                    self.settings.ratings[String(self.artist.id)] = rating
+                                }) {
+                                    RatingSymbol(rating: rating)
+                                }
+                            }
+                        })
     }
 }
 

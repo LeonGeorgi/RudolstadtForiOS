@@ -26,11 +26,11 @@ struct Artist: Identifiable {
             return nil
         }
         imageName = imageName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? imageName
-        
+
         if artistType == .street {
             return URL(string: "\(ImageUrlUtil.streetMusicThumbUrl)/\(imageName)")
         }
-        
+
         return URL(string: "\(ImageUrlUtil.thumbUrl)/\(imageName)")
     }
 
@@ -44,7 +44,7 @@ struct Artist: Identifiable {
         }
         return URL(string: "\(ImageUrlUtil.fullImageUrl)/\(imageName)")
     }
-    
+
 
     func matches(searchTerm: String) -> Bool {
         if searchTerm.isEmpty {
@@ -367,6 +367,10 @@ struct Stage: Identifiable, Hashable {
         } else {
             return englishDescription
         }
+    }
+
+    func getAdjustedStageNumber() -> Int? {
+        StageMapping.numberMapping[germanName]
     }
 
     func matches(searchTerm: String) -> Bool {

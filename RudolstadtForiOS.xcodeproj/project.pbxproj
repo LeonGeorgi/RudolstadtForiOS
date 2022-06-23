@@ -125,6 +125,7 @@
 		3551CC6E28043624004F9471 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3551CC4328043624004F9471 /* Assets.xcassets */; };
 		3551CC8128043DA2004F9471 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC8028043DA2004F9471 /* DataModel.swift */; };
 		3551CC8428043E8D004F9471 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC8328043E8D004F9471 /* DataStore.swift */; };
+		357F83E728650E6700CDD400 /* StageMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357F83E628650E6700CDD400 /* StageMapping.swift */; };
 		35CF484A285B7E4E00D13B6F /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */; };
 		35CF484D285B830600D13B6F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35CF484B285B830600D13B6F /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -217,6 +218,7 @@
 		3551CC6728043624004F9471 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
 		3551CC8028043DA2004F9471 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		3551CC8328043E8D004F9471 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		357F83E628650E6700CDD400 /* StageMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageMapping.swift; sourceTree = "<group>"; };
 		35CF484C285B830600D13B6F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		35CF484F285B837800D13B6F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -420,6 +422,7 @@
 				35028CC32805BEA6004F0E3F /* HelperTypes.swift */,
 				32A113E8EF0720699AAD91D0 /* DataLoader.swift */,
 				32A117A0FDF5C04B31439439 /* DataUpdater.swift */,
+				357F83E628650E6700CDD400 /* StageMapping.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -719,6 +722,7 @@
 				32A11C422B2F012460218204 /* RecommendationScheduleView.swift in Sources */,
 				350573342854F73C008932A9 /* AboutView.swift in Sources */,
 				350573312854F59B008932A9 /* FAQView.swift in Sources */,
+				357F83E728650E6700CDD400 /* StageMapping.swift in Sources */,
 				32A111E0096A7F39D7ECB1AF /* StageCell.swift in Sources */,
 				350573452857E9BE008932A9 /* MapOverview.swift in Sources */,
 				32A11A3783E29222781B3C80 /* SearchView.swift in Sources */,

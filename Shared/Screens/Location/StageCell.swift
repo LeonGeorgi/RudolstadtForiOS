@@ -5,8 +5,8 @@ struct StageCell: View {
 
     var body: some View {
         HStack {
-            if stage.stageNumber != nil {
-                Text(String(stage.stageNumber!))
+            if let stageNumber = stage.getAdjustedStageNumber() {
+                Text(String(stageNumber))
                         .frame(width: 30, height: 30)
                         .background(Color.accentColor)
                         .foregroundColor(.white)

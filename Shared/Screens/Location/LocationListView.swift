@@ -28,7 +28,7 @@ struct LocationListView: View {
                     !areaStages.stages.isEmpty
                 }
                 .sorted { stages, stages2 in
-                    stages.area.id < stages2.area.id
+                    stages.minStageNumber < stages2.minStageNumber
                 }
     }
 
@@ -39,16 +39,18 @@ struct LocationListView: View {
             List {
                 ForEach(stages) { (areaStages: AreaStages) in
                     Section(header: Text(areaStages.area.localizedName)) {
-                        ForEach(areaStages.stages) { (stage: Stage) in
+                        ForEach(areaStages.sortedStages) { (stage: Stage) in
                             NavigationLink(destination: StageDetailView(stage: stage)) {
                                 StageCell(stage: stage)
                             }
                         }
                     }
                 }
-            }.searchable(text: $searchTerm)
-                .listStyle(.grouped)
-        }.navigationBarTitle("locations.title")
+            }
+                    .searchable(text: $searchTerm)
+                    .listStyle(.grouped)
+        }
+                .navigationBarTitle("locations.title")
     }
 }
 
@@ -58,6 +60,19 @@ struct AreaStages: Identifiable {
     }
     let area: Area
     let stages: [Stage]
+
+    var sortedStages: [Stage] {
+        stages.sorted { stage, stage2 in
+            Util.compareStageNumbers(stage, stage2)
+        }
+    }
+
+    var minStageNumber: Int {
+        stages.min { stage1, stage2 in
+                    Util.compareStageNumbers(stage1, stage2)
+                }?
+                .getAdjustedStageNumber() ?? Int.max
+    }
 }
 
 struct LocationListView_Previews: PreviewProvider {

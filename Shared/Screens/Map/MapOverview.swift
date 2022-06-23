@@ -9,54 +9,55 @@ import SwiftUI
 import MapKit
 
 struct MapOverview: View {
-    
+
     @EnvironmentObject var dataStore: DataStore
-    
+
     @State var mode: Mode = .map
-    
-    
-    var annotationItems: LoadingEntity<[MapLocation]> {
-        dataStore.data.map { entities in
-            entities.stages.filter { stage in
-                stage.stageNumber != nil
-            }.map { stage in
-                MapLocation(stage: stage, coordinate: CLLocationCoordinate2D(latitude: stage.latitude, longitude: stage.longitude))
-            }
-        }
+
+
+    func annotationItems(entities: Entities) -> [MapLocation] {
+        entities.stages.filter { stage in
+                    stage.getAdjustedStageNumber() != nil
+                }
+                .map { stage in
+                    MapLocation(stage: stage, coordinate: CLLocationCoordinate2D(latitude: stage.latitude, longitude: stage.longitude))
+                }
+
     }
 
     var body: some View {
         NavigationView {
-            switch annotationItems {
-                case .loading:
-                    Text("map.loading")
-                case .failure(let reason):
-                    Text("Failed to load: " + reason.rawValue)
-                case .success(let locations):
+            switch dataStore.data {
+            case .loading:
+                Text("map.loading")
+            case .failure(let reason):
+                Text("Failed to load: " + reason.rawValue)
+            case .success(let entites):
                 VStack {
-                    
+
                     if mode == .map {
-                        MapView(locations: locations)
+                        MapView(locations: annotationItems(entities: entites))
                     } else {
                         LocationListView()
                     }
-                    
-                }.navigationBarTitle("locations.title", displayMode: .inline)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button(mode == .map ? "list.title" : "map.title") {
-                                if mode == .map {
-                                    mode = .list
-                                } else {
-                                    mode = .map
+
+                }
+                        .navigationBarTitle("locations.title", displayMode: .inline)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(mode == .map ? "list.title" : "map.title") {
+                                    if mode == .map {
+                                        mode = .list
+                                    } else {
+                                        mode = .map
+                                    }
                                 }
                             }
                         }
-                    }
 
             }
-            
-                
+
+
         }
     }
 }
@@ -64,6 +65,7 @@ struct MapOverview: View {
 enum Mode {
     case map, list
 }
+
 struct MapLocation: Identifiable {
     let id = UUID()
     let stage: Stage
