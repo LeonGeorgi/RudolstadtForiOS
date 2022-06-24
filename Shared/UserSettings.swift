@@ -5,6 +5,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 @propertyWrapper
 struct UserDefault<T> {
@@ -13,7 +14,7 @@ struct UserDefault<T> {
 
     var wrappedValue: T {
         get {
-            return UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
+            UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
         }
         set {
             UserDefaults.standard.set(newValue, forKey: key)
@@ -21,9 +22,10 @@ struct UserDefault<T> {
     }
 }
 
+
 final class UserSettings: ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
-    
+
     private var listener: (() -> ())? = nil
 
     @UserDefault(key: "\(DataStore.year)/ratings", defaultValue: Dictionary())
@@ -34,10 +36,9 @@ final class UserSettings: ObservableObject {
     
     @UserDefault(key: "\(DataStore.year)/readNews", defaultValue: [])
     var readNews: [Int]
-    
+
     @UserDefault(key: "\(DataStore.year)/oldNews", defaultValue: [])
     var oldNews: [Int]
-
 
     private var notificationSubscription: AnyCancellable?
 
@@ -49,11 +50,11 @@ final class UserSettings: ObservableObject {
             }
         }
     }
-    
+
     func onChange(listener: @escaping () -> ()) {
         self.listener = listener
     }
-    
+
     func toggleSavedEvent(_ event: Event) {
         if !savedEvents.contains(event.id) {
             savedEvents.append(event.id)
@@ -61,11 +62,11 @@ final class UserSettings: ObservableObject {
             savedEvents.remove(at: savedEvents.firstIndex(of: event.id)!)
         }
     }
-    
+
     func idFor(event: Event) -> String {
         return "\(event.id)-\(savedEvents.contains(event.id))"
     }
-    
+
     func idFor(newsItem: NewsItem) -> String {
         return "\(newsItem.id)-\(readNews.contains(newsItem.id))"
 

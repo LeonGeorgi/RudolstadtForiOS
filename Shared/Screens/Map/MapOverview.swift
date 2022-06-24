@@ -36,7 +36,7 @@ struct MapOverview: View {
                 VStack {
                     
                     if mode == .map {
-                        MapView(locations: locations)
+                        EquatableView(content: MapView(locations: locations))
                     } else {
                         LocationListView()
                     }

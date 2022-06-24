@@ -27,9 +27,11 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "stage.nearby" = "ORTE IN DER NÄHE";
 
 "artists.title" = "Künstler";
+"artists.none-found" = "Keine Künstler gefunden";
 "artists.saved.empty" = "Du hast noch keine Künstler gespeichert. Markiere dein Interesse auf der Künstlerseite, um den Künstler hier zu speichern.";
 
 "locations.title" = "Orte";
+"locations.empty" = "Keine Orte gefunden";
 
 "rated_artists.title" = "Gespeicherte Künstler";
 "program_by_time.title" = "Programm nach Zeit";

@@ -93,7 +93,7 @@ class DataLoader {
                 latitude: Double(information[6])!,
                 longitude: Double(information[7])!,
                 area: area,
-                unknownNumber: Int(information[9])
+                stageType: StageType(rawValue: Int(information[9]) ?? -1) ?? .unknown
         )
     }
 

@@ -30,14 +30,7 @@ struct StageDetailView: View {
     var body: some View {
         List {
             HStack(spacing: 12) {
-                if stage.stageNumber != nil {
-                    Text(String(stage.stageNumber!))
-                            .frame(width: 40, height: 40)
-                            .background(Color.accentColor)
-                            .foregroundColor(.white)
-                            .cornerRadius(.infinity)
-
-                }
+                StageNumber(stage: stage, size: 40)
                 VStack(alignment: .leading) {
                     if stage.localizedDescription != nil {
                         Text(stage.localizedDescription!)

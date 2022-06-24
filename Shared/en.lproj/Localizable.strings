@@ -27,10 +27,12 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "stage.nearby" = "NEARBY LOCATIONS";
 
 "artists.title" = "Artists";
+"artists.none-found" = "No artists found";
 "artists.saved.empty" = "You have not saved any artists yet. Mark your interest on the artist page to save the artist here.";
 
 
 "locations.title" = "Locations";
+"locations.empty" = "No locations found";
 
 "rated_artists.title" = "Saved artists";
 "program_by_time.title" = "Program by time";

@@ -26,11 +26,11 @@ struct Artist: Identifiable {
             return nil
         }
         imageName = imageName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? imageName
-        
+
         if artistType == .street {
             return URL(string: "\(ImageUrlUtil.streetMusicThumbUrl)/\(imageName)")
         }
-        
+
         return URL(string: "\(ImageUrlUtil.thumbUrl)/\(imageName)")
     }
 
@@ -44,7 +44,7 @@ struct Artist: Identifiable {
         }
         return URL(string: "\(ImageUrlUtil.fullImageUrl)/\(imageName)")
     }
-    
+
 
     func matches(searchTerm: String) -> Bool {
         if searchTerm.isEmpty {
@@ -350,8 +350,7 @@ struct Stage: Identifiable, Hashable {
     let latitude: Double
     let longitude: Double
     let area: Area
-    let unknownNumber: Int?
-
+    let stageType: StageType
 
     var localizedName: String {
         if Locale.current.languageCode == "de" {
@@ -395,10 +394,50 @@ struct Stage: Identifiable, Hashable {
             latitude: 50.717028,
             longitude: 11.341074,
             area: .example,
-            unknownNumber: 1)
+            stageType: .festivalTicket
+    )
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+    }
+}
+
+
+enum StageType: Int, Identifiable, CaseIterable {
+    var id: Int {
+        self.rawValue
+    }
+
+    case festivalTicket = 1
+    case festivalAndDayTicket = 2
+    case other = 3
+    case unknown = 4;
+
+    var germanName: String {
+        switch self {
+        case .festivalTicket: return "Dauerkarte"
+        case .festivalAndDayTicket: return "Dauer- und Tageskarte"
+        case .other: return "Sonstige"
+        case .unknown: return "Unbekannt"
+        }
+    }
+
+    var englishName: String {
+        switch self {
+        case .festivalTicket: return "Festival ticket"
+        case .festivalAndDayTicket: return "Day and festival ticket"
+        case .other: return "Other"
+        case .unknown: return "Unknown"
+        }
+    }
+
+
+    var localizedName: String {
+        if Locale.current.languageCode == "de" {
+            return germanName
+        } else {
+            return englishName
+        }
     }
 }
 

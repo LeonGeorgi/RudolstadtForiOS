@@ -5,13 +5,7 @@ struct StageCell: View {
 
     var body: some View {
         HStack {
-            if stage.stageNumber != nil {
-                Text(String(stage.stageNumber!))
-                        .frame(width: 30, height: 30)
-                        .background(Color.accentColor)
-                        .foregroundColor(.white)
-                        .cornerRadius(.infinity)
-            }
+            StageNumber(stage: stage, size: 30)
             Text(stage.localizedName)
         }
     }
