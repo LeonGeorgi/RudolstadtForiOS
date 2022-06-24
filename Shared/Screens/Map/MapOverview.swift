@@ -11,16 +11,21 @@ import MapKit
 struct MapOverview: View {
 
     @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var settings: UserSettings
 
     @State var mode: Mode = .map
 
 
     func annotationItems(entities: Entities) -> [MapLocation] {
         entities.stages.filter { stage in
-                    stage.getAdjustedStageNumber() != nil
+                    stage.getAdjustedStageNumber(stageNumberType: settings.stageNumberType) != nil
                 }
                 .map { stage in
-                    MapLocation(stage: stage, coordinate: CLLocationCoordinate2D(latitude: stage.latitude, longitude: stage.longitude))
+                    MapLocation(
+                            stage: stage,
+                            stageNumber: stage.getAdjustedStageNumber(stageNumberType: settings.stageNumberType),
+                            coordinate: CLLocationCoordinate2D(latitude: stage.latitude, longitude: stage.longitude)
+                    )
                 }
 
     }
@@ -69,6 +74,7 @@ enum Mode {
 struct MapLocation: Identifiable {
     let id = UUID()
     let stage: Stage
+    let stageNumber: Int?
     let coordinate: CLLocationCoordinate2D
 }
 

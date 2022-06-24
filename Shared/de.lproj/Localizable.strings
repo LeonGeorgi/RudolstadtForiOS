@@ -136,3 +136,10 @@ Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (dama
 
 "data.loading" = "Daten laden…";
 "recommendations.loading" = "Vorschläge werden geladen…";
+
+"settings.title" = "Einstellungen";
+
+"stagenumber.header" = "Bühnennummern";
+"stagenumber.footer" = "Wenn die Bühnennummern von denen im Programmheft abweichen, kannst du \"Angepasst\" aktivieren";
+"stagenumber.original" = "Original";
+"stagenumber.adjusted" = "Angepasst";

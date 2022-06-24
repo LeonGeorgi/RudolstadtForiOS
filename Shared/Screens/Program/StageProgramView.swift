@@ -3,6 +3,7 @@ import SwiftUI
 struct StageProgramView: View {
 
     @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var settings: UserSettings
 
     @State private var showingSheet = false
     @State var selectedArtistTypes = Set(ArtistType.allCases)
@@ -38,16 +39,17 @@ struct StageProgramView: View {
 
     var eventDays: LoadingEntity<[Int]> {
         dataStore.data.map { entities in
-            return Set(entities.events.lazy.map { (event: Event) in
+            Set(entities.events.lazy.map { (event: Event) in
                 event.festivalDay
-            }).sorted(by: <)
+            })
+                    .sorted(by: <)
         }
     }
 
     func sortStages(_ stages: [StageEvents]) -> [StageEvents] {
         stages.sorted { (first: StageEvents, second: StageEvents) in
-                    Util.compareStageNumbers(first.stage, second.stage)
-                }
+            Util.compareStageNumbers(first.stage, second.stage, stageNumberType: settings.stageNumberType)
+        }
     }
 
     var body: some View {
@@ -58,16 +60,17 @@ struct StageProgramView: View {
                         Text(Util.shortWeekDay(day: day)).tag(day)
 
                     }
-                }.padding(.leading, 10)
+                }
+                        .padding(.leading, 10)
                         .padding(.trailing, 10)
                         .pickerStyle(SegmentedPickerStyle())
             }
             switch events {
-                case .loading:
-                    Text("events.loading")
-                case .failure(let reason):
-                    Text("Failed to load: " + reason.rawValue)
-                case .success(let events):
+            case .loading:
+                Text("events.loading")
+            case .failure(let reason):
+                Text("Failed to load: " + reason.rawValue)
+            case .success(let events):
                 if events[selectedDay] == nil {
                     Spacer()
                     Text("filter.no_events_available")
@@ -82,29 +85,32 @@ struct StageProgramView: View {
                                             artist: event.artist
                                     )) {
                                         StageEventCell(event: event, imageWidth: 60, imageHeight: 52.5)
-                                    }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
+                                    }
+                                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
                                 }
                             }
                         }
-                    }.listStyle(.grouped)
-                        .horizontalSwipeGesture {
-                            let nextDay = selectedDay + 1
-                            if case .success(let days) = eventDays {
-                                if days.contains(nextDay) {
-                                    selectedDay = nextDay
+                    }
+                            .listStyle(.grouped)
+                            .horizontalSwipeGesture {
+                                let nextDay = selectedDay + 1
+                                if case .success(let days) = eventDays {
+                                    if days.contains(nextDay) {
+                                        selectedDay = nextDay
+                                    }
+                                }
+                            } onSwipeRight: {
+                                let previousDay = selectedDay - 1
+                                if case .success(let days) = eventDays {
+                                    if days.contains(previousDay) {
+                                        selectedDay = previousDay
+                                    }
                                 }
                             }
-                        } onSwipeRight: {
-                            let previousDay = selectedDay - 1
-                            if case .success(let days) = eventDays {
-                                if days.contains(previousDay) {
-                                    selectedDay = previousDay
-                                }
-                            }
-                        }
                 }
             }
-        }.navigationBarTitle("program_by_stage.short_title", displayMode: .inline)
+        }
+                .navigationBarTitle("program_by_stage.short_title", displayMode: .inline)
 
                 .navigationBarItems(trailing: Button(action: {
                     self.showingSheet = true

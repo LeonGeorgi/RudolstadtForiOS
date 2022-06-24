@@ -20,7 +20,7 @@ struct MapView: View {
         Map(coordinateRegion: $mapRegion, showsUserLocation: true, annotationItems: locations) { annotation in
             MapAnnotation(coordinate: annotation.coordinate) {
                 NavigationLink(destination: StageDetailView(stage: annotation.stage)) {
-                    Text(annotation.stage.getAdjustedStageNumber().map(String.init) ?? "")
+                    Text(annotation.stageNumber.map(String.init) ?? "")
                         .font(.system(size: 15))
                         .frame(width: 25, height: 25)
                         .background(Color.accentColor)

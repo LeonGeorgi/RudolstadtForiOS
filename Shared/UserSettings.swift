@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import SwiftUI
 import Combine
 
 @propertyWrapper
@@ -21,9 +22,14 @@ struct UserDefault<T> {
     }
 }
 
+enum StageNumberType: String, CaseIterable {
+    case original
+    case adjusted
+}
+
 final class UserSettings: ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
-    
+
     private var listener: (() -> ())? = nil
 
     @UserDefault(key: "\(DataStore.year)/ratings", defaultValue: Dictionary())
@@ -31,12 +37,26 @@ final class UserSettings: ObservableObject {
 
     @UserDefault(key: "\(DataStore.year)/savedEvents", defaultValue: [])
     var savedEvents: [Int]
-    
+
     @UserDefault(key: "\(DataStore.year)/readNews", defaultValue: [])
     var readNews: [Int]
-    
+
     @UserDefault(key: "\(DataStore.year)/oldNews", defaultValue: [])
     var oldNews: [Int]
+
+
+    @UserDefault(key: "\(DataStore.year)/stageNumberType", defaultValue: StageNumberType.adjusted.rawValue)
+    var stageNumberType: StageNumberType.RawValue
+
+    var stageNumberTypeBinding: Binding<StageNumberType> {
+        Binding<StageNumberType>(
+                get: {
+                    StageNumberType(rawValue: self.stageNumberType)!
+                },
+                set: { val in
+                    self.stageNumberType = val.rawValue
+                })
+    }
 
 
     private var notificationSubscription: AnyCancellable?
@@ -49,11 +69,11 @@ final class UserSettings: ObservableObject {
             }
         }
     }
-    
+
     func onChange(listener: @escaping () -> ()) {
         self.listener = listener
     }
-    
+
     func toggleSavedEvent(_ event: Event) {
         if !savedEvents.contains(event.id) {
             savedEvents.append(event.id)
@@ -61,11 +81,11 @@ final class UserSettings: ObservableObject {
             savedEvents.remove(at: savedEvents.firstIndex(of: event.id)!)
         }
     }
-    
+
     func idFor(event: Event) -> String {
         return "\(event.id)-\(savedEvents.contains(event.id))"
     }
-    
+
     func idFor(newsItem: NewsItem) -> String {
         return "\(newsItem.id)-\(readNews.contains(newsItem.id))"
 

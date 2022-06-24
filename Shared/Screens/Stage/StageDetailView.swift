@@ -10,6 +10,7 @@ import MapKit
 struct StageDetailView: View {
     let stage: Stage
     @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var settings: UserSettings
 
     @State var nearbyStages: [StageDistance] = []
     @State var selectedDay: Int = -1
@@ -30,7 +31,7 @@ struct StageDetailView: View {
     var body: some View {
         List {
             HStack(spacing: 12) {
-                if let stageNumber = stage.getAdjustedStageNumber() {
+                if let stageNumber = stage.getAdjustedStageNumber(stageNumberType: settings.stageNumberType) {
                     Text(String(stageNumber))
                             .frame(width: 40, height: 40)
                             .background(Color.accentColor)

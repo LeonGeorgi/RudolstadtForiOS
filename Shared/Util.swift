@@ -30,9 +30,9 @@ class Util {
         return day
     }
 
-    static func compareStageNumbers(_ stage1: Stage, _ stage2: Stage) -> Bool {
-        let stageNumber1 = stage1.getAdjustedStageNumber() ?? Int.max
-        let stageNumber2 = stage2.getAdjustedStageNumber() ?? Int.max
+    static func compareStageNumbers(_ stage1: Stage, _ stage2: Stage, stageNumberType: StageNumberType.RawValue) -> Bool {
+        let stageNumber1 = stage1.getAdjustedStageNumber(stageNumberType: stageNumberType) ?? Int.max
+        let stageNumber2 = stage2.getAdjustedStageNumber(stageNumberType: stageNumberType) ?? Int.max
         return stageNumber1 < stageNumber2
     }
 }

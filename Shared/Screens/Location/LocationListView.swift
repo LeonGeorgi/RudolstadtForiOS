@@ -11,6 +11,7 @@ import SwiftUI
 struct LocationListView: View {
 
     @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var settings: UserSettings
 
     @State(initialValue: "") var searchTerm: String
 
@@ -28,7 +29,7 @@ struct LocationListView: View {
                     !areaStages.stages.isEmpty
                 }
                 .sorted { stages, stages2 in
-                    stages.minStageNumber < stages2.minStageNumber
+                    stages.minStageNumber(stageNumberType: settings.stageNumberType) < stages2.minStageNumber(stageNumberType: settings.stageNumberType)
                 }
     }
 
@@ -39,7 +40,7 @@ struct LocationListView: View {
             List {
                 ForEach(stages) { (areaStages: AreaStages) in
                     Section(header: Text(areaStages.area.localizedName)) {
-                        ForEach(areaStages.sortedStages) { (stage: Stage) in
+                        ForEach(areaStages.sortedStages(stageNumberType: settings.stageNumberType)) { (stage: Stage) in
                             NavigationLink(destination: StageDetailView(stage: stage)) {
                                 StageCell(stage: stage)
                             }
@@ -61,17 +62,17 @@ struct AreaStages: Identifiable {
     let area: Area
     let stages: [Stage]
 
-    var sortedStages: [Stage] {
+    func sortedStages(stageNumberType: StageNumberType.RawValue) -> [Stage] {
         stages.sorted { stage, stage2 in
-            Util.compareStageNumbers(stage, stage2)
+            Util.compareStageNumbers(stage, stage2, stageNumberType: stageNumberType)
         }
     }
 
-    var minStageNumber: Int {
+    func minStageNumber(stageNumberType: StageNumberType.RawValue) -> Int {
         stages.min { stage1, stage2 in
-                    Util.compareStageNumbers(stage1, stage2)
+                    Util.compareStageNumbers(stage1, stage2, stageNumberType: stageNumberType)
                 }?
-                .getAdjustedStageNumber() ?? Int.max
+                .getAdjustedStageNumber(stageNumberType: stageNumberType) ?? Int.max
     }
 }
 

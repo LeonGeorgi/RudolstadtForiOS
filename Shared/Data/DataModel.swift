@@ -369,8 +369,12 @@ struct Stage: Identifiable, Hashable {
         }
     }
 
-    func getAdjustedStageNumber() -> Int? {
-        StageMapping.numberMapping[germanName]
+    func getAdjustedStageNumber(stageNumberType: StageNumberType.RawValue) -> Int? {
+        if case .adjusted = StageNumberType(rawValue: stageNumberType) {
+            return StageMapping.numberMapping[germanName]
+        } else {
+            return stageNumber
+        }
     }
 
     func matches(searchTerm: String) -> Bool {

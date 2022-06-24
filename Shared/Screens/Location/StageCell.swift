@@ -2,10 +2,11 @@ import SwiftUI
 
 struct StageCell: View {
     let stage: Stage
+    @EnvironmentObject var settings: UserSettings
 
     var body: some View {
         HStack {
-            if let stageNumber = stage.getAdjustedStageNumber() {
+            if let stageNumber = stage.getAdjustedStageNumber(stageNumberType: settings.stageNumberType) {
                 Text(String(stageNumber))
                         .frame(width: 30, height: 30)
                         .background(Color.accentColor)

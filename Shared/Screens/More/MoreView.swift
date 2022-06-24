@@ -38,6 +38,13 @@ struct MoreView: View {
                         label: "about.title"
                     )
                 }
+
+                NavigationLink(destination: SettingsView()) {
+                    ProgramEntry(
+                            iconName: "gearshape",
+                            label: "settings.title"
+                    )
+                }
             }.navigationBarTitle("more.title")
                 .listStyle(.plain)
         }
