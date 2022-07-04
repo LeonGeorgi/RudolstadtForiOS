@@ -13,6 +13,7 @@ struct RatingSymbol: View {
 
     var ratingSymbol: String {
         switch rating {
+        case -1: return "🥱"
         case 0: return "🤔"
         case 1: return "🙂"
         case 2: return "😊"

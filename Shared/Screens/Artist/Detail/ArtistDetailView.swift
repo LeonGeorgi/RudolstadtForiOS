@@ -77,26 +77,6 @@ struct ArtistDetailView: View {
 
         }.listStyle(GroupedListStyle())
                 .navigationBarTitle(Text(artist.name), displayMode: .large)
-                .navigationBarItems(trailing: Button(action: {
-                    if artistRating() == 0 {
-                        self.rateArtist(rating: 3)
-                    } else {
-                        self.rateArtist(rating: 0)
-                    }
-                }) {
-                    switch artistRating() {
-                    case 0: Text("😍").saturation(0)
-                    default: ArtistRatingSymbol(artist: artist)
-                    }
-                }.contextMenu {
-                    ForEach((0..<4).reversed()) { rating in
-                        Button(action: {
-                            self.settings.ratings[String(self.artist.id)] = rating
-                        }) {
-                            RatingSymbol(rating: rating)
-                        }
-                    }
-                })
     }
 
     private func renderRating() -> some View {
@@ -108,14 +88,14 @@ struct ArtistDetailView: View {
         }) {
             HStack {
                 Spacer()
-                ForEach(0..<4) { index in
-                    RatingSymbol(rating: index)
+                ForEach(-1..<4) { rating in
+                    RatingSymbol(rating: rating)
                             .font(.system(size: 35))
                             //.grayscale(1.0)
-                            .saturation(artistRating() == index ? 1.0 : 0.0)
+                            .saturation(artistRating() == rating ? 1.0 : 0.0)
                             .onTapGesture {
-                                if artistRating() != index {
-                                    self.rateArtist(rating: index)
+                                if artistRating() != rating {
+                                    self.rateArtist(rating: rating)
                                 }
                             }
 

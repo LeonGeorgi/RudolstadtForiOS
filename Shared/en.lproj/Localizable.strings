@@ -9,7 +9,8 @@
 "artist.links" = "LINKS";
 "artist.description" = "DESCRIPTION";
 "artist.rating.explanation.content" = "Mark your interest in this artist.";
-"artist.rating.explanation.extra" = "🤔 - no interest / undecided
+"artist.rating.explanation.extra" = "🥱 - no interest
+🤔 - undecided
 🙂 - slight interest
 😊 - great interest
 😍 - very great interest

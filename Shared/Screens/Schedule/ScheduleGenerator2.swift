@@ -25,17 +25,19 @@ class ScheduleGenerator2 {
         let storedEvents = allEvents.filter { event in
             storedEventIds.contains(event.id)
         }
+        let now = Date.now
         let interestingEvents = allEvents.filter { event in
-            (artistRatings[event.artist.id] ?? 0) > 0 &&
-            !intersects(events: storedEvents, current: event) &&
-            event.date >= Date.now
+            userIsInterestedInArtist(artist: event.artist) &&
+                    !intersects(events: storedEvents, current: event) &&
+                    isEventInFuture(event: event, now: now)
         }
-        let interestingArtists = allArtists.filter { artist in
-            (artistRatings[artist.id] ?? 0) > 0
-        }
-        let interestingArtistIds = interestingArtists.map {
-            $0.id
-        }
+
+        let interestingArtistIds = allArtists.filter { artist in
+                    userIsInterestedInArtist(artist: artist)
+                }
+                .map { artist in
+                    artist.id
+                }
 
         // Generate start solution
         var solution: [Event] = storedEvents
@@ -136,13 +138,22 @@ class ScheduleGenerator2 {
             event.startTimeInMinutes < event2.startTimeInMinutes
         }*/
     }
-    
+
+    private func isEventInFuture(event: Event, now: Date) -> Bool {
+        event.date >= now
+    }
+
+    private func userIsInterestedInArtist(artist: Artist) -> Bool {
+        (artistRatings[artist.id] ?? 0) > 0
+    }
+
     func generateRecommendations() -> [Int] {
-        return generate().filter { event in
-            !storedEventIds.contains(event.id)
-        }.map { event in
-            event.id
-        }
+        generate().filter { event in
+                    !storedEventIds.contains(event.id)
+                }
+                .map { event in
+                    event.id
+                }
 
     }
 
