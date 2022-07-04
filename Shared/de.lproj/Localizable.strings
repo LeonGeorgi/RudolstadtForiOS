@@ -138,3 +138,8 @@ Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (dama
 
 "data.loading" = "Daten laden…";
 "recommendations.loading" = "Vorschläge werden geladen…";
+"map.warning.stage-numbers" = "Achtung: Die Bühnennummern können von dem im gedruckten Programm abweichen.";
+
+"ticket.type.other" = "Sonstiges";
+"ticket.type.day-and-festival" = "Tages- und Dauerticket";
+"ticket.type.festival" = "Dauerticket";

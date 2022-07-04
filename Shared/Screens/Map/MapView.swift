@@ -25,20 +25,59 @@ struct MapView: View, Equatable {
 
 
     var body: some View {
-        Map(coordinateRegion: $mapRegion, showsUserLocation: true, annotationItems: locations) { annotation in
-            MapAnnotation(coordinate: annotation.coordinate) {
-                NavigationLink(destination: StageDetailView(stage: annotation.stage)) {
-                    VStack {
-                        StageNumber(stage: annotation.stage, size: 25, font: .system(size: 15))
+        VStack(alignment: .leading) {
+
+            VStack(alignment: .leading) {
+                HStack(alignment: .center) {
+                    renderCircle(.red)
+                    Text("ticket.type.festival")
+                }
+
+                HStack(alignment: .center) {
+                    renderCircle(.orange)
+                    Text("ticket.type.day-and-festival")
+                }
+
+                HStack(alignment: .center) {
+                    renderCircle(.white)
+                    Text("ticket.type.other")
+                }
+            }
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .padding(.top, 10)
+                    .padding(.horizontal)
+            Map(coordinateRegion: $mapRegion, showsUserLocation: true, annotationItems: locations) { annotation in
+                MapAnnotation(coordinate: annotation.coordinate) {
+                    NavigationLink(destination: StageDetailView(stage: annotation.stage)) {
+                        VStack {
+                            StageNumber(stage: annotation.stage, size: 25, font: .system(size: 15))
+                        }
                     }
                 }
             }
-        }
-                .accentColor(.blue)
-                .onAppear {
-                    manager.startLocationTracking()
-                }
+                    .accentColor(.blue)
+                    .onAppear {
+                        manager.startLocationTracking()
+                    }
+            Text("map.warning.stage-numbers")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
 
+        }
+
+    }
+
+    private func renderCircle(_ color: Color) -> some View {
+        Circle().frame(width: 15, height: 15)
+                .foregroundColor(color)
+                .overlay(
+                        Circle()
+                                .stroke(Color.gray, lineWidth: 1)
+                                .opacity(0.3)
+                )
     }
 }
 

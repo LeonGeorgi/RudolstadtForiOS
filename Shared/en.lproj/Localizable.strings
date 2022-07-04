@@ -138,3 +138,9 @@ When I was 8 years old, I went to the Rudolstadt Festival for the first time (at
 
 "data.loading" = "Loading data…";
 "recommendations.loading" = "Vorschläge werden geladen…";
+
+"map.warning.stage-numbers" = "Warning: The stage numbers might differ from those in the printed map.";
+
+"ticket.type.other" = "Other";
+"ticket.type.day-and-festival" = "Day and festival ticket";
+"ticket.type.festival" = "Festival ticket";
