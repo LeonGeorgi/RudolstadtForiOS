@@ -20,6 +20,8 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "event.save.alert.message" = "The event will be added to your schedule.";
 "Save \"<%@>\" at <%@> <%@>?" = "Save \"%1$@\" at %2$@ %3$@?";
 "event.remove" = "Remove";
+"event.remove.alert.title" = "Remove \"%1$@\" at %2$@ %3$@ ?";
+"event.remove.alert.message" = "The event will be removed from your schedule.";
 
 "stage.events" = "EVENTS";
 "stage.events.loading" = "Loading events…";

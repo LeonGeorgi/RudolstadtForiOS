@@ -20,6 +20,8 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "event.save.alert.message" = "Die Veranstaltung wird deinem Zeitplan hinzugefügt.";
 "Save \"<%@>\" at <%@> <%@>?" = "\"%1$@\" am %2$@ %3$@ speichern?";
 "event.remove" = "Entfernen";
+"event.remove.alert.title" = "\"%1$@\" am %2$@ %3$@ entfernen?";
+"event.remove.alert.message" = "Die Veranstaltung wird aus deinem Zeitplan entfernt.";
 
 "stage.events" = "VERANSTALTUNGEN";
 "stage.events.loading" = "Veranstaltungen laden…";

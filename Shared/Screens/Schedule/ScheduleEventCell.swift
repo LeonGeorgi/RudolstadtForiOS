@@ -37,11 +37,12 @@ struct ScheduleEventCell: View {
                                     .font(.subheadline)
 
                         }
+                        Spacer()
                         if artistRating() != 0 {
-                            Spacer()
-                            ArtistRatingSymbol(artist: self.event.artist)
+                            ArtistRatingSymbol(artist: event.artist)
                         }
-                    }.opacity(self.settings.savedEvents.contains(event.id) ? 1 : 0.5)
+                        EventSavedIcon(event: event)
+                    }.opacity(settings.savedEvents.contains(event.id) ? 1 : 0.5)
                 }
 
             }
