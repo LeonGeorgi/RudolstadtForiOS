@@ -45,6 +45,8 @@ struct ArtistDetailView: View {
                     .clipped()
             }
 
+            renderRating()
+
             
             switch artistEvents {
             case .loading:
@@ -65,88 +67,13 @@ struct ArtistDetailView: View {
             
             if artist.formattedDescription != nil && artist.formattedDescription != "" {
                 Section(header: Text("artist.description")) {
-
                     Text(artist.formattedDescription!)
-
                 }
             }
 
             if artist.url != nil || artist.youtubeID != nil || artist.facebookID != nil {
-                Section(header: Text("artist.links")) {
-                    if artist.url != nil {
-                        Button(action: {
-                            guard let url = URL(string: artist.url!) else {
-                                return
-                            }
-                            UIApplication.shared.open(url)
-                        }) {
-                            Text("artist.website")
-                        }
-                    }
-                    if artist.youtubeID != nil {
-                        Button(action: {
-                            guard let url = URL(string: "https://www.youtube.com/watch?v=\(artist.youtubeID!)") else {
-                                return
-                            }
-                            UIApplication.shared.open(url)
-
-
-                        }) {
-                            Text("YouTube")
-                        }
-                    }
-                    if artist.facebookID != nil {
-                        Button(action: {
-                            guard let url = URL(string: "fb://profile/\(artist.facebookID!)") else {
-                                return
-                            }
-                            if UIApplication.shared.canOpenURL(url) {
-                                UIApplication.shared.open(url)
-                            } else {
-                                guard let url = URL(string: "https://www.facebook.com/\(artist.facebookID!)") else {
-                                    return
-                                }
-                                UIApplication.shared.open(url)
-                            }
-                        }) {
-                            Text("Facebook")
-                        }
-                    }
-                }
+                renderLinks()
             }
-            Section(footer: VStack(alignment: .leading) {
-                Text("artist.rating.explanation.content")
-                if showingRatingExplanation {
-                    Text("artist.rating.explanation.extra")
-                }
-            }) {
-                HStack {
-                    Spacer()
-                    ForEach(0..<4) { index in
-                        RatingSymbol(rating: index)
-                                .font(.system(size: 35))
-                                //.grayscale(1.0)
-                                .saturation(artistRating() == index ? 1.0 : 0.0)
-                                .onTapGesture {
-                                    if artistRating() != index {
-                                        self.rateArtist(rating: index)
-                                    }
-                                }
-
-                    }
-                    Spacer()
-                    Image(systemName: "questionmark.circle.fill")
-                        .foregroundColor(.gray)
-                        .font(.system(size: 20))
-                        .onTapGesture {
-                            showingRatingExplanation.toggle()
-                        }
-                    
-                }//.padding(.vertical)
-            }
-            //.cornerRadius(10)
-            //.shadow(radius: 10)
-            //.padding()
 
         }.listStyle(GroupedListStyle())
                 .navigationBarTitle(Text(artist.name), displayMode: .large)
@@ -170,6 +97,86 @@ struct ArtistDetailView: View {
                         }
                     }
                 })
+    }
+
+    private func renderRating() -> some View {
+        Section(footer: VStack(alignment: .leading) {
+            Text("artist.rating.explanation.content")
+            if showingRatingExplanation {
+                Text("artist.rating.explanation.extra")
+            }
+        }) {
+            HStack {
+                Spacer()
+                ForEach(0..<4) { index in
+                    RatingSymbol(rating: index)
+                            .font(.system(size: 35))
+                            //.grayscale(1.0)
+                            .saturation(artistRating() == index ? 1.0 : 0.0)
+                            .onTapGesture {
+                                if artistRating() != index {
+                                    self.rateArtist(rating: index)
+                                }
+                            }
+
+                }
+                Spacer()
+                Image(systemName: "questionmark.circle.fill")
+                    .foregroundColor(.gray)
+                    .font(.system(size: 20))
+                    .onTapGesture {
+                        showingRatingExplanation.toggle()
+                    }
+
+            }//.padding(.vertical)
+        }
+        //.cornerRadius(10)
+        //.shadow(radius: 10)
+        //.padding()
+    }
+
+    private func renderLinks() -> some View {
+        Section(header: Text("artist.links")) {
+            if artist.url != nil {
+                Button(action: {
+                    guard let url = URL(string: artist.url!) else {
+                        return
+                    }
+                    UIApplication.shared.open(url)
+                }) {
+                    Text("artist.website")
+                }
+            }
+            if artist.youtubeID != nil {
+                Button(action: {
+                    guard let url = URL(string: "https://www.youtube.com/watch?v=\(artist.youtubeID!)") else {
+                        return
+                    }
+                    UIApplication.shared.open(url)
+
+
+                }) {
+                    Text("YouTube")
+                }
+            }
+            if artist.facebookID != nil {
+                Button(action: {
+                    guard let url = URL(string: "fb://profile/\(artist.facebookID!)") else {
+                        return
+                    }
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    } else {
+                        guard let url = URL(string: "https://www.facebook.com/\(artist.facebookID!)") else {
+                            return
+                        }
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("Facebook")
+                }
+            }
+        }
     }
 }
 
