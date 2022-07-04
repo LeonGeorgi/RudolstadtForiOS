@@ -3,6 +3,7 @@
 
 "news.short" = "News";
 "news.long" = "Neuigkeiten";
+"news.refresh.title" = "Aktualisieren";
 
 "artist.website" = "Webseite";
 "artist.events" = "VERANSTALTUNGEN";

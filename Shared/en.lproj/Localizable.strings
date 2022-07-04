@@ -3,6 +3,8 @@
 
 "news.short" = "News";
 "news.long" = "News";
+"news.refresh.title" = "Refresh";
+
 
 "artist.website" = "Website";
 "artist.events" = "EVENTS";

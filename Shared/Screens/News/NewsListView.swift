@@ -45,7 +45,7 @@ struct NewsListView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Refresh") {
+                    Button("news.refresh.title") {
                         refreshButtonDisabled = true
                         Task {
                             await dataStore.updateAndLoadNewsIfNecessary()
