@@ -10,15 +10,17 @@ import SwiftUI
 
 struct ArtistEventCell: View {
     let event: Event
-    
+
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
-    
+
+    @State var selectedCollisionArtist: Artist? = nil
+
     var savedEventIds: [Int] {
         settings.savedEvents
     }
-    
-    func eventsThatIntersect() -> LoadingEntity<[Event]> {
+
+    var eventsThatIntersect: LoadingEntity<[Event]> {
         dataStore.data.map { entities in
             let savedEvents = entities.events.filter {
                 savedEventIds.contains($0.id)
@@ -28,23 +30,23 @@ struct ArtistEventCell: View {
             }
         }
     }
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 if event.tag != nil {
                     Text(event.tag!.localizedName.uppercased())
-                        .font(.caption)
-                        .foregroundColor(.accentColor)
-                        .lineLimit(1)
+                            .font(.caption)
+                            .foregroundColor(.accentColor)
+                            .lineLimit(1)
                 }
                 HStack(alignment: .bottom) {
                     Text("\(event.shortWeekDay) \(event.timeAsString)")
-                        .padding(.trailing, 10)
-                        .lineLimit(1)
+                            .padding(.trailing, 10)
+                            .lineLimit(1)
                     Text(event.stage.localizedName).lineLimit(1)
                 }
-                switch eventsThatIntersect() {
+                switch eventsThatIntersect {
                 case .loading:
                     Text("events.intersecting.loading")
                 case .failure(let reason):
@@ -53,21 +55,47 @@ struct ArtistEventCell: View {
                     ForEach(intersectingEvents) { (intersectingEvent: Event) in
                         HStack(spacing: 5) {
                             Image(systemName: "exclamationmark.circle")
-                                .font(.caption)
-                                .foregroundColor(.orange)
+                                    .font(.caption)
+                                    .foregroundColor(.orange)
                             Text(String(format: NSLocalizedString("event.intersecting.with", comment: ""), intersectingEvent.artist.name))
-                                .font(.caption)
-                                .foregroundColor(.orange)
+                                    .font(.caption)
+                                    .foregroundColor(.orange)
                         }
                     }
                 }
-                
+
             }
             Spacer()
-            EventSavedIcon(event: self.event)
-        }.contextMenu {
-            SaveEventButton(event: event)
-        }.id(settings.idFor(event: event))
+            EventSavedIcon(event: event)
+        }
+                .background(NavigationLink(isActive: Binding {
+                    selectedCollisionArtist != nil
+                } set: { value in
+                    if !value {
+                        selectedCollisionArtist = nil
+                    }
+                }) {
+                    if let artist = selectedCollisionArtist {
+                        ArtistDetailView(artist: artist)
+                    }
+                } label: {
+                    EmptyView()
+                }
+                        .hidden())
+                .contextMenu {
+                    if case .success(let intersectingEvents) = eventsThatIntersect {
+                        ForEach(intersectingEvents) { (intersectingEvent: Event) in
+                            Button {
+                                self.selectedCollisionArtist = intersectingEvent.artist
+                            } label: {
+                                Text(intersectingEvent.artist.name)
+                                Image(systemName: "exclamationmark.circle")
+                            }
+                        }
+                    }
+                    SaveEventButton(event: event)
+                }
+                .id(settings.idFor(event: event))
     }
 }
 
