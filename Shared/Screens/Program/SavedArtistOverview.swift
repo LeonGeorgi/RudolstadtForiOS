@@ -7,22 +7,9 @@ struct SavedArtistOverview: View {
 
     var body: some View {
         VStack {
-            if showingArtists {
-                SavedArtistListView()
-            } else {
-                SavedArtistProgramView()
-            }
+            SavedArtistListView()
         }
-                .navigationBarTitle("rated_artists.title", displayMode: .inline)
-                .navigationBarItems(trailing: Button(action: {
-                    self.showingArtists.toggle()
-                }) {
-                    if showingArtists {
-                        Text("saved.concerts.title")
-                    } else {
-                        Text("saved.artists.title")
-                    }
-                })
+        .navigationBarTitle("rated_artists.title", displayMode: .inline)
     }
 }
 

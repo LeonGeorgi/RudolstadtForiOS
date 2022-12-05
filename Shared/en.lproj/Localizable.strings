@@ -40,7 +40,7 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "locations.empty" = "No locations found";
 
 "rated_artists.title" = "Saved artists";
-"program_by_time.title" = "Program by time";
+"program_by_time.title" = "Program";
 "program_by_time.short_title" = "Program";
 "program_by_stage.title" = "Program by stage";
 "program_by_stage.short_title" = "Program";

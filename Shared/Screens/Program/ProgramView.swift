@@ -23,12 +23,6 @@ struct ProgramView: View {
                         label: "program_by_time.title"
                     )
                 }
-                NavigationLink(destination: StageProgramView()) {
-                    ProgramEntry(
-                        iconName: "music.mic",
-                        label: "program_by_stage.title"
-                    )
-                }
 
             }.listStyle(.plain)
                 .navigationBarTitle("program.title")
