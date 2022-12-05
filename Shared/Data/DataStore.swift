@@ -175,8 +175,9 @@ final class DataStore: ObservableObject {
     }
 
     private func registerUpdateNewsTask() {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "de.leongeorgi.RudolstadtForiOS.news.refresh", using: nil) { task in
-            self.executeUpdateNewsTask(task: task as! BGAppRefreshTask)
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "de.leongeorgi.RudolstadtForiOS.news.refresh", using: nil) { task in if let appRefreshTask = task as? BGAppRefreshTask {
+                self.executeUpdateNewsTask(task: appRefreshTask)
+            }
         }
     }
 
