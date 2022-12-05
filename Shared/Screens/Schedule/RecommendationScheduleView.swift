@@ -44,7 +44,7 @@ struct RecommendationScheduleView: View {
             case .interesting:
                 print(interestingArtists)
                     return entities.events.filter { event in
-                        interestingArtists.contains(event.artist.id)
+                        storedEvents.contains(event.id) || interestingArtists.contains(event.artist.id)
                     }
             case .all:
                 return entities.events
