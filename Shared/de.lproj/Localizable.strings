@@ -48,6 +48,11 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "schedule.title" = "Mein Zeitplan";
 "schedule.empty.description" = "Du hast zur Zeit keine Veranstaltungen gespeichert. Klicke auf das Lesezeichen-Symbol einer Veranstaltung, um sie deinem Zeitplan hinzuzufügen.";
 
+"schedule.type.saved" = "Gespeichert";
+"schedule.type.optimal" = "Optimal";
+"schedule.type.interesting" = "Interessant";
+"schedule.type.all" = "Alle";
+
 "filter.button" = "Filtern";
 "filter.done" = "Fertig";
 "filter.no_events_available" = "Für die aktuellen Filtereinstellungen sind keine Veranstaltungen verfügbar.";

@@ -212,7 +212,7 @@ struct Event: Identifiable {
         dateComponents.year = DataStore.year
         dateComponents.month = 7
         dateComponents.day = dayInJuly
-        dateComponents.timeZone = TimeZone(abbreviation: "CEST")
+        //dateComponents.timeZone = TimeZone(abbreviation: "CEST")
         let splittedTime = timeAsString.split(separator: ":")
         dateComponents.hour = Int(splittedTime[0])
         dateComponents.minute = Int(splittedTime[1])
@@ -226,7 +226,7 @@ struct Event: Identifiable {
         dateComponents.year = DataStore.year
         dateComponents.month = 7
         dateComponents.day = festivalDay
-        dateComponents.timeZone = TimeZone(abbreviation: "CEST")
+        //dateComponents.timeZone = TimeZone(abbreviation: "CEST")
 
         let userCalendar = Calendar.current
         return userCalendar.date(from: dateComponents)!
@@ -306,8 +306,10 @@ struct NewsItem: Identifiable {
     static func format(string: String) -> String {
         let stringWithNewLines = string.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])
                 .replacingOccurrences(of: "&#39;", with: "'")
+                .replacingOccurrences(of: "&#34;", with: "\"")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
 
+        
         return stringWithNewLines
         /*guard let data = stringWithNewLines.data(using: .utf8) else {
             return stringWithNewLines

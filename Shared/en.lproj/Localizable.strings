@@ -50,6 +50,11 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "schedule.title" = "My schedule";
 "schedule.empty.description" = "You have no saved events at the moment. You can click the bookmark symbol of an event to add it to your schedule.";
 
+"schedule.type.saved" = "Saved";
+"schedule.type.optimal" = "Optimal";
+"schedule.type.interesting" = "Interesting";
+"schedule.type.all" = "All";
+
 "filter.button" = "Filter";
 "filter.done" = "Done";
 "filter.no_events_available" = "No events available for the current filter settings.";

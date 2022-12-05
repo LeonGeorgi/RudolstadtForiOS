@@ -14,14 +14,26 @@ struct RecommendationScheduleView: View {
     @EnvironmentObject var settings: UserSettings
 
     @State private var showingRecommendations = true
+    @State private var scheduleType = ScheduleType.optimal
 
     var storedEvents: [Int] {
         settings.savedEvents
     }
     
+    var interestingArtists: [Int] {
+        settings.ratings.filter { element in
+            element.value > 0
+        }.keys.map { a in Int(a)! }
+    }
+    
     var shownEvents: LoadingEntity<[Event]?> {
         dataStore.data.map { entities in
-            if showingRecommendations {
+            switch scheduleType {
+            case .saved:
+                return entities.events.filter { event in
+                    storedEvents.contains(event.id)
+                }
+            case .optimal:
                 if let recommendations = dataStore.recommendedEvents {
                     return entities.events.filter { event in
                         storedEvents.contains(event.id) || recommendations.contains(event.id)
@@ -29,10 +41,13 @@ struct RecommendationScheduleView: View {
                 } else {
                     return nil
                 }
-            } else {
-                return entities.events.filter { event in
-                    storedEvents.contains(event.id)
-                }
+            case .interesting:
+                print(interestingArtists)
+                    return entities.events.filter { event in
+                        interestingArtists.contains(event.artist.id)
+                    }
+            case .all:
+                return entities.events
             }
         }
     }
@@ -48,14 +63,16 @@ struct RecommendationScheduleView: View {
                 if let events = events {
                     ScheduleView(events: events)
                         .navigationBarTitle("schedule.title", displayMode: .inline)
-                        .navigationBarItems(trailing: Button(action: {
-                            self.showingRecommendations.toggle()
-                        }) {
-                            if showingRecommendations {
-                                Text("schedule.recommendations.disable")
-                            } else {
-                                Text("schedule.recommendations.enable")
-                            }
+                        .navigationBarItems(trailing: Picker("Test", selection: $scheduleType) {
+                            Text("schedule.type.saved")
+                                .tag(ScheduleType.saved)
+                            Text("schedule.type.optimal")
+                                .tag(ScheduleType.optimal)
+                            Text("schedule.type.interesting")
+                                .tag(ScheduleType.interesting)
+                            Text("schedule.type.all")
+                                .tag(ScheduleType.all)
+                            
                         })
                 } else {
                     Text("recommendations.loading")
@@ -66,8 +83,13 @@ struct RecommendationScheduleView: View {
     }
 }
 
+enum ScheduleType {
+    case saved, optimal, interesting, all
+}
+
 struct RecommendationScheduleView_Previews: PreviewProvider {
     static var previews: some View {
         RecommendationScheduleView()
+            .environmentObject(DataStore())
     }
 }

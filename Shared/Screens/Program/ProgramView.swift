@@ -39,5 +39,6 @@ struct ProgramView: View {
 struct ProgramView_Previews: PreviewProvider {
     static var previews: some View {
         ProgramView()
+            .environmentObject(DataStore())
     }
 }
