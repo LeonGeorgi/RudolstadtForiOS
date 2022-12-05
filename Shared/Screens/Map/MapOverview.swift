@@ -12,7 +12,7 @@ struct MapOverview: View {
     
     @EnvironmentObject var dataStore: DataStore
     
-    @State var mode: Mode = .map
+    @State var mode: Mode = .list
     
     
     var annotationItems: LoadingEntity<[MapLocation]> {

@@ -23,6 +23,16 @@ struct ContentView: View {
                         }
                     }
                     .tag(0)
+            
+        MapOverview()
+            .navigationViewStyle(.stack)
+                .tabItem {
+                    VStack {
+                        Image(systemName: "map.fill")
+                        Text("locations.title")
+                    }
+                }
+                .tag(1)
             RecommendationScheduleView()
                 .navigationViewStyle(.stack)
                     .tabItem {
@@ -31,22 +41,13 @@ struct ContentView: View {
                             Text("schedule.title")
                         }
                     }
-                    .tag(1)
+                    .tag(2)
             NewsListView()
                 .navigationViewStyle(.stack)
                     .tabItem {
                         VStack {
                             Image(systemName: "envelope.fill")
                             Text("news.short")
-                        }
-                    }
-                    .tag(2)
-            MapOverview()
-                .navigationViewStyle(.stack)
-                    .tabItem {
-                        VStack {
-                            Image(systemName: "map.fill")
-                            Text("locations.title")
                         }
                     }
                     .tag(3)
