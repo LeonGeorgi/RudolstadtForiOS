@@ -140,7 +140,7 @@ class ScheduleGenerator2 {
     }
 
     private func isEventInFuture(event: Event, now: Date) -> Bool {
-        event.date >= now
+        event.date >= now //|| true // uncomment for testing, don't foget to comment again after that
     }
 
     private func userIsInterestedInArtist(artist: Artist) -> Bool {

@@ -20,7 +20,7 @@ final class DataStore: ObservableObject {
 
     @Published var data: LoadingEntity<Entities> = .loading
     @Published var recommendedEvents: [Int]? = nil
-    static let year = 2022
+    static let year = 2023
 
     let files: DataFiles
     let dataLoader: DataLoader

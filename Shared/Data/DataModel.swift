@@ -142,6 +142,7 @@ struct Event: Identifiable {
     let stage: Stage
     let artist: Artist
     let tag: Tag?
+    let durationInMinutes: Double = 60
 
     var festivalHour: Int {
         let hour = Calendar.current.component(.hour, from: date)
@@ -158,7 +159,7 @@ struct Event: Identifiable {
     }
 
     var endTimeInMinutes: Int {
-        startTimeInMinutes + 70
+        startTimeInMinutes + Int(durationInMinutes)
     }
 
     var festivalDay: Int {
@@ -219,6 +220,10 @@ struct Event: Identifiable {
 
         let userCalendar = Calendar.current // user calendar
         return userCalendar.date(from: dateComponents)!
+    }
+    
+    var endDate: Date {
+        date.addingTimeInterval(durationInMinutes * 60)
     }
 
     var festivalDate: Date {

@@ -11,21 +11,21 @@ import UserNotifications
 struct ContentView: View {
     @State private var selection = 0
     @EnvironmentObject var dataStore: DataStore
-
+    
     var body: some View {
         TabView(selection: $selection) {
             ProgramView()
                 .navigationViewStyle(.stack)
-                    .tabItem {
-                        VStack {
-                            Image(systemName: "music.note.list")
-                            Text("program.title")
-                        }
+                .tabItem {
+                    VStack {
+                        Image(systemName: "music.note.list")
+                        Text("program.title")
                     }
-                    .tag(0)
+                }
+                .tag(0)
             
-        MapOverview()
-            .navigationViewStyle(.stack)
+            MapOverview()
+                .navigationViewStyle(.stack)
                 .tabItem {
                     VStack {
                         Image(systemName: "map.fill")
@@ -35,40 +35,40 @@ struct ContentView: View {
                 .tag(1)
             RecommendationScheduleView()
                 .navigationViewStyle(.stack)
-                    .tabItem {
-                        VStack {
-                            Image(systemName: "calendar")
-                            Text("schedule.title")
-                        }
+                .tabItem {
+                    VStack {
+                        Image(systemName: "calendar")
+                        Text("schedule.title")
                     }
-                    .tag(2)
+                }
+                .tag(2)
             NewsListView()
                 .navigationViewStyle(.stack)
-                    .tabItem {
-                        VStack {
-                            Image(systemName: "envelope.fill")
-                            Text("news.short")
-                        }
+                .tabItem {
+                    VStack {
+                        Image(systemName: "envelope.fill")
+                        Text("news.short")
                     }
-                    .tag(3)
-            MoreView()
-                .navigationViewStyle(.stack)
-                    .tabItem {
-                        VStack {
-                            Image(systemName: "ellipsis")
-                            Text("more.title")
-                        }
-                    }
-                    .tag(4)
-        }
-                .onAppear {
-                    UNUserNotificationCenter.current()
-                      .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-                          print("Permission granted: \(granted), error: \(String(describing: error))")
-                      }
-                    dataStore.setupUpdateNewsTask()
                 }
-                .accentColor(.red)
+                .tag(3)
+            ScrollableProgramWrapper()
+                .navigationViewStyle(.stack)
+                .tabItem {
+                    VStack {
+                        Image(systemName: "ellipsis")
+                        Text("more.title")
+                    }
+                }
+                .tag(4)
+        }
+        .onAppear {
+            UNUserNotificationCenter.current()
+                .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                    print("Permission granted: \(granted), error: \(String(describing: error))")
+                }
+            dataStore.setupUpdateNewsTask()
+        }
+        .accentColor(.orange)
     }
 }
 

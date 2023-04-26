@@ -127,6 +127,12 @@
 		3551CC6E28043624004F9471 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3551CC4328043624004F9471 /* Assets.xcassets */; };
 		3551CC8128043DA2004F9471 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC8028043DA2004F9471 /* DataModel.swift */; };
 		3551CC8428043E8D004F9471 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC8328043E8D004F9471 /* DataStore.swift */; };
+		3568726629C0239300520EC5 /* ScrollableProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568726529C0239300520EC5 /* ScrollableProgramView.swift */; };
+		3568726729C0239300520EC5 /* ScrollableProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568726529C0239300520EC5 /* ScrollableProgramView.swift */; };
+		3568C7A729F6947A00A7AA7D /* ScrollableProgramWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7A629F6947A00A7AA7D /* ScrollableProgramWrapper.swift */; };
+		3568C7A829F6947A00A7AA7D /* ScrollableProgramWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7A629F6947A00A7AA7D /* ScrollableProgramWrapper.swift */; };
+		3568C7AA29F93B6700A7AA7D /* ScrollableProgramViewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */; };
+		3568C7AB29F93B6700A7AA7D /* ScrollableProgramViewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */; };
 		35CF484A285B7E4E00D13B6F /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */; };
 		35CF484D285B830600D13B6F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35CF484B285B830600D13B6F /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -220,6 +226,9 @@
 		3551CC6728043624004F9471 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
 		3551CC8028043DA2004F9471 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		3551CC8328043E8D004F9471 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		3568726529C0239300520EC5 /* ScrollableProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableProgramView.swift; sourceTree = "<group>"; };
+		3568C7A629F6947A00A7AA7D /* ScrollableProgramWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableProgramWrapper.swift; sourceTree = "<group>"; };
+		3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableProgramViewContent.swift; sourceTree = "<group>"; };
 		35CF484C285B830600D13B6F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		35CF484F285B837800D13B6F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -392,6 +401,9 @@
 				32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */,
 				3505733C2855BAF1008932A9 /* ProgramEntry.swift */,
 				3505733F2855D45B008932A9 /* NextView.swift */,
+				3568726529C0239300520EC5 /* ScrollableProgramView.swift */,
+				3568C7A629F6947A00A7AA7D /* ScrollableProgramWrapper.swift */,
+				3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -706,6 +718,7 @@
 				32A1135BAD899B0CF291CD6D /* StageProgramEventCell.swift in Sources */,
 				32A1167A2316AC01B157FD8E /* ScheduleView.swift in Sources */,
 				32A116BE192EE63EA4089774 /* ScheduleGenerator2.swift in Sources */,
+				3568726629C0239300520EC5 /* ScrollableProgramView.swift in Sources */,
 				350573472857F312008932A9 /* MapView.swift in Sources */,
 				32A114D5C53D71E50A745B7C /* ScheduleEventCell.swift in Sources */,
 				3505733A2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
@@ -726,10 +739,12 @@
 				32A111E0096A7F39D7ECB1AF /* StageCell.swift in Sources */,
 				350573452857E9BE008932A9 /* MapOverview.swift in Sources */,
 				32A11A3783E29222781B3C80 /* SearchView.swift in Sources */,
+				3568C7A729F6947A00A7AA7D /* ScrollableProgramWrapper.swift in Sources */,
 				32A11E3C9F5A90975595BE0E /* SearchEventCell.swift in Sources */,
 				32A1124D763E48A6BCCDDA79 /* LoadingListView.swift in Sources */,
 				32A115136B1411327F87FCFF /* DataLoader.swift in Sources */,
 				32A11B9A32216878027CEFAD /* DataUpdater.swift in Sources */,
+				3568C7AA29F93B6700A7AA7D /* ScrollableProgramViewContent.swift in Sources */,
 				32A11D40C4020FBB887E8FBD /* ImageUrlUtil.swift in Sources */,
 				32A111B567F87F1627C561FF /* StageNumber.swift in Sources */,
 			);
@@ -770,15 +785,18 @@
 				32A11CAA37CE0922C9F393D7 /* StageProgramEventCell.swift in Sources */,
 				32A112A1CF3EDC6BC9BECDE4 /* ScheduleView.swift in Sources */,
 				32A119B72F0FE2BE1FCF50FB /* ScheduleGenerator2.swift in Sources */,
+				3568C7AB29F93B6700A7AA7D /* ScrollableProgramViewContent.swift in Sources */,
 				32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */,
 				32A11F1703B29A8DBE6E672B /* MoreView.swift in Sources */,
 				32A112BC323E026BE8507F8E /* ArtistListView.swift in Sources */,
 				32A1111CA4E03E0903D86E29 /* ArtistCell.swift in Sources */,
+				3568C7A829F6947A00A7AA7D /* ScrollableProgramWrapper.swift in Sources */,
 				32A116A708F55334C83246C6 /* ArtistDetailView.swift in Sources */,
 				32A115A10353E19E13E5F510 /* ArtistEventCell.swift in Sources */,
 				32A11996DE25FE370DEA062A /* SavedArtistProgramView.swift in Sources */,
 				32A11020A4D401D0A4CCEEA8 /* SavedArtistOverview.swift in Sources */,
 				3505733E2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
+				3568726729C0239300520EC5 /* ScrollableProgramView.swift in Sources */,
 				32A11D329BA4FD3EA5C0EEFE /* SavedArtistListView.swift in Sources */,
 				3505732928549B81008932A9 /* WebView.swift in Sources */,
 				350573412855D45B008932A9 /* NextView.swift in Sources */,
