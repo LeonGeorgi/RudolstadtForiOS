@@ -14,8 +14,6 @@ struct ScheduleView: View {
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var settings: UserSettings
 
-    @State var selectedDay: Int = -1
-
     var eventDays: LoadingEntity<[Int]> {
         dataStore.data.map { entities in
             Set(entities.events.lazy.map { (event: Event) in
@@ -32,49 +30,14 @@ struct ScheduleView: View {
                     .foregroundColor(.gray)
                     .padding(.horizontal, 20)
             } else {
-                if case .success(let days) = eventDays {
-                    Picker("Date", selection: $selectedDay) {
-                        ForEach(days) { (day: Int) in
-                            Text(Util.shortWeekDay(day: day)).tag(day)
-                        }
-                    }
-                            .padding(.leading, 10)
-                            .padding(.trailing, 10)
-                            .pickerStyle(SegmentedPickerStyle())
-                }
-
-                List(events.filter { event in
-                    event.festivalDay == selectedDay
-                }) { event in
+                List(events) { event in
                     NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
                         ScheduleEventCell(event: event)
                     }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
                 }.listStyle(.plain)
-                    .horizontalSwipeGesture {
-                        let nextDay = selectedDay + 1
-                        if case .success(let days) = eventDays {
-                            if days.contains(nextDay) {
-                                selectedDay = nextDay
-                            }
-                        }
-                    } onSwipeRight: {
-                        let previousDay = selectedDay - 1
-                        if case .success(let days) = eventDays {
-                            if days.contains(previousDay) {
-                                selectedDay = previousDay
-                            }
-                        }
-                    }
                     
             }
         }
-                .onAppear {
-                    if case .success(let days) = eventDays {
-                        if selectedDay == -1 {
-                            self.selectedDay = Util.getCurrentFestivalDay(eventDays: days) ?? days.first ?? -1
-                        }
-                    }
-                }
 
     }
 }

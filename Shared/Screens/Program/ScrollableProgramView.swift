@@ -11,19 +11,10 @@ enum EventOrGap {
 struct ScrollableProgramView: View {
     let events: [Event]
     
-    @State private var selectedDay = -1
-    
-    
     var eventDays: [Int] {
         Set(events.lazy.map { (event: Event) in
             event.festivalDay
         }).sorted(by: <)
-    }
-    
-    private var eventsToday: [Event] {
-        return events.filter { event in
-            event.festivalDay == selectedDay
-        }
     }
     
     private var timeIntervalList: [Date] {
@@ -33,7 +24,7 @@ struct ScrollableProgramView: View {
     }
     
     private var stageList: [(Stage, [EventOrGap])] {
-        let d = Dictionary(grouping: eventsToday) { event in
+        let d = Dictionary(grouping: events) { event in
             event.stage
         }
         return d.map { entry in
@@ -58,8 +49,7 @@ struct ScrollableProgramView: View {
     }
     
     private var firstEventTime: Date {
-        let ev = eventsToday
-        let firstEvent = ev.min { e1, e2 in
+        let firstEvent = events.min { e1, e2 in
             e1.date < e2.date
         }?.date ?? Date()
         return firstEvent
@@ -67,58 +57,33 @@ struct ScrollableProgramView: View {
     
     
     private var lastEventEndTime: Date {
-        let ev = eventsToday
-        let lastEvent = ev.max { e1, e2 in
+        let lastEvent = events.max { e1, e2 in
             e1.endDate < e2.endDate
         }?.endDate ?? Date()
         return lastEvent
     }
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                VStack {
-                    Picker("Date", selection: $selectedDay) {
-                        ForEach(eventDays) { (day: Int) in
-                            Text(Util.shortWeekDay(day: day)).tag(day)
-                        }
-                    }
-                    .padding(.leading, 10)
-                    .padding(.trailing, 10)
-                    .padding(.bottom, 5)
-                    .pickerStyle(SegmentedPickerStyle())
-                }
-                .background(.ultraThinMaterial)
-                .zIndex(10)
-                
-                ScrollableProgramViewContent(
-                    scrollOffset: .zero,
-                    timeIntervals: timeIntervalList,
-                    stages: stageList
-                )
-            }
-            .navigationBarTitle("Schedule", displayMode: .inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                    }) {
-                        Text("List")
-                    }
-                    
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                    }) {
-                        Text("All")
+        VStack(spacing: 0) {
+            /*VStack {
+                Picker("Date", selection: $selectedDay) {
+                    ForEach(eventDays) { (day: Int) in
+                        Text(Util.shortWeekDay(day: day)).tag(day)
                     }
                 }
-                //.frame(width: UIScreen.main.bounds.width * 0.7)
+                .padding(.leading, 10)
+                .padding(.trailing, 10)
+                .padding(.bottom, 5)
+                .pickerStyle(SegmentedPickerStyle())
             }
-        }.onAppear {
-            if selectedDay == -1 {
-                self.selectedDay = Util.getCurrentFestivalDay(eventDays: eventDays) ?? eventDays.first ?? -1
-            }
+            .background(.ultraThinMaterial)
+            .zIndex(10)*/
+            
+            ScrollableProgramViewContent(
+                scrollOffset: .zero,
+                timeIntervals: timeIntervalList,
+                stages: stageList
+            )
         }
     }
     

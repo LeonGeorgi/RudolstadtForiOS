@@ -37,7 +37,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "locations.title" = "Orte";
 "locations.empty" = "Keine Orte gefunden";
 
-"rated_artists.title" = "Gespeicherte Künstler";
+"rated_artists.title" = "Favoriten";
 "program_by_time.title" = "Programm";
 "program_by_time.short_title" = "Programm";
 "program_by_stage.title" = "Programm nach Bühne";
@@ -45,7 +45,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "program.title" = "Programm";
 "program.days.loading" = "Tage laden…";
 
-"schedule.title" = "Mein Zeitplan";
+"schedule.title" = "Zeitplan";
 "schedule.empty.description" = "Du hast zur Zeit keine Veranstaltungen gespeichert. Klicke auf das Lesezeichen-Symbol einer Veranstaltung, um sie deinem Zeitplan hinzuzufügen.";
 
 "schedule.type.saved" = "Gespeichert";

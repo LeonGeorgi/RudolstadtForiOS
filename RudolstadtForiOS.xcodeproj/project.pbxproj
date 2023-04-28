@@ -129,10 +129,12 @@
 		3551CC8428043E8D004F9471 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC8328043E8D004F9471 /* DataStore.swift */; };
 		3568726629C0239300520EC5 /* ScrollableProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568726529C0239300520EC5 /* ScrollableProgramView.swift */; };
 		3568726729C0239300520EC5 /* ScrollableProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568726529C0239300520EC5 /* ScrollableProgramView.swift */; };
-		3568C7A729F6947A00A7AA7D /* ScrollableProgramWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7A629F6947A00A7AA7D /* ScrollableProgramWrapper.swift */; };
-		3568C7A829F6947A00A7AA7D /* ScrollableProgramWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7A629F6947A00A7AA7D /* ScrollableProgramWrapper.swift */; };
 		3568C7AA29F93B6700A7AA7D /* ScrollableProgramViewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */; };
 		3568C7AB29F93B6700A7AA7D /* ScrollableProgramViewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */; };
+		3568C7AD29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7AC29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift */; };
+		3568C7AE29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7AC29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift */; };
+		3568C7B029FB59AC00A7AA7D /* TableProgramCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7AF29FB59AC00A7AA7D /* TableProgramCell.swift */; };
+		3568C7B129FB59AC00A7AA7D /* TableProgramCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7AF29FB59AC00A7AA7D /* TableProgramCell.swift */; };
 		35CF484A285B7E4E00D13B6F /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */; };
 		35CF484D285B830600D13B6F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35CF484B285B830600D13B6F /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -227,8 +229,9 @@
 		3551CC8028043DA2004F9471 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		3551CC8328043E8D004F9471 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		3568726529C0239300520EC5 /* ScrollableProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableProgramView.swift; sourceTree = "<group>"; };
-		3568C7A629F6947A00A7AA7D /* ScrollableProgramWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableProgramWrapper.swift; sourceTree = "<group>"; };
 		3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableProgramViewContent.swift; sourceTree = "<group>"; };
+		3568C7AC29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationScheduleViewContent.swift; sourceTree = "<group>"; };
+		3568C7AF29FB59AC00A7AA7D /* TableProgramCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableProgramCell.swift; sourceTree = "<group>"; };
 		35CF484C285B830600D13B6F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		35CF484F285B837800D13B6F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -402,8 +405,8 @@
 				3505733C2855BAF1008932A9 /* ProgramEntry.swift */,
 				3505733F2855D45B008932A9 /* NextView.swift */,
 				3568726529C0239300520EC5 /* ScrollableProgramView.swift */,
-				3568C7A629F6947A00A7AA7D /* ScrollableProgramWrapper.swift */,
 				3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */,
+				3568C7AF29FB59AC00A7AA7D /* TableProgramCell.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				32A11D4B68D9C986BBCB747A /* ScheduleGenerator2.swift */,
 				32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */,
 				32A11CEB953B4C22997546BF /* RecommendationScheduleView.swift */,
+				3568C7AC29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -699,6 +703,7 @@
 				32A11D471C05E7D81DC6B78D /* ArtistImageView.swift in Sources */,
 				32A11C4891712FA79641C202 /* StageDetailView.swift in Sources */,
 				35028CC42805BEA6004F0E3F /* HelperTypes.swift in Sources */,
+				3568C7B029FB59AC00A7AA7D /* TableProgramCell.swift in Sources */,
 				32A1199EB080E7865A284792 /* StageMapView.swift in Sources */,
 				32A116A1195BBB5DB20404C1 /* RatingSymbol.swift in Sources */,
 				32A1116B6BA8D17499860263 /* SaveEventButton.swift in Sources */,
@@ -722,6 +727,7 @@
 				350573472857F312008932A9 /* MapView.swift in Sources */,
 				32A114D5C53D71E50A745B7C /* ScheduleEventCell.swift in Sources */,
 				3505733A2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
+				3568C7AD29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift in Sources */,
 				350573372854FA4C008932A9 /* EventSavedIcon.swift in Sources */,
 				32A116961BFEAF82D52B6574 /* MoreView.swift in Sources */,
 				32A116DBBEBAB380329768B0 /* ArtistListView.swift in Sources */,
@@ -739,7 +745,6 @@
 				32A111E0096A7F39D7ECB1AF /* StageCell.swift in Sources */,
 				350573452857E9BE008932A9 /* MapOverview.swift in Sources */,
 				32A11A3783E29222781B3C80 /* SearchView.swift in Sources */,
-				3568C7A729F6947A00A7AA7D /* ScrollableProgramWrapper.swift in Sources */,
 				32A11E3C9F5A90975595BE0E /* SearchEventCell.swift in Sources */,
 				32A1124D763E48A6BCCDDA79 /* LoadingListView.swift in Sources */,
 				32A115136B1411327F87FCFF /* DataLoader.swift in Sources */,
@@ -787,10 +792,10 @@
 				32A119B72F0FE2BE1FCF50FB /* ScheduleGenerator2.swift in Sources */,
 				3568C7AB29F93B6700A7AA7D /* ScrollableProgramViewContent.swift in Sources */,
 				32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */,
+				3568C7B129FB59AC00A7AA7D /* TableProgramCell.swift in Sources */,
 				32A11F1703B29A8DBE6E672B /* MoreView.swift in Sources */,
 				32A112BC323E026BE8507F8E /* ArtistListView.swift in Sources */,
 				32A1111CA4E03E0903D86E29 /* ArtistCell.swift in Sources */,
-				3568C7A829F6947A00A7AA7D /* ScrollableProgramWrapper.swift in Sources */,
 				32A116A708F55334C83246C6 /* ArtistDetailView.swift in Sources */,
 				32A115A10353E19E13E5F510 /* ArtistEventCell.swift in Sources */,
 				32A11996DE25FE370DEA062A /* SavedArtistProgramView.swift in Sources */,
@@ -804,6 +809,7 @@
 				32A11E0F267218268A064263 /* StageCell.swift in Sources */,
 				32A112012E7A4F3618FABCD5 /* SearchView.swift in Sources */,
 				32A118F591BEFA94561F779F /* SearchEventCell.swift in Sources */,
+				3568C7AE29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift in Sources */,
 				32A114CF01BEBF851BA275B6 /* LoadingListView.swift in Sources */,
 				350573322854F59B008932A9 /* FAQView.swift in Sources */,
 				32A11F71D8849BEB960E410C /* DataLoader.swift in Sources */,

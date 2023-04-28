@@ -39,7 +39,7 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "locations.title" = "Locations";
 "locations.empty" = "No locations found";
 
-"rated_artists.title" = "Saved artists";
+"rated_artists.title" = "Favorite artists";
 "program_by_time.title" = "Program";
 "program_by_time.short_title" = "Program";
 "program_by_stage.title" = "Program by stage";
@@ -47,7 +47,7 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "program.title" = "Program";
 "program.days.loading" = "Loading days…";
 
-"schedule.title" = "My schedule";
+"schedule.title" = "Schedule";
 "schedule.empty.description" = "You have no saved events at the moment. You can click the bookmark symbol of an event to add it to your schedule.";
 
 "schedule.type.saved" = "Saved";

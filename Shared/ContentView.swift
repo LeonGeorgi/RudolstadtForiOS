@@ -9,20 +9,11 @@ import SwiftUI
 import UserNotifications
 
 struct ContentView: View {
-    @State private var selection = 0
+    @State private var selection = 1
     @EnvironmentObject var dataStore: DataStore
     
     var body: some View {
         TabView(selection: $selection) {
-            ProgramView()
-                .navigationViewStyle(.stack)
-                .tabItem {
-                    VStack {
-                        Image(systemName: "music.note.list")
-                        Text("program.title")
-                    }
-                }
-                .tag(0)
             
             MapOverview()
                 .navigationViewStyle(.stack)
@@ -32,7 +23,7 @@ struct ContentView: View {
                         Text("locations.title")
                     }
                 }
-                .tag(1)
+                .tag(0)
             RecommendationScheduleView()
                 .navigationViewStyle(.stack)
                 .tabItem {
@@ -41,7 +32,36 @@ struct ContentView: View {
                         Text("schedule.title")
                     }
                 }
+                .tag(1)
+            
+            ArtistListView()
+                .navigationViewStyle(.stack)
+                .tabItem {
+                    VStack {
+                        Image(systemName: "person.crop.rectangle.stack")
+                        Text("artists.title")
+                    }
+                }
                 .tag(2)
+            
+            /*ProgramView()
+             .navigationViewStyle(.stack)
+             .tabItem {
+             VStack {
+             Image(systemName: "music.note.list")
+             Text("program.title")
+             }
+             }
+             .tag(2)*/
+            /*RecommendationScheduleView()
+             .navigationViewStyle(.stack)
+             .tabItem {
+             VStack {
+             Image(systemName: "calendar")
+             Text("schedule.title")
+             }
+             }
+             .tag(2)*/
             NewsListView()
                 .navigationViewStyle(.stack)
                 .tabItem {
@@ -51,7 +71,7 @@ struct ContentView: View {
                     }
                 }
                 .tag(3)
-            ScrollableProgramWrapper()
+            MoreView()
                 .navigationViewStyle(.stack)
                 .tabItem {
                     VStack {

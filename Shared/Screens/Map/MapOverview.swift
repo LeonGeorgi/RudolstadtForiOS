@@ -12,7 +12,7 @@ struct MapOverview: View {
     
     @EnvironmentObject var dataStore: DataStore
     
-    @State var mode: Mode = .list
+    @State var mode: Mode = .map
     
     
     var annotationItems: LoadingEntity<[MapLocation]> {
@@ -43,7 +43,7 @@ struct MapOverview: View {
                     
                 }.navigationBarTitle("locations.title", displayMode: .inline)
                     .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
+                        ToolbarItem(placement: .navigationBarLeading) {
                             Button(mode == .map ? "list.title" : "map.title") {
                                 if mode == .map {
                                     mode = .list
