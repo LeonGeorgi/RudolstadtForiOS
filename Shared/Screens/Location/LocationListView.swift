@@ -27,9 +27,19 @@ struct LocationListView: View {
                 .filter { areaStages in
                     !areaStages.stages.isEmpty
                 }
-                .sorted { stages, stages2 in
-                    stages.area.id < stages2.area.id
+                .sorted { s1, s2 in
+                    guard let s1Number = s1.stages[0].stageNumber else {
+                        return false
+                    }
+                    
+                    guard let s2Number = s2.stages[0].stageNumber else {
+                        return true
+                    }
+                    return s1Number < s2Number
                 }
+                /*.sorted { stages, stages2 in
+                    stages.area.id < stages2.area.id
+                }*/
     }
 
     var body: some View {
