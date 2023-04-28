@@ -68,6 +68,7 @@ struct ArtistListView: View {
                 }.listStyle(.plain)
             }
             .searchable(text: $searchText)
+            .disableAutocorrection(true)
             .navigationBarTitle(favoriteArtistsOnly ? "rated_artists.title" : "artists.title")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

@@ -39,6 +39,25 @@ final class UserSettings: ObservableObject {
 
     @UserDefault(key: "\(DataStore.year)/oldNews", defaultValue: [])
     var oldNews: [Int]
+    
+    // 0 - Map
+    // 1 - List
+    @UserDefault(key: "view/locations/viewtype", defaultValue: 0)
+    var mapType: Int
+    
+    // 0 - Table
+    // 1 - List
+    @UserDefault(key: "view/schedule/viewtype", defaultValue: 0)
+    var scheduleViewType: Int
+    
+    // 0 - All
+    // 1 - Favorites
+    // 2 - Optimal
+    // 3 - Saved
+    @UserDefault(key: "view/schedule/filtertype", defaultValue: 0)
+    var scheduleFilterType: Int
+    
+    
 
     private var notificationSubscription: AnyCancellable?
 
@@ -48,6 +67,50 @@ final class UserSettings: ObservableObject {
             if let listener = self.listener {
                 listener()
             }
+        }
+    }
+    
+    func toggleMapType() {
+        if (mapType == 0) {
+            mapType = 1
+        } else {
+            mapType = 0
+        }
+    }
+    
+    func toggleScheduleViewType() {
+        if (scheduleViewType == 0) {
+            scheduleViewType = 1
+        } else {
+            scheduleViewType = 0
+        }
+    }
+    
+    func setScheduleFilterType(type: ScheduleType) {
+        switch type {
+        case .all:
+            scheduleFilterType = 0
+        case .interesting:
+            scheduleFilterType = 1
+        case .optimal:
+            scheduleFilterType = 2
+        case .saved:
+            scheduleFilterType = 3
+        }
+    }
+    
+    func getScheduleFilterType(_ type: Int) -> ScheduleType {
+        switch type {
+        case 0:
+            return .all
+        case 1:
+            return .interesting
+        case 2:
+            return .optimal
+        case 3:
+            return .saved
+        default:
+            return .all
         }
     }
 

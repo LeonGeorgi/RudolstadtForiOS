@@ -10,6 +10,7 @@ enum EventOrGap {
 
 struct ScrollableProgramView: View {
     let events: [Event]
+    @EnvironmentObject var dataStore: DataStore
     
     var eventDays: [Int] {
         Set(events.lazy.map { (event: Event) in
@@ -42,7 +43,7 @@ struct ScrollableProgramView: View {
                 result.append(.gap(Gap(duration: event.date.timeIntervalSince(lastTime))))
             }
             result.append(.event(event))
-            lastTime = event.endDate
+            lastTime = event.endDate(durationInMinutes: dataStore.estimatedEventDurations?[event.id] ?? 60)
         }
         return result
         
@@ -58,13 +59,17 @@ struct ScrollableProgramView: View {
     
     private var lastEventEndTime: Date {
         let lastEvent = events.max { e1, e2 in
-            e1.endDate < e2.endDate
-        }?.endDate ?? Date()
-        return lastEvent
+            e1.endDate(durationInMinutes: dataStore.estimatedEventDurations?[e1.id] ?? 60) < e2.endDate(durationInMinutes: dataStore.estimatedEventDurations?[e2.id] ?? 60)
+        }
+        guard let lastEvent = lastEvent else {
+            return Date()
+        }
+        let lastEventEndDate = lastEvent.endDate(durationInMinutes: dataStore.estimatedEventDurations?[lastEvent.id] ?? 60)
+        return lastEventEndDate
     }
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 8) {
             /*VStack {
                 Picker("Date", selection: $selectedDay) {
                     ForEach(eventDays) { (day: Int) in
@@ -82,8 +87,19 @@ struct ScrollableProgramView: View {
             ScrollableProgramViewContent(
                 scrollOffset: .zero,
                 timeIntervals: timeIntervalList,
-                stages: stageList
+                stages: stageList,
+                estimatedEventDurations: dataStore.estimatedEventDurations
             )
+            
+            VStack {
+                Text("Warning: The end times of the concerts are automatically estimated and might differ from those in the official schedule.")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .padding(.horizontal)
+                    .padding(.bottom, 2)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.7)
+            }
         }
     }
     
@@ -102,7 +118,6 @@ struct ScrollableProgramView: View {
         var currentDate = roundedStartDate
         
         while currentDate < endDate {
-            print(currentDate)
             dates.append(currentDate)
             currentDate = currentDate.addingTimeInterval(30 * 60)
         }

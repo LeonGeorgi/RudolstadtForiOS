@@ -50,6 +50,7 @@ struct LocationListView: View {
                     .listStyle(.grouped)
         }
                 .searchable(text: $searchTerm)
+                .disableAutocorrection(true)
                 .navigationBarTitle("locations.title")
     }
 }

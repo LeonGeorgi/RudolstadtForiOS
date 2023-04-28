@@ -2,7 +2,7 @@ import Foundation
 
 class ScheduleGenerator2 {
 
-    init(allEvents: [Event], storedEventIds: [Int], allArtists: [Artist], artistRatings: Dictionary<String, Int>) {
+    init(allEvents: [Event], storedEventIds: [Int], allArtists: [Artist], artistRatings: Dictionary<String, Int>, eventDurations: Dictionary<Int, Int>?) {
         self.allEvents = allEvents
         self.storedEventIds = Set(storedEventIds)
         self.allArtists = allArtists
@@ -11,12 +11,14 @@ class ScheduleGenerator2 {
             dict[Int(idAsString)!] = rating
         }
         self.artistRatings = dict
+        self.eventDurations = eventDurations
     }
 
     let allEvents: [Event]
     let storedEventIds: Set<Int>
     let allArtists: [Artist]
     let artistRatings: [Int: Int]
+    let eventDurations: Dictionary<Int, Int>?
 
     var artistEventCache: Dictionary<Int, [Event]> = Dictionary()
 
@@ -43,7 +45,7 @@ class ScheduleGenerator2 {
         var solution: [Event] = storedEvents
         for event in interestingEvents.shuffled() {
             if !solution.contains(where: { (solutionEvent: Event) in
-                solutionEvent.artist.id == event.artist.id || solutionEvent.intersects(with: event)
+                solutionEvent.artist.id == event.artist.id || intersects(e1: solutionEvent, e2: event)
             }) {
                 solution.append(event)
             }
@@ -77,7 +79,7 @@ class ScheduleGenerator2 {
 
             // Calculate which events intersect with the new event
             let eventsToRemove: Array<Event> = solution.filter {
-                $0.intersects(with: eventToAdd)
+                intersects(e1: $0, e2: eventToAdd)
             }
 
             // Calculate if the replacement should be carried out
@@ -173,10 +175,14 @@ class ScheduleGenerator2 {
             return events
         }
     }
+    
+    func intersects(e1: Event, e2: Event) -> Bool {
+        return e1.intersects(with: e2, event1Duration: eventDurations?[e1.id] ?? 60, event2Duration: eventDurations?[e2.id] ?? 60)
+    }
 
     func intersects(events: [Event], current: Event) -> Bool {
         events.contains { event in
-            let collides = event.intersects(with: current)
+            let collides = intersects(e1: event, e2: current)
             /*if collides {
                 print("collides with \(event.shortWeekDay) \(event.timeAsString) \(event.artist.name)")
             }*/

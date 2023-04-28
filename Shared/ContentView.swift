@@ -81,6 +81,7 @@ struct ContentView: View {
                 }
                 .tag(4)
         }
+        .background(.ultraThinMaterial)
         .onAppear {
             UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in

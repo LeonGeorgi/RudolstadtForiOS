@@ -26,7 +26,10 @@ struct ArtistEventCell: View {
                 savedEventIds.contains($0.id)
             }
             return savedEvents.filter {
-                $0.artist.id != event.artist.id && $0.intersects(with: event)
+                $0.artist.id != event.artist.id && $0.intersects(
+                    with: event,
+                    event1Duration: dataStore.estimatedEventDurations?[$0.id] ?? 60,
+                    event2Duration: dataStore.estimatedEventDurations?[event.id] ?? 60)
             }
         }
     }

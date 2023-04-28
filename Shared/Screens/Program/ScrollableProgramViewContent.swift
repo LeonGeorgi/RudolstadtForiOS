@@ -8,13 +8,14 @@ struct ScrollableProgramViewContent: View {
     
     let timeIntervals: [Date]
     let stages: [(Stage, [EventOrGap])]
+    let estimatedEventDurations: Dictionary<Int, Int>?
     
-    private let columnWidth: CGFloat = CGFloat(60)
+    private let columnWidth: CGFloat = CGFloat(65)
     private let timeWidth: CGFloat = CGFloat(55)
     private let stageNameHeight: CGFloat = CGFloat(40)
     private let firstEventPadding: CGFloat = CGFloat(0)
     private let columnSpacing: CGFloat = CGFloat(10)
-    private let heightPerHour: Double = 60
+    private let heightPerHour: Double = 65
     
     
     
@@ -110,9 +111,9 @@ struct ScrollableProgramViewContent: View {
                 .zIndex(-1)
                 .offset(y: scrollOffset.y)
                 
-                HStack(alignment: .top, spacing: columnSpacing) {
+                HStack(alignment: .top, spacing: columnSpacing / 2) {
                     Spacer()
-                        .frame(width: timeWidth)
+                        .frame(width: timeWidth + columnSpacing / 2)
                     ForEach(stages, id: \.0.id) { (stage, _) in
                         NavigationLink(destination: StageDetailView(stage: stage)) {
                             VStack(alignment: .center, spacing: 0) {
@@ -120,20 +121,31 @@ struct ScrollableProgramViewContent: View {
                                     .padding(.top, 5)
                                     .padding(.bottom, 5)
                                 Text(stage.localizedName)
-                                    .frame(width: columnWidth, height: stageNameHeight, alignment: .top)
+                                    .padding(.bottom, 4)
+                                    .frame(width: columnWidth - 1, height: stageNameHeight, alignment: .top)
                                     .font(.system(size: 10, weight: .semibold))
-                                    .scaledToFill()
                                     .minimumScaleFactor(0.85)
                                     .lineLimit(3)
                                     .multilineTextAlignment(.center)
                             }
                         }
                         .buttonStyle(.plain)
+                        Divider()
+                            .frame(width: 1, height: stageNameHeight + 15)
+                            .padding(.vertical, 4)
                     }
                     Spacer()
                 }
                 .offset(x: scrollOffset.x)
                 .zIndex(4)
+                
+                Spacer()
+                    .background(Color(UIColor.systemBackground))
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .offset(y: geo.size.height)
+                    .zIndex(5)
+                
+                
                 
             }
         }
@@ -145,7 +157,8 @@ struct ScrollableProgramViewContent: View {
             let eventOrGap = stageEvents[index]
             switch eventOrGap {
             case .event(let event):
-                let eventHeight = CGFloat(Double(event.durationInMinutes / 60) * heightPerHour)
+                let eventDuration = estimatedEventDurations?[event.id] ?? 60
+                let eventHeight = CGFloat(Double(eventDuration) / 60.0 * heightPerHour)
                 TableProgramCell(width: columnWidth, height: eventHeight, event: event)
             case .gap(let gap):
                 let gapHeight = CGFloat(Double(gap.duration / (60 * 60)) * heightPerHour)
@@ -221,7 +234,7 @@ struct PreferenceKey: SwiftUI.PreferenceKey {
 
 struct ScrollableProgramViewContent_Previews: PreviewProvider {
     static var previews: some View {
-        ScrollableProgramViewContent(scrollOffset: .zero, timeIntervals: [], stages: [])
+        ScrollableProgramViewContent(scrollOffset: .zero, timeIntervals: [], stages: [], estimatedEventDurations: nil)
             .environmentObject(UserSettings())
     }
 }

@@ -142,7 +142,6 @@ struct Event: Identifiable {
     let stage: Stage
     let artist: Artist
     let tag: Tag?
-    let durationInMinutes: Double = 60
 
     var festivalHour: Int {
         let hour = Calendar.current.component(.hour, from: date)
@@ -156,10 +155,6 @@ struct Event: Identifiable {
     var startTimeInMinutes: Int {
         let minutes = Calendar.current.component(.minute, from: date)
         return festivalHour * 60 + minutes
-    }
-
-    var endTimeInMinutes: Int {
-        startTimeInMinutes + Int(durationInMinutes)
     }
 
     var festivalDay: Int {
@@ -222,8 +217,8 @@ struct Event: Identifiable {
         return userCalendar.date(from: dateComponents)!
     }
     
-    var endDate: Date {
-        date.addingTimeInterval(durationInMinutes * 60)
+    func endDate(durationInMinutes: Int) -> Date {
+        date.addingTimeInterval(Double(durationInMinutes) * 60)
     }
 
     var festivalDate: Date {
@@ -251,9 +246,9 @@ struct Event: Identifiable {
 
     }
 
-    func intersects(with other: Event) -> Bool {
+    func intersects(with other: Event, event1Duration: Int, event2Duration: Int) -> Bool {
         festivalDay == other.festivalDay &&
-                !(startTimeInMinutes >= other.endTimeInMinutes || endTimeInMinutes <= other.startTimeInMinutes)
+                !(startTimeInMinutes > other.startTimeInMinutes + event2Duration || startTimeInMinutes + event1Duration < other.startTimeInMinutes)
     }
 
     static let example = Event(

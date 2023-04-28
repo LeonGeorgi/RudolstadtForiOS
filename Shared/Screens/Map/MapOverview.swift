@@ -11,9 +11,7 @@ import MapKit
 struct MapOverview: View {
     
     @EnvironmentObject var dataStore: DataStore
-    
-    @State var mode: Mode = .map
-    
+    @EnvironmentObject var settings: UserSettings
     
     var annotationItems: LoadingEntity<[MapLocation]> {
         dataStore.data.map { entities in
@@ -35,7 +33,7 @@ struct MapOverview: View {
                 case .success(let locations):
                 VStack {
                     
-                    if mode == .map {
+                    if settings.mapType == 0 {
                         MapView(locations: locations).equatable()
                     } else {
                         LocationListView()
@@ -44,12 +42,8 @@ struct MapOverview: View {
                 }.navigationBarTitle("locations.title", displayMode: .inline)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading) {
-                            Button(mode == .map ? "list.title" : "map.title") {
-                                if mode == .map {
-                                    mode = .list
-                                } else {
-                                    mode = .map
-                                }
+                            Button(settings.mapType == 0 ? "list.title" : "map.title") {
+                                settings.toggleMapType()
                             }
                         }
                     }
@@ -61,9 +55,6 @@ struct MapOverview: View {
     }
 }
 
-enum Mode {
-    case map, list
-}
 struct MapLocation: Identifiable {
     let id = UUID()
     let stage: Stage

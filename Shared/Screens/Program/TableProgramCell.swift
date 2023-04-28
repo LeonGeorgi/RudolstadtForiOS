@@ -4,6 +4,9 @@ struct TableProgramCell: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var settings: UserSettings
     
+    func artistRating() -> Int {
+        return settings.ratings["\(self.event.artist.id)"] ?? 0
+    }
     let width: CGFloat
     let height: CGFloat
     let event: Event
@@ -19,7 +22,7 @@ struct TableProgramCell: View {
             VStack(spacing: 0) {
                 if let tag = event.tag {
                     Text(tag.localizedName)
-                        //.frame(maxWidth: width)
+                    //.frame(maxWidth: width)
                         .font(.system(size: 8, weight: .bold))
                     
                         .foregroundColor(isSaved ? .white : .primary.opacity(colorScheme == .light ? 1 : 0.9))
@@ -28,20 +31,34 @@ struct TableProgramCell: View {
                         .textCase(.uppercase)
                         .lineLimit(2)
                         .minimumScaleFactor(0.7)
-                    Spacer(minLength: 0)
-
+                    
                 }
+                if artistRating() != 0 {
+                    Spacer(minLength: 0)
+                    
+                }
+                
+                Spacer(minLength: 0)
                 Text(event.artist.name)
-                    //.frame(maxWidth: width)
+                //.frame(maxWidth: width)
                     .font(.system(size: 12))
                     .foregroundColor(isSaved ? .white : .primary.opacity(colorScheme == .light ? 1 : 0.9))
                     .lineLimit(3)
-                    //.scaledToFill()
                     .minimumScaleFactor(0.75)
                     .padding(.vertical, 2)
+                Spacer(minLength: 0)
                 if event.tag != nil {
                     Spacer(minLength: 0)
+                }
+                
+                if artistRating() != 0 {
+                    ArtistRatingSymbol(artist: event.artist)
+                        .font(.system(size: 12))
+                        .padding(.vertical, 2)
+                    
                     Spacer(minLength: 0)
+                    
+                    
                 }
             }
             .frame(width: width, height: height)
@@ -79,8 +96,8 @@ struct TableProgramCell: View {
                     .saturation(1)
             } else {
                 return Color.purple
-                    .brightness(colorScheme == .light ? 0.5 : -0.18)
-                    .saturation(colorScheme == .light ? 0.4 : 0.3)
+                    .brightness(colorScheme == .light ? 0.5 : -0.25)
+                    .saturation(colorScheme == .light ? 0.4 : 0.35)
             }
         case .street:
             if (settings.savedEvents.contains(event.id)) {
@@ -89,8 +106,8 @@ struct TableProgramCell: View {
                     .saturation(1)
             } else {
                 return Color.orange
-                    .brightness(colorScheme == .light ? 0.3 : -0.18)
-                    .saturation(colorScheme == .light ? 0.3 : 0.3)
+                    .brightness(colorScheme == .light ? 0.3 : -0.3)
+                    .saturation(colorScheme == .light ? 0.3 : 0.4)
             }
         case .other:
             if (settings.savedEvents.contains(event.id)) {
@@ -99,8 +116,8 @@ struct TableProgramCell: View {
                     .saturation(1)
             } else {
                 return Color.green
-                    .brightness(colorScheme == .light ? 0.4 : -0.18)
-                    .saturation(colorScheme == .light ? 0.4 : 0.3)
+                    .brightness(colorScheme == .light ? 0.4 : -0.3)
+                    .saturation(colorScheme == .light ? 0.4 : 0.4)
             }
         }
     }
@@ -193,7 +210,7 @@ struct TableProgramCell_Previews: PreviewProvider {
             generateMainVariants(tag: nil)
             generateMainVariants(tag: .example)
         }
-            .previewLayout(PreviewLayout.sizeThatFits)
+        .previewLayout(PreviewLayout.sizeThatFits)
     }
 }
 

@@ -13,9 +13,6 @@ struct RecommendationScheduleView: View {
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var settings: UserSettings
     
-    @State private var viewAsTable = true
-    @State private var scheduleType = ScheduleType.all
-    
     var storedEvents: [Int] {
         settings.savedEvents
     }
@@ -27,7 +24,7 @@ struct RecommendationScheduleView: View {
     }
     
     func generateShownEvents(events: [Event]) -> [Event]? {
-        switch scheduleType {
+        switch settings.getScheduleFilterType(settings.scheduleFilterType) {
         case .saved:
             return events.filter { event in
                 storedEvents.contains(event.id)
@@ -50,32 +47,6 @@ struct RecommendationScheduleView: View {
         }
     }
     
-    var shownEvents: LoadingEntity<[Event]?> {
-        dataStore.data.map { entities in
-            switch scheduleType {
-            case .saved:
-                return entities.events.filter { event in
-                    storedEvents.contains(event.id)
-                }
-            case .optimal:
-                if let recommendations = dataStore.recommendedEvents {
-                    return entities.events.filter { event in
-                        storedEvents.contains(event.id) || recommendations.contains(event.id)
-                    }
-                } else {
-                    return nil
-                }
-            case .interesting:
-                print(interestingArtists)
-                return entities.events.filter { event in
-                    storedEvents.contains(event.id) || interestingArtists.contains(event.artist.id)
-                }
-            case .all:
-                return entities.events
-            }
-        }
-    }
-    
     var body: some View {
         NavigationView {
             switch dataStore.data {
@@ -90,14 +61,14 @@ struct RecommendationScheduleView: View {
                 }).sorted(by: <)
                 
                 if let events = shownEvents {
-                    RecommendationScheduleContentView(events: events, viewAsTable: viewAsTable, eventDays: eventDays)
+                    RecommendationScheduleContentView(events: events, viewAsTable: settings.scheduleViewType == 0, eventDays: eventDays)
                         .navigationBarTitle("schedule.title", displayMode: .inline)
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button {
-                                    viewAsTable.toggle()
+                                    settings.toggleScheduleViewType()
                                 } label: {
-                                    if (viewAsTable) {
+                                    if (settings.scheduleViewType == 0) {
                                         Text("List")
                                     } else {
                                         Text("Table")
@@ -105,7 +76,11 @@ struct RecommendationScheduleView: View {
                                 }
                             }
                             ToolbarItem(placement: .navigationBarTrailing) {
-                                Picker("Test", selection: $scheduleType) {
+                                Picker("Test", selection: Binding<ScheduleType>(get: {
+                                    settings.getScheduleFilterType(settings.scheduleFilterType)
+                                }, set: { (type: ScheduleType) in
+                                    settings.setScheduleFilterType(type: type)
+                                })) {
                                     Text("schedule.type.saved")
                                         .tag(ScheduleType.saved)
                                     Text("schedule.type.optimal")

@@ -20,6 +20,7 @@ final class DataStore: ObservableObject {
 
     @Published var data: LoadingEntity<Entities> = .loading
     @Published var recommendedEvents: [Int]? = nil
+    @Published var estimatedEventDurations: Dictionary<Int, Int>? = nil
     static let year = 2023
 
     let files: DataFiles
@@ -43,9 +44,56 @@ final class DataStore: ObservableObject {
 
     }
     
+    func estimateEventDurations() {
+        guard case .success(let entities) = data else {
+            return
+        }
+        let sortedEvents = entities.events.sorted { e1, e2 in
+            e1.date > e2.date
+        }
+        let eventsByStage = Dictionary(grouping: sortedEvents) { event in
+            event.stage.id
+        }
+        var eventDurations = Dictionary<Int, Int>()
+        
+        for (_, events) in eventsByStage {
+            var previousEvent: Event? = nil
+            for event in events {
+                var length: Int = 60
+                if let previousEvent = previousEvent {
+                    let timeIntervalToPreviousEvent = previousEvent.date.timeIntervalSince(event.date) / 60
+                    let timeIntervalRoundedDown = floor((timeIntervalToPreviousEvent) / 30.0) * 30
+                    if timeIntervalRoundedDown < 60 {
+                        length = Int(timeIntervalRoundedDown)
+                    } else {
+                        let halfWayTimeInterval = floor((timeIntervalToPreviousEvent / 2) / 30.0) * 30
+                        if halfWayTimeInterval > 60 {
+                            length = Int(halfWayTimeInterval)
+                        }
+                        if halfWayTimeInterval > 90 {
+                            if timeIntervalToPreviousEvent > 300 {
+                                length = 60
+                            } else {
+                                length = 90
+                            }
+                        }
+                    }
+                }
+                eventDurations[event.id] = length
+                previousEvent = event
+            }
+        }
+        print("Calculated event durations")
+        DispatchQueue.main.async {
+            self.estimatedEventDurations = eventDurations
+            print("Published event durations")
+        }
+        
+    }
+    
     func updateRecommentations(savedEventsIds: [Int], ratings: Dictionary<String, Int>) {
         if case .success(let entities) = data {
-            let generator = ScheduleGenerator2(allEvents: entities.events, storedEventIds: savedEventsIds, allArtists: entities.artists, artistRatings: ratings)
+            let generator = ScheduleGenerator2(allEvents: entities.events, storedEventIds: savedEventsIds, allArtists: entities.artists, artistRatings: ratings, eventDurations: estimatedEventDurations)
             let recommendations = generator.generateRecommendations()
             DispatchQueue.main.async {
                 self.recommendedEvents = recommendations
