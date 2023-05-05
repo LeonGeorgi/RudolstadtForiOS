@@ -5,6 +5,7 @@ struct ScrollableProgramViewContent: View {
     @EnvironmentObject var settings: UserSettings
     
     @State var scrollOffset: CGPoint
+    @State private var currentTime: Date = Date()
     
     let timeIntervals: [Date]
     let stages: [(Stage, [EventOrGap])]
@@ -43,7 +44,7 @@ struct ScrollableProgramViewContent: View {
                         
                         Spacer()
                     }
-                    .frame(minWidth: geo.size.width, minHeight: geo.size.height)
+                    .frame(minWidth: geo.size.width, minHeight: geo.size.height, alignment: .topLeading)
                     .background(GeometryReader { proxy in
                         Color.clear.preference(
                             key: PreferenceKey.self,
@@ -68,7 +69,7 @@ struct ScrollableProgramViewContent: View {
                 Spacer()
                     .frame(height: stageNameHeight + 25)
                     .background(.ultraThinMaterial)
-                    .zIndex(3)
+                    .zIndex(4)
                 
                 
                 VStack(alignment: .leading, spacing: 0) {
@@ -78,8 +79,8 @@ struct ScrollableProgramViewContent: View {
                     ForEach(timeIntervals, id: \.self) { time in
                         Text(dateFormatter.string(from: time))
                             .font(.system(size: 12, weight: .semibold))
-                            .frame(width: timeWidth, height: CGFloat(0.5 * heightPerHour), alignment: .leading)
                             .padding(.horizontal, 10)
+                            .frame(width: timeWidth, height: CGFloat(0.5 * heightPerHour), alignment: .trailing)
                             .scaledToFill()
                             .minimumScaleFactor(0.83)
                     }
@@ -93,18 +94,6 @@ struct ScrollableProgramViewContent: View {
                         Divider()
                             .frame(height: heightPerHour * 0.5)
                             .padding(0)
-                        
-                        /*Spacer()
-                         .frame(height: heightPerHour * 0.25)
-                         ForEach(timeIntervals.lazy.enumerated().filter { $0.offset % 4 == 0 }.map { $0.element }, id: \.self) { date in
-                         Spacer()
-                         .frame(height: heightPerHour * 1)
-                         .frame(minWidth: geo.size.width)
-                         .background(Color.gray)
-                         .opacity(0.15)
-                         
-                         Spacer()
-                         .frame(height: heightPerHour * 1) */
                     }
                 }
                 .padding(.top, stageNameHeight + firstEventPadding + 25)
@@ -137,17 +126,40 @@ struct ScrollableProgramViewContent: View {
                     Spacer()
                 }
                 .offset(x: scrollOffset.x)
-                .zIndex(4)
+                .zIndex(5)
+                
+                currentTimeLinePosition().map { position in
+                    HStack(alignment: .center, spacing: 0) {
+                        Text(dateFormatter.string(from: currentTime))
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.red)
+                            .padding(.horizontal, 10)
+                            .frame(width: timeWidth, height: CGFloat(0.5 * heightPerHour), alignment: .trailing)
+                            .scaledToFill()
+                            .minimumScaleFactor(0.83)
+                    
+                        Rectangle()
+                            .fill(Color.red)
+                            .frame(width: geo.size.width - timeWidth, height: 1)
+                    }
+                    .frame(height: heightPerHour * 0.5)
+                    .zIndex(3)
+                    .offset(y: position + stageNameHeight + firstEventPadding + 25 + scrollOffset.y)
+                }
+                
                 
                 Spacer()
                     .background(Color(UIColor.systemBackground))
                     .frame(width: geo.size.width, height: geo.size.height)
                     .offset(y: geo.size.height)
-                    .zIndex(5)
+                    .zIndex(6)
                 
                 
                 
             }
+        }
+        .onAppear {
+            startUpdatingCurrentTime()
         }
     }
     
@@ -165,6 +177,45 @@ struct ScrollableProgramViewContent: View {
                 Spacer()
                     .frame(width: columnWidth, height: gapHeight)
             }
+        }
+    }
+    
+    func currentTimeLinePosition() -> CGFloat? {
+        
+        guard let firstTimeInterval = timeIntervals.first else { return nil }
+        guard let lastTimeInterval = timeIntervals.last else { return nil }
+        
+        if currentTime < firstTimeInterval.addingTimeInterval(-30 * 60) || currentTime > lastTimeInterval.addingTimeInterval(30 * 60) {
+            return nil
+        }
+        
+        let calendar = Calendar.current
+        let currentHour = calendar.component(.hour, from: currentTime)
+        let currentMinute = calendar.component(.minute, from: currentTime)
+        let firstIntervalHour = calendar.component(.hour, from: firstTimeInterval)
+        let firstIntervalMinute = calendar.component(.minute, from: firstTimeInterval)
+        
+        let hourDifference = currentHour - firstIntervalHour
+        let minuteDifference = currentMinute - firstIntervalMinute
+        
+        let totalMinutesDifference = hourDifference * 60 + minuteDifference
+        let position = CGFloat(Double(totalMinutesDifference) / 60.0 * heightPerHour)
+        //print(position)
+        return position
+    }
+    
+    func startUpdatingCurrentTime() {
+        print("Update")
+        let calendar = Calendar.current
+        
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: Date().addingTimeInterval(60))
+        let nextMinute = calendar.date(from: components)!
+        let interval = nextMinute.timeIntervalSince(Date())
+        print(interval)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
+            self.currentTime = Date()
+            startUpdatingCurrentTime()
         }
     }
     

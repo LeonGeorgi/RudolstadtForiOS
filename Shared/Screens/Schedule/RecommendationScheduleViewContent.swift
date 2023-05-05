@@ -59,7 +59,7 @@ struct RecommendationScheduleContentView: View {
             }
             Spacer()
         }
-        .horizontalSwipeGesture {
+        /*.horizontalSwipeGesture {
             let nextDay = selectedDay + 1
             if eventDays.contains(nextDay) {
                 selectedDay = nextDay
@@ -70,7 +70,7 @@ struct RecommendationScheduleContentView: View {
             if eventDays.contains(previousDay) {
                 selectedDay = previousDay
             }
-        }
+        }*/
         .onAppear {
             if selectedDay == -1 {
                 self.selectedDay = Util.getCurrentFestivalDay(eventDays: eventDays) ?? eventDays.first ?? -1
