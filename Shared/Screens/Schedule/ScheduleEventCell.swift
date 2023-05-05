@@ -42,7 +42,7 @@ struct ScheduleEventCell: View {
                             ArtistRatingSymbol(artist: event.artist)
                         }
                         EventSavedIcon(event: event)
-                    }.opacity(settings.savedEvents.contains(event.id) ? 1 : 0.5)
+                    }.opacity(settings.savedEvents.contains(event.id) ? 1 : 0.6)
                 }
 
             }
