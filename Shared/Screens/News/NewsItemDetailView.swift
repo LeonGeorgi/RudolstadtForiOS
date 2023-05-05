@@ -14,18 +14,26 @@ struct NewsItemDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
+                Text(newsItem.shortDescription)
+                    .font(.title)
+                    .bold()
                 Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
                         .font(.subheadline)
+                        .foregroundColor(.secondary)
                         .padding(.bottom, 5)
+                
+                Divider()
 
                 Text(newsItem.formattedLongDescription)
-                        .font(.headline)
-                        .padding(.bottom, 15)
+                        .font(.title3)
+                        .bold()
+                        .padding(.bottom, 5)
 
                 Text(newsItem.formattedContent)
             }.padding()
-        }.navigationBarTitle(Text(newsItem.shortDescription), displayMode: .inline)
-            .onAppear {
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
                 if !settings.readNews.contains(newsItem.id) {
                     settings.readNews.append(newsItem.id)
                 }
@@ -36,5 +44,6 @@ struct NewsItemDetailView: View {
 struct NewsItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NewsItemDetailView(newsItem: .example)
+            .environmentObject(UserSettings())
     }
 }

@@ -13,12 +13,30 @@ struct NewsItemCell: View {
 
     var body: some View {
         NavigationLink(destination: NewsItemDetailView(newsItem: newsItem)) {
-            VStack(alignment: .leading) {
-                Text(newsItem.shortDescription)
-                Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
-                        .font(.caption)
+            HStack(alignment: .firstTextBaseline) {
+                Circle()
+                    .foregroundColor(.blue)
+                    .frame(width: 10, height: 10)
+                    .opacity(settings.readNews.contains(newsItem.id) ? 0 : 1)
+                VStack(alignment: .leading) {
+                    Text(newsItem.shortDescription)
+                        .font(.headline)
+                        .lineLimit(1)
+                    if !newsItem.formattedLongDescription.isEmpty {
+                        Text(newsItem.formattedLongDescription)
+                            .lineLimit(1)
+                        .font(.subheadline)
+                    } else {
+                        Text(newsItem.formattedContent)
+                            .lineLimit(1)
+                        .font(.subheadline)
+                    }
+                    Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                }
             }
-        }.opacity(settings.readNews.contains(newsItem.id) ? 0.5 : 1)
+        }
     }
 }
 
