@@ -16,7 +16,7 @@
 🙂 - slight interest
 😊 - great interest
 😍 - very great interest
-You can find the artists you find interesting in \"Saved artists\". Also, your marking can be used to show you suggestions for when you can attend concerts by the artist. The data will remain completely on your device.";
+You can find the artists you find interesting when you click on \"Favorites\" in the artist list. Also, your marking can be used to show you suggestions for when you can attend concerts by the artist. The data will remain completely on your device.";
 
 "event.map" = "MAP";
 "event.save" = "Save";
@@ -32,14 +32,17 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "stage.nearby" = "NEARBY LOCATIONS";
 
 "artists.title" = "Artists";
-"artists.none-found" = "No artists found";
+"artists.none-found" = "There are no artists that match the filter settings you have chosen.";
 "artists.saved.empty" = "You have not saved any artists yet. Mark your interest on the artist page to save the artist here.";
+"artists.all.button" = "All artists";
+"artists.favorites.button" = "Favorites";
 
+"artisttypes.all" = "All types";
 
 "locations.title" = "Locations";
 "locations.empty" = "No locations found";
 
-"rated_artists.title" = "Favorite artists";
+"rated_artists.title" = "Favorites";
 "program_by_time.title" = "Program";
 "program_by_time.short_title" = "Program";
 "program_by_stage.title" = "Program by stage";
@@ -48,12 +51,16 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "program.days.loading" = "Loading days…";
 
 "schedule.title" = "Schedule";
-"schedule.empty.description" = "You have no saved events at the moment. You can click the bookmark symbol of an event to add it to your schedule.";
+"schedule.empty.description" = "There are no concerts available on this day for the filter settings you have chosen.";
 
 "schedule.type.saved" = "Saved";
 "schedule.type.optimal" = "Optimal";
-"schedule.type.interesting" = "Interesting";
+"schedule.type.interesting" = "Favorites";
 "schedule.type.all" = "All";
+"schedule.list.button" = "List";
+"schedule.table.button" = "Table";
+
+"schedule.endtimes.warning" = "Warning: The end times of the concerts are automatically estimated and might differ from those in the official schedule.";
 
 "filter.button" = "Filter";
 "filter.done" = "Done";
@@ -76,7 +83,9 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 "more.title" = "More";
 "general.title" = "About the festival";
 "general.headline" = "Germany‘s leading festival for Roots, Folk, World is back!";
-"general.content" = "Rudolstadt is celebrating its 30th anniversary with 300 performances between dancefloor and street session, tradition and avantgarde, classical songwriting and global pop. Musicians from all over the world will be performing in venues spread across the whole town.";
+"general.content" = "Roots, folk and world music between tradition and avant-garde, dance floor feeling and cozy garden concerts - all this is on offer \"one of the finest music festivals on the planet\" (fRoots, Great Britain).
+
+More than ever the 31st Rudolstadt Festival will celebrate joie de vivre: the country focus on Cuba will wash long-missed lightness onto the banks of the Saale. And again the EBU, the European Broadcasting Union, is our guest with its folk festival - alongside music from all the other continents. Enjoy!";
 "general.opnv.title" = "About LOCAL TRANSPORT by train an bus";
 "general.opnv.content" = "Free travel by bus and regional train in the districts of Saalfeld-Rudolstadt and in the Saale-Orla district
 
@@ -86,9 +95,7 @@ You can find the artists you find interesting in \"Saved artists\". Also, your m
 • The buses run every 30 minutes.
 • Of course, the nationwide 9 € ticket is also valid without restrictions.";
 "general.extra.title" = "Please note!";
-"general.extra.content" = "Ticket sales are being made gradually. Until May 31, 75% of the tickets will initially go on sale as 2G tickets. On June 1, the remaining contingent will follow - with or without restrictions, depending on the current situation. The conditions set on June 1 will then also apply to the previously purchased tickets.
-
-Tickets for the Rudolstadt Festival are only available in advance. The same applies to the combination tickets with overnight stay on one of the camping sites. Day tickets for the festival area in the city center are available at the box office.";
+"general.extra.content" = "Tickets for the Rudolstadt Festival are only available in advance. The same applies to combination tickets with accommodation at one of the campgrounds. Day tickets for the festival area in the city center can be purchased at the daily box offices.";
 "bus.title" = "Bus";
 
 "park_and_ride.title" = "Park and Ride";
@@ -96,19 +103,19 @@ Tickets for the Rudolstadt Festival are only available in advance. The same appl
 "park_and_ride.shuttle.title" = "Shuttle details";
 "park_and_ride.click_hint" = "Click an entry to open it in Maps.";
 
-"park_and_ride.campsite.große_wiese.title" = "Campsite \"Große Wiese\" (Festival main campsite)";
-"park_and_ride.campsite.große_wiese.description" = "enter \"Macheleidstraße\" in navigation device";
-"park_and_ride.campsite.saalemax.title" = "Campsite \"Saalemaxx\" (Family campsite)";
-"park_and_ride.campsite.saalemax.description" = "enter \"Hugo Trinkler-Straße 6\" in navigation device";
-"park_and_ride.campsite.caravan.title" = "Caravan Space \"Bleichwiese\" and Bulliplatz";
+"park_and_ride.campsite.große_wiese.title" = "Campsite 'Große Wiese'";
+"park_and_ride.campsite.große_wiese.description" = "corresponds to the navigation point Macheleidstraße (at the navigation destination continue to follow the road)";
+"park_and_ride.campsite.saalemax.title" = "Campsite \"Saalemaxx\"";
+"park_and_ride.campsite.saalemax.description" = "corresponds to the navi address 'Hugo Trinkler-Straße 6";
+"park_and_ride.campsite.caravan.title" = "Caravan site and van site";
 "park_and_ride.campsite.caravan.description" = "enter \"Röntgenstraße\" in navigation device";
 
 "park_and_ride.parking.schaala.title" = "P+R Schaala";
-"park_and_ride.parking.schaala.description" = "(coming from A 71)";
+"park_and_ride.parking.schaala.description" = "(Coming from the A71, follow the signs after the tunnel.)";
 "park_and_ride.parking.oststraße.title" = "P+R Oststraße 28a";
-"park_and_ride.parking.oststraße.description" = "(coming from A4/B88)";
-"park_and_ride.parking.erich-correns-ring.title" = "Erich-Correns-Ring 18";
-"park_and_ride.parking.erich-correns-ring.description" = "(from A9/B281 or B85/88 coming from south)";
+"park_and_ride.parking.oststraße.description" = "(Coming from A4/B88)";
+"park_and_ride.parking.erich-correns-ring.title" = "P+R Erich-Correns-Ring (RU-Volkstedt-West)";
+"park_and_ride.parking.erich-correns-ring.description" = "(From A9/B281 or B85/88 coming from south)";
 
 "faq.title" = "FAQ (Frequently Asked Questions)";
 "faq.schedule.question" = "What is \"my schedule\"?";
@@ -147,10 +154,10 @@ When I was 8 years old, I went to the Rudolstadt Festival for the first time (at
 "saved.artists.title" = "Artists";
 
 "data.loading" = "Loading data…";
-"recommendations.loading" = "Vorschläge werden geladen…";
+"recommendations.loading" = "Recommendations are loading…";
 
 "map.warning.stage-numbers" = "Warning: The stage numbers might differ from those in the printed map.";
 
-"ticket.type.other" = "Other";
-"ticket.type.day-and-festival" = "Day and festival ticket";
-"ticket.type.festival" = "Festival ticket";
+"ticket.type.other" = "Service";
+"ticket.type.day-and-festival" = "City center ticket";
+"ticket.type.festival" = "Season ticket";

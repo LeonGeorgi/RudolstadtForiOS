@@ -25,12 +25,12 @@ struct MoreView: View {
                         label: "bus.title"
                     )
                 }
-                NavigationLink(destination: FAQView()) {
+                /*NavigationLink(destination: FAQView()) {
                     ProgramEntry(
                         iconName: "questionmark",
                         label: "faq.title"
                     )
-                }
+                }*/
                 
                 NavigationLink(destination: AboutView()) {
                     ProgramEntry(

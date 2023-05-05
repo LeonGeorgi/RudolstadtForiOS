@@ -14,8 +14,7 @@ struct ArtistListView: View {
     
     @EnvironmentObject var settings: UserSettings
     
-    @State private var showingSheet = false
-    @State var filterArtistTypes = Set(ArtistType.allCases)
+    @State var shownArtistTypes = ShownArtistTypes.all
     
     @State var searchText = ""
     @State var favoriteArtistsOnly = false
@@ -28,7 +27,18 @@ struct ArtistListView: View {
     
     func getFilteredArtists(data: Entities) -> [Artist] {
         data.artists.filter { artist in
-            filterArtistTypes.contains(artist.artistType)
+            switch shownArtistTypes {
+            case .all:
+                return true
+            case .stage:
+                return artist.artistType == .stage
+            case .street:
+                return artist.artistType == .street
+            case .dance:
+                return artist.artistType == .dance
+            case .other:
+                return artist.artistType == .other
+            }
         }
     }
     
@@ -55,12 +65,12 @@ struct ArtistListView: View {
         NavigationView {
             
             LoadingListView(noDataMessage: "artists.none-found", noDataSubtitle: nil, dataMapper: { data in
-                getFilteredArtists(data: data).withApplied(searchTerm: searchText) { artist in
+                generateArtistsToShow(artists: getFilteredArtists(data: data)).withApplied(searchTerm: searchText) { artist in
                     artist.name
                 }
             }) { artists in
                 List {
-                    ForEach(generateArtistsToShow(artists: artists)) { (artist: Artist) in
+                    ForEach(artists) { (artist: Artist) in
                         NavigationLink(destination: ArtistDetailView(artist: artist)) {
                             ArtistCell(artist: artist)
                         }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
@@ -76,31 +86,34 @@ struct ArtistListView: View {
                         favoriteArtistsOnly.toggle()
                     }) {
                         if (favoriteArtistsOnly) {
-                            Text("All")
+                            Text("artists.all.button")
                         } else {
-                            Text("Favorites")
+                            Text("artists.favorites.button")
                         }
                     }
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        self.showingSheet = true
-                    }) {
-                        Text("filter.button")
+                    Picker("Test", selection: $shownArtistTypes) {
+                        Text("artisttypes.all")
+                            .tag(ShownArtistTypes.all)
+                        Text(ArtistType.stage.localizedName)
+                            .tag(ShownArtistTypes.stage)
+                        Text(ArtistType.street.localizedName)
+                            .tag(ShownArtistTypes.street)
+                        Text(ArtistType.dance.localizedName)
+                            .tag(ShownArtistTypes.dance)
+                        Text(ArtistType.other.localizedName)
+                            .tag(ShownArtistTypes.other)
+                        
                     }
-                }
-            }
-            .sheet(isPresented: $showingSheet) {
-                NavigationView {
-                    ArtistTypeFilterView(selectedArtistTypes: self.$filterArtistTypes)
-                        .navigationBarItems(trailing: Button(action: { self.showingSheet = false }) {
-                            Text("filter.done")
-                        })
                 }
             }
         }
     }
+}
+
+enum ShownArtistTypes {
+    case all, stage, street, dance, other;
 }
 
 struct ArtistListView_Previews: PreviewProvider {

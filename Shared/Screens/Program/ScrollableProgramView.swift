@@ -92,7 +92,7 @@ struct ScrollableProgramView: View {
             )
             
             VStack {
-                Text("Warning: The end times of the concerts are automatically estimated and might differ from those in the official schedule.")
+                Text("schedule.endtimes.warning")
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .padding(.horizontal)

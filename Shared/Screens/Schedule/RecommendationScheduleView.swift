@@ -69,9 +69,9 @@ struct RecommendationScheduleView: View {
                                     settings.toggleScheduleViewType()
                                 } label: {
                                     if (settings.scheduleViewType == 0) {
-                                        Text("List")
+                                        Text("schedule.list.button")
                                     } else {
-                                        Text("Table")
+                                        Text("schedule.table.button")
                                     }
                                 }
                             }

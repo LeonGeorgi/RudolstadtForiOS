@@ -25,10 +25,16 @@ struct ScheduleView: View {
     var body: some View {
         VStack {
             if events.isEmpty {
-                Text("schedule.empty.description")
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.gray)
-                    .padding(.horizontal, 20)
+                VStack {
+                    Spacer()
+                    
+                    Text("schedule.empty.description")
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 20)
+                    
+                    Spacer()
+                }
             } else {
                 List(events) { event in
                     NavigationLink(destination: ArtistDetailView(artist: event.artist)) {

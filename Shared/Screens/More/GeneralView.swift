@@ -12,16 +12,16 @@ struct GeneralView: View {
         List {
             Section {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("general.headline")
-                        .font(.headline)
+                    /*Text("general.headline")
+                        .font(.headline)*/
                     Text("general.content")
                         .font(.body)
                 }
             }
-            Section(header: Text("general.opnv.title")) {
+            /*Section(header: Text("general.opnv.title")) {
                 Text("general.opnv.content")
                     .font(.body)
-            }
+            }*/
             Section(header: Text("general.extra.title")) {
             Text("general.extra.content")
                     .font(.body)

@@ -14,11 +14,11 @@ struct StageNumber: View {
     var backgroundColor: Color {
         switch stage.stageType {
         case .festivalTicket:
-            return Color.red
+            return Color(hue: 24/360, saturation: 0.6, brightness: 0.9)
         case .festivalAndDayTicket:
-            return Color.orange
+            return Color(hue: 116/360, saturation: 0.2, brightness: 0.7)
         default:
-            return Color.white
+            return Color(hue: 35/360, saturation: 0.4, brightness: 0.8)
         }
     }
 

@@ -107,7 +107,12 @@ struct ContentView: View {
                 print("App is inactive")
             }
         }
-        .accentColor(.orange)
+        .onAppear {
+            /*UINavigationBar.appearance().barTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.9, alpha: 1)
+            UITabBar.appearance().barTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.9, alpha: 1)
+            UITabBar.appearance().unselectedItemTintColor = UIColor(white: 0.4, alpha: 0.7)*/
+        }
+        .accentColor(Color(hue: 0/360, saturation: 0.7, brightness: 0.9))
     }
 }
 

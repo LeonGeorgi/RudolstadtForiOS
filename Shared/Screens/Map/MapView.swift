@@ -29,17 +29,17 @@ struct MapView: View, Equatable {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
-                    renderCircle(.red)
+                    renderCircle(Color(hue: 24/360, saturation: 0.6, brightness: 0.9))
                     Text("ticket.type.festival")
                 }
 
                 HStack(alignment: .center) {
-                    renderCircle(.orange)
+                    renderCircle(Color(hue: 116/360, saturation: 0.2, brightness: 0.7))
                     Text("ticket.type.day-and-festival")
                 }
 
                 HStack(alignment: .center) {
-                    renderCircle(.white)
+                    renderCircle(Color(hue: 35/360, saturation: 0.4, brightness: 0.8))
                     Text("ticket.type.other")
                 }
             }

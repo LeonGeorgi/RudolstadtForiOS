@@ -30,10 +30,8 @@ struct NewsListView: View {
                                 }
                             }) {
                                 if settings.readNews.contains(newsItem.id) {
-                                    Text("Mark unread")
                                     Image(systemName: "envelope.badge")
                                 } else {
-                                    Text("Mark read")
                                     Image(systemName: "envelope.open")
                                 }
                             }.tint(.blue)

@@ -15,7 +15,7 @@
 🙂 - leichtes Interesse
 😊 - großes Interesse
 😍 - sehr großes Interesse
-Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künstler\" finden. Außerdem kann deine Markierung dazu verwendet werden, dir Vorschläge anzuzeigen, wann du Konzert von dem Künstler besuchen kannst. Die Daten bleiben dabei vollständig auf deinem Gerät.";
+Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der Künstlerliste finden. Außerdem kann deine Markierung dazu verwendet werden, dir Vorschläge anzuzeigen, wann du Konzert von dem Künstler besuchen kannst. Die Daten bleiben dabei vollständig auf deinem Gerät.";
 
 "event.map" = "KARTE";
 "event.save" = "Speichern";
@@ -31,8 +31,11 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "stage.nearby" = "ORTE IN DER NÄHE";
 
 "artists.title" = "Künstler";
-"artists.none-found" = "Keine Künstler gefunden";
-"artists.saved.empty" = "Du hast noch keine Künstler gespeichert. Markiere dein Interesse auf der Künstlerseite, um den Künstler hier zu speichern.";
+"artists.none-found" = "Es gibt keine Künstler, die zu deinen gewählten Filtereinstellungen passen.";
+"artists.saved.empty" = "Du hast noch keine Favoriten. Markiere dein Interesse auf der Künstlerseite, um Künstler hier zu speichern.";
+"artists.all.button" = "Alle";
+"artists.favorites.button" = "Favoriten";
+"artisttypes.all" = "Alle Arten";
 
 "locations.title" = "Orte";
 "locations.empty" = "Keine Orte gefunden";
@@ -46,12 +49,16 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "program.days.loading" = "Tage laden…";
 
 "schedule.title" = "Zeitplan";
-"schedule.empty.description" = "Du hast zur Zeit keine Veranstaltungen gespeichert. Klicke auf das Lesezeichen-Symbol einer Veranstaltung, um sie deinem Zeitplan hinzuzufügen.";
+"schedule.empty.description" = "Für deine gewählten Filtereinstellungen sind an diesem Tag keine Konzerte verfügbar.";
 
 "schedule.type.saved" = "Gespeichert";
 "schedule.type.optimal" = "Optimal";
-"schedule.type.interesting" = "Interessant";
+"schedule.type.interesting" = "Favoriten";
 "schedule.type.all" = "Alle";
+"schedule.list.button" = "Liste";
+"schedule.table.button" = "Tabelle";
+
+"schedule.endtimes.warning" = "Achtung: Die Endzeiten der Konzerte wurden automatisch geschätzt und stimmen möglicherweise nicht mit den offiziellen Endzeiten überein.";
 
 "filter.button" = "Filtern";
 "filter.done" = "Fertig";
@@ -75,8 +82,11 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 "more.title" = "Mehr";
 "general.title" = "Über das Festival";
 "general.headline" = "Das führende deutsche Festival für Roots, Folk, World ist zurück!";
-"general.content" = "Rudolstadt feiert seine 30. Ausgabe mit rund 300 Veranstaltungen zwischen Dancefloor und Street Session, Tradition und Avantgarde, klassischem Songwriting und Global Pop. Musiker aus aller Welt bespielen Bühnen in der ganzen Stadt.";
-"general.opnv.title" = "ÖPNV zum Festival 2022";
+"general.content" = "Roots, Folk und Weltmusik zwischen Tradition und Avantgarde, Dancefloor-Feeling und lauschige Gartenkonzerte – all das bietet \"one of the finest music festivals on the planet\" (fRoots, Großbritannien).
+
+Beim 31. Rudolstadt-Festival steht mehr denn je Lebensfreude im Mittelpunkt: Der Länderschwerpunkt Kuba wird lang vermisste Leichtigkeit an den Saalestrand spülen. Und erneut ist die EBU, die Europäische Rundfunkunion, mit ihrem Folkfestival zu Gast - neben Musik aus allen anderen Erdteilen.
+Achtung!
+Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich. Gleiches gilt für die Kombikarten mit Übernachtung auf einem der Campingplätze. An den Tageskassen erhält man Tageskarten für den Festivalbereich Innenstadt.";
 "general.opnv.content" = "Freie Fahrt mit Bus und Regionalbahn in den Landkreisen Saalfeld-Rudolstadt und im Saale-Orla-Kreis
 
 • Mit Festival-Bändchen sind Fahrten zum Festival und zurück innerhalb der Landkreise an allen vier Festivaltagen kostenlos.
@@ -85,9 +95,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Gespeicherte Künst
 • Die Busse verkehren im 30min-Takt.
 • Das bundesweite 9€-Ticket gilt natürlich auch uneingeschränkt";
 "general.extra.title" = "Achtung!";
-"general.extra.content" = "Der Ticketverkauf erfolgt schrittweise. Bis zum 31. Mai gehen zunächst 75% der Karten als 2G-Tickets in den Verkauf. Am 1. Juni folgt das restliche Kontingent – je nach aktueller Lage mit oder ohne Beschränkungen. Die zum 1. Juni festgelegten Voraussetzungen gelten dann auch für die zuvor erworbenen Karten.
-
-Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich. Gleiches gilt für die Kombikarten mit Übernachtung auf einem der Campingplätze. An den Tageskassen erhält man Tageskarten für den Festivalbereich Innenstadt.";
+"general.extra.content" = "Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich. Gleiches gilt für die Kombikarten mit Übernachtung auf einem der Campingplätze. An den Tageskassen erhält man Tageskarten für den Festivalbereich Innenstadt.";
 "bus.title" = "Bus";
 
 "park_and_ride.title" = "Park & Ride";
@@ -149,6 +157,6 @@ Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (dama
 "recommendations.loading" = "Vorschläge werden geladen…";
 "map.warning.stage-numbers" = "Achtung: Die Bühnennummern können von denen im gedruckten Programm abweichen.";
 
-"ticket.type.other" = "Sonstiges";
-"ticket.type.day-and-festival" = "Tages- und Dauerticket";
-"ticket.type.festival" = "Dauerticket";
+"ticket.type.other" = "Service";
+"ticket.type.day-and-festival" = "Innenstadtkarte";
+"ticket.type.festival" = "Dauerkarte";
