@@ -71,7 +71,6 @@ class DataLoader {
     }
 
     func convertLineToArea(information: [Substring.SubSequence]) -> Area {
-        print(information)
         return Area(
                 id: Int(information[0]) ?? -1,
                 germanName: String(information[1]),

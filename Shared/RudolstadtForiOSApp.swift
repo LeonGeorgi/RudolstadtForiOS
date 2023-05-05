@@ -24,13 +24,6 @@ struct RudolstadtForiOSApp: App {
                             }
                         }
                     }
-                    .task {
-                        await dataStore.loadData()
-                        DispatchQueue.global(qos: .userInitiated).async {
-                            dataStore.estimateEventDurations()
-                            dataStore.updateRecommentations(savedEventsIds: userSettings.savedEvents, ratings: userSettings.ratings)
-                        }
-                    }
         }
     }
 }

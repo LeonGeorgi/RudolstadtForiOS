@@ -103,9 +103,19 @@ final class DataStore: ObservableObject {
     }
 
     func loadData() async {
-        data = .loading
+        DispatchQueue.main.async {
+            if case .success = self.data {
+                // nothing to do
+            } else {
+                self.data = .loading
+            }
+        }
+        print("Checking if files are up to date")
         let (filesUpToDate, resultFromCache) = loadAndSetDataFromFilesIfUpToDate()
-        if !filesUpToDate {
+        if filesUpToDate {
+            print("Files are up to date, skipping redownload")
+        } else {
+            print("Files are out of date, redownloading")
             await downloadAndSetData(resultFromCache: resultFromCache)
         }
         
@@ -120,8 +130,10 @@ final class DataStore: ObservableObject {
         let downloadResult = await dataUpdater.downloadAllDataToFiles()
         if case DownloadResult.success = downloadResult {
             let resultFromDownload = dataLoader.loadEntitiesFromFiles()
+            print("Download was successful")
             setDataAfterSuccessfulDownload(resultFromDownload: resultFromDownload, resultFromCache: resultFromCache)
         } else {
+            print("Download failed")
             setDataAfterFailedDownload(resultFromCache: resultFromCache)
         }
     }
@@ -131,7 +143,9 @@ final class DataStore: ObservableObject {
         guard case .loaded(let loadedData) = resultFromCache else {
             return (false, resultFromCache)
         }
-        data = .success(loadedData)
+        DispatchQueue.main.async {
+            self.data = .success(loadedData)
+        }
         return (true, resultFromCache)
     }
 

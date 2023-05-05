@@ -56,15 +56,22 @@ class ScheduleGenerator2 {
         for event in solution {
             score += calculateScore(for: event)
         }
-        let iterations = max(200, min(interestingEvents.count * 10, 1000))
-        print("Iterations: \(iterations)")
-        print("Initial score \(score)")
+        let iterations = max(200, min(interestingEvents.count * 20, 1000))
+        print("Calculating recommendations in \(iterations) iterations")
+        let optimalScore = interestingArtistIds.map { artistId in
+            let rating = (artistRatings[artistId] ?? 0)
+            return rating * rating
+        }.reduce(0, +)
+        print("Initial score: \(score); Best possible score: \(optimalScore)")
         let solutionArtistIds = Set(solution.map {
             $0.artist.id
         })
         var remainingArtistIds = Set(interestingArtistIds.filter { artistId in
             !solutionArtistIds.contains(artistId)
         })
+        
+        var bestSolutionSoFar: [Event] = []
+        var bestSolutionScore: Int = 0
 
         for t in 0..<iterations {
             let eventsOfRemainingArtists = interestingEvents.filter { event in
@@ -101,12 +108,18 @@ class ScheduleGenerator2 {
                 // Select with decreasing probability
                 let probability = Float(iterations - t) / Float(iterations * 10) * Float(17 + scoreDiff) / 17.0
                 if Float.random(in: 0.0..<1.0) < probability {
-                    print("\(oldScore) -> \(newScore)")
+                    //print("\(oldScore) -> \(newScore)")
                     replace = true
                 }
             }
 
             if replace {
+                // Backup old solution, if score was higher
+                if oldScore > newScore {
+                    bestSolutionSoFar = solution
+                    bestSolutionScore = oldScore
+                }
+                
                 // Do the actual replacement
                 for event in eventsToRemove {
                     if let index = solution.firstIndex(where: { $0.id == event.id }) {
@@ -126,19 +139,13 @@ class ScheduleGenerator2 {
         for event in solution {
             score += calculateScore(for: event)
         }
+        if bestSolutionScore > score {
+            print("Selected backup solution, because it was better")
+            solution = bestSolutionSoFar
+            score = bestSolutionScore
+        }
         print("Final score \(score)")
         return solution
-        /*solution.sort { event, event2 in
-            event.festivalDay < event2.festivalDay || event.startTimeInMinutes < event2.startTimeInMinutes
-        }
-        return solution*/
-
-        /*for event in finalEvents {
-            print((event.shortWeekDay, event.timeAsString, event.artist.name))
-        }*/
-        /*return finalEvents.sorted { event, event2 in
-            event.startTimeInMinutes < event2.startTimeInMinutes
-        }*/
     }
 
     private func isEventInFuture(event: Event, now: Date) -> Bool {

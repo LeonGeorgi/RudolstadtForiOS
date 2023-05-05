@@ -205,14 +205,11 @@ struct ScrollableProgramViewContent: View {
     }
     
     func startUpdatingCurrentTime() {
-        print("Update")
         let calendar = Calendar.current
         
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: Date().addingTimeInterval(60))
         let nextMinute = calendar.date(from: components)!
         let interval = nextMinute.timeIntervalSince(Date())
-        print(interval)
-
         DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
             self.currentTime = Date()
             startUpdatingCurrentTime()

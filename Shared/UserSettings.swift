@@ -60,14 +60,16 @@ final class UserSettings: ObservableObject {
     
 
     private var notificationSubscription: AnyCancellable?
-
+    
     init() {
-        notificationSubscription = NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification).sink { a in
-            self.objectWillChange.send()
-            if let listener = self.listener {
-                listener()
+        notificationSubscription = NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { a in
+                self.objectWillChange.send()
+                if let listener = self.listener {
+                    listener()
+                }
             }
-        }
     }
     
     func toggleMapType() {
