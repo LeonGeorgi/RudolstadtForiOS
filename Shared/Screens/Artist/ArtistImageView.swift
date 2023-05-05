@@ -16,31 +16,38 @@ struct ArtistImageView: View {
         VStack {
             if fullImage && artist.fullImageUrl != nil {
                 WebImage(url: artist.fullImageUrl!)
-                        .placeholder {
-                            Image("placeholder")
-                                    .resizable()                     // Make image resizable
-                                    .aspectRatio(contentMode: .fill) // Fill the frame
-                                    .clipped()
-                        }
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .clipped()
+                    .placeholder {
+                        Image("placeholder")
+                            .resizable()                     // Make image resizable
+                            .aspectRatio(contentMode: .fill) // Fill the frame
+                            .clipped()
+                    }
+                    .resizable()
+                    .indicator(.progress)
+                    .aspectRatio(contentMode: .fill)
+                    .clipped()
             } else if artist.thumbImageUrl != nil {
                 WebImage(url: artist.thumbImageUrl!)
-                        .placeholder {
-                            Image("placeholder")
-                                    .resizable()                     // Make image resizable
-                                    .aspectRatio(contentMode: .fill) // Fill the frame
-                                    .clipped()
-                        }
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .clipped()
-            } else {
+                    .placeholder {
+                        Image("placeholder_thumb")
+                            .resizable()                     // Make image resizable
+                            .aspectRatio(contentMode: .fill) // Fill the frame
+                            .clipped()
+                    }
+                    .resizable()
+                    .indicator(.activity)
+                    .aspectRatio(contentMode: .fill)
+                    .clipped()
+            } else if fullImage {
                 Image("placeholder")
-                        .resizable()                     // Make image resizable
-                        .aspectRatio(contentMode: .fill) // Fill the frame
-                        .clipped()
+                    .resizable()                     // Make image resizable
+                    .aspectRatio(contentMode: .fill) // Fill the frame
+                    .clipped()
+            } else {
+                Image("placeholder_thumb")
+                    .resizable()                     // Make image resizable
+                    .aspectRatio(contentMode: .fill) // Fill the frame
+                    .clipped()
             }
         }
     }
