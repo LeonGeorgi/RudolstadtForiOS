@@ -79,7 +79,8 @@ struct ScrollableProgramViewContent: View {
                     ForEach(timeIntervals, id: \.self) { time in
                         Text(dateFormatter.string(from: time))
                             .font(.system(size: 12, weight: .semibold))
-                            .padding(.horizontal, 10)
+                            .padding(.trailing, 8)
+                            .padding(.leading, 5)
                             .frame(width: timeWidth, height: CGFloat(0.5 * heightPerHour), alignment: .trailing)
                             .scaledToFill()
                             .minimumScaleFactor(0.83)
