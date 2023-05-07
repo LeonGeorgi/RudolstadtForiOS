@@ -11,14 +11,12 @@ struct ScrollableProgramViewContent: View {
     let stages: [(Stage, [EventOrGap])]
     let estimatedEventDurations: Dictionary<Int, Int>?
     
-    private let columnWidth: CGFloat = CGFloat(65)
+    private let columnWidth: CGFloat = CGFloat(70)
     private let timeWidth: CGFloat = CGFloat(55)
     private let stageNameHeight: CGFloat = CGFloat(40)
     private let firstEventPadding: CGFloat = CGFloat(0)
-    private let columnSpacing: CGFloat = CGFloat(10)
+    private let columnSpacing: CGFloat = CGFloat(5)
     private let heightPerHour: Double = 65
-    
-    
     
     var body: some View {
         if stages.isEmpty {
@@ -75,12 +73,12 @@ struct ScrollableProgramViewContent: View {
                     
                     Spacer()
                         .frame(width: timeWidth)
-                        .background(.ultraThinMaterial)
+                        .background(.regularMaterial)
                         .zIndex(1)
                     
                     Spacer()
                         .frame(height: stageNameHeight + 25)
-                        .background(.ultraThinMaterial)
+                        .background(.regularMaterial)
                         .zIndex(4)
                     
                     
@@ -101,6 +99,19 @@ struct ScrollableProgramViewContent: View {
                     .offset(y: scrollOffset.y)
                     .zIndex(2)
                     
+                    
+                    /*HStack(spacing: 0) {
+                        
+                        ForEach(stages, id: \.0.id) { (stage, stageEvents) in
+                            Rectangle()
+                                .fill(getColorForStage(stage).opacity(0.5))
+                                .frame(width: columnWidth + columnSpacing, height: geo.size.height)
+                        }
+                    }
+                    .padding(.leading, timeWidth + columnSpacing / 2)
+                    .zIndex(-2)
+                    .offset(x: scrollOffset.x)*/
+                    
                     VStack(spacing: 0) {
                         
                         ForEach(timeIntervals) { date in
@@ -117,21 +128,39 @@ struct ScrollableProgramViewContent: View {
                         Spacer()
                             .frame(width: timeWidth + columnSpacing / 2)
                         ForEach(stages, id: \.0.id) { (stage, _) in
-                            NavigationLink(destination: StageDetailView(stage: stage)) {
-                                VStack(alignment: .center, spacing: 0) {
-                                    StageNumber(stage: stage, size: 15, font: .system(size: 10, weight: .bold))
-                                        .padding(.top, 5)
-                                        .padding(.bottom, 5)
-                                    Text(stage.localizedName)
-                                        .padding(.bottom, 4)
-                                        .frame(width: columnWidth - 1, height: stageNameHeight, alignment: .top)
-                                        .font(.system(size: 10, weight: .semibold))
-                                        .minimumScaleFactor(0.85)
-                                        .lineLimit(3)
-                                        .multilineTextAlignment(.center)
+                            if #available(iOS 16, *) {
+                                NavigationLink(destination: StageDetailView(stage: stage)) {
+                                    renderStage(stage)
+                                }
+                                .buttonStyle(.plain)
+                                .contextMenu {
+                                    Button {
+                                        StageMapView.openInMaps(stage: stage)
+                                    } label: {
+                                        Text("schedule.context.open_in_maps")
+                                        Image(systemName: "map")
+                                    }
+
+                                } preview: {
+                                    StagePreview(stage: stage)
+                                }
+                            } else {
+                                NavigationLink(destination: StageDetailView(stage: stage)) {
+                                    renderStage(stage)
+                                }
+                                .buttonStyle(.plain)
+                                .contextMenu {
+                                    Button {
+                                        StageMapView.openInMaps(stage: stage)
+                                    } label: {
+                                        Text("schedule.context.open_in_maps")
+                                        Image(systemName: "map")
+                                    }
+
                                 }
                             }
-                            .buttonStyle(.plain)
+
+                            //.background(getColorForStage(stage))
                             Divider()
                                 .frame(width: 1, height: stageNameHeight + 15)
                                 .padding(.vertical, 4)
@@ -162,7 +191,7 @@ struct ScrollableProgramViewContent: View {
                     
                     
                     Spacer()
-                        .background(Color(UIColor.systemBackground))
+                        .background(.regularMaterial)
                         .frame(width: geo.size.width, height: geo.size.height)
                         .offset(y: geo.size.height)
                         .zIndex(6)
@@ -185,12 +214,28 @@ struct ScrollableProgramViewContent: View {
             case .event(let event):
                 let eventDuration = estimatedEventDurations?[event.id] ?? 60
                 let eventHeight = CGFloat(Double(eventDuration) / 60.0 * heightPerHour)
-                TableProgramCell(width: columnWidth, height: eventHeight, event: event)
+                TableProgramCell(width: columnWidth, height: eventHeight - 2, event: event)
+                    .padding(.vertical, 1)
             case .gap(let gap):
                 let gapHeight = CGFloat(Double(gap.duration / (60 * 60)) * heightPerHour)
                 Spacer()
                     .frame(width: columnWidth, height: gapHeight)
             }
+        }
+    }
+    
+    func renderStage(_ stage: Stage) -> some View {
+        return VStack(alignment: .center, spacing: 0) {
+            StageNumber(stage: stage, size: 15, font: .system(size: 10, weight: .bold))
+                .padding(.top, 5)
+                .padding(.bottom, 5)
+            Text(stage.localizedName)
+                .padding(.bottom, 4)
+                .frame(width: columnWidth - 1, height: stageNameHeight, alignment: .top)
+                .font(.system(size: 10, weight: .semibold))
+                .minimumScaleFactor(0.85)
+                .lineLimit(3)
+                .multilineTextAlignment(.center)
         }
     }
     
@@ -229,6 +274,26 @@ struct ScrollableProgramViewContent: View {
             startUpdatingCurrentTime()
         }
     }
+    func getColorForStage(_ stage: Stage) -> Color {
+        switch stage.area.id {
+        case 1:
+            return Color.areaType1
+        case 2:
+            return Color.areaType2
+        case 3:
+            return Color.areaType3
+        case 4:
+            return Color.areaType4
+        case 5:
+            return Color.areaType5
+        case 6:
+            return Color.areaType6
+        default:
+            return Color.clear
+            
+        }
+    }
+    
     
     func getColorForEvent(_ event: Event) -> some View {
         switch event.artist.artistType {

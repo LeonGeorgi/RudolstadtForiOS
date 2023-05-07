@@ -23,7 +23,13 @@ struct StageDetailView: View {
     }
 
     func eventDays(_ entities: Entities) -> [Int] {
-        events(entities).keys.sorted()
+        events(entities).keys.sorted().filter { day in
+            if (DataStore.year == 2023 && day < 6 ) {
+                return false
+            } else {
+                return true
+            }
+        }
     }
 
 

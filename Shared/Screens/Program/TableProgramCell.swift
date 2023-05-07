@@ -16,7 +16,23 @@ struct TableProgramCell: View {
     }
     
     var body: some View {
-        NavigationLink(destination: ArtistDetailView(
+        if #available(iOS 16, *) {
+            renderContent()
+                .contextMenu {
+                    SaveEventButton(event: event)
+                } preview: {
+                    SaveEventPreview(event: event)
+                }
+        } else {
+            renderContent()
+                .contextMenu {
+                    SaveEventButton(event: event)
+                }
+        }
+    }
+    
+    func renderContent() -> some View {
+        return NavigationLink(destination: ArtistDetailView(
             artist: event.artist
         )) {
             VStack(spacing: 0) {
@@ -62,62 +78,43 @@ struct TableProgramCell: View {
                 }
             }
             .frame(width: width, height: height)
-            .background(getColorForEvent(event))
+            .background(getColorForEvent(event).opacity(0.7))
             .foregroundColor(.black)
             .cornerRadius(4)
-            .overlay(
+            /*.overlay(
                 RoundedRectangle(cornerRadius: 4)
                     .stroke(Color.black, lineWidth: 1)
                     .opacity(0.15)
-            )
-        }
-        .contextMenu {
-            SaveEventButton(event: event)
+            )*/
         }
     }
     
-    func getColorForEvent(_ event: Event) -> some View {
+    func getColorForEvent(_ event: Event) -> Color {
         switch event.artist.artistType {
         case .stage:
             if (settings.savedEvents.contains(event.id)) {
-                return Color.red
-                    .brightness(colorScheme == .light ? 0.0 : -0)
-                    .saturation(1)
+                return Color.artistTypeStageSaved
             } else {
-                return Color.red
-                    .brightness(colorScheme == .light ? 0.5 : -0.18)
-                    .saturation(colorScheme == .light ? 0.4 : 0.3)
+                return Color.artistTypeStage
             }
         case .dance:
             
             if (settings.savedEvents.contains(event.id)) {
-                return Color.purple
-                    .brightness(colorScheme == .light ? 0 : -0)
-                    .saturation(1)
+                return Color.artistTypeDanceSaved
             } else {
-                return Color.purple
-                    .brightness(colorScheme == .light ? 0.5 : -0.25)
-                    .saturation(colorScheme == .light ? 0.4 : 0.35)
+                return Color.artistTypeDance
             }
         case .street:
             if (settings.savedEvents.contains(event.id)) {
-                return Color.orange
-                    .brightness(colorScheme == .light ? 0 : -0)
-                    .saturation(1)
+                return Color.artistTypeStreetSaved
             } else {
-                return Color.orange
-                    .brightness(colorScheme == .light ? 0.3 : -0.3)
-                    .saturation(colorScheme == .light ? 0.3 : 0.4)
+                return Color.artistTypeStreet
             }
         case .other:
             if (settings.savedEvents.contains(event.id)) {
-                return Color.green
-                    .brightness(colorScheme == .light ? 0 : -0)
-                    .saturation(1)
+                return Color.artistTypeOtherSaved
             } else {
-                return Color.green
-                    .brightness(colorScheme == .light ? 0.4 : -0.3)
-                    .saturation(colorScheme == .light ? 0.4 : 0.4)
+                return Color.artistTypeOther
             }
         }
     }

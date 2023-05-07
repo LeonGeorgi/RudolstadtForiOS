@@ -137,6 +137,14 @@
 		3568C7B129FB59AC00A7AA7D /* TableProgramCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7AF29FB59AC00A7AA7D /* TableProgramCell.swift */; };
 		35CF484A285B7E4E00D13B6F /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */; };
 		35CF484D285B830600D13B6F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35CF484B285B830600D13B6F /* InfoPlist.strings */; };
+		35D0A4892A07372A004C506D /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D0A4882A07372A004C506D /* Colors.xcassets */; };
+		35D0A48A2A07372A004C506D /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D0A4882A07372A004C506D /* Colors.xcassets */; };
+		35D0A48C2A073AFF004C506D /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48B2A073AFF004C506D /* ColorExtensions.swift */; };
+		35D0A48D2A073AFF004C506D /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48B2A073AFF004C506D /* ColorExtensions.swift */; };
+		35D0A48F2A07504C004C506D /* SaveEventPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48E2A07504C004C506D /* SaveEventPreview.swift */; };
+		35D0A4902A07504C004C506D /* SaveEventPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48E2A07504C004C506D /* SaveEventPreview.swift */; };
+		35D0A4922A0754CE004C506D /* StagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A4912A0754CE004C506D /* StagePreview.swift */; };
+		35D0A4932A0754CE004C506D /* StagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A4912A0754CE004C506D /* StagePreview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,6 +242,10 @@
 		3568C7AF29FB59AC00A7AA7D /* TableProgramCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableProgramCell.swift; sourceTree = "<group>"; };
 		35CF484C285B830600D13B6F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		35CF484F285B837800D13B6F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = InfoPlist.strings; sourceTree = "<group>"; };
+		35D0A4882A07372A004C506D /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		35D0A48B2A073AFF004C506D /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
+		35D0A48E2A07504C004C506D /* SaveEventPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveEventPreview.swift; sourceTree = "<group>"; };
+		35D0A4912A0754CE004C506D /* StagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagePreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +321,8 @@
 				3505732728549B81008932A9 /* WebView.swift */,
 				350573362854FA4C008932A9 /* EventSavedIcon.swift */,
 				350573392855B2C3008932A9 /* ContextCopyButton.swift */,
+				35D0A48E2A07504C004C506D /* SaveEventPreview.swift */,
+				35D0A4912A0754CE004C506D /* StagePreview.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -472,6 +486,8 @@
 				3551CC4228043623004F9471 /* ContentView.swift */,
 				35028CC22805BE8D004F0E3F /* Data */,
 				3551CC4328043624004F9471 /* Assets.xcassets */,
+				35D0A4882A07372A004C506D /* Colors.xcassets */,
+				35D0A48B2A073AFF004C506D /* ColorExtensions.swift */,
 				32A1149A358407B10CC2C734 /* Screens */,
 				32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */,
 				32A1139B0A5731511CC06981 /* Views */,
@@ -652,6 +668,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35D0A4892A07372A004C506D /* Colors.xcassets in Resources */,
 				3551CC6D28043624004F9471 /* Assets.xcassets in Resources */,
 				35CF484D285B830600D13B6F /* InfoPlist.strings in Resources */,
 				32A11ACDDD0BA72386A7E319 /* Localizable.strings in Resources */,
@@ -664,6 +681,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3551CC6E28043624004F9471 /* Assets.xcassets in Resources */,
+				35D0A48A2A07372A004C506D /* Colors.xcassets in Resources */,
 				32A11008167D61F884FC47D3 /* Localizable.strings in Resources */,
 				32A11235CEB1CB61653B3149 /* Localizable.strings in Resources */,
 			);
@@ -713,6 +731,7 @@
 				32A116CE36970F9B88DC2055 /* ProgramView.swift in Sources */,
 				3505732E2854A794008932A9 /* GeneralView.swift in Sources */,
 				32A113D5D8EE2EBA383BC6EA /* ProgramItemText.swift in Sources */,
+				35D0A4922A0754CE004C506D /* StagePreview.swift in Sources */,
 				32A11AF99C04FACE809D32A0 /* ArtistTypeFilterView.swift in Sources */,
 				32A1162709A0F6212A6C84D7 /* TimeProgramView.swift in Sources */,
 				32A118F15EE900F7D1D916E5 /* ArtistRatingSymbol.swift in Sources */,
@@ -726,11 +745,13 @@
 				3568726629C0239300520EC5 /* ScrollableProgramView.swift in Sources */,
 				350573472857F312008932A9 /* MapView.swift in Sources */,
 				32A114D5C53D71E50A745B7C /* ScheduleEventCell.swift in Sources */,
+				35D0A48F2A07504C004C506D /* SaveEventPreview.swift in Sources */,
 				3505733A2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
 				3568C7AD29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift in Sources */,
 				350573372854FA4C008932A9 /* EventSavedIcon.swift in Sources */,
 				32A116961BFEAF82D52B6574 /* MoreView.swift in Sources */,
 				32A116DBBEBAB380329768B0 /* ArtistListView.swift in Sources */,
+				35D0A48C2A073AFF004C506D /* ColorExtensions.swift in Sources */,
 				32A115A10E8AE4441C178095 /* ArtistCell.swift in Sources */,
 				3505732B28549BF8008932A9 /* BusView.swift in Sources */,
 				3505733D2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
@@ -759,6 +780,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35D0A4902A07504C004C506D /* SaveEventPreview.swift in Sources */,
 				3551CC6C28043624004F9471 /* ContentView.swift in Sources */,
 				3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */,
 				3551CC6A28043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
@@ -776,6 +798,7 @@
 				32A111D06B3F187ED5308393 /* Util.swift in Sources */,
 				3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
 				32A1173EE6141DB87056E57E /* StageEventCell.swift in Sources */,
+				35D0A4932A0754CE004C506D /* StagePreview.swift in Sources */,
 				32A1154AA5EEABD041A176C7 /* ProgramView.swift in Sources */,
 				350573382854FA4C008932A9 /* EventSavedIcon.swift in Sources */,
 				32A1180E9DB81C4FE3A98D86 /* ProgramItemText.swift in Sources */,
@@ -797,6 +820,7 @@
 				32A112BC323E026BE8507F8E /* ArtistListView.swift in Sources */,
 				32A1111CA4E03E0903D86E29 /* ArtistCell.swift in Sources */,
 				32A116A708F55334C83246C6 /* ArtistDetailView.swift in Sources */,
+				35D0A48D2A073AFF004C506D /* ColorExtensions.swift in Sources */,
 				32A115A10353E19E13E5F510 /* ArtistEventCell.swift in Sources */,
 				32A11996DE25FE370DEA062A /* SavedArtistProgramView.swift in Sources */,
 				32A11020A4D401D0A4CCEEA8 /* SavedArtistOverview.swift in Sources */,
@@ -1001,6 +1025,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RJYK9W2A39;
@@ -1015,14 +1040,15 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1035,6 +1061,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RJYK9W2A39;
@@ -1051,14 +1078,15 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

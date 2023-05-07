@@ -58,7 +58,13 @@ struct RecommendationScheduleView: View {
                 let shownEvents = generateShownEvents(events: entities.events)
                 let eventDays = Set(entities.events.lazy.map { (event: Event) in
                     event.festivalDay
-                }).sorted(by: <)
+                }).sorted(by: <).filter { day in
+                    if (DataStore.year == 2023 && day < 6 ) {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
                 
                 if let events = shownEvents {
                     RecommendationScheduleContentView(events: events, viewAsTable: settings.scheduleViewType == 0, eventDays: eventDays)

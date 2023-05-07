@@ -27,6 +27,9 @@ struct ContentView: View {
                     }
                 }
                 .tag(0)
+                //.toolbarBackground(.visible, for: .tabBar)
+                /*.toolbarBackground(Color(hue: 51/360, saturation: 0.6, brightness: 1), for: .tabBar)
+                .toolbarColorScheme(.light, for: .tabBar)*/
             RecommendationScheduleView()
                 .navigationViewStyle(.stack)
                 .tabItem {
@@ -36,6 +39,11 @@ struct ContentView: View {
                     }
                 }
                 .tag(1)
+                //.toolbarBackground(.visible, for: .tabBar)
+
+                //.toolbarBackground(.hidden, for: .navigationBar)
+                /*.toolbarBackground(Color(hue: 51/360, saturation: 0.6, brightness: 0.9), for: .tabBar)
+                .toolbarColorScheme(.light, for: .tabBar)*/
             
             ArtistListView()
                 .navigationViewStyle(.stack)
@@ -46,25 +54,6 @@ struct ContentView: View {
                     }
                 }
                 .tag(2)
-            
-            /*ProgramView()
-             .navigationViewStyle(.stack)
-             .tabItem {
-             VStack {
-             Image(systemName: "music.note.list")
-             Text("program.title")
-             }
-             }
-             .tag(2)*/
-            /*RecommendationScheduleView()
-             .navigationViewStyle(.stack)
-             .tabItem {
-             VStack {
-             Image(systemName: "calendar")
-             Text("schedule.title")
-             }
-             }
-             .tag(2)*/
             NewsListView()
                 .navigationViewStyle(.stack)
                 .tabItem {
@@ -84,7 +73,6 @@ struct ContentView: View {
                 }
                 .tag(4)
         }
-        .background(.ultraThinMaterial)
         .onAppear {
             UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
@@ -108,9 +96,9 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            /*UINavigationBar.appearance().barTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.9, alpha: 1)
-            UITabBar.appearance().barTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.9, alpha: 1)
-            UITabBar.appearance().unselectedItemTintColor = UIColor(white: 0.4, alpha: 0.7)*/
+            //UINavigationBar.appearance().barTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.9, alpha: 1)
+            //UITabBar.appearance().barTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.9, alpha: 1)
+            //UITabBar.appearance().unselectedItemTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.6, alpha: 1)
         }
         .accentColor(Color(hue: 0/360, saturation: 0.7, brightness: 0.9))
     }
@@ -119,5 +107,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(DataStore())
+            .environmentObject(UserSettings())
     }
 }

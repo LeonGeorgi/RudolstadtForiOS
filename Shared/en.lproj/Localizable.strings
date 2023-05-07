@@ -59,6 +59,7 @@ You can find the artists you find interesting when you click on \"Favorites\" in
 "schedule.type.all" = "All";
 "schedule.list.button" = "List";
 "schedule.table.button" = "Table";
+"schedule.context.open_in_maps" = "Open in Maps";
 
 "schedule.endtimes.warning" = "Warning: The end times of the concerts are automatically estimated and might differ from those in the official schedule.";
 

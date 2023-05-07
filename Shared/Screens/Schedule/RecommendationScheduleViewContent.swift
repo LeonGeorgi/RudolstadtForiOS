@@ -49,7 +49,7 @@ struct RecommendationScheduleContentView: View {
                 .padding(.bottom, 5)
                 .pickerStyle(SegmentedPickerStyle())
             }
-            .background(.ultraThinMaterial)
+            .background(.regularMaterial)
             .zIndex(10)
             
             if (viewAsTable) {

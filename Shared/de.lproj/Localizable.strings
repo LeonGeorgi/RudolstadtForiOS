@@ -57,6 +57,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der 
 "schedule.type.all" = "Alle";
 "schedule.list.button" = "Liste";
 "schedule.table.button" = "Tabelle";
+"schedule.context.open_in_maps" = "In Karten-App öffnen";
 
 "schedule.endtimes.warning" = "Achtung: Die Endzeiten der Konzerte wurden automatisch geschätzt und stimmen möglicherweise nicht mit den offiziellen Endzeiten überein.";
 
