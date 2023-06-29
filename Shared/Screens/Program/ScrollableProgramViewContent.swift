@@ -74,11 +74,13 @@ struct ScrollableProgramViewContent: View {
                     Spacer()
                         .frame(width: timeWidth)
                         .background(.regularMaterial)
+                        .allowsHitTesting(false)
                         .zIndex(1)
                     
                     Spacer()
                         .frame(height: stageNameHeight + 25)
                         .background(.regularMaterial)
+                        .allowsHitTesting(false)
                         .zIndex(4)
                     
                     
@@ -96,21 +98,9 @@ struct ScrollableProgramViewContent: View {
                                 .minimumScaleFactor(0.83)
                         }
                     }
+                    .allowsHitTesting(false)
                     .offset(y: scrollOffset.y)
                     .zIndex(2)
-                    
-                    
-                    /*HStack(spacing: 0) {
-                        
-                        ForEach(stages, id: \.0.id) { (stage, stageEvents) in
-                            Rectangle()
-                                .fill(getColorForStage(stage).opacity(0.5))
-                                .frame(width: columnWidth + columnSpacing, height: geo.size.height)
-                        }
-                    }
-                    .padding(.leading, timeWidth + columnSpacing / 2)
-                    .zIndex(-2)
-                    .offset(x: scrollOffset.x)*/
                     
                     VStack(spacing: 0) {
                         
