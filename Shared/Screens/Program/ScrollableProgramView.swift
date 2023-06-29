@@ -70,19 +70,6 @@ struct ScrollableProgramView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            /*VStack {
-                Picker("Date", selection: $selectedDay) {
-                    ForEach(eventDays) { (day: Int) in
-                        Text(Util.shortWeekDay(day: day)).tag(day)
-                    }
-                }
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
-                .padding(.bottom, 5)
-                .pickerStyle(SegmentedPickerStyle())
-            }
-            .background(.ultraThinMaterial)
-            .zIndex(10)*/
             
             ScrollableProgramViewContent(
                 scrollOffset: .zero,
@@ -123,7 +110,7 @@ struct ScrollableProgramView: View {
         }
         
         // Füge das erste Datum nach dem Enddatum hinzu
-        dates.append(currentDate.addingTimeInterval(30 * 60))
+        dates.append(currentDate)
         return dates
     }
 }
