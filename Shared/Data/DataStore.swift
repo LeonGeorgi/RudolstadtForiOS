@@ -127,6 +127,11 @@ final class DataStore: ObservableObject {
     }
 
     private func downloadAndSetData(resultFromCache: FileLoadingResult<Entities>) async {
+        DispatchQueue.main.async {
+            if case .tooOld(let loadedData) = resultFromCache {
+                self.data = .success(loadedData)
+            }
+        }
         let downloadResult = await dataUpdater.downloadAllDataToFiles()
         if case DownloadResult.success = downloadResult {
             let resultFromDownload = dataLoader.loadEntitiesFromFiles()
