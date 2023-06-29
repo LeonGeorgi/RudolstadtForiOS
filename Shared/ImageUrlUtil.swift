@@ -5,7 +5,7 @@
 import Foundation
 
 class ImageUrlUtil {
-    static let useApiImageUrl = false
+    static let useApiImageUrl = true
     static let year = DataStore.year
     static let thumbUrl = getThumbUrl(year: year)
     static let fullImageUrl = getFullUrl(year: year)
