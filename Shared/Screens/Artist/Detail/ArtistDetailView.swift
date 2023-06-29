@@ -89,15 +89,20 @@ struct ArtistDetailView: View {
             HStack {
                 Spacer()
                 ForEach(-1..<4) { rating in
-                    RatingSymbol(rating: rating)
+                    Text(getSymbolForRating(rating))
                             .font(.system(size: 35))
                             //.grayscale(1.0)
-                            .saturation(artistRating() == rating ? 1.0 : 0.0)
+                            .saturation(getSaturationForRating(rating))
                             .onTapGesture {
                                 if artistRating() != rating {
                                     self.rateArtist(rating: rating)
                                 }
                             }
+                    if rating < 1 {
+                        Divider()
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 0)
+                    }
 
                 }
                 Spacer()
@@ -113,6 +118,28 @@ struct ArtistDetailView: View {
         //.cornerRadius(10)
         //.shadow(radius: 10)
         //.padding()
+    }
+    
+    private func getSymbolForRating(_ rating: Int) -> String {
+        switch rating {
+        case -1: return "🥱"
+        case 0: return "🤔"
+        case 1: return "❤️"
+        case 2: return "❤️"
+        case 3: return "❤️"
+        default: return "Invalid"
+        }
+    }
+    
+    private func getSaturationForRating(_ symbolValue: Int) -> Double {
+        let r = artistRating()
+        if r == symbolValue {
+            return 1.0
+        }
+        if (symbolValue > 0 && symbolValue < r) {
+            return 1.0
+        }
+        return 0.0
     }
 
     private func renderLinks() -> some View {
