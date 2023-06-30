@@ -13,7 +13,14 @@ struct ContentView: View {
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var userSettings: UserSettings
     @Environment(\.scenePhase) var scenePhase
-
+        
+    var unreadNewsCount: Int {
+        if case .success(let entities) = dataStore.data {
+            return entities.news.filter { item in item.isInCurrentLanguage && !userSettings.readNews.contains(item.id) }.count
+        } else {
+            return 0
+        }
+    }
     
     var body: some View {
         TabView(selection: $selection) {
@@ -27,9 +34,9 @@ struct ContentView: View {
                     }
                 }
                 .tag(0)
-                //.toolbarBackground(.visible, for: .tabBar)
-                /*.toolbarBackground(Color(hue: 51/360, saturation: 0.6, brightness: 1), for: .tabBar)
-                .toolbarColorScheme(.light, for: .tabBar)*/
+            //.toolbarBackground(.visible, for: .tabBar)
+            /*.toolbarBackground(Color(hue: 51/360, saturation: 0.6, brightness: 1), for: .tabBar)
+             .toolbarColorScheme(.light, for: .tabBar)*/
             RecommendationScheduleView()
                 .navigationViewStyle(.stack)
                 .tabItem {
@@ -39,11 +46,11 @@ struct ContentView: View {
                     }
                 }
                 .tag(1)
-                //.toolbarBackground(.visible, for: .tabBar)
-
-                //.toolbarBackground(.hidden, for: .navigationBar)
-                /*.toolbarBackground(Color(hue: 51/360, saturation: 0.6, brightness: 0.9), for: .tabBar)
-                .toolbarColorScheme(.light, for: .tabBar)*/
+            //.toolbarBackground(.visible, for: .tabBar)
+            
+            //.toolbarBackground(.hidden, for: .navigationBar)
+            /*.toolbarBackground(Color(hue: 51/360, saturation: 0.6, brightness: 0.9), for: .tabBar)
+             .toolbarColorScheme(.light, for: .tabBar)*/
             
             ArtistListView()
                 .navigationViewStyle(.stack)
@@ -57,11 +64,9 @@ struct ContentView: View {
             NewsListView()
                 .navigationViewStyle(.stack)
                 .tabItem {
-                    VStack {
-                        Image(systemName: "envelope.fill")
-                        Text("news.short")
-                    }
+                    Label("news.short", systemImage: "envelope.fill")
                 }
+                .badge(unreadNewsCount)
                 .tag(3)
             MoreView()
                 .navigationViewStyle(.stack)
@@ -92,6 +97,7 @@ struct ContentView: View {
                     
                 }
             } else if newPhase == .inactive {
+                UIApplication.shared.applicationIconBadgeNumber = unreadNewsCount
                 print("App is inactive")
             }
         }
