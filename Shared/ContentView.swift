@@ -14,7 +14,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     
     @State private var goHome = UUID()
-    @State var selectedIndex: Int = 0
+    @State var selectedIndex: Int = 1
 
     var selectionBinding: Binding<Int> { Binding(
         get: {
