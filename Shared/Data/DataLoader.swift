@@ -162,7 +162,7 @@ class DataLoader {
     }
 
     func isFileTooOld(fileName: String) -> Bool {
-        let someTimeAgo = Calendar.current.date(byAdding: .hour, value: -6, to: Date.now)
+        let someTimeAgo = Calendar.current.date(byAdding: .hour, value: -3, to: Date.now)
         return isFileOlderThan(fileName: fileName, date: someTimeAgo)
     }
 

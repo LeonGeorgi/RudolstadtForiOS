@@ -10,12 +10,15 @@ import SwiftUI
 
 struct ArtistDetailView: View {
     let artist: Artist
-
+    
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
     
-    @State var showingRatingExplanation: Bool = false
-
+    @State private var isShowingNoteEditView = false
+    @State var isEditAlertShown: Bool = false
+    @State var noteText: String = ""
+    
+    
     var artistEvents: LoadingEntity<[Event]> {
         dataStore.data.map { entities in
             entities.events.filter {
@@ -23,20 +26,24 @@ struct ArtistDetailView: View {
             }
         }
     }
-
+    
+    var artistNote: String? {
+        settings.artistNotes["\(artist.id)"]
+    }
+    
     func rateArtist(rating: Int) {
         print(settings.ratings)
         var ratings = settings.ratings
         ratings["\(artist.id)"] = rating
         print(ratings)
         settings.ratings = ratings
-
+        
     }
-
+    
     func artistRating() -> Int {
         settings.ratings["\(artist.id)"] ?? 0
     }
-
+    
     var body: some View {
         List {
             Section(footer: artist.countries.isEmpty ? Text(artist.name) : Text("\(artist.name) (\(artist.countries))")) {
@@ -44,9 +51,27 @@ struct ArtistDetailView: View {
                     .frame(maxHeight: 500)
                     .clipped()
             }
-
+            
             renderRating()
+            
+            if let artistNote = artistNote {
+                if artistNote != "" {
+                    Section("artist.notes.headline") {
+                        HStack(alignment: .firstTextBaseline) {
+                            Text(artistNote)
+                                .multilineTextAlignment(.leading)
+                            Spacer()
+                            Button {
+                                isShowingNoteEditView = true
+                            } label: {
+                                Image(systemName: "square.and.pencil")
+                            }
 
+                        }
+                    }
+                }
+            }
+            
             
             switch artistEvents {
             case .loading:
@@ -70,54 +95,87 @@ struct ArtistDetailView: View {
                     Text(artist.formattedDescription!)
                 }
             }
-
+            
             if artist.url != nil || artist.youtubeID != nil || artist.facebookID != nil {
                 renderLinks()
             }
-
+            
         }.listStyle(GroupedListStyle())
-                .navigationBarTitle(Text(artist.name), displayMode: .large)
-    }
-
-    private func renderRating() -> some View {
-        Section(footer: VStack(alignment: .leading) {
-            Text("artist.rating.explanation.content")
-            if showingRatingExplanation {
-                Text("artist.rating.explanation.extra")
+            .navigationBarTitle(Text(artist.name), displayMode: .large)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(artistNote ?? "" == "" ? "artist.add-note.button" : "artist.edit-note.button") {
+                        isShowingNoteEditView.toggle()
+                    }
+                }
             }
-        }) {
+            .sheet(isPresented: $isShowingNoteEditView) {
+                NavigationView {
+                    TextEditor(text: $noteText)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle("artist.edit-note.headline")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button("artist.note.cancel") {
+                                if artistNote ?? "" == noteText {
+                                    isShowingNoteEditView = false
+                                } else {
+                                    isEditAlertShown = true
+                                }
+                            }
+                        }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button("artist.note.save") {
+                                settings.artistNotes["\(artist.id)"] = noteText
+                                isShowingNoteEditView = false
+                            }
+                        }
+                    }.alert(isPresented: $isEditAlertShown) {
+                        Alert(
+                            title: Text("artist.note.cancel.alert.title"),
+                            message: Text("artist.note.cancel.alert.message"),
+                            primaryButton: .destructive(Text("artist.note.cancel.alert.yes")) {
+                                isEditAlertShown = false
+                                noteText = artistNote ?? ""
+                                isShowingNoteEditView = false
+                            }, secondaryButton: .cancel(Text("artist.note.cancel.alert.no")) {
+                                isEditAlertShown = false
+                            })
+                    }
+                }.interactiveDismissDisabled()
+            }
+            .onAppear {
+                noteText = artistNote ?? ""
+            }
+    }
+    
+    func saveNote() {
+    }
+    
+    private func renderRating() -> some View {
+        Section(footer: Text("artist.rating.explanation.content")) {
             HStack {
                 Spacer()
                 ForEach(-1..<4) { rating in
                     Text(getSymbolForRating(rating))
-                            .font(.system(size: 35))
-                            //.grayscale(1.0)
-                            .saturation(getSaturationForRating(rating))
-                            .onTapGesture {
-                                if artistRating() != rating {
-                                    self.rateArtist(rating: rating)
-                                }
+                        .font(.system(size: 35))
+                    //.grayscale(1.0)
+                        .saturation(getSaturationForRating(rating))
+                        .onTapGesture {
+                            if artistRating() != rating {
+                                self.rateArtist(rating: rating)
                             }
+                        }
                     if rating < 1 {
                         Divider()
                             .padding(.vertical, 5)
                             .padding(.horizontal, 0)
                     }
-
+                    
                 }
                 Spacer()
-                Image(systemName: "questionmark.circle.fill")
-                    .foregroundColor(.gray)
-                    .font(.system(size: 20))
-                    .onTapGesture {
-                        showingRatingExplanation.toggle()
-                    }
-
-            }//.padding(.vertical)
+            }
         }
-        //.cornerRadius(10)
-        //.shadow(radius: 10)
-        //.padding()
     }
     
     private func getSymbolForRating(_ rating: Int) -> String {
@@ -141,7 +199,7 @@ struct ArtistDetailView: View {
         }
         return 0.0
     }
-
+    
     private func renderLinks() -> some View {
         Section(header: Text("artist.links")) {
             if artist.url != nil {
@@ -160,8 +218,8 @@ struct ArtistDetailView: View {
                         return
                     }
                     UIApplication.shared.open(url)
-
-
+                    
+                    
                 }) {
                     Text("YouTube")
                 }
@@ -190,7 +248,7 @@ struct ArtistDetailView: View {
 struct ArtistDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ArtistDetailView(artist: .example)
-                .environmentObject(DataStore())
-                .environmentObject(UserSettings())
+            .environmentObject(DataStore())
+            .environmentObject(UserSettings())
     }
 }

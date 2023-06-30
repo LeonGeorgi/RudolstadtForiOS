@@ -40,6 +40,9 @@ final class UserSettings: ObservableObject {
     @UserDefault(key: "\(DataStore.year)/oldNews", defaultValue: [])
     var oldNews: [Int]
     
+    @UserDefault(key: "\(DataStore.year)/artistNotes", defaultValue: Dictionary())
+    var artistNotes: Dictionary<String, String>
+    
     // 0 - Map
     // 1 - List
     @UserDefault(key: "view/locations/viewtype", defaultValue: 0)

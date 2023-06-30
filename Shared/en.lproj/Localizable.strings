@@ -5,7 +5,16 @@
 "news.long" = "News";
 "news.refresh.title" = "Refresh";
 
-
+"artist.notes.headline" = "NOTES";
+"artist.add-note.button" = "Add notes";
+"artist.edit-note.button" = "Edit notes";
+"artist.edit-note.headline" = "Edit notes";
+"artist.note.save" = "Save";
+"artist.note.cancel" = "Cancel";
+"artist.note.cancel.alert.title" = "Do you really want to cancel editing?";
+"artist.note.cancel.alert.message" = "Your changes will be lost.";
+"artist.note.cancel.alert.yes" = "Yes";
+"artist.note.cancel.alert.no" = "No";
 "artist.website" = "Website";
 "artist.events" = "EVENTS";
 "artist.links" = "LINKS";
