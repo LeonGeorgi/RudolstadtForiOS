@@ -9,10 +9,25 @@ import SwiftUI
 import UserNotifications
 
 struct ContentView: View {
-    @State private var selection = 1
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var userSettings: UserSettings
     @Environment(\.scenePhase) var scenePhase
+    
+    @State private var goHome = UUID()
+    @State var selectedIndex: Int = 0
+
+    var selectionBinding: Binding<Int> { Binding(
+        get: {
+            self.selectedIndex
+        },
+        set: {
+            if $0 == self.selectedIndex {
+                goHome = UUID()
+            }
+            self.selectedIndex = $0
+        }
+    )}
+
         
     var unreadNewsCount: Int {
         if case .success(let entities) = dataStore.data {
@@ -23,7 +38,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView(selection: $selection) {
+        TabView(selection: selectionBinding) {
             
             MapOverview()
                 .navigationViewStyle(.stack)
@@ -34,9 +49,6 @@ struct ContentView: View {
                     }
                 }
                 .tag(0)
-            //.toolbarBackground(.visible, for: .tabBar)
-            /*.toolbarBackground(Color(hue: 51/360, saturation: 0.6, brightness: 1), for: .tabBar)
-             .toolbarColorScheme(.light, for: .tabBar)*/
             RecommendationScheduleView()
                 .navigationViewStyle(.stack)
                 .tabItem {
@@ -46,11 +58,6 @@ struct ContentView: View {
                     }
                 }
                 .tag(1)
-            //.toolbarBackground(.visible, for: .tabBar)
-            
-            //.toolbarBackground(.hidden, for: .navigationBar)
-            /*.toolbarBackground(Color(hue: 51/360, saturation: 0.6, brightness: 0.9), for: .tabBar)
-             .toolbarColorScheme(.light, for: .tabBar)*/
             
             ArtistListView()
                 .navigationViewStyle(.stack)
@@ -78,6 +85,7 @@ struct ContentView: View {
                 }
                 .tag(4)
         }
+        .id(goHome)
         .onAppear {
             UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
@@ -100,11 +108,6 @@ struct ContentView: View {
                 UIApplication.shared.applicationIconBadgeNumber = unreadNewsCount
                 print("App is inactive")
             }
-        }
-        .onAppear {
-            //UINavigationBar.appearance().barTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.9, alpha: 1)
-            //UITabBar.appearance().barTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.9, alpha: 1)
-            //UITabBar.appearance().unselectedItemTintColor = UIColor(hue: 51/360, saturation: 0.75, brightness: 0.6, alpha: 1)
         }
         .accentColor(Color(hue: 0/360, saturation: 0.7, brightness: 0.9))
     }
