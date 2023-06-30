@@ -26,40 +26,49 @@ struct MapView: View, Equatable {
 
     var body: some View {
         VStack(alignment: .leading) {
-
-            VStack(alignment: .leading) {
-                HStack(alignment: .center) {
-                    renderCircle(Color(hue: 24/360, saturation: 0.6, brightness: 0.9))
-                    Text("ticket.type.festival")
-                }
-
-                HStack(alignment: .center) {
-                    renderCircle(Color(hue: 116/360, saturation: 0.2, brightness: 0.7))
-                    Text("ticket.type.day-and-festival")
-                }
-
-                HStack(alignment: .center) {
-                    renderCircle(Color(hue: 35/360, saturation: 0.4, brightness: 0.8))
-                    Text("ticket.type.other")
-                }
-            }
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .padding(.top, 10)
-                    .padding(.horizontal)
-            Map(coordinateRegion: $mapRegion, showsUserLocation: true, annotationItems: locations) { annotation in
-                MapAnnotation(coordinate: annotation.coordinate) {
-                    NavigationLink(destination: StageDetailView(stage: annotation.stage)) {
-                        VStack {
-                            StageNumber(stage: annotation.stage, size: 25, font: .system(size: 15))
+            
+            ZStack(alignment: .top) {
+                
+                Map(coordinateRegion: $mapRegion, showsUserLocation: true, annotationItems: locations) { annotation in
+                    MapAnnotation(coordinate: annotation.coordinate) {
+                        NavigationLink(destination: StageDetailView(stage: annotation.stage)) {
+                            VStack {
+                                StageNumber(stage: annotation.stage, size: 25, font: .system(size: 15))
+                            }
                         }
                     }
                 }
-            }
-                    .accentColor(.blue)
-                    .onAppear {
-                        manager.startLocationTracking()
+                .accentColor(.blue)
+                .onAppear {
+                    manager.startLocationTracking()
+                }
+                
+                HStack(alignment: .center, spacing: 20) {
+                    HStack(alignment: .center) {
+                        renderCircle(Color(hue: 24/360, saturation: 0.6, brightness: 0.9))
+                        Text("ticket.type.festival")
                     }
+                    
+                    HStack(alignment: .center) {
+                        renderCircle(Color(hue: 116/360, saturation: 0.2, brightness: 0.7))
+                        Text("ticket.type.day-and-festival")
+                    }
+                    
+                    HStack(alignment: .center) {
+                        renderCircle(Color(hue: 35/360, saturation: 0.4, brightness: 0.8))
+                        Text("ticket.type.other")
+                    }
+                }
+                .padding(.vertical, 10)
+                .padding(.horizontal)
+                .background(.thinMaterial)
+                .cornerRadius(10)
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .padding(.top, 10)
+                .padding(.horizontal)
+            }
+            
             Text("map.warning.stage-numbers")
                     .font(.footnote)
                     .foregroundColor(.gray)
