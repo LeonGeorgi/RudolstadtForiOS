@@ -115,6 +115,10 @@
 		350573412855D45B008932A9 /* NextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733F2855D45B008932A9 /* NextView.swift */; };
 		350573452857E9BE008932A9 /* MapOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573442857E9BE008932A9 /* MapOverview.swift */; };
 		350573472857F312008932A9 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573462857F312008932A9 /* MapView.swift */; };
+		351316C82B800D0700B87F74 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 351316C72B800D0700B87F74 /* ImageViewer */; };
+		351316CA2B800D0700B87F74 /* ImageViewerRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 351316C92B800D0700B87F74 /* ImageViewerRemote */; };
+		351316CC2B800D1F00B87F74 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 351316CB2B800D1F00B87F74 /* ImageViewer */; };
+		351316CE2B800D1F00B87F74 /* ImageViewerRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 351316CD2B800D1F00B87F74 /* ImageViewerRemote */; };
 		3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5928043624004F9471 /* Tests_iOS.swift */; };
 		3551CC5C28043624004F9471 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5B28043624004F9471 /* Tests_iOSLaunchTests.swift */; };
 		3551CC6628043624004F9471 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC6528043624004F9471 /* Tests_macOS.swift */; };
@@ -253,7 +257,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				351316C82B800D0700B87F74 /* ImageViewer in Frameworks */,
 				35CF484A285B7E4E00D13B6F /* SDWebImageSwiftUI in Frameworks */,
+				351316CA2B800D0700B87F74 /* ImageViewerRemote in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +267,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				351316CE2B800D1F00B87F74 /* ImageViewerRemote in Frameworks */,
+				351316CC2B800D1F00B87F74 /* ImageViewer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +562,8 @@
 			name = "RudolstadtForiOS (iOS)";
 			packageProductDependencies = (
 				35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */,
+				351316C72B800D0700B87F74 /* ImageViewer */,
+				351316C92B800D0700B87F74 /* ImageViewerRemote */,
 			);
 			productName = "RudolstadtForiOS (iOS)";
 			productReference = 3551CC4828043624004F9471 /* Rudolstadt.app */;
@@ -572,6 +582,10 @@
 			dependencies = (
 			);
 			name = "RudolstadtForiOS (macOS)";
+			packageProductDependencies = (
+				351316CB2B800D1F00B87F74 /* ImageViewer */,
+				351316CD2B800D1F00B87F74 /* ImageViewerRemote */,
+			);
 			productName = "RudolstadtForiOS (macOS)";
 			productReference = 3551CC4E28043624004F9471 /* RudolstadtForiOS.app */;
 			productType = "com.apple.product-type.application";
@@ -650,6 +664,7 @@
 			mainGroup = 3551CC3B28043622004F9471;
 			packageReferences = (
 				35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */,
 			);
 			productRefGroup = 3551CC4928043624004F9471 /* Products */;
 			projectDirPath = "";
@@ -1049,7 +1064,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1087,7 +1102,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1290,6 +1305,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Jake-Short/swiftui-image-viewer.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
 		35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -1301,6 +1324,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		351316C72B800D0700B87F74 /* ImageViewer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
+			productName = ImageViewer;
+		};
+		351316C92B800D0700B87F74 /* ImageViewerRemote */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
+			productName = ImageViewerRemote;
+		};
+		351316CB2B800D1F00B87F74 /* ImageViewer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
+			productName = ImageViewer;
+		};
+		351316CD2B800D1F00B87F74 /* ImageViewerRemote */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
+			productName = ImageViewerRemote;
+		};
 		35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;

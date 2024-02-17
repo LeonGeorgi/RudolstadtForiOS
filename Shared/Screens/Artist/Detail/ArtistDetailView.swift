@@ -7,6 +7,8 @@
 //
 
 import SwiftUI
+import ImageViewer
+import ImageViewerRemote
 
 struct ArtistDetailView: View {
     let artist: Artist
@@ -17,6 +19,9 @@ struct ArtistDetailView: View {
     @State private var isShowingNoteEditView = false
     @State var isEditAlertShown: Bool = false
     @State var noteText: String = ""
+    
+    @State private var isDisplayingImageViewer = false
+    @State var imageURL = ""
     
     
     var artistEvents: LoadingEntity<[Event]> {
@@ -50,7 +55,12 @@ struct ArtistDetailView: View {
                 ArtistImageView(artist: artist, fullImage: true).listRowInsets(EdgeInsets())
                     .frame(maxHeight: 500)
                     .clipped()
+                    .onTapGesture {
+                        imageURL = artist.fullImageUrl!.absoluteString
+                        isDisplayingImageViewer.toggle()
+                    }
             }
+
             
             renderRating()
             
@@ -144,6 +154,12 @@ struct ArtistDetailView: View {
                     }
                 }.interactiveDismissDisabled()
             }
+            .fullScreenCover(isPresented: $isDisplayingImageViewer) {
+                ImageViewerRemote(imageURL: $imageURL, viewerShown: $isDisplayingImageViewer)
+            }/*.transaction({ transaction in
+                transaction.disablesAnimations = true
+            })*/
+            //.overlay(ImageViewerRemote(imageURL: $imageURL, viewerShown: $isDisplayingImageViewer))
             .onAppear {
                 noteText = artistNote ?? ""
             }
