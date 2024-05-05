@@ -1,11 +1,3 @@
-//
-//  ArtistDetailView.swift
-//  RudolstadtForiOS
-//
-//  Created by Leon on 25.02.20.
-//  Copyright © 2020 Leon Georgi. All rights reserved.
-//
-
 import SwiftUI
 import ImageViewer
 import ImageViewerRemote
@@ -37,33 +29,64 @@ struct ArtistDetailView: View {
         settings.artistNotes["\(artist.id)"]
     }
     
-    func rateArtist(rating: Int) {
-        print(settings.ratings)
-        var ratings = settings.ratings
-        ratings["\(artist.id)"] = rating
-        print(ratings)
-        settings.ratings = ratings
-        
+    var artistLinks: ArtistLinks? {
+        if let artistLinks = dataStore.artistLinks {
+            return artistLinks[artist.name]
+        }
+        return nil
     }
     
-    func artistRating() -> Int {
-        settings.ratings["\(artist.id)"] ?? 0
+    var hasArtistLinks: Bool {
+        guard let artistLinks = artistLinks else { return false }
+        return artistLinks.hasLinks
     }
     
     var body: some View {
         List {
             Section(footer: artist.countries.isEmpty ? Text(artist.name) : Text("\(artist.name) (\(artist.countries))")) {
-                ArtistImageView(artist: artist, fullImage: true).listRowInsets(EdgeInsets())
-                    .frame(maxHeight: 500)
-                    .clipped()
-                    .onTapGesture {
-                        imageURL = artist.fullImageUrl!.absoluteString
-                        isDisplayingImageViewer.toggle()
+                ZStack {
+                    VStack(spacing: 0) {
+                        ArtistImageView(artist: artist, fullImage: true)
+                            .frame(maxHeight: 500)
+                            .clipped()
+                            .onTapGesture {
+                                imageURL = artist.fullImageUrl!.absoluteString
+                                isDisplayingImageViewer.toggle()
+                            }
                     }
+                    if artist.url != nil || artist.youtubeID != nil || artist.facebookID != nil || hasArtistLinks {
+                        VStack {
+                            Spacer()
+                            Rectangle()
+                                .fill(.ultraThinMaterial)
+                                .environment(\.colorScheme, .dark)
+                                .frame(height: 100)
+                                .mask {
+                                    VStack(spacing: 0) {
+                                        LinearGradient(stops: [
+                                            .init(color: .black.opacity(0), location: 0),
+                                            .init(color: .black.opacity(1), location: 0.4),
+                                            .init(color: .black.opacity(1), location: 1)
+                                        ],
+                                                       startPoint: .top,
+                                                       endPoint: .bottom)
+                                        .frame(height: 100)
+                                        
+                                        Rectangle()
+                                    }
+                                }
+                        }
+                        VStack {
+                            Spacer()
+                            renderLinks()
+                        }.padding()
+                    }
+                }.listRowInsets(EdgeInsets())
             }
             
-            
-            renderRating()
+            Section(footer: Text("artist.rating.explanation.content")) {
+                ArtistRatingView(artist: artist)
+            }
             
             if let artistNote = artistNote {
                 if artistNote != "" {
@@ -105,10 +128,6 @@ struct ArtistDetailView: View {
                 Section(header: Text("artist.description")) {
                     Text(artist.formattedDescription!)
                 }
-            }
-            
-            if artist.url != nil || artist.youtubeID != nil || artist.facebookID != nil {
-                renderLinks()
             }
             
         }.listStyle(GroupedListStyle())
@@ -160,111 +179,38 @@ struct ArtistDetailView: View {
             }
     }
     
-    private func renderRating() -> some View {
-        Section(footer: Text("artist.rating.explanation.content")) {
-            HStack {
-                Spacer()
-                ForEach(-1..<4) { rating in
-                    Text(getSymbolForRating(rating))
-                        .font(.system(size: 35))
-                    //.grayscale(1.0)
-                        .saturation(getSaturationForRating(rating))
-                        .onTapGesture {
-                            if artistRating() != rating {
-                                self.rateArtist(rating: rating)
-                            }
-                        }
-                    if rating < 1 {
-                        Divider()
-                            .padding(.vertical, 5)
-                            .padding(.horizontal, 0)
-                    }
-                    
-                }
-                Spacer()
-            }
-        }
-    }
-    
-    private func getSymbolForRating(_ rating: Int) -> String {
-        switch rating {
-        case -1: return "🥱"
-        case 0: return "🤔"
-        case 1: return "❤️"
-        case 2: return "❤️"
-        case 3: return "❤️"
-        default: return "Invalid"
-        }
-    }
-    
-    private func getSaturationForRating(_ symbolValue: Int) -> Double {
-        let r = artistRating()
-        if r == symbolValue {
-            return 1.0
-        }
-        if (symbolValue > 0 && symbolValue < r) {
-            return 1.0
-        }
-        return 0.0
-    }
-    
     private func renderLinks() -> some View {
-        Section(header: Text("artist.links")) {
-            if let artistLinks = dataStore.artistLinks {
-                if let artistLink = artistLinks[artist.name] {
-                    if let appleMusicURL = artistLink.appleMusicURL {
-                        Button {
-                            UIApplication.shared.open(URL(string: appleMusicURL)!)
-                        } label: {
-                            Text("Apple Music")
-                        }
-                    }
-                    if let spotifyURL = artistLink.spotifyURL {
-                        Button {
-                            UIApplication.shared.open(URL(string: spotifyURL)!)
-                        } label: {
-                            Text("Spotify")
-                        }
-                    }
-                }
-            }
-            if artist.url != nil {
-                Button(action: {
-                    guard let url = URL(string: artist.url!) else {
-                        return
-                    }
+        HStack {
+            
+            if let youtubeID = artist.youtubeID, let url = URL(string: "https://www.youtube.com/watch?v=\(youtubeID)") {
+                LinkButton(label: "YouTube", icon: "play.rectangle") {
                     UIApplication.shared.open(url)
-                }) {
-                    Text("artist.website")
                 }
             }
-            if artist.youtubeID != nil {
-                Button(action: {
-                    guard let url = URL(string: "https://www.youtube.com/watch?v=\(artist.youtubeID!)") else {
-                        return
-                    }
+            if let url = artist.url, let url = URL(string: url) {
+                LinkButton(label: "artist.website", icon: "globe") {
                     UIApplication.shared.open(url)
-                    
-                    
-                }) {
-                    Text("YouTube")
                 }
             }
-            if artist.facebookID != nil {
-                Button(action: {
-                    guard let url = URL(string: "fb://profile/\(artist.facebookID!)") else {
-                        return
-                    }
+            if let facebookID = artist.facebookID, let url = URL(string: "fb://profile/\(facebookID)") {
+                LinkButton(label: "Facebook", icon: "person") {
                     if UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
-                    } else {
-                        guard let url = URL(string: "https://www.facebook.com/\(artist.facebookID!)") else {
-                            return
-                        }
+                    } else if let url = URL(string: "https://www.facebook.com/\(facebookID)") {
                         UIApplication.shared.open(url)
                     }
-                }) {
-                    Text("Facebook")
+                    
+                }
+            }
+            if let artistLinks = dataStore.artistLinks, let artistLink = artistLinks[artist.name], let appleMusicURL = artistLink.appleMusicURL {
+                LinkButton(label: "Apple Music", icon: "music.note") {
+                    UIApplication.shared.open(URL(string: appleMusicURL)!)
+                }
+            }
+            
+            if let artistLinks = dataStore.artistLinks, let artistLink = artistLinks[artist.name], let spotifyURL = artistLink.spotifyURL {
+                LinkButton(label: "Spotify", icon: "music.note.list") {
+                    UIApplication.shared.open(URL(string: spotifyURL)!)
                 }
             }
         }
@@ -276,5 +222,29 @@ struct ArtistDetailView_Previews: PreviewProvider {
         ArtistDetailView(artist: .example)
             .environmentObject(DataStore())
             .environmentObject(UserSettings())
+    }
+}
+
+struct LinkButton: View {
+    let label: LocalizedStringKey
+    let icon: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 5) {
+                Image(systemName: icon)
+                Text(label)
+                    .font(.caption)
+                    .scaledToFit()
+                    .minimumScaleFactor(0.7)
+            }
+            .frame(maxWidth: .infinity)
+        }.buttonStyle(BorderlessButtonStyle())
+        .padding(10)
+        .background(.ultraThinMaterial)
+        .cornerRadius(10)
+        .foregroundColor(.primary)
+        .environment(\.colorScheme, .dark)
     }
 }

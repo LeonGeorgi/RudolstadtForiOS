@@ -3,6 +3,10 @@ import Foundation
 struct ArtistLinks {
     var spotifyURL: String?
     var appleMusicURL: String?
+    
+    var hasLinks: Bool {
+        spotifyURL != nil || appleMusicURL != nil
+    }
 }
 
 func parseArtistLinks() -> [String: ArtistLinks] {
@@ -20,9 +24,11 @@ func parseArtistLinks() -> [String: ArtistLinks] {
         for row in rows {
             let columns = row.components(separatedBy: "~")
             if columns.count >= 3 {
+                let spotifyPart = columns[1].trimmingCharacters(in: .newlines)
+                let appleMusicPart = columns[2].trimmingCharacters(in: .newlines)
                 let artistName = columns[0].trimmingCharacters(in: .newlines)
-                let spotifyURL = columns[1].isEmpty ? nil : columns[1].trimmingCharacters(in: .newlines)
-                let appleMusicURL = columns[2].isEmpty ? nil : columns[2].trimmingCharacters(in: .newlines)
+                let spotifyURL = spotifyPart.isEmpty ? nil : spotifyPart
+                let appleMusicURL = appleMusicPart.isEmpty ? nil : appleMusicPart
                 
                 let links = ArtistLinks(spotifyURL: spotifyURL, appleMusicURL: appleMusicURL)
                 print("Artist: \(artistName), Spotify: \(spotifyURL ?? "nil"), Apple Music: \(appleMusicURL ?? "nil")")

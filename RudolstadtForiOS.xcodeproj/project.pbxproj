@@ -119,6 +119,8 @@
 		351316CA2B800D0700B87F74 /* ImageViewerRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 351316C92B800D0700B87F74 /* ImageViewerRemote */; };
 		351316CC2B800D1F00B87F74 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 351316CB2B800D1F00B87F74 /* ImageViewer */; };
 		351316CE2B800D1F00B87F74 /* ImageViewerRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 351316CD2B800D1F00B87F74 /* ImageViewerRemote */; };
+		351359B02BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351359AF2BE7A9D0007C0480 /* ArtistRatingView.swift */; };
+		351359B12BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351359AF2BE7A9D0007C0480 /* ArtistRatingView.swift */; };
 		354B96732BE78D7C00F58179 /* 2024_artist_urls.csv in Resources */ = {isa = PBXBuildFile; fileRef = 354B96722BE78D7C00F58179 /* 2024_artist_urls.csv */; };
 		354B96772BE798D100F58179 /* ArtistLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354B96762BE798D100F58179 /* ArtistLinks.swift */; };
 		3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5928043624004F9471 /* Tests_iOS.swift */; };
@@ -228,6 +230,7 @@
 		350573422856442B008932A9 /* RudolstadtForiOS--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RudolstadtForiOS--iOS--Info.plist"; sourceTree = "<group>"; };
 		350573442857E9BE008932A9 /* MapOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverview.swift; sourceTree = "<group>"; };
 		350573462857F312008932A9 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		351359AF2BE7A9D0007C0480 /* ArtistRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistRatingView.swift; sourceTree = "<group>"; };
 		354B96722BE78D7C00F58179 /* 2024_artist_urls.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2024_artist_urls.csv; sourceTree = "<group>"; };
 		354B96762BE798D100F58179 /* ArtistLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistLinks.swift; sourceTree = "<group>"; };
 		3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtForiOSApp.swift; sourceTree = "<group>"; };
@@ -370,6 +373,7 @@
 			children = (
 				32A11CB9E490D35A061D5106 /* ArtistDetailView.swift */,
 				32A11EB2094A0029C6472DB7 /* ArtistEventCell.swift */,
+				351359AF2BE7A9D0007C0480 /* ArtistRatingView.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -785,6 +789,7 @@
 				35D0A48C2A073AFF004C506D /* ColorExtensions.swift in Sources */,
 				32A115A10E8AE4441C178095 /* ArtistCell.swift in Sources */,
 				3505732B28549BF8008932A9 /* BusView.swift in Sources */,
+				351359B02BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */,
 				3505733D2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
 				32A1167A2BFBD49E2160B672 /* ArtistDetailView.swift in Sources */,
 				32A11E6DA66C383089064DD4 /* ArtistEventCell.swift in Sources */,
@@ -859,6 +864,7 @@
 				3568726729C0239300520EC5 /* ScrollableProgramView.swift in Sources */,
 				32A11D329BA4FD3EA5C0EEFE /* SavedArtistListView.swift in Sources */,
 				3505732928549B81008932A9 /* WebView.swift in Sources */,
+				351359B12BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */,
 				350573412855D45B008932A9 /* NextView.swift in Sources */,
 				32A11A5EB7B117FBF994E013 /* RecommendationScheduleView.swift in Sources */,
 				32A11E0F267218268A064263 /* StageCell.swift in Sources */,
