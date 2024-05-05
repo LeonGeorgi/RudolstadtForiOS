@@ -9,6 +9,8 @@ import MapKit
 
 struct StageDetailView: View {
     let stage: Stage
+    let highlightedEventId: Int?
+
     @EnvironmentObject var dataStore: DataStore
 
     @State var nearbyStages: [StageDistance] = []
@@ -66,11 +68,7 @@ struct StageDetailView: View {
                         }
                                 .pickerStyle(SegmentedPickerStyle())
                         ForEach(events(entities)[selectedDay] ?? []) { (event: Event) in
-                            NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
-                                StageEventCell(event: event, imageWidth: 64, imageHeight: 56)
-                            }.buttonStyle(PlainButtonStyle())
-                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
-
+                            renderEvent(event)
                         }.horizontalSwipeGesture {
                             let nextDay = selectedDay + 1
                             if eventDays(entities).contains(nextDay) {
@@ -104,7 +102,8 @@ struct StageDetailView: View {
                         first.distance < second.distance
                     }) { (stageDistance: StageDistance) in
                         NavigationLink(destination: StageDetailView(
-                                stage: stageDistance.stage
+                                stage: stageDistance.stage,
+                                highlightedEventId: nil
                         )) {
                             VStack(alignment: .leading) {
                                 Text(stageDistance.stage.localizedName).lineLimit(1)
@@ -122,7 +121,10 @@ struct StageDetailView: View {
                     if case .success(let entities) = dataStore.data {
                         self.calculateNearbyStages(entities)
                         let days = self.eventDays(entities)
-                        self.selectedDay = Util.getCurrentFestivalDay(eventDays: days) ?? days.first ?? -1
+                        let highlightedEventDay = entities.events.first { event in
+                            event.id == highlightedEventId
+                        }?.festivalDay
+                        self.selectedDay = highlightedEventDay ?? Util.getCurrentFestivalDay(eventDays: days) ?? days.first ?? -1
                     }
                 }
     }
@@ -143,6 +145,15 @@ struct StageDetailView: View {
                 }
             }
         }*/
+    }
+    
+    func renderEvent(_ event: Event) -> some View {
+        let shouldBeHighlighted = highlightedEventId == event.id
+        return NavigationLink(destination: ArtistDetailView(artist: event.artist, highlightedEventId: event.id)) {
+            StageEventCell(event: event, imageWidth: 64, imageHeight: 56)
+        }.buttonStyle(PlainButtonStyle())
+            .listRowBackground(shouldBeHighlighted ? Color.yellow.opacity(0.3) : nil)
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
     }
 
     func calculateAirDistance(first: Stage, second: Stage) -> Double {
@@ -199,7 +210,7 @@ extension Int: Identifiable {
 
 struct StageDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        StageDetailView(stage: .example)
+        StageDetailView(stage: .example, highlightedEventId: nil)
                 .environmentObject(DataStore())
                 .environmentObject(UserSettings())
     }

@@ -50,7 +50,7 @@ struct LocationListView: View {
                 ForEach(stages) { (areaStages: AreaStages) in
                     Section(header: Text(areaStages.area.localizedName)) {
                         ForEach(areaStages.stages) { (stage: Stage) in
-                            NavigationLink(destination: StageDetailView(stage: stage)) {
+                            NavigationLink(destination: StageDetailView(stage: stage, highlightedEventId: nil)) {
                                 StageCell(stage: stage)
                             }
                         }

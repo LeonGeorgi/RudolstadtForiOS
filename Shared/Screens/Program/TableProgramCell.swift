@@ -33,7 +33,8 @@ struct TableProgramCell: View {
     
     func renderContent() -> some View {
         return NavigationLink(destination: ArtistDetailView(
-            artist: event.artist
+            artist: event.artist,
+            highlightedEventId: event.id
         )) {
             VStack(spacing: 0) {
                 if let tag = event.tag {

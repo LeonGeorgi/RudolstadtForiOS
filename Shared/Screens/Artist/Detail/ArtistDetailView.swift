@@ -5,6 +5,7 @@ import MusicKit
 
 struct ArtistDetailView: View {
     let artist: Artist
+    let highlightedEventId: Int?
     
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
@@ -116,9 +117,9 @@ struct ArtistDetailView: View {
                 if !events.isEmpty {
                     Section(header: Text("artist.events")) {
                         ForEach(events) { (event: Event) in
-                            NavigationLink(destination: StageDetailView(stage: event.stage)) {
+                            NavigationLink(destination: StageDetailView(stage: event.stage, highlightedEventId: event.id)) {
                                 ArtistEventCell(event: event)
-                            }
+                            }.listRowBackground(highlightedEventId == event.id && events.count > 1 ? Color.yellow.opacity(0.3) : nil)
                         }
                     }
                 }
@@ -219,7 +220,7 @@ struct ArtistDetailView: View {
 
 struct ArtistDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ArtistDetailView(artist: .example)
+        ArtistDetailView(artist: .example, highlightedEventId: nil)
             .environmentObject(DataStore())
             .environmentObject(UserSettings())
     }

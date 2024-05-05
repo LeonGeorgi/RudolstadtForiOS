@@ -119,7 +119,7 @@ struct ScrollableProgramViewContent: View {
                             .frame(width: timeWidth + columnSpacing / 2)
                         ForEach(stages, id: \.0.id) { (stage, _) in
                             if #available(iOS 16, *) {
-                                NavigationLink(destination: StageDetailView(stage: stage)) {
+                                NavigationLink(destination: StageDetailView(stage: stage, highlightedEventId: nil)) {
                                     renderStage(stage)
                                 }
                                 .buttonStyle(.plain)
@@ -135,7 +135,7 @@ struct ScrollableProgramViewContent: View {
                                     StagePreview(stage: stage)
                                 }
                             } else {
-                                NavigationLink(destination: StageDetailView(stage: stage)) {
+                                NavigationLink(destination: StageDetailView(stage: stage, highlightedEventId: nil)) {
                                     renderStage(stage)
                                 }
                                 .buttonStyle(.plain)
@@ -356,3 +356,8 @@ struct ScrollableProgramViewContent_Previews: PreviewProvider {
     }
 }
 
+extension Date: Identifiable {
+    public var id: Int {
+        self.hashValue
+    }
+}

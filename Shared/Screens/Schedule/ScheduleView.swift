@@ -37,7 +37,7 @@ struct ScheduleView: View {
                 }
             } else {
                 List(events) { event in
-                    NavigationLink(destination: ArtistDetailView(artist: event.artist)) {
+                    NavigationLink(destination: ArtistDetailView(artist: event.artist, highlightedEventId: event.id)) {
                         ScheduleEventCell(event: event)
                     }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
                 }.listStyle(.plain)

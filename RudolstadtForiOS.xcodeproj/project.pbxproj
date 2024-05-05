@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		32A11008167D61F884FC47D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A112FBB6E762F9793E8E60 /* Localizable.strings */; };
-		32A11020A4D401D0A4CCEEA8 /* SavedArtistOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11A861D3FD3784C9516BB /* SavedArtistOverview.swift */; };
 		32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */; };
 		32A11109B3E2EF29D23B96E8 /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1157496D310116DCD5206 /* ArtistImageView.swift */; };
 		32A1111CA4E03E0903D86E29 /* ArtistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1107C6295E7BA267D0F71 /* ArtistCell.swift */; };
@@ -17,7 +16,6 @@
 		32A111D06B3F187ED5308393 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1194705F0DC9D18C2B09B /* Util.swift */; };
 		32A111D43D702F38C6382630 /* LocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11302171E3C741D1E762D /* LocationListView.swift */; };
 		32A111E0096A7F39D7ECB1AF /* StageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1161ADFDC7FFC2CE970F5 /* StageCell.swift */; };
-		32A112012E7A4F3618FABCD5 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EE61A0F587230C02DF2 /* SearchView.swift */; };
 		32A112281C396A44DF12BBB1 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */; };
 		32A11235CEB1CB61653B3149 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A113DC3088B0ED88072ADF /* Localizable.strings */; };
 		32A1124D763E48A6BCCDDA79 /* LoadingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11760C2446A479758E817 /* LoadingListView.swift */; };
@@ -25,18 +23,14 @@
 		32A112A1CF3EDC6BC9BECDE4 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11314CA54C51CF1BFDF9D /* ScheduleView.swift */; };
 		32A112B24A555BB9F43659A1 /* RatingSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11C3491E3EF12BFE1CC75 /* RatingSymbol.swift */; };
 		32A112BC323E026BE8507F8E /* ArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118FFA2F41B67DECD8B61 /* ArtistListView.swift */; };
-		32A1135BAD899B0CF291CD6D /* StageProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1110D3D7D56EA7EA6AF0B /* StageProgramEventCell.swift */; };
 		32A1138E193F6CB4137516BE /* TimeProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */; };
-		32A113D5D8EE2EBA383BC6EA /* ProgramItemText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A116351440B8AD1B03F8FE /* ProgramItemText.swift */; };
 		32A114CF01BEBF851BA275B6 /* LoadingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11760C2446A479758E817 /* LoadingListView.swift */; };
 		32A114D5C53D71E50A745B7C /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */; };
 		32A115136B1411327F87FCFF /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A113E8EF0720699AAD91D0 /* DataLoader.swift */; };
 		32A115480EF0AF9794B76632 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A113DC3088B0ED88072ADF /* Localizable.strings */; };
-		32A1154AA5EEABD041A176C7 /* ProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1124C6423229E27A0F0B5 /* ProgramView.swift */; };
 		32A11561A68DE3A255681965 /* LocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11302171E3C741D1E762D /* LocationListView.swift */; };
 		32A115A10353E19E13E5F510 /* ArtistEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EB2094A0029C6472DB7 /* ArtistEventCell.swift */; };
 		32A115A10E8AE4441C178095 /* ArtistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1107C6295E7BA267D0F71 /* ArtistCell.swift */; };
-		32A1162709A0F6212A6C84D7 /* TimeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1115828015AC5C612989A /* TimeProgramView.swift */; };
 		32A116285B893A6CED1CAB9D /* ArtistRatingSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */; };
 		32A1167A2316AC01B157FD8E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11314CA54C51CF1BFDF9D /* ScheduleView.swift */; };
 		32A1167A2BFBD49E2160B672 /* ArtistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11CB9E490D35A061D5106 /* ArtistDetailView.swift */; };
@@ -44,26 +38,16 @@
 		32A116A1195BBB5DB20404C1 /* RatingSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11C3491E3EF12BFE1CC75 /* RatingSymbol.swift */; };
 		32A116A708F55334C83246C6 /* ArtistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11CB9E490D35A061D5106 /* ArtistDetailView.swift */; };
 		32A116BE192EE63EA4089774 /* ScheduleGenerator2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D4B68D9C986BBCB747A /* ScheduleGenerator2.swift */; };
-		32A116CE36970F9B88DC2055 /* ProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1124C6423229E27A0F0B5 /* ProgramView.swift */; };
 		32A116DBBEBAB380329768B0 /* ArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118FFA2F41B67DECD8B61 /* ArtistListView.swift */; };
-		32A11735ED66446817C485FB /* SavedArtistEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D55D7F4788FE4AEC1A1 /* SavedArtistEventCell.swift */; };
 		32A1173EE6141DB87056E57E /* StageEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11E3751FD81FE837E074B /* StageEventCell.swift */; };
 		32A1176978B8CDBD08C500CF /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0EB895F91CC56EB642 /* StageMapView.swift */; };
-		32A1179C06896C80A8873E41 /* TimeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1115828015AC5C612989A /* TimeProgramView.swift */; };
-		32A117A7C3A3672735519404 /* StageProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118FC2F29A19FA8A3CE8E /* StageProgramView.swift */; };
-		32A1180E9DB81C4FE3A98D86 /* ProgramItemText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A116351440B8AD1B03F8FE /* ProgramItemText.swift */; };
 		32A118717C7FB0F1F9082736 /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A117348D2BF00F51BF852E /* NewsListView.swift */; };
 		32A118A07CA6F813F4380570 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1194705F0DC9D18C2B09B /* Util.swift */; };
 		32A118F15EE900F7D1D916E5 /* ArtistRatingSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */; };
-		32A118F591BEFA94561F779F /* SearchEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D77C8691B9548642BE0 /* SearchEventCell.swift */; };
 		32A1190D2BC1583EA5BCD4F4 /* SaveEventButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1136EDC420F6A3EAE3479 /* SaveEventButton.swift */; };
-		32A11972C4FB13538E57CF7C /* SavedArtistOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11A861D3FD3784C9516BB /* SavedArtistOverview.swift */; };
-		32A11996DE25FE370DEA062A /* SavedArtistProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A110A03818C0FCA81E788F /* SavedArtistProgramView.swift */; };
 		32A1199EB080E7865A284792 /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0EB895F91CC56EB642 /* StageMapView.swift */; };
-		32A119A48263FCE5D5B77FE0 /* SavedArtistEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D55D7F4788FE4AEC1A1 /* SavedArtistEventCell.swift */; };
 		32A119B72F0FE2BE1FCF50FB /* ScheduleGenerator2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D4B68D9C986BBCB747A /* ScheduleGenerator2.swift */; };
 		32A11A2277ABC1B74840F05C /* TimeProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */; };
-		32A11A3783E29222781B3C80 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EE61A0F587230C02DF2 /* SearchView.swift */; };
 		32A11A5EB7B117FBF994E013 /* RecommendationScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11CEB953B4C22997546BF /* RecommendationScheduleView.swift */; };
 		32A11ACDDD0BA72386A7E319 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A112FBB6E762F9793E8E60 /* Localizable.strings */; };
 		32A11AF99C04FACE809D32A0 /* ArtistTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D4A2C31A990A10DB370 /* ArtistTypeFilterView.swift */; };
@@ -73,25 +57,19 @@
 		32A11BFC2B1C136F583BFE9E /* StageNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11BD8767914773C96A46B /* StageNumber.swift */; };
 		32A11C422B2F012460218204 /* RecommendationScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11CEB953B4C22997546BF /* RecommendationScheduleView.swift */; };
 		32A11C4891712FA79641C202 /* StageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118737B48B6BA52141F0D /* StageDetailView.swift */; };
-		32A11CAA37CE0922C9F393D7 /* StageProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1110D3D7D56EA7EA6AF0B /* StageProgramEventCell.swift */; };
 		32A11D09A42D86B69106B718 /* NewsItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D8DFB14F08269BDAB8F /* NewsItemDetailView.swift */; };
-		32A11D329BA4FD3EA5C0EEFE /* SavedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */; };
 		32A11D40C4020FBB887E8FBD /* ImageUrlUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1103D160E868E6BF7EC72 /* ImageUrlUtil.swift */; };
 		32A11D471C05E7D81DC6B78D /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1157496D310116DCD5206 /* ArtistImageView.swift */; };
 		32A11DF1A47E2B6156D38E77 /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A117348D2BF00F51BF852E /* NewsListView.swift */; };
 		32A11E0F267218268A064263 /* StageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1161ADFDC7FFC2CE970F5 /* StageCell.swift */; };
-		32A11E3C9F5A90975595BE0E /* SearchEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D77C8691B9548642BE0 /* SearchEventCell.swift */; };
 		32A11E6DA66C383089064DD4 /* ArtistEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EB2094A0029C6472DB7 /* ArtistEventCell.swift */; };
 		32A11E9B874719DD76F77CD0 /* StageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118737B48B6BA52141F0D /* StageDetailView.swift */; };
 		32A11EB5EC53FC5A4C48B3D8 /* NewsItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D8DFB14F08269BDAB8F /* NewsItemDetailView.swift */; };
-		32A11EE152A9E52253F8A2D3 /* StageProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118FC2F29A19FA8A3CE8E /* StageProgramView.swift */; };
 		32A11EF0FC00667B09CA5D0A /* StageEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11E3751FD81FE837E074B /* StageEventCell.swift */; };
-		32A11F0F0EA9274C1B81D700 /* SavedArtistProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A110A03818C0FCA81E788F /* SavedArtistProgramView.swift */; };
 		32A11F1703B29A8DBE6E672B /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11EABD81D0BA97B963376 /* MoreView.swift */; };
 		32A11F2390384051C89FAB56 /* NewsItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11FA9E53D32EB6D58A19E /* NewsItemCell.swift */; };
 		32A11F5F8F264F1EAB5EE07E /* ImageUrlUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1103D160E868E6BF7EC72 /* ImageUrlUtil.swift */; };
 		32A11F71D8849BEB960E410C /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A113E8EF0720699AAD91D0 /* DataLoader.swift */; };
-		32A11FE0801D8775F4F7E55D /* SavedArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */; };
 		35028CC42805BEA6004F0E3F /* HelperTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35028CC32805BEA6004F0E3F /* HelperTypes.swift */; };
 		3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732428547CE0008932A9 /* ParkAndRideView.swift */; };
 		3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732428547CE0008932A9 /* ParkAndRideView.swift */; };
@@ -111,8 +89,6 @@
 		3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573392855B2C3008932A9 /* ContextCopyButton.swift */; };
 		3505733D2855BAF1008932A9 /* ProgramEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733C2855BAF1008932A9 /* ProgramEntry.swift */; };
 		3505733E2855BAF1008932A9 /* ProgramEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733C2855BAF1008932A9 /* ProgramEntry.swift */; };
-		350573402855D45B008932A9 /* NextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733F2855D45B008932A9 /* NextView.swift */; };
-		350573412855D45B008932A9 /* NextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733F2855D45B008932A9 /* NextView.swift */; };
 		350573452857E9BE008932A9 /* MapOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573442857E9BE008932A9 /* MapOverview.swift */; };
 		350573472857F312008932A9 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573462857F312008932A9 /* MapView.swift */; };
 		351316C82B800D0700B87F74 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 351316C72B800D0700B87F74 /* ImageViewer */; };
@@ -175,11 +151,7 @@
 /* Begin PBXFileReference section */
 		32A1103D160E868E6BF7EC72 /* ImageUrlUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUrlUtil.swift; sourceTree = "<group>"; };
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
-		32A110A03818C0FCA81E788F /* SavedArtistProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedArtistProgramView.swift; sourceTree = "<group>"; };
-		32A1110D3D7D56EA7EA6AF0B /* StageProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageProgramEventCell.swift; sourceTree = "<group>"; };
-		32A1115828015AC5C612989A /* TimeProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeProgramView.swift; sourceTree = "<group>"; };
 		32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistRatingSymbol.swift; sourceTree = "<group>"; };
-		32A1124C6423229E27A0F0B5 /* ProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramView.swift; sourceTree = "<group>"; };
 		32A11302171E3C741D1E762D /* LocationListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationListView.swift; sourceTree = "<group>"; };
 		32A11314CA54C51CF1BFDF9D /* ScheduleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		32A1136EDC420F6A3EAE3479 /* SaveEventButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveEventButton.swift; sourceTree = "<group>"; };
@@ -187,18 +159,14 @@
 		32A1157496D310116DCD5206 /* ArtistImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistImageView.swift; sourceTree = "<group>"; };
 		32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleEventCell.swift; sourceTree = "<group>"; };
 		32A1161ADFDC7FFC2CE970F5 /* StageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageCell.swift; sourceTree = "<group>"; };
-		32A116351440B8AD1B03F8FE /* ProgramItemText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramItemText.swift; sourceTree = "<group>"; };
-		32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedArtistListView.swift; sourceTree = "<group>"; };
 		32A117348D2BF00F51BF852E /* NewsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListView.swift; sourceTree = "<group>"; };
 		32A11760C2446A479758E817 /* LoadingListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingListView.swift; sourceTree = "<group>"; };
 		32A117A0FDF5C04B31439439 /* DataUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataUpdater.swift; sourceTree = "<group>"; };
 		32A118737B48B6BA52141F0D /* StageDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageDetailView.swift; sourceTree = "<group>"; };
-		32A118FC2F29A19FA8A3CE8E /* StageProgramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageProgramView.swift; sourceTree = "<group>"; };
 		32A118FFA2F41B67DECD8B61 /* ArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistListView.swift; sourceTree = "<group>"; };
 		32A11925147B0DC31E33C3E6 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = Localizable.strings; sourceTree = "<group>"; };
 		32A1194705F0DC9D18C2B09B /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeProgramEventCell.swift; sourceTree = "<group>"; };
-		32A11A861D3FD3784C9516BB /* SavedArtistOverview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedArtistOverview.swift; sourceTree = "<group>"; };
 		32A11B0EB895F91CC56EB642 /* StageMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageMapView.swift; sourceTree = "<group>"; };
 		32A11BD8767914773C96A46B /* StageNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageNumber.swift; sourceTree = "<group>"; };
 		32A11C3491E3EF12BFE1CC75 /* RatingSymbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingSymbol.swift; sourceTree = "<group>"; };
@@ -206,14 +174,11 @@
 		32A11CEB953B4C22997546BF /* RecommendationScheduleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendationScheduleView.swift; sourceTree = "<group>"; };
 		32A11D4A2C31A990A10DB370 /* ArtistTypeFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistTypeFilterView.swift; sourceTree = "<group>"; };
 		32A11D4B68D9C986BBCB747A /* ScheduleGenerator2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleGenerator2.swift; sourceTree = "<group>"; };
-		32A11D55D7F4788FE4AEC1A1 /* SavedArtistEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedArtistEventCell.swift; sourceTree = "<group>"; };
-		32A11D77C8691B9548642BE0 /* SearchEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEventCell.swift; sourceTree = "<group>"; };
 		32A11D8DFB14F08269BDAB8F /* NewsItemDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemDetailView.swift; sourceTree = "<group>"; };
 		32A11E3751FD81FE837E074B /* StageEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageEventCell.swift; sourceTree = "<group>"; };
 		32A11EABBF8225BA956E300E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		32A11EABD81D0BA97B963376 /* MoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		32A11EB2094A0029C6472DB7 /* ArtistEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistEventCell.swift; sourceTree = "<group>"; };
-		32A11EE61A0F587230C02DF2 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		32A11FA9E53D32EB6D58A19E /* NewsItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemCell.swift; sourceTree = "<group>"; };
 		32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		35028CC32805BEA6004F0E3F /* HelperTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperTypes.swift; sourceTree = "<group>"; };
@@ -226,7 +191,6 @@
 		350573362854FA4C008932A9 /* EventSavedIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSavedIcon.swift; sourceTree = "<group>"; };
 		350573392855B2C3008932A9 /* ContextCopyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextCopyButton.swift; sourceTree = "<group>"; };
 		3505733C2855BAF1008932A9 /* ProgramEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEntry.swift; sourceTree = "<group>"; };
-		3505733F2855D45B008932A9 /* NextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextView.swift; sourceTree = "<group>"; };
 		350573422856442B008932A9 /* RudolstadtForiOS--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RudolstadtForiOS--iOS--Info.plist"; sourceTree = "<group>"; };
 		350573442857E9BE008932A9 /* MapOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverview.swift; sourceTree = "<group>"; };
 		350573462857F312008932A9 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -296,15 +260,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		32A1115A60203DC03B9A0A3B /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				32A11EE61A0F587230C02DF2 /* SearchView.swift */,
-				32A11D77C8691B9548642BE0 /* SearchEventCell.swift */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
 		32A112822EEBA64538AA38A6 /* Artist */ = {
 			isa = PBXGroup;
 			children = (
@@ -353,7 +308,6 @@
 				32A11B09CDEB3B994B959204 /* Location */,
 				32A11E880C7782C61DB1318E /* Schedule */,
 				32A11AEB4B6F67DF2B3DB0AB /* More */,
-				32A1115A60203DC03B9A0A3B /* Search */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -422,18 +376,8 @@
 		32A11D5FF6CA0C5089242882 /* Program */ = {
 			isa = PBXGroup;
 			children = (
-				32A1124C6423229E27A0F0B5 /* ProgramView.swift */,
-				32A116351440B8AD1B03F8FE /* ProgramItemText.swift */,
-				32A1115828015AC5C612989A /* TimeProgramView.swift */,
 				32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */,
-				32A118FC2F29A19FA8A3CE8E /* StageProgramView.swift */,
-				32A1110D3D7D56EA7EA6AF0B /* StageProgramEventCell.swift */,
-				32A11D55D7F4788FE4AEC1A1 /* SavedArtistEventCell.swift */,
-				32A110A03818C0FCA81E788F /* SavedArtistProgramView.swift */,
-				32A11A861D3FD3784C9516BB /* SavedArtistOverview.swift */,
-				32A1169961DC1D81F2C85CD8 /* SavedArtistListView.swift */,
 				3505733C2855BAF1008932A9 /* ProgramEntry.swift */,
-				3505733F2855D45B008932A9 /* NextView.swift */,
 				3568726529C0239300520EC5 /* ScrollableProgramView.swift */,
 				3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */,
 				3568C7AF29FB59AC00A7AA7D /* TableProgramCell.swift */,
@@ -746,7 +690,6 @@
 				3551CC8128043DA2004F9471 /* DataModel.swift in Sources */,
 				3551CC8428043E8D004F9471 /* DataStore.swift in Sources */,
 				3551CC6928043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
-				350573402855D45B008932A9 /* NextView.swift in Sources */,
 				32A11D09A42D86B69106B718 /* NewsItemDetailView.swift in Sources */,
 				3505732828549B81008932A9 /* WebView.swift in Sources */,
 				32A11F2390384051C89FAB56 /* NewsItemCell.swift in Sources */,
@@ -763,18 +706,12 @@
 				32A118A07CA6F813F4380570 /* Util.swift in Sources */,
 				32A11EF0FC00667B09CA5D0A /* StageEventCell.swift in Sources */,
 				3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */,
-				32A116CE36970F9B88DC2055 /* ProgramView.swift in Sources */,
 				3505732E2854A794008932A9 /* GeneralView.swift in Sources */,
-				32A113D5D8EE2EBA383BC6EA /* ProgramItemText.swift in Sources */,
 				35D0A4922A0754CE004C506D /* StagePreview.swift in Sources */,
 				32A11AF99C04FACE809D32A0 /* ArtistTypeFilterView.swift in Sources */,
-				32A1162709A0F6212A6C84D7 /* TimeProgramView.swift in Sources */,
 				32A118F15EE900F7D1D916E5 /* ArtistRatingSymbol.swift in Sources */,
 				32A11A2277ABC1B74840F05C /* TimeProgramEventCell.swift in Sources */,
-				32A11EE152A9E52253F8A2D3 /* StageProgramView.swift in Sources */,
-				32A119A48263FCE5D5B77FE0 /* SavedArtistEventCell.swift in Sources */,
 				32A11561A68DE3A255681965 /* LocationListView.swift in Sources */,
-				32A1135BAD899B0CF291CD6D /* StageProgramEventCell.swift in Sources */,
 				32A1167A2316AC01B157FD8E /* ScheduleView.swift in Sources */,
 				32A116BE192EE63EA4089774 /* ScheduleGenerator2.swift in Sources */,
 				3568726629C0239300520EC5 /* ScrollableProgramView.swift in Sources */,
@@ -793,16 +730,11 @@
 				3505733D2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
 				32A1167A2BFBD49E2160B672 /* ArtistDetailView.swift in Sources */,
 				32A11E6DA66C383089064DD4 /* ArtistEventCell.swift in Sources */,
-				32A11F0F0EA9274C1B81D700 /* SavedArtistProgramView.swift in Sources */,
-				32A11972C4FB13538E57CF7C /* SavedArtistOverview.swift in Sources */,
-				32A11FE0801D8775F4F7E55D /* SavedArtistListView.swift in Sources */,
 				32A11C422B2F012460218204 /* RecommendationScheduleView.swift in Sources */,
 				350573342854F73C008932A9 /* AboutView.swift in Sources */,
 				350573312854F59B008932A9 /* FAQView.swift in Sources */,
 				32A111E0096A7F39D7ECB1AF /* StageCell.swift in Sources */,
 				350573452857E9BE008932A9 /* MapOverview.swift in Sources */,
-				32A11A3783E29222781B3C80 /* SearchView.swift in Sources */,
-				32A11E3C9F5A90975595BE0E /* SearchEventCell.swift in Sources */,
 				32A1124D763E48A6BCCDDA79 /* LoadingListView.swift in Sources */,
 				32A115136B1411327F87FCFF /* DataLoader.swift in Sources */,
 				32A11B9A32216878027CEFAD /* DataUpdater.swift in Sources */,
@@ -835,18 +767,12 @@
 				3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
 				32A1173EE6141DB87056E57E /* StageEventCell.swift in Sources */,
 				35D0A4932A0754CE004C506D /* StagePreview.swift in Sources */,
-				32A1154AA5EEABD041A176C7 /* ProgramView.swift in Sources */,
 				350573382854FA4C008932A9 /* EventSavedIcon.swift in Sources */,
-				32A1180E9DB81C4FE3A98D86 /* ProgramItemText.swift in Sources */,
 				32A11AFF963551622C6A48B9 /* ArtistTypeFilterView.swift in Sources */,
-				32A1179C06896C80A8873E41 /* TimeProgramView.swift in Sources */,
 				32A116285B893A6CED1CAB9D /* ArtistRatingSymbol.swift in Sources */,
 				32A1138E193F6CB4137516BE /* TimeProgramEventCell.swift in Sources */,
-				32A117A7C3A3672735519404 /* StageProgramView.swift in Sources */,
 				3505732C28549BF8008932A9 /* BusView.swift in Sources */,
-				32A11735ED66446817C485FB /* SavedArtistEventCell.swift in Sources */,
 				32A111D43D702F38C6382630 /* LocationListView.swift in Sources */,
-				32A11CAA37CE0922C9F393D7 /* StageProgramEventCell.swift in Sources */,
 				32A112A1CF3EDC6BC9BECDE4 /* ScheduleView.swift in Sources */,
 				32A119B72F0FE2BE1FCF50FB /* ScheduleGenerator2.swift in Sources */,
 				3568C7AB29F93B6700A7AA7D /* ScrollableProgramViewContent.swift in Sources */,
@@ -858,18 +784,12 @@
 				32A116A708F55334C83246C6 /* ArtistDetailView.swift in Sources */,
 				35D0A48D2A073AFF004C506D /* ColorExtensions.swift in Sources */,
 				32A115A10353E19E13E5F510 /* ArtistEventCell.swift in Sources */,
-				32A11996DE25FE370DEA062A /* SavedArtistProgramView.swift in Sources */,
-				32A11020A4D401D0A4CCEEA8 /* SavedArtistOverview.swift in Sources */,
 				3505733E2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
 				3568726729C0239300520EC5 /* ScrollableProgramView.swift in Sources */,
-				32A11D329BA4FD3EA5C0EEFE /* SavedArtistListView.swift in Sources */,
 				3505732928549B81008932A9 /* WebView.swift in Sources */,
 				351359B12BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */,
-				350573412855D45B008932A9 /* NextView.swift in Sources */,
 				32A11A5EB7B117FBF994E013 /* RecommendationScheduleView.swift in Sources */,
 				32A11E0F267218268A064263 /* StageCell.swift in Sources */,
-				32A112012E7A4F3618FABCD5 /* SearchView.swift in Sources */,
-				32A118F591BEFA94561F779F /* SearchEventCell.swift in Sources */,
 				3568C7AE29F968DE00A7AA7D /* RecommendationScheduleViewContent.swift in Sources */,
 				32A114CF01BEBF851BA275B6 /* LoadingListView.swift in Sources */,
 				350573322854F59B008932A9 /* FAQView.swift in Sources */,

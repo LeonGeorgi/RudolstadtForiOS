@@ -31,7 +31,7 @@ struct MapView: View, Equatable {
                 
                 Map(coordinateRegion: $mapRegion, showsUserLocation: true, annotationItems: locations) { annotation in
                     MapAnnotation(coordinate: annotation.coordinate) {
-                        NavigationLink(destination: StageDetailView(stage: annotation.stage)) {
+                        NavigationLink(destination: StageDetailView(stage: annotation.stage, highlightedEventId: nil)) {
                             VStack {
                                 StageNumber(stage: annotation.stage, size: 25, font: .system(size: 15))
                             }
