@@ -31,6 +31,7 @@ struct RudolstadtForiOSApp: App {
                     .onAppear {
                         userSettings.onChange {
                             DispatchQueue.global(qos: .userInitiated).async {
+                                dataStore.loadArtistLinks()
                                 dataStore.estimateEventDurations()
                                 dataStore.updateRecommentations(savedEventsIds: userSettings.savedEvents, ratings: userSettings.ratings)
                             }

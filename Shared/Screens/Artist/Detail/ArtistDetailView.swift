@@ -9,6 +9,7 @@
 import SwiftUI
 import ImageViewer
 import ImageViewerRemote
+import MusicKit
 
 struct ArtistDetailView: View {
     let artist: Artist
@@ -60,7 +61,7 @@ struct ArtistDetailView: View {
                         isDisplayingImageViewer.toggle()
                     }
             }
-
+            
             
             renderRating()
             
@@ -76,7 +77,7 @@ struct ArtistDetailView: View {
                             } label: {
                                 Image(systemName: "square.and.pencil")
                             }
-
+                            
                         }
                     }
                 }
@@ -122,50 +123,41 @@ struct ArtistDetailView: View {
             .sheet(isPresented: $isShowingNoteEditView) {
                 NavigationView {
                     TextEditor(text: $noteText)
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle("artist.edit-note.headline")
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button("artist.note.cancel") {
-                                if artistNote ?? "" == noteText {
-                                    isShowingNoteEditView = false
-                                } else {
-                                    isEditAlertShown = true
+                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationTitle("artist.edit-note.headline")
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Button("artist.note.cancel") {
+                                    if artistNote ?? "" == noteText {
+                                        isShowingNoteEditView = false
+                                    } else {
+                                        isEditAlertShown = true
+                                    }
                                 }
                             }
-                        }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("artist.note.save") {
-                                settings.artistNotes["\(artist.id)"] = noteText
-                                isShowingNoteEditView = false
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button("artist.note.save") {
+                                    settings.artistNotes["\(artist.id)"] = noteText
+                                    isShowingNoteEditView = false
+                                }
                             }
+                        }.alert(isPresented: $isEditAlertShown) {
+                            Alert(
+                                title: Text("artist.note.cancel.alert.title"),
+                                message: Text("artist.note.cancel.alert.message"),
+                                primaryButton: .destructive(Text("artist.note.cancel.alert.yes")) {
+                                    isEditAlertShown = false
+                                    noteText = artistNote ?? ""
+                                    isShowingNoteEditView = false
+                                }, secondaryButton: .cancel(Text("artist.note.cancel.alert.no")) {
+                                    isEditAlertShown = false
+                                })
                         }
-                    }.alert(isPresented: $isEditAlertShown) {
-                        Alert(
-                            title: Text("artist.note.cancel.alert.title"),
-                            message: Text("artist.note.cancel.alert.message"),
-                            primaryButton: .destructive(Text("artist.note.cancel.alert.yes")) {
-                                isEditAlertShown = false
-                                noteText = artistNote ?? ""
-                                isShowingNoteEditView = false
-                            }, secondaryButton: .cancel(Text("artist.note.cancel.alert.no")) {
-                                isEditAlertShown = false
-                            })
-                    }
                 }.interactiveDismissDisabled()
             }
             .fullScreenCover(isPresented: $isDisplayingImageViewer) {
                 ImageViewerRemote(imageURL: $imageURL, viewerShown: $isDisplayingImageViewer)
-            }/*.transaction({ transaction in
-                transaction.disablesAnimations = true
-            })*/
-            //.overlay(ImageViewerRemote(imageURL: $imageURL, viewerShown: $isDisplayingImageViewer))
-            .onAppear {
-                noteText = artistNote ?? ""
             }
-    }
-    
-    func saveNote() {
     }
     
     private func renderRating() -> some View {
@@ -218,6 +210,24 @@ struct ArtistDetailView: View {
     
     private func renderLinks() -> some View {
         Section(header: Text("artist.links")) {
+            if let artistLinks = dataStore.artistLinks {
+                if let artistLink = artistLinks[artist.name] {
+                    if let appleMusicURL = artistLink.appleMusicURL {
+                        Button {
+                            UIApplication.shared.open(URL(string: appleMusicURL)!)
+                        } label: {
+                            Text("Apple Music")
+                        }
+                    }
+                    if let spotifyURL = artistLink.spotifyURL {
+                        Button {
+                            UIApplication.shared.open(URL(string: spotifyURL)!)
+                        } label: {
+                            Text("Spotify")
+                        }
+                    }
+                }
+            }
             if artist.url != nil {
                 Button(action: {
                     guard let url = URL(string: artist.url!) else {

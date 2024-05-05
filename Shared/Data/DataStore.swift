@@ -21,6 +21,8 @@ final class DataStore: ObservableObject {
     @Published var data: LoadingEntity<Entities> = .loading
     @Published var recommendedEvents: [Int]? = nil
     @Published var estimatedEventDurations: Dictionary<Int, Int>? = nil
+    @Published var artistLinks: Dictionary<String, ArtistLinks>? = nil
+    
     static let year = 2024
 
     let files: DataFiles
@@ -42,6 +44,15 @@ final class DataStore: ObservableObject {
         dataLoader = DataLoader(files: files, cacheUrl: cacheUrl)
         dataUpdater = DataUpdater(files: files, cacheUrl: cacheUrl)
 
+    }
+    
+    func loadArtistLinks() {
+        print("Parsing artist links")
+        let links = parseArtistLinks()
+        DispatchQueue.main.async {
+            self.artistLinks = links
+            print("Published artist links")
+        }
     }
     
     func estimateEventDurations() {
