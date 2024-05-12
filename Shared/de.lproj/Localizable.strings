@@ -139,6 +139,7 @@ Wenn dir diese Funktion nicht gefällt, kannst du sie auf dem Knopf oben rechts 
 
 "about.title" = "Über die App";
 "about.official_app.title" = "Offizielle App";
+"about.donate.title" = "Spende an den Entwickler";
 "about.github.title" = "GitHub öffnen";
 
 "about.app.content" = "Diese App ist nicht die offizielle Festival-App des Rudolstadt-Festivals. Sie wurde unbezahlt als Hobbyprojekt entwickelt, in der Hoffnung, ein besonders nutzerfreundliche App zu erschaffen.
@@ -146,7 +147,7 @@ Wenn dir diese Funktion nicht gefällt, kannst du sie auf dem Knopf oben rechts 
 Die App sammelt keinerlei Daten von dir. Alles, was du in der App machst, bleibt auf deinem Handy.";
 "about.developer.header" = "Über den Entwickler";
 "about.developer.content" = "Moin, ich bin Leon.
-Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (damals noch das \"TFF Rudolstadt\"). Seitdem bin ich immer wieder auf das Festival gegangen und finde nach wie vor große Freude daran. Mittlerweile bin ich 24 Jahre alt, habe einen Bachelor-Abschluss in Informatik und arbeite seit einigen Jahren neben meinem Studium als professioneller Softwareentwickler. Da ich schon relativ lange unzufrieden damit bin, dass bestimmte Dinge in der offiziellen App etwas unpraktisch sind, hatte ich die Idee, ich könne in meiner Freizeit selbst eine App für das Festival schreiben. Gesagt, getan! Eigentlich wollte ich die App einfach nur selbst benutzen, aber weil ich mit dem Ergebnis jetzt sehr zufrieden bin, habe ich mich dazu entschieden, sie zu veröffentlichen. Viel Spaß damit!";
+Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (damals noch das \"TFF Rudolstadt\"). Seitdem bin ich immer wieder auf das Festival gegangen und finde nach wie vor große Freude daran. Mittlerweile bin ich 26 Jahre alt, habe einen Bachelor-Abschluss in Informatik und arbeite seit einigen Jahren neben meinem Studium als professioneller Softwareentwickler. Da ich schon relativ lange unzufrieden damit bin, dass bestimmte Dinge in der offiziellen App etwas unpraktisch sind, hatte ich die Idee, ich könne in meiner Freizeit selbst eine App für das Festival schreiben. Gesagt, getan! Eigentlich wollte ich die App einfach nur selbst benutzen, aber weil ich mit dem Ergebnis jetzt sehr zufrieden bin, habe ich mich dazu entschieden, sie zu veröffentlichen. Viel Spaß damit!";
 
 "copy.link.title" = "Link kopieren";
 "copy.email.title" = "E-Mail-Adresse kopieren";
@@ -171,3 +172,8 @@ Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (dama
 "ticket.type.other" = "Service";
 "ticket.type.day-and-festival" = "Innenstadtkarte";
 "ticket.type.festival" = "Dauerkarte";
+
+"donations.title" = "Spenden";
+"donations.description" = "Diese App wurde in meiner Freizeit entwickelt und ist kostenlos verfügbar. Wenn dir die App gefällt und du mir helfen möchtest, mein Festivalticket zu finanzieren, kannst du hier spenden. Vielen Dank! 😊";
+"donation.button.title" = "%@ des Festivaltickets (%@)";
+"donations.disclaimer" = "Die Spenden gehen an mich (den Entwickler der App) persönlich und nicht an den Veranstalter des Festivals.";

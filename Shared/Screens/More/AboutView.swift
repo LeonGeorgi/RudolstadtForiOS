@@ -43,6 +43,13 @@ struct AboutView: View {
             }
             Section(header: Text("about.developer.header")) {
                 Text("about.developer.content")
+                NavigationLink {
+                    DonationView()
+                } label: {
+                    Text("about.donate.title")
+                }
+                .foregroundColor(.accentColor)
+
                 Button(action: {
                     if let url = githubUrl {
                         UIApplication.shared.open(url)

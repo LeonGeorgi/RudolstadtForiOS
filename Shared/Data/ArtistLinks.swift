@@ -31,7 +31,6 @@ func parseArtistLinks() -> [String: ArtistLinks] {
                 let appleMusicURL = appleMusicPart.isEmpty ? nil : appleMusicPart
                 
                 let links = ArtistLinks(spotifyURL: spotifyURL, appleMusicURL: appleMusicURL)
-                print("Artist: \(artistName), Spotify: \(spotifyURL ?? "nil"), Apple Music: \(appleMusicURL ?? "nil")")
                 artistDict[artistName] = links
             }
         }

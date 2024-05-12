@@ -12,6 +12,7 @@ import SDWebImage
 struct RudolstadtForiOSApp: App {
     let dataStore = DataStore()
     let userSettings = UserSettings()
+    let iapManager = IAPManager()
     
     init() {
         configureCache()
@@ -28,6 +29,7 @@ struct RudolstadtForiOSApp: App {
             ContentView()
                     .environmentObject(dataStore)
                     .environmentObject(userSettings)
+                    .environmentObject(iapManager)
                     .onAppear {
                         userSettings.onChange {
                             DispatchQueue.global(qos: .userInitiated).async {

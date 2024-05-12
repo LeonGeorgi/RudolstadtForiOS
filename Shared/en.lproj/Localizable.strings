@@ -138,6 +138,7 @@ If you don't like this feature, you can easily turn it off by clicking the butto
 
 "about.title" = "About the app";
 "about.official_app.title" = "Official app";
+"about.donate.title" = "Donate to the developer";
 "about.github.title" = "Open GitHub";
 
 "about.app.content" = "This app is not the official app of the Rudolstadt Festival. It was developed unpaid as a hobby project, hoping to provide a more convenient user experience than the official app.
@@ -145,7 +146,7 @@ If you don't like this feature, you can easily turn it off by clicking the butto
 The app does not collect any data from you. Everything you do in the app stays on your phone.";
 "about.developer.header" = "About the developer";
 "about.developer.content" = "Hi, I'm Leon.
-When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. By now, I'm 24 years old, have a bachelor's degree in computer science and have been working as a professional software developer for several years now next to my studies. As I have been unhappy for quite some time about certain things in the official app being a bit impractical, I got the idea that I could write an app for the festival myself in my spare time. No sooner said than done! Originally I just wanted to use the app myself, but because I'm very happy with the result now, I decided to publish it. Have fun with it!";
+When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. By now, I'm 26 years old, have a bachelor's degree in computer science and have been working as a professional software developer for several years now next to my studies. As I have been unhappy for quite some time about certain things in the official app being a bit impractical, I got the idea that I could write an app for the festival myself in my spare time. No sooner said than done! Originally I just wanted to use the app myself, but because I'm very happy with the result now, I decided to publish it. Have fun with it!";
 
 "copy.link.title" = "Copy link";
 "copy.email.title" = "Copy email address";
@@ -171,3 +172,8 @@ When I was 8 years old, I went to the Rudolstadt Festival for the first time (at
 "ticket.type.other" = "Service";
 "ticket.type.day-and-festival" = "City center ticket";
 "ticket.type.festival" = "Season ticket";
+
+"donations.title" = "Donate";
+"donations.description" = "This app was developed in my free time and is available for free. If you like the app and want to help me finance my festival ticket, you can donate here. Thank you very much! 😊";
+"donation.button.title" = "%@ of the festival ticket (%@)";
+"donations.disclaimer" = "Donations go to me (the developer of the app) personally and not to the organizer of the festival.";
