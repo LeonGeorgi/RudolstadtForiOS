@@ -92,20 +92,11 @@ You can find the artists you find interesting when you click on \"Favorites\" in
 
 "more.title" = "More";
 "general.title" = "About the festival";
-"general.headline" = "Germany‘s leading festival for Roots, Folk, World is back!";
-"general.content" = "Roots, folk and world music between tradition and avant-garde, dance floor feeling and cozy garden concerts - all this is on offer \"one of the finest music festivals on the planet\" (fRoots, Great Britain).
+"general.content" = "Roots, folk and world music between tradition and avant-garde, dancefloor-feeling and cosy garden concerts – all this offers „one of the finest music festivals on the planet“ (fRoots Great Britain)
 
-More than ever the 31st Rudolstadt Festival will celebrate joie de vivre: the country focus on Cuba will wash long-missed lightness onto the banks of the Saale. And again the EBU, the European Broadcasting Union, is our guest with its folk festival - alongside music from all the other continents. Enjoy!";
-"general.opnv.title" = "About LOCAL TRANSPORT by train an bus";
-"general.opnv.content" = "Free travel by bus and regional train in the districts of Saalfeld-Rudolstadt and in the Saale-Orla district
-
-• With festival wristbands, trips to and from the festival within the districts are free on all four days of the festival.
-• If you still have to go to Rudolstadt to exchange your wristband, you can use the bus and regional train on Thursday and Friday (Friday until 9 p.m.) free of charge with a personalized season ticket and ID card.
-• If you want to buy a ticket for the city center, you pay 3 € on the bus and receive a voucher that is credited to the purchase of a city center ticket at the central ticket office (Platz der OdF). In this case, the regular price must be paid on the regional train.
-• The buses run every 30 minutes.
-• Of course, the nationwide 9 € ticket is also valid without restrictions.";
+In 2024, the 32nd Rudolstadt-Festival throws the spotlight on its homeland, with new generations fiddling, rocking, rapping, singing and dancing the life in Germany. Once again, the EBU, the European Broadcasting Union, will be our guest with its folk festival – alongside with music from all over the world.";
 "general.extra.title" = "Please note!";
-"general.extra.content" = "Tickets for the Rudolstadt Festival are only available in advance. The same applies to combination tickets with accommodation at one of the campgrounds. Day tickets for the festival area in the city center can be purchased at the daily box offices.";
+"general.extra.content" = "Tickets for the Rudolstadt Festival are only available in advance. The same applies to the combination tickets with overnight stay at one of the campsites, as well as the parking tickets. At the box office you only get day tickets for the festival area downtown.";
 "bus.title" = "Bus";
 
 "park_and_ride.title" = "Park and Ride";
@@ -113,28 +104,19 @@ More than ever the 31st Rudolstadt Festival will celebrate joie de vivre: the co
 "park_and_ride.shuttle.title" = "Shuttle details";
 "park_and_ride.click_hint" = "Click an entry to open it in Maps.";
 
-"park_and_ride.campsite.große_wiese.title" = "Campsite 'Große Wiese'";
+"park_and_ride.campsite.große_wiese.title" = "Campsite and caravan site 'Große Wiese'";
 "park_and_ride.campsite.große_wiese.description" = "corresponds to the navigation point Macheleidstraße (at the navigation destination continue to follow the road)";
-"park_and_ride.campsite.saalemax.title" = "Campsite \"Saalemaxx\"";
-"park_and_ride.campsite.saalemax.description" = "corresponds to the navi address 'Hugo Trinkler-Straße 6";
-"park_and_ride.campsite.caravan.title" = "Caravan site and van site";
-"park_and_ride.campsite.caravan.description" = "enter \"Röntgenstraße\" in navigation device";
+"park_and_ride.campsite.saalemax.title" = "Campsite 'Saalemaxx'";
+"park_and_ride.campsite.saalemax.description" = "corresponds to the navi address 'Hugo Trinkler-Straße 6'";
+"park_and_ride.campsite.caravan.title" = "Caravan site 'Bleichwiese' and van site";
+"park_and_ride.campsite.caravan.description" = "can be reached under the navigation address Röntgenstraße";
 
-"park_and_ride.parking.schaala.title" = "P+R Schaala";
-"park_and_ride.parking.schaala.description" = "(Coming from the A71, follow the signs after the tunnel.)";
 "park_and_ride.parking.oststraße.title" = "P+R Oststraße 28a";
-"park_and_ride.parking.oststraße.description" = "(Coming from A4/B88)";
+"park_and_ride.parking.oststraße.description" = "coming from A4/B88";
+"park_and_ride.parking.raiffeisenstraße.title" = "P+R Raiffeisenstraße";
+"park_and_ride.parking.raiffeisenstraße.description" = "coming from A4/B88";
 "park_and_ride.parking.erich-correns-ring.title" = "P+R Erich-Correns-Ring (RU-Volkstedt-West)";
-"park_and_ride.parking.erich-correns-ring.description" = "(From A9/B281 or B85/88 coming from south)";
-
-"faq.title" = "FAQ (Frequently Asked Questions)";
-"faq.schedule.question" = "What is \"my schedule\"?";
-"faq.schedule.answer" = "The schedule shows you all of your saved events. Therefore, this screen is your personal agenda and your most important companion during the festival.";
-"faq.suggestions.question" = "What do the suggestions in my schedule mean?";
-"faq.suggestions.answer" = "On the artist pages, you can use an emoji to mark how interesting you find an artist. The suggestions in your schedule are based on these markings. If you didn't save any events for an artist in your schedule yet, a concert for this artist will be suggested to you in the schedule. If that artist is performing on more than one date, the most suitable date will be suggested to you so that you don't miss any concerts by other artists you are interested in.
-If you don't like this feature, you can easily turn it off by clicking the button in the upper right corner of the schedule screen.";
-"faq.rating.question" = "What do the emojis on the artist pages mean?";
-"faq.rating.answer" = "With the help of the emojis you can mark how interesting you find an artist. If you don't find an artist interesting or haven't decided yet, just leave it at the default marking (🤔). The artists you've marked with a different emoji will show up under \"Program\" > \"Saved artists\". Additionally, the app can give you suggestions on which concerts you could attend based on the marking. Artists you have marked with a higher interest will be preferred. For more details, read the question about suggestions.";
+"park_and_ride.parking.erich-correns-ring.description" = "from A9/B281 or B85/88 coming from the south";
 
 "about.title" = "About the app";
 "about.official_app.title" = "Official app";

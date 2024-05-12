@@ -20,7 +20,7 @@ struct ParkAndRideView: View {
         PRLocation(
             name: String(localized: "park_and_ride.campsite.saalemax.title"),
             description: String(localized: "park_and_ride.campsite.saalemax.description"),
-            latitude: 50.706396, longitude: 11.316648
+            latitude: 50.705561, longitude: 11.316845
         ),
         PRLocation(
             name: String(localized: "park_and_ride.campsite.caravan.title"),
@@ -31,19 +31,19 @@ struct ParkAndRideView: View {
     
     let parking = [
         PRLocation(
-            name: String(localized: "park_and_ride.parking.schaala.title"),
-            description: String(localized: "park_and_ride.parking.schaala.description"),
-            latitude: 50.7152143, longitude: 11.3037933
-        ),
-        PRLocation(
             name: String(localized: "park_and_ride.parking.oststraße.title"),
             description: String(localized: "park_and_ride.parking.oststraße.description"),
-            latitude: 50.722690, longitude: 11.360236
+            latitude: 50.722715, longitude: 11.359555
+        ),
+        PRLocation(
+            name: String(localized: "park_and_ride.parking.raiffeisenstraße.title"),
+            description: String(localized: "park_and_ride.parking.raiffeisenstraße.description"),
+            latitude: 50.723778, longitude: 11.364995
         ),
         PRLocation(
             name: String(localized: "park_and_ride.parking.erich-correns-ring.title"),
             description: String(localized: "park_and_ride.parking.erich-correns-ring.description"),
-            latitude: 50.70126, longitude: 11.31856
+            latitude: 50.701339, longitude: 11.317835
         )
     ]
     var body: some View {
