@@ -37,6 +37,26 @@ func normalize(string: String) -> String {
     string.folding(options: [.diacriticInsensitive, .caseInsensitive, .widthInsensitive], locale: Locale.current).trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
+func formatString(_ string: String) -> String {
+    let stringWithNewLines = string.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])
+        .replacingOccurrences(of: "&#34;", with: "\"")
+        .replacingOccurrences(of: "&#35;", with: "#")
+        .replacingOccurrences(of: "&#36;", with: "$")
+        .replacingOccurrences(of: "&#37;", with: "%")
+        .replacingOccurrences(of: "&#38;", with: "&")
+        .replacingOccurrences(of: "&#39;", with: "'")
+        .replacingOccurrences(of: "&#40;", with: "(")
+        .replacingOccurrences(of: "&#41;", with: ")")
+        .replacingOccurrences(of: "&#42;", with: "*")
+        .replacingOccurrences(of: "&#43;", with: "+")
+        .replacingOccurrences(of: "&#44;", with: ",")
+        .replacingOccurrences(of: "&#45;", with: "-")
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    
+    return stringWithNewLines
+}
+
 
 extension Array {
 

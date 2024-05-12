@@ -12,7 +12,7 @@ struct SaveEventPreview: View {
                 .blur(radius: 5)
             
             VStack(alignment: .center) {
-                Text(event.artist.name)
+                Text(event.artist.formattedName)
                     .font(.headline)
                     .foregroundColor(.white)
                     .lineLimit(2)

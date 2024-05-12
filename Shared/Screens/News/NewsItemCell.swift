@@ -19,7 +19,7 @@ struct NewsItemCell: View {
                     .frame(width: 10, height: 10)
                     .opacity(settings.readNews.contains(newsItem.id) ? 0 : 1)
                 VStack(alignment: .leading) {
-                    Text(newsItem.shortDescription)
+                    Text(newsItem.formattedShortDescription)
                         .font(.headline)
                         .lineLimit(1)
                     if !newsItem.formattedLongDescription.isEmpty {

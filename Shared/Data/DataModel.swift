@@ -12,13 +12,18 @@ struct Artist: Identifiable {
     let imageName: String?
     let descriptionGerman: String?
     let descriptionEnglish: String?
+    
+    var formattedName: String {
+        formatString(name)
+    }
 
     var formattedDescription: String? {
         let isGerman = Locale.current.languageCode == "de"
-        return (isGerman ? descriptionGerman : descriptionEnglish)?.replacingOccurrences(
-                of: " ?<br> ?",
-                with: "\n", options: [.regularExpression]
-        )
+        let description = isGerman ? descriptionGerman : descriptionEnglish
+        guard let description = description else {
+            return nil
+        }
+        return formatString(description)
     }
 
     var thumbImageUrl: URL? {
@@ -275,13 +280,17 @@ struct NewsItem: Identifiable {
         let languageIsGerman = languageCode == "de"
         return appIsInGerman == languageIsGerman
     }
+    
+    var formattedShortDescription: String {
+        formatString(shortDescription)
+    }
 
     var formattedLongDescription: String {
-        NewsItem.format(string: longDescription)
+        formatString(longDescription)
     }
 
     var formattedContent: String {
-        NewsItem.format(string: content)
+        formatString(content)
     }
 
     func matches(searchTerm: String) -> Bool {
@@ -300,31 +309,6 @@ struct NewsItem: Identifiable {
                     normalizedLongDescription.contains(subTerm) ||
                     normalizedContent.contains(subTerm)
         }
-    }
-
-
-    static func format(string: String) -> String {
-        let stringWithNewLines = string.replacingOccurrences(of: " ?<br> ?", with: "\n", options: [.regularExpression])
-                .replacingOccurrences(of: "&#39;", with: "'")
-                .replacingOccurrences(of: "&#34;", with: "\"")
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-
-        
-        return stringWithNewLines
-        /*guard let data = stringWithNewLines.data(using: .utf8) else {
-            return stringWithNewLines
-        }
-
-        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
-            .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: String.Encoding.utf8.rawValue
-        ]
-
-        guard let result = try? NSAttributedString(data: data, options: options, documentAttributes: nil) else {
-            return stringWithNewLines
-        }
-
-        return result.string*/
     }
 
     static let example = NewsItem(

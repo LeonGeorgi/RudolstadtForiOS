@@ -60,7 +60,7 @@ struct ArtistEventCell: View {
                             Image(systemName: "exclamationmark.circle")
                                 .font(.caption)
                                 .foregroundColor(.orange)
-                            Text(String(format: NSLocalizedString("event.intersecting.with", comment: ""), intersectingEvent.artist.name))
+                            Text(String(format: NSLocalizedString("event.intersecting.with", comment: ""), intersectingEvent.artist.formattedName))
                                 .font(.caption)
                                 .foregroundColor(.orange)
                         }
@@ -92,7 +92,7 @@ struct ArtistEventCell: View {
                     Button {
                         self.selectedCollisionArtist = intersectingEvent.artist
                     } label: {
-                        Text(intersectingEvent.artist.name)
+                        Text(intersectingEvent.artist.formattedName)
                         Image(systemName: "exclamationmark.circle")
                     }
                 }

@@ -14,7 +14,7 @@ struct NewsItemDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                Text(newsItem.shortDescription)
+                Text(newsItem.formattedShortDescription)
                     .font(.title)
                     .bold()
                 Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")

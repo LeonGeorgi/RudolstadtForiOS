@@ -56,7 +56,7 @@ struct TableProgramCell: View {
                 }
                 
                 Spacer(minLength: 0)
-                Text(event.artist.name)
+                Text(event.artist.formattedName)
                 //.frame(maxWidth: width)
                     .font(.system(size: 12))
                     .foregroundColor(isSaved ? .white : .primary.opacity(colorScheme == .light ? 1 : 0.9))

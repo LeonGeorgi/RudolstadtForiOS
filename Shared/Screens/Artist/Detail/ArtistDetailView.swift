@@ -44,7 +44,7 @@ struct ArtistDetailView: View {
     
     var body: some View {
         List {
-            Section(footer: artist.countries.isEmpty ? Text(artist.name) : Text("\(artist.name) (\(artist.countries))")) {
+            Section(footer: artist.countries.isEmpty ? Text(artist.formattedName) : Text("\(artist.formattedName) (\(artist.countries))")) {
                 ZStack {
                     VStack(spacing: 0) {
                         ArtistImageView(artist: artist, fullImage: true)
@@ -132,7 +132,7 @@ struct ArtistDetailView: View {
             }
             
         }.listStyle(GroupedListStyle())
-            .navigationBarTitle(Text(artist.name), displayMode: .large)
+            .navigationBarTitle(Text(artist.formattedName), displayMode: .large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(artistNote ?? "" == "" ? "artist.add-note.button" : "artist.edit-note.button") {

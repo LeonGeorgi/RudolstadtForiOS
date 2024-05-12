@@ -27,7 +27,7 @@ struct ScheduleEventCell: View {
                                         .foregroundColor(.accentColor)
                                         .lineLimit(1)
                             }
-                            Text(event.artist.name)
+                            Text(event.artist.formattedName)
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                     .lineLimit(1)

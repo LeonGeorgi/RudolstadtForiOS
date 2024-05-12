@@ -15,7 +15,7 @@ struct ArtistCell: View {
                     .frame(width: 60, height: 52.5)
             }
             HStack(alignment: .center, spacing: 4) {
-                Text(artist.name)
+                Text(artist.formattedName)
                         .lineLimit(2)
                 if artistRating() != 0 {
                     Spacer()

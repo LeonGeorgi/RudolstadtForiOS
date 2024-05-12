@@ -16,7 +16,7 @@ struct EventSavedIcon: View {
 
     func createAlert() -> Alert {
         Alert(
-                title: Text(String(format: NSLocalizedString("event.remove.alert.title", comment: ""), event.artist.name, event.shortWeekDay, event.timeAsString)),
+                title: Text(String(format: NSLocalizedString("event.remove.alert.title", comment: ""), event.artist.formattedName, event.shortWeekDay, event.timeAsString)),
                 message: Text("event.remove.alert.message"),
                 primaryButton: .default(Text("event.remove")) {
                     if settings.savedEvents.contains(event.id) {
