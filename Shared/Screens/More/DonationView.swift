@@ -13,7 +13,10 @@ struct DonationView: View {
                 .padding()
             
             Spacer()
-            
+            if iapManager.products.isEmpty {
+                ProgressView()
+                Spacer()
+            }
             ForEach(iapManager.products, id: \.productIdentifier) { product in
                 DonationButton(product: product, ticketPrice: ticketPrice)
                 Spacer()

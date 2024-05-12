@@ -184,17 +184,23 @@ struct ArtistDetailView: View {
         HStack {
             
             if let youtubeID = artist.youtubeID, let url = URL(string: "https://www.youtube.com/watch?v=\(youtubeID)") {
-                LinkButton(label: "YouTube", icon: "play.rectangle") {
+                LinkButton(label: "YouTube", scale: 0.6) {
+                    Image("youtube")
+                } action: {
                     UIApplication.shared.open(url)
                 }
             }
             if let url = artist.url, let url = URL(string: url) {
-                LinkButton(label: "artist.website", icon: "globe") {
+                LinkButton(label: "artist.website", scale: 1.0) {
+                    Image(systemName: "globe")
+                } action: {
                     UIApplication.shared.open(url)
                 }
             }
             if let facebookID = artist.facebookID, let url = URL(string: "fb://profile/\(facebookID)") {
-                LinkButton(label: "Facebook", icon: "person") {
+                LinkButton(label: "Facebook", scale: 0.8) {
+                    Image("facebook")
+                } action: {
                     if UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
                     } else if let url = URL(string: "https://www.facebook.com/\(facebookID)") {
@@ -204,13 +210,17 @@ struct ArtistDetailView: View {
                 }
             }
             if let artistLinks = dataStore.artistLinks, let artistLink = artistLinks[artist.name], let appleMusicURL = artistLink.appleMusicURL {
-                LinkButton(label: "Apple Music", icon: "music.note") {
+                LinkButton(label: "Apple Music", scale: 1.0) {
+                    Image(systemName: "music.note")
+                } action: {
                     UIApplication.shared.open(URL(string: appleMusicURL)!)
                 }
             }
             
             if let artistLinks = dataStore.artistLinks, let artistLink = artistLinks[artist.name], let spotifyURL = artistLink.spotifyURL {
-                LinkButton(label: "Spotify", icon: "music.note.list") {
+                LinkButton(label: "Spotify", scale: 0.7) {
+                    Image("spotify")
+                } action: {
                     UIApplication.shared.open(URL(string: spotifyURL)!)
                 }
             }
@@ -228,13 +238,18 @@ struct ArtistDetailView_Previews: PreviewProvider {
 
 struct LinkButton: View {
     let label: LocalizedStringKey
-    let icon: String
+    let scale: CGFloat
+    let icon: () -> Image
     let action: () -> Void
     
     var body: some View {
         Button(action: action) {
             VStack(spacing: 5) {
-                Image(systemName: icon)
+                icon()
+                    .renderingMode(.template)
+                    .foregroundColor(.white)
+                    .frame(width: 20, height: 20)
+                    .scaleEffect(scale)
                 Text(label)
                     .font(.caption)
                     .scaledToFit()
