@@ -157,5 +157,5 @@ When I was 8 years old, I went to the Rudolstadt Festival for the first time (at
 
 "donations.title" = "Donate";
 "donations.description" = "This app was developed in my free time and is available for free. If you like the app and want to help me finance my festival ticket, you can donate here. Thank you very much! 😊";
-"donation.button.title" = "%@ of the festival ticket (%@)";
+"donation.button.title" = "%@ of my festival ticket (%@)";
 "donations.disclaimer" = "Donations go to me (the developer of the app) personally and not to the organizer of the festival.";

@@ -5,19 +5,25 @@ struct DonationView: View {
     @EnvironmentObject var iapManager: IAPManager
     let ticketPrice = 156.0 // Festival ticket price
     
+    var sortedProducts: [SKProduct] {
+        iapManager.products.sorted { first, second in
+            first.price.doubleValue < second.price.doubleValue
+        }
+    }
+    
     var body: some View {
-        VStack(spacing: 20) {
+        VStack {
             Text("donations.description")
                 .font(.body)
                 .multilineTextAlignment(.leading)
                 .padding()
             
             Spacer()
-            if iapManager.products.isEmpty {
+            if sortedProducts.isEmpty {
                 ProgressView()
                 Spacer()
             }
-            ForEach(iapManager.products, id: \.productIdentifier) { product in
+            ForEach(sortedProducts, id: \.productIdentifier) { product in
                 DonationButton(product: product, ticketPrice: ticketPrice)
                 Spacer()
             }

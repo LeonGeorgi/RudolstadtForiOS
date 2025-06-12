@@ -10,7 +10,8 @@ struct ArtistLinks {
 }
 
 func parseArtistLinks() -> [String: ArtistLinks] {
-    guard let filepath = Bundle.main.path(forResource: "2024_artist_urls", ofType: "csv") else {
+    let resource = "2024_artist_urls"
+    guard let filepath = Bundle.main.path(forResource: resource, ofType: "csv") else {
         print("File not found")
         return [:]
     }

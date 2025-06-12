@@ -9,9 +9,10 @@ struct Artist: Identifiable {
     let url: String?
     let facebookID: String?
     let youtubeID: String?
-    let imageName: String?
     let descriptionGerman: String?
     let descriptionEnglish: String?
+    let thumbImageUrlString: String
+    let fullImageUrlString: String
     
     var formattedName: String {
         formatString(name)
@@ -27,27 +28,11 @@ struct Artist: Identifiable {
     }
 
     var thumbImageUrl: URL? {
-        guard var imageName = imageName else {
-            return nil
-        }
-        imageName = imageName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? imageName
-
-        if artistType == .street {
-            return URL(string: "\(ImageUrlUtil.streetMusicThumbUrl)/\(imageName)")
-        }
-
-        return URL(string: "\(ImageUrlUtil.thumbUrl)/\(imageName)")
+        return URL(string: thumbImageUrlString)
     }
 
     var fullImageUrl: URL? {
-        guard var imageName = imageName else {
-            return nil
-        }
-        imageName = imageName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? imageName
-        if artistType == .street {
-            return URL(string: "\(ImageUrlUtil.streetMusicFullUrl)/\(imageName)")
-        }
-        return URL(string: "\(ImageUrlUtil.fullImageUrl)/\(imageName)")
+        return URL(string: fullImageUrlString)
     }
 
 
@@ -71,9 +56,10 @@ struct Artist: Identifiable {
             url: "http://www.michaeljackson.de/",
             facebookID: "michaeljackson",
             youtubeID: "QNJL6nfu__Q",
-            imageName: "Michael_Jackson.jpg",
             descriptionGerman: "Michael Joseph Jackson (* 29. August 1958 in Gary, Indiana; † 25. Juni 2009 in Los Angeles, Kalifornien) war ein US-amerikanischer Sänger, Tänzer, Songwriter, Autor, Musik- und Filmproduzent sowie Musikmanager. <br> <br> Laut dem Guinness-Buch der Rekorde ist er der erfolgreichste Entertainer aller Zeiten und zugleich der Künstler, der weltweit die meisten Wohltätigkeitsorganisationen finanziell und repräsentativ unterstützte. Für sein Engagement wurde er mehrfach ausgezeichnet und zweimal für den Friedensnobelpreis nominiert. Aufgrund seiner Erfolge in der Musik wird er als „King of Pop“ bezeichnet.",
-            descriptionEnglish: "foo fooo foooo"
+            descriptionEnglish: "foo fooo foooo",
+            thumbImageUrlString: "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg",
+            fullImageUrlString: "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg"
     )
 }
 

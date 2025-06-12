@@ -156,5 +156,5 @@ Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (dama
 
 "donations.title" = "Spenden";
 "donations.description" = "Diese App wurde in meiner Freizeit entwickelt und ist kostenlos verfügbar. Wenn dir die App gefällt und du mir helfen möchtest, mein Festivalticket zu finanzieren, kannst du hier spenden. Vielen Dank! 😊";
-"donation.button.title" = "%@ des Festivaltickets (%@)";
+"donation.button.title" = "%@ meines Festivaltickets (%@)";
 "donations.disclaimer" = "Die Spenden gehen an mich (den Entwickler der App) persönlich und nicht an den Veranstalter des Festivals.";

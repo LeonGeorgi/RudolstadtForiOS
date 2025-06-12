@@ -97,6 +97,9 @@
 		351359B12BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351359AF2BE7A9D0007C0480 /* ArtistRatingView.swift */; };
 		354B96732BE78D7C00F58179 /* 2024_artist_urls.csv in Resources */ = {isa = PBXBuildFile; fileRef = 354B96722BE78D7C00F58179 /* 2024_artist_urls.csv */; };
 		354B96772BE798D100F58179 /* ArtistLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354B96762BE798D100F58179 /* ArtistLinks.swift */; };
+		35514C402DD0DFF30004137D /* APIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35514C3F2DD0DFEE0004137D /* APIModel.swift */; };
+		35514C452DD0E2A20004137D /* DataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35514C442DD0E2960004137D /* DataConverter.swift */; };
+		35514C4B2DD0EBB40004137D /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35514C4A2DD0EBB00004137D /* APIService.swift */; };
 		3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5928043624004F9471 /* Tests_iOS.swift */; };
 		3551CC5C28043624004F9471 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC5B28043624004F9471 /* Tests_iOSLaunchTests.swift */; };
 		3551CC6628043624004F9471 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC6528043624004F9471 /* Tests_macOS.swift */; };
@@ -199,6 +202,9 @@
 		351359AF2BE7A9D0007C0480 /* ArtistRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistRatingView.swift; sourceTree = "<group>"; };
 		354B96722BE78D7C00F58179 /* 2024_artist_urls.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2024_artist_urls.csv; sourceTree = "<group>"; };
 		354B96762BE798D100F58179 /* ArtistLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistLinks.swift; sourceTree = "<group>"; };
+		35514C3F2DD0DFEE0004137D /* APIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModel.swift; sourceTree = "<group>"; };
+		35514C442DD0E2960004137D /* DataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverter.swift; sourceTree = "<group>"; };
+		35514C4A2DD0EBB00004137D /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtForiOSApp.swift; sourceTree = "<group>"; };
 		3551CC4228043623004F9471 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3551CC4328043624004F9471 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -442,6 +448,16 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		35514C432DD0E26E0004137D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				35514C4A2DD0EBB00004137D /* APIService.swift */,
+				35514C442DD0E2960004137D /* DataConverter.swift */,
+				35514C3F2DD0DFEE0004137D /* APIModel.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		3551CC3B28043622004F9471 = {
 			isa = PBXGroup;
 			children = (
@@ -458,6 +474,7 @@
 		3551CC4028043622004F9471 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				35514C432DD0E26E0004137D /* API */,
 				354B966B2BE78CDD00F58179 /* Resources */,
 				3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */,
 				3551CC4228043623004F9471 /* ContentView.swift */,
@@ -716,6 +733,7 @@
 				3551CC8428043E8D004F9471 /* DataStore.swift in Sources */,
 				3551CC6928043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
 				32A11D09A42D86B69106B718 /* NewsItemDetailView.swift in Sources */,
+				35514C452DD0E2A20004137D /* DataConverter.swift in Sources */,
 				3505732828549B81008932A9 /* WebView.swift in Sources */,
 				32A11F2390384051C89FAB56 /* NewsItemCell.swift in Sources */,
 				32A118717C7FB0F1F9082736 /* NewsListView.swift in Sources */,
@@ -753,6 +771,7 @@
 				32A115A10E8AE4441C178095 /* ArtistCell.swift in Sources */,
 				3505732B28549BF8008932A9 /* BusView.swift in Sources */,
 				351359B02BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */,
+				35514C4B2DD0EBB40004137D /* APIService.swift in Sources */,
 				3505733D2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
 				32A1167A2BFBD49E2160B672 /* ArtistDetailView.swift in Sources */,
 				32A11E6DA66C383089064DD4 /* ArtistEventCell.swift in Sources */,
@@ -765,6 +784,7 @@
 				32A11B9A32216878027CEFAD /* DataUpdater.swift in Sources */,
 				3568C7AA29F93B6700A7AA7D /* ScrollableProgramViewContent.swift in Sources */,
 				32A11D40C4020FBB887E8FBD /* ImageUrlUtil.swift in Sources */,
+				35514C402DD0DFF30004137D /* APIModel.swift in Sources */,
 				32A111B567F87F1627C561FF /* StageNumber.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1032,7 +1052,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1070,7 +1090,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
 				PROVISIONING_PROFILE_SPECIFIER = "";

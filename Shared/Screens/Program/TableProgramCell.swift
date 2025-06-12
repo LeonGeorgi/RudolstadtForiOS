@@ -129,19 +129,7 @@ struct TableProgramCell_Previews: PreviewProvider {
             dayInJuly: 5,
             timeAsString: "17:00",
             stage: .example,
-            artist: Artist(
-                id: 2,
-                artistType: artistType,
-                someNumber: 3,
-                name: "Michael Jackson",
-                countries: "USA",
-                url: nil,
-                facebookID: nil,
-                youtubeID: nil,
-                imageName: nil,
-                descriptionGerman: nil,
-                descriptionEnglish: nil
-            ),
+            artist: .example,
             tag: tag
         )
     }

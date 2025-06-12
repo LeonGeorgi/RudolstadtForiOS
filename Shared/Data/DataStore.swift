@@ -1,11 +1,3 @@
-//
-//  DataProvider.swift
-//  RudolstadtForiOS
-//
-//  Created by Leon on 22.02.20.
-//  Copyright © 2020 Leon Georgi. All rights reserved.
-//
-
 import Foundation
 import SwiftUI
 import BackgroundTasks
@@ -23,11 +15,12 @@ final class DataStore: ObservableObject {
     @Published var estimatedEventDurations: Dictionary<Int, Int>? = nil
     @Published var artistLinks: Dictionary<String, ArtistLinks>? = nil
     
-    static let year = 2024
+    static let year = 2025
 
     let files: DataFiles
     let dataLoader: DataLoader
     let dataUpdater: DataUpdater
+    let apiClient: APIClient
 
     let cacheUrl: URL
 
@@ -43,7 +36,7 @@ final class DataStore: ObservableObject {
         cacheUrl = try! FileManager.default.url(for: .cachesDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
         dataLoader = DataLoader(files: files, cacheUrl: cacheUrl)
         dataUpdater = DataUpdater(files: files, cacheUrl: cacheUrl)
-
+        apiClient = APIClient()
     }
     
     func loadArtistLinks() {
@@ -143,15 +136,18 @@ final class DataStore: ObservableObject {
                 self.data = .success(loadedData)
             }
         }
-        let downloadResult = await dataUpdater.downloadAllDataToFiles()
-        if case DownloadResult.success = downloadResult {
-            let resultFromDownload = dataLoader.loadEntitiesFromFiles()
-            print("Download was successful")
-            setDataAfterSuccessfulDownload(resultFromDownload: resultFromDownload, resultFromCache: resultFromCache)
-        } else {
+        let apiData = try? await apiClient.fetchAll()
+        guard let apiData else {
             print("Download failed")
             setDataAfterFailedDownload(resultFromCache: resultFromCache)
+            return
         }
+        let storedFile = dataLoader.storeAPIRudolstadtDataToFile(data: apiData, fileName: "rudolstadt_data.json")
+        if !storedFile {
+            print("Could not store API data to file")
+        }
+        let entities = convertAPIRudolstadtDataToEntities(apiData: apiData)
+        setDataAfterSuccessfulDownload(resultFromDownload: .loaded(entities), resultFromCache: resultFromCache)
     }
 
     func loadAndSetDataFromFilesIfUpToDate() -> (Bool, FileLoadingResult<Entities>) {
@@ -253,10 +249,12 @@ final class DataStore: ObservableObject {
     }
 
     private func registerUpdateNewsTask() {
+        /* TODO: Reenable background task
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "de.leongeorgi.RudolstadtForiOS.news.refresh", using: nil) { task in if let appRefreshTask = task as? BGAppRefreshTask {
                 self.executeUpdateNewsTask(task: appRefreshTask)
             }
         }
+        */
     }
 
     private func executeUpdateNewsTask(task: BGAppRefreshTask) {
@@ -307,7 +305,8 @@ final class DataStore: ObservableObject {
     }
 
     private func scheduleUpdateNewsTask() {
-        let request = BGAppRefreshTaskRequest(identifier: "de.leongeorgi.RudolstadtForiOS.news.refresh")
+        /* TODO: Reenable background task
+         let request = BGAppRefreshTaskRequest(identifier: "de.leongeorgi.RudolstadtForiOS.news.refresh")
         request.earliestBeginDate = Date(timeIntervalSinceNow: 30 * 60)
         do {
             try BGTaskScheduler.shared.submit(request)
@@ -315,6 +314,7 @@ final class DataStore: ObservableObject {
         } catch {
             print("Could not schedule news refresh: \(error)")
         }
+         */
     }
 }
 
