@@ -70,7 +70,9 @@ struct ArtistListView: View {
                 }
             }) { artists in
                 List {
-                    ForEach(artists) { (artist: Artist) in
+                    ForEach(artists.sorted(by: { a1, a2 in
+                        normalize(string: a1.name) < normalize(string: a2.name)
+                    })) { (artist: Artist) in
                         NavigationLink(destination: ArtistDetailView(artist: artist, highlightedEventId: nil)) {
                             ArtistCell(artist: artist)
                         }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
