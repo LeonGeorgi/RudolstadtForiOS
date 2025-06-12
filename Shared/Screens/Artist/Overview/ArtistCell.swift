@@ -16,7 +16,7 @@ struct ArtistCell: View {
             }
             HStack(alignment: .center, spacing: 4) {
                 Text(artist.formattedName)
-                        .lineLimit(2)
+                    .lineLimit(2)
                 if artistRating() != 0 {
                     Spacer()
                     ArtistRatingSymbol(artist: artist)
@@ -24,21 +24,21 @@ struct ArtistCell: View {
 
             }
         }.contextMenu {
-                    ForEach((-1..<4).reversed()) { rating in
-                        Button(action: {
-                            self.settings.ratings[String(self.artist.id)] = rating
-                        }) {
-                            RatingSymbol(rating: rating)
-                        }
-                    }
+            ForEach((-1..<4).reversed()) { rating in
+                Button(action: {
+                    self.settings.ratings[String(self.artist.id)] = rating
+                }) {
+                    RatingSymbol(rating: rating)
                 }
+            }
+        }
     }
 }
 
 struct ArtistListItem_Previews: PreviewProvider {
     static var previews: some View {
         ArtistCell(artist: .example)
-                .environmentObject(DataStore())
-                .environmentObject(UserSettings())
+            .environmentObject(DataStore())
+            .environmentObject(UserSettings())
     }
 }

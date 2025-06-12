@@ -8,7 +8,7 @@ import SwiftUI
 
 struct NewsItemCell: View {
     let newsItem: NewsItem
-    
+
     @EnvironmentObject var settings: UserSettings
 
     var body: some View {
@@ -25,15 +25,15 @@ struct NewsItemCell: View {
                     if !newsItem.formattedLongDescription.isEmpty {
                         Text(newsItem.formattedLongDescription)
                             .lineLimit(1)
-                        .font(.subheadline)
+                            .font(.subheadline)
                     } else {
                         Text(newsItem.formattedContent)
                             .lineLimit(1)
-                        .font(.subheadline)
+                            .font(.subheadline)
                     }
                     Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
             }
         }

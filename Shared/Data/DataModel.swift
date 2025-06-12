@@ -13,7 +13,7 @@ struct Artist: Identifiable {
     let descriptionEnglish: String?
     let thumbImageUrlString: String
     let fullImageUrlString: String
-    
+
     var formattedName: String {
         formatString(name)
     }
@@ -35,34 +35,35 @@ struct Artist: Identifiable {
         return URL(string: fullImageUrlString)
     }
 
-
     func matches(searchTerm: String) -> Bool {
         if searchTerm.isEmpty {
             return true
         }
-        return normalize(string: name).contains(searchTerm) ||
-                (formattedDescription.map {
-                            normalize(string: $0)
-                        }?
-                        .contains(searchTerm) ?? false)
+        return normalize(string: name).contains(searchTerm)
+            || (formattedDescription.map {
+                normalize(string: $0)
+            }?
+            .contains(searchTerm) ?? false)
     }
 
     static let example = Artist(
-            id: 0,
-            artistType: .stage,
-            someNumber: 0,
-            name: "Michael Jackson",
-            countries: "USA",
-            url: "http://www.michaeljackson.de/",
-            facebookID: "michaeljackson",
-            youtubeID: "QNJL6nfu__Q",
-            descriptionGerman: "Michael Joseph Jackson (* 29. August 1958 in Gary, Indiana; † 25. Juni 2009 in Los Angeles, Kalifornien) war ein US-amerikanischer Sänger, Tänzer, Songwriter, Autor, Musik- und Filmproduzent sowie Musikmanager. <br> <br> Laut dem Guinness-Buch der Rekorde ist er der erfolgreichste Entertainer aller Zeiten und zugleich der Künstler, der weltweit die meisten Wohltätigkeitsorganisationen finanziell und repräsentativ unterstützte. Für sein Engagement wurde er mehrfach ausgezeichnet und zweimal für den Friedensnobelpreis nominiert. Aufgrund seiner Erfolge in der Musik wird er als „King of Pop“ bezeichnet.",
-            descriptionEnglish: "foo fooo foooo",
-            thumbImageUrlString: "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg",
-            fullImageUrlString: "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg"
+        id: 0,
+        artistType: .stage,
+        someNumber: 0,
+        name: "Michael Jackson",
+        countries: "USA",
+        url: "http://www.michaeljackson.de/",
+        facebookID: "michaeljackson",
+        youtubeID: "QNJL6nfu__Q",
+        descriptionGerman:
+            "Michael Joseph Jackson (* 29. August 1958 in Gary, Indiana; † 25. Juni 2009 in Los Angeles, Kalifornien) war ein US-amerikanischer Sänger, Tänzer, Songwriter, Autor, Musik- und Filmproduzent sowie Musikmanager. <br> <br> Laut dem Guinness-Buch der Rekorde ist er der erfolgreichste Entertainer aller Zeiten und zugleich der Künstler, der weltweit die meisten Wohltätigkeitsorganisationen finanziell und repräsentativ unterstützte. Für sein Engagement wurde er mehrfach ausgezeichnet und zweimal für den Friedensnobelpreis nominiert. Aufgrund seiner Erfolge in der Musik wird er als „King of Pop“ bezeichnet.",
+        descriptionEnglish: "foo fooo foooo",
+        thumbImageUrlString:
+            "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg",
+        fullImageUrlString:
+            "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg"
     )
 }
-
 
 enum ArtistType: Int, Identifiable, CaseIterable {
     var id: Int {
@@ -72,7 +73,7 @@ enum ArtistType: Int, Identifiable, CaseIterable {
     case stage = 1
     case dance = 2
     case street = 3
-    case other = 4;
+    case other = 4
 
     var germanName: String {
         switch self {
@@ -91,7 +92,6 @@ enum ArtistType: Int, Identifiable, CaseIterable {
         case .other: return "Other"
         }
     }
-
 
     var localizedName: String {
         if Locale.current.languageCode == "de" {
@@ -120,9 +120,9 @@ struct Area: Identifiable, Hashable {
     }
 
     static let example = Area(
-            id: 3,
-            germanName: "Heinepark (City Park)",
-            englishName: "City Park"
+        id: 3,
+        germanName: "Heinepark (City Park)",
+        englishName: "City Park"
     )
 }
 
@@ -185,12 +185,12 @@ struct Event: Identifiable {
         let normalizedWeekDay = normalize(string: weekDay)
         let normalizedShortWeekDay = normalize(string: shortWeekDay)
         return searchTerm.split(separator: " ").allSatisfy { subTerm in
-            normalizedArtistName.contains(subTerm) ||
-                    normalizedStageName.contains(subTerm) ||
-                    (normalizedTagName?.contains(subTerm) ?? false) ||
-                    normalizedTimeAsString.contains(subTerm) ||
-                    normalizedWeekDay.contains(subTerm) ||
-                    normalizedShortWeekDay.contains(subTerm)
+            normalizedArtistName.contains(subTerm)
+                || normalizedStageName.contains(subTerm)
+                || (normalizedTagName?.contains(subTerm) ?? false)
+                || normalizedTimeAsString.contains(subTerm)
+                || normalizedWeekDay.contains(subTerm)
+                || normalizedShortWeekDay.contains(subTerm)
         }
     }
 
@@ -204,10 +204,10 @@ struct Event: Identifiable {
         dateComponents.hour = Int(splittedTime[0])
         dateComponents.minute = Int(splittedTime[1])
 
-        let userCalendar = Calendar.current // user calendar
+        let userCalendar = Calendar.current  // user calendar
         return userCalendar.date(from: dateComponents)!
     }
-    
+
     func endDate(durationInMinutes: Int) -> Date {
         date.addingTimeInterval(Double(durationInMinutes) * 60)
     }
@@ -237,18 +237,22 @@ struct Event: Identifiable {
 
     }
 
-    func intersects(with other: Event, event1Duration: Int, event2Duration: Int) -> Bool {
-        festivalDay == other.festivalDay &&
-                !(startTimeInMinutes > other.startTimeInMinutes + event2Duration || startTimeInMinutes + event1Duration < other.startTimeInMinutes)
+    func intersects(with other: Event, event1Duration: Int, event2Duration: Int)
+        -> Bool
+    {
+        festivalDay == other.festivalDay
+            && !(startTimeInMinutes > other.startTimeInMinutes + event2Duration
+                || startTimeInMinutes + event1Duration
+                    < other.startTimeInMinutes)
     }
 
     static let example = Event(
-            id: 1,
-            dayInJuly: 6,
-            timeAsString: "17:00",
-            stage: .example,
-            artist: .example,
-            tag: .example
+        id: 1,
+        dayInJuly: 6,
+        timeAsString: "17:00",
+        stage: .example,
+        artist: .example,
+        tag: .example
     )
 }
 
@@ -266,7 +270,7 @@ struct NewsItem: Identifiable {
         let languageIsGerman = languageCode == "de"
         return appIsInGerman == languageIsGerman
     }
-    
+
     var formattedShortDescription: String {
         formatString(shortDescription)
     }
@@ -286,30 +290,32 @@ struct NewsItem: Identifiable {
         let normalizedDate = normalize(string: dateAsString)
         let normalizedTime = normalize(string: timeAsString)
         let normalizedShortDescription = normalize(string: shortDescription)
-        let normalizedLongDescription = normalize(string: formattedLongDescription)
+        let normalizedLongDescription = normalize(
+            string: formattedLongDescription
+        )
         let normalizedContent = normalize(string: formattedContent)
         return searchTerm.split(separator: " ").allSatisfy { subTerm in
-            normalizedDate.contains(subTerm) ||
-                    normalizedTime.contains(subTerm) ||
-                    normalizedShortDescription.contains(subTerm) ||
-                    normalizedLongDescription.contains(subTerm) ||
-                    normalizedContent.contains(subTerm)
+            normalizedDate.contains(subTerm) || normalizedTime.contains(subTerm)
+                || normalizedShortDescription.contains(subTerm)
+                || normalizedLongDescription.contains(subTerm)
+                || normalizedContent.contains(subTerm)
         }
     }
 
     static let example = NewsItem(
-            id: 532,
-            languageCode: "de",
-            dateAsString: "05.10.2018",
-            timeAsString: "12:24",
-            shortDescription: "HINWEIS!",
-            longDescription: "GefÃ¤lschte Mails im Namen des Festivals im Umlauf",
-            content: "Man kennt es ja schon: StÃ¤ndig befinden sich eigenartige Zahlungsaufforderungen im Mailpostfach. Jetzt werden solche Mails auch mit Absendern verschickt, die vorgaukeln zum Rudolstadt-Festival zu gehÃ¶ren.<br>Eine ÃœberprÃ¼fung hat ergeben, dass aus unseren Systemen keine Daten abgefischt wurden. Falls Sie eine solche Mail erhalten haben, ist Ihre Adresse eher zufÃ¤llig in demselben Topf gelandet, aus dem wohl tausende Mails in unserem Namen verschickt wurden.<br>Darum die dringende WARNUNG vor Mails, die im Betreff Stichworte wie Rechnung, Zahlungsaufforderung, Merchandise, Bestellungseingang, Korrektur, Invoice u.Ã¤. enthalten! Auf KEINEN Fall mitgeschickte AnhÃ¤nge Ã¶ffnen! Ist das schon passiert, dann UNBEDINGT das eigene System mit einer entsprechenden Software auf SchÃ¤den scannen!<br>Sollten wider Erwarten doch weitere Spam-Mails kursieren, bitten wir um einen Hinweis. Danke dafÃ¼r und viele GrÃ¼ÃŸe vom Festival-Team!<br>"
+        id: 532,
+        languageCode: "de",
+        dateAsString: "05.10.2018",
+        timeAsString: "12:24",
+        shortDescription: "HINWEIS!",
+        longDescription: "GefÃ¤lschte Mails im Namen des Festivals im Umlauf",
+        content:
+            "Man kennt es ja schon: StÃ¤ndig befinden sich eigenartige Zahlungsaufforderungen im Mailpostfach. Jetzt werden solche Mails auch mit Absendern verschickt, die vorgaukeln zum Rudolstadt-Festival zu gehÃ¶ren.<br>Eine ÃœberprÃ¼fung hat ergeben, dass aus unseren Systemen keine Daten abgefischt wurden. Falls Sie eine solche Mail erhalten haben, ist Ihre Adresse eher zufÃ¤llig in demselben Topf gelandet, aus dem wohl tausende Mails in unserem Namen verschickt wurden.<br>Darum die dringende WARNUNG vor Mails, die im Betreff Stichworte wie Rechnung, Zahlungsaufforderung, Merchandise, Bestellungseingang, Korrektur, Invoice u.Ã¤. enthalten! Auf KEINEN Fall mitgeschickte AnhÃ¤nge Ã¶ffnen! Ist das schon passiert, dann UNBEDINGT das eigene System mit einer entsprechenden Software auf SchÃ¤den scannen!<br>Sollten wider Erwarten doch weitere Spam-Mails kursieren, bitten wir um einen Hinweis. Danke dafÃ¼r und viele GrÃ¼ÃŸe vom Festival-Team!<br>"
     )
 }
 
 struct Stage: Identifiable, Hashable {
-    static func ==(lhs: Stage, rhs: Stage) -> Bool {
+    static func == (lhs: Stage, rhs: Stage) -> Bool {
         lhs.id == rhs.id
     }
 
@@ -344,36 +350,35 @@ struct Stage: Identifiable, Hashable {
         if searchTerm.isEmpty {
             return true
         }
-        return normalize(string: localizedName).contains(searchTerm) ||
-                normalize(string: area.localizedName).contains(searchTerm) ||
-                (localizedDescription.map {
-                            normalize(string: $0)
-                        }?
-                        .contains(searchTerm) ?? false) ||
-                stageNumber.map {
-                            String($0)
-                        }?
-                        .contains(searchTerm) ?? false
+        return normalize(string: localizedName).contains(searchTerm)
+            || normalize(string: area.localizedName).contains(searchTerm)
+            || (localizedDescription.map {
+                normalize(string: $0)
+            }?
+            .contains(searchTerm) ?? false)
+            || stageNumber.map {
+                String($0)
+            }?
+            .contains(searchTerm) ?? false
     }
 
     static let example = Stage(
-            id: 24,
-            germanName: "Große Bühne Heinepark",
-            englishName: "Große Bühne Heinepark",
-            germanDescription: "Große Bühne Heinepark",
-            englishDescription: "Große Bühne Heinepark",
-            stageNumber: 6,
-            latitude: 50.717028,
-            longitude: 11.341074,
-            area: .example,
-            stageType: .festivalTicket
+        id: 24,
+        germanName: "Große Bühne Heinepark",
+        englishName: "Große Bühne Heinepark",
+        germanDescription: "Große Bühne Heinepark",
+        englishDescription: "Große Bühne Heinepark",
+        stageNumber: 6,
+        latitude: 50.717028,
+        longitude: 11.341074,
+        area: .example,
+        stageType: .festivalTicket
     )
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
-
 
 enum StageType: Int, Identifiable, CaseIterable {
     var id: Int {
@@ -383,7 +388,7 @@ enum StageType: Int, Identifiable, CaseIterable {
     case festivalTicket = 1
     case festivalAndDayTicket = 2
     case other = 3
-    case unknown = 4;
+    case unknown = 4
 
     var germanName: String {
         switch self {
@@ -402,7 +407,6 @@ enum StageType: Int, Identifiable, CaseIterable {
         case .unknown: return "Unknown"
         }
     }
-
 
     var localizedName: String {
         if Locale.current.languageCode == "de" {
@@ -427,9 +431,8 @@ struct Tag: Identifiable {
     }
 
     static let example = Tag(
-            id: 6,
-            germanName: "Länderschwerpunkt",
-            englishName: "Country Special"
+        id: 6,
+        germanName: "Länderschwerpunkt",
+        englishName: "Country Special"
     )
 }
-

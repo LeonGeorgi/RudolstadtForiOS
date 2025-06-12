@@ -10,13 +10,13 @@ struct StageEventCell: View {
     func artistRating() -> Int {
         settings.ratings["\(event.artist.id)"] ?? 0
     }
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .center) {
                     ArtistImageView(artist: event.artist, fullImage: false)
-                            .frame(width: imageWidth, height: imageHeight)
+                        .frame(width: imageWidth, height: imageHeight)
                     VStack(alignment: .leading, spacing: 0) {
                         if event.tag != nil {
                             Text(event.tag!.localizedName.uppercased())

@@ -16,28 +16,43 @@ struct EventSavedIcon: View {
 
     func createAlert() -> Alert {
         Alert(
-                title: Text(String(format: NSLocalizedString("event.remove.alert.title", comment: ""), event.artist.formattedName, event.shortWeekDay, event.timeAsString)),
-                message: Text("event.remove.alert.message"),
-                primaryButton: .default(Text("event.remove")) {
-                    if settings.savedEvents.contains(event.id) {
-                        settings.toggleSavedEvent(event)
-                    }
-                }, secondaryButton: .cancel())
+            title: Text(
+                String(
+                    format: NSLocalizedString(
+                        "event.remove.alert.title",
+                        comment: ""
+                    ),
+                    event.artist.formattedName,
+                    event.shortWeekDay,
+                    event.timeAsString
+                )
+            ),
+            message: Text("event.remove.alert.message"),
+            primaryButton: .default(Text("event.remove")) {
+                if settings.savedEvents.contains(event.id) {
+                    settings.toggleSavedEvent(event)
+                }
+            },
+            secondaryButton: .cancel()
+        )
     }
 
     var body: some View {
-        Image(systemName: settings.savedEvents.contains(event.id) ? "bookmark.fill" : "bookmark")
-                .foregroundColor(.yellow)
-                .onTapGesture {
-                    if settings.savedEvents.contains(event.id) {
-                        isAlertShown = true
-                    } else {
-                        settings.toggleSavedEvent(event)
-                    }
-                }
-                .alert(isPresented: $isAlertShown) {
-                    createAlert()
-                }
+        Image(
+            systemName: settings.savedEvents.contains(event.id)
+                ? "bookmark.fill" : "bookmark"
+        )
+        .foregroundColor(.yellow)
+        .onTapGesture {
+            if settings.savedEvents.contains(event.id) {
+                isAlertShown = true
+            } else {
+                settings.toggleSavedEvent(event)
+            }
+        }
+        .alert(isPresented: $isAlertShown) {
+            createAlert()
+        }
     }
 }
 

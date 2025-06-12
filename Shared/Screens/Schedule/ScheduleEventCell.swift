@@ -17,24 +17,26 @@ struct ScheduleEventCell: View {
                 HStack(alignment: .center) {
                     HStack(alignment: .center) {
                         ArtistImageView(artist: event.artist, fullImage: false)
-                                .frame(width: 60, height: 52.5)
+                            .frame(width: 60, height: 52.5)
 
                         VStack(alignment: .leading) {
                             if event.tag != nil {
                                 Text(event.tag!.localizedName.uppercased())
-                                        .font(.system(size: 11))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.accentColor)
-                                        .lineLimit(1)
+                                    .font(.system(size: 11))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.accentColor)
+                                    .lineLimit(1)
                             }
                             Text(event.artist.formattedName)
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                    .lineLimit(1)
-                            
-                            Text("\(event.timeAsString) (\(event.stage.localizedName))")
-                                    .lineLimit(1)
-                                    .font(.subheadline)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .lineLimit(1)
+
+                            Text(
+                                "\(event.timeAsString) (\(event.stage.localizedName))"
+                            )
+                            .lineLimit(1)
+                            .font(.subheadline)
 
                         }
                         Spacer()

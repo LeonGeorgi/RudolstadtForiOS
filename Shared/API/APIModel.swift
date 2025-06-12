@@ -20,21 +20,19 @@
 import Foundation
 
 struct APIRudolstadtData: Codable {
-    let news:    [APINewsItem]
-    let areas:   [APIArea]
+    let news: [APINewsItem]
+    let areas: [APIArea]
     let artists: [APIArtist]
-    let events:  [APIEvent]
-    let stages:  [APIStage]
-    let tags:    [APITag]
+    let events: [APIEvent]
+    let stages: [APIStage]
+    let tags: [APITag]
 }
-
 
 enum APIArtistCategory: String, Codable {
     case concert = "concert"
     case dancing = "dancing"
     case festivalPlus = "festival-plus"
 }
-    
 
 struct APIArtist: Codable {
     let id: Int
@@ -70,7 +68,6 @@ struct APIArtist: Codable {
     }
 }
 
-
 /*
  {
  "id": 852,
@@ -87,24 +84,24 @@ struct APIArtist: Codable {
  */
 
 struct APITime: Codable {
-    let date: String // e.g. "2025-07-06 14:00:00.000000"
-    let timezoneType: Int // eg. 3
-    let timezone: String // e.g. "Europe/Berlin"
-    
+    let date: String  // e.g. "2025-07-06 14:00:00.000000"
+    let timezoneType: Int  // eg. 3
+    let timezone: String  // e.g. "Europe/Berlin"
+
     enum CodingKeys: String, CodingKey {
         case date
         case timezoneType = "timezone_type"
         case timezone
     }
-    
+
     func getDate() -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
         dateFormatter.timeZone = TimeZone(identifier: timezone)
-        
+
         return dateFormatter.date(from: date)
     }
-    
+
     func getDateAsGermanString() -> String? {
         // e.g. "06.07.2025"
         let dateFormatter = DateFormatter()
@@ -115,7 +112,7 @@ struct APITime: Codable {
         }
         return dateFormatter.string(from: date)
     }
-    
+
     func getTimeAsGermanString() -> String? {
         // e.g. "14:00"
         let dateFormatter = DateFormatter()
@@ -126,12 +123,8 @@ struct APITime: Codable {
         }
         return dateFormatter.string(from: date)
     }
-        
-        
-
 
 }
-
 
 struct APINewsItem: Codable {
     let id: Int
@@ -140,7 +133,7 @@ struct APINewsItem: Codable {
     let teaser: String
     let text: String
     let time: APITime
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -163,7 +156,7 @@ struct APIArea: Codable {
     let id: Int
     let title: String
     let titleEN: String
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -197,13 +190,13 @@ struct APIArea: Codable {
 struct APIEvent: Codable {
     let id: Int
     let start: APITime
-    let day: String // e.g. "05.07.2025"
+    let day: String  // e.g. "05.07.2025"
     let time: String
     let stage: Int
     let artist: Int
     let tags: [Int]
     let updated: APITime
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case start
@@ -214,7 +207,7 @@ struct APIEvent: Codable {
         case tags
         case updated
     }
-    
+
     func getDayInJuly() -> Int? {
         let dayInJuliy = day.split(separator: ".").first ?? ""
         return Int(dayInJuliy)
@@ -245,7 +238,6 @@ enum APIStageCategory: String, Codable {
     case comboticket = "comboticket"
     case information = "information"
 }
-    
 
 struct APIStage: Codable {
     let id: Int
@@ -258,7 +250,7 @@ struct APIStage: Codable {
     let area: Int
     let category: APIStageCategory
     let mapNumber: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -285,11 +277,10 @@ struct APITag: Codable {
     let id: Int
     let title: String
     let titleEN: String
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case title
         case titleEN = "title_en"
     }
 }
-

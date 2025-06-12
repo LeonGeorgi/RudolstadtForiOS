@@ -14,11 +14,11 @@ struct StageNumber: View {
     var backgroundColor: Color {
         switch stage.stageType {
         case .festivalTicket:
-            return Color(hue: 24/360, saturation: 0.6, brightness: 0.9)
+            return Color(hue: 24 / 360, saturation: 0.6, brightness: 0.9)
         case .festivalAndDayTicket:
-            return Color(hue: 116/360, saturation: 0.2, brightness: 0.7)
+            return Color(hue: 116 / 360, saturation: 0.2, brightness: 0.7)
         default:
-            return Color(hue: 35/360, saturation: 0.4, brightness: 0.8)
+            return Color(hue: 35 / 360, saturation: 0.4, brightness: 0.8)
         }
     }
 
@@ -34,20 +34,20 @@ struct StageNumber: View {
     var body: some View {
         if let stageNumber = stage.stageNumber {
             Text(String(stageNumber))
-                    .frame(width: size, height: size)
-                    .background(backgroundColor)
-                    .foregroundColor(textColor)
-                    .clipShape(Circle())
-                    .overlay(
-                            Circle()
-                                    .stroke(Color.gray, lineWidth: 1)
-                                    .opacity(0.3)
-                    )
-                    .font(font)
+                .frame(width: size, height: size)
+                .background(backgroundColor)
+                .foregroundColor(textColor)
+                .clipShape(Circle())
+                .overlay(
+                    Circle()
+                        .stroke(Color.gray, lineWidth: 1)
+                        .opacity(0.3)
+                )
+                .font(font)
         } else {
             Image(systemName: "mappin.circle.fill")
-                    .font(.system(size: size))
-                    .foregroundColor(.cyan)
+                .font(.system(size: size))
+                .foregroundColor(.cyan)
         }
     }
 }

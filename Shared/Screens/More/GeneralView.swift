@@ -23,7 +23,7 @@ struct GeneralView: View {
                     .font(.body)
             }*/
             Section(header: Text("general.extra.title")) {
-            Text("general.extra.content")
+                Text("general.extra.content")
                     .font(.body)
             }
         }.listStyle(GroupedListStyle())

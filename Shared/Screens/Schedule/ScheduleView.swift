@@ -16,9 +16,11 @@ struct ScheduleView: View {
 
     var eventDays: LoadingEntity<[Int]> {
         dataStore.data.map { entities in
-            Set(entities.events.lazy.map { (event: Event) in
-                event.festivalDay
-            }).sorted(by: <)
+            Set(
+                entities.events.lazy.map { (event: Event) in
+                    event.festivalDay
+                }
+            ).sorted(by: <)
         }
     }
 
@@ -27,21 +29,28 @@ struct ScheduleView: View {
             if events.isEmpty {
                 VStack {
                     Spacer()
-                    
+
                     Text("schedule.empty.description")
                         .multilineTextAlignment(.center)
                         .foregroundColor(.gray)
                         .padding(.horizontal, 20)
-                    
+
                     Spacer()
                 }
             } else {
                 List(events) { event in
-                    NavigationLink(destination: ArtistDetailView(artist: event.artist, highlightedEventId: event.id)) {
+                    NavigationLink(
+                        destination: ArtistDetailView(
+                            artist: event.artist,
+                            highlightedEventId: event.id
+                        )
+                    ) {
                         ScheduleEventCell(event: event)
-                    }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
+                    }.listRowInsets(
+                        .init(top: 0, leading: 0, bottom: 0, trailing: 16)
+                    )
                 }.listStyle(.plain)
-                    
+
             }
         }
 

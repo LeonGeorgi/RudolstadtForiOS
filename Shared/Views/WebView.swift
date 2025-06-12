@@ -20,8 +20,14 @@ struct WebView: UIViewRepresentable {
         return webview
     }
 
-    func updateUIView(_ webview: WKWebView, context: UIViewRepresentableContext<WebView>) {
-        let request = URLRequest(url: self.url, cachePolicy: .returnCacheDataElseLoad)
+    func updateUIView(
+        _ webview: WKWebView,
+        context: UIViewRepresentableContext<WebView>
+    ) {
+        let request = URLRequest(
+            url: self.url,
+            cachePolicy: .returnCacheDataElseLoad
+        )
         webview.load(request)
     }
 }

@@ -16,13 +16,13 @@ struct ArtistTypeFilterView: View {
                     }) {
                         HStack {
                             Text(String(artistType.localizedName))
-                                    .foregroundColor(.primary)
+                                .foregroundColor(.primary)
                             Spacer()
                             VStack(alignment: .leading) {
                                 if selectedArtistTypes.contains(artistType) {
                                     Image(systemName: "checkmark")
-                                            .foregroundColor(.accentColor)
-                                            .padding(.horizontal, 4)
+                                        .foregroundColor(.accentColor)
+                                        .padding(.horizontal, 4)
                                 }
                             }
                         }
@@ -30,7 +30,7 @@ struct ArtistTypeFilterView: View {
                 }
             }
         }
-                .listStyle(GroupedListStyle())
-                .navigationBarTitle(Text("filter.artists.title"), displayMode: .inline)
+        .listStyle(GroupedListStyle())
+        .navigationBarTitle(Text("filter.artists.title"), displayMode: .inline)
     }
 }

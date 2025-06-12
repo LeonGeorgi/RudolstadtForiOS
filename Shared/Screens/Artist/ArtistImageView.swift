@@ -6,8 +6,8 @@
 //  Copyright © 2020 Leon Georgi. All rights reserved.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ArtistImageView: View {
     let artist: Artist
@@ -18,8 +18,8 @@ struct ArtistImageView: View {
                 WebImage(url: artist.fullImageUrl!)
                     .placeholder {
                         Image("placeholder")
-                            .resizable()                     // Make image resizable
-                            .aspectRatio(contentMode: .fill) // Fill the frame
+                            .resizable()  // Make image resizable
+                            .aspectRatio(contentMode: .fill)  // Fill the frame
                             .clipped()
                     }
                     .resizable()
@@ -30,8 +30,8 @@ struct ArtistImageView: View {
                 WebImage(url: artist.thumbImageUrl!)
                     .placeholder {
                         Image("placeholder_thumb")
-                            .resizable()                     // Make image resizable
-                            .aspectRatio(contentMode: .fill) // Fill the frame
+                            .resizable()  // Make image resizable
+                            .aspectRatio(contentMode: .fill)  // Fill the frame
                             .clipped()
                     }
                     .resizable()
@@ -40,13 +40,13 @@ struct ArtistImageView: View {
                     .clipped()
             } else if fullImage {
                 Image("placeholder")
-                    .resizable()                     // Make image resizable
-                    .aspectRatio(contentMode: .fill) // Fill the frame
+                    .resizable()  // Make image resizable
+                    .aspectRatio(contentMode: .fill)  // Fill the frame
                     .clipped()
             } else {
                 Image("placeholder_thumb")
-                    .resizable()                     // Make image resizable
-                    .aspectRatio(contentMode: .fill) // Fill the frame
+                    .resizable()  // Make image resizable
+                    .aspectRatio(contentMode: .fill)  // Fill the frame
                     .clipped()
             }
         }

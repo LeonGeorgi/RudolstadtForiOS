@@ -16,7 +16,7 @@ struct TimeProgramEventCell: View {
     func artistRating() -> Int {
         settings.ratings["\(event.artist.id)"] ?? 0
     }
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
@@ -24,10 +24,10 @@ struct TimeProgramEventCell: View {
 
                     ArtistImageView(artist: event.artist, fullImage: false)
                         .frame(width: 60, height: 52.5)
-                        //.cornerRadius(4)
+                    //.cornerRadius(4)
 
                     VStack(alignment: .leading) {
-                        
+
                         if event.tag != nil {
                             Text(event.tag!.localizedName.uppercased())
                                 .font(.system(size: 11))
@@ -35,25 +35,26 @@ struct TimeProgramEventCell: View {
                                 .foregroundColor(.accentColor)
                                 .lineLimit(1)
                         }
-                        
+
                         Text(event.artist.formattedName)
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .lineLimit(1)
-                        
-                        Text("\(event.timeAsString) (\(event.stage.localizedName))")
-                            .lineLimit(1)
-                            .font(.subheadline)
-                            
+
+                        Text(
+                            "\(event.timeAsString) (\(event.stage.localizedName))"
+                        )
+                        .lineLimit(1)
+                        .font(.subheadline)
 
                     }
                     Spacer()
-                    
+
                     if artistRating() != 0 {
                         ArtistRatingSymbol(artist: self.event.artist)
                     }
                     EventSavedIcon(event: self.event)
-                    
+
                 }
 
             }

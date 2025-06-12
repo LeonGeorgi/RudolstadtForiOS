@@ -8,7 +8,7 @@ import SwiftUI
 
 struct NewsItemDetailView: View {
     let newsItem: NewsItem
-    
+
     @EnvironmentObject var settings: UserSettings
 
     var body: some View {
@@ -18,26 +18,26 @@ struct NewsItemDetailView: View {
                     .font(.title)
                     .bold()
                 Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .padding(.bottom, 5)
-                
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .padding(.bottom, 5)
+
                 Divider()
 
                 Text(newsItem.formattedLongDescription)
-                        .font(.title3)
-                        .bold()
-                        .padding(.bottom, 5)
+                    .font(.title3)
+                    .bold()
+                    .padding(.bottom, 5)
 
                 Text(newsItem.formattedContent)
             }.padding()
         }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-                if !settings.readNews.contains(newsItem.id) {
-                    settings.readNews.append(newsItem.id)
-                }
+            if !settings.readNews.contains(newsItem.id) {
+                settings.readNews.append(newsItem.id)
             }
+        }
     }
 }
 

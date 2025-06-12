@@ -2,13 +2,11 @@ import SwiftUI
 
 struct StagePreview: View {
     let stage: Stage
-    
+
     var body: some View {
         StageMapView(stage: stage)
     }
 }
-
-
 
 struct StagePreview_Previews: PreviewProvider {
     static var previews: some View {

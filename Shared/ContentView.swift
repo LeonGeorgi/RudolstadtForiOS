@@ -12,34 +12,38 @@ struct ContentView: View {
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var userSettings: UserSettings
     @Environment(\.scenePhase) var scenePhase
-    
+
     @State private var goHome = UUID()
     @State var selectedIndex: Int = 1
 
-    var selectionBinding: Binding<Int> { Binding(
-        get: {
-            self.selectedIndex
-        },
-        set: {
-            if $0 == self.selectedIndex {
-                goHome = UUID()
+    var selectionBinding: Binding<Int> {
+        Binding(
+            get: {
+                self.selectedIndex
+            },
+            set: {
+                if $0 == self.selectedIndex {
+                    goHome = UUID()
+                }
+                self.selectedIndex = $0
             }
-            self.selectedIndex = $0
-        }
-    )}
+        )
+    }
 
-        
     var unreadNewsCount: Int {
         if case .success(let entities) = dataStore.data {
-            return entities.news.filter { item in item.isInCurrentLanguage && !userSettings.readNews.contains(item.id) }.count
+            return entities.news.filter { item in
+                item.isInCurrentLanguage
+                    && !userSettings.readNews.contains(item.id)
+            }.count
         } else {
             return 0
         }
     }
-    
+
     var body: some View {
         TabView(selection: selectionBinding) {
-            
+
             MapOverview()
                 .navigationViewStyle(.stack)
                 .tabItem {
@@ -58,7 +62,7 @@ struct ContentView: View {
                     }
                 }
                 .tag(1)
-            
+
             ArtistListView()
                 .navigationViewStyle(.stack)
                 .tabItem {
@@ -88,8 +92,12 @@ struct ContentView: View {
         .id(goHome)
         .onAppear {
             UNUserNotificationCenter.current()
-                .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-                    print("Permission granted: \(granted), error: \(String(describing: error))")
+                .requestAuthorization(options: [.alert, .sound, .badge]) {
+                    granted,
+                    error in
+                    print(
+                        "Permission granted: \(granted), error: \(String(describing: error))"
+                    )
                 }
             dataStore.setupUpdateNewsTask()
             print("test")
@@ -101,11 +109,15 @@ struct ContentView: View {
                     print("Trying to load new festival data")
                     await dataStore.loadData()
                     dataStore.estimateEventDurations()
-                    dataStore.updateRecommentations(savedEventsIds: userSettings.savedEvents, ratings: userSettings.ratings)
-                    
+                    dataStore.updateRecommentations(
+                        savedEventsIds: userSettings.savedEvents,
+                        ratings: userSettings.ratings
+                    )
+
                 }
             } else if newPhase == .inactive {
-                UIApplication.shared.applicationIconBadgeNumber = unreadNewsCount
+                UIApplication.shared.applicationIconBadgeNumber =
+                    unreadNewsCount
                 print("App is inactive")
             }
         }

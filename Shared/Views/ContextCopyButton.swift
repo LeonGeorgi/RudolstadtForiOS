@@ -10,7 +10,7 @@ import SwiftUI
 struct ContextCopyButton: View {
     let textToCopy: String
     let label: LocalizedStringKey
-    
+
     var body: some View {
         HStack {
             Button(action: {

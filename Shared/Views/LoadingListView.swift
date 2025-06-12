@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct LoadingListView<ListValues, ListView: View> : View where ListValues : RandomAccessCollection {
+struct LoadingListView<ListValues, ListView: View>: View
+where ListValues: RandomAccessCollection {
     var noDataMessage: LocalizedStringKey
     var noDataSubtitle: String? = nil
     var dataMapper: (Entities) -> ListValues
     var listView: (ListValues) -> ListView
-    
 
     @EnvironmentObject var dataStore: DataStore
 
@@ -31,7 +31,7 @@ struct LoadingListView<ListValues, ListView: View> : View where ListValues : Ran
                         .foregroundColor(.gray)
                 }
             }
-                    .padding()
+            .padding()
             Spacer()
         }
     }
@@ -41,7 +41,7 @@ struct LoadingListView<ListValues, ListView: View> : View where ListValues : Ran
             Spacer()
             VStack {
                 Text(reason.rawValue)
-                        .padding(.bottom)
+                    .padding(.bottom)
                 Button {
                     Task {
                         await retry()
@@ -50,7 +50,7 @@ struct LoadingListView<ListValues, ListView: View> : View where ListValues : Ran
                     Text("list.reload")
                 }
             }
-                    .padding()
+            .padding()
             Spacer()
         }
     }

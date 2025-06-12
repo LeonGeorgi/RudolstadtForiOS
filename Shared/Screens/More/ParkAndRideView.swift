@@ -5,59 +5,88 @@
 //  Created by Leon Georgi on 11.06.22.
 //
 
-import SwiftUI
 import MapKit
-
+import SwiftUI
 
 struct ParkAndRideView: View {
-    
+
     let campsites = [
         PRLocation(
             name: String(localized: "park_and_ride.campsite.große_wiese.title"),
-            description: String(localized: "park_and_ride.campsite.große_wiese.description"),
-            latitude: 50.709175, longitude: 11.326351,
+            description: String(
+                localized: "park_and_ride.campsite.große_wiese.description"
+            ),
+            latitude: 50.709175,
+            longitude: 11.326351,
             iconName: "mappin.and.ellipse"
         ),
         PRLocation(
             name: String(localized: "park_and_ride.campsite.saalemax.title"),
-            description: String(localized: "park_and_ride.campsite.saalemax.description"),
-            latitude: 50.705561, longitude: 11.316845,
+            description: String(
+                localized: "park_and_ride.campsite.saalemax.description"
+            ),
+            latitude: 50.705561,
+            longitude: 11.316845,
             iconName: "mappin.and.ellipse"
         ),
         PRLocation(
             name: String(localized: "park_and_ride.campsite.caravan.title"),
-            description: String(localized: "park_and_ride.campsite.caravan.description"),
-            latitude: 50.717568, longitude: 11.345529,
+            description: String(
+                localized: "park_and_ride.campsite.caravan.description"
+            ),
+            latitude: 50.717568,
+            longitude: 11.345529,
             iconName: "mappin.and.ellipse"
-        )
+        ),
     ]
-    
+
     let parking = [
         PRLocation(
             name: String(localized: "park_and_ride.parking.oststraße.title"),
-            description: String(localized: "park_and_ride.parking.oststraße.description"),
-            latitude: 50.722715, longitude: 11.359555,
+            description: String(
+                localized: "park_and_ride.parking.oststraße.description"
+            ),
+            latitude: 50.722715,
+            longitude: 11.359555,
             iconName: "mappin.and.ellipse"
         ),
         PRLocation(
-            name: String(localized: "park_and_ride.parking.raiffeisenstraße.title"),
-            description: String(localized: "park_and_ride.parking.raiffeisenstraße.description"),
-            latitude: 50.723778, longitude: 11.364995,
+            name: String(
+                localized: "park_and_ride.parking.raiffeisenstraße.title"
+            ),
+            description: String(
+                localized: "park_and_ride.parking.raiffeisenstraße.description"
+            ),
+            latitude: 50.723778,
+            longitude: 11.364995,
             iconName: "mappin.and.ellipse"
         ),
         PRLocation(
-            name: String(localized: "park_and_ride.parking.erich-correns-ring.title"),
-            description: String(localized: "park_and_ride.parking.erich-correns-ring.description"),
-            latitude: 50.701339, longitude: 11.317835,
+            name: String(
+                localized: "park_and_ride.parking.erich-correns-ring.title"
+            ),
+            description: String(
+                localized:
+                    "park_and_ride.parking.erich-correns-ring.description"
+            ),
+            latitude: 50.701339,
+            longitude: 11.317835,
             iconName: "mappin.and.ellipse"
-        )
+        ),
     ]
     var body: some View {
         List {
-            Section(header: Text("park_and_ride.navi.title"), footer: Text("park_and_ride.click_hint")) {
+            Section(
+                header: Text("park_and_ride.navi.title"),
+                footer: Text("park_and_ride.click_hint")
+            ) {
                 ForEach(campsites) { location in
                     Button(action: {
-                        openInMaps(name: location.name, latitude: location.latitude, longitude: location.longitude)
+                        openInMaps(
+                            name: location.name,
+                            latitude: location.latitude,
+                            longitude: location.longitude
+                        )
                     }) {
                         HStack(alignment: .top) {
                             Image(systemName: location.iconName)
@@ -76,10 +105,17 @@ struct ParkAndRideView: View {
                     }.buttonStyle(PlainButtonStyle())
                 }
             }
-            Section(header: Text("park_and_ride.shuttle.title"), footer: Text("park_and_ride.click_hint")) {
+            Section(
+                header: Text("park_and_ride.shuttle.title"),
+                footer: Text("park_and_ride.click_hint")
+            ) {
                 ForEach(parking) { location in
                     Button(action: {
-                        openInMaps(name: location.name, latitude: location.latitude, longitude: location.longitude)
+                        openInMaps(
+                            name: location.name,
+                            latitude: location.latitude,
+                            longitude: location.longitude
+                        )
                     }) {
                         HStack(alignment: .top) {
                             Image(systemName: location.iconName)
@@ -99,27 +135,41 @@ struct ParkAndRideView: View {
             }
         }.listStyle(GroupedListStyle())
             .navigationTitle("park_and_ride.title")
-        
+
     }
     func openInMaps(name: String, latitude: Double, longitude: Double) {
-        
-            let center = CLLocationCoordinate2D(latitude: 50.719877, longitude: 11.338449)
-            let latDistance = abs(center.latitude - latitude)
-            let longDistance = abs(center.longitude - longitude)
 
-            let latDelta = max(0.01, latDistance * 2)
-            let longDelta = max(0.01, longDistance * 2)
+        let center = CLLocationCoordinate2D(
+            latitude: 50.719877,
+            longitude: 11.338449
+        )
+        let latDistance = abs(center.latitude - latitude)
+        let longDistance = abs(center.longitude - longitude)
 
-            let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
-            let regionSpan = MKCoordinateRegion(center: center, latitudinalMeters: latDelta, longitudinalMeters: longDelta)
-            let options = [
-                MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
-                MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
-            ]
-            let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
-            let mapItem = MKMapItem(placemark: placemark)
-            mapItem.name = name
-            mapItem.openInMaps(launchOptions: options)
+        let latDelta = max(0.01, latDistance * 2)
+        let longDelta = max(0.01, longDistance * 2)
+
+        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+        let regionSpan = MKCoordinateRegion(
+            center: center,
+            latitudinalMeters: latDelta,
+            longitudinalMeters: longDelta
+        )
+        let options = [
+            MKLaunchOptionsMapCenterKey: NSValue(
+                mkCoordinate: regionSpan.center
+            ),
+            MKLaunchOptionsMapSpanKey: NSValue(
+                mkCoordinateSpan: regionSpan.span
+            ),
+        ]
+        let placemark = MKPlacemark(
+            coordinate: coordinates,
+            addressDictionary: nil
+        )
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = name
+        mapItem.openInMaps(launchOptions: options)
     }
 }
 

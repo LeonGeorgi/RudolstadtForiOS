@@ -3,7 +3,7 @@ import SwiftUI
 struct ArtistRatingView: View {
     let artist: Artist
     @EnvironmentObject var settings: UserSettings
-    
+
     var body: some View {
         HStack {
             Spacer()
@@ -20,12 +20,12 @@ struct ArtistRatingView: View {
                     Divider()
                         .padding(.vertical, 5)
                 }
-                
+
             }
             Spacer()
         }
     }
-    
+
     private func getSymbolForRating(_ rating: Int) -> String {
         switch rating {
         case -1: return "🥱"
@@ -36,29 +36,30 @@ struct ArtistRatingView: View {
         default: return "Invalid"
         }
     }
-    
+
     private func saturationFor(_ rating: Int) -> Double {
         let currentRating = artistRating()
-        return (rating == currentRating || (rating > 0 && rating < currentRating)) ? 1.0 : 0.0
+        return
+            (rating == currentRating || (rating > 0 && rating < currentRating))
+            ? 1.0 : 0.0
     }
-    
+
     private func rateArtistIfNeeded(_ rating: Int) {
         if artistRating() != rating {
             rateArtist(rating: rating)
         }
     }
-    
+
     private func rateArtist(rating: Int) {
         var ratings = settings.ratings
         ratings["\(artist.id)"] = rating
         settings.ratings = ratings
     }
-    
+
     func artistRating() -> Int {
         settings.ratings["\(artist.id)"] ?? 0
     }
 }
-
 
 #Preview {
     ArtistRatingView(artist: .example)

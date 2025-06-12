@@ -3,8 +3,8 @@
 // Copyright (c) 2020 Leon Georgi. All rights reserved.
 //
 
-import Foundation
 import Combine
+import Foundation
 import SwiftUI
 
 @propertyWrapper
@@ -22,75 +22,77 @@ struct UserDefault<T> {
     }
 }
 
-
 final class UserSettings: ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
 
-    private var listener: (() -> ())? = nil
+    private var listener: (() -> Void)? = nil
 
     @UserDefault(key: "\(DataStore.year)/ratings", defaultValue: Dictionary())
-    var ratings: Dictionary<String, Int>
+    var ratings: [String: Int]
 
     @UserDefault(key: "\(DataStore.year)/savedEvents", defaultValue: [])
     var savedEvents: [Int]
-    
+
     @UserDefault(key: "\(DataStore.year)/readNews", defaultValue: [])
     var readNews: [Int]
 
     @UserDefault(key: "\(DataStore.year)/oldNews", defaultValue: [])
     var oldNews: [Int]
-    
-    @UserDefault(key: "\(DataStore.year)/artistNotes", defaultValue: Dictionary())
-    var artistNotes: Dictionary<String, String>
-    
+
+    @UserDefault(
+        key: "\(DataStore.year)/artistNotes",
+        defaultValue: Dictionary()
+    )
+    var artistNotes: [String: String]
+
     // 0 - Map
     // 1 - List
     @UserDefault(key: "view/locations/viewtype", defaultValue: 0)
     var mapType: Int
-    
+
     // 0 - Table
     // 1 - List
     @UserDefault(key: "view/schedule/viewtype", defaultValue: 0)
     var scheduleViewType: Int
-    
+
     // 0 - All
     // 1 - Favorites
     // 2 - Optimal
     // 3 - Saved
     @UserDefault(key: "view/schedule/filtertype", defaultValue: 0)
     var scheduleFilterType: Int
-    
-    
 
     private var notificationSubscription: AnyCancellable?
-    
+
     init() {
-        notificationSubscription = NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
-            .receive(on: DispatchQueue.main)
-            .sink { a in
-                self.objectWillChange.send()
-                if let listener = self.listener {
-                    listener()
-                }
+        notificationSubscription = NotificationCenter.default.publisher(
+            for: UserDefaults.didChangeNotification
+        )
+        .receive(on: DispatchQueue.main)
+        .sink { a in
+            self.objectWillChange.send()
+            if let listener = self.listener {
+                listener()
             }
+        }
     }
-    
+
     func toggleMapType() {
-        if (mapType == 0) {
+        if mapType == 0 {
             mapType = 1
         } else {
             mapType = 0
         }
     }
-    
+
     func toggleScheduleViewType() {
-        if (scheduleViewType == 0) {
+        if scheduleViewType == 0 {
             scheduleViewType = 1
         } else {
             scheduleViewType = 0
         }
     }
-    
+
     func setScheduleFilterType(type: ScheduleType) {
         switch type {
         case .all:
@@ -103,7 +105,7 @@ final class UserSettings: ObservableObject {
             scheduleFilterType = 3
         }
     }
-    
+
     func getScheduleFilterType(_ type: Int) -> ScheduleType {
         switch type {
         case 0:
@@ -119,7 +121,7 @@ final class UserSettings: ObservableObject {
         }
     }
 
-    func onChange(listener: @escaping () -> ()) {
+    func onChange(listener: @escaping () -> Void) {
         self.listener = listener
     }
 

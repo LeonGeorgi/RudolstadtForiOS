@@ -10,30 +10,36 @@ import SwiftUI
 
 struct ArtistEventCell: View {
     let event: Event
-    
+
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
-    
+
     @State var selectedCollisionArtist: Artist? = nil
-    
+
     var savedEventIds: [Int] {
         settings.savedEvents
     }
-    
+
     var eventsThatIntersect: LoadingEntity<[Event]> {
         dataStore.data.map { entities in
             let savedEvents = entities.events.filter {
                 savedEventIds.contains($0.id)
             }
             return savedEvents.filter {
-                $0.artist.id != event.artist.id && $0.intersects(
-                    with: event,
-                    event1Duration: dataStore.estimatedEventDurations?[$0.id] ?? 60,
-                    event2Duration: dataStore.estimatedEventDurations?[event.id] ?? 60)
+                $0.artist.id != event.artist.id
+                    && $0.intersects(
+                        with: event,
+                        event1Duration: dataStore.estimatedEventDurations?[
+                            $0.id
+                        ] ?? 60,
+                        event2Duration: dataStore.estimatedEventDurations?[
+                            event.id
+                        ] ?? 60
+                    )
             }
         }
     }
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
@@ -60,32 +66,46 @@ struct ArtistEventCell: View {
                             Image(systemName: "exclamationmark.circle")
                                 .font(.caption)
                                 .foregroundColor(.orange)
-                            Text(String(format: NSLocalizedString("event.intersecting.with", comment: ""), intersectingEvent.artist.formattedName))
-                                .font(.caption)
-                                .foregroundColor(.orange)
+                            Text(
+                                String(
+                                    format: NSLocalizedString(
+                                        "event.intersecting.with",
+                                        comment: ""
+                                    ),
+                                    intersectingEvent.artist.formattedName
+                                )
+                            )
+                            .font(.caption)
+                            .foregroundColor(.orange)
                         }
                     }
                 }
-                
+
             }
             Spacer()
             EventSavedIcon(event: event)
         }
         .background(
-            NavigationLink(isActive: Binding {
-                selectedCollisionArtist != nil
-            } set: { value in
-                if !value {
-                    selectedCollisionArtist = nil
+            NavigationLink(
+                isActive: Binding {
+                    selectedCollisionArtist != nil
+                } set: { value in
+                    if !value {
+                        selectedCollisionArtist = nil
+                    }
                 }
-            }) {
+            ) {
                 if let artist = selectedCollisionArtist {
-                    ArtistDetailView(artist: artist, highlightedEventId: event.id)
+                    ArtistDetailView(
+                        artist: artist,
+                        highlightedEventId: event.id
+                    )
                 }
             } label: {
                 EmptyView()
             }
-                .hidden())
+            .hidden()
+        )
         .contextMenu {
             if case .success(let intersectingEvents) = eventsThatIntersect {
                 ForEach(intersectingEvents) { (intersectingEvent: Event) in

@@ -1,11 +1,11 @@
+import StoreKit
 import SwiftUI
 import WebKit
-import StoreKit
 
 struct MoreView: View {
-    
+
     @EnvironmentObject var iapManager: IAPManager
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -15,14 +15,14 @@ struct MoreView: View {
                         label: "general.title"
                     )
                 }
-            
+
                 NavigationLink(destination: ParkAndRideView()) {
                     ProgramEntry(
                         iconName: "car",
                         label: "park_and_ride.title"
                     )
                 }
-            
+
                 NavigationLink(destination: BusView()) {
                     ProgramEntry(
                         iconName: "bus",
@@ -43,7 +43,7 @@ struct MoreView: View {
                         label: "donations.title"
                     )
                 }
-                
+
             }.navigationBarTitle("more.title")
                 .listStyle(.plain)
         }

@@ -9,33 +9,33 @@
 import SwiftUI
 
 struct RecommendationScheduleContentView: View {
-    
+
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var settings: UserSettings
-    
+
     let events: [Event]
     let viewAsTable: Bool
-    
+
     @State private var selectedDay = -1
-    
+
     var storedEvents: [Int] {
         settings.savedEvents
     }
-    
+
     var interestingArtists: [Int] {
         settings.ratings.filter { element in
             element.value > 0
         }.keys.map { a in Int(a)! }
     }
-    
+
     let eventDays: [Int]
-    
+
     var todaysEvents: [Event] {
         events.filter { event in
             event.festivalDay == selectedDay
         }
     }
-    
+
     var body: some View {
         VStack(spacing: 0) {
             VStack {
@@ -51,8 +51,8 @@ struct RecommendationScheduleContentView: View {
             }
             .background(.regularMaterial)
             .zIndex(10)
-            
-            if (viewAsTable) {
+
+            if viewAsTable {
                 ScrollableProgramView(events: todaysEvents)
             } else {
                 ScheduleView(events: todaysEvents)
@@ -64,7 +64,7 @@ struct RecommendationScheduleContentView: View {
             if eventDays.contains(nextDay) {
                 selectedDay = nextDay
             }
-            
+        
         } onSwipeRight: {
             let previousDay = selectedDay - 1
             if eventDays.contains(previousDay) {
@@ -73,7 +73,9 @@ struct RecommendationScheduleContentView: View {
         }*/
         .onAppear {
             if selectedDay == -1 {
-                self.selectedDay = Util.getCurrentFestivalDay(eventDays: eventDays) ?? eventDays.first ?? -1
+                self.selectedDay =
+                    Util.getCurrentFestivalDay(eventDays: eventDays)
+                    ?? eventDays.first ?? -1
             }
         }
     }

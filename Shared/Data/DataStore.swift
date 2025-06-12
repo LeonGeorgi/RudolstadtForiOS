@@ -1,6 +1,6 @@
+import BackgroundTasks
 import Foundation
 import SwiftUI
-import BackgroundTasks
 
 extension StringProtocol {
     func nilIfEmpty() -> Self? {
@@ -12,9 +12,9 @@ final class DataStore: ObservableObject {
 
     @Published var data: LoadingEntity<Entities> = .loading
     @Published var recommendedEvents: [Int]? = nil
-    @Published var estimatedEventDurations: Dictionary<Int, Int>? = nil
-    @Published var artistLinks: Dictionary<String, ArtistLinks>? = nil
-    
+    @Published var estimatedEventDurations: [Int: Int]? = nil
+    @Published var artistLinks: [String: ArtistLinks]? = nil
+
     static let year = 2025
 
     let files: DataFiles
@@ -26,19 +26,24 @@ final class DataStore: ObservableObject {
 
     init() {
         files = DataFiles(
-                news: "news.dat",
-                areas: "areas.dat",
-                artists: "artists.dat",
-                events: "events.dat",
-                stages: "stages.dat",
-                tags: "tags.dat"
+            news: "news.dat",
+            areas: "areas.dat",
+            artists: "artists.dat",
+            events: "events.dat",
+            stages: "stages.dat",
+            tags: "tags.dat"
         )
-        cacheUrl = try! FileManager.default.url(for: .cachesDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
+        cacheUrl = try! FileManager.default.url(
+            for: .cachesDirectory,
+            in: .allDomainsMask,
+            appropriateFor: nil,
+            create: false
+        )
         dataLoader = DataLoader(files: files, cacheUrl: cacheUrl)
         dataUpdater = DataUpdater(files: files, cacheUrl: cacheUrl)
         apiClient = APIClient()
     }
-    
+
     func loadArtistLinks() {
         print("Parsing artist links")
         let links = parseArtistLinks()
@@ -47,7 +52,7 @@ final class DataStore: ObservableObject {
             print("Published artist links")
         }
     }
-    
+
     func estimateEventDurations() {
         guard case .success(let entities) = data else {
             return
@@ -58,19 +63,22 @@ final class DataStore: ObservableObject {
         let eventsByStage = Dictionary(grouping: sortedEvents) { event in
             event.stage.id
         }
-        var eventDurations = Dictionary<Int, Int>()
-        
+        var eventDurations = [Int: Int]()
+
         for (_, events) in eventsByStage {
             var previousEvent: Event? = nil
             for event in events {
                 var length: Int = 60
                 if let previousEvent = previousEvent {
-                    let timeIntervalToPreviousEvent = previousEvent.date.timeIntervalSince(event.date) / 60
-                    let timeIntervalRoundedDown = floor((timeIntervalToPreviousEvent) / 30.0) * 30
+                    let timeIntervalToPreviousEvent =
+                        previousEvent.date.timeIntervalSince(event.date) / 60
+                    let timeIntervalRoundedDown =
+                        floor((timeIntervalToPreviousEvent) / 30.0) * 30
                     if timeIntervalRoundedDown < 60 {
                         length = Int(timeIntervalRoundedDown)
                     } else {
-                        let halfWayTimeInterval = floor((timeIntervalToPreviousEvent / 2) / 30.0) * 30
+                        let halfWayTimeInterval =
+                            floor((timeIntervalToPreviousEvent / 2) / 30.0) * 30
                         if halfWayTimeInterval > 60 {
                             length = Int(halfWayTimeInterval)
                         }
@@ -92,18 +100,24 @@ final class DataStore: ObservableObject {
             self.estimatedEventDurations = eventDurations
             print("Published event durations")
         }
-        
+
     }
-    
-    func updateRecommentations(savedEventsIds: [Int], ratings: Dictionary<String, Int>) {
+
+    func updateRecommentations(savedEventsIds: [Int], ratings: [String: Int]) {
         if case .success(let entities) = data {
-            let generator = ScheduleGenerator2(allEvents: entities.events, storedEventIds: savedEventsIds, allArtists: entities.artists, artistRatings: ratings, eventDurations: estimatedEventDurations)
+            let generator = ScheduleGenerator2(
+                allEvents: entities.events,
+                storedEventIds: savedEventsIds,
+                allArtists: entities.artists,
+                artistRatings: ratings,
+                eventDurations: estimatedEventDurations
+            )
             let recommendations = generator.generateRecommendations()
             DispatchQueue.main.async {
                 self.recommendedEvents = recommendations
             }
         }
-        
+
     }
 
     func loadData() async {
@@ -115,14 +129,15 @@ final class DataStore: ObservableObject {
             }
         }
         print("Checking if files are up to date")
-        let (filesUpToDate, resultFromCache) = loadAndSetDataFromFilesIfUpToDate()
+        let (filesUpToDate, resultFromCache) =
+            loadAndSetDataFromFilesIfUpToDate()
         if filesUpToDate {
             print("Files are up to date, skipping redownload")
         } else {
             print("Files are out of date, redownloading")
             await downloadAndSetData(resultFromCache: resultFromCache)
         }
-        
+
         if case .success(let entities) = data {
             UserSettings().oldNews = entities.news.map { newsItem in
                 newsItem.id
@@ -130,7 +145,9 @@ final class DataStore: ObservableObject {
         }
     }
 
-    private func downloadAndSetData(resultFromCache: FileLoadingResult<Entities>) async {
+    private func downloadAndSetData(
+        resultFromCache: FileLoadingResult<Entities>
+    ) async {
         DispatchQueue.main.async {
             if case .tooOld(let loadedData) = resultFromCache {
                 self.data = .success(loadedData)
@@ -142,15 +159,23 @@ final class DataStore: ObservableObject {
             setDataAfterFailedDownload(resultFromCache: resultFromCache)
             return
         }
-        let storedFile = dataLoader.storeAPIRudolstadtDataToFile(data: apiData, fileName: "rudolstadt_data.json")
+        let storedFile = dataLoader.storeAPIRudolstadtDataToFile(
+            data: apiData,
+            fileName: "rudolstadt_data.json"
+        )
         if !storedFile {
             print("Could not store API data to file")
         }
         let entities = convertAPIRudolstadtDataToEntities(apiData: apiData)
-        setDataAfterSuccessfulDownload(resultFromDownload: .loaded(entities), resultFromCache: resultFromCache)
+        setDataAfterSuccessfulDownload(
+            resultFromDownload: .loaded(entities),
+            resultFromCache: resultFromCache
+        )
     }
 
-    func loadAndSetDataFromFilesIfUpToDate() -> (Bool, FileLoadingResult<Entities>) {
+    func loadAndSetDataFromFilesIfUpToDate() -> (
+        Bool, FileLoadingResult<Entities>
+    ) {
         let resultFromCache = dataLoader.loadEntitiesFromFiles()
         guard case .loaded(let loadedData) = resultFromCache else {
             return (false, resultFromCache)
@@ -161,7 +186,9 @@ final class DataStore: ObservableObject {
         return (true, resultFromCache)
     }
 
-    private func setDataAfterFailedDownload(resultFromCache: FileLoadingResult<Entities>) {
+    private func setDataAfterFailedDownload(
+        resultFromCache: FileLoadingResult<Entities>
+    ) {
         DispatchQueue.main.async {
             if case .tooOld(let loadedData) = resultFromCache {
                 self.data = .success(loadedData)
@@ -171,7 +198,10 @@ final class DataStore: ObservableObject {
         }
     }
 
-    private func setDataAfterSuccessfulDownload(resultFromDownload: FileLoadingResult<Entities>, resultFromCache: FileLoadingResult<Entities>) {
+    private func setDataAfterSuccessfulDownload(
+        resultFromDownload: FileLoadingResult<Entities>,
+        resultFromCache: FileLoadingResult<Entities>
+    ) {
         DispatchQueue.main.async {
             switch resultFromDownload {
             case .loaded(let loadedData):
@@ -203,12 +233,14 @@ final class DataStore: ObservableObject {
             reloadNews()
         }
 
-
     }
 
     private func reloadNews() {
         do {
-            let (news, _) = try dataLoader.readEntitiesFromFile(fileName: files.news, converter: dataLoader.convertLineToNewsItem)
+            let (news, _) = try dataLoader.readEntitiesFromFile(
+                fileName: files.news,
+                converter: dataLoader.convertLineToNewsItem
+            )
             updateNewsEntities(news: news)
         } catch {
             print("Could not load news \(error)")
@@ -218,29 +250,45 @@ final class DataStore: ObservableObject {
     private func updateNewsEntities(news: [NewsItem]) {
         if case .success(let entities) = data {
             DispatchQueue.main.async {
-                self.data = .success(Entities(
+                self.data = .success(
+                    Entities(
                         artists: entities.artists,
                         areas: entities.areas,
                         stages: entities.stages,
                         events: entities.events,
                         news: news
-                ))
+                    )
+                )
                 print("Updated news data")
             }
         }
     }
 
     private func downloadNews() async -> DownloadResult {
-        guard let newsUrl = URL(string: dataUpdater.generateUrl(fileName: files.news)) else {
+        guard
+            let newsUrl = URL(
+                string: dataUpdater.generateUrl(fileName: files.news)
+            )
+        else {
             return .failure(.downloadError)
         }
-        let downloadResult = await dataUpdater.downloadFile(url: newsUrl, destination: dataUpdater.getCacheUri(for: files.news))
+        let downloadResult = await dataUpdater.downloadFile(
+            url: newsUrl,
+            destination: dataUpdater.getCacheUri(for: files.news)
+        )
         return downloadResult
     }
 
     private func shouldNewsBeUpdated() -> Swift.Bool {
-        let someTimeAgo = Calendar.current.date(byAdding: .minute, value: 10, to: Date.now)
-        return !dataLoader.isFileOlderThan(fileName: files.news, date: someTimeAgo)
+        let someTimeAgo = Calendar.current.date(
+            byAdding: .minute,
+            value: 10,
+            to: Date.now
+        )
+        return !dataLoader.isFileOlderThan(
+            fileName: files.news,
+            date: someTimeAgo
+        )
     }
 
     func setupUpdateNewsTask() {
@@ -272,7 +320,7 @@ final class DataStore: ObservableObject {
             }
         }
     }
-    
+
     private func sendNewsNotification() {
         let news = dataLoader.readNewsFromFile()
         let settings = UserSettings()
@@ -281,22 +329,37 @@ final class DataStore: ObservableObject {
         content.title = "Downloaded news"
         content.subtitle = "Sending notifications"
         content.sound = UNNotificationSound.default
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
+
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: 5,
+            repeats: false
+        )
+        let request = UNNotificationRequest(
+            identifier: UUID().uuidString,
+            content: content,
+            trigger: trigger
+        )
+
         UNUserNotificationCenter.current().add(request)
         for newsItem in news {
-            if !newsItem.isInCurrentLanguage || oldNewsIds.contains(newsItem.id) {
+            if !newsItem.isInCurrentLanguage || oldNewsIds.contains(newsItem.id)
+            {
                 continue
             }
             let content = UNMutableNotificationContent()
             content.title = newsItem.shortDescription
             content.subtitle = newsItem.formattedLongDescription
             content.sound = UNNotificationSound.default
-            
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-            let request = UNNotificationRequest(identifier: String(newsItem.id), content: content, trigger: trigger)
+
+            let trigger = UNTimeIntervalNotificationTrigger(
+                timeInterval: 5,
+                repeats: false
+            )
+            let request = UNNotificationRequest(
+                identifier: String(newsItem.id),
+                content: content,
+                trigger: trigger
+            )
             UNUserNotificationCenter.current().add(request)
         }
         settings.oldNews = news.map { newsItem in

@@ -11,20 +11,25 @@ import SwiftUI
 // import URLImage
 
 struct ArtistListView: View {
-    
+
     @EnvironmentObject var settings: UserSettings
-    
+
     @State var shownArtistTypes = ShownArtistTypes.all
-    
+
     @State var searchText = ""
     @State var favoriteArtistsOnly = false
-    
+
     let grid = true
-    
+
     func normalize(string: String) -> String {
-        string.folding(options: [.diacriticInsensitive, .caseInsensitive, .widthInsensitive], locale: Locale.current)
+        string.folding(
+            options: [
+                .diacriticInsensitive, .caseInsensitive, .widthInsensitive,
+            ],
+            locale: Locale.current
+        )
     }
-    
+
     func getFilteredArtists(data: Entities) -> [Artist] {
         data.artists.filter { artist in
             switch shownArtistTypes {
@@ -41,7 +46,7 @@ struct ArtistListView: View {
             }
         }
     }
-    
+
     func generateArtistsToShow(artists: [Artist]) -> [Artist] {
         if favoriteArtistsOnly {
             let artists = artists.map { artist in
@@ -60,34 +65,52 @@ struct ArtistListView: View {
             return artists
         }
     }
-    
+
     var body: some View {
         NavigationView {
-            
-            LoadingListView(noDataMessage: "artists.none-found", noDataSubtitle: nil, dataMapper: { data in
-                generateArtistsToShow(artists: getFilteredArtists(data: data)).withApplied(searchTerm: searchText) { artist in
-                    artist.name
+
+            LoadingListView(
+                noDataMessage: "artists.none-found",
+                noDataSubtitle: nil,
+                dataMapper: { data in
+                    generateArtistsToShow(
+                        artists: getFilteredArtists(data: data)
+                    ).withApplied(searchTerm: searchText) { artist in
+                        artist.name
+                    }
                 }
-            }) { artists in
+            ) { artists in
                 List {
-                    ForEach(artists.sorted(by: { a1, a2 in
-                        normalize(string: a1.name) < normalize(string: a2.name)
-                    })) { (artist: Artist) in
-                        NavigationLink(destination: ArtistDetailView(artist: artist, highlightedEventId: nil)) {
+                    ForEach(
+                        artists.sorted(by: { a1, a2 in
+                            normalize(string: a1.name)
+                                < normalize(string: a2.name)
+                        })
+                    ) { (artist: Artist) in
+                        NavigationLink(
+                            destination: ArtistDetailView(
+                                artist: artist,
+                                highlightedEventId: nil
+                            )
+                        ) {
                             ArtistCell(artist: artist)
-                        }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
+                        }.listRowInsets(
+                            .init(top: 0, leading: 0, bottom: 0, trailing: 16)
+                        )
                     }
                 }.listStyle(.plain)
             }
             .searchable(text: $searchText)
             .disableAutocorrection(true)
-            .navigationBarTitle(favoriteArtistsOnly ? "rated_artists.title" : "artists.title")
+            .navigationBarTitle(
+                favoriteArtistsOnly ? "rated_artists.title" : "artists.title"
+            )
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
                         favoriteArtistsOnly.toggle()
                     }) {
-                        if (favoriteArtistsOnly) {
+                        if favoriteArtistsOnly {
                             Text("artists.all.button")
                         } else {
                             Text("artists.favorites.button")
@@ -106,7 +129,7 @@ struct ArtistListView: View {
                             .tag(ShownArtistTypes.dance)
                         Text(ArtistType.other.localizedName)
                             .tag(ShownArtistTypes.other)
-                        
+
                     }
                 }
             }
@@ -115,7 +138,7 @@ struct ArtistListView: View {
 }
 
 enum ShownArtistTypes {
-    case all, stage, street, dance, other;
+    case all, stage, street, dance, other
 }
 
 struct ArtistListView_Previews: PreviewProvider {

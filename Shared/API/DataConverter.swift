@@ -1,11 +1,23 @@
-func convertAPIRudolstadtDataToEntities(apiData: APIRudolstadtData) -> Entities {
+func convertAPIRudolstadtDataToEntities(apiData: APIRudolstadtData) -> Entities
+{
     print("Converting API data to Entities...")
-    print("Artists: \(apiData.artists.count), Areas: \(apiData.areas.count), Stages: \(apiData.stages.count), Events: \(apiData.events.count), Tags: \(apiData.tags.count), News: \(apiData.news.count)")
+    print(
+        "Artists: \(apiData.artists.count), Areas: \(apiData.areas.count), Stages: \(apiData.stages.count), Events: \(apiData.events.count), Tags: \(apiData.tags.count), News: \(apiData.news.count)"
+    )
     let artists = apiData.artists.map(convertAPIArtistToArtist)
     let areas = apiData.areas.map(convertAPIAreaToArea)
-    let stages = apiData.stages.compactMap { convertAPIStageToStage(apiStage: $0, areas: areas) }
+    let stages = apiData.stages.compactMap {
+        convertAPIStageToStage(apiStage: $0, areas: areas)
+    }
     let tags = apiData.tags.map(convertAPITagToTag)
-    let events = apiData.events.compactMap { convertAPIEventToEvent(apiEvent: $0, stages: stages, artists: artists, tags: tags) }
+    let events = apiData.events.compactMap {
+        convertAPIEventToEvent(
+            apiEvent: $0,
+            stages: stages,
+            artists: artists,
+            tags: tags
+        )
+    }
     let newsItems = apiData.news.map(convertAPINewsItemToNewsItem)
 
     return Entities(
@@ -17,7 +29,9 @@ func convertAPIRudolstadtDataToEntities(apiData: APIRudolstadtData) -> Entities 
     )
 }
 
-func convertAPIArtistCategoryToArtistType(apiCategory: APIArtistCategory) -> ArtistType {
+func convertAPIArtistCategoryToArtistType(apiCategory: APIArtistCategory)
+    -> ArtistType
+{
     switch apiCategory {
     case .concert:
         return .stage
@@ -29,7 +43,9 @@ func convertAPIArtistCategoryToArtistType(apiCategory: APIArtistCategory) -> Art
 }
 
 func convertAPIArtistToArtist(apiArtist: APIArtist) -> Artist {
-    let artistType = convertAPIArtistCategoryToArtistType(apiCategory: apiArtist.category)
+    let artistType = convertAPIArtistCategoryToArtistType(
+        apiCategory: apiArtist.category
+    )
     return Artist(
         id: apiArtist.id,
         artistType: artistType,
@@ -41,8 +57,10 @@ func convertAPIArtistToArtist(apiArtist: APIArtist) -> Artist {
         youtubeID: apiArtist.video,
         descriptionGerman: apiArtist.descriptionDE,
         descriptionEnglish: apiArtist.descriptionEN,
-        thumbImageUrlString: "https://www.rudolstadt-festival.de/" + apiArtist.imgThumb,
-        fullImageUrlString: "https://www.rudolstadt-festival.de/" + apiArtist.imgFull
+        thumbImageUrlString: "https://www.rudolstadt-festival.de/"
+            + apiArtist.imgThumb,
+        fullImageUrlString: "https://www.rudolstadt-festival.de/"
+            + apiArtist.imgFull
     )
 }
 
@@ -50,7 +68,9 @@ func convertAPINewsItemToNewsItem(apiNewsItem: APINewsItem) -> NewsItem {
     let date = apiNewsItem.time.getDateAsGermanString()
     let time = apiNewsItem.time.getTimeAsGermanString()
     if date == nil || time == nil {
-        print("Error converting date or time for news item with ID: \(apiNewsItem.id)")
+        print(
+            "Error converting date or time for news item with ID: \(apiNewsItem.id)"
+        )
     }
     return NewsItem(
         id: apiNewsItem.id,
@@ -71,7 +91,12 @@ func convertAPIAreaToArea(apiArea: APIArea) -> Area {
     )
 }
 
-func convertAPIEventToEvent(apiEvent: APIEvent, stages: [Stage], artists: [Artist], tags: [Tag]) -> Event? {
+func convertAPIEventToEvent(
+    apiEvent: APIEvent,
+    stages: [Stage],
+    artists: [Artist],
+    tags: [Tag]
+) -> Event? {
     print(apiEvent)
     guard let dayInJuly = apiEvent.getDayInJuly() else {
         return nil
@@ -79,7 +104,8 @@ func convertAPIEventToEvent(apiEvent: APIEvent, stages: [Stage], artists: [Artis
     guard let stage = stages.first(where: { $0.id == apiEvent.stage.id }) else {
         return nil
     }
-    guard let artist = artists.first(where: { $0.id == apiEvent.artist.id }) else {
+    guard let artist = artists.first(where: { $0.id == apiEvent.artist.id })
+    else {
         return nil
     }
     let tags = apiEvent.tags.compactMap { tagId in
@@ -91,11 +117,13 @@ func convertAPIEventToEvent(apiEvent: APIEvent, stages: [Stage], artists: [Artis
         timeAsString: apiEvent.time,
         stage: stage,
         artist: artist,
-        tag: tags.first, // TODO: Handle multiple tags
+        tag: tags.first,  // TODO: Handle multiple tags
     )
 }
 
-func convertAPIStageCategoryToStageType(apiCategory: APIStageCategory) -> StageType {
+func convertAPIStageCategoryToStageType(apiCategory: APIStageCategory)
+    -> StageType
+{
     switch apiCategory {
     case .cityticket:
         return .festivalAndDayTicket
@@ -105,14 +133,14 @@ func convertAPIStageCategoryToStageType(apiCategory: APIStageCategory) -> StageT
         return .other
     }
 }
-        
-        
 
 func convertAPIStageToStage(apiStage: APIStage, areas: [Area]) -> Stage? {
     guard let area = areas.first(where: { $0.id == apiStage.area.id }) else {
         return nil
     }
-    let stageType = convertAPIStageCategoryToStageType(apiCategory: apiStage.category)
+    let stageType = convertAPIStageCategoryToStageType(
+        apiCategory: apiStage.category
+    )
     return Stage(
         id: apiStage.id,
         germanName: apiStage.title,
@@ -134,4 +162,3 @@ func convertAPITagToTag(apiTag: APITag) -> Tag {
         englishName: apiTag.titleEN,
     )
 }
-    

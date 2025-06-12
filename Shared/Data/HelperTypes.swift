@@ -24,7 +24,7 @@ enum LoadingEntity<T> {
     case loading
     case success(T)
     case failure(FailureReason)
-    
+
     init(from result: LoadingResult<T>) {
         switch result {
         case .failure(let reason):
@@ -33,13 +33,13 @@ enum LoadingEntity<T> {
             self = .success(value)
         }
     }
-    
+
     func map<R>(mapper: (T) -> R) -> LoadingEntity<R> {
         switch self {
         case .loading:
             return .loading
         case .success(let t):
-            return.success(mapper(t))
+            return .success(mapper(t))
         case .failure(let failureReason):
             return .failure(failureReason)
         }
@@ -51,7 +51,7 @@ enum LoadingResult<T> {
     case failure(FailureReason)
 }
 
-enum FailureReason : String {
+enum FailureReason: String {
     case noConnection
     case apiNotResponding
     case couldNotLoadFromFile

@@ -9,16 +9,19 @@
 import SwiftUI
 
 struct NewsListView: View {
-    
+
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
     @State var refreshButtonDisabled: Bool = false
 
     var body: some View {
         NavigationView {
-            LoadingListView(noDataMessage: "news.empty", dataMapper: { entities in
-                entities.news.filter { item in item.isInCurrentLanguage }
-            }) { news in
+            LoadingListView(
+                noDataMessage: "news.empty",
+                dataMapper: { entities in
+                    entities.news.filter { item in item.isInCurrentLanguage }
+                }
+            ) { news in
                 List(news) { (newsItem: NewsItem) in
                     NewsItemCell(newsItem: newsItem)
                         .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -26,7 +29,11 @@ struct NewsListView: View {
                                 if !settings.readNews.contains(newsItem.id) {
                                     settings.readNews.append(newsItem.id)
                                 } else {
-                                    settings.readNews.remove(at: settings.readNews.firstIndex(of: newsItem.id)!)
+                                    settings.readNews.remove(
+                                        at: settings.readNews.firstIndex(
+                                            of: newsItem.id
+                                        )!
+                                    )
                                 }
                             }) {
                                 if settings.readNews.contains(newsItem.id) {
@@ -51,7 +58,7 @@ struct NewsListView: View {
                         }
                     }.disabled(refreshButtonDisabled)
                 }
-                    
+
             }.navigationTitle("news.long")
         }
     }

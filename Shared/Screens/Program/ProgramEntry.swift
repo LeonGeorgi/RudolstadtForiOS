@@ -24,6 +24,9 @@ struct ProgramEntry: View {
 
 struct ProgramEntry_Previews: PreviewProvider {
     static var previews: some View {
-        ProgramEntry(iconName: "person.crop.rectangle.stack", label: "artists.title")
+        ProgramEntry(
+            iconName: "person.crop.rectangle.stack",
+            label: "artists.title"
+        )
     }
 }

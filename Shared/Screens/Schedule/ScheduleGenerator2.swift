@@ -2,7 +2,13 @@ import Foundation
 
 class ScheduleGenerator2 {
 
-    init(allEvents: [Event], storedEventIds: [Int], allArtists: [Artist], artistRatings: Dictionary<String, Int>, eventDurations: Dictionary<Int, Int>?) {
+    init(
+        allEvents: [Event],
+        storedEventIds: [Int],
+        allArtists: [Artist],
+        artistRatings: [String: Int],
+        eventDurations: [Int: Int]?
+    ) {
         self.allEvents = allEvents
         self.storedEventIds = Set(storedEventIds)
         self.allArtists = allArtists
@@ -18,10 +24,9 @@ class ScheduleGenerator2 {
     let storedEventIds: Set<Int>
     let allArtists: [Artist]
     let artistRatings: [Int: Int]
-    let eventDurations: Dictionary<Int, Int>?
+    let eventDurations: [Int: Int]?
 
-    var artistEventCache: Dictionary<Int, [Event]> = Dictionary()
-
+    var artistEventCache: [Int: [Event]] = Dictionary()
 
     func generate() -> [Event] {
         let storedEvents = allEvents.filter { event in
@@ -29,23 +34,24 @@ class ScheduleGenerator2 {
         }
         let now = Date.now
         let interestingEvents = allEvents.filter { event in
-            userIsInterestedInArtist(artist: event.artist) &&
-                    !intersects(events: storedEvents, current: event) &&
-                    isEventInFuture(event: event, now: now)
+            userIsInterestedInArtist(artist: event.artist)
+                && !intersects(events: storedEvents, current: event)
+                && isEventInFuture(event: event, now: now)
         }
 
         let interestingArtistIds = allArtists.filter { artist in
-                    userIsInterestedInArtist(artist: artist)
-                }
-                .map { artist in
-                    artist.id
-                }
+            userIsInterestedInArtist(artist: artist)
+        }
+        .map { artist in
+            artist.id
+        }
 
         // Generate start solution
         var solution: [Event] = storedEvents
         for event in interestingEvents.shuffled() {
             if !solution.contains(where: { (solutionEvent: Event) in
-                solutionEvent.artist.id == event.artist.id || intersects(e1: solutionEvent, e2: event)
+                solutionEvent.artist.id == event.artist.id
+                    || intersects(e1: solutionEvent, e2: event)
             }) {
                 solution.append(event)
             }
@@ -63,13 +69,17 @@ class ScheduleGenerator2 {
             return rating * rating
         }.reduce(0, +)
         print("Initial score: \(score); Best possible score: \(optimalScore)")
-        let solutionArtistIds = Set(solution.map {
-            $0.artist.id
-        })
-        var remainingArtistIds = Set(interestingArtistIds.filter { artistId in
-            !solutionArtistIds.contains(artistId)
-        })
-        
+        let solutionArtistIds = Set(
+            solution.map {
+                $0.artist.id
+            }
+        )
+        var remainingArtistIds = Set(
+            interestingArtistIds.filter { artistId in
+                !solutionArtistIds.contains(artistId)
+            }
+        )
+
         var bestSolutionSoFar: [Event] = []
         var bestSolutionScore: Int = 0
 
@@ -79,13 +89,15 @@ class ScheduleGenerator2 {
             }
 
             // Choose one event of an artist who does not occur in the schedule yet
-            guard let eventToAdd: Event = eventsOfRemainingArtists.randomElement() else {
+            guard
+                let eventToAdd: Event = eventsOfRemainingArtists.randomElement()
+            else {
                 print("Optimal solution found")
                 break
             }
 
             // Calculate which events intersect with the new event
-            let eventsToRemove: Array<Event> = solution.filter {
+            let eventsToRemove: [Event] = solution.filter {
                 intersects(e1: $0, e2: eventToAdd)
             }
 
@@ -106,7 +118,9 @@ class ScheduleGenerator2 {
                 replace = true
             } else {
                 // Select with decreasing probability
-                let probability = Float(iterations - t) / Float(iterations * 10) * Float(17 + scoreDiff) / 17.0
+                let probability =
+                    Float(iterations - t) / Float(iterations * 10)
+                    * Float(17 + scoreDiff) / 17.0
                 if Float.random(in: 0.0..<1.0) < probability {
                     //print("\(oldScore) -> \(newScore)")
                     replace = true
@@ -119,10 +133,12 @@ class ScheduleGenerator2 {
                     bestSolutionSoFar = solution
                     bestSolutionScore = oldScore
                 }
-                
+
                 // Do the actual replacement
                 for event in eventsToRemove {
-                    if let index = solution.firstIndex(where: { $0.id == event.id }) {
+                    if let index = solution.firstIndex(where: {
+                        $0.id == event.id
+                    }) {
                         solution.remove(at: index)
                         // solutionArtistIds.remove(event.artist.id)
                         remainingArtistIds.insert(event.artist.id)
@@ -149,7 +165,7 @@ class ScheduleGenerator2 {
     }
 
     private func isEventInFuture(event: Event, now: Date) -> Bool {
-        event.date >= now //|| true // uncomment for testing, don't foget to comment again after that
+        event.date >= now  //|| true // uncomment for testing, don't foget to comment again after that
     }
 
     private func userIsInterestedInArtist(artist: Artist) -> Bool {
@@ -158,11 +174,11 @@ class ScheduleGenerator2 {
 
     func generateRecommendations() -> [Int] {
         generate().filter { event in
-                    !storedEventIds.contains(event.id)
-                }
-                .map { event in
-                    event.id
-                }
+            !storedEventIds.contains(event.id)
+        }
+        .map { event in
+            event.id
+        }
 
     }
 
@@ -182,9 +198,13 @@ class ScheduleGenerator2 {
             return events
         }
     }
-    
+
     func intersects(e1: Event, e2: Event) -> Bool {
-        return e1.intersects(with: e2, event1Duration: eventDurations?[e1.id] ?? 60, event2Duration: eventDurations?[e2.id] ?? 60)
+        return e1.intersects(
+            with: e2,
+            event1Duration: eventDurations?[e1.id] ?? 60,
+            event2Duration: eventDurations?[e2.id] ?? 60
+        )
     }
 
     func intersects(events: [Event], current: Event) -> Bool {

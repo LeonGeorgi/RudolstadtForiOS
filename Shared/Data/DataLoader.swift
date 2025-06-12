@@ -94,8 +94,8 @@ class DataLoader {
             youtubeID: information[7].nilIfEmpty().map(String.init),
             descriptionGerman: String(information[9]),
             descriptionEnglish: String(information[10]),
-            thumbImageUrlString: "", // TODO: remove this unused code for the old API
-            fullImageUrlString: "" // TODO: remove this unused code for the old API
+            thumbImageUrlString: "",  // TODO: remove this unused code for the old API
+            fullImageUrlString: ""  // TODO: remove this unused code for the old API
         )
     }
 

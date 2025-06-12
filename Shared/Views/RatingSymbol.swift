@@ -22,7 +22,6 @@ struct RatingSymbol: View {
         }
     }
 
-
     var body: some View {
         Text(ratingSymbol)
     }
