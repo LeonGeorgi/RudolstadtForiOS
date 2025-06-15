@@ -94,7 +94,7 @@ You can find the artists you find interesting when you click on \"Favorites\" in
 "general.title" = "About the festival";
 "general.content" = "Roots, folk and world music between tradition and avant-garde, dancefloor-feeling and cosy garden concerts – all this offers „one of the finest music festivals on the planet“ (fRoots Great Britain)
 
-In 2024, the 32nd Rudolstadt-Festival throws the spotlight on its homeland, with new generations fiddling, rocking, rapping, singing and dancing the life in Germany. Once again, the EBU, the European Broadcasting Union, will be our guest with its folk festival – alongside with music from all over the world.";
+";
 "general.extra.title" = "Please note!";
 "general.extra.content" = "Tickets for the Rudolstadt Festival are only available in advance. The same applies to the combination tickets with overnight stay at one of the campsites, as well as the parking tickets. At the box office you only get day tickets for the festival area downtown.";
 "bus.title" = "Bus";
@@ -104,15 +104,8 @@ In 2024, the 32nd Rudolstadt-Festival throws the spotlight on its homeland, with
 "park_and_ride.shuttle.title" = "Shuttle details";
 "park_and_ride.click_hint" = "Click an entry to open it in Maps.";
 
-"park_and_ride.campsite.große_wiese.title" = "Campsite and caravan site 'Große Wiese'";
-"park_and_ride.campsite.große_wiese.description" = "corresponds to the navigation point Macheleidstraße (at the navigation destination continue to follow the road)";
-"park_and_ride.campsite.saalemax.title" = "Campsite 'Saalemaxx'";
-"park_and_ride.campsite.saalemax.description" = "corresponds to the navi address 'Hugo Trinkler-Straße 6'";
-"park_and_ride.campsite.caravan.title" = "Caravan site 'Bleichwiese' and van site";
-"park_and_ride.campsite.caravan.description" = "can be reached under the navigation address Röntgenstraße";
+"park_and_ride.navi.description" = "Please simply enter 'Rudolstadt' as your navigation destination. From the town entrance, follow the signs to the location of your choice.";
 
-"park_and_ride.parking.oststraße.title" = "P+R Oststraße 28a";
-"park_and_ride.parking.oststraße.description" = "coming from A4/B88";
 "park_and_ride.parking.raiffeisenstraße.title" = "P+R Raiffeisenstraße";
 "park_and_ride.parking.raiffeisenstraße.description" = "coming from A4/B88";
 "park_and_ride.parking.erich-correns-ring.title" = "P+R Erich-Correns-Ring (RU-Volkstedt-West)";
@@ -128,7 +121,7 @@ In 2024, the 32nd Rudolstadt-Festival throws the spotlight on its homeland, with
 The app does not collect any data from you. Everything you do in the app stays on your phone.";
 "about.developer.header" = "About the developer";
 "about.developer.content" = "Hi, I'm Leon.
-When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. By now, I'm 26 years old, have a bachelor's degree in computer science and have been working as a professional software developer for several years now next to my studies. As I have been unhappy for quite some time about certain things in the official app being a bit impractical, I got the idea that I could write an app for the festival myself in my spare time. No sooner said than done! Originally I just wanted to use the app myself, but because I'm very happy with the result now, I decided to publish it. Have fun with it!";
+When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. By now, I'm 27 years old, writing my master thesis in computer science, and have been working as a professional software developer for several years now next to my studies. As I have been unhappy for quite some time about certain things in the official app being a bit impractical, I got the idea that I could write an app for the festival myself in my spare time. No sooner said than done! Originally I just wanted to use the app myself, but because I'm very happy with the result now, I decided to publish it. Have fun with it!";
 
 "copy.link.title" = "Copy link";
 "copy.email.title" = "Copy email address";

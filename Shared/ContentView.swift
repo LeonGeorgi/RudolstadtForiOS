@@ -121,7 +121,7 @@ struct ContentView: View {
                 print("App is inactive")
             }
         }
-        .accentColor(.purple)
+        .accentColor(.rudolstadt)
     }
 }
 

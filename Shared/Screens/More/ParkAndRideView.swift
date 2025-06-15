@@ -10,46 +10,7 @@ import SwiftUI
 
 struct ParkAndRideView: View {
 
-    let campsites = [
-        PRLocation(
-            name: String(localized: "park_and_ride.campsite.große_wiese.title"),
-            description: String(
-                localized: "park_and_ride.campsite.große_wiese.description"
-            ),
-            latitude: 50.709175,
-            longitude: 11.326351,
-            iconName: "mappin.and.ellipse"
-        ),
-        PRLocation(
-            name: String(localized: "park_and_ride.campsite.saalemax.title"),
-            description: String(
-                localized: "park_and_ride.campsite.saalemax.description"
-            ),
-            latitude: 50.705561,
-            longitude: 11.316845,
-            iconName: "mappin.and.ellipse"
-        ),
-        PRLocation(
-            name: String(localized: "park_and_ride.campsite.caravan.title"),
-            description: String(
-                localized: "park_and_ride.campsite.caravan.description"
-            ),
-            latitude: 50.717568,
-            longitude: 11.345529,
-            iconName: "mappin.and.ellipse"
-        ),
-    ]
-
     let parking = [
-        PRLocation(
-            name: String(localized: "park_and_ride.parking.oststraße.title"),
-            description: String(
-                localized: "park_and_ride.parking.oststraße.description"
-            ),
-            latitude: 50.722715,
-            longitude: 11.359555,
-            iconName: "mappin.and.ellipse"
-        ),
         PRLocation(
             name: String(
                 localized: "park_and_ride.parking.raiffeisenstraße.title"
@@ -74,36 +35,14 @@ struct ParkAndRideView: View {
             iconName: "mappin.and.ellipse"
         ),
     ]
+
     var body: some View {
         List {
             Section(
-                header: Text("park_and_ride.navi.title"),
-                footer: Text("park_and_ride.click_hint")
+                header: Text("park_and_ride.navi.title")
             ) {
-                ForEach(campsites) { location in
-                    Button(action: {
-                        openInMaps(
-                            name: location.name,
-                            latitude: location.latitude,
-                            longitude: location.longitude
-                        )
-                    }) {
-                        HStack(alignment: .top) {
-                            Image(systemName: location.iconName)
-                                .foregroundColor(.accentColor)
-                                .frame(width: 35, alignment: .center)
-                                .font(.system(size: 20))
-                            VStack(alignment: .leading) {
-                                Text(location.name)
-                                    .font(.headline)
-                                    .foregroundColor(.accentColor)
-                                Text(location.description)
-                                    .font(.subheadline)
-                            }
-                        }
-
-                    }.buttonStyle(PlainButtonStyle())
-                }
+               Text("park_and_ride.navi.description")
+                
             }
             Section(
                 header: Text("park_and_ride.shuttle.title"),

@@ -57,42 +57,47 @@ final class DataStore: ObservableObject {
         guard case .success(let entities) = data else {
             return
         }
-        let sortedEvents = entities.events.sorted { e1, e2 in
+        let reversedEvents = entities.events.sorted { e1, e2 in
             e1.date > e2.date
         }
-        let eventsByStage = Dictionary(grouping: sortedEvents) { event in
+        let reversedEventsByStage = Dictionary(grouping: reversedEvents) {
+            event in
             event.stage.id
         }
         var eventDurations = [Int: Int]()
 
-        for (_, events) in eventsByStage {
-            var previousEvent: Event? = nil
-            for event in events {
+        for (_, reversedEventsForStage) in reversedEventsByStage {
+            var subsequentEvent: Event? = nil
+            for currentEvent in reversedEventsForStage {
                 var length: Int = 60
-                if let previousEvent = previousEvent {
-                    let timeIntervalToPreviousEvent =
-                        previousEvent.date.timeIntervalSince(event.date) / 60
-                    let timeIntervalRoundedDown =
-                        floor((timeIntervalToPreviousEvent) / 30.0) * 30
-                    if timeIntervalRoundedDown < 60 {
-                        length = Int(timeIntervalRoundedDown)
+                if let subsequentEvent = subsequentEvent {
+                    let minutesUntilNextEvent =
+                        subsequentEvent.date.timeIntervalSince(
+                            currentEvent.date
+                        ) / 60
+                    let minutesUntilNextEventRoundedDown =
+                        floor((minutesUntilNextEvent) / 30.0) * 30
+                    if minutesUntilNextEventRoundedDown < 30 {
+                        length = Int(minutesUntilNextEvent)
+                    } else if minutesUntilNextEventRoundedDown < 60 {
+                        length = Int(minutesUntilNextEventRoundedDown)
                     } else {
                         let halfWayTimeInterval =
-                            floor((timeIntervalToPreviousEvent / 2) / 30.0) * 30
-                        if halfWayTimeInterval > 60 {
+                            floor((minutesUntilNextEvent / 2) / 30.0) * 30
+                        if halfWayTimeInterval < 30 {
                             length = Int(halfWayTimeInterval)
+                        } else if halfWayTimeInterval <= 90 {
+                            length = Int(halfWayTimeInterval)
+                        } else if minutesUntilNextEvent > 300 {
+                            length = 60
+                        } else {
+                            length = 90
                         }
-                        if halfWayTimeInterval > 90 {
-                            if timeIntervalToPreviousEvent > 300 {
-                                length = 60
-                            } else {
-                                length = 90
-                            }
-                        }
+
                     }
                 }
-                eventDurations[event.id] = length
-                previousEvent = event
+                eventDurations[currentEvent.id] = length
+                subsequentEvent = currentEvent
             }
         }
         print("Calculated event durations")

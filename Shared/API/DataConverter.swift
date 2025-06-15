@@ -17,6 +17,8 @@ func convertAPIRudolstadtDataToEntities(apiData: APIRudolstadtData) -> Entities
             artists: artists,
             tags: tags
         )
+    }.sorted { ev1, ev2 in
+        ev1.date < ev2.date
     }
     let newsItems = apiData.news.map(convertAPINewsItemToNewsItem)
 

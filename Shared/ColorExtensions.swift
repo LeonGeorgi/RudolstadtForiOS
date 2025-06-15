@@ -1,6 +1,8 @@
 import SwiftUI
 
 extension Color {
+    static let rudolstadt = Color("App Color")
+    
     static let artistTypeStage = Color("Artist Type Stage")
     static let artistTypeStreet = Color("Artist Type Street")
     static let artistTypeDance = Color("Artist Type Dance")

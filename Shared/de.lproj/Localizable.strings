@@ -94,7 +94,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der 
 "general.title" = "Über das Festival";
 "general.content" = "Roots, Folk und Weltmusik zwischen Tradition und Avantgarde, Dancefloor-Feeling und lauschige Gartenkonzerte – all das bietet „one of the finest music festivals on the planet“ (fRoots Großbritannien)
 
-Das 32. Rudolstadt-Festival rückt dieses Mal das eigene Land in den Mittelpunkt, mit neuen Generationen, die vom Leben in Deutschland fiedeln, rocken, rappen, singen und tanzen. Erneut ist die EBU, die Europäische Rundfunkunion, mit ihrem Folkfestival zu Gast – neben Musik aus allen anderen Erdteilen.";
+With its 33rd edition, the festival once again invites us to journey afar: This year’s country focus is Mali, known for its ancient, magical traditions and new internationally successful sounds. In addition, there will be a cinema program, exhibitions, the RUTH award, children’s dances, street music – and bands from Bosnia, Germany, Iran, Colombia, Spain, Sweden, and more.";
 "general.extra.title" = "Achtung!";
 "general.extra.content" = "Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich. Gleiches gilt für die Kombikarten mit Übernachtung auf einem der Campingplätze, sowie der Parkkarten. An der Tageskasse erhält man ausschließlich Tageskarten für den Festivalbereich Innenstadt.";
 "bus.title" = "Bus";
@@ -104,15 +104,8 @@ Das 32. Rudolstadt-Festival rückt dieses Mal das eigene Land in den Mittelpunkt
 "park_and_ride.shuttle.title" = "Shuttle-Parkplätze";
 "park_and_ride.click_hint" = "Klick auf einen Eintrag, um ihn in Maps zu öffnen.";
 
-"park_and_ride.campsite.große_wiese.title" = "Zeltplatz und Caravanplatz 'Große Wiese'";
-"park_and_ride.campsite.große_wiese.description" = "entspricht dem Navigationspunkt Macheleidstraße (am Navigationsziel der Straße weiter folgen)";
-"park_and_ride.campsite.saalemax.title" = "Zeltplatz 'Saalemaxx'";
-"park_and_ride.campsite.saalemax.description" = "entspricht der Navi-Adresse 'Hugo Trinkler-Straße 6'";
-"park_and_ride.campsite.caravan.title" = "Caravanplatz 'Bleichwiese' und Bulliplatz";
-"park_and_ride.campsite.caravan.description" = "unter der Navi-Adresse Röntgenstraße erreichbar";
+"park_and_ride.navi.description" = "Bitte geben Sie lediglich 'Rudolstadt' als Navigationsziel ein. Ab dem Ortseingang folgen Sie der Beschilderung zum Platz Ihrer Wahl.";
 
-"park_and_ride.parking.oststraße.title" = "P+R Oststraße 28a";
-"park_and_ride.parking.oststraße.description" = "von A4/B88 kommend";
 "park_and_ride.parking.raiffeisenstraße.title" = "P+R Raiffeisenstraße";
 "park_and_ride.parking.raiffeisenstraße.description" = "von A4/B88 kommend";
 "park_and_ride.parking.erich-correns-ring.title" = "P+R Erich-Correns-Ring (RU-Volkstedt-West)";
@@ -128,7 +121,7 @@ Das 32. Rudolstadt-Festival rückt dieses Mal das eigene Land in den Mittelpunkt
 Die App sammelt keinerlei Daten von dir. Alles, was du in der App machst, bleibt auf deinem Handy.";
 "about.developer.header" = "Über den Entwickler";
 "about.developer.content" = "Moin, ich bin Leon.
-Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (damals noch das \"TFF Rudolstadt\"). Seitdem bin ich immer wieder auf das Festival gegangen und finde nach wie vor große Freude daran. Mittlerweile bin ich 26 Jahre alt, habe einen Bachelor-Abschluss in Informatik und arbeite seit einigen Jahren neben meinem Studium als professioneller Softwareentwickler. Da ich schon relativ lange unzufrieden damit bin, dass bestimmte Dinge in der offiziellen App etwas unpraktisch sind, hatte ich die Idee, ich könne in meiner Freizeit selbst eine App für das Festival schreiben. Gesagt, getan! Eigentlich wollte ich die App einfach nur selbst benutzen, aber weil ich mit dem Ergebnis jetzt sehr zufrieden bin, habe ich mich dazu entschieden, sie zu veröffentlichen. Viel Spaß damit!";
+Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (damals noch das \"TFF Rudolstadt\"). Seitdem bin ich immer wieder auf das Festival gegangen und finde nach wie vor große Freude daran. Mittlerweile bin ich 27 Jahre alt, schreibe momentan meine Masterarbeit in Informatik und arbeite seit einigen Jahren neben meinem Studium als professioneller Softwareentwickler. Da ich schon relativ lange unzufrieden damit bin, dass bestimmte Dinge in der offiziellen App etwas unpraktisch sind, hatte ich die Idee, ich könne in meiner Freizeit selbst eine App für das Festival schreiben. Gesagt, getan! Eigentlich wollte ich die App einfach nur selbst benutzen, aber weil ich mit dem Ergebnis jetzt sehr zufrieden bin, habe ich mich dazu entschieden, sie zu veröffentlichen. Viel Spaß damit!";
 
 "copy.link.title" = "Link kopieren";
 "copy.email.title" = "E-Mail-Adresse kopieren";

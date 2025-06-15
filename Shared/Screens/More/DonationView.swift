@@ -61,8 +61,19 @@ struct DonationButton: View {
         }
         .buttonStyle(PlainButtonStyle())
         .padding()
-        .background(Color.accentColor)
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 255 / 255, green: 123 / 255, blue: 86 / 255),
+                    Color(red: 189 / 255, green: 53 / 255, blue: 1 / 255),
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
         .foregroundColor(.white)
+        // bold text
+        .font(.system(size: 16, weight: .semibold))
         .cornerRadius(10)
     }
 
