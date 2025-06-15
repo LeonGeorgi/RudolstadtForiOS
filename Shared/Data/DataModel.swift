@@ -9,6 +9,7 @@ struct Artist: Identifiable {
     let url: String?
     let facebookID: String?
     let youtubeID: String?
+    let instagram: String?
     let descriptionGerman: String?
     let descriptionEnglish: String?
     let thumbImageUrlString: String
@@ -35,6 +36,35 @@ struct Artist: Identifiable {
         return URL(string: fullImageUrlString)
     }
 
+    var videoUrl: URL? {
+        guard let youtubeID = youtubeID else {
+            return nil
+        }
+        return URL(
+            string: youtubeID.contains("http")
+                ? youtubeID
+                : "https://www.youtube.com/watch?v=\(youtubeID)"
+        )
+    }
+
+    var facebookUrl: URL? {
+        guard let facebookID = facebookID else {
+            return nil
+        }
+        return URL(
+            string: facebookID.contains("http")
+                ? facebookID
+                : "https://www.facebook.com/\(facebookID)"
+        )
+    }
+
+    var instagramUrl: URL? {
+        guard let instagram = instagram else {
+            return nil
+        }
+        return URL(string: instagram)
+    }
+
     func matches(searchTerm: String) -> Bool {
         if searchTerm.isEmpty {
             return true
@@ -55,6 +85,7 @@ struct Artist: Identifiable {
         url: "http://www.michaeljackson.de/",
         facebookID: "michaeljackson",
         youtubeID: "QNJL6nfu__Q",
+        instagram: "michaeljackson",
         descriptionGerman:
             "Michael Joseph Jackson (* 29. August 1958 in Gary, Indiana; † 25. Juni 2009 in Los Angeles, Kalifornien) war ein US-amerikanischer Sänger, Tänzer, Songwriter, Autor, Musik- und Filmproduzent sowie Musikmanager. <br> <br> Laut dem Guinness-Buch der Rekorde ist er der erfolgreichste Entertainer aller Zeiten und zugleich der Künstler, der weltweit die meisten Wohltätigkeitsorganisationen finanziell und repräsentativ unterstützte. Für sein Engagement wurde er mehrfach ausgezeichnet und zweimal für den Friedensnobelpreis nominiert. Aufgrund seiner Erfolge in der Musik wird er als „King of Pop“ bezeichnet.",
         descriptionEnglish: "foo fooo foooo",

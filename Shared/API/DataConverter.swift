@@ -57,6 +57,7 @@ func convertAPIArtistToArtist(apiArtist: APIArtist) -> Artist {
         url: apiArtist.website,
         facebookID: apiArtist.facebook,
         youtubeID: apiArtist.video,
+        instagram: apiArtist.instagram,
         descriptionGerman: apiArtist.descriptionDE,
         descriptionEnglish: apiArtist.descriptionEN,
         thumbImageUrlString: "https://www.rudolstadt-festival.de/"

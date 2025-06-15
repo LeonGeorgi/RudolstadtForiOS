@@ -58,8 +58,11 @@ struct ArtistDetailView: View {
                                 isDisplayingImageViewer.toggle()
                             }
                     }
-                    if artist.url != nil || artist.youtubeID != nil
-                        || artist.facebookID != nil || hasArtistLinks
+                    if artist.url != nil
+                        || artist.videoUrl != nil
+                        || artist.facebookUrl != nil
+                        || artist.instagramUrl != nil
+                        || hasArtistLinks
                     {
                         VStack {
                             Spacer()
@@ -225,15 +228,12 @@ struct ArtistDetailView: View {
     private func renderLinks() -> some View {
         HStack {
 
-            if let youtubeID = artist.youtubeID,
-                let url = URL(
-                    string: "https://www.youtube.com/watch?v=\(youtubeID)"
-                )
-            {
-                LinkButton(label: "YouTube", scale: 0.6) {
+            if let videoUrl = artist.videoUrl {
+                LinkButton(label: "Video", scale: 0.6) {
                     Image("youtube")
+
                 } action: {
-                    UIApplication.shared.open(url)
+                    UIApplication.shared.open(videoUrl)
                 }
             }
             if let url = artist.url, let url = URL(string: url) {
@@ -243,20 +243,18 @@ struct ArtistDetailView: View {
                     UIApplication.shared.open(url)
                 }
             }
-            if let facebookID = artist.facebookID,
-                let url = URL(string: "fb://profile/\(facebookID)")
-            {
+            if let facebookUrl = artist.facebookUrl {
                 LinkButton(label: "Facebook", scale: 0.8) {
                     Image("facebook")
                 } action: {
-                    if UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url)
-                    } else if let url = URL(
-                        string: "https://www.facebook.com/\(facebookID)"
-                    ) {
-                        UIApplication.shared.open(url)
-                    }
-
+                    UIApplication.shared.open(facebookUrl)
+                }
+            }
+            if let instagramUrl = artist.instagramUrl {
+                LinkButton(label: "Instagram", scale: 0.8) {
+                    Image("instagram")
+                } action: {
+                    UIApplication.shared.open(instagramUrl)
                 }
             }
             if let artistLinks = dataStore.artistLinks,

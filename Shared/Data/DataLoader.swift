@@ -92,6 +92,7 @@ class DataLoader {
             url: information[5].nilIfEmpty().map(String.init),
             facebookID: information[6].nilIfEmpty().map(String.init),
             youtubeID: information[7].nilIfEmpty().map(String.init),
+            instagram: nil,  // TODO: remove this unused code for the old API
             descriptionGerman: String(information[9]),
             descriptionEnglish: String(information[10]),
             thumbImageUrlString: "",  // TODO: remove this unused code for the old API
