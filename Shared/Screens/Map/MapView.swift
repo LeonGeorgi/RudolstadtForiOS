@@ -57,6 +57,12 @@ struct MapView: View, Equatable {
                         }
                     }
                 }
+                .mapStyle(
+                    .standard(
+                        elevation: .realistic,
+                        pointsOfInterest: .including([.atm]),
+                    )
+                )
                 .accentColor(.blue)
                 .onAppear {
                     manager.startLocationTracking()
