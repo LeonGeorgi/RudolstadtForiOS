@@ -16,7 +16,7 @@ struct StageDetailView: View {
     @State var nearbyStages: [StageDistance] = []
     @State var selectedDay: Int = -1
 
-    func events(_ entities: Entities) -> [Int: [Event]] {
+    func events(_ entities: FestivalData) -> [Int: [Event]] {
         Dictionary(
             grouping: entities.events.filter { event in
                 event.stage.id == stage.id
@@ -26,7 +26,7 @@ struct StageDetailView: View {
         }
     }
 
-    func eventDays(_ entities: Entities) -> [Int] {
+    func eventDays(_ entities: FestivalData) -> [Int] {
         events(entities).keys.sorted().filter { day in
             if DataStore.year == 2023 && day < 6 {
                 return false
@@ -139,7 +139,7 @@ struct StageDetailView: View {
             }
     }
 
-    func calculateNearbyStages(_ entities: Entities) {
+    func calculateNearbyStages(_ entities: FestivalData) {
         self.nearbyStages = entities.stages.filter { stage in
             stage.area.id == self.stage.area.id && stage.id != self.stage.id
         }.map { stage in

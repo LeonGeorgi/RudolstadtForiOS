@@ -16,19 +16,12 @@ struct TableProgramCell: View {
     }
 
     var body: some View {
-        if #available(iOS 16, *) {
-            renderContent()
-                .contextMenu {
-                    SaveEventButton(event: event)
-                } preview: {
-                    SaveEventPreview(event: event)
-                }
-        } else {
-            renderContent()
-                .contextMenu {
-                    SaveEventButton(event: event)
-                }
-        }
+        renderContent()
+            .contextMenu {
+                SaveEventButton(event: event)
+            } preview: {
+                SaveEventPreview(event: event)
+            }
     }
 
     func renderContent() -> some View {
@@ -39,7 +32,7 @@ struct TableProgramCell: View {
             )
         ) {
             VStack(spacing: 0) {
-                if let tag = event.tag {
+                if let tag = event.tag, !tag.isStageOrBuskers {
                     Text(tag.localizedName)
                         //.frame(maxWidth: width)
                         .font(.system(size: 8, weight: .bold))
@@ -76,7 +69,7 @@ struct TableProgramCell: View {
                     .minimumScaleFactor(0.75)
                     .padding(.vertical, 2)
                 Spacer(minLength: 0)
-                if event.tag != nil {
+                if let tag = event.tag, !tag.isStageOrBuskers {
                     Spacer(minLength: 0)
                 }
 
@@ -99,6 +92,7 @@ struct TableProgramCell: View {
                     .opacity(0.15)
             )*/
         }
+        .buttonStyle(.plain)
     }
 
     func getColorForEvent(_ event: Event) -> Color {

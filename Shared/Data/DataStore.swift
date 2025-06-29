@@ -10,37 +10,29 @@ extension StringProtocol {
 
 final class DataStore: ObservableObject {
 
-    @Published var data: LoadingEntity<Entities> = .loading
+    @Published var data: LoadingEntity<FestivalData> = .loading
+    @Published var news: LoadingEntity<[NewsItem]> = .loading
     @Published var recommendedEvents: [Int]? = nil
     @Published var estimatedEventDurations: [Int: Int]? = nil
     @Published var artistLinks: [String: ArtistLinks]? = nil
+    
+    var extraData: ExtraDataCollection? = nil
 
     static let year = 2025
 
-    let files: DataFiles
     let dataLoader: DataLoader
-    let dataUpdater: DataUpdater
     let apiClient: APIClient
 
     let cacheUrl: URL
 
     init() {
-        files = DataFiles(
-            news: "news.dat",
-            areas: "areas.dat",
-            artists: "artists.dat",
-            events: "events.dat",
-            stages: "stages.dat",
-            tags: "tags.dat"
-        )
         cacheUrl = try! FileManager.default.url(
             for: .cachesDirectory,
             in: .allDomainsMask,
             appropriateFor: nil,
             create: false
         )
-        dataLoader = DataLoader(files: files, cacheUrl: cacheUrl)
-        dataUpdater = DataUpdater(files: files, cacheUrl: cacheUrl)
+        dataLoader = DataLoader(cacheUrl: cacheUrl)
         apiClient = APIClient()
     }
 
@@ -133,6 +125,7 @@ final class DataStore: ObservableObject {
                 self.data = .loading
             }
         }
+        loadExtraData()
         print("Checking if files are up to date")
         let (filesUpToDate, resultFromCache) =
             loadAndSetDataFromFilesIfUpToDate()
@@ -142,23 +135,40 @@ final class DataStore: ObservableObject {
             print("Files are out of date, redownloading")
             await downloadAndSetData(resultFromCache: resultFromCache)
         }
+    }
+    
+    func loadExtraData() {
+        let extraData = loadExtraDataFromResource(fileName: "extra_data")
+        self.extraData = extraData
+    }
 
-        if case .success(let entities) = data {
-            UserSettings().oldNews = entities.news.map { newsItem in
-                newsItem.id
+    func loadNews() async {
+        if case .success(let news) = self.news {
+            // nothing to do, news is already loaded
+        } else {
+            DispatchQueue.main.async {
+                self.news = .loading
             }
+        }
+        let loadedNews = dataLoader.loadNewsFromFile()
+        if case .loaded(let news) = loadedNews {
+            DispatchQueue.main.async {
+                self.news = .success(news)
+            }
+        } else {
+            await updateAndLoadNews()
         }
     }
 
     private func downloadAndSetData(
-        resultFromCache: FileLoadingResult<Entities>
+        resultFromCache: FileLoadingResult<FestivalData>
     ) async {
         DispatchQueue.main.async {
             if case .tooOld(let loadedData) = resultFromCache {
                 self.data = .success(loadedData)
             }
         }
-        let apiData = try? await apiClient.fetchAll()
+        let apiData = try? await apiClient.fetchFestivalData()
         guard let apiData else {
             print("Download failed")
             setDataAfterFailedDownload(resultFromCache: resultFromCache)
@@ -171,7 +181,7 @@ final class DataStore: ObservableObject {
         if !storedFile {
             print("Could not store API data to file")
         }
-        let entities = convertAPIRudolstadtDataToEntities(apiData: apiData)
+        let entities = convertAPIRudolstadtDataToEntities(apiData: apiData, extraData: extraData ?? ExtraDataCollection.empty())
         setDataAfterSuccessfulDownload(
             resultFromDownload: .loaded(entities),
             resultFromCache: resultFromCache
@@ -179,9 +189,11 @@ final class DataStore: ObservableObject {
     }
 
     func loadAndSetDataFromFilesIfUpToDate() -> (
-        Bool, FileLoadingResult<Entities>
+        Bool, FileLoadingResult<FestivalData>
     ) {
-        let resultFromCache = dataLoader.loadEntitiesFromFiles()
+        let resultFromCache = dataLoader.loadEntitiesFromFile(
+            extraData: extraData ?? ExtraDataCollection.empty()
+        )
         guard case .loaded(let loadedData) = resultFromCache else {
             return (false, resultFromCache)
         }
@@ -192,7 +204,7 @@ final class DataStore: ObservableObject {
     }
 
     private func setDataAfterFailedDownload(
-        resultFromCache: FileLoadingResult<Entities>
+        resultFromCache: FileLoadingResult<FestivalData>
     ) {
         DispatchQueue.main.async {
             if case .tooOld(let loadedData) = resultFromCache {
@@ -204,8 +216,8 @@ final class DataStore: ObservableObject {
     }
 
     private func setDataAfterSuccessfulDownload(
-        resultFromDownload: FileLoadingResult<Entities>,
-        resultFromCache: FileLoadingResult<Entities>
+        resultFromDownload: FileLoadingResult<FestivalData>,
+        resultFromCache: FileLoadingResult<FestivalData>
     ) {
         DispatchQueue.main.async {
             switch resultFromDownload {
@@ -232,56 +244,28 @@ final class DataStore: ObservableObject {
     }
 
     private func updateAndLoadNews() async {
-        let downloadResult = await downloadNews()
-        print("Update news resulted in", downloadResult)
-        if case .success = downloadResult {
-            reloadNews()
+        let apiNews = try? await apiClient.fetchNews()
+        guard let apiNews = apiNews else {
+            print("Could not load news from API")
+            return
         }
-
-    }
-
-    private func reloadNews() {
-        do {
-            let (news, _) = try dataLoader.readEntitiesFromFile(
-                fileName: files.news,
-                converter: dataLoader.convertLineToNewsItem
-            )
-            updateNewsEntities(news: news)
-        } catch {
-            print("Could not load news \(error)")
-        }
-    }
-
-    private func updateNewsEntities(news: [NewsItem]) {
-        if case .success(let entities) = data {
-            DispatchQueue.main.async {
-                self.data = .success(
-                    Entities(
-                        artists: entities.artists,
-                        areas: entities.areas,
-                        stages: entities.stages,
-                        events: entities.events,
-                        news: news
-                    )
-                )
-                print("Updated news data")
-            }
-        }
-    }
-
-    private func downloadNews() async -> DownloadResult {
-        guard
-            let newsUrl = URL(
-                string: dataUpdater.generateUrl(fileName: files.news)
-            )
-        else {
-            return .failure(.downloadError)
-        }
-        let downloadResult = await dataUpdater.downloadFile(
-            url: newsUrl,
-            destination: dataUpdater.getCacheUri(for: files.news)
+        let storedFile = dataLoader.storeAPINewsToFile(
+            news: apiNews,
+            fileName: "news.json"
         )
-        return downloadResult
+        if !storedFile {
+            print("Could not store news to file")
+        }
+
+        UserSettings().oldNews = apiNews.map { apiNewsItem in
+            apiNewsItem.id
+        }
+
+        DispatchQueue.main.async {
+            self.news = .success(apiNews.map(convertAPINewsItemToNewsItem))
+            print("Updated news data")
+        }
+
     }
 
     private func shouldNewsBeUpdated() -> Swift.Bool {
@@ -291,43 +275,13 @@ final class DataStore: ObservableObject {
             to: Date.now
         )
         return !dataLoader.isFileOlderThan(
-            fileName: files.news,
+            fileName: "news.json",
             date: someTimeAgo
         )
     }
 
-    func setupUpdateNewsTask() {
-        registerUpdateNewsTask()
-        scheduleUpdateNewsTask()
-    }
-
-    private func registerUpdateNewsTask() {
-        /* TODO: Reenable background task
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "de.leongeorgi.RudolstadtForiOS.news.refresh", using: nil) { task in if let appRefreshTask = task as? BGAppRefreshTask {
-                self.executeUpdateNewsTask(task: appRefreshTask)
-            }
-        }
-        */
-    }
-
-    private func executeUpdateNewsTask(task: BGAppRefreshTask) {
-        if shouldNewsBeUpdated() {
-            scheduleUpdateNewsTask()
-            Task {
-                let result = await downloadNews()
-                switch result {
-                case .success:
-                    sendNewsNotification()
-                    task.setTaskCompleted(success: true)
-                case .failure:
-                    task.setTaskCompleted(success: false)
-                }
-            }
-        }
-    }
-
     private func sendNewsNotification() {
-        let news = dataLoader.readNewsFromFile()
+        let fileNews = dataLoader.loadNewsFromFile()
         let settings = UserSettings()
         let oldNewsIds = settings.oldNews
         let content = UNMutableNotificationContent()
@@ -346,6 +300,7 @@ final class DataStore: ObservableObject {
         )
 
         UNUserNotificationCenter.current().add(request)
+        /*
         for newsItem in news {
             if !newsItem.isInCurrentLanguage || oldNewsIds.contains(newsItem.id)
             {
@@ -355,7 +310,7 @@ final class DataStore: ObservableObject {
             content.title = newsItem.shortDescription
             content.subtitle = newsItem.formattedLongDescription
             content.sound = UNNotificationSound.default
-
+        
             let trigger = UNTimeIntervalNotificationTrigger(
                 timeInterval: 5,
                 repeats: false
@@ -369,20 +324,7 @@ final class DataStore: ObservableObject {
         }
         settings.oldNews = news.map { newsItem in
             newsItem.id
-        }
-    }
-
-    private func scheduleUpdateNewsTask() {
-        /* TODO: Reenable background task
-         let request = BGAppRefreshTaskRequest(identifier: "de.leongeorgi.RudolstadtForiOS.news.refresh")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 30 * 60)
-        do {
-            try BGTaskScheduler.shared.submit(request)
-            print("Scheduled news refresh")
-        } catch {
-            print("Could not schedule news refresh: \(error)")
-        }
-         */
+        }*/
     }
 }
 

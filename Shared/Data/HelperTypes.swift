@@ -12,12 +12,11 @@ struct EntityHelper<T, S> where S: StringProtocol {
     let converter: ([S]) -> [T]
 }
 
-struct Entities {
+struct FestivalData {
     let artists: [Artist]
     let areas: [Area]
     let stages: [Stage]
     let events: [Event]
-    let news: [NewsItem]
 }
 
 enum LoadingEntity<T> {

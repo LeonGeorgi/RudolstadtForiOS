@@ -4,7 +4,7 @@ struct LoadingListView<ListValues, ListView: View>: View
 where ListValues: RandomAccessCollection {
     var noDataMessage: LocalizedStringKey
     var noDataSubtitle: String? = nil
-    var dataMapper: (Entities) -> ListValues
+    var dataMapper: (FestivalData) -> ListValues
     var listView: (ListValues) -> ListView
 
     @EnvironmentObject var dataStore: DataStore

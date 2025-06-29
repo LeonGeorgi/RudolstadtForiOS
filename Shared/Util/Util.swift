@@ -63,6 +63,7 @@ func formatString(_ string: String) -> String {
     .replacingOccurrences(of: "&#44;", with: ",")
     .replacingOccurrences(of: "&#45;", with: "-")
     .replacingOccurrences(of: "&nbsp;", with: " ")
+    .replacingOccurrences(of: "&amp;", with: "&")
     .trimmingCharacters(in: .whitespacesAndNewlines)
 
     return stringWithNewLines

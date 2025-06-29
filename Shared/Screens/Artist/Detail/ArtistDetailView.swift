@@ -104,6 +104,56 @@ struct ArtistDetailView: View {
                 }.listRowInsets(EdgeInsets())
             }
 
+            if settings.aiSummaryEnabled && artist.ai?.hasContent == true {
+                Section(
+                    header: Text("artist.ai.header")
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.red, .purple, .blue, .cyan],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        ),
+                    footer: Text("artist.ai.footer")
+                ) {
+                    VStack(alignment: .leading, spacing: 5) {
+                        if let ai = artist.ai {
+                            if let localizedGenres = ai.localizedGenres,
+                                !localizedGenres.isEmpty
+                            {
+                                HStack {
+                                    ForEach(localizedGenres, id: \.self) {
+                                        genre in
+                                        // display as pills
+                                        Text(genre)
+                                            .font(.caption)
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 5)
+                                            .background(
+                                                Capsule()
+                                                    .fill(
+                                                        Color.accentColor
+                                                            .opacity(0.2)
+                                                    )
+                                            )
+                                            .foregroundColor(.accentColor)
+                                            .padding(1)
+                                    }
+                                }
+                            }
+                            if let localizedSummary = ai.localizedSummary,
+                                !localizedSummary.isEmpty
+                            {
+                                Text(localizedSummary)
+                                    .font(.body)
+                            }
+
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+
             Section(footer: Text("artist.rating.explanation.content")) {
                 ArtistRatingView(artist: artist)
             }
@@ -164,12 +214,20 @@ struct ArtistDetailView: View {
             .navigationBarTitle(Text(artist.formattedName), displayMode: .large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(
-                        artistNote ?? "" == ""
-                            ? "artist.add-note.button"
-                            : "artist.edit-note.button"
-                    ) {
-                        isShowingNoteEditView.toggle()
+                    HStack {
+                        if artist.ai?.hasContent == true {
+                            Button(action: {
+                                settings.aiSummaryEnabled.toggle()
+                            }) {
+                                Image(systemName: "sparkles")
+                            }
+                        }
+
+                        Button(action: {
+                            isShowingNoteEditView.toggle()
+                        }) {
+                            Image(systemName: "square.and.pencil")
+                        }
                     }
                 }
             }
@@ -316,5 +374,27 @@ struct LinkButton: View {
             .cornerRadius(10)
             .foregroundColor(.primary)
             .environment(\.colorScheme, .dark)
+    }
+}
+
+struct GradientBorderButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .background(
+                Capsule()
+                    .fill(.ultraThinMaterial)  // frosted interior
+                    .overlay(  // gradient stroke
+                        Capsule().strokeBorder(
+                            LinearGradient(
+                                colors: [.purple, .blue, .cyan],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: configuration.isPressed ? 3 : 2
+                        )
+                    )
+            )
+            .scaleEffect(configuration.isPressed ? 0.94 : 1)  // touch feedback
+            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
     }
 }

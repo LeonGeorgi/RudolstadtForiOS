@@ -1,15 +1,34 @@
-func convertAPIRudolstadtDataToEntities(apiData: APIRudolstadtData) -> Entities
-{
+func convertAPIRudolstadtDataToEntities(
+    apiData: APIRudolstadtData,
+    extraData: ExtraDataCollection
+) -> FestivalData {
     print("Converting API data to Entities...")
     print(
-        "Artists: \(apiData.artists.count), Areas: \(apiData.areas.count), Stages: \(apiData.stages.count), Events: \(apiData.events.count), Tags: \(apiData.tags.count), News: \(apiData.news.count)"
+        "Artists: \(apiData.artists.count), Areas: \(apiData.areas.count), Stages: \(apiData.stages.count), Events: \(apiData.events.count), Tags: \(apiData.tags.count)"
     )
-    let artists = apiData.artists.map(convertAPIArtistToArtist)
+    let tags = apiData.tags.map(convertAPITagToTag)
+    let artists = apiData.artists.map { APIArtist in
+        convertAPIArtistToArtist(
+            apiArtist: APIArtist,
+            extraData: extraData,
+            tags: apiData.tags,
+            events: apiData.events
+        )
+    }.sorted { a1, a2 in
+        normalize(string: a1.name) < normalize(string: a2.name)
+    }
     let areas = apiData.areas.map(convertAPIAreaToArea)
     let stages = apiData.stages.compactMap {
         convertAPIStageToStage(apiStage: $0, areas: areas)
+    }.sorted { s1, s2 in
+        guard let s1StageNumber = s1.stageNumber else {
+            return false
+        }
+        guard let s2StageNumber = s2.stageNumber else {
+            return true
+        }
+        return s1StageNumber < s2StageNumber
     }
-    let tags = apiData.tags.map(convertAPITagToTag)
     let events = apiData.events.compactMap {
         convertAPIEventToEvent(
             apiEvent: $0,
@@ -20,33 +39,61 @@ func convertAPIRudolstadtDataToEntities(apiData: APIRudolstadtData) -> Entities
     }.sorted { ev1, ev2 in
         ev1.date < ev2.date
     }
-    let newsItems = apiData.news.map(convertAPINewsItemToNewsItem)
 
-    return Entities(
+    return FestivalData(
         artists: artists,
         areas: areas,
         stages: stages,
-        events: events,
-        news: newsItems
+        events: events
     )
 }
 
-func convertAPIArtistCategoryToArtistType(apiCategory: APIArtistCategory)
+func convertAPIArtistCategoryToArtistType(
+    apiCategory: APIArtistCategory,
+    apiTagsForAritst: [APITag]
+)
     -> ArtistType
 {
-    switch apiCategory {
-    case .concert:
-        return .stage
-    case .dancing:
+    if apiCategory == .dancing {
         return .dance
-    case .festivalPlus:
+    }
+    if apiCategory == .festivalPlus {
         return .other
     }
+    if apiCategory != .concert {
+        return .other
+    }
+    if apiTagsForAritst.contains(where: { $0.title == "Straßenmusik" }) {
+        return .street
+    }
+    return .stage
 }
 
-func convertAPIArtistToArtist(apiArtist: APIArtist) -> Artist {
+func convertAPIArtistToArtist(
+    apiArtist: APIArtist,
+    extraData: ExtraDataCollection,
+    tags: [APITag],
+    events: [APIEvent]
+) -> Artist {
+    let eventsForArtist = events.filter { event in
+        event.artist.id == apiArtist.id
+    }
+    let tagsForArist = eventsForArtist.flatMap { event in
+        event.tags.compactMap { tagId in
+            tags.first(where: { $0.id == tagId })
+        }
+    }
     let artistType = convertAPIArtistCategoryToArtistType(
-        apiCategory: apiArtist.category
+        apiCategory: apiArtist.category,
+        apiTagsForAritst: tagsForArist
+    )
+    let extaArtistData = extraData.data[apiArtist.name]
+    let ai = AIArtistData(
+        summaryDE: extaArtistData?.de?.summary,
+        summaryEN: extaArtistData?.en?.summary,
+        genresDE: extaArtistData?.de?.genres,
+        genresEN: extaArtistData?.en?.genres,
+        flags: extaArtistData?.en?.countries
     )
     return Artist(
         id: apiArtist.id,
@@ -63,7 +110,8 @@ func convertAPIArtistToArtist(apiArtist: APIArtist) -> Artist {
         thumbImageUrlString: "https://www.rudolstadt-festival.de/"
             + apiArtist.imgThumb,
         fullImageUrlString: "https://www.rudolstadt-festival.de/"
-            + apiArtist.imgFull
+            + apiArtist.imgFull,
+        ai: ai,
     )
 }
 
@@ -100,7 +148,6 @@ func convertAPIEventToEvent(
     artists: [Artist],
     tags: [Tag]
 ) -> Event? {
-    print(apiEvent)
     guard let dayInJuly = apiEvent.getDayInJuly() else {
         return nil
     }

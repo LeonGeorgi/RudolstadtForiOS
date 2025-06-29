@@ -6,22 +6,54 @@ struct SaveEventPreview: View {
     @EnvironmentObject var settings: UserSettings
 
     var body: some View {
-        ZStack(alignment: .center) {
-            ArtistImageView(artist: event.artist, fullImage: false)
-                .frame(maxHeight: 150)
-                .blur(radius: 5)
+        VStack(alignment: .leading) {
+            ArtistImageView(artist: event.artist, fullImage: true)
+                // set to 3:4 frame with width 100% of parent
+                .frame(width: 200, height: 150)
+                .aspectRatio(3 / 4, contentMode: .fill)
+                .clipped()
 
-            VStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 5) {
+                Text("\(event.shortWeekDay) \(event.timeAsString)")
+                    .font(.subheadline)
+                    // as pill
+                    .padding(5)
+                    .background(getColorForEvent(event).opacity(0.2))
+                    .foregroundColor(getColorForEvent(event))
+                    .cornerRadius(10)
+                
                 Text(event.artist.formattedName)
                     .font(.headline)
-                    .foregroundColor(.white)
                     .lineLimit(2)
-                Text("\(event.weekDay) \(event.timeAsString)")
-                    .font(.subheadline)
-                    .foregroundColor(.white)
+                if let tag = event.tag {
+                    Text(tag.localizedName)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                if let ai = event.artist.ai, let aiSummary = ai.localizedSummary, !aiSummary.isEmpty {
+                    Text(aiSummary)
+                        .font(.subheadline)
+                }
+
             }
+            .padding(.top, 0)
+            .padding(.horizontal, 5)
+            .padding(.bottom, 5)
         }
-        .frame(maxWidth: 200)
+        .frame(width: 200)
+    }
+
+    func getColorForEvent(_ event: Event) -> Color {
+        switch event.artist.artistType {
+        case .stage:
+            return Color.artistTypeStageSaved
+        case .dance:
+            return Color.artistTypeDanceSaved
+        case .street:
+            return Color.artistTypeStreetSaved
+        case .other:
+            return Color.artistTypeOtherSaved
+        }
     }
 }
 

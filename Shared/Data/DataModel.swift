@@ -1,5 +1,43 @@
 import Foundation
 
+struct AIArtistData {
+    let summaryDE: String?
+    let summaryEN: String?
+    let genresDE: [String]?
+    let genresEN: [String]?
+    let flags: [String]?
+
+    var localizedSummary: String? {
+        var summary: String? = nil
+        if Locale.current.languageCode == "de" {
+            summary = summaryDE
+        } else {
+            summary = summaryEN ?? ""
+        }
+        if flags != nil && !flags!.isEmpty {
+            if let sum = summary {
+                summary = sum + " " + flags!.joined(separator: "")
+            } else {
+                summary = flags!.joined(separator: "")
+            }
+        }
+        return summary?.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    var localizedGenres: [String]? {
+        if Locale.current.languageCode == "de" {
+            return genresDE
+        } else {
+            return genresEN
+        }
+    }
+
+    var hasContent: Bool {
+        return (localizedSummary != nil && !localizedSummary!.isEmpty)
+            || (localizedGenres != nil && !localizedGenres!.isEmpty)
+    }
+}
+
 struct Artist: Identifiable {
     let id: Int
     let artistType: ArtistType
@@ -14,6 +52,7 @@ struct Artist: Identifiable {
     let descriptionEnglish: String?
     let thumbImageUrlString: String
     let fullImageUrlString: String
+    let ai: AIArtistData?
 
     var formattedName: String {
         formatString(name)
@@ -38,6 +77,9 @@ struct Artist: Identifiable {
 
     var videoUrl: URL? {
         guard let youtubeID = youtubeID else {
+            return nil
+        }
+        if youtubeID.isEmpty {
             return nil
         }
         return URL(
@@ -92,7 +134,16 @@ struct Artist: Identifiable {
         thumbImageUrlString:
             "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg",
         fullImageUrlString:
-            "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg"
+            "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg",
+        ai: AIArtistData(
+            summaryDE:
+                "Michael Jackson war ein US-amerikanischer Sänger, Tänzer und Musikproduzent. Er gilt als einer der erfolgreichsten Entertainer aller Zeiten.",
+            summaryEN:
+                "Michael Jackson was an American singer, dancer, and music producer. He is considered one of the most successful entertainers of all time.",
+            genresDE: ["Pop", "Rock", "Soul"],
+            genresEN: ["Pop", "Rock", "Soul"],
+            flags: ["🇺🇸"]
+        )
     )
 }
 
@@ -459,6 +510,10 @@ struct Tag: Identifiable {
         } else {
             return englishName
         }
+    }
+    
+    var isStageOrBuskers: Bool {
+        return germanName == "Bühne" || germanName == "Straßenmusik"
     }
 
     static let example = Tag(

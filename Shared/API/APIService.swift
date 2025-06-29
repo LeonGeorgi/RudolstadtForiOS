@@ -24,8 +24,7 @@ struct APIClient {
         return try JSONDecoder().decode(T.self, from: data)
     }
 
-    func fetchAll() async throws -> APIRudolstadtData {
-        async let news: [APINewsItem] = fetch([APINewsItem].self, from: .news)
+    func fetchFestivalData() async throws -> APIRudolstadtData {
         async let areas: [APIArea] = fetch([APIArea].self, from: .areas)
         async let artists: [APIArtist] = fetch([APIArtist].self, from: .artists)
         async let events: [APIEvent] = fetch([APIEvent].self, from: .events)
@@ -33,12 +32,15 @@ struct APIClient {
         async let tags: [APITag] = fetch([APITag].self, from: .tags)
 
         return try await APIRudolstadtData(
-            news: news,
             areas: areas,
             artists: artists,
             events: events,
             stages: stages,
             tags: tags
         )
+    }
+    
+    func fetchNews() async throws -> [APINewsItem] {
+        return try await fetch([APINewsItem].self, from: .news)
     }
 }

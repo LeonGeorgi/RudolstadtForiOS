@@ -61,6 +61,9 @@ final class UserSettings: ObservableObject {
     // 3 - Saved
     @UserDefault(key: "view/schedule/filtertype", defaultValue: 0)
     var scheduleFilterType: Int
+    
+    @UserDefault(key: "view/artist/ai-summary/v3", defaultValue: true)
+    var aiSummaryEnabled: Bool
 
     private var notificationSubscription: AnyCancellable?
 

@@ -20,7 +20,6 @@
 import Foundation
 
 struct APIRudolstadtData: Codable {
-    let news: [APINewsItem]
     let areas: [APIArea]
     let artists: [APIArtist]
     let events: [APIEvent]

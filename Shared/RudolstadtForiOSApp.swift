@@ -5,6 +5,7 @@
 //  Created by Leon Georgi on 11.04.22.
 //
 
+import BackgroundTasks
 import SDWebImage
 import SwiftUI
 
@@ -13,6 +14,7 @@ struct RudolstadtForiOSApp: App {
     let dataStore = DataStore()
     let userSettings = UserSettings()
     let iapManager = IAPManager()
+    let newsRefresher = NewsRefresher()
 
     init() {
         configureCache()
@@ -42,6 +44,10 @@ struct RudolstadtForiOSApp: App {
                         }
                     }
                 }
+        }
+        .backgroundTask(.appRefresh("updateNews")) {
+            print("Background task started")
+            await newsRefresher.handle()  // your handler
         }
     }
 }

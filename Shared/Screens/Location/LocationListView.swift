@@ -14,7 +14,7 @@ struct LocationListView: View {
 
     @State(initialValue: "") var searchTerm: String
 
-    func stages(_ entities: Entities) -> [AreaStages] {
+    func stages(_ entities: FestivalData) -> [AreaStages] {
         let normalizedSearchTerm = normalize(string: searchTerm)
         return Dictionary(grouping: entities.stages) { (stage: Stage) in
             stage.area

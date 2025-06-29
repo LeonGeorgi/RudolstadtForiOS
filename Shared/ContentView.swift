@@ -1,17 +1,14 @@
-//
-//  ContentView.swift
-//  Shared
-//
-//  Created by Leon Georgi on 11.04.22.
-//
-
 import SwiftUI
 import UserNotifications
+import BackgroundTasks
+
 
 struct ContentView: View {
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var userSettings: UserSettings
     @Environment(\.scenePhase) var scenePhase
+    
+    let newsRefresher = NewsRefresher()
 
     @State private var goHome = UUID()
     @State var selectedIndex: Int = 1
@@ -31,8 +28,8 @@ struct ContentView: View {
     }
 
     var unreadNewsCount: Int {
-        if case .success(let entities) = dataStore.data {
-            return entities.news.filter { item in
+        if case .success(let news) = dataStore.news {
+            return news.filter { item in
                 item.isInCurrentLanguage
                     && !userSettings.readNews.contains(item.id)
             }.count
@@ -99,7 +96,7 @@ struct ContentView: View {
                         "Permission granted: \(granted), error: \(String(describing: error))"
                     )
                 }
-            dataStore.setupUpdateNewsTask()
+            // dataStore.setupUpdateNewsTask()
             print("test")
         }
         .onChange(of: scenePhase) { newPhase in
@@ -108,6 +105,7 @@ struct ContentView: View {
                 Task {
                     print("Trying to load new festival data")
                     await dataStore.loadData()
+                    await dataStore.loadNews()
                     dataStore.estimateEventDurations()
                     dataStore.updateRecommentations(
                         savedEventsIds: userSettings.savedEvents,
@@ -119,6 +117,7 @@ struct ContentView: View {
                 UIApplication.shared.applicationIconBadgeNumber =
                     unreadNewsCount
                 print("App is inactive")
+                NewsRefresher.scheduleNextBackgroundTask()
             }
         }
         .accentColor(.rudolstadt)

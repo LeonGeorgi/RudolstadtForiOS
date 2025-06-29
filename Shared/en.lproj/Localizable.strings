@@ -26,6 +26,8 @@
 😊 - great interest
 😍 - very great interest
 You can find the artists you find interesting when you click on \"Favorites\" in the artist list. Also, your marking can be used to show you suggestions for when you can attend concerts by the artist. The data will remain completely on your device.";
+"artist.ai.header" = "AI summary";
+"artist.ai.footer" = "May contain inaccuracies.";
 
 "event.map" = "MAP";
 "event.save" = "Save";
@@ -94,7 +96,7 @@ You can find the artists you find interesting when you click on \"Favorites\" in
 "general.title" = "About the festival";
 "general.content" = "Roots, folk and world music between tradition and avant-garde, dancefloor-feeling and cosy garden concerts – all this offers „one of the finest music festivals on the planet“ (fRoots Great Britain)
 
-";
+With its 33rd edition, the festival once again invites us to journey afar: This year’s country focus is Mali, known for its ancient, magical traditions and new internationally successful sounds. In addition, there will be a cinema program, exhibitions, the RUTH award, children’s dances, street music – and bands from Bosnia, Germany, Iran, Colombia, Spain, Sweden, and more.";
 "general.extra.title" = "Please note!";
 "general.extra.content" = "Tickets for the Rudolstadt Festival are only available in advance. The same applies to the combination tickets with overnight stay at one of the campsites, as well as the parking tickets. At the box office you only get day tickets for the festival area downtown.";
 "bus.title" = "Bus";

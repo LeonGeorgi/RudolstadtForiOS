@@ -30,7 +30,7 @@ struct ArtistListView: View {
         )
     }
 
-    func getFilteredArtists(data: Entities) -> [Artist] {
+    func getFilteredArtists(data: FestivalData) -> [Artist] {
         data.artists.filter { artist in
             switch shownArtistTypes {
             case .all:

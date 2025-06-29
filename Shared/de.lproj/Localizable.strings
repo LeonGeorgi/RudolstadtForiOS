@@ -26,6 +26,8 @@
 😊 - großes Interesse
 😍 - sehr großes Interesse
 Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der Künstlerliste finden. Außerdem kann deine Markierung dazu verwendet werden, dir Vorschläge anzuzeigen, wann du Konzert von dem Künstler besuchen kannst. Die Daten bleiben dabei vollständig auf deinem Gerät.";
+"artist.ai.header" = "KI-Zusammenfassung";
+"artist.ai.footer" = "Kann Ungenauigkeiten enthalten.";
 
 "event.map" = "KARTE";
 "event.save" = "Speichern";
@@ -94,7 +96,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der 
 "general.title" = "Über das Festival";
 "general.content" = "Roots, Folk und Weltmusik zwischen Tradition und Avantgarde, Dancefloor-Feeling und lauschige Gartenkonzerte – all das bietet „one of the finest music festivals on the planet“ (fRoots Großbritannien)
 
-With its 33rd edition, the festival once again invites us to journey afar: This year’s country focus is Mali, known for its ancient, magical traditions and new internationally successful sounds. In addition, there will be a cinema program, exhibitions, the RUTH award, children’s dances, street music – and bands from Bosnia, Germany, Iran, Colombia, Spain, Sweden, and more.";
+Mit der 33. Festival-Ausgabe zieht es uns wieder in die Ferne: Der Länderschwerpunkt gilt Mali, mit seinen alten, magischen Traditionen und neuen, international erfolgreichen Sounds. Dazu gibt es ein Kinoangebot, Ausstellungen, die RUTH, Kindertänze, StraMu – und Bands aus Bosnien, Deutschland, Iran, Kolumbien, Spanien, Schweden etc.";
 "general.extra.title" = "Achtung!";
 "general.extra.content" = "Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich. Gleiches gilt für die Kombikarten mit Übernachtung auf einem der Campingplätze, sowie der Parkkarten. An der Tageskasse erhält man ausschließlich Tageskarten für den Festivalbereich Innenstadt.";
 "bus.title" = "Bus";
