@@ -21,16 +21,9 @@ struct ArtistCell: View {
                 if artistRating() != 0 {
                     Spacer()
                     ArtistRatingSymbol(artist: artist)
+                        .foregroundColor(.secondary)
                 }
 
-            }
-        }.contextMenu {
-            ForEach((-1..<4).reversed()) { rating in
-                Button(action: {
-                    self.settings.ratings[String(self.artist.id)] = rating
-                }) {
-                    RatingSymbol(rating: rating)
-                }
             }
         }
     }

@@ -19,7 +19,7 @@
 "artist.events" = "VERANSTALTUNGEN";
 "artist.links" = "LINKS";
 "artist.description" = "BESCHREIBUNG";
-"artist.rating.explanation.content" = "Markiere dein Interesse an dem Künstler.";
+"artist.rating.explanation.content" = "Gedrückt halten für mehr Optionen";
 "artist.rating.explanation.extra" = "🥱 - kein Interesse
 🤔 - unentschlossen
 🙂 - leichtes Interesse
@@ -28,6 +28,12 @@
 Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der Künstlerliste finden. Außerdem kann deine Markierung dazu verwendet werden, dir Vorschläge anzuzeigen, wann du Konzert von dem Künstler besuchen kannst. Die Daten bleiben dabei vollständig auf deinem Gerät.";
 "artist.ai.header" = "KI-Zusammenfassung";
 "artist.ai.footer" = "Kann Ungenauigkeiten enthalten.";
+"artist.icon.hand.thumbsdown.fill" = "Gefällt mir nicht";
+"artist.icon.questionmark.circle.fill" = "Unentschlossen";
+"artist.icon.exclamationmark.triangle.fill" = "Passt leider nicht";
+"artist.icon.clock.arrow.trianglehead.counterclockwise.rotate.90" = "Nochmal reinschauen";
+"artist.icon.zzz" = "Nicht so meins";
+"artist.icon.moon.zzz.fill" = "Ist mir zu spät";
 
 "event.map" = "KARTE";
 "event.save" = "Speichern";
@@ -153,3 +159,9 @@ Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (dama
 "donations.description" = "Diese App wurde in meiner Freizeit entwickelt und ist kostenlos verfügbar. Wenn dir die App gefällt und du mir helfen möchtest, mein Festivalticket zu finanzieren, kannst du hier spenden. Vielen Dank! 😊";
 "donation.button.title" = "%@ meines Festivaltickets (%@)";
 "donations.disclaimer" = "Die Spenden gehen an mich (den Entwickler der App) persönlich und nicht an den Veranstalter des Festivals.";
+
+"settings.title" = "Einstellungen";
+"settings.language" = "Sprache ändern";
+"settings.show_ai_summaries" = "KI-Zusammenfassungen anzeigen";
+"settings.use_flames" = "Statt Herzen Flammen verwenden";
+

@@ -52,6 +52,7 @@ struct TimeProgramEventCell: View {
 
                     if artistRating() != 0 {
                         ArtistRatingSymbol(artist: self.event.artist)
+                            .foregroundStyle(.secondary)
                     }
                     EventSavedIcon(event: self.event)
 

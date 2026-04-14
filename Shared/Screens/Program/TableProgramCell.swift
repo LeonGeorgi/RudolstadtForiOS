@@ -77,13 +77,18 @@ struct TableProgramCell: View {
                     ArtistRatingSymbol(artist: event.artist)
                         .font(.system(size: 12))
                         .padding(.vertical, 2)
-
+                        .foregroundStyle(
+                            isSaved && colorScheme == .light
+                                ? .white
+                                : .secondary
+                        )
                     Spacer(minLength: 0)
 
                 }
             }
             .frame(width: width, height: height)
             .background(getColorForEvent(event).opacity(0.7))
+            // set foreground to white if saved, else black
             .foregroundColor(.black)
             .cornerRadius(4)
             /*.overlay(

@@ -84,8 +84,6 @@
 		350573382854FA4C008932A9 /* EventSavedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573362854FA4C008932A9 /* EventSavedIcon.swift */; };
 		3505733A2855B2C3008932A9 /* ContextCopyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573392855B2C3008932A9 /* ContextCopyButton.swift */; };
 		3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573392855B2C3008932A9 /* ContextCopyButton.swift */; };
-		3505733D2855BAF1008932A9 /* ProgramEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733C2855BAF1008932A9 /* ProgramEntry.swift */; };
-		3505733E2855BAF1008932A9 /* ProgramEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505733C2855BAF1008932A9 /* ProgramEntry.swift */; };
 		350573452857E9BE008932A9 /* MapOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573442857E9BE008932A9 /* MapOverview.swift */; };
 		350573472857F312008932A9 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573462857F312008932A9 /* MapView.swift */; };
 		351316C82B800D0700B87F74 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 351316C72B800D0700B87F74 /* ImageViewer */; };
@@ -126,6 +124,8 @@
 		356A65C82BE809360006761D /* DonationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356A65C62BE809360006761D /* DonationView.swift */; };
 		356F08932E0A9382004F27E6 /* extra_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 356F08922E0A9382004F27E6 /* extra_data.json */; };
 		356F08952E0A93BC004F27E6 /* ExtraData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356F08942E0A93B8004F27E6 /* ExtraData.swift */; };
+		35879AE72E11CA680041FFD3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35879AE62E11CA630041FFD3 /* SettingsView.swift */; };
+		35879AE82E11CA680041FFD3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35879AE62E11CA630041FFD3 /* SettingsView.swift */; };
 		35CF484A285B7E4E00D13B6F /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */; };
 		35CF484D285B830600D13B6F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35CF484B285B830600D13B6F /* InfoPlist.strings */; };
 		35D0A4892A07372A004C506D /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D0A4882A07372A004C506D /* Colors.xcassets */; };
@@ -196,7 +196,6 @@
 		350573332854F73C008932A9 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		350573362854FA4C008932A9 /* EventSavedIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSavedIcon.swift; sourceTree = "<group>"; };
 		350573392855B2C3008932A9 /* ContextCopyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextCopyButton.swift; sourceTree = "<group>"; };
-		3505733C2855BAF1008932A9 /* ProgramEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEntry.swift; sourceTree = "<group>"; };
 		350573422856442B008932A9 /* RudolstadtForiOS--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RudolstadtForiOS--iOS--Info.plist"; sourceTree = "<group>"; };
 		350573442857E9BE008932A9 /* MapOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverview.swift; sourceTree = "<group>"; };
 		350573462857F312008932A9 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -229,6 +228,7 @@
 		356A65C62BE809360006761D /* DonationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationView.swift; sourceTree = "<group>"; };
 		356F08922E0A9382004F27E6 /* extra_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = extra_data.json; sourceTree = "<group>"; };
 		356F08942E0A93B8004F27E6 /* ExtraData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraData.swift; sourceTree = "<group>"; };
+		35879AE62E11CA630041FFD3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		35CF484C285B830600D13B6F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		35CF484F285B837800D13B6F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = InfoPlist.strings; sourceTree = "<group>"; };
 		35D0A4882A07372A004C506D /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -369,6 +369,7 @@
 		32A11AEB4B6F67DF2B3DB0AB /* More */ = {
 			isa = PBXGroup;
 			children = (
+				35879AE62E11CA630041FFD3 /* SettingsView.swift */,
 				350573332854F73C008932A9 /* AboutView.swift */,
 				3505732A28549BF8008932A9 /* BusView.swift */,
 				356A65C62BE809360006761D /* DonationView.swift */,
@@ -393,7 +394,6 @@
 			isa = PBXGroup;
 			children = (
 				32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */,
-				3505733C2855BAF1008932A9 /* ProgramEntry.swift */,
 				3568726529C0239300520EC5 /* ScrollableProgramView.swift */,
 				3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */,
 				3568C7AF29FB59AC00A7AA7D /* TableProgramCell.swift */,
@@ -762,6 +762,7 @@
 				3505732E2854A794008932A9 /* GeneralView.swift in Sources */,
 				35D0A4922A0754CE004C506D /* StagePreview.swift in Sources */,
 				32A11AF99C04FACE809D32A0 /* ArtistTypeFilterView.swift in Sources */,
+				35879AE72E11CA680041FFD3 /* SettingsView.swift in Sources */,
 				32A118F15EE900F7D1D916E5 /* ArtistRatingSymbol.swift in Sources */,
 				32A11A2277ABC1B74840F05C /* TimeProgramEventCell.swift in Sources */,
 				32A11561A68DE3A255681965 /* LocationListView.swift in Sources */,
@@ -781,7 +782,6 @@
 				3505732B28549BF8008932A9 /* BusView.swift in Sources */,
 				351359B02BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */,
 				35514C4B2DD0EBB40004137D /* APIService.swift in Sources */,
-				3505733D2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
 				32A1167A2BFBD49E2160B672 /* ArtistDetailView.swift in Sources */,
 				32A11E6DA66C383089064DD4 /* ArtistEventCell.swift in Sources */,
 				32A11C422B2F012460218204 /* RecommendationScheduleView.swift in Sources */,
@@ -816,6 +816,7 @@
 				356A65C82BE809360006761D /* DonationView.swift in Sources */,
 				32A1176978B8CDBD08C500CF /* StageMapView.swift in Sources */,
 				32A112B24A555BB9F43659A1 /* RatingSymbol.swift in Sources */,
+				35879AE82E11CA680041FFD3 /* SettingsView.swift in Sources */,
 				32A1190D2BC1583EA5BCD4F4 /* SaveEventButton.swift in Sources */,
 				32A111D06B3F187ED5308393 /* Util.swift in Sources */,
 				3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
@@ -839,7 +840,6 @@
 				35D0A48D2A073AFF004C506D /* ColorExtensions.swift in Sources */,
 				356A65C52BE805B70006761D /* IAPManager.swift in Sources */,
 				32A115A10353E19E13E5F510 /* ArtistEventCell.swift in Sources */,
-				3505733E2855BAF1008932A9 /* ProgramEntry.swift in Sources */,
 				3568726729C0239300520EC5 /* ScrollableProgramView.swift in Sources */,
 				3505732928549B81008932A9 /* WebView.swift in Sources */,
 				351359B12BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */,
@@ -1060,7 +1060,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2025.4;
+				MARKETING_VERSION = 2025.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1098,7 +1098,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2025.4;
+				MARKETING_VERSION = 2025.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -29,6 +29,9 @@ final class UserSettings: ObservableObject {
 
     @UserDefault(key: "\(DataStore.year)/ratings", defaultValue: Dictionary())
     var ratings: [String: Int]
+    
+    @UserDefault(key: "\(DataStore.year)/artistIcons", defaultValue: Dictionary())
+    var artistIcons: [String: String]
 
     @UserDefault(key: "\(DataStore.year)/savedEvents", defaultValue: [])
     var savedEvents: [Int]
@@ -64,6 +67,9 @@ final class UserSettings: ObservableObject {
     
     @UserDefault(key: "view/artist/ai-summary/v3", defaultValue: true)
     var aiSummaryEnabled: Bool
+    
+    @UserDefault(key: "view/artist/likeIcon", defaultValue: "heart.fill")
+    var likeIcon: String
 
     private var notificationSubscription: AnyCancellable?
 
@@ -142,6 +148,18 @@ final class UserSettings: ObservableObject {
 
     func idFor(newsItem: NewsItem) -> String {
         return "\(newsItem.id)-\(readNews.contains(newsItem.id))"
-
+    }
+    
+    func setArtistRating(for artist: Artist, rating: Int) {
+        ratings["\(artist.id)"] = rating
+    }
+    
+    func getArtistIcon(for artist: Artist) -> String? {
+        return artistIcons["\(artist.id)"]
+    }
+    
+    func setArtistIcon(for artist: Artist, icon: String) {
+        artistIcons["\(artist.id)"] = icon
+        setArtistRating(for: artist, rating: -1)
     }
 }

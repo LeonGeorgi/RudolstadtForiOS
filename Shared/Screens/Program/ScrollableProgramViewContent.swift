@@ -133,46 +133,24 @@ struct ScrollableProgramViewContent: View {
                         Spacer()
                             .frame(width: timeWidth + columnSpacing / 2)
                         ForEach(stages, id: \.0.id) { (stage, _) in
-                            if #available(iOS 16, *) {
-                                NavigationLink(
-                                    destination: StageDetailView(
-                                        stage: stage,
-                                        highlightedEventId: nil
-                                    )
-                                ) {
-                                    renderStage(stage)
+                            NavigationLink(
+                                destination: StageDetailView(
+                                    stage: stage,
+                                    highlightedEventId: nil
+                                )
+                            ) {
+                                renderStage(stage)
+                            }
+                            .buttonStyle(.plain)
+                            .contextMenu {
+                                Button {
+                                    StageMapView.openInMaps(stage: stage)
+                                } label: {
+                                    Text("schedule.context.open_in_maps")
+                                    Image(systemName: "map")
                                 }
-                                .buttonStyle(.plain)
-                                .contextMenu {
-                                    Button {
-                                        StageMapView.openInMaps(stage: stage)
-                                    } label: {
-                                        Text("schedule.context.open_in_maps")
-                                        Image(systemName: "map")
-                                    }
-
-                                } preview: {
-                                    StagePreview(stage: stage)
-                                }
-                            } else {
-                                NavigationLink(
-                                    destination: StageDetailView(
-                                        stage: stage,
-                                        highlightedEventId: nil
-                                    )
-                                ) {
-                                    renderStage(stage)
-                                }
-                                .buttonStyle(.plain)
-                                .contextMenu {
-                                    Button {
-                                        StageMapView.openInMaps(stage: stage)
-                                    } label: {
-                                        Text("schedule.context.open_in_maps")
-                                        Image(systemName: "map")
-                                    }
-
-                                }
+                            } preview: {
+                                StagePreview(stage: stage)
                             }
 
                             //.background(getColorForStage(stage))

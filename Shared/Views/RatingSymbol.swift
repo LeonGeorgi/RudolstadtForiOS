@@ -10,19 +10,20 @@ import SwiftUI
 
 struct RatingSymbol: View {
     let rating: Int
-
-    var ratingSymbol: String {
-        switch rating {
-        case -1: return "🥱"
-        case 0: return "🤔"
-        case 1: return "❤️"
-        case 2: return "❤️❤️"
-        case 3: return "❤️❤️❤️"
-        default: return "Invalid"
-        }
-    }
+    @EnvironmentObject var settings: UserSettings
 
     var body: some View {
-        Text(ratingSymbol)
+        HStack(spacing: 0) {
+            if rating <= 0 {
+                Text("No Rating")
+                    .foregroundColor(.secondary)
+
+            } else {
+                ForEach(0..<rating, id: \.self) { _ in
+                    Image(systemName: settings.likeIcon)
+                        .foregroundColor(.red)
+                }
+            }
+        }
     }
 }

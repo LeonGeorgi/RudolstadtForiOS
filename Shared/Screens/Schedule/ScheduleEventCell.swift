@@ -42,6 +42,7 @@ struct ScheduleEventCell: View {
                         Spacer()
                         if artistRating() != 0 {
                             ArtistRatingSymbol(artist: event.artist)
+                                .foregroundStyle(.secondary)
                         }
                         EventSavedIcon(event: event)
                     }.opacity(settings.savedEvents.contains(event.id) ? 1 : 0.6)

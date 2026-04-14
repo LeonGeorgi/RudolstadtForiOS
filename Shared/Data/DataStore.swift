@@ -24,6 +24,9 @@ final class DataStore: ObservableObject {
     let apiClient: APIClient
 
     let cacheUrl: URL
+    
+    var cachedSavedEventIds: Set<Int> = []
+    var cachedRatings: [String: Int] = [:]
 
     init() {
         cacheUrl = try! FileManager.default.url(
@@ -101,7 +104,21 @@ final class DataStore: ObservableObject {
     }
 
     func updateRecommentations(savedEventsIds: [Int], ratings: [String: Int]) {
+        // if savedEventsIds and ratings are already the same in cache, we don't need to update
+        let savedEventsAreCached = savedEventsIds.allSatisfy( { id in
+            cachedSavedEventIds.contains(id)
+        })
+        let ratingsAreCached = ratings.allSatisfy { key, value in
+            cachedRatings[key] == value
+        }
+        if savedEventsAreCached && ratingsAreCached {
+            print("Saved events and ratings are cached, not updating recommendations")
+            return
+        }
+        
         if case .success(let entities) = data {
+            cachedSavedEventIds = Set(savedEventsIds)
+            cachedRatings = ratings
             let generator = ScheduleGenerator2(
                 allEvents: entities.events,
                 storedEventIds: savedEventsIds,

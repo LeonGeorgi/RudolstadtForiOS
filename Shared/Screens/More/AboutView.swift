@@ -82,6 +82,7 @@ struct AboutView: View {
                     }
             }
         }.listStyle(GroupedListStyle())
+            .font(.body)
             .navigationTitle("about.title")
     }
 }

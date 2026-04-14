@@ -10,43 +10,52 @@ struct MoreView: View {
         NavigationView {
             List {
                 NavigationLink(destination: GeneralView()) {
-                    ProgramEntry(
-                        iconName: "music.quarternote.3",
-                        label: "general.title"
+                    Label(
+                        "general.title",
+                        systemImage: "music.quarternote.3"
                     )
                 }
 
                 NavigationLink(destination: ParkAndRideView()) {
-                    ProgramEntry(
-                        iconName: "car",
-                        label: "park_and_ride.title"
+                    Label(
+                        "park_and_ride.title",
+                        systemImage: "car"
                     )
                 }
 
                 NavigationLink(destination: BusView()) {
-                    ProgramEntry(
-                        iconName: "bus",
-                        label: "bus.title"
+                    Label(
+                        "bus.title",
+                        systemImage: "bus"
                     )
                 }
                 NavigationLink(destination: AboutView()) {
-                    ProgramEntry(
-                        iconName: "info",
-                        label: "about.title"
+                    Label(
+                        "about.title",
+                        systemImage: "info"
                     )
                 }
                 NavigationLink {
                     DonationView()
                 } label: {
-                    ProgramEntry(
-                        iconName: "heart",
-                        label: "donations.title"
+                    Label(
+                        "donations.title",
+                        systemImage: "heart"
+                    )
+                }
+                NavigationLink {
+                    SettingsView()
+                } label: {
+                    Label(
+                        "settings.title",
+                        systemImage: "gearshape"
                     )
                 }
 
             }.navigationBarTitle("more.title")
                 .listStyle(.plain)
         }
+        .font(.system(size: 18))
     }
 }
 
