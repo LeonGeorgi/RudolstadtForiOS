@@ -141,6 +141,7 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "email.send.title" = "E-Mail senden";
 
 "list.title" = "Liste";
+"grid.title" = "Raster";
 "map.title" = "Karte";
 "map.loading" = "Karte lädt…";
 

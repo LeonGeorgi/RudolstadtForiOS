@@ -141,6 +141,7 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "email.send.title" = "Send an email";
 
 "list.title" = "List";
+"grid.title" = "Grid";
 "map.title" = "Map";
 "map.loading" = "Loading map…";
 

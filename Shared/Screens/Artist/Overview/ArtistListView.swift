@@ -15,11 +15,15 @@ struct ArtistListView: View {
     @EnvironmentObject var settings: UserSettings
 
     @State private var shownArtistTypes = Set(ShownArtistTypes.allCases)
+    @Namespace private var artistImageTransition
 
     @State var searchText = ""
     @State var favoriteArtistsOnly = false
 
-    let grid = true
+    private let gridColumns = Array(
+        repeating: GridItem(.flexible(), spacing: 10),
+        count: 3
+    )
 
     func normalize(string: String) -> String {
         string.folding(
@@ -94,8 +98,67 @@ struct ArtistListView: View {
         }
     }
 
+    private func sortArtistsByName(_ artists: [Artist]) -> [Artist] {
+        artists.sorted { first, second in
+            normalize(string: first.name) < normalize(string: second.name)
+        }
+    }
+
+    @ViewBuilder
+    private func artistDetailDestination(for artist: Artist) -> some View {
+        if #available(iOS 18.0, macOS 15.0, *) {
+            ArtistDetailView(artist: artist, highlightedEventId: nil)
+                .navigationTransition(
+                    .zoom(sourceID: artist.id, in: artistImageTransition)
+                )
+        } else {
+            ArtistDetailView(artist: artist, highlightedEventId: nil)
+        }
+    }
+
+    @ViewBuilder
+    private func artistOverview(_ artists: [Artist]) -> some View {
+        let sortedArtists = sortArtistsByName(artists)
+
+        if settings.artistViewType == 1 {
+            ScrollView {
+                LazyVGrid(columns: gridColumns, spacing: 0) {
+                    ForEach(sortedArtists) { artist in
+                        NavigationLink(
+                            destination: artistDetailDestination(for: artist)
+                        ) {
+                            ArtistGridCell(
+                                artist: artist,
+                                imageTransitionNamespace: artistImageTransition
+                            )
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal, 12)
+                .padding(.top, 12)
+                .padding(.bottom, 12)
+            }
+        } else {
+            List {
+                ForEach(sortedArtists) { artist in
+                    NavigationLink(
+                        destination: ArtistDetailView(
+                            artist: artist,
+                            highlightedEventId: nil
+                        )
+                    ) {
+                        ArtistCell(artist: artist)
+                    }.listRowInsets(
+                        .init(top: 0, leading: 0, bottom: 0, trailing: 16)
+                    )
+                }
+            }.listStyle(.plain)
+        }
+    }
+
     var body: some View {
-        NavigationView {
+        NavigationStack {
 
             LoadingListView(
                 noDataMessage: "artists.none-found",
@@ -108,25 +171,7 @@ struct ArtistListView: View {
                     }
                 }
             ) { artists in
-                List {
-                    ForEach(
-                        artists.sorted(by: { a1, a2 in
-                            normalize(string: a1.name)
-                                < normalize(string: a2.name)
-                        })
-                    ) { (artist: Artist) in
-                        NavigationLink(
-                            destination: ArtistDetailView(
-                                artist: artist,
-                                highlightedEventId: nil
-                            )
-                        ) {
-                            ArtistCell(artist: artist)
-                        }.listRowInsets(
-                            .init(top: 0, leading: 0, bottom: 0, trailing: 16)
-                        )
-                    }
-                }.listStyle(.plain)
+                artistOverview(artists)
             }
             .searchable(text: $searchText)
             .disableAutocorrection(true)
@@ -145,7 +190,18 @@ struct ArtistListView: View {
                         }
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button {
+                        settings.toggleArtistViewType()
+                    } label: {
+                        if settings.artistViewType == 1 {
+                            Label("list.title", systemImage: "list.bullet")
+                        } else {
+                            Label("grid.title", systemImage: "square.grid.3x3")
+                        }
+                    }
+                    .labelStyle(.iconOnly)
+
                     Menu {
                         ForEach(ShownArtistTypes.allCases, id: \.self) { artistType in
                             Toggle(isOn: binding(for: artistType)) {
@@ -169,6 +225,7 @@ struct ArtistListView: View {
         }
     }
 }
+
 
 enum ShownArtistTypes: CaseIterable, Hashable {
     case stage, street, dance, other

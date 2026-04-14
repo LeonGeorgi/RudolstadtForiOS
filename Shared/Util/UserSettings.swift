@@ -58,6 +58,11 @@ final class UserSettings: ObservableObject {
     @UserDefault(key: "view/schedule/viewtype", defaultValue: 0)
     var scheduleViewType: Int
 
+    // 0 - List
+    // 1 - Grid
+    @UserDefault(key: "view/artist/viewtype", defaultValue: 0)
+    var artistViewType: Int
+
     // 0 - All
     // 1 - Favorites
     // 2 - Optimal
@@ -99,6 +104,14 @@ final class UserSettings: ObservableObject {
             scheduleViewType = 1
         } else {
             scheduleViewType = 0
+        }
+    }
+
+    func toggleArtistViewType() {
+        if artistViewType == 0 {
+            artistViewType = 1
+        } else {
+            artistViewType = 0
         }
     }
 
