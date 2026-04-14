@@ -15,7 +15,24 @@ struct ArtistDetailView: View {
     @State var noteText: String = ""
 
     @State private var isDisplayingImageViewer = false
+    @State private var artistBackgroundColor: Color
+    @State private var artistColorScheme: ColorScheme?
     @State var imageURL = ""
+
+    init(artist: Artist, highlightedEventId: Int?) {
+        self.artist = artist
+        self.highlightedEventId = highlightedEventId
+        _artistBackgroundColor = State(
+            initialValue: ArtistImageColorCache.shared.cachedBackgroundColor(
+                for: artist.id
+            ) ?? .clear
+        )
+        _artistColorScheme = State(
+            initialValue: ArtistImageColorCache.shared.cachedPreferredColorScheme(
+                for: artist.id
+            )
+        )
+    }
 
     var artistEvents: LoadingEntity<[Event]> {
         dataStore.data.map { entities in
@@ -39,6 +56,23 @@ struct ArtistDetailView: View {
     var hasArtistLinks: Bool {
         guard let artistLinks = artistLinks else { return false }
         return artistLinks.hasLinks
+    }
+
+    private func loadArtistBackgroundColor() async {
+        guard let backgroundColor = await ArtistImageColorCache.shared.backgroundColor(for: artist) else {
+            return
+        }
+
+        let colorScheme = ArtistImageColorCache.shared.cachedPreferredColorScheme(
+            for: artist.id
+        )
+
+        await MainActor.run {
+            withAnimation(.easeInOut(duration: 0.35)) {
+                artistBackgroundColor = backgroundColor
+                artistColorScheme = colorScheme
+            }
+        }
     }
 
     var body: some View {
@@ -211,6 +245,14 @@ struct ArtistDetailView: View {
             }
 
         }.listStyle(GroupedListStyle())
+            .scrollContentBackground(.hidden)
+            .environment(\.colorScheme, artistColorScheme ?? .light)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(artistColorScheme, for: .navigationBar)
+            .background(artistBackgroundColor)
+            .task(id: artist.id) {
+                await loadArtistBackgroundColor()
+            }
             .navigationBarTitle(Text(artist.formattedName), displayMode: .large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

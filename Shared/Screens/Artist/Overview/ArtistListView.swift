@@ -6,6 +6,7 @@
 //  Copyright © 2020 Leon Georgi. All rights reserved.
 //
 
+import CoreImage
 import SwiftUI
 
 // import URLImage
@@ -133,6 +134,9 @@ struct ArtistListView: View {
                             )
                         }
                         .buttonStyle(.plain)
+                        .task(id: artist.id) {
+                            await ArtistImageColorCache.shared.prepareBackgroundColor(for: artist)
+                        }
                     }
                 }
                 .padding(.horizontal, 12)
@@ -152,6 +156,9 @@ struct ArtistListView: View {
                     }.listRowInsets(
                         .init(top: 0, leading: 0, bottom: 0, trailing: 16)
                     )
+                    .task(id: artist.id) {
+                        await ArtistImageColorCache.shared.prepareBackgroundColor(for: artist)
+                    }
                 }
             }.listStyle(.plain)
         }
@@ -254,6 +261,229 @@ enum ShownArtistTypes: CaseIterable, Hashable {
         case .other:
             return ArtistType.other.localizedName
         }
+    }
+}
+
+struct ArtistImageDominantColor {
+    let red: Double
+    let green: Double
+    let blue: Double
+
+    var backgroundColor: Color {
+        Color(.sRGB, red: red, green: green, blue: blue, opacity: 1.0)
+    }
+
+    var preferredColorScheme: ColorScheme {
+        relativeLuminance > 0.45 ? .light : .dark
+    }
+
+    private var relativeLuminance: Double {
+        0.2126 * linearized(red)
+            + 0.7152 * linearized(green)
+            + 0.0722 * linearized(blue)
+    }
+
+    private func linearized(_ value: Double) -> Double {
+        value <= 0.03928
+            ? value / 12.92
+            : pow((value + 0.055) / 1.055, 2.4)
+    }
+}
+
+private struct ArtistImageColorBucket {
+    var redTotal: Int = 0
+    var greenTotal: Int = 0
+    var blueTotal: Int = 0
+    var count: Int = 0
+
+    mutating func add(red: UInt8, green: UInt8, blue: UInt8) {
+        redTotal += Int(red)
+        greenTotal += Int(green)
+        blueTotal += Int(blue)
+        count += 1
+    }
+
+    var dominantColor: ArtistImageDominantColor {
+        ArtistImageDominantColor(
+            red: Double(redTotal) / Double(count) / 255,
+            green: Double(greenTotal) / Double(count) / 255,
+            blue: Double(blueTotal) / Double(count) / 255
+        )
+    }
+
+    var score: Double {
+        let red = Double(redTotal) / Double(count) / 255
+        let green = Double(greenTotal) / Double(count) / 255
+        let blue = Double(blueTotal) / Double(count) / 255
+        let brightness = max(red, green, blue)
+        let saturation = brightness == 0
+            ? 0
+            : (brightness - min(red, green, blue)) / brightness
+        let brightnessWeight = 1 - abs(brightness - 0.55)
+
+        return Double(count) * (0.6 + saturation) * brightnessWeight
+    }
+}
+
+final class ArtistImageColorCache {
+    static let shared = ArtistImageColorCache()
+
+    private static let colorContext = CIContext()
+    private static let dominantColorSampleSize = 48
+    private static let bucketSize = 32
+
+    private let lock = NSLock()
+    private var colorsByArtistId: [Int: ArtistImageDominantColor] = [:]
+
+    private init() {}
+
+    func cachedBackgroundColor(for artistId: Int) -> Color? {
+        cachedDominantColor(for: artistId)?.backgroundColor
+    }
+
+    func cachedPreferredColorScheme(for artistId: Int) -> ColorScheme? {
+        cachedDominantColor(for: artistId)?.preferredColorScheme
+    }
+
+    private func cachedDominantColor(for artistId: Int) -> ArtistImageDominantColor? {
+        lock.lock()
+        defer { lock.unlock() }
+        return colorsByArtistId[artistId]
+    }
+
+    private func store(_ color: ArtistImageDominantColor, for artistId: Int) {
+        lock.lock()
+        defer { lock.unlock() }
+        colorsByArtistId[artistId] = color
+    }
+
+    func prepareBackgroundColor(for artist: Artist) async {
+        _ = await backgroundColor(for: artist)
+    }
+
+    func backgroundColor(for artist: Artist) async -> Color? {
+        if let cachedColor = cachedBackgroundColor(for: artist.id) {
+            return cachedColor
+        }
+
+        guard let imageUrl = artist.thumbImageUrl ?? artist.fullImageUrl else {
+            return nil
+        }
+
+        do {
+            let (data, _) = try await URLSession.shared.data(from: imageUrl)
+            guard let dominantColor = Self.dominantColor(from: data) else {
+                return nil
+            }
+
+            store(dominantColor, for: artist.id)
+
+            return dominantColor.backgroundColor
+        } catch {
+            return nil
+        }
+    }
+
+    private static func dominantColor(from imageData: Data) -> ArtistImageDominantColor? {
+        guard let image = CIImage(data: imageData) else {
+            return nil
+        }
+
+        let scaledImage = scaledImageForDominantColorSampling(image)
+        let width = max(1, Int(scaledImage.extent.width.rounded(.up)))
+        let height = max(1, Int(scaledImage.extent.height.rounded(.up)))
+        let rowBytes = width * 4
+        var bitmap = [UInt8](repeating: 0, count: rowBytes * height)
+
+        colorContext.render(
+            scaledImage,
+            toBitmap: &bitmap,
+            rowBytes: rowBytes,
+            bounds: scaledImage.extent,
+            format: .RGBA8,
+            colorSpace: CGColorSpaceCreateDeviceRGB()
+        )
+
+        return dominantColor(from: bitmap, width: width, height: height)
+    }
+
+    private static func scaledImageForDominantColorSampling(_ image: CIImage) -> CIImage {
+        let maxDimension = max(image.extent.width, image.extent.height)
+        guard maxDimension > 0 else {
+            return image
+        }
+
+        let scale = CGFloat(dominantColorSampleSize) / maxDimension
+        return image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+    }
+
+    private static func dominantColor(
+        from bitmap: [UInt8],
+        width: Int,
+        height: Int
+    ) -> ArtistImageDominantColor? {
+        var preferredBuckets: [Int: ArtistImageColorBucket] = [:]
+        var fallbackBuckets: [Int: ArtistImageColorBucket] = [:]
+
+        for y in 0..<height {
+            for x in 0..<width {
+                let offset = (y * width + x) * 4
+                let red = bitmap[offset]
+                let green = bitmap[offset + 1]
+                let blue = bitmap[offset + 2]
+                let alpha = bitmap[offset + 3]
+
+                guard alpha > 200 else {
+                    continue
+                }
+
+                addPixel(red: red, green: green, blue: blue, to: &fallbackBuckets)
+
+                if isGoodDominantColorCandidate(red: red, green: green, blue: blue) {
+                    addPixel(red: red, green: green, blue: blue, to: &preferredBuckets)
+                }
+            }
+        }
+
+        let buckets = preferredBuckets.isEmpty ? fallbackBuckets : preferredBuckets
+        return buckets.values.max { first, second in
+            first.score < second.score
+        }?.dominantColor
+    }
+
+    private static func addPixel(
+        red: UInt8,
+        green: UInt8,
+        blue: UInt8,
+        to buckets: inout [Int: ArtistImageColorBucket]
+    ) {
+        let key = bucketKey(red: red, green: green, blue: blue)
+        var bucket = buckets[key] ?? ArtistImageColorBucket()
+        bucket.add(red: red, green: green, blue: blue)
+        buckets[key] = bucket
+    }
+
+    private static func bucketKey(red: UInt8, green: UInt8, blue: UInt8) -> Int {
+        let redBucket = Int(red) / bucketSize
+        let greenBucket = Int(green) / bucketSize
+        let blueBucket = Int(blue) / bucketSize
+        return redBucket << 16 | greenBucket << 8 | blueBucket
+    }
+
+    private static func isGoodDominantColorCandidate(
+        red: UInt8,
+        green: UInt8,
+        blue: UInt8
+    ) -> Bool {
+        let red = Double(red) / 255
+        let green = Double(green) / 255
+        let blue = Double(blue) / 255
+        let brightness = max(red, green, blue)
+        let saturation = brightness == 0
+            ? 0
+            : (brightness - min(red, green, blue)) / brightness
+
+        return saturation < 0.8
     }
 }
 
