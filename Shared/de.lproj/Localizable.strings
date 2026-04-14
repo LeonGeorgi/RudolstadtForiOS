@@ -53,7 +53,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der 
 "artists.saved.empty" = "Du hast noch keine Favoriten. Markiere dein Interesse auf der Künstlerseite, um Künstler hier zu speichern.";
 "artists.all.button" = "Alle";
 "artists.favorites.button" = "Favoriten";
-"artisttypes.all" = "Alle Arten";
+"artisttypes.all" = "Alle auswählen";
 
 "locations.title" = "Orte";
 "locations.empty" = "Keine Orte gefunden";

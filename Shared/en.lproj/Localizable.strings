@@ -54,7 +54,7 @@ You can find the artists you find interesting when you click on \"Favorites\" in
 "artists.all.button" = "All artists";
 "artists.favorites.button" = "Favorites";
 
-"artisttypes.all" = "All types";
+"artisttypes.all" = "Select all";
 
 "locations.title" = "Locations";
 "locations.empty" = "No locations found";

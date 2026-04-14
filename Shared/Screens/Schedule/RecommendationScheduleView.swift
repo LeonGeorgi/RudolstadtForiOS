@@ -78,43 +78,47 @@ struct RecommendationScheduleView: View {
                     )
                     .navigationBarTitle("schedule.title", displayMode: .inline)
                     .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
+                        ToolbarItemGroup(placement: .navigationBarTrailing) {
                             Button {
                                 settings.toggleScheduleViewType()
                             } label: {
                                 if settings.scheduleViewType == 0 {
-                                    Text("schedule.list.button")
+                                    Label("schedule.list.button", systemImage: "list.bullet")
                                 } else {
-                                    Text("schedule.table.button")
+                                    Label("schedule.table.button", systemImage: "square.grid.2x2")
                                 }
                             }
-                        }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Picker(
-                                "Test",
-                                selection: Binding<ScheduleType>(
-                                    get: {
-                                        settings.getScheduleFilterType(
-                                            settings.scheduleFilterType
-                                        )
-                                    },
-                                    set: { (type: ScheduleType) in
-                                        settings.setScheduleFilterType(
-                                            type: type
-                                        )
-                                    }
-                                )
-                            ) {
-                                Text("schedule.type.saved")
-                                    .tag(ScheduleType.saved)
-                                Text("schedule.type.optimal")
-                                    .tag(ScheduleType.optimal)
-                                Text("schedule.type.interesting")
-                                    .tag(ScheduleType.interesting)
-                                Text("schedule.type.all")
-                                    .tag(ScheduleType.all)
+                            .labelStyle(.iconOnly)
 
+                            Menu {
+                                Picker(
+                                    "filter.button",
+                                    selection: Binding<ScheduleType>(
+                                        get: {
+                                            settings.getScheduleFilterType(
+                                                settings.scheduleFilterType
+                                            )
+                                        },
+                                        set: { (type: ScheduleType) in
+                                            settings.setScheduleFilterType(
+                                                type: type
+                                            )
+                                        }
+                                    )
+                                ) {
+                                    Text("schedule.type.saved")
+                                        .tag(ScheduleType.saved)
+                                    Text("schedule.type.optimal")
+                                        .tag(ScheduleType.optimal)
+                                    Text("schedule.type.interesting")
+                                        .tag(ScheduleType.interesting)
+                                    Text("schedule.type.all")
+                                        .tag(ScheduleType.all)
+                                }
+                            } label: {
+                                Label("filter.button", systemImage: "line.3.horizontal.decrease.circle")
                             }
+                            .labelStyle(.iconOnly)
                         }
                     }
                 } else {

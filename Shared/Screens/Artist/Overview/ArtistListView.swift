@@ -14,7 +14,7 @@ struct ArtistListView: View {
 
     @EnvironmentObject var settings: UserSettings
 
-    @State var shownArtistTypes = ShownArtistTypes.all
+    @State private var shownArtistTypes = Set(ShownArtistTypes.allCases)
 
     @State var searchText = ""
     @State var favoriteArtistsOnly = false
@@ -32,17 +32,45 @@ struct ArtistListView: View {
 
     func getFilteredArtists(data: FestivalData) -> [Artist] {
         data.artists.filter { artist in
-            switch shownArtistTypes {
-            case .all:
-                return true
-            case .stage:
-                return artist.artistType == .stage
-            case .street:
-                return artist.artistType == .street
-            case .dance:
-                return artist.artistType == .dance
-            case .other:
-                return artist.artistType == .other
+            shownArtistTypes.contains(ShownArtistTypes(artistType: artist.artistType))
+        }
+    }
+
+    private var allArtistTypesSelected: Bool {
+        shownArtistTypes.count == ShownArtistTypes.allCases.count
+    }
+
+    private func showAllArtistTypes() {
+        shownArtistTypes = Set(ShownArtistTypes.allCases)
+    }
+
+    private func binding(for artistType: ShownArtistTypes) -> Binding<Bool> {
+        Binding(
+            get: {
+                shownArtistTypes.contains(artistType)
+            },
+            set: { isSelected in
+                if isSelected {
+                    shownArtistTypes.insert(artistType)
+                } else {
+                    shownArtistTypes.remove(artistType)
+                }
+            }
+        )
+    }
+
+    @ViewBuilder
+    private var filterButtonLabel: some View {
+        if allArtistTypesSelected {
+            Image(systemName: "line.3.horizontal.decrease.circle")
+        } else {
+            ZStack {
+                Circle()
+                    .fill(Color.accentColor)
+                    .frame(width: 26, height: 26)
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.white)
             }
         }
     }
@@ -118,27 +146,58 @@ struct ArtistListView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Picker("Test", selection: $shownArtistTypes) {
-                        Text("artisttypes.all")
-                            .tag(ShownArtistTypes.all)
-                        Text(ArtistType.stage.localizedName)
-                            .tag(ShownArtistTypes.stage)
-                        Text(ArtistType.street.localizedName)
-                            .tag(ShownArtistTypes.street)
-                        Text(ArtistType.dance.localizedName)
-                            .tag(ShownArtistTypes.dance)
-                        Text(ArtistType.other.localizedName)
-                            .tag(ShownArtistTypes.other)
+                    Menu {
+                        ForEach(ShownArtistTypes.allCases, id: \.self) { artistType in
+                            Toggle(isOn: binding(for: artistType)) {
+                                Text(artistType.localizedName)
+                            }
+                        }
 
+                        if !allArtistTypesSelected {
+                            Divider()
+
+                            Button("artisttypes.all") {
+                                showAllArtistTypes()
+                            }
+                        }
+                    } label: {
+                        filterButtonLabel
                     }
+                    .accessibilityLabel(Text("filter.button"))
                 }
             }
         }
     }
 }
 
-enum ShownArtistTypes {
-    case all, stage, street, dance, other
+enum ShownArtistTypes: CaseIterable, Hashable {
+    case stage, street, dance, other
+
+    init(artistType: ArtistType) {
+        switch artistType {
+        case .stage:
+            self = .stage
+        case .street:
+            self = .street
+        case .dance:
+            self = .dance
+        case .other:
+            self = .other
+        }
+    }
+
+    var localizedName: String {
+        switch self {
+        case .stage:
+            return ArtistType.stage.localizedName
+        case .street:
+            return ArtistType.street.localizedName
+        case .dance:
+            return ArtistType.dance.localizedName
+        case .other:
+            return ArtistType.other.localizedName
+        }
+    }
 }
 
 struct ArtistListView_Previews: PreviewProvider {
