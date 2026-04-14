@@ -3,7 +3,7 @@ import SwiftUI
 
 struct DonationView: View {
     @EnvironmentObject var iapManager: IAPManager
-    let ticketPrice = 156.0  // Festival ticket price
+    let ticketPrice = 166.00
 
     var sortedProducts: [SKProduct] {
         iapManager.products.sorted { first, second in

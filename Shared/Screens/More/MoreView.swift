@@ -9,10 +9,10 @@ struct MoreView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: GeneralView()) {
+                NavigationLink(destination: AboutView()) {
                     Label(
-                        "general.title",
-                        systemImage: "music.quarternote.3"
+                        "about.title",
+                        systemImage: "info"
                     )
                 }
 
@@ -27,12 +27,6 @@ struct MoreView: View {
                     Label(
                         "bus.title",
                         systemImage: "bus"
-                    )
-                }
-                NavigationLink(destination: AboutView()) {
-                    Label(
-                        "about.title",
-                        systemImage: "info"
                     )
                 }
                 NavigationLink {

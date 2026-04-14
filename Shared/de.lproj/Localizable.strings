@@ -102,7 +102,7 @@ Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der 
 "general.title" = "Über das Festival";
 "general.content" = "Roots, Folk und Weltmusik zwischen Tradition und Avantgarde, Dancefloor-Feeling und lauschige Gartenkonzerte – all das bietet „one of the finest music festivals on the planet“ (fRoots Großbritannien)
 
-Mit der 33. Festival-Ausgabe zieht es uns wieder in die Ferne: Der Länderschwerpunkt gilt Mali, mit seinen alten, magischen Traditionen und neuen, international erfolgreichen Sounds. Dazu gibt es ein Kinoangebot, Ausstellungen, die RUTH, Kindertänze, StraMu – und Bands aus Bosnien, Deutschland, Iran, Kolumbien, Spanien, Schweden etc.";
+Zur 34. Festival-Ausgabe begrüßt das Festival Österreich als Länderschwerpunkt. Neben Wienerlied, Austropop, alpinen Traditionen und zeitgenössischen Folk-Klängen gehören auch 2026 wieder Kino, Ausstellungen, die RUTH, Kindertänze und StraMu zum Programm.";
 "general.extra.title" = "Achtung!";
 "general.extra.content" = "Eintrittskarten für das Rudolstadt-Festival sind nur im Vorverkauf erhältlich. Gleiches gilt für die Kombikarten mit Übernachtung auf einem der Campingplätze, sowie der Parkkarten. An der Tageskasse erhält man ausschließlich Tageskarten für den Festivalbereich Innenstadt.";
 "bus.title" = "Bus";
@@ -121,15 +121,20 @@ Mit der 33. Festival-Ausgabe zieht es uns wieder in die Ferne: Der Länderschwer
 
 "about.title" = "Über die App";
 "about.official_app.title" = "Offizielle App";
+"about.official_website.title" = "Offizielle Webseite";
 "about.donate.title" = "Spende an den Entwickler";
 "about.github.title" = "GitHub öffnen";
 
 "about.app.content" = "Diese App ist nicht die offizielle Festival-App des Rudolstadt-Festivals. Sie wurde unbezahlt als Hobbyprojekt entwickelt, in der Hoffnung, ein besonders nutzerfreundliche App zu erschaffen.
 
+Die App ist für das Festival 2026 aktuell.
+
 Die App sammelt keinerlei Daten von dir. Alles, was du in der App machst, bleibt auf deinem Handy.";
 "about.developer.header" = "Über den Entwickler";
 "about.developer.content" = "Moin, ich bin Leon.
-Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (damals noch das \"TFF Rudolstadt\"). Seitdem bin ich immer wieder auf das Festival gegangen und finde nach wie vor große Freude daran. Mittlerweile bin ich 27 Jahre alt, schreibe momentan meine Masterarbeit in Informatik und arbeite seit einigen Jahren neben meinem Studium als professioneller Softwareentwickler. Da ich schon relativ lange unzufrieden damit bin, dass bestimmte Dinge in der offiziellen App etwas unpraktisch sind, hatte ich die Idee, ich könne in meiner Freizeit selbst eine App für das Festival schreiben. Gesagt, getan! Eigentlich wollte ich die App einfach nur selbst benutzen, aber weil ich mit dem Ergebnis jetzt sehr zufrieden bin, habe ich mich dazu entschieden, sie zu veröffentlichen. Viel Spaß damit!";
+Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (damals noch das \"TFF Rudolstadt\"). Seitdem bin ich immer wieder auf das Festival gegangen und finde nach wie vor große Freude daran. Inzwischen habe ich meinen Master in Informatik abgeschlossen und bin mit einem DAAD-Stipendium nach Japan gegangen. Deshalb kann ich dieses Jahr leider nicht beim Festival dabei sein, aber ich hoffe trotzdem, dass euch die App eine schöne Zeit in Rudolstadt erleichtert.
+
+Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequemer nutzen wollte. Eigentlich wollte ich die App einfach nur selbst benutzen, aber weil ich mit dem Ergebnis zufrieden war, habe ich mich dazu entschieden, sie zu veröffentlichen. Viel Spaß damit!";
 
 "copy.link.title" = "Link kopieren";
 "copy.email.title" = "E-Mail-Adresse kopieren";

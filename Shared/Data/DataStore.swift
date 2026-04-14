@@ -18,7 +18,7 @@ final class DataStore: ObservableObject {
     
     var extraData: ExtraDataCollection? = nil
 
-    static let year = 2025
+    static let year = 2026
 
     let dataLoader: DataLoader
     let apiClient: APIClient

@@ -102,7 +102,7 @@ You can find the artists you find interesting when you click on \"Favorites\" in
 "general.title" = "About the festival";
 "general.content" = "Roots, folk and world music between tradition and avant-garde, dancefloor-feeling and cosy garden concerts – all this offers „one of the finest music festivals on the planet“ (fRoots Great Britain)
 
-With its 33rd edition, the festival once again invites us to journey afar: This year’s country focus is Mali, known for its ancient, magical traditions and new internationally successful sounds. In addition, there will be a cinema program, exhibitions, the RUTH award, children’s dances, street music – and bands from Bosnia, Germany, Iran, Colombia, Spain, Sweden, and more.";
+For its 34th edition, the festival welcomes Austria as the special guest country. Alongside Viennese songs, Austropop, Alpine traditions and contemporary folk sounds, the program once again includes cinema, exhibitions, the RUTH award, children’s dances and street music.";
 "general.extra.title" = "Please note!";
 "general.extra.content" = "Tickets for the Rudolstadt Festival are only available in advance. The same applies to the combination tickets with overnight stay at one of the campsites, as well as the parking tickets. At the box office you only get day tickets for the festival area downtown.";
 "bus.title" = "Bus";
@@ -121,15 +121,20 @@ With its 33rd edition, the festival once again invites us to journey afar: This 
 
 "about.title" = "About the app";
 "about.official_app.title" = "Official app";
+"about.official_website.title" = "Official website";
 "about.donate.title" = "Donate to the developer";
 "about.github.title" = "Open GitHub";
 
 "about.app.content" = "This app is not the official app of the Rudolstadt Festival. It was developed unpaid as a hobby project, hoping to provide a more convenient user experience than the official app.
 
+The app is up-to-date for the 2026 festival.
+
 The app does not collect any data from you. Everything you do in the app stays on your phone.";
 "about.developer.header" = "About the developer";
 "about.developer.content" = "Hi, I'm Leon.
-When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. By now, I'm 27 years old, writing my master thesis in computer science, and have been working as a professional software developer for several years now next to my studies. As I have been unhappy for quite some time about certain things in the official app being a bit impractical, I got the idea that I could write an app for the festival myself in my spare time. No sooner said than done! Originally I just wanted to use the app myself, but because I'm very happy with the result now, I decided to publish it. Have fun with it!";
+When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. I have now completed my master's degree in computer science and went to Japan with a DAAD scholarship. That means I cannot be at the festival this year, but I still hope the app helps you have a good time in Rudolstadt.
+
+I built this app in my spare time because I wanted a more convenient way to use the festival program. Originally I just wanted to use it myself, but because I was happy with the result, I decided to publish it. Have fun with it!";
 
 "copy.link.title" = "Copy link";
 "copy.email.title" = "Copy email address";

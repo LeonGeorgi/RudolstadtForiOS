@@ -10,8 +10,12 @@ struct ArtistLinks {
 }
 
 func parseArtistLinks() -> [String: ArtistLinks] {
-    let resource = "2024_artist_urls"
-    guard let filepath = Bundle.main.path(forResource: resource, ofType: "csv")
+    let resource = "\(DataStore.year)_artist_urls"
+    let fallbackResource = "2024_artist_urls"
+    guard
+        let filepath =
+            Bundle.main.path(forResource: resource, ofType: "csv")
+            ?? Bundle.main.path(forResource: fallbackResource, ofType: "csv")
     else {
         print("File not found")
         return [:]

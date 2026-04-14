@@ -13,6 +13,12 @@ struct AboutView: View {
         URL(string: "itms-apps://apple.com/app/id534902145")
     }
 
+    let officialWebsiteUrlString = "https://www.rudolstadt-festival.de"
+
+    var officialWebsiteUrl: URL? {
+        URL(string: officialWebsiteUrlString)
+    }
+
     let githubUrlString = "https://github.com/LeonGeorgi"
 
     var githubUrl: URL? {
@@ -29,6 +35,20 @@ struct AboutView: View {
         List {
             Section {
                 Text("about.app.content")
+                Button(action: {
+                    if let url = officialWebsiteUrl {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("about.official_website.title")
+                }.disabled(officialWebsiteUrl == nil)
+                    .contextMenu {
+                        ContextCopyButton(
+                            textToCopy: officialWebsiteUrlString,
+                            label: "copy.link.title"
+                        )
+                    }
+
                 Button(action: {
                     if let url = officialAppUrl {
                         UIApplication.shared.open(url)
