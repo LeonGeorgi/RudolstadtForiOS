@@ -128,9 +128,18 @@ struct RecommendationScheduleView: View {
                     }
                     .disabled(!canGoToPreviousDay)
                     
-                    Text(currentDayLabel)
-                        .lineLimit(1)
-                        .frame(minWidth: 30)
+                    Menu {
+                        Picker("schedule.day.picker", selection: $selectedDay) {
+                            ForEach(availableEventDays, id: \.self) { day in
+                                Text(Util.fullWeekDay(day: day))
+                                    .tag(day)
+                            }
+                        }
+                    } label: {
+                        Text(currentDayLabel)
+                            .lineLimit(1)
+                            .frame(minWidth: 30)
+                    }
                     
                     Button {
                         moveDay(by: 1)
