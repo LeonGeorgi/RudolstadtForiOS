@@ -50,7 +50,7 @@ struct RecommendationScheduleView: View {
     }
 
     var body: some View {
-        NavigationView {
+        Group {
             switch dataStore.data {
             case .loading:
                 Text("events.loading")
@@ -76,55 +76,55 @@ struct RecommendationScheduleView: View {
                         viewAsTable: settings.scheduleViewType == 0,
                         eventDays: eventDays
                     )
-                    .navigationBarTitle("schedule.title", displayMode: .inline)
-                    .toolbar {
-                        ToolbarItemGroup(placement: .navigationBarTrailing) {
-                            Button {
-                                settings.toggleScheduleViewType()
-                            } label: {
-                                if settings.scheduleViewType == 0 {
-                                    Label("schedule.list.button", systemImage: "list.bullet")
-                                } else {
-                                    Label("schedule.table.button", systemImage: "square.grid.2x2")
-                                }
-                            }
-                            .labelStyle(.iconOnly)
-
-                            Menu {
-                                Picker(
-                                    "filter.button",
-                                    selection: Binding<ScheduleType>(
-                                        get: {
-                                            settings.getScheduleFilterType(
-                                                settings.scheduleFilterType
-                                            )
-                                        },
-                                        set: { (type: ScheduleType) in
-                                            settings.setScheduleFilterType(
-                                                type: type
-                                            )
-                                        }
-                                    )
-                                ) {
-                                    Text("schedule.type.saved")
-                                        .tag(ScheduleType.saved)
-                                    Text("schedule.type.optimal")
-                                        .tag(ScheduleType.optimal)
-                                    Text("schedule.type.interesting")
-                                        .tag(ScheduleType.interesting)
-                                    Text("schedule.type.all")
-                                        .tag(ScheduleType.all)
-                                }
-                            } label: {
-                                Label("filter.button", systemImage: "line.3.horizontal.decrease.circle")
-                            }
-                            .labelStyle(.iconOnly)
-                        }
-                    }
                 } else {
                     Text("recommendations.loading")
                 }
 
+            }
+        }
+        .navigationBarTitle("schedule.title", displayMode: .inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button {
+                    settings.toggleScheduleViewType()
+                } label: {
+                    if settings.scheduleViewType == 0 {
+                        Label("schedule.list.button", systemImage: "list.bullet")
+                    } else {
+                        Label("schedule.table.button", systemImage: "square.grid.2x2")
+                    }
+                }
+                .labelStyle(.iconOnly)
+
+                Menu {
+                    Picker(
+                        "filter.button",
+                        selection: Binding<ScheduleType>(
+                            get: {
+                                settings.getScheduleFilterType(
+                                    settings.scheduleFilterType
+                                )
+                            },
+                            set: { (type: ScheduleType) in
+                                settings.setScheduleFilterType(
+                                    type: type
+                                )
+                            }
+                        )
+                    ) {
+                        Text("schedule.type.saved")
+                            .tag(ScheduleType.saved)
+                        Text("schedule.type.optimal")
+                            .tag(ScheduleType.optimal)
+                        Text("schedule.type.interesting")
+                            .tag(ScheduleType.interesting)
+                        Text("schedule.type.all")
+                            .tag(ScheduleType.all)
+                    }
+                } label: {
+                    Label("filter.button", systemImage: "line.3.horizontal.decrease.circle")
+                }
+                .labelStyle(.iconOnly)
             }
         }
     }

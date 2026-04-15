@@ -7,22 +7,21 @@ struct NewsListView: View {
     @State var refreshButtonDisabled: Bool = false
 
     var body: some View {
-        NavigationView {
-            renderContent()
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("news.refresh.title") {
-                            refreshButtonDisabled = true
-                            Task {
-                                await dataStore
-                                    .updateAndLoadNewsIfNecessary()
-                                refreshButtonDisabled = false
-                            }
-                        }.disabled(refreshButtonDisabled)
+        renderContent()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("news.refresh.title") {
+                        refreshButtonDisabled = true
+                        Task {
+                            await dataStore
+                                .updateAndLoadNewsIfNecessary()
+                            refreshButtonDisabled = false
+                        }
                     }
-
-                }.navigationTitle("news.long")
-        }
+                    .disabled(refreshButtonDisabled)
+                }
+            }
+            .navigationTitle("news.long")
     }
 
     @ViewBuilder

@@ -7,48 +7,43 @@ struct MoreView: View {
     @EnvironmentObject var iapManager: IAPManager
 
     var body: some View {
-        NavigationView {
-            List {
-                NavigationLink(destination: AboutView()) {
-                    Label(
-                        "about.title",
-                        systemImage: "info"
-                    )
-                }
+        List {
+            NavigationLink(value: AppNavigationRoute.about) {
+                Label(
+                    "about.title",
+                    systemImage: "info"
+                )
+            }
 
-                NavigationLink(destination: ParkAndRideView()) {
-                    Label(
-                        "park_and_ride.title",
-                        systemImage: "car"
-                    )
-                }
+            NavigationLink(value: AppNavigationRoute.parkAndRide) {
+                Label(
+                    "park_and_ride.title",
+                    systemImage: "car"
+                )
+            }
 
-                NavigationLink(destination: BusView()) {
-                    Label(
-                        "bus.title",
-                        systemImage: "bus"
-                    )
-                }
-                NavigationLink {
-                    DonationView()
-                } label: {
-                    Label(
-                        "donations.title",
-                        systemImage: "heart"
-                    )
-                }
-                NavigationLink {
-                    SettingsView()
-                } label: {
-                    Label(
-                        "settings.title",
-                        systemImage: "gearshape"
-                    )
-                }
+            NavigationLink(value: AppNavigationRoute.bus) {
+                Label(
+                    "bus.title",
+                    systemImage: "bus"
+                )
+            }
+            NavigationLink(value: AppNavigationRoute.donation) {
+                Label(
+                    "donations.title",
+                    systemImage: "heart"
+                )
+            }
+            NavigationLink(value: AppNavigationRoute.settings) {
+                Label(
+                    "settings.title",
+                    systemImage: "gearshape"
+                )
+            }
 
-            }.navigationBarTitle("more.title")
-                .listStyle(.plain)
         }
+        .navigationBarTitle("more.title")
+        .listStyle(.plain)
         .font(.system(size: 18))
     }
 }

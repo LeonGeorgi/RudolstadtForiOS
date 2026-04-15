@@ -67,9 +67,7 @@ struct AboutView: View {
             }
             Section(header: Text("about.developer.header")) {
                 Text("about.developer.content")
-                NavigationLink {
-                    DonationView()
-                } label: {
+                NavigationLink(value: AppNavigationRoute.donation) {
                     Text("about.donate.title")
                 }
                 .foregroundColor(.accentColor)

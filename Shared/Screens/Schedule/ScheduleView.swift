@@ -40,8 +40,8 @@ struct ScheduleView: View {
             } else {
                 List(events) { event in
                     NavigationLink(
-                        destination: ArtistDetailView(
-                            artist: event.artist,
+                        value: AppNavigationRoute.artist(
+                            id: event.artist.id,
                             highlightedEventId: event.id
                         )
                     ) {

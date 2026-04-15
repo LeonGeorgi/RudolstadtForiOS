@@ -57,8 +57,8 @@ struct LocationListView: View {
                     Section(header: Text(areaStages.area.localizedName)) {
                         ForEach(areaStages.stages) { (stage: Stage) in
                             NavigationLink(
-                                destination: StageDetailView(
-                                    stage: stage,
+                                value: AppNavigationRoute.stage(
+                                    id: stage.id,
                                     highlightedEventId: nil
                                 )
                             ) {

@@ -104,8 +104,8 @@ struct StageDetailView: View {
                         }
                     ) { (stageDistance: StageDistance) in
                         NavigationLink(
-                            destination: StageDetailView(
-                                stage: stageDistance.stage,
+                            value: AppNavigationRoute.stage(
+                                id: stageDistance.stage.id,
                                 highlightedEventId: nil
                             )
                         ) {
@@ -163,8 +163,8 @@ struct StageDetailView: View {
     func renderEvent(_ event: Event) -> some View {
         let shouldBeHighlighted = highlightedEventId == event.id
         return NavigationLink(
-            destination: ArtistDetailView(
-                artist: event.artist,
+            value: AppNavigationRoute.artist(
+                id: event.artist.id,
                 highlightedEventId: event.id
             )
         ) {

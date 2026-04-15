@@ -41,49 +41,30 @@ struct ArtistEventCell: View {
     }
 
     var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 2) {
-                if event.tag != nil {
-                    Text(event.tag!.localizedName.uppercased())
-                        .font(.caption)
-                        .foregroundColor(.accentColor)
+        HStack(alignment: .center, spacing: 10) {
+            EventTimeBadge(event: event)
+
+            VStack(alignment: .leading, spacing: 3) {
+                if let tag = event.tag {
+                    Text(tag.localizedName.uppercased())
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(.tint)
                         .lineLimit(1)
-                }
-                HStack(alignment: .bottom) {
-                    Text("\(event.shortWeekDay) \(event.timeAsString)")
-                        .padding(.trailing, 10)
-                        .lineLimit(1)
-                    Text(event.stage.localizedName).lineLimit(1)
-                }
-                switch eventsThatIntersect {
-                case .loading:
-                    Text("events.intersecting.loading")
-                case .failure(let reason):
-                    Text("Failed to load: " + reason.rawValue)
-                case .success(let intersectingEvents):
-                    ForEach(intersectingEvents) { (intersectingEvent: Event) in
-                        HStack(spacing: 5) {
-                            Image(systemName: "exclamationmark.circle")
-                                .font(.caption)
-                                .foregroundColor(.orange)
-                            Text(
-                                String(
-                                    format: NSLocalizedString(
-                                        "event.intersecting.with",
-                                        comment: ""
-                                    ),
-                                    intersectingEvent.artist.formattedName
-                                )
-                            )
-                            .font(.caption)
-                            .foregroundColor(.orange)
-                        }
-                    }
                 }
 
+                Text(event.stage.localizedName)
+                    .font(.body.weight(.semibold))
+                    .lineLimit(1)
+
+                intersectingEventsView
             }
-            Spacer()
+            .frame(maxWidth: .infinity, alignment: .leading)
+
             EventSavedIcon(event: event)
+
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.tertiary)
         }
         .background(
             NavigationLink(
@@ -120,6 +101,71 @@ struct ArtistEventCell: View {
             SaveEventButton(event: event)
         }
         .id(settings.idFor(event: event))
+    }
+
+    @ViewBuilder
+    private var intersectingEventsView: some View {
+        switch eventsThatIntersect {
+        case .loading:
+            Text("events.intersecting.loading")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        case .failure(let reason):
+            Text("Failed to load: " + reason.rawValue)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        case .success(let intersectingEvents):
+            ForEach(intersectingEvents) { (intersectingEvent: Event) in
+                HStack(spacing: 5) {
+                    Image(systemName: "exclamationmark.circle")
+                        .font(.caption)
+                    Text(
+                        String(
+                            format: NSLocalizedString(
+                                "event.intersecting.with",
+                                comment: ""
+                            ),
+                            intersectingEvent.artist.formattedName
+                        )
+                    )
+                    .font(.caption)
+                }
+                .foregroundStyle(.orange)
+            }
+        }
+    }
+}
+
+private struct EventTimeBadge: View {
+    let event: Event
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Text(event.shortWeekDay.uppercased())
+                .font(.caption2.weight(.bold))
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 4)
+                .background(.tint.opacity(0.18))
+
+            Text(event.timeAsString)
+                .font(.system(.subheadline, design: .monospaced).weight(.bold))
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .foregroundStyle(.primary)
+        .frame(width: 52, height: 52)
+        .background(.regularMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 13, style: .continuous)
+                .stroke(.white.opacity(0.20), lineWidth: 0.5)
+        )
+        .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("\(event.shortWeekDay) \(event.timeAsString)"))
     }
 }
 

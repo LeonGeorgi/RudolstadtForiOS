@@ -12,7 +12,7 @@ struct NewsItemCell: View {
     @EnvironmentObject var settings: UserSettings
 
     var body: some View {
-        NavigationLink(destination: NewsItemDetailView(newsItem: newsItem)) {
+        NavigationLink(value: AppNavigationRoute.news(id: newsItem.id)) {
             HStack(alignment: .firstTextBaseline) {
                 Circle()
                     .foregroundColor(.blue)

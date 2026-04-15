@@ -106,18 +106,6 @@ struct ArtistListView: View {
     }
 
     @ViewBuilder
-    private func artistDetailDestination(for artist: Artist) -> some View {
-        if #available(iOS 18.0, macOS 15.0, *) {
-            ArtistDetailView(artist: artist, highlightedEventId: nil)
-                .navigationTransition(
-                    .zoom(sourceID: artist.id, in: artistImageTransition)
-                )
-        } else {
-            ArtistDetailView(artist: artist, highlightedEventId: nil)
-        }
-    }
-
-    @ViewBuilder
     private func artistOverview(_ artists: [Artist]) -> some View {
         let sortedArtists = sortArtistsByName(artists)
 
@@ -126,7 +114,10 @@ struct ArtistListView: View {
                 LazyVGrid(columns: gridColumns, spacing: 0) {
                     ForEach(sortedArtists) { artist in
                         NavigationLink(
-                            destination: artistDetailDestination(for: artist)
+                            value: AppNavigationRoute.artist(
+                                id: artist.id,
+                                highlightedEventId: nil
+                            )
                         ) {
                             ArtistGridCell(
                                 artist: artist,
@@ -147,8 +138,8 @@ struct ArtistListView: View {
             List {
                 ForEach(sortedArtists) { artist in
                     NavigationLink(
-                        destination: ArtistDetailView(
-                            artist: artist,
+                        value: AppNavigationRoute.artist(
+                            id: artist.id,
                             highlightedEventId: nil
                         )
                     ) {
@@ -165,69 +156,66 @@ struct ArtistListView: View {
     }
 
     var body: some View {
-        NavigationStack {
-
-            LoadingListView(
-                noDataMessage: "artists.none-found",
-                noDataSubtitle: nil,
-                dataMapper: { data in
-                    generateArtistsToShow(
-                        artists: getFilteredArtists(data: data)
-                    ).withApplied(searchTerm: searchText) { artist in
-                        artist.name
-                    }
+        LoadingListView(
+            noDataMessage: "artists.none-found",
+            noDataSubtitle: nil,
+            dataMapper: { data in
+                generateArtistsToShow(
+                    artists: getFilteredArtists(data: data)
+                ).withApplied(searchTerm: searchText) { artist in
+                    artist.name
                 }
-            ) { artists in
-                artistOverview(artists)
             }
-            .searchable(text: $searchText)
-            .disableAutocorrection(true)
-            .navigationBarTitle(
-                favoriteArtistsOnly ? "rated_artists.title" : "artists.title"
-            )
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        favoriteArtistsOnly.toggle()
-                    }) {
-                        if favoriteArtistsOnly {
-                            Text("artists.all.button")
-                        } else {
-                            Text("artists.favorites.button")
-                        }
+        ) { artists in
+            artistOverview(artists)
+        }
+        .searchable(text: $searchText)
+        .disableAutocorrection(true)
+        .navigationBarTitle(
+            favoriteArtistsOnly ? "rated_artists.title" : "artists.title"
+        )
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    favoriteArtistsOnly.toggle()
+                }) {
+                    if favoriteArtistsOnly {
+                        Text("artists.all.button")
+                    } else {
+                        Text("artists.favorites.button")
                     }
                 }
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button {
-                        settings.toggleArtistViewType()
-                    } label: {
-                        if settings.artistViewType == 1 {
-                            Label("list.title", systemImage: "list.bullet")
-                        } else {
-                            Label("grid.title", systemImage: "square.grid.3x3")
-                        }
+            }
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button {
+                    settings.toggleArtistViewType()
+                } label: {
+                    if settings.artistViewType == 1 {
+                        Label("list.title", systemImage: "list.bullet")
+                    } else {
+                        Label("grid.title", systemImage: "square.grid.3x3")
                     }
-                    .labelStyle(.iconOnly)
-
-                    Menu {
-                        ForEach(ShownArtistTypes.allCases, id: \.self) { artistType in
-                            Toggle(isOn: binding(for: artistType)) {
-                                Text(artistType.localizedName)
-                            }
-                        }
-
-                        if !allArtistTypesSelected {
-                            Divider()
-
-                            Button("artisttypes.all") {
-                                showAllArtistTypes()
-                            }
-                        }
-                    } label: {
-                        filterButtonLabel
-                    }
-                    .accessibilityLabel(Text("filter.button"))
                 }
+                .labelStyle(.iconOnly)
+
+                Menu {
+                    ForEach(ShownArtistTypes.allCases, id: \.self) { artistType in
+                        Toggle(isOn: binding(for: artistType)) {
+                            Text(artistType.localizedName)
+                        }
+                    }
+
+                    if !allArtistTypesSelected {
+                        Divider()
+
+                        Button("artisttypes.all") {
+                            showAllArtistTypes()
+                        }
+                    }
+                } label: {
+                    filterButtonLabel
+                }
+                .accessibilityLabel(Text("filter.button"))
             }
         }
     }
@@ -277,10 +265,37 @@ struct ArtistImageDominantColor {
         relativeLuminance > 0.45 ? .light : .dark
     }
 
+    var descriptionBackgroundColor: Color {
+        let adjustedColor: ArtistImageDominantColor
+        if relativeLuminance > 0.92 {
+            adjustedColor = adjusted(by: -0.08)
+        } else if relativeLuminance < 0.04 {
+            adjustedColor = adjusted(by: 0.08)
+        } else if preferredColorScheme == .dark {
+            adjustedColor = adjusted(by: -0.10)
+        } else {
+            adjustedColor = adjusted(by: 0.10)
+        }
+
+        return adjustedColor.backgroundColor
+    }
+
     private var relativeLuminance: Double {
         0.2126 * linearized(red)
             + 0.7152 * linearized(green)
             + 0.0722 * linearized(blue)
+    }
+
+    private func adjusted(by amount: Double) -> ArtistImageDominantColor {
+        ArtistImageDominantColor(
+            red: clamped(red + amount),
+            green: clamped(green + amount),
+            blue: clamped(blue + amount)
+        )
+    }
+
+    private func clamped(_ value: Double) -> Double {
+        min(1.0, max(0.0, value))
     }
 
     private func linearized(_ value: Double) -> Double {
@@ -343,6 +358,10 @@ final class ArtistImageColorCache {
 
     func cachedPreferredColorScheme(for artistId: Int) -> ColorScheme? {
         cachedDominantColor(for: artistId)?.preferredColorScheme
+    }
+
+    func cachedDescriptionBackgroundColor(for artistId: Int) -> Color? {
+        cachedDominantColor(for: artistId)?.descriptionBackgroundColor
     }
 
     private func cachedDominantColor(for artistId: Int) -> ArtistImageDominantColor? {
@@ -483,7 +502,7 @@ final class ArtistImageColorCache {
             ? 0
             : (brightness - min(red, green, blue)) / brightness
 
-        return saturation < 0.8
+        return saturation < 0.8;
     }
 }
 

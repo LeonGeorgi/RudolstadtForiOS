@@ -134,8 +134,8 @@ struct ScrollableProgramViewContent: View {
                             .frame(width: timeWidth + columnSpacing / 2)
                         ForEach(stages, id: \.0.id) { (stage, _) in
                             NavigationLink(
-                                destination: StageDetailView(
-                                    stage: stage,
+                                value: AppNavigationRoute.stage(
+                                    id: stage.id,
                                     highlightedEventId: nil
                                 )
                             ) {

@@ -42,8 +42,8 @@ struct MapView: View, Equatable {
                 ) { annotation in
                     MapAnnotation(coordinate: annotation.coordinate) {
                         NavigationLink(
-                            destination: StageDetailView(
-                                stage: annotation.stage,
+                            value: AppNavigationRoute.stage(
+                                id: annotation.stage.id,
                                 highlightedEventId: nil
                             )
                         ) {

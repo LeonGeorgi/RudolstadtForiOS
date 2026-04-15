@@ -10,51 +10,51 @@ struct ArtistRatingView: View {
 
     var body: some View {
         VStack {
-            HStack(alignment: .center, spacing: 0) {
-                ArtistIconPicker(artist: artist)
-                Spacer()
-                ForEach(1...3) { rating in
-                    Image(systemName: settings.likeIcon)
-                        .font(.system(size: 35))
-                        .frame(width: 40, height: 40)
-                        .foregroundStyle(
-                            self.rating >= rating
-                                ? Color.red
-                                : Color.secondary
-                        )
-                        .onTapGesture {
-                            if self.rating != rating {
-                                settings.setArtistRating(
-                                    for: artist,
-                                    rating: rating
-                                )
-                            } else {
-                                settings.setArtistRating(
-                                    for: artist,
-                                    rating: 0
-                                )
+            ZStack {
+                HStack(spacing: 0) {
+                    ForEach(1...3) { rating in
+                        Image(systemName: settings.likeIcon)
+                            .font(.system(size: 35))
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(
+                                self.rating >= rating
+                                    ? Color.red
+                                    : Color.secondary
+                            )
+                            .onTapGesture {
+                                if self.rating != rating {
+                                    settings.setArtistRating(
+                                        for: artist,
+                                        rating: rating
+                                    )
+                                } else {
+                                    settings.setArtistRating(
+                                        for: artist,
+                                        rating: 0
+                                    )
+                                }
                             }
-                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
 
+                HStack {
+                    Button(action: {
+                        settings.setArtistRating(for: artist, rating: 0)
+                    }) {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 20))
+                            .foregroundColor(.secondary)
+                            .opacity(rating == 0 ? 0 : 1)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .disabled(rating == 0)
+                    .accessibilityHidden(rating == 0)
+                    Spacer()
+                    ArtistIconPicker(artist: artist)
                 }
-                Spacer()
-                Button(action: {
-                    settings.setArtistRating(for: artist, rating: 0)
-                }) {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 20))
-                        .foregroundColor(.secondary)
-                }
-                .buttonStyle(PlainButtonStyle())
             }
-
         }
-    }
-    
-    private func rateArtist(rating: Int) {
-        var ratings = settings.ratings
-        ratings["\(artist.id)"] = rating
-        settings.ratings = ratings
     }
 }
 
@@ -114,30 +114,7 @@ struct ArtistIconPicker: View {
     ]
 
     var body: some View {
-        Button(action: {
-            if artistIcon == nil {
-                settings.setArtistIcon(
-                    for: artist,
-                    icon: "hand.thumbsdown.fill"
-                )
-            } else {
-                settings.setArtistRating(for: artist, rating: 0)
-            }
-        }) {
-            VStack(alignment: .center) {
-                if let artistIcon = artistIcon {
-                    Image(systemName: artistIcon)
-                        .font(.system(size: 30))
-                        .foregroundColor(.accentColor)
-                } else {
-                    Image(systemName: "hand.thumbsdown.fill")
-                        .font(.system(size: 30))
-                        .foregroundColor(.secondary)
-                }
-            }
-        }
-        .buttonStyle(PlainButtonStyle())
-        .contextMenu {
+        Menu {
             ForEach(icons, id: \.self) { icon in
                 Button(action: {
                     settings.setArtistIcon(for: artist, icon: icon)
@@ -149,12 +126,24 @@ struct ArtistIconPicker: View {
                         ),
                         systemImage: icon
                     )
-                    .foregroundColor(
-                        artistIcon == icon ? .accentColor : .secondary
-                    )
                 }
             }
+        } label: {
+            VStack(alignment: .center) {
+                if let artistIcon = artistIcon {
+                    Image(systemName: artistIcon)
+                        .font(.system(size: 30))
+                        .foregroundColor(.accentColor)
+                } else {
+                    Image(systemName: "ellipsis.circle")
+                        .font(.system(size: 28))
+                        .foregroundColor(.secondary)
+                }
+            }
+            .frame(width: 40, height: 40)
+            .contentShape(Rectangle())
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

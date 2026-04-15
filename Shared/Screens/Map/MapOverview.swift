@@ -30,7 +30,7 @@ struct MapOverview: View {
     }
 
     var body: some View {
-        NavigationView {
+        Group {
             switch annotationItems {
             case .loading:
                 Text("map.loading")
@@ -45,20 +45,20 @@ struct MapOverview: View {
                         LocationListView()
                     }
 
-                }.navigationBarTitle("locations.title", displayMode: .inline)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button(
-                                settings.mapType == 0
-                                    ? "list.title" : "map.title"
-                            ) {
-                                settings.toggleMapType()
-                            }
-                        }
-                    }
+                }
 
             }
-
+        }
+        .navigationBarTitle("locations.title", displayMode: .inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(
+                    settings.mapType == 0
+                        ? "list.title" : "map.title"
+                ) {
+                    settings.toggleMapType()
+                }
+            }
         }
     }
 }
