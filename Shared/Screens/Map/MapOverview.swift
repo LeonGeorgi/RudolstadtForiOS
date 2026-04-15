@@ -60,6 +60,10 @@ struct MapOverview: View {
                 }
             }
         }
+        .toolbarBackground(
+            settings.mapType == 0 ? .hidden : .visible,
+            for: .navigationBar
+        )
     }
 }
 

@@ -170,4 +170,12 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "settings.language" = "Sprache ändern";
 "settings.show_ai_summaries" = "KI-Zusammenfassungen anzeigen";
 "settings.use_flames" = "Statt Herzen Flammen verwenden";
+"settings.clear_cache.button" = "Zwischengespeicherte Daten löschen";
+"settings.clear_cache.title" = "Zwischengespeicherte Daten löschen?";
+"settings.clear_cache.cancel" = "Abbrechen";
+"settings.clear_cache.confirm" = "Löschen";
+"settings.clear_cache.message" = "Es werden nur zwischengespeicherte Daten entfernt. Deine Bewertungen und gespeicherten Veranstaltungen bleiben unverändert.";
+"settings.clear_cache.done_title" = "Cache gelöscht";
+"settings.clear_cache.done_message" = "Zwischengespeicherte Daten wurden entfernt. Deine Bewertungen und gespeicherten Veranstaltungen sind unverändert.";
+"settings.clear_cache.ok" = "OK";
 

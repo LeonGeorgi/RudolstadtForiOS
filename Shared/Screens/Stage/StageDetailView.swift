@@ -15,6 +15,10 @@ struct StageDetailView: View {
 
     @State var nearbyStages: [StageDistance] = []
     @State var selectedDay: Int = -1
+    @State private var nearbyBackgroundStartY = CGFloat.infinity
+    @State private var isShowingInteractiveMap = false
+    @State private var interactiveMapRecenterTrigger = 0
+    @State private var selectedEventForNavigation: Event?
 
     func events(_ entities: FestivalData) -> [Int: [Event]] {
         Dictionary(
@@ -36,107 +40,276 @@ struct StageDetailView: View {
         }
     }
 
+    private var nearbySectionTint: Color {
+        Color(.secondarySystemBackground)
+    }
+
+    private var isEventNavigationPresented: Binding<Bool> {
+        Binding(
+            get: { selectedEventForNavigation != nil },
+            set: { isPresented in
+                if !isPresented {
+                    selectedEventForNavigation = nil
+                }
+            }
+        )
+    }
+
     var body: some View {
-        List {
-            HStack(spacing: 12) {
-                StageNumber(stage: stage, size: 40)
-                VStack(alignment: .leading) {
-                    if stage.localizedDescription != nil {
-                        Text(stage.localizedDescription!)
-                            .font(.headline)
+        ZStack {
+            ArtistDetailSplitBackground(
+                artistBackgroundColor: Color(.systemBackground),
+                descriptionBackgroundColor: nearbySectionTint,
+                descriptionBackgroundStartY: nearbyBackgroundStartY
+            )
+
+            ScrollView {
+                VStack(spacing: 0) {
+                    topMapHero
+                        .padding(.top, 16)
+
+                    stageHeader
+                        .padding(.horizontal, 16)
+                        .padding(.top, 20)
+
+                    eventsSection
+                        .padding(.top, 18)
+
+                    if !nearbyStages.isEmpty {
+                        nearbyStagesSection
+                            .padding(.top, 20)
                     }
-                    Text(stage.area.localizedName)
-                        .font(.subheadline)
+                }
+                .padding(.bottom, 28)
+            }
+        }
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.hidden, for: .tabBar)
+        .onPreferenceChange(DescriptionBackgroundStartPreferenceKey.self) { startY in
+            nearbyBackgroundStartY = startY
+        }
+        .onAppear {
+            if case .success(let entities) = dataStore.data {
+                self.calculateNearbyStages(entities)
+                let days = self.eventDays(entities)
+                let highlightedEventDay = entities.events.first { event in
+                    event.id == highlightedEventId
+                }?.festivalDay
+                self.selectedDay =
+                    highlightedEventDay ?? Util.getCurrentFestivalDay(
+                        eventDays: days
+                    ) ?? days.first ?? -1
+            }
+        }
+        .fullScreenCover(isPresented: $isShowingInteractiveMap) {
+            NavigationStack {
+                ZStack(alignment: .bottomTrailing) {
+                    StageMapView(
+                        stage: stage,
+                        isInteractive: true,
+                        recenterTrigger: interactiveMapRecenterTrigger
+                    )
+                    .ignoresSafeArea()
+
+                    Button {
+                        interactiveMapRecenterTrigger += 1
+                    } label: {
+                        Image(systemName: "location")
+                            .font(.system(size: 17, weight: .semibold))
+                    }
+                    .modifier(MapLocateButtonStyle())
+                    .padding(.trailing, 16)
+                    .padding(.bottom, 24)
+                    .accessibilityLabel(Text("Show my location"))
+                }
+                .navigationTitle(stage.localizedName)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button("Close") {
+                                isShowingInteractiveMap = false
+                            }
+                        }
+
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button {
+                                StageMapView.openInMaps(stage: stage)
+                            } label: {
+                                Label("Open in Maps", systemImage: "map")
+                            }
+                        }
+                    }
+            }
+        }
+        .navigationDestination(isPresented: isEventNavigationPresented) {
+            if let event = selectedEventForNavigation {
+                ArtistDetailView(
+                    artist: event.artist,
+                    highlightedEventId: event.id
+                )
+            }
+        }
+    }
+
+    private var stageHeader: some View {
+        VStack(spacing: 10) {
+            HStack(alignment: .center, spacing: 10) {
+                StageNumber(stage: stage, size: 34)
+
+                Text(stage.localizedName)
+                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.78)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+
+            VStack(spacing: 4) {
+                if let description = stage.localizedDescription,
+                    !description.isEmpty
+                {
+                    Text(description)
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
                 }
 
+                Text(stage.area.localizedName)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
+            .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    private var eventsSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            sectionHeader("stage.events")
+
             switch dataStore.data {
             case .loading:
-                Section(header: Text("stage.events")) {
-                    Text("stage.events.loading")
-                }
+                Text("stage.events.loading")
+                    .foregroundStyle(.secondary)
             case .failure(let reason):
-                Section(header: Text("stage.events")) {
-                    Text("Failed to load: " + reason.rawValue)
-                }
+                Text("Failed to load: " + reason.rawValue)
+                    .foregroundStyle(.secondary)
             case .success(let entities):
-                if !eventDays(entities).isEmpty {
-                    Section(header: Text("stage.events")) {
-                        Picker("Date", selection: $selectedDay) {
-                            ForEach(eventDays(entities)) { day in
-                                Text(Util.shortWeekDay(day: day)).tag(day)
-                            }
+                let days = eventDays(entities)
+                if !days.isEmpty {
+                    Picker("Date", selection: $selectedDay) {
+                        ForEach(days) { day in
+                            Text(Util.shortWeekDay(day: day)).tag(day)
                         }
-                        .pickerStyle(SegmentedPickerStyle())
-                        ForEach(events(entities)[selectedDay] ?? []) {
-                            (event: Event) in
-                            renderEvent(event)
-                        }.horizontalSwipeGesture {
-                            let nextDay = selectedDay + 1
-                            if eventDays(entities).contains(nextDay) {
-                                selectedDay = nextDay
-                            }
-                        } onSwipeRight: {
-                            let previousDay = selectedDay - 1
-                            if eventDays(entities).contains(previousDay) {
-                                selectedDay = previousDay
-                            }
-                        }
+                    }
+                    .pickerStyle(.segmented)
 
+                    VStack(spacing: 0) {
+                        ForEach(Array((events(entities)[selectedDay] ?? []).enumerated()), id: \.element.id) { index, event in
+                            renderEvent(event)
+
+                            if index < (events(entities)[selectedDay] ?? []).count - 1 {
+                                Divider()
+                                    .padding(.leading, 90)
+                            }
+                        }
                     }
                 }
             }
+        }
+        .padding(.horizontal, 16)
+    }
 
-            Section(header: Text("stage.map")) {
-                Button(action: {
-                    StageMapView.openInMaps(stage: self.stage)
-                }) {
-                    StageMapView(stage: stage)
-                        .frame(minHeight: 300)
-                }.listRowInsets(EdgeInsets())
-                    .buttonStyle(PlainButtonStyle())
+    private var topMapHero: some View {
+        StageMapView(stage: stage)
+            .allowsHitTesting(false)
+            .frame(height: 188)
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .stroke(.white.opacity(0.22), lineWidth: 0.5)
+            )
+            .shadow(color: .black.opacity(0.28), radius: 18, x: 0, y: 10)
+            .padding(.horizontal, 34)
+            .overlay {
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(Color.clear)
+                    .padding(.horizontal, 34)
+                    .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    .onTapGesture {
+                        isShowingInteractiveMap = true
+                    }
             }
-            if !nearbyStages.isEmpty {
-                Section(header: Text("stage.nearby")) {
-                    ForEach(
-                        nearbyStages.sorted { first, second in
-                            first.distance < second.distance
-                        }
-                    ) { (stageDistance: StageDistance) in
-                        NavigationLink(
-                            value: AppNavigationRoute.stage(
-                                id: stageDistance.stage.id,
-                                highlightedEventId: nil
-                            )
-                        ) {
-                            VStack(alignment: .leading) {
+            .accessibilityAddTraits(.isButton)
+            .accessibilityLabel(Text("stage.map"))
+    }
+
+    private var nearbyStagesSection: some View {
+        let sortedNearbyStages = nearbyStages.sorted { first, second in
+            first.distance < second.distance
+        }
+
+        return VStack(alignment: .leading, spacing: 12) {
+            sectionHeader("stage.nearby")
+
+            VStack(spacing: 0) {
+                ForEach(Array(sortedNearbyStages.enumerated()), id: \.element.id) { index, stageDistance in
+                    NavigationLink(
+                        value: AppNavigationRoute.stage(
+                            id: stageDistance.stage.id,
+                            highlightedEventId: nil
+                        )
+                    ) {
+                        HStack(spacing: 12) {
+                            StageNumber(stage: stageDistance.stage, size: 26)
+
+                            VStack(alignment: .leading, spacing: 2) {
                                 Text(stageDistance.stage.localizedName)
                                     .lineLimit(1)
-                                Text(
-                                    "\(Int(stageDistance.distance / 10) * 10) METER"
-                                )
-                                .font(.caption)
+                                Text("\(Int(stageDistance.distance / 10) * 10) METER")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
                             }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
                         }
+                        .padding(.vertical, 10)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+
+                    if index < sortedNearbyStages.count - 1 {
+                        Divider()
+                            .padding(.leading, 40)
                     }
                 }
             }
-
-        }.listStyle(GroupedListStyle())
-            .navigationBarTitle(stage.localizedName)
-            .onAppear {
-                if case .success(let entities) = dataStore.data {
-                    self.calculateNearbyStages(entities)
-                    let days = self.eventDays(entities)
-                    let highlightedEventDay = entities.events.first { event in
-                        event.id == highlightedEventId
-                    }?.festivalDay
-                    self.selectedDay =
-                        highlightedEventDay ?? Util.getCurrentFestivalDay(
-                            eventDays: days
-                        ) ?? days.first ?? -1
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 18)
+        .padding(.bottom, 30)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            nearbySectionTint
+                .overlay {
+                    GeometryReader { proxy in
+                        Color.clear.preference(
+                            key: DescriptionBackgroundStartPreferenceKey.self,
+                            value: proxy.frame(in: .global).minY
+                        )
+                    }
                 }
-            }
+        )
+    }
+
+    private func sectionHeader(_ titleKey: LocalizedStringKey) -> some View {
+        Text(titleKey)
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(.secondary)
     }
 
     func calculateNearbyStages(_ entities: FestivalData) {
@@ -162,20 +335,16 @@ struct StageDetailView: View {
 
     func renderEvent(_ event: Event) -> some View {
         let shouldBeHighlighted = highlightedEventId == event.id
-        return NavigationLink(
-            value: AppNavigationRoute.artist(
-                id: event.artist.id,
-                highlightedEventId: event.id
+        return StageEventCell(event: event, imageWidth: 64, imageHeight: 56)
+            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                shouldBeHighlighted ? Color.yellow.opacity(0.22) : Color.clear
             )
-        ) {
-            StageEventCell(event: event, imageWidth: 64, imageHeight: 56)
-        }.buttonStyle(PlainButtonStyle())
-            .listRowBackground(
-                shouldBeHighlighted ? Color.yellow.opacity(0.3) : nil
-            )
-            .listRowInsets(
-                EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
-            )
+            .contentShape(Rectangle())
+            .onTapGesture {
+                selectedEventForNavigation = event
+            }
     }
 
     func calculateAirDistance(first: Stage, second: Stage) -> Double {
@@ -226,6 +395,22 @@ struct StageDetailView: View {
             if let response = response, let route = response.routes.first {
                 completion(route.expectedTravelTime)
             }
+        }
+    }
+}
+
+private struct MapLocateButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .buttonStyle(.glass)
+                .buttonBorderShape(.circle)
+                .controlSize(.large)
+        } else {
+            content
+                .frame(width: 36, height: 36)
+                .background(.ultraThinMaterial, in: Circle())
+                .clipShape(Circle())
         }
     }
 }

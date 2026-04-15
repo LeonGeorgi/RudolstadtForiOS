@@ -12,42 +12,74 @@ import SwiftUI
 
 struct StageMapView: UIViewRepresentable {
     let stage: Stage
-    fileprivate let locationManager = CLLocationManager()
+    let isInteractive: Bool
+    let recenterTrigger: Int
+
+    init(stage: Stage, isInteractive: Bool = false, recenterTrigger: Int = 0) {
+        self.stage = stage
+        self.isInteractive = isInteractive
+        self.recenterTrigger = recenterTrigger
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
 
     func makeUIView(context: Context) -> MKMapView {
         let view = MKMapView()
         updateStage(from: view)
-        let center = CLLocationCoordinate2D(
-            latitude: 50.719877,
-            longitude: 11.338449
-        )
-        let latDistance = abs(center.latitude - stage.latitude)
-        let longDistance = abs(center.longitude - stage.longitude)
 
-        let latDelta = max(0.01, latDistance * 2)
-        let longDelta = max(0.01, longDistance * 2)
+        view.setRegion(initialRegion, animated: false)
+        view.isZoomEnabled = isInteractive
+        view.isScrollEnabled = isInteractive
+        view.isRotateEnabled = isInteractive
+        view.isPitchEnabled = isInteractive
+        view.isUserInteractionEnabled = isInteractive
 
-        let region = MKCoordinateRegion(
-            center: center,
-            span: MKCoordinateSpan(
-                latitudeDelta: CLLocationDistance(exactly: latDelta)!,
-                longitudeDelta: CLLocationDistance(exactly: longDelta)!
-            )
-        )
-        view.setRegion(region, animated: false)
+        view.pointOfInterestFilter = .excludingAll
 
-        // locationManager.requestWhenInUseAuthorization()
-        // locationManager.startUpdatingLocation()
+        if isInteractive {
+            view.showsCompass = true
+            view.showsScale = true
+            view.showsUserLocation = true
+            
+            context.coordinator.locationManager.requestWhenInUseAuthorization()
+        }
 
-        // view.showsUserLocation = true
-        // locationManager.stopUpdatingLocation()
-        view.isZoomEnabled = false
-        view.isScrollEnabled = false
-        view.isUserInteractionEnabled = false
         return view
     }
 
     func updateUIView(_ uiView: MKMapView, context: Context) {
+        guard isInteractive else {
+            return
+        }
+
+        if context.coordinator.lastRecenterTrigger != recenterTrigger {
+            context.coordinator.lastRecenterTrigger = recenterTrigger
+            uiView.setUserTrackingMode(.follow, animated: true)
+        }
+    }
+
+    private var initialRegion: MKCoordinateRegion {
+        let center = CLLocationCoordinate2D(
+            latitude: stage.latitude,
+            longitude: stage.longitude
+        )
+
+        if isInteractive {
+            return MKCoordinateRegion(
+                center: center,
+                latitudinalMeters: 700,
+                longitudinalMeters: 700
+            )
+        }
+
+        // Keep local context while clearly pinpointing the selected stage.
+        return MKCoordinateRegion(
+            center: center,
+            latitudinalMeters: 900,
+            longitudinalMeters: 900
+        )
     }
 
     private func updateStage(from mapView: MKMapView) {
@@ -91,6 +123,13 @@ struct StageMapView: UIViewRepresentable {
         let mapItem = MKMapItem(placemark: placemark)
         mapItem.name = "\(stage.localizedName)"
         mapItem.openInMaps(launchOptions: options)
+    }
+}
+
+extension StageMapView {
+    final class Coordinator {
+        let locationManager = CLLocationManager()
+        var lastRecenterTrigger: Int = 0
     }
 }
 

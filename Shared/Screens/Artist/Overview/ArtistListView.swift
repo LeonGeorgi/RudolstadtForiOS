@@ -256,26 +256,53 @@ struct ArtistImageDominantColor: Codable {
         Color(.sRGB, red: red, green: green, blue: blue, opacity: 1.0)
     }
 
-    var preferredColorScheme: ColorScheme {
-        relativeLuminance > 0.45 ? .light : .dark
+    func descriptionBackgroundColor(for colorScheme: ColorScheme) -> Color {
+        adjustedDescriptionColor(for: colorScheme).backgroundColor
     }
 
-    var descriptionBackgroundColor: Color {
+    func adjustedToMeetReadability(for colorScheme: ColorScheme) -> ArtistImageDominantColor {
+        switch colorScheme {
+        case .light:
+            if relativeLuminance >= 0.22 {
+                return self
+            }
+
+            var adjustedColor = self
+            for _ in 0..<10 where adjustedColor.relativeLuminance < 0.22 {
+                adjustedColor = adjustedColor.adjusted(by: 0.05)
+            }
+            return adjustedColor
+        case .dark:
+            if relativeLuminance <= 0.18 {
+                return self
+            }
+
+            var adjustedColor = self
+            for _ in 0..<10 where adjustedColor.relativeLuminance > 0.18 {
+                adjustedColor = adjustedColor.adjusted(by: -0.05)
+            }
+            return adjustedColor
+        @unknown default:
+            return self
+        }
+    }
+
+    private func adjustedDescriptionColor(for colorScheme: ColorScheme) -> ArtistImageDominantColor {
         let adjustedColor: ArtistImageDominantColor
         if relativeLuminance > 0.92 {
             adjustedColor = adjusted(by: -0.08)
         } else if relativeLuminance < 0.04 {
             adjustedColor = adjusted(by: 0.08)
-        } else if preferredColorScheme == .dark {
+        } else if colorScheme == .dark {
             adjustedColor = adjusted(by: -0.10)
         } else {
             adjustedColor = adjusted(by: 0.10)
         }
 
-        return adjustedColor.backgroundColor
+        return adjustedColor
     }
 
-    private var relativeLuminance: Double {
+    var relativeLuminance: Double {
         0.2126 * linearized(red)
             + 0.7152 * linearized(green)
             + 0.0722 * linearized(blue)
@@ -297,6 +324,33 @@ struct ArtistImageDominantColor: Codable {
         value <= 0.03928
             ? value / 12.92
             : pow((value + 0.055) / 1.055, 2.4)
+    }
+}
+
+struct ArtistImageThemeColors: Codable {
+    let light: ArtistImageDominantColor
+    let dark: ArtistImageDominantColor
+
+    func backgroundColor(for colorScheme: ColorScheme) -> Color {
+        switch colorScheme {
+        case .light:
+            return light.backgroundColor
+        case .dark:
+            return dark.backgroundColor
+        @unknown default:
+            return light.backgroundColor
+        }
+    }
+
+    func descriptionBackgroundColor(for colorScheme: ColorScheme) -> Color {
+        switch colorScheme {
+        case .light:
+            return light.descriptionBackgroundColor(for: .light)
+        case .dark:
+            return dark.descriptionBackgroundColor(for: .dark)
+        @unknown default:
+            return light.descriptionBackgroundColor(for: .light)
+        }
     }
 }
 
@@ -341,35 +395,31 @@ final class ArtistImageColorCache {
     private static let colorContext = CIContext()
     private static let dominantColorSampleSize = 48
     private static let bucketSize = 32
-    private static let persistedColorsKey = "artist.image.dominant.colors"
+    private static let persistedColorsKey = "artist.image.theme.colors.v2"
 
     private let lock = NSLock()
-    private var colorsByArtistId: [Int: ArtistImageDominantColor] = [:]
-    private var inFlightColorTasksByArtistId: [Int: Task<ArtistImageDominantColor?, Never>] = [:]
+    private var colorsByArtistId: [Int: ArtistImageThemeColors] = [:]
+    private var inFlightColorTasksByArtistId: [Int: Task<ArtistImageThemeColors?, Never>] = [:]
 
     private init() {
         restorePersistedColors()
     }
 
-    func cachedBackgroundColor(for artistId: Int) -> Color? {
-        cachedDominantColor(for: artistId)?.backgroundColor
+    func cachedBackgroundColor(for artistId: Int, colorScheme: ColorScheme) -> Color? {
+        cachedThemeColors(for: artistId)?.backgroundColor(for: colorScheme)
     }
 
-    func cachedPreferredColorScheme(for artistId: Int) -> ColorScheme? {
-        cachedDominantColor(for: artistId)?.preferredColorScheme
+    func cachedDescriptionBackgroundColor(for artistId: Int, colorScheme: ColorScheme) -> Color? {
+        cachedThemeColors(for: artistId)?.descriptionBackgroundColor(for: colorScheme)
     }
 
-    func cachedDescriptionBackgroundColor(for artistId: Int) -> Color? {
-        cachedDominantColor(for: artistId)?.descriptionBackgroundColor
-    }
-
-    private func cachedDominantColor(for artistId: Int) -> ArtistImageDominantColor? {
+    func cachedThemeColors(for artistId: Int) -> ArtistImageThemeColors? {
         lock.lock()
         defer { lock.unlock() }
         return colorsByArtistId[artistId]
     }
 
-    private func store(_ color: ArtistImageDominantColor, for artistId: Int) {
+    private func store(_ color: ArtistImageThemeColors, for artistId: Int) {
         lock.lock()
         defer { lock.unlock() }
         colorsByArtistId[artistId] = color
@@ -379,7 +429,7 @@ final class ArtistImageColorCache {
     private func restorePersistedColors() {
         guard
             let data = UserDefaults.standard.data(forKey: Self.persistedColorsKey),
-            let decodedColors = try? JSONDecoder().decode([Int: ArtistImageDominantColor].self, from: data)
+            let decodedColors = try? JSONDecoder().decode([Int: ArtistImageThemeColors].self, from: data)
         else {
             return
         }
@@ -396,14 +446,24 @@ final class ArtistImageColorCache {
         UserDefaults.standard.set(encoded, forKey: Self.persistedColorsKey)
     }
 
-    private func inFlightTask(for artistId: Int) -> Task<ArtistImageDominantColor?, Never>? {
+    func clearCache() {
+        lock.lock()
+        defer { lock.unlock() }
+
+        inFlightColorTasksByArtistId.values.forEach { $0.cancel() }
+        inFlightColorTasksByArtistId.removeAll()
+        colorsByArtistId.removeAll()
+        UserDefaults.standard.removeObject(forKey: Self.persistedColorsKey)
+    }
+
+    private func inFlightTask(for artistId: Int) -> Task<ArtistImageThemeColors?, Never>? {
         lock.lock()
         defer { lock.unlock() }
         return inFlightColorTasksByArtistId[artistId]
     }
 
     private func setInFlightTask(
-        _ task: Task<ArtistImageDominantColor?, Never>?,
+        _ task: Task<ArtistImageThemeColors?, Never>?,
         for artistId: Int
     ) {
         lock.lock()
@@ -412,12 +472,12 @@ final class ArtistImageColorCache {
     }
 
     func prepareBackgroundColor(for artist: Artist) async {
-        _ = await backgroundColor(for: artist)
+        _ = await themeColors(for: artist)
     }
 
-    func backgroundColor(for artist: Artist) async -> Color? {
-        if let cachedDominantColor = cachedDominantColor(for: artist.id) {
-            return cachedDominantColor.backgroundColor
+    func themeColors(for artist: Artist) async -> ArtistImageThemeColors? {
+        if let cachedThemeColors = cachedThemeColors(for: artist.id) {
+            return cachedThemeColors
         }
 
         guard let imageUrl = artist.thumbImageUrl ?? artist.fullImageUrl else {
@@ -425,35 +485,35 @@ final class ArtistImageColorCache {
         }
 
         if let inFlightTask = inFlightTask(for: artist.id) {
-            if let inFlightDominantColor = await inFlightTask.value {
-                store(inFlightDominantColor, for: artist.id)
-                return inFlightDominantColor.backgroundColor
+            if let inFlightThemeColors = await inFlightTask.value {
+                store(inFlightThemeColors, for: artist.id)
+                return inFlightThemeColors
             }
             return nil
         }
 
-        let task = Task.detached(priority: .utility) { () -> ArtistImageDominantColor? in
+        let task = Task.detached(priority: .utility) { () -> ArtistImageThemeColors? in
             do {
                 let (data, _) = try await URLSession.shared.data(from: imageUrl)
-                return Self.dominantColor(from: data)
+                return Self.themeColors(from: data)
             } catch {
                 return nil
             }
         }
 
         setInFlightTask(task, for: artist.id)
-        let dominantColor = await task.value
+        let themeColors = await task.value
         setInFlightTask(nil, for: artist.id)
 
-        guard let dominantColor else {
+        guard let themeColors else {
             return nil
         }
 
-        store(dominantColor, for: artist.id)
-        return dominantColor.backgroundColor
+        store(themeColors, for: artist.id)
+        return themeColors
     }
 
-    private static func dominantColor(from imageData: Data) -> ArtistImageDominantColor? {
+    private static func themeColors(from imageData: Data) -> ArtistImageThemeColors? {
         guard let image = CIImage(data: imageData) else {
             return nil
         }
@@ -473,7 +533,7 @@ final class ArtistImageColorCache {
             colorSpace: CGColorSpaceCreateDeviceRGB()
         )
 
-        return dominantColor(from: bitmap, width: width, height: height)
+        return themeColors(from: bitmap, width: width, height: height)
     }
 
     private static func scaledImageForDominantColorSampling(_ image: CIImage) -> CIImage {
@@ -486,12 +546,13 @@ final class ArtistImageColorCache {
         return image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
     }
 
-    private static func dominantColor(
+    private static func themeColors(
         from bitmap: [UInt8],
         width: Int,
         height: Int
-    ) -> ArtistImageDominantColor? {
-        var preferredBuckets: [Int: ArtistImageColorBucket] = [:]
+    ) -> ArtistImageThemeColors? {
+        var lightPreferredBuckets: [Int: ArtistImageColorBucket] = [:]
+        var darkPreferredBuckets: [Int: ArtistImageColorBucket] = [:]
         var fallbackBuckets: [Int: ArtistImageColorBucket] = [:]
 
         for y in 0..<height {
@@ -509,13 +570,30 @@ final class ArtistImageColorCache {
                 addPixel(red: red, green: green, blue: blue, to: &fallbackBuckets)
 
                 if isGoodDominantColorCandidate(red: red, green: green, blue: blue) {
-                    addPixel(red: red, green: green, blue: blue, to: &preferredBuckets)
+                    if isReadableWithDarkText(red: red, green: green, blue: blue) {
+                        addPixel(red: red, green: green, blue: blue, to: &lightPreferredBuckets)
+                    }
+                    if isReadableWithLightText(red: red, green: green, blue: blue) {
+                        addPixel(red: red, green: green, blue: blue, to: &darkPreferredBuckets)
+                    }
                 }
             }
         }
 
-        let buckets = preferredBuckets.isEmpty ? fallbackBuckets : preferredBuckets
-        return buckets.values.max { first, second in
+        guard let fallbackColor = dominantColor(from: fallbackBuckets) else {
+            return nil
+        }
+
+        let lightColor = (dominantColor(from: lightPreferredBuckets) ?? fallbackColor)
+            .adjustedToMeetReadability(for: .light)
+        let darkColor = (dominantColor(from: darkPreferredBuckets) ?? fallbackColor)
+            .adjustedToMeetReadability(for: .dark)
+
+        return ArtistImageThemeColors(light: lightColor, dark: darkColor)
+    }
+
+    private static func dominantColor(from buckets: [Int: ArtistImageColorBucket]) -> ArtistImageDominantColor? {
+        buckets.values.max { first, second in
             first.score < second.score
         }?.dominantColor
     }
@@ -552,7 +630,28 @@ final class ArtistImageColorCache {
             ? 0
             : (brightness - min(red, green, blue)) / brightness
 
-        return saturation < 0.8;
+        return saturation < 0.8
+    }
+
+    private static func isReadableWithDarkText(red: UInt8, green: UInt8, blue: UInt8) -> Bool {
+        relativeLuminance(red: red, green: green, blue: blue) >= 0.25
+    }
+
+    private static func isReadableWithLightText(red: UInt8, green: UInt8, blue: UInt8) -> Bool {
+        relativeLuminance(red: red, green: green, blue: blue) <= 0.15
+    }
+
+    private static func relativeLuminance(red: UInt8, green: UInt8, blue: UInt8) -> Double {
+        let redLinear = linearized(Double(red) / 255)
+        let greenLinear = linearized(Double(green) / 255)
+        let blueLinear = linearized(Double(blue) / 255)
+        return 0.2126 * redLinear + 0.7152 * greenLinear + 0.0722 * blueLinear
+    }
+
+    private static func linearized(_ value: Double) -> Double {
+        value <= 0.03928
+            ? value / 12.92
+            : pow((value + 0.055) / 1.055, 2.4)
     }
 }
 

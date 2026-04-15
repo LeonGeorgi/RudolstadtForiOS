@@ -171,3 +171,11 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "settings.language" = "Change language";
 "settings.show_ai_summaries" = "Show AI summaries";
 "settings.use_flames" = "Use flames instead of hearts";
+"settings.clear_cache.button" = "Clear cached data";
+"settings.clear_cache.title" = "Clear cached data?";
+"settings.clear_cache.cancel" = "Cancel";
+"settings.clear_cache.confirm" = "Clear";
+"settings.clear_cache.message" = "Only temporary cached data will be removed. Your ratings and saved events will not change.";
+"settings.clear_cache.done_title" = "Cache cleared";
+"settings.clear_cache.done_message" = "Cached data was removed. Your ratings and saved events are unchanged.";
+"settings.clear_cache.ok" = "OK";

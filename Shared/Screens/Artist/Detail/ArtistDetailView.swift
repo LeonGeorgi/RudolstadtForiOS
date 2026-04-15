@@ -5,6 +5,7 @@ struct ArtistDetailView: View {
     let artist: Artist
     let highlightedEventId: Int?
 
+    @Environment(\.colorScheme) private var systemColorScheme
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
 
@@ -17,25 +18,21 @@ struct ArtistDetailView: View {
     @State private var artistBackgroundColor: Color
     @State private var descriptionBackgroundColor: Color
     @State private var descriptionBackgroundStartY = CGFloat.infinity
-    @State private var artistColorScheme: ColorScheme?
 
     init(artist: Artist, highlightedEventId: Int?) {
         self.artist = artist
         self.highlightedEventId = highlightedEventId
         _artistBackgroundColor = State(
             initialValue: ArtistImageColorCache.shared.cachedBackgroundColor(
-                for: artist.id
+                for: artist.id,
+                colorScheme: .light
             ) ?? .clear
         )
         _descriptionBackgroundColor = State(
             initialValue: ArtistImageColorCache.shared.cachedDescriptionBackgroundColor(
-                for: artist.id
+                for: artist.id,
+                colorScheme: .light
             ) ?? .clear
-        )
-        _artistColorScheme = State(
-            initialValue: ArtistImageColorCache.shared.cachedPreferredColorScheme(
-                for: artist.id
-            )
         )
     }
 
@@ -51,23 +48,28 @@ struct ArtistDetailView: View {
         settings.artistNotes["\(artist.id)"]
     }
 
-    private func loadArtistBackgroundColor() async {
-        guard let backgroundColor = await ArtistImageColorCache.shared.backgroundColor(for: artist) else {
+    private func applyCachedColors(for colorScheme: ColorScheme) {
+        guard
+            let cachedThemeColors = ArtistImageColorCache.shared.cachedThemeColors(for: artist.id)
+        else {
             return
         }
 
-        let descriptionColor = ArtistImageColorCache.shared.cachedDescriptionBackgroundColor(
-            for: artist.id
-        )
-        let colorScheme = ArtistImageColorCache.shared.cachedPreferredColorScheme(
-            for: artist.id
-        )
+        withAnimation(.easeInOut(duration: 0.25)) {
+            artistBackgroundColor = cachedThemeColors.backgroundColor(for: colorScheme)
+            descriptionBackgroundColor = cachedThemeColors.descriptionBackgroundColor(for: colorScheme)
+        }
+    }
+
+    private func loadArtistBackgroundColor() async {
+        guard let themeColors = await ArtistImageColorCache.shared.themeColors(for: artist) else {
+            return
+        }
 
         await MainActor.run {
             withAnimation(.easeInOut(duration: 0.35)) {
-                artistBackgroundColor = backgroundColor
-                descriptionBackgroundColor = descriptionColor ?? .clear
-                artistColorScheme = colorScheme
+                artistBackgroundColor = themeColors.backgroundColor(for: systemColorScheme)
+                descriptionBackgroundColor = themeColors.descriptionBackgroundColor(for: systemColorScheme)
             }
         }
     }
@@ -111,9 +113,10 @@ struct ArtistDetailView: View {
         .onPreferenceChange(DescriptionBackgroundStartPreferenceKey.self) { startY in
             descriptionBackgroundStartY = startY
         }
-        .environment(\.colorScheme, artistColorScheme ?? .light)
         .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(artistColorScheme, for: .navigationBar)
+        .onChange(of: systemColorScheme) {
+            applyCachedColors(for: systemColorScheme)
+        }
         .task(id: artist.id) {
             await loadArtistBackgroundColor()
         }
