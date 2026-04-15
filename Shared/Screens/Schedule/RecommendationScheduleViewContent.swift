@@ -10,25 +10,9 @@ import SwiftUI
 
 struct RecommendationScheduleContentView: View {
 
-    @EnvironmentObject var dataStore: DataStore
-    @EnvironmentObject var settings: UserSettings
-
     let events: [Event]
     let viewAsTable: Bool
-
-    @State private var selectedDay = -1
-
-    var storedEvents: [Int] {
-        settings.savedEvents
-    }
-
-    var interestingArtists: [Int] {
-        settings.ratings.filter { element in
-            element.value > 0
-        }.keys.map { a in Int(a)! }
-    }
-
-    let eventDays: [Int]
+    @Binding var selectedDay: Int
 
     var todaysEvents: [Event] {
         events.filter { event in
@@ -37,47 +21,19 @@ struct RecommendationScheduleContentView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            VStack {
-                Picker("Date", selection: $selectedDay) {
-                    ForEach(eventDays) { (day: Int) in
-                        Text(Util.shortWeekDay(day: day)).tag(day)
-                    }
-                }
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
-                .padding(.bottom, 5)
-                .pickerStyle(SegmentedPickerStyle())
-            }
-            .background(.regularMaterial)
-            .zIndex(10)
+        ZStack {
+            Color(.systemBackground)
 
-            if viewAsTable {
-                ScrollableProgramView(events: todaysEvents)
-            } else {
-                ScheduleView(events: todaysEvents)
+            Group {
+                if viewAsTable {
+                    ScrollableProgramView(events: todaysEvents)
+                } else {
+                    ScheduleView(events: todaysEvents)
+                }
             }
-            Spacer()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
-        /*.horizontalSwipeGesture {
-            let nextDay = selectedDay + 1
-            if eventDays.contains(nextDay) {
-                selectedDay = nextDay
-            }
-        
-        } onSwipeRight: {
-            let previousDay = selectedDay - 1
-            if eventDays.contains(previousDay) {
-                selectedDay = previousDay
-            }
-        }*/
-        .onAppear {
-            if selectedDay == -1 {
-                self.selectedDay =
-                    Util.getCurrentFestivalDay(eventDays: eventDays)
-                    ?? eventDays.first ?? -1
-            }
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
 

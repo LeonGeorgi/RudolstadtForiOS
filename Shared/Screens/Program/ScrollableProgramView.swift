@@ -86,24 +86,23 @@ struct ScrollableProgramView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-
-            ScrollableProgramViewContent(
-                scrollOffset: .zero,
-                timeIntervals: timeIntervalList,
-                stages: stageList,
-                estimatedEventDurations: dataStore.estimatedEventDurations
-            )
-
-            VStack {
-                Text("schedule.endtimes.warning")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .padding(.horizontal)
-                    .padding(.bottom, 2)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.7)
-            }
+        ScrollableProgramViewContent(
+            scrollOffset: .zero,
+            timeIntervals: timeIntervalList,
+            stages: stageList,
+            estimatedEventDurations: dataStore.estimatedEventDurations
+        )
+        .safeAreaInset(edge: .bottom) {
+            Text("schedule.endtimes.warning")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .lineLimit(2)
+                .minimumScaleFactor(0.7)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .scheduleWarningStyle()
+                .padding(.horizontal, 12)
+                .padding(.bottom, 4)
         }
     }
 
@@ -142,6 +141,32 @@ struct ScrollableProgramView: View {
         return dates
     }
 }
+private struct ScheduleWarningStyle: ViewModifier {
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .glassEffect(.regular, in: .rect(cornerRadius: 14))
+        } else {
+            content
+                .background(
+                    .regularMaterial,
+                    in: RoundedRectangle(cornerRadius: 14, style: .continuous)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .stroke(.white.opacity(0.2), lineWidth: 0.5)
+                )
+        }
+    }
+}
+
+private extension View {
+    func scheduleWarningStyle() -> some View {
+        modifier(ScheduleWarningStyle())
+    }
+}
+
 private let dayOfWeekFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateFormat = "dd.MM. EEEE"

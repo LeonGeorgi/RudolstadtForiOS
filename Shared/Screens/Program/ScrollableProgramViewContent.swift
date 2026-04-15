@@ -83,13 +83,13 @@ struct ScrollableProgramViewContent: View {
 
                     Spacer()
                         .frame(width: timeWidth)
-                        .background(.regularMaterial)
+                        .background(Color(.systemBackground))
                         .allowsHitTesting(false)
                         .zIndex(1)
 
                     Spacer()
                         .frame(height: stageNameHeight + 25)
-                        .background(.regularMaterial)
+                        .background(Color(.systemBackground))
                         .allowsHitTesting(false)
                         .zIndex(4)
 
@@ -192,11 +192,6 @@ struct ScrollableProgramViewContent: View {
                         )
                     }
 
-                    Spacer()
-                        .background(.regularMaterial)
-                        .frame(width: geo.size.width, height: geo.size.height)
-                        .offset(y: geo.size.height)
-                        .zIndex(6)
 
                 }
             }

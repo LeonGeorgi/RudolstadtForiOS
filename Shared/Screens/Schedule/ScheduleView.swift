@@ -25,14 +25,14 @@ struct ScheduleView: View {
     }
 
     var body: some View {
-        VStack {
+        Group {
             if events.isEmpty {
                 VStack {
                     Spacer()
 
                     Text("schedule.empty.description")
                         .multilineTextAlignment(.center)
-                        .foregroundColor(.gray)
+                        .foregroundStyle(.secondary)
                         .padding(.horizontal, 20)
 
                     Spacer()
@@ -46,14 +46,15 @@ struct ScheduleView: View {
                         )
                     ) {
                         ScheduleEventCell(event: event)
-                    }.listRowInsets(
-                        .init(top: 0, leading: 0, bottom: 0, trailing: 16)
-                    )
-                }.listStyle(.plain)
-
+                    }
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
+                    .listRowBackground(Color.clear)
+                }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .background(Color.clear)
             }
         }
-
     }
 }
 

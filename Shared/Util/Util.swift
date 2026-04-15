@@ -3,16 +3,24 @@ import SwiftUI
 
 class Util {
     static func shortWeekDay(day: Int) -> String {
+        weekDay(day: day, dateFormat: "EE")
+    }
+
+    static func fullWeekDay(day: Int) -> String {
+        weekDay(day: day, dateFormat: "EEEE")
+    }
+
+    private static func weekDay(day: Int, dateFormat: String) -> String {
         var dateComponents = DateComponents()
         dateComponents.year = DataStore.year
         dateComponents.month = 7
         dateComponents.day = day
         dateComponents.timeZone = TimeZone(abbreviation: "CEST")
 
-        let userCalendar = Calendar.current  // user calendar
+        let userCalendar = Calendar.current
         let date = userCalendar.date(from: dateComponents)!
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EE"
+        dateFormatter.dateFormat = dateFormat
         return dateFormatter.string(from: date)
     }
 
