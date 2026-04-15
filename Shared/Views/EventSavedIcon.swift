@@ -42,7 +42,7 @@ struct EventSavedIcon: View {
             systemName: settings.savedEvents.contains(event.id)
                 ? "bookmark.fill" : "bookmark"
         )
-        .foregroundColor(.yellow)
+        .foregroundStyle(.primary)
         .onTapGesture {
             if settings.savedEvents.contains(event.id) {
                 isAlertShown = true

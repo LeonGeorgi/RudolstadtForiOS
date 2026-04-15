@@ -34,9 +34,7 @@ struct NewsItemDetailView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            if !settings.readNews.contains(newsItem.id) {
-                settings.readNews.append(newsItem.id)
-            }
+            settings.markNewsAsRead(newsItem)
         }
     }
 }

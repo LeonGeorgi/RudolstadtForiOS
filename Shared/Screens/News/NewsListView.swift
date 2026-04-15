@@ -49,20 +49,7 @@ struct NewsListView: View {
                             allowsFullSwipe: true
                         ) {
                             Button(action: {
-                                if !settings.readNews.contains(
-                                    newsItem.id
-                                ) {
-                                    settings.readNews.append(
-                                        newsItem.id
-                                    )
-                                } else {
-                                    settings.readNews.remove(
-                                        at: settings.readNews
-                                            .firstIndex(
-                                                of: newsItem.id
-                                            )!
-                                    )
-                                }
+                                settings.toggleReadState(for: newsItem)
                             }) {
                                 if settings.readNews.contains(
                                     newsItem.id

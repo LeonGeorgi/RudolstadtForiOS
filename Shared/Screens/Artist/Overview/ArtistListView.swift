@@ -7,6 +7,7 @@
 //
 
 import CoreImage
+import Foundation
 import SwiftUI
 
 // import URLImage
@@ -125,9 +126,6 @@ struct ArtistListView: View {
                             )
                         }
                         .buttonStyle(.plain)
-                        .task(id: artist.id) {
-                            await ArtistImageColorCache.shared.prepareBackgroundColor(for: artist)
-                        }
                     }
                 }
                 .padding(.horizontal, 12)
@@ -147,9 +145,6 @@ struct ArtistListView: View {
                     }.listRowInsets(
                         .init(top: 0, leading: 0, bottom: 0, trailing: 16)
                     )
-                    .task(id: artist.id) {
-                        await ArtistImageColorCache.shared.prepareBackgroundColor(for: artist)
-                    }
                 }
             }.listStyle(.plain)
         }
@@ -252,7 +247,7 @@ enum ShownArtistTypes: CaseIterable, Hashable {
     }
 }
 
-struct ArtistImageDominantColor {
+struct ArtistImageDominantColor: Codable {
     let red: Double
     let green: Double
     let blue: Double
@@ -346,11 +341,15 @@ final class ArtistImageColorCache {
     private static let colorContext = CIContext()
     private static let dominantColorSampleSize = 48
     private static let bucketSize = 32
+    private static let persistedColorsKey = "artist.image.dominant.colors"
 
     private let lock = NSLock()
     private var colorsByArtistId: [Int: ArtistImageDominantColor] = [:]
+    private var inFlightColorTasksByArtistId: [Int: Task<ArtistImageDominantColor?, Never>] = [:]
 
-    private init() {}
+    private init() {
+        restorePersistedColors()
+    }
 
     func cachedBackgroundColor(for artistId: Int) -> Color? {
         cachedDominantColor(for: artistId)?.backgroundColor
@@ -374,6 +373,42 @@ final class ArtistImageColorCache {
         lock.lock()
         defer { lock.unlock() }
         colorsByArtistId[artistId] = color
+        persistLockedColors()
+    }
+
+    private func restorePersistedColors() {
+        guard
+            let data = UserDefaults.standard.data(forKey: Self.persistedColorsKey),
+            let decodedColors = try? JSONDecoder().decode([Int: ArtistImageDominantColor].self, from: data)
+        else {
+            return
+        }
+
+        lock.lock()
+        colorsByArtistId = decodedColors
+        lock.unlock()
+    }
+
+    private func persistLockedColors() {
+        guard let encoded = try? JSONEncoder().encode(colorsByArtistId) else {
+            return
+        }
+        UserDefaults.standard.set(encoded, forKey: Self.persistedColorsKey)
+    }
+
+    private func inFlightTask(for artistId: Int) -> Task<ArtistImageDominantColor?, Never>? {
+        lock.lock()
+        defer { lock.unlock() }
+        return inFlightColorTasksByArtistId[artistId]
+    }
+
+    private func setInFlightTask(
+        _ task: Task<ArtistImageDominantColor?, Never>?,
+        for artistId: Int
+    ) {
+        lock.lock()
+        defer { lock.unlock() }
+        inFlightColorTasksByArtistId[artistId] = task
     }
 
     func prepareBackgroundColor(for artist: Artist) async {
@@ -381,26 +416,41 @@ final class ArtistImageColorCache {
     }
 
     func backgroundColor(for artist: Artist) async -> Color? {
-        if let cachedColor = cachedBackgroundColor(for: artist.id) {
-            return cachedColor
+        if let cachedDominantColor = cachedDominantColor(for: artist.id) {
+            return cachedDominantColor.backgroundColor
         }
 
         guard let imageUrl = artist.thumbImageUrl ?? artist.fullImageUrl else {
             return nil
         }
 
-        do {
-            let (data, _) = try await URLSession.shared.data(from: imageUrl)
-            guard let dominantColor = Self.dominantColor(from: data) else {
-                return nil
+        if let inFlightTask = inFlightTask(for: artist.id) {
+            if let inFlightDominantColor = await inFlightTask.value {
+                store(inFlightDominantColor, for: artist.id)
+                return inFlightDominantColor.backgroundColor
             }
-
-            store(dominantColor, for: artist.id)
-
-            return dominantColor.backgroundColor
-        } catch {
             return nil
         }
+
+        let task = Task.detached(priority: .utility) { () -> ArtistImageDominantColor? in
+            do {
+                let (data, _) = try await URLSession.shared.data(from: imageUrl)
+                return Self.dominantColor(from: data)
+            } catch {
+                return nil
+            }
+        }
+
+        setInFlightTask(task, for: artist.id)
+        let dominantColor = await task.value
+        setInFlightTask(nil, for: artist.id)
+
+        guard let dominantColor else {
+            return nil
+        }
+
+        store(dominantColor, for: artist.id)
+        return dominantColor.backgroundColor
     }
 
     private static func dominantColor(from imageData: Data) -> ArtistImageDominantColor? {

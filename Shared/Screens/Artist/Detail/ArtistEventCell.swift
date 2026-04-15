@@ -48,7 +48,7 @@ struct ArtistEventCell: View {
                 if let tag = event.tag {
                     Text(tag.localizedName.uppercased())
                         .font(.caption2.weight(.semibold))
-                        .foregroundStyle(.tint)
+                        .foregroundStyle(.primary.opacity(0.72))
                         .lineLimit(1)
                 }
 
@@ -130,7 +130,7 @@ struct ArtistEventCell: View {
                     )
                     .font(.caption)
                 }
-                .foregroundStyle(.orange)
+                .foregroundStyle(.primary.opacity(0.72))
             }
         }
     }

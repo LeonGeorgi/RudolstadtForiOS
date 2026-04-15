@@ -1,54 +1,42 @@
-//
-//  ArtistImageView.swift
-//  RudolstadtForiOS
-//
-//  Created by Leon on 27.02.20.
-//  Copyright © 2020 Leon Georgi. All rights reserved.
-//
-
 import SDWebImageSwiftUI
 import SwiftUI
 
 struct ArtistImageView: View {
     let artist: Artist
     let fullImage: Bool
+
+    private var selectedImageURL: URL? {
+        if fullImage, let fullImageUrl = artist.fullImageUrl {
+            return fullImageUrl
+        }
+        return artist.thumbImageUrl
+    }
+
+    private var placeholderImage: some View {
+        Image(fullImage ? "placeholder" : "placeholder_thumb")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .clipped()
+    }
+
     var body: some View {
-        VStack {
-            if fullImage && artist.fullImageUrl != nil {
-                WebImage(url: artist.fullImageUrl!)
-                    .placeholder {
-                        Image("placeholder")
-                            .resizable()  // Make image resizable
-                            .aspectRatio(contentMode: .fill)  // Fill the frame
-                            .clipped()
+        if let selectedImageURL {
+            WebImage(
+                url: selectedImageURL,
+                options: [.scaleDownLargeImages, .highPriority],
+                context: [.imageThumbnailPixelSize: fullImage ? CGSize(width: 1200, height: 1000) : CGSize(width: 320, height: 280)]
+            )
+            .placeholder {
+                placeholderImage
+                    .overlay {
+                        ProgressView()
                     }
-                    .resizable()
-                    .indicator(.progress)
-                    .aspectRatio(contentMode: .fill)
-                    .clipped()
-            } else if artist.thumbImageUrl != nil {
-                WebImage(url: artist.thumbImageUrl!)
-                    .placeholder {
-                        Image("placeholder_thumb")
-                            .resizable()  // Make image resizable
-                            .aspectRatio(contentMode: .fill)  // Fill the frame
-                            .clipped()
-                    }
-                    .resizable()
-                    .indicator(.activity)
-                    .aspectRatio(contentMode: .fill)
-                    .clipped()
-            } else if fullImage {
-                Image("placeholder")
-                    .resizable()  // Make image resizable
-                    .aspectRatio(contentMode: .fill)  // Fill the frame
-                    .clipped()
-            } else {
-                Image("placeholder_thumb")
-                    .resizable()  // Make image resizable
-                    .aspectRatio(contentMode: .fill)  // Fill the frame
-                    .clipped()
             }
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .clipped()
+        } else {
+            placeholderImage
         }
     }
 }

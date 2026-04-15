@@ -12,12 +12,29 @@ struct UserDefault<T> {
     let key: String
     let defaultValue: T
 
+    @available(*, unavailable, message: "Use this property wrapper only on UserSettings.")
     var wrappedValue: T {
         get {
-            UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
+            fatalError("wrappedValue is unavailable")
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: key)
+            fatalError("wrappedValue is unavailable")
+        }
+    }
+
+    static subscript<EnclosingSelf: UserSettings>(
+        _enclosingInstance instance: EnclosingSelf,
+        wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, T>,
+        storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, UserDefault<T>>
+    ) -> T {
+        get {
+            let wrapper = instance[keyPath: storageKeyPath]
+            return UserDefaults.standard.object(forKey: wrapper.key) as? T ?? wrapper.defaultValue
+        }
+        set {
+            let wrapper = instance[keyPath: storageKeyPath]
+            instance.notifySettingsDidChange()
+            UserDefaults.standard.set(newValue, forKey: wrapper.key)
         }
     }
 }
@@ -76,19 +93,11 @@ final class UserSettings: ObservableObject {
     @UserDefault(key: "view/artist/likeIcon", defaultValue: "heart.fill")
     var likeIcon: String
 
-    private var notificationSubscription: AnyCancellable?
+    init() {}
 
-    init() {
-        notificationSubscription = NotificationCenter.default.publisher(
-            for: UserDefaults.didChangeNotification
-        )
-        .receive(on: DispatchQueue.main)
-        .sink { a in
-            self.objectWillChange.send()
-            if let listener = self.listener {
-                listener()
-            }
-        }
+    fileprivate func notifySettingsDidChange() {
+        objectWillChange.send()
+        listener?()
     }
 
     func toggleMapType() {
@@ -174,5 +183,21 @@ final class UserSettings: ObservableObject {
     func setArtistIcon(for artist: Artist, icon: String) {
         artistIcons["\(artist.id)"] = icon
         setArtistRating(for: artist, rating: -1)
+    }
+
+    func markNewsAsRead(_ newsItem: NewsItem) {
+        if !readNews.contains(newsItem.id) {
+            readNews.append(newsItem.id)
+        }
+    }
+
+    func toggleReadState(for newsItem: NewsItem) {
+        if readNews.contains(newsItem.id) {
+            readNews.removeAll { id in
+                id == newsItem.id
+            }
+        } else {
+            readNews.append(newsItem.id)
+        }
     }
 }
