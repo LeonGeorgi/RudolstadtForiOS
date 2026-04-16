@@ -22,18 +22,8 @@ struct ArtistDetailView: View {
     init(artist: Artist, highlightedEventId: Int?) {
         self.artist = artist
         self.highlightedEventId = highlightedEventId
-        _artistBackgroundColor = State(
-            initialValue: ArtistImageColorCache.shared.cachedBackgroundColor(
-                for: artist.id,
-                colorScheme: .light
-            ) ?? .clear
-        )
-        _descriptionBackgroundColor = State(
-            initialValue: ArtistImageColorCache.shared.cachedDescriptionBackgroundColor(
-                for: artist.id,
-                colorScheme: .light
-            ) ?? .clear
-        )
+        _artistBackgroundColor = State(initialValue: .clear)
+        _descriptionBackgroundColor = State(initialValue: .clear)
     }
 
     var artistEvents: LoadingEntity<[Event]> {
@@ -62,6 +52,14 @@ struct ArtistDetailView: View {
     }
 
     private func loadArtistBackgroundColor() async {
+        if let cachedThemeColors = ArtistImageColorCache.shared.cachedThemeColors(for: artist.id) {
+            await MainActor.run {
+                artistBackgroundColor = cachedThemeColors.backgroundColor(for: systemColorScheme)
+                descriptionBackgroundColor = cachedThemeColors.descriptionBackgroundColor(for: systemColorScheme)
+            }
+            return
+        }
+
         guard let themeColors = await ArtistImageColorCache.shared.themeColors(for: artist) else {
             return
         }

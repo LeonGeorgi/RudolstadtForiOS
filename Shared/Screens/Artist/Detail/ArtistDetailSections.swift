@@ -106,6 +106,12 @@ struct ArtistEventsBlock: View {
     let artistEvents: LoadingEntity<[Event]>
     let highlightedEventId: Int?
 
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var eventDividerColor: Color {
+        colorScheme == .dark ? .white.opacity(0.22) : .black.opacity(0.12)
+    }
+
     var body: some View {
         switch artistEvents {
         case .loading:
@@ -144,6 +150,7 @@ struct ArtistEventsBlock: View {
 
                             if index < events.count - 1 {
                                 Divider()
+                                    .overlay(eventDividerColor)
                                     .padding(.leading, 90)
                             }
                         }
