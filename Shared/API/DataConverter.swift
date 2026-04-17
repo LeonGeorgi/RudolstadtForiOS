@@ -91,12 +91,14 @@ func convertAPIArtistToArtist(
     let ai = AIArtistData(
         summaryDE: extaArtistData?.de?.summary,
         summaryEN: extaArtistData?.en?.summary,
-        genresDE: extaArtistData?.de?.genres,
-        genresEN: extaArtistData?.en?.genres,
-        flags: extaArtistData?.en?.countries
+        tagsDE: extaArtistData?.de?.tags ?? [],
+        tagsEN: extaArtistData?.en?.tags ?? [],
+        browseGenreIDs: extaArtistData?.browseGenres ?? [],
+        flags: extaArtistData?.en?.countries ?? extaArtistData?.de?.countries ?? []
     )
     return Artist(
         id: apiArtist.id,
+        hiddenFromArtistList: apiArtist.hideArtist,
         artistType: artistType,
         someNumber: 0,
         name: apiArtist.name,

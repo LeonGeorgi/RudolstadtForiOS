@@ -28,6 +28,7 @@
 You can find the artists you find interesting when you click on \"Favorites\" in the artist list. Also, your marking can be used to show you suggestions for when you can attend concerts by the artist. The data will remain completely on your device.";
 "artist.ai.header" = "AI summary";
 "artist.ai.footer" = "May contain inaccuracies.";
+"artist.ai.info.ok" = "OK";
 "artist.icon.hand.thumbsdown.fill" = "Dislike";
 "artist.icon.questionmark.circle.fill" = "Undecided";
 "artist.icon.exclamationmark.triangle.fill" = "Doesn't fit";
@@ -81,9 +82,13 @@ You can find the artists you find interesting when you click on \"Favorites\" in
 "schedule.endtimes.warning" = "Warning: The end times of the concerts are automatically estimated and might differ from those in the official schedule.";
 
 "filter.button" = "Filter";
+"filter.clear" = "Clear filters";
 "filter.done" = "Done";
 "filter.no_events_available" = "No events available for the current filter settings.";
 "filter.artists.title" = "Filter artists";
+"filter.artisttypes.title" = "Artist type";
+"filter.genres.title" = "Genre";
+"filter.genres.all" = "All genres";
 
 "recommendations.hide_saved" = "Hide saved";
 "recommendations.show_saved" = "Show saved";

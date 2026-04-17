@@ -12,6 +12,7 @@ struct ArtistDetailView: View {
     @State private var isShowingNoteEditView = false
     @State var isEditAlertShown: Bool = false
     @State var noteText: String = ""
+    @State private var isShowingAIInfo = false
 
     @Namespace private var imageViewerTransition
 
@@ -88,7 +89,10 @@ struct ArtistDetailView: View {
                             imageTransitionNamespace: imageViewerTransition
                         )
 
-                        ArtistAISummaryBlock(artist: artist)
+                        ArtistAISummaryBlock(artist: artist) {
+                            isShowingAIInfo = true
+                        }
+                        ArtistDetailLinksView(artist: artist)
                         ArtistNoteBlock(note: artistNote) {
                             isShowingNoteEditView = true
                         }
@@ -105,6 +109,8 @@ struct ArtistDetailView: View {
                         description: artist.formattedDescription,
                         backgroundColor: descriptionBackgroundColor
                     )
+
+                    ArtistBrowseGenresBlock(artist: artist)
                 }
             }
         }
@@ -123,14 +129,6 @@ struct ArtistDetailView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack {
-                    if artist.ai?.hasContent == true {
-                        Button(action: {
-                            settings.aiSummaryEnabled.toggle()
-                        }) {
-                            Image(systemName: "sparkles")
-                        }
-                    }
-
                     Button(action: {
                         isShowingNoteEditView.toggle()
                     }) {
@@ -181,6 +179,11 @@ struct ArtistDetailView: View {
                     }
             }
             .interactiveDismissDisabled()
+        }
+        .alert("artist.ai.header", isPresented: $isShowingAIInfo) {
+            Button("artist.ai.info.ok", role: .cancel) {}
+        } message: {
+            Text("artist.ai.footer")
         }
     }
 }

@@ -15,8 +15,10 @@ import SwiftUI
 struct ArtistListView: View {
 
     @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var dataStore: DataStore
 
-    @State private var shownArtistTypes = Set(ShownArtistTypes.allCases)
+    @State private var selectedArtistType: ShownArtistTypes? = nil
+    @State private var selectedBrowseGenreID: String? = nil
     @Namespace private var artistImageTransition
 
     @State var searchText = ""
@@ -38,36 +40,85 @@ struct ArtistListView: View {
 
     func getFilteredArtists(data: FestivalData) -> [Artist] {
         data.artists.filter { artist in
-            shownArtistTypes.contains(ShownArtistTypes(artistType: artist.artistType))
+            let artistTypeMatches: Bool
+            if let selectedArtistType {
+                artistTypeMatches =
+                    selectedArtistType
+                    == ShownArtistTypes(artistType: artist.artistType)
+            } else {
+                artistTypeMatches = true
+            }
+
+            if browseGenreOptions.isEmpty {
+                return !artist.hiddenFromArtistList && artistTypeMatches
+            }
+
+            let browseGenreMatches: Bool
+            if let selectedBrowseGenreID {
+                let artistBrowseGenreIDs = artist.ai?.browseGenreIDs ?? []
+                browseGenreMatches = artistBrowseGenreIDs.contains(
+                    selectedBrowseGenreID
+                )
+            } else {
+                browseGenreMatches = true
+            }
+
+            return !artist.hiddenFromArtistList
+                && artistTypeMatches
+                && browseGenreMatches
         }
     }
 
-    private var allArtistTypesSelected: Bool {
-        shownArtistTypes.count == ShownArtistTypes.allCases.count
+    private var browseGenreOptions: [BrowseTaxonomyEntry] {
+        dataStore.browseTaxonomy.sorted { lhs, rhs in
+            dataStore.localizedBrowseGenreLabel(for: lhs.id)
+                .localizedCaseInsensitiveCompare(
+                    dataStore.localizedBrowseGenreLabel(for: rhs.id)
+                ) == .orderedAscending
+        }
     }
 
-    private func showAllArtistTypes() {
-        shownArtistTypes = Set(ShownArtistTypes.allCases)
+    private var hasActiveFilters: Bool {
+        selectedArtistType != nil || selectedBrowseGenreID != nil
     }
 
-    private func binding(for artistType: ShownArtistTypes) -> Binding<Bool> {
-        Binding(
-            get: {
-                shownArtistTypes.contains(artistType)
-            },
-            set: { isSelected in
-                if isSelected {
-                    shownArtistTypes.insert(artistType)
-                } else {
-                    shownArtistTypes.remove(artistType)
-                }
-            }
-        )
+    private func clearFilters() {
+        selectedArtistType = nil
+        selectedBrowseGenreID = nil
+    }
+
+    private var artistTypeMenuTitle: String {
+        let title = NSLocalizedString("filter.artisttypes.title", comment: "")
+        if let selectedArtistType {
+            return "\(title): \(selectedArtistType.localizedName)"
+        }
+        return title
+    }
+
+    private var genreMenuTitle: String {
+        let title = NSLocalizedString("filter.genres.title", comment: "")
+        if let selectedBrowseGenreID {
+            let selectedLabel = dataStore.localizedBrowseGenreLabel(
+                for: selectedBrowseGenreID
+            )
+            return "\(title): \(selectedLabel)"
+        }
+        return title
+    }
+
+    private func syncBrowseGenreSelectionWithTaxonomy() {
+        let availableGenreIDs = Set(browseGenreOptions.map(\.id))
+        guard let selectedBrowseGenreID else {
+            return
+        }
+        if !availableGenreIDs.contains(selectedBrowseGenreID) {
+            self.selectedBrowseGenreID = nil
+        }
     }
 
     @ViewBuilder
     private var filterButtonLabel: some View {
-        if allArtistTypesSelected {
+        if !hasActiveFilters {
             Image(systemName: "line.3.horizontal.decrease.circle")
         } else {
             ZStack {
@@ -194,17 +245,74 @@ struct ArtistListView: View {
                 .labelStyle(.iconOnly)
 
                 Menu {
-                    ForEach(ShownArtistTypes.allCases, id: \.self) { artistType in
-                        Toggle(isOn: binding(for: artistType)) {
-                            Text(artistType.localizedName)
+                    if hasActiveFilters {
+                        Button("filter.clear") {
+                            clearFilters()
                         }
+                        Divider()
                     }
 
-                    if !allArtistTypesSelected {
-                        Divider()
+                    Menu {
+                        Button {
+                            selectedArtistType = nil
+                        } label: {
+                            if selectedArtistType == nil {
+                                Label("artisttypes.all", systemImage: "checkmark")
+                            } else {
+                                Text("artisttypes.all")
+                            }
+                        }
 
-                        Button("artisttypes.all") {
-                            showAllArtistTypes()
+                        ForEach(ShownArtistTypes.allCases, id: \.self) {
+                            artistType in
+                            Button {
+                                selectedArtistType = artistType
+                            } label: {
+                                if selectedArtistType == artistType {
+                                    Label(
+                                        artistType.localizedName,
+                                        systemImage: "checkmark"
+                                    )
+                                } else {
+                                    Text(artistType.localizedName)
+                                }
+                            }
+                        }
+                    } label: {
+                        Text(artistTypeMenuTitle)
+                    }
+
+                    if !browseGenreOptions.isEmpty {
+                        Menu {
+                            Button {
+                                selectedBrowseGenreID = nil
+                            } label: {
+                                if selectedBrowseGenreID == nil {
+                                    Label(
+                                        "filter.genres.all",
+                                        systemImage: "checkmark"
+                                    )
+                                } else {
+                                    Text("filter.genres.all")
+                                }
+                            }
+
+                            ForEach(browseGenreOptions, id: \.id) { browseGenre in
+                                let label = dataStore.localizedBrowseGenreLabel(
+                                    for: browseGenre.id
+                                )
+                                Button {
+                                    selectedBrowseGenreID = browseGenre.id
+                                } label: {
+                                    if selectedBrowseGenreID == browseGenre.id {
+                                        Label(label, systemImage: "checkmark")
+                                    } else {
+                                        Text(label)
+                                    }
+                                }
+                            }
+                        } label: {
+                            Text(genreMenuTitle)
                         }
                     }
                 } label: {
@@ -212,6 +320,9 @@ struct ArtistListView: View {
                 }
                 .accessibilityLabel(Text("filter.button"))
             }
+        }
+        .onChange(of: dataStore.browseTaxonomy) {
+            syncBrowseGenreSelectionWithTaxonomy()
         }
     }
 }
@@ -288,18 +399,20 @@ struct ArtistImageDominantColor: Codable {
     }
 
     private func adjustedDescriptionColor(for colorScheme: ColorScheme) -> ArtistImageDominantColor {
-        let adjustedColor: ArtistImageDominantColor
-        if relativeLuminance > 0.92 {
-            adjustedColor = adjusted(by: -0.08)
-        } else if relativeLuminance < 0.04 {
-            adjustedColor = adjusted(by: 0.08)
-        } else if colorScheme == .dark {
-            adjustedColor = adjusted(by: -0.10)
-        } else {
-            adjustedColor = adjusted(by: 0.10)
-        }
+        let okhsl = OKHSLColorConverter.srgbToOKHSL(.init(r: red, g: green, b: blue))
+        let lightnessDelta = colorScheme == .dark || colorScheme == .light && okhsl.l > 0.97 ? -0.03 : +0.03
+        let adjustedOKHSL = OKHSLColorConverter.OKHSL(
+            h: okhsl.h,
+            s: okhsl.s,
+            l: clamped(okhsl.l + lightnessDelta)
+        )
+        let rgb = OKHSLColorConverter.okhslToSRGB(adjustedOKHSL)
 
-        return adjustedColor
+        return ArtistImageDominantColor(
+            red: clamped(rgb.r),
+            green: clamped(rgb.g),
+            blue: clamped(rgb.b)
+        )
     }
 
     var relativeLuminance: Double {
@@ -309,10 +422,18 @@ struct ArtistImageDominantColor: Codable {
     }
 
     private func adjusted(by amount: Double) -> ArtistImageDominantColor {
-        ArtistImageDominantColor(
-            red: clamped(red + amount),
-            green: clamped(green + amount),
-            blue: clamped(blue + amount)
+        let okhsl = OKHSLColorConverter.srgbToOKHSL(.init(r: red, g: green, b: blue))
+        let adjustedOKHSL = OKHSLColorConverter.OKHSL(
+            h: okhsl.h,
+            s: okhsl.s,
+            l: clamped(okhsl.l + amount)
+        )
+        let rgb = OKHSLColorConverter.okhslToSRGB(adjustedOKHSL)
+
+        return ArtistImageDominantColor(
+            red: clamped(rgb.r),
+            green: clamped(rgb.g),
+            blue: clamped(rgb.b)
         )
     }
 
@@ -325,6 +446,7 @@ struct ArtistImageDominantColor: Codable {
             ? value / 12.92
             : pow((value + 0.055) / 1.055, 2.4)
     }
+
 }
 
 struct ArtistImageThemeColors: Codable {
@@ -630,11 +752,11 @@ final class ArtistImageColorCache {
             ? 0
             : (brightness - min(red, green, blue)) / brightness
 
-        return saturation < 0.8
+        return saturation < 0.4
     }
 
     private static func isReadableWithDarkText(red: UInt8, green: UInt8, blue: UInt8) -> Bool {
-        relativeLuminance(red: red, green: green, blue: blue) >= 0.25
+        relativeLuminance(red: red, green: green, blue: blue) >= 0.3
     }
 
     private static func isReadableWithLightText(red: UInt8, green: UInt8, blue: UInt8) -> Bool {

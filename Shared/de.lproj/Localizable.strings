@@ -28,6 +28,7 @@
 Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der Künstlerliste finden. Außerdem kann deine Markierung dazu verwendet werden, dir Vorschläge anzuzeigen, wann du Konzert von dem Künstler besuchen kannst. Die Daten bleiben dabei vollständig auf deinem Gerät.";
 "artist.ai.header" = "KI-Zusammenfassung";
 "artist.ai.footer" = "Kann Ungenauigkeiten enthalten.";
+"artist.ai.info.ok" = "OK";
 "artist.icon.hand.thumbsdown.fill" = "Gefällt mir nicht";
 "artist.icon.questionmark.circle.fill" = "Unentschlossen";
 "artist.icon.exclamationmark.triangle.fill" = "Passt leider nicht";
@@ -80,9 +81,13 @@ Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der 
 "schedule.endtimes.warning" = "Achtung: Die Endzeiten der Konzerte wurden automatisch geschätzt und stimmen möglicherweise nicht mit den offiziellen Endzeiten überein.";
 
 "filter.button" = "Filtern";
+"filter.clear" = "Filter zurücksetzen";
 "filter.done" = "Fertig";
 "filter.no_events_available" = "Für die aktuellen Filtereinstellungen sind keine Veranstaltungen verfügbar.";
 "filter.artists.title" = "Künstler filtern";
+"filter.artisttypes.title" = "Künstlerart";
+"filter.genres.title" = "Genre";
+"filter.genres.all" = "Alle Genres";
 
 
 "recommendations.hide_saved" = "Gespeicherte ausblenden";
@@ -178,4 +183,3 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "settings.clear_cache.done_title" = "Cache gelöscht";
 "settings.clear_cache.done_message" = "Zwischengespeicherte Daten wurden entfernt. Deine Bewertungen und gespeicherten Veranstaltungen sind unverändert.";
 "settings.clear_cache.ok" = "OK";
-

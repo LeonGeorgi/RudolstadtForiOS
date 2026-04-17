@@ -3,43 +3,36 @@ import Foundation
 struct AIArtistData {
     let summaryDE: String?
     let summaryEN: String?
-    let genresDE: [String]?
-    let genresEN: [String]?
-    let flags: [String]?
+    let tagsDE: [String]
+    let tagsEN: [String]
+    let browseGenreIDs: [String]
+    let flags: [String]
 
     var localizedSummary: String? {
-        var summary: String? = nil
         if Locale.current.languageCode == "de" {
-            summary = summaryDE
+            return summaryDE?.trimmingCharacters(in: .whitespacesAndNewlines)
         } else {
-            summary = summaryEN ?? ""
+            return summaryEN?.trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        if flags != nil && !flags!.isEmpty {
-            if let sum = summary {
-                summary = sum + " " + flags!.joined(separator: "")
-            } else {
-                summary = flags!.joined(separator: "")
-            }
-        }
-        return summary?.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    var localizedGenres: [String]? {
+    var localizedTags: [String] {
         if Locale.current.languageCode == "de" {
-            return genresDE
+            return tagsDE
         } else {
-            return genresEN
+            return tagsEN
         }
     }
 
     var hasContent: Bool {
         return (localizedSummary != nil && !localizedSummary!.isEmpty)
-            || (localizedGenres != nil && !localizedGenres!.isEmpty)
+            || !localizedTags.isEmpty
     }
 }
 
 struct Artist: Identifiable {
     let id: Int
+    let hiddenFromArtistList: Bool
     let artistType: ArtistType
     let someNumber: Int
     let name: String
@@ -120,6 +113,7 @@ struct Artist: Identifiable {
 
     static let example = Artist(
         id: 0,
+        hiddenFromArtistList: false,
         artistType: .stage,
         someNumber: 0,
         name: "Michael Jackson",
@@ -140,8 +134,9 @@ struct Artist: Identifiable {
                 "Michael Jackson war ein US-amerikanischer Sänger, Tänzer und Musikproduzent. Er gilt als einer der erfolgreichsten Entertainer aller Zeiten.",
             summaryEN:
                 "Michael Jackson was an American singer, dancer, and music producer. He is considered one of the most successful entertainers of all time.",
-            genresDE: ["Pop", "Rock", "Soul"],
-            genresEN: ["Pop", "Rock", "Soul"],
+            tagsDE: ["Pop", "Rock", "Soul"],
+            tagsEN: ["Pop", "Rock", "Soul"],
+            browseGenreIDs: ["pop", "rock"],
             flags: ["🇺🇸"]
         )
     )

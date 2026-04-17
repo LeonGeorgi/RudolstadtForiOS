@@ -4,30 +4,38 @@ struct ArtistDetailHeaderView: View {
     let artist: Artist
     let imageTransitionNamespace: Namespace.ID
 
-    @EnvironmentObject var dataStore: DataStore
-
     private var imageViewerTransitionID: String {
         "artist-full-image-\(artist.id)"
     }
 
-    private var artistSubtitle: String? {
-        artist.countries.isEmpty ? nil : artist.countries
+    private var countryAndFlags: String? {
+        let country = artist.countries.trimmingCharacters(in: .whitespacesAndNewlines)
+        let flags = artist.ai?.flags.joined(separator: "") ?? ""
+        let countryWithFlags = [country, flags]
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return countryWithFlags.isEmpty ? nil : countryWithFlags
     }
 
-    private var artistLinks: ArtistLinks? {
-        dataStore.artistLinks?[artist.name]
+    private var localizedTags: [String] {
+        let tags = artist.ai?.localizedTags ?? []
+        var seen = Set<String>()
+        return tags.compactMap { tag in
+            let label = tag.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !label.isEmpty else {
+                return nil
+            }
+            if seen.contains(label) {
+                return nil
+            }
+            seen.insert(label)
+            return label
+        }
     }
 
-    private var hasArtistLinks: Bool {
-        artistLinks?.hasLinks ?? false
-    }
-
-    private var hasAnyLinks: Bool {
-        artist.url != nil
-            || artist.videoUrl != nil
-            || artist.facebookUrl != nil
-            || artist.instagramUrl != nil
-            || hasArtistLinks
+    private var hasMetadata: Bool {
+        countryAndFlags != nil || !localizedTags.isEmpty
     }
 
     var body: some View {
@@ -50,11 +58,28 @@ struct ArtistDetailHeaderView: View {
                     .lineLimit(3)
                     .minimumScaleFactor(0.75)
 
-                if let artistSubtitle {
-                    Text(artistSubtitle)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
+                if hasMetadata {
+                    VStack(spacing: 3) {
+                        if let countryAndFlags {
+                            Text(countryAndFlags)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                                .multilineTextAlignment(.center)
+                        }
+
+                        if !localizedTags.isEmpty {
+                            HStack(spacing: 6) {
+                                Image(systemName: "sparkles.2")
+                                    .font(.caption2.weight(.semibold))
+                                    .foregroundStyle(.secondary)
+                                Text(localizedTags.joined(separator: " • "))
+                                    .font(.caption.weight(.semibold))
+                                    .foregroundStyle(.secondary)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .center)
@@ -62,11 +87,6 @@ struct ArtistDetailHeaderView: View {
 
             ratingView
                 .padding(.top, 6)
-
-            if hasAnyLinks {
-                artistLinksView
-                    .padding(.top, 2)
-            }
         }
         .padding(.top, 4)
     }
@@ -110,6 +130,28 @@ struct ArtistDetailHeaderView: View {
         ArtistRatingView(artist: artist)
         .padding(.horizontal, 34)
         .frame(maxWidth: .infinity)
+    }
+}
+
+struct ArtistDetailLinksView: View {
+    let artist: Artist
+
+    @EnvironmentObject var dataStore: DataStore
+
+    private var artistLinks: ArtistLinks? {
+        dataStore.artistLinks?[artist.name]
+    }
+
+    private var hasArtistLinks: Bool {
+        artistLinks?.hasLinks ?? false
+    }
+
+    private var hasAnyLinks: Bool {
+        artist.url != nil
+            || artist.videoUrl != nil
+            || artist.facebookUrl != nil
+            || artist.instagramUrl != nil
+            || hasArtistLinks
     }
 
     private var artistLinksView: some View {
@@ -167,6 +209,12 @@ struct ArtistDetailHeaderView: View {
             .padding(.vertical, 8)
         }
         .scrollClipDisabled()
+    }
+
+    var body: some View {
+        if hasAnyLinks {
+            artistLinksView
+        }
     }
 }
 

@@ -3,9 +3,10 @@ import Foundation
 /*
  {"data": {
    "Big Band Of Boom": {
+     "browse_genres": ["swing", "electronic"],
      "en": {
        "summary": "Swing meets rock with electronic flair",
-       "genres": [
+       "tags": [
          "Swing Rock",
          "Electro Swing"
        ],
@@ -15,7 +16,7 @@ import Foundation
      },
      "de": {
        "summary": "Swing trifft Rock mit elektronischem Touch",
-       "genres": [
+       "tags": [
          "Swing Rock",
          "Electro Swing"
        ],
@@ -30,16 +31,16 @@ import Foundation
 
 struct ExtraDataEntryForLanguage: Codable {
     var summary: String?
-    var genres: [String]?
+    var tags: [String]?
     var countries: [String]?
 
     init(
         summary: String? = nil,
-        genres: [String]? = nil,
+        tags: [String]? = nil,
         countries: [String]? = nil
     ) {
         self.summary = summary
-        self.genres = genres
+        self.tags = tags
         self.countries = countries
     }
 
@@ -49,13 +50,22 @@ struct ExtraDataEntryForLanguage: Codable {
 }
 
 struct ExtraDataEntry: Codable {
+    var browseGenres: [String]
     var de: ExtraDataEntryForLanguage?
     var en: ExtraDataEntryForLanguage?
 
+    enum CodingKeys: String, CodingKey {
+        case browseGenres = "browse_genres"
+        case de
+        case en
+    }
+
     init(
+        browseGenres: [String] = [],
         de: ExtraDataEntryForLanguage? = nil,
         en: ExtraDataEntryForLanguage? = nil
     ) {
+        self.browseGenres = browseGenres
         self.de = de
         self.en = en
     }
@@ -79,6 +89,26 @@ struct ExtraDataCollection: Codable {
     }
 }
 
+struct BrowseTaxonomyEntry: Codable, Hashable {
+    let id: String
+    let labelDE: String
+    let labelEN: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case labelDE = "label_de"
+        case labelEN = "label_en"
+    }
+
+    var localizedLabel: String {
+        if Locale.current.languageCode == "de" {
+            return labelDE
+        } else {
+            return labelEN
+        }
+    }
+}
+
 func loadExtraDataFromResource(fileName: String) -> ExtraDataCollection? {
     guard
         let url = Bundle.main.url(forResource: fileName, withExtension: "json")
@@ -91,6 +121,25 @@ func loadExtraDataFromResource(fileName: String) -> ExtraDataCollection? {
         let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
         let result = try decoder.decode(ExtraDataCollection.self, from: data)
+        return result
+    } catch {
+        print("Error decoding \(fileName).json: \(error)")
+        return nil
+    }
+}
+
+func loadBrowseTaxonomyFromResource(fileName: String) -> [BrowseTaxonomyEntry]? {
+    guard
+        let url = Bundle.main.url(forResource: fileName, withExtension: "json")
+    else {
+        print("Could not find file \(fileName).json in bundle")
+        return nil
+    }
+
+    do {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let result = try decoder.decode([BrowseTaxonomyEntry].self, from: data)
         return result
     } catch {
         print("Error decoding \(fileName).json: \(error)")

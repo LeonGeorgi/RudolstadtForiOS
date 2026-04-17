@@ -15,8 +15,10 @@ final class DataStore: ObservableObject {
     @Published var recommendedEvents: [Int]? = nil
     @Published var estimatedEventDurations: [Int: Int]? = nil
     @Published var artistLinks: [String: ArtistLinks]? = nil
+    @Published var browseTaxonomy: [BrowseTaxonomyEntry] = []
     
     var extraData: ExtraDataCollection? = nil
+    private var browseTaxonomyByID: [String: BrowseTaxonomyEntry] = [:]
 
     static let year = 2026
 
@@ -155,8 +157,21 @@ final class DataStore: ObservableObject {
     }
     
     func loadExtraData() {
-        let extraData = loadExtraDataFromResource(fileName: "extra_data")
-        self.extraData = extraData
+        self.extraData = loadExtraDataFromResource(fileName: "extra_data")
+
+        let loadedBrowseTaxonomy = loadBrowseTaxonomyFromResource(
+            fileName: "browse_taxonomy"
+        ) ?? []
+        browseTaxonomy = loadedBrowseTaxonomy
+        browseTaxonomyByID = Dictionary(
+            uniqueKeysWithValues: loadedBrowseTaxonomy.map { entry in
+                (entry.id, entry)
+            }
+        )
+    }
+
+    func localizedBrowseGenreLabel(for id: String) -> String {
+        browseTaxonomyByID[id]?.localizedLabel ?? id
     }
 
     func loadNews() async {
@@ -185,24 +200,27 @@ final class DataStore: ObservableObject {
                 self.data = .success(loadedData)
             }
         }
-        let apiData = try? await apiClient.fetchFestivalData()
-        guard let apiData else {
-            print("Download failed")
+        do {
+            let apiData = try await apiClient.fetchFestivalData()
+            let storedFile = dataLoader.storeAPIRudolstadtDataToFile(
+                data: apiData,
+                fileName: "rudolstadt_data.json"
+            )
+            if !storedFile {
+                print("Could not store API data to file")
+            }
+            let entities = convertAPIRudolstadtDataToEntities(apiData: apiData, extraData: extraData ?? ExtraDataCollection.empty())
+            setDataAfterSuccessfulDownload(
+                resultFromDownload: .loaded(entities),
+                resultFromCache: resultFromCache
+            )
+        } catch {
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("!!! FESTIVAL DATA DOWNLOAD FAILED")
+            print("!!! \(error.localizedDescription)")
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             setDataAfterFailedDownload(resultFromCache: resultFromCache)
-            return
         }
-        let storedFile = dataLoader.storeAPIRudolstadtDataToFile(
-            data: apiData,
-            fileName: "rudolstadt_data.json"
-        )
-        if !storedFile {
-            print("Could not store API data to file")
-        }
-        let entities = convertAPIRudolstadtDataToEntities(apiData: apiData, extraData: extraData ?? ExtraDataCollection.empty())
-        setDataAfterSuccessfulDownload(
-            resultFromDownload: .loaded(entities),
-            resultFromCache: resultFromCache
-        )
     }
 
     func loadAndSetDataFromFilesIfUpToDate() -> (
@@ -261,28 +279,30 @@ final class DataStore: ObservableObject {
     }
 
     private func updateAndLoadNews() async {
-        let apiNews = try? await apiClient.fetchNews()
-        guard let apiNews = apiNews else {
-            print("Could not load news from API")
-            return
-        }
-        let storedFile = dataLoader.storeAPINewsToFile(
-            news: apiNews,
-            fileName: "news.json"
-        )
-        if !storedFile {
-            print("Could not store news to file")
-        }
+        do {
+            let apiNews = try await apiClient.fetchNews()
+            let storedFile = dataLoader.storeAPINewsToFile(
+                news: apiNews,
+                fileName: "news.json"
+            )
+            if !storedFile {
+                print("Could not store news to file")
+            }
 
-        UserSettings().oldNews = apiNews.map { apiNewsItem in
-            apiNewsItem.id
-        }
+            UserSettings().oldNews = apiNews.map { apiNewsItem in
+                apiNewsItem.id
+            }
 
-        DispatchQueue.main.async {
-            self.news = .success(apiNews.map(convertAPINewsItemToNewsItem))
-            print("Updated news data")
+            DispatchQueue.main.async {
+                self.news = .success(apiNews.map(convertAPINewsItemToNewsItem))
+                print("Updated news data")
+            }
+        } catch {
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("!!! NEWS DOWNLOAD FAILED")
+            print("!!! \(error.localizedDescription)")
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         }
-
     }
 
     private func shouldNewsBeUpdated() -> Swift.Bool {

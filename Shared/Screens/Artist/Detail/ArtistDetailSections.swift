@@ -27,56 +27,53 @@ struct ArtistDetailSplitBackground: View {
 
 struct ArtistAISummaryBlock: View {
     let artist: Artist
+    let onInfoTap: () -> Void
 
     @EnvironmentObject var settings: UserSettings
 
     var body: some View {
-        if settings.aiSummaryEnabled && artist.ai?.hasContent == true {
-            ArtistDetailContentBlock {
-                Text("artist.ai.header")
-                    .font(.headline)
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.red, .purple, .blue, .cyan],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
+        if settings.aiSummaryEnabled, let ai = artist.ai, ai.hasContent {
+            let localizedSummary = ai.localizedSummary?.trimmingCharacters(
+                in: .whitespacesAndNewlines
+            )
 
-                if let ai = artist.ai {
-                    if let localizedGenres = ai.localizedGenres,
-                        !localizedGenres.isEmpty
-                    {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 8) {
-                                ForEach(localizedGenres, id: \.self) { genre in
-                                    Text(genre)
-                                        .font(.caption.weight(.semibold))
-                                        .padding(.horizontal, 10)
-                                        .padding(.vertical, 6)
-                                        .background(
-                                            Capsule()
-                                                .fill(Color.accentColor.opacity(0.18))
-                                        )
-                                        .foregroundStyle(Color.accentColor)
-                                }
-                            }
+            VStack(alignment: .leading, spacing: 10) {
+                if let localizedSummary, !localizedSummary.isEmpty {
+                    HStack(alignment: .top, spacing: 10) {
+                        Button(action: onInfoTap) {
+                            ArtistAIGradientIcon()
                         }
-                    }
+                        .buttonStyle(.plain)
 
-                    if let localizedSummary = ai.localizedSummary,
-                        !localizedSummary.isEmpty
-                    {
-                        Text(localizedSummary)
-                            .font(.body)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(localizedSummary)
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
 
-                Text("artist.ai.footer")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
         }
+    }
+}
+
+private struct ArtistAIGradientIcon: View {
+    var body: some View {
+        Image(systemName: "sparkles.2")
+            .font(.system(size: 16, weight: .semibold))
+            .foregroundStyle(
+                LinearGradient(
+                    colors: [
+                        Color(red: 1.0, green: 0.48, blue: 0.19),
+                        Color(red: 0.98, green: 0.23, blue: 0.60),
+                        Color(red: 0.39, green: 0.36, blue: 1.0),
+                        Color(red: 0.0, green: 0.72, blue: 1.0),
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
     }
 }
 
@@ -112,6 +109,10 @@ struct ArtistEventsBlock: View {
         colorScheme == .dark ? .white.opacity(0.22) : .black.opacity(0.12)
     }
 
+    private var highlightedEventBackgroundColor: Color {
+        colorScheme == .dark ? .white.opacity(0.10) : .black.opacity(0.08)
+    }
+
     var body: some View {
         switch artistEvents {
         case .loading:
@@ -137,11 +138,11 @@ struct ArtistEventsBlock: View {
                             ) {
                                 ArtistEventCell(event: event)
                                     .padding(.vertical, 6)
-                                    .padding(.horizontal, 0)
+                                    .padding(.horizontal, 16)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .background(
                                         highlightedEventId == event.id && events.count > 1
-                                            ? Color.yellow.opacity(0.24)
+                                            ? highlightedEventBackgroundColor
                                             : Color.clear
                                     )
                                     .contentShape(Rectangle())
@@ -151,11 +152,12 @@ struct ArtistEventsBlock: View {
                             if index < events.count - 1 {
                                 Divider()
                                     .overlay(eventDividerColor)
-                                    .padding(.leading, 90)
+                                    .padding(.leading, 16 + 52 + 10)
                             }
                         }
                     }
                 }
+                .padding(.horizontal, -16)
             }
         }
     }
@@ -186,6 +188,42 @@ struct ArtistDescriptionBlock: View {
                         }
                     }
             )
+        }
+    }
+}
+
+struct ArtistBrowseGenresBlock: View {
+    let artist: Artist
+
+    @EnvironmentObject var dataStore: DataStore
+
+    private var localizedBrowseGenres: [String] {
+        let browseGenreIDs = artist.ai?.browseGenreIDs ?? []
+        var seen = Set<String>()
+        return browseGenreIDs.compactMap { genreID in
+            let label = dataStore.localizedBrowseGenreLabel(for: genreID)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !label.isEmpty else {
+                return nil
+            }
+            if seen.contains(label) {
+                return nil
+            }
+            seen.insert(label)
+            return label
+        }
+    }
+
+    var body: some View {
+        if !localizedBrowseGenres.isEmpty {
+            Text(localizedBrowseGenres.joined(separator: " • "))
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.horizontal, 16)
+                .padding(.top, 14)
+                .padding(.bottom, 26)
         }
     }
 }

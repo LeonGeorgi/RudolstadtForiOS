@@ -27,10 +27,45 @@ struct APIRudolstadtData: Codable {
     let tags: [APITag]
 }
 
-enum APIArtistCategory: String, Codable {
-    case concert = "concert"
-    case dancing = "dancing"
-    case festivalPlus = "festival-plus"
+enum APIArtistCategory: Codable, Equatable {
+    case concert
+    case dancing
+    case festivalPlus
+    case unknown(rawValue: String)
+
+    var rawValue: String {
+        switch self {
+        case .concert:
+            return "concert"
+        case .dancing:
+            return "dancing"
+        case .festivalPlus:
+            return "festival-plus"
+        case .unknown(let rawValue):
+            return rawValue
+        }
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        switch rawValue {
+        case "concert":
+            self = .concert
+        case "dancing":
+            self = .dancing
+        case "festival-plus":
+            self = .festivalPlus
+        default:
+            print("!!! UNKNOWN ARTIST CATEGORY FROM API: '\(rawValue)' !!!")
+            self = .unknown(rawValue: rawValue)
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
 }
 
 struct APIArtist: Codable {

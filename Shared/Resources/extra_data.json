@@ -1,2906 +1,100 @@
 {
     "data": {
-        "Big Band Of Boom": {
-            "en": {
-                "summary": "Swing meets rock with electronic flair",
-                "genres": [
-                    "swing rock",
-                    "electro swing"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            },
-            "de": {
-                "summary": "Swing trifft Rock mit elektronischem Touch",
-                "genres": [
-                    "Swing Rock",
-                    "Electro Swing"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            }
-        },
-        "Chili Sowieso": {
-            "en": {
-                "summary": "Latin rhythms meet German singer-songwriter pop",
-                "genres": [
-                    "Latin fusion",
-                    "Singer-songwriter pop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Lateinamerikanische Rhythmen und Singer-Songwriter-Pop",
-                "genres": [
-                    "Latin Fusion",
-                    "Singer-Songwriter-Pop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Chicken Wire Empire": {
-            "en": {
-                "summary":
-                    "Energetic blend of traditional and modern bluegrass",
-                "genres": [
-                    "bluegrass"
-                ],
-                "countries": [
-                    "🇺🇸"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Energiegeladener Mix aus traditionellem und modernem Bluegrass",
-                "genres": [
-                    "Bluegrass"
-                ],
-                "countries": [
-                    "🇺🇸"
-                ]
-            }
-        },
-        "Ëda Diaz": {
-            "en": {
-                "summary":
-                    "French-Colombian fusion of Latin and experimental pop",
-                "genres": [
-                    "Latin experimental pop",
-                    "electronic"
-                ],
-                "countries": [
-                    "🇫🇷",
-                    "🇨🇴"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Französisch-kolumbianischer Latin- und Experimental-Pop",
-                "genres": [
-                    "Latin Experimental Pop",
-                    "Elektronisch"
-                ],
-                "countries": [
-                    "🇫🇷",
-                    "🇨🇴"
-                ]
-            }
-        },
-        "Vieux Farka Toure": {
-            "en": {
-                "summary": "Saharan guitar virtuoso blending Desert Blues.",
-                "genres": [
-                    "Desert Blues",
-                    "Songhai traditional music"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            },
-            "de": {
-                "summary": "Sahara-Gitarrenvirtuose mit Desert Blues-Wurzeln.",
-                "genres": [
-                    "Desert Blues",
-                    "Songhai traditionelle Musik"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            }
-        },
-        "Petit Goro": {
-            "en": {
-                "summary": "Dogon-inspired trance-like West African reggae",
-                "genres": [
-                    "Dogon traditional",
-                    "West African reggae"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Dogon-inspirierter, tranceartiger westafrikanischer Reggae",
-                "genres": [
-                    "Dogon-Traditionell",
-                    "Westafrikanischer Reggae"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            }
-        },
-        "Jourdan Thibodeaux et les Rôdailleurs": {
-            "en": {
-                "summary":
-                    "Virtuoso Cajun songwriter with authentic Louisiana roots",
-                "genres": [
-                    "Cajun"
-                ],
-                "countries": [
-                    "🇺🇸"
-                ]
-            },
-            "de": {
-                "summary": "Virtuoser Cajun-Songwriter mit Louisiana-Wurzeln",
-                "genres": [
-                    "Cajun"
-                ],
-                "countries": [
-                    "🇺🇸"
-                ]
-            }
-        },
-        "Le diable à cinq": {
-            "en": {
-                "summary": "Québecois folk with fiery foot percussion",
-                "genres": [
-                    "Québecois folk"
-                ],
-                "countries": [
-                    "🇨🇦"
-                ]
-            },
-            "de": {
-                "summary": "Québec-Folk mit feuriger Fußperkussion",
-                "genres": [
-                    "Québec-Folk"
-                ],
-                "countries": [
-                    "🇨🇦"
-                ]
-            }
-        },
-        "Topette!!": {
-            "en": {
-                "summary": "Energetic Anglo-French folk dance ensemble",
-                "genres": [
-                    "folk",
-                    "traditional dance music"
-                ],
-                "countries": [
-                    "🇬🇧",
-                    "🇫🇷"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Energiegeladenes anglo-französisches Folk-Tanzensemble",
-                "genres": [
-                    "Folk",
-                    "Traditionelle Tanzmusik"
-                ],
-                "countries": [
-                    "🇬🇧",
-                    "🇫🇷"
-                ]
-            }
-        },
-        "Mine": {
-            "en": {
-                "summary": "Inventive German pop with poetic depth",
-                "genres": [
-                    "Indie Pop",
-                    "Electropop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Innovativer deutscher Pop mit poetischer Tiefe",
-                "genres": [
-                    "Indie-Pop",
-                    "Electropop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Rob Heron & The Tea Pad Orchestra": {
-            "en": {
-                "summary": "Swinging blend of country and rhythm & blues",
-                "genres": [
-                    "Western Swing",
-                    "Rhythm and Blues"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            },
-            "de": {
-                "summary": "Swingende Mischung aus Country und Rhythm & Blues",
-                "genres": [
-                    "Western Swing",
-                    "Rhythm and Blues"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            }
-        },
-        "Maxjoseph": {
-            "en": {
-                "summary":
-                    "Inventive Bavarian folk with chamber and jazz flair",
-                "genres": [
-                    "Contemporary Bavarian folk",
-                    "Chamber jazz"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Innovative bayerische Volksmusik mit Kammer- und Jazz-Elementen",
-                "genres": [
-                    "Zeitgenössische bayerische Volksmusik",
-                    "Kammerjazz"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Hunter Folk & Malian Roots": {
-            "en": {
-                "summary": "Traditional Malian hunter folk with modern touches",
-                "genres": [
-                    "Hunter Folk"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            },
-            "de": {
-                "summary": "Traditioneller malischer Hunter Folk mit Moderne",
-                "genres": [
-                    "Hunter Folk"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            }
-        },
-        "Ami Yerewolo": {
-            "en": {
-                "summary": "Pioneering Malian rapper fusing tradition and rap",
-                "genres": [
-                    "Malian rap",
-                    "Afro-fusion"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            },
-            "de": {
-                "summary": "Maliens Rap-Pionierin mit traditioneller Fusion",
-                "genres": [
-                    "Mali-Rap",
-                    "Afro-Fusion"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            }
-        },
-        "Yoko Pwno": {
-            "en": {
-                "summary": "Scottish folk fused with underground dance beats",
-                "genres": [
-                    "Scottish folk",
-                    "electronic dance"
-                ],
-                "countries": [
-                    "🏴"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Schottischer Folk trifft auf Underground-Dance-Beats",
-                "genres": [
-                    "Schottischer Folk",
-                    "elektronische Tanzmusik"
-                ],
-                "countries": [
-                    "🏴"
-                ]
-            }
-        },
-        "Le Mali 70 Earkestra": {
-            "en": {
-                "summary": "Berlin big band meets 70s Malian legends",
-                "genres": [
-                    "West African jazz",
-                    "Malian popular music"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇲🇱"
-                ]
-            },
-            "de": {
-                "summary": "Berliner Bigband trifft malische Musikhelden",
-                "genres": [
-                    "Westafrikanischer Jazz",
-                    "Malische Popmusik"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇲🇱"
-                ]
-            }
-        },
-        "Niyaz": {
-            "en": {
-                "summary": "Sufi poetry fused with electronic trance.",
-                "genres": [
-                    "Sufi fusion",
-                    "electronic trance"
-                ],
-                "countries": [
-                    "🇮🇷",
-                    "🇨🇦"
-                ]
-            },
-            "de": {
-                "summary": "Sufi-Poesie trifft elektronische Trance.",
-                "genres": [
-                    "Sufi Fusion",
-                    "Elektronische Trance"
-                ],
-                "countries": [
-                    "🇮🇷",
-                    "🇨🇦"
-                ]
-            }
-        },
-        "Mojna": {
-            "en": {
-                "summary": "Inventive Scandinavian folk with improvisation",
-                "genres": [
-                    "Scandinavian folk"
-                ],
-                "countries": [
-                    "🇸🇪",
-                    "🇳🇴"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Einfallsreicher skandinavischer Folk mit Improvisation",
-                "genres": [
-                    "Skandinavischer Folk"
-                ],
-                "countries": [
-                    "🇸🇪",
-                    "🇳🇴"
-                ]
-            }
-        },
-        "Sadio Sidibe": {
-            "en": {
-                "summary": "Powerful Wassoulou singer from Mali",
-                "genres": [
-                    "Wassoulou"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            },
-            "de": {
-                "summary": "Kraftvolle Wassoulou-Sängerin aus Mali",
-                "genres": [
-                    "Wassoulou"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            }
-        },
         "Profolk-Session": {
+            "browse_genres": [
+                "folk",
+                "world_sounds",
+                "chanson_lied"
+            ],
             "en": {
-                "summary": "German folk musicians' collaborative session event",
-                "genres": [
-                    "German folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Deutsche Folk-MusikerInnen laden zur Session",
-                "genres": [
-                    "Deutscher Folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Al Bilali Soudan": {
-            "en": {
-                "summary":
-                    "Traditional Tuareg music with tehardent and calabash",
-                "genres": [
-                    "Tuareg traditional music"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Traditionelle Tuareg-Musik mit Tehardent und Kalebasse",
-                "genres": [
-                    "Tuareg-Traditionsmusik"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            }
-        },
-        "Heavy Beat Brass Band": {
-            "en": {
-                "summary": "New Orleans marching band brass sounds",
-                "genres": [
-                    "New Orleans brass band"
+                "summary": "Open folk session: sing, play, and dance together",
+                "tags": [
+                    "folk session",
+                    "world music"
                 ],
                 "countries": []
             },
             "de": {
-                "summary": "New-Orleans-Marching-Band-Bläserklänge",
-                "genres": [
-                    "New-Orleans-Brass-Band"
+                "summary": "Offene Folk-Session: gemeinsam singen, spielen und tanzen",
+                "tags": [
+                    "Folk-Session",
+                    "Weltmusik"
                 ],
                 "countries": []
-            }
-        },
-        "Kader Tarhanine": {
-            "en": {
-                "summary": "Guitar-driven Tuareg rhythms with rock influences",
-                "genres": [
-                    "Tuareg rock",
-                    "Desert blues"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            },
-            "de": {
-                "summary": "Gitarrenbetonte Tuareg-Rhythmen mit Rockeinflüssen",
-                "genres": [
-                    "Tuareg-Rock",
-                    "Desert Blues"
-                ],
-                "countries": [
-                    "🇲🇱"
-                ]
-            }
-        },
-        "Justin Adams & Mauro Durante": {
-            "en": {
-                "summary": "Raw, atmospheric blend of blues and Italian folk",
-                "genres": [
-                    "blues",
-                    "Southern Italian folk"
-                ],
-                "countries": [
-                    "🇬🇧",
-                    "🇮🇹"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Rau-atmosphärische Mischung aus Blues und italienischer Folklore",
-                "genres": [
-                    "Blues",
-                    "Süditalienische Folklore"
-                ],
-                "countries": [
-                    "🇬🇧",
-                    "🇮🇹"
-                ]
-            }
-        },
-        "Almir Mešković & Daniel Lazar": {
-            "en": {
-                "summary": "Balkan roots with a Scandinavian twist",
-                "genres": [
-                    "Balkan folk",
-                    "World fusion"
-                ],
-                "countries": [
-                    "🇧🇦",
-                    "🇷🇴"
-                ]
-            },
-            "de": {
-                "summary": "Balkan-Wurzeln mit skandinavischem Twist",
-                "genres": [
-                    "Balkan-Folk",
-                    "World Fusion"
-                ],
-                "countries": [
-                    "🇧🇦",
-                    "🇷🇴"
-                ]
-            }
-        },
-        "Suraras do Tapajós": {
-            "en": {
-                "summary": "All-female indigenous Carimbó from the Amazon",
-                "genres": [
-                    "Carimbó"
-                ],
-                "countries": [
-                    "🇧🇷"
-                ]
-            },
-            "de": {
-                "summary": "Indigene Carimbó-Frauen aus dem Amazonasgebiet",
-                "genres": [
-                    "Carimbó"
-                ],
-                "countries": [
-                    "🇧🇷"
-                ]
-            }
-        },
-        "Sanam": {
-            "en": {
-                "summary":
-                    "Lebanese band blending psych-rock and Levantine folklore",
-                "genres": [
-                    "psychedelic rock",
-                    "Levantine folk"
-                ],
-                "countries": [
-                    "🇱🇧"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Libanesische Band mit Psych-Rock und levantinischer Folklore",
-                "genres": [
-                    "Psychedelic Rock",
-                    "Levantinische Folklore"
-                ],
-                "countries": [
-                    "🇱🇧"
-                ]
-            }
-        },
-        "Dubioza Kolektiv": {
-            "en": {
-                "summary": "Balkanfolk, ska, and dub with witty lyrics",
-                "genres": [
-                    "Balkanfolk",
-                    "Ska"
-                ],
-                "countries": [
-                    "🇧🇦"
-                ]
-            },
-            "de": {
-                "summary": "Balkanfolk, Ska und Dub mit ironischen Texten",
-                "genres": [
-                    "Balkanfolk",
-                    "Ska"
-                ],
-                "countries": [
-                    "🇧🇦"
-                ]
-            }
-        },
-        "Ganna": {
-            "en": {
-                "summary": "Ukrainian folklore fused with jazz innovation",
-                "genres": [
-                    "Ukrainian folk",
-                    "jazz"
-                ],
-                "countries": [
-                    "🇺🇦"
-                ]
-            },
-            "de": {
-                "summary": "Ukrainische Folklore trifft auf Jazz-Innovation",
-                "genres": [
-                    "Ukrainische Folklore",
-                    "Jazz"
-                ],
-                "countries": [
-                    "🇺🇦"
-                ]
-            }
-        },
-        "babe tella": {
-            "en": {
-                "summary": "Elegiac folk blending tradition and electronics",
-                "genres": [
-                    "electronic folk"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Elegischer Folk zwischen Tradition und Elektronik",
-                "genres": [
-                    "Electronic Folk"
-                ],
-                "countries": []
-            }
-        },
-        "The Balkonians": {
-            "en": {
-                "summary": "Berlin trio blending Balkan acoustic fusion",
-                "genres": [
-                    "Acoustic Balkan Fusion"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Berliner Trio mit Balkan-Akustik-Fusion",
-                "genres": [
-                    "Akustische Balkan-Fusion"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Batiar Gang": {
-            "en": {
-                "summary": "Leipzig collective with Balkan brass and vocals",
-                "genres": [
-                    "Balkan Brass",
-                    "Eastern European Folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Leipziger Kollektiv mit Balkan-Bläsern und Gesang",
-                "genres": [
-                    "Balkan Brass",
-                    "Osteuropäische Folklore"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Florian Betz": {
-            "en": {
-                "summary": "Handpan rhythms with melodic percussion.",
-                "genres": [
-                    "Handpan"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Handpan-Rhythmen mit melodischer Percussion.",
-                "genres": [
-                    "Handpan"
-                ],
-                "countries": []
-            }
-        },
-        "Bittersüßer Nachtschatten": {
-            "en": {
-                "summary": "Bittersweet dark folk poetry with acoustic touch",
-                "genres": [
-                    "dark folk"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Bittersüße Dark-Folk-Poesie mit akustischem Flair",
-                "genres": [
-                    "Dark Folk"
-                ],
-                "countries": []
-            }
-        },
-        "Sebastian Block und Band": {
-            "en": {
-                "summary": "Soulful, honest German singer-songwriter pop",
-                "genres": [
-                    "German singer-songwriter pop"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary":
-                    "Seelenvolle, ehrliche deutsche Singer-Songwriter-Popmusik",
-                "genres": [
-                    "Deutscher Singer-Songwriter-Pop"
-                ],
-                "countries": []
-            }
-        },
-        "Marco Böttger & Thomas Buffy": {
-            "en": {
-                "summary": "Gypsy swing duo with jazz improvisation.",
-                "genres": [
-                    "Gypsy Swing",
-                    "Jazz Manouche"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Gypsy-Swing-Duo mit Jazz-Improvisation.",
-                "genres": [
-                    "Gypsy Swing",
-                    "Jazz Manouche"
-                ],
-                "countries": []
-            }
-        },
-        "Bozó & Asadi": {
-            "en": {
-                "summary":
-                    "East-West fusion with classical and chanson touches",
-                "genres": [
-                    "World fusion",
-                    "Chanson"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇮🇷"
-                ]
-            },
-            "de": {
-                "summary": "Ost-West-Fusion mit Klassik- und Chanson-Elementen",
-                "genres": [
-                    "World Fusion",
-                    "Chanson"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇮🇷"
-                ]
-            }
-        },
-        "Les Calcatoggios": {
-            "en": {
-                "summary": "Energetic Berlin ska with inventive rhythms",
-                "genres": [
-                    "ska"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary":
-                    "Energiegeladener Berliner Ska mit kreativen Rhythmen",
-                "genres": [
-                    "Ska"
-                ],
-                "countries": []
-            }
-        },
-        "Hezron Chetty": {
-            "en": {
-                "summary": "Violin loops meet spoken word psychedelia",
-                "genres": [
-                    "Psychedelic Folk",
-                    "Jazz Rock"
-                ],
-                "countries": [
-                    "🇿🇦"
-                ]
-            },
-            "de": {
-                "summary": "Geigenloops und Spoken Word mit Psychedelic",
-                "genres": [
-                    "Psychedelic Folk",
-                    "Jazz Rock"
-                ],
-                "countries": [
-                    "🇿🇦"
-                ]
-            }
-        },
-        "Cia Rampante": {
-            "en": {
-                "summary": "Argentinian duo blends circus and performance art",
-                "genres": [
-                    "circus performance"
-                ],
-                "countries": [
-                    "🇦🇷",
-                    "🇫🇷"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Argentinisches Duo verbindet Zirkus und Performancekunst",
-                "genres": [
-                    "Zirkusperformance"
-                ],
-                "countries": [
-                    "🇦🇷",
-                    "🇫🇷"
-                ]
-            }
-        },
-        "Cinnamon Sun": {
-            "en": {
-                "summary": "Energetic Australian one-man band with live loops",
-                "genres": [
-                    "Indie Rock",
-                    "Reggae"
-                ],
-                "countries": [
-                    "🇦🇺"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Energiegeladene australische One-Man-Band mit Live-Loops",
-                "genres": [
-                    "Indie-Rock",
-                    "Reggae"
-                ],
-                "countries": [
-                    "🇦🇺"
-                ]
-            }
-        },
-        "Charlotte Daun": {
-            "en": {
-                "summary": "Dreamy harp and percussion explorations",
-                "genres": [
-                    "Balfolk",
-                    "free improvisation"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Verträumte Harfen- und Schlagzeugklänge",
-                "genres": [
-                    "Balfolk",
-                    "freie Improvisation"
-                ],
-                "countries": []
-            }
-        },
-        "DiaTon": {
-            "en": {
-                "summary":
-                    "Inventive diatonic accordion duo with wild compositions",
-                "genres": [
-                    "Contemporary Folk"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇧🇪"
-                ]
-            },
-            "de": {
-                "summary": "Kreatives Duo für diatonisches Akkordeon",
-                "genres": [
-                    "Zeitgenössischer Folk"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇧🇪"
-                ]
-            }
-        },
-        "Ben Éadair and Frank": {
-            "en": {
-                "summary": "Traditional Irish pub songs with storytelling",
-                "genres": [
-                    "Irish folk"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Traditionelle irische Pub-Lieder mit Geschichten",
-                "genres": [
-                    "Irischer Folk"
-                ],
-                "countries": []
-            }
-        },
-        "Elderland": {
-            "en": {
-                "summary":
-                    "Danceable folk with thoughtful, nature-inspired lyrics",
-                "genres": [
-                    "Hollerfolk"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Tänzerischer Folk mit nachdenklichen Texten",
-                "genres": [
-                    "Hollerfolk"
-                ],
-                "countries": []
-            }
-        },
-        "Das EU-Semble": {
-            "en": {
-                "summary":
-                    "Humorous a cappella pop with choreographed yodeling",
-                "genres": [
-                    "a cappella pop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Humorvolles A-cappella-Pop mit choreografiertem Jodeln",
-                "genres": [
-                    "A-cappella-Pop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Fleadh": {
-            "en": {
-                "summary": "Celebrating Irish music with lively sessions",
-                "genres": [
-                    "Irish folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Lebendige Sessions irischer Folkmusik",
-                "genres": [
-                    "Irischer Folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "gelinde gesagt": {
-            "en": {
-                "summary": "Poetic folk-pop with chanson flair",
-                "genres": [
-                    "chanson-inspired folk-pop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Poetischer Folk-Pop mit Chanson-Elementen",
-                "genres": [
-                    "chanson-inspirierter Folk-Pop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Good Habits": {
-            "en": {
-                "summary": "Virtuosic indie-folk with lively storytelling",
-                "genres": [
-                    "indie folk"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            },
-            "de": {
-                "summary": "Virtuoser Indie-Folk mit lebendigem Storytelling",
-                "genres": [
-                    "Indie-Folk"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            }
-        },
-        "Christina Harslem": {
-            "en": {
-                "summary": "Operatic street performer and songwriter",
-                "genres": [
-                    "Opera"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Opern-Straßenmusikerin und Songwriterin",
-                "genres": [
-                    "Oper"
-                ],
-                "countries": []
-            }
-        },
-        "Gregor°Holzer und Frau Maleen": {
-            "en": {
-                "summary": "Heartfelt folk songs with guitar and flute",
-                "genres": [
-                    "contemporary folk"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Herzliche Folklieder mit Gitarre und Flöte",
-                "genres": [
-                    "zeitgenössischer Folk"
-                ],
-                "countries": []
-            }
-        },
-        "Jarése": {
-            "en": {
-                "summary": "Modern acoustic folk with pop and blues spirit",
-                "genres": [
-                    "acoustic folk",
-                    "pop"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary":
-                    "Zeitloser Akustikfolk mit Pop- und Blues-Einflüssen",
-                "genres": [
-                    "Akustikfolk",
-                    "Pop"
-                ],
-                "countries": []
-            }
-        },
-        "Jusur": {
-            "en": {
-                "summary": "Authentic Arabic chamber music ensemble",
-                "genres": [
-                    "Arabic classical"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇸🇾"
-                ]
-            },
-            "de": {
-                "summary": "Authentisches arabisches Kammermusik-Ensemble",
-                "genres": [
-                    "Arabische Klassik"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇸🇾"
-                ]
-            }
-        },
-        "Thari Kaan": {
-            "en": {
-                "summary": "Dreamy electronic pop with everyday soundscapes",
-                "genres": [
-                    "electropop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Verträumter Electropop mit Alltagsgeräuschen",
-                "genres": [
-                    "Electropop"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Kaboros": {
-            "en": {
-                "summary": "Bavarian dialect vocals with accordion and wit",
-                "genres": [
-                    "Bavarian folk",
-                    "Chanson"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary":
-                    "Niederbayerischer Mundart-Folk mit Akkordeon und Witz",
-                "genres": [
-                    "Niederbayerischer Folk",
-                    "Chanson"
-                ],
-                "countries": []
-            }
-        },
-        "der Katze und die Hund": {
-            "en": {
-                "summary": "Gypsy-jazz fusion with Neue Deutsche Welle flair",
-                "genres": [
-                    "Gypsy-jazz",
-                    "Neue Deutsche Welle"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Gypsy-Jazz-Fusion mit NDW-Anarchie",
-                "genres": [
-                    "Gypsy-Jazz",
-                    "Neue Deutsche Welle"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Der Kiepenkasper": {
-            "en": {
-                "summary": "Leather puppet theater for all ages",
-                "genres": [
-                    "puppet theater"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Leder-Puppentheater für Jung und Alt",
-                "genres": [
-                    "Puppentheater"
-                ],
-                "countries": []
-            }
-        },
-        "Klezmer Muskel Kater": {
-            "en": {
-                "summary": "Balkan, Klezmer, and Oriental fusion ensemble",
-                "genres": [
-                    "Balkan",
-                    "Klezmer"
-                ],
-                "countries": [
-                    "🇲🇩",
-                    "🇮🇹",
-                    "🇸🇾",
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Balkan-, Klezmer- und Orient-Fusion-Ensemble",
-                "genres": [
-                    "Balkan",
-                    "Klezmer"
-                ],
-                "countries": [
-                    "🇲🇩",
-                    "🇮🇹",
-                    "🇸🇾",
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Kosmo Lutra": {
-            "en": {
-                "summary": "German indie band with political lyrics",
-                "genres": [
-                    "Indie",
-                    "Ska"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Deutsche Indie-Band mit politischen Texten",
-                "genres": [
-                    "Indie",
-                    "Ska"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
             }
         },
         "Mandolinenorchester &#34;Wanderlust&#34;": {
+            "browse_genres": [
+                "classical",
+                "folk"
+            ],
             "en": {
-                "summary":
-                    "Mandolin orchestra blending classical and Latin works",
-                "genres": [
-                    "classical mandolin ensemble",
-                    "contemporary Latin American"
+                "summary": "Century-old mandolin orchestra, classic to contemporary",
+                "tags": [
+                    "mandolin orchestra",
+                    "plucked strings",
+                    "contemporary classical"
                 ],
                 "countries": [
                     "🇩🇪"
                 ]
             },
             "de": {
-                "summary":
-                    "Mandolinenorchester mit klassischem und lateinamerikanischem Repertoire",
-                "genres": [
-                    "klassisches Mandolinenensemble",
-                    "zeitgenössisch lateinamerikanisch"
+                "summary": "Traditionsreiches Mandolinenorchester, klassisch bis zeitgenössisch",
+                "tags": [
+                    "Mandolinenorchester",
+                    "Zupfmusik",
+                    "Zeitgenössische Klassik"
                 ],
                 "countries": [
                     "🇩🇪"
-                ]
-            }
-        },
-        "Maradiuli": {
-            "en": {
-                "summary":
-                    "Experimental vocal folk with harmonic improvisation",
-                "genres": [
-                    "experimental folk",
-                    "vocal improvisation"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary":
-                    "Experimenteller Vokal-Folk mit harmonischer Improvisation",
-                "genres": [
-                    "experimenteller Folk",
-                    "Vokal-Improvisation"
-                ],
-                "countries": []
-            }
-        },
-        "Mat’ChaOn": {
-            "en": {
-                "summary": "Celtic Chapman Stick with relaxing, warm sounds",
-                "genres": [
-                    "Celtic"
-                ],
-                "countries": [
-                    "🇫🇷"
-                ]
-            },
-            "de": {
-                "summary": "Keltischer Chapman Stick mit entspannenden Klängen",
-                "genres": [
-                    "Keltisch"
-                ],
-                "countries": [
-                    "🇫🇷"
-                ]
-            }
-        },
-        "Martin John Milner and The Need": {
-            "en": {
-                "summary": "Funky rock and jazzy jazz from Britain",
-                "genres": [
-                    "funk rock",
-                    "jazz"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            },
-            "de": {
-                "summary": "Funkiger Rock und jazziger Jazz aus Großbritannien",
-                "genres": [
-                    "Funk-Rock",
-                    "Jazz"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            }
-        },
-        "The Moonshine Pack": {
-            "en": {
-                "summary": "Pirate polka meets country with political edge",
-                "genres": [
-                    "Pirate Polka",
-                    "Country Blues"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Piraten-Polka trifft Country mit politischer Note",
-                "genres": [
-                    "Piraten-Polka",
-                    "Country Blues"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Nid de poule": {
-            "en": {
-                "summary": "Evokes 1930s Parisian Left Bank club vibes",
-                "genres": [
-                    "French chanson",
-                    "Gypsy jazz"
-                ],
-                "countries": [
-                    "🇫🇷"
-                ]
-            },
-            "de": {
-                "summary": "Versprüht Pariser Club-Atmosphäre der 1930er",
-                "genres": [
-                    "Chanson",
-                    "Gypsy Jazz"
-                ],
-                "countries": [
-                    "🇫🇷"
-                ]
-            }
-        },
-        "Of Men and Deer": {
-            "en": {
-                "summary": "Atmospheric acoustic band from Nuremberg",
-                "genres": [
-                    "acoustic",
-                    "atmospheric folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Atmosphärische Akustik-Band aus Nürnberg",
-                "genres": [
-                    "Akustik",
-                    "Atmosphärischer Folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Pabameto": {
-            "en": {
-                "summary": "European folk dance music by twin brothers",
-                "genres": [
-                    "European folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Europäische Folktanzmusik von Zwillingsbrüdern",
-                "genres": [
-                    "Europäischer Folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Papa Dula Band": {
-            "en": {
-                "summary": "Boomfire-Reggae with African and German roots",
-                "genres": [
-                    "Reggae"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇿🇦"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Boomfire-Reggae mit afrikanischen und deutschen Wurzeln",
-                "genres": [
-                    "Reggae"
-                ],
-                "countries": [
-                    "🇩🇪",
-                    "🇿🇦"
-                ]
-            }
-        },
-        "PapeSoundSystem": {
-            "en": {
-                "summary": "Latin fusion with ska, reggae, and funk elements",
-                "genres": [
-                    "Latin fusion",
-                    "Ska"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Latin-Fusion mit Ska-, Reggae- und Funk-Elementen",
-                "genres": [
-                    "Latin Fusion",
-                    "Ska"
-                ],
-                "countries": []
-            }
-        },
-        "Qukser": {
-            "en": {
-                "summary": "Energetic German rock with powerful lyrics",
-                "genres": [
-                    "German rock"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Energiegeladener Deutschrock mit starken Texten",
-                "genres": [
-                    "Deutschrock"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "REITLER!": {
-            "en": {
-                "summary": "From Dylan-esque folk to driving disco beats",
-                "genres": [
-                    "folk rock",
-                    "disco"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Von dylanesker Folkmusik bis treibender Disco",
-                "genres": [
-                    "Folk-Rock",
-                    "Disco"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Rosaro & Peppler": {
-            "en": {
-                "summary": "Multilingual Magic Folk with dance and dream vibes",
-                "genres": [
-                    "Magic Folk"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Mehrsprachiger Magic Folk zum Tanzen und Träumen",
-                "genres": [
-                    "Magic Folk"
-                ],
-                "countries": []
-            }
-        },
-        "Johannes Rosenstock und Die Mochitos": {
-            "en": {
-                "summary": "Berlin poet fusing swing, Latin, Balkan styles",
-                "genres": [
-                    "Global Pop",
-                    "Swing"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Berliner Dichter vereint Swing, Latin, Balkan",
-                "genres": [
-                    "Global Pop",
-                    "Swing"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Saitenspiel": {
-            "en": {
-                "summary": "Passionate, authentic European folk fusion",
-                "genres": [
-                    "European folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Leidenschaftlicher, authentischer europäischer Folk",
-                "genres": [
-                    "Europäischer Folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Johannes Scheurich": {
-            "en": {
-                "summary": "Indie pop poet with punk attitude",
-                "genres": [
-                    "indie pop",
-                    "punk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Indie-Pop-Poet mit Punk-Attitüde",
-                "genres": [
-                    "Indie-Pop",
-                    "Punk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Jacke Schwarz": {
-            "en": {
-                "summary": "Sorbian folk meets early blues songwriting",
-                "genres": [
-                    "Sorbian folk",
-                    "early blues"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Sorbischer Folk trifft frühen Blues",
-                "genres": [
-                    "Sorbischer Folk",
-                    "Frühblues"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Seau Volant": {
-            "en": {
-                "summary": "Energetic Eastern European folk for dancing crowds",
-                "genres": [
-                    "Klezmer",
-                    "Balkan Folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Mitreißende osteuropäische Folklore zum Tanzen",
-                "genres": [
-                    "Klezmer",
-                    "Balkan-Folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Martin Seeberg & Lauma": {
-            "en": {
-                "summary": "Nordic and Central European folk fusion",
-                "genres": [
-                    "Nordic folk",
-                    "Central European folk"
-                ],
-                "countries": [
-                    "🇩🇰",
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Nordische und mitteleuropäische Folk-Fusion",
-                "genres": [
-                    "Nordic Folk",
-                    "Mitteleuropäischer Folk"
-                ],
-                "countries": [
-                    "🇩🇰",
-                    "🇩🇪"
-                ]
-            }
-        },
-        "The See See Riders": {
-            "en": {
-                "summary": "Modern American Roots with blues and swing.",
-                "genres": [
-                    "American Roots",
-                    "Blues"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Moderne American Roots mit Blues und Swing.",
-                "genres": [
-                    "American Roots",
-                    "Blues"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Sloggi": {
-            "en": {
-                "summary": "Energetic Polish covers of rock and pop hits",
-                "genres": [
-                    "rock covers",
-                    "pop covers"
-                ],
-                "countries": [
-                    "🇵🇱"
-                ]
-            },
-            "de": {
-                "summary": "Energiegeladene polnische Rock- und Pop-Cover",
-                "genres": [
-                    "Rock-Cover",
-                    "Pop-Cover"
-                ],
-                "countries": [
-                    "🇵🇱"
-                ]
-            }
-        },
-        "Sono Orientalis": {
-            "en": {
-                "summary":
-                    "Balkan-Anatolian fusion with jazz and global grooves",
-                "genres": [
-                    "Balkan folk",
-                    "Anatolian jazz fusion"
-                ],
-                "countries": [
-                    "🇹🇷",
-                    "🇲🇬",
-                    "🇺🇸"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Balkan-Anatolien-Fusion mit Jazz und globalen Grooves",
-                "genres": [
-                    "Balkan-Folk",
-                    "Anatolische Jazz-Fusion"
-                ],
-                "countries": [
-                    "🇹🇷",
-                    "🇲🇬",
-                    "🇺🇸"
-                ]
-            }
-        },
-        "Spume": {
-            "en": {
-                "summary": "Psychedelic global sounds with Funk-Rock fusion",
-                "genres": [
-                    "Psychedelic Funk-Rock",
-                    "Global Fusion"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Psychedelische Global Sounds mit Funk-Rock-Fusion",
-                "genres": [
-                    "Psychedelic Funk-Rock",
-                    "Global Fusion"
-                ],
-                "countries": []
-            }
-        },
-        "Stilbruch": {
-            "en": {
-                "summary": "Classical meets German rock crossover trio",
-                "genres": [
-                    "classical crossover",
-                    "Deutschrock"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Klassik trifft Deutschrock Crossover-Trio",
-                "genres": [
-                    "Classical Crossover",
-                    "Deutschrock"
-                ],
-                "countries": []
-            }
-        },
-        "Tambores del diablo": {
-            "en": {
-                "summary": "Traditional Colombian rhythms with Caribbean flair",
-                "genres": [
-                    "Cumbia",
-                    "Bullerengue"
-                ],
-                "countries": [
-                    "🇨🇴"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Traditionelle kolumbianische Rhythmen mit Karibik-Flair",
-                "genres": [
-                    "Cumbia",
-                    "Bullerengue"
-                ],
-                "countries": [
-                    "🇨🇴"
-                ]
-            }
-        },
-        "Thamm Pauli": {
-            "en": {
-                "summary":
-                    "Humorous, enigmatic lyrics with genre-blending sound",
-                "genres": [
-                    "Liedermacher",
-                    "Rock"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Humorvolle, rätselhafte Texte, genreübergreifender Sound",
-                "genres": [
-                    "Liedermacher",
-                    "Rock"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Tiefblau mit Wolken": {
-            "en": {
-                "summary": "Groovy acoustic pop with dancehall vibes",
-                "genres": [
-                    "Acoustic Pop",
-                    "Acoustic Dancehall"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Grooviger akustischer Pop mit Dancehall-Einflüssen",
-                "genres": [
-                    "Akustik-Pop",
-                    "Akustik-Dancehall"
-                ],
-                "countries": []
-            }
-        },
-        "Timbreroots": {
-            "en": {
-                "summary":
-                    "Atmospheric harmonies, multi-voice South Tyrolean band",
-                "genres": [
-                    "folk fusion"
-                ],
-                "countries": [
-                    "🇮🇹"
-                ]
-            },
-            "de": {
-                "summary": "Mehrstimmiger Folk aus Südtirols Weinbergen",
-                "genres": [
-                    "Folk-Fusion"
-                ],
-                "countries": [
-                    "🇮🇹"
-                ]
-            }
-        },
-        "Trouba Dura": {
-            "en": {
-                "summary": "Jazz and Flamenco with playful lyrics",
-                "genres": [
-                    "Jazz",
-                    "Flamenco"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Jazz und Flamenco mit augenzwinkernden Texten",
-                "genres": [
-                    "Jazz",
-                    "Flamenco"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Tylee": {
-            "en": {
-                "summary": "Poetic alternative with emotional depth",
-                "genres": [
-                    "Alternative Rock"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Poetischer Alternative mit emotionaler Tiefe",
-                "genres": [
-                    "Alternative Rock"
-                ],
-                "countries": []
-            }
-        },
-        "VagabunT": {
-            "en": {
-                "summary": "Blends Chanson, Cumbia, Fado, and more",
-                "genres": [
-                    "French Chanson",
-                    "Cumbia"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Mischung aus Chanson, Cumbia und Fado",
-                "genres": [
-                    "Französischer Chanson",
-                    "Cumbia"
-                ],
-                "countries": []
-            }
-        },
-        "Vanilla Boat Crew": {
-            "en": {
-                "summary":
-                    "Sibling band blending Neo-Folk and Alternative Folk-Rock",
-                "genres": [
-                    "Neo-Folk-Rock",
-                    "Alternative Folk-Rock"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary":
-                    "Geschwisterband mit Neo-Folk- und Alternative-Folk-Rock",
-                "genres": [
-                    "Neo-Folk-Rock",
-                    "Alternative Folk-Rock"
-                ],
-                "countries": []
-            }
-        },
-        "Stefan Weitkus & Kleinod": {
-            "en": {
-                "summary":
-                    "German lyrics blend folk, medieval, and world sounds",
-                "genres": [
-                    "German folk",
-                    "World fusion"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Deutsche Texte, Folk, Mittelalter und Weltmusik",
-                "genres": [
-                    "Deutscher Folk",
-                    "Weltfusion"
-                ],
-                "countries": []
-            }
-        },
-        "Wilde & Company": {
-            "en": {
-                "summary": "Psychedelic folk-rock with storytelling lyrics",
-                "genres": [
-                    "psychedelic folk-rock"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Psychedelic-Folk-Rock mit erzählerischen Texten",
-                "genres": [
-                    "Psychedelic-Folk-Rock"
-                ],
-                "countries": []
-            }
-        },
-        "ZamboRey": {
-            "en": {
-                "summary": "Migrant grooves meet imaginary folk traditions",
-                "genres": [
-                    "World music",
-                    "Folk fusion"
-                ],
-                "countries": [
-                    "🇦🇷",
-                    "🇩🇪",
-                    "🇪🇸"
-                ]
-            },
-            "de": {
-                "summary": "Migrantische Grooves und imaginäre Folklore",
-                "genres": [
-                    "Weltmusik",
-                    "Folk-Fusion"
-                ],
-                "countries": [
-                    "🇦🇷",
-                    "🇩🇪",
-                    "🇪🇸"
-                ]
-            }
-        },
-        "Zukunft und die Lichter": {
-            "en": {
-                "summary": "German-language neofolk with urban melancholy.",
-                "genres": [
-                    "Neofolk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Deutschsprachiger Neofolk mit Großstadt-Melancholie.",
-                "genres": [
-                    "Neofolk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "finkslinggs": {
-            "en": {
-                "summary": "Austrian duo blending yodeling and folk music",
-                "genres": [
-                    "Austrian folk",
-                    "yodeling"
-                ],
-                "countries": [
-                    "🇦🇹"
-                ]
-            },
-            "de": {
-                "summary": "Österreichisches Duo mit Jodel- und Volksmusik",
-                "genres": [
-                    "Österreichische Volksmusik",
-                    "Jodeln"
-                ],
-                "countries": [
-                    "🇦🇹"
-                ]
-            }
-        },
-        "Follaton": {
-            "en": {
-                "summary": "Reviving Western Swiss folk with acoustic flair",
-                "genres": [
-                    "Swiss folk"
-                ],
-                "countries": [
-                    "🇨🇭"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Westschweizer Volksmusik akustisch neu interpretiert",
-                "genres": [
-                    "Schweizer Volksmusik"
-                ],
-                "countries": [
-                    "🇨🇭"
-                ]
-            }
-        },
-        "Luomuduo": {
-            "en": {
-                "summary": "Nordic post-folk instrumental minimalists",
-                "genres": [
-                    "Nordic post-folk"
-                ],
-                "countries": [
-                    "🇫🇮"
-                ]
-            },
-            "de": {
-                "summary": "Nordische Post-Folk-Instrumental-Minimalisten",
-                "genres": [
-                    "Nordic Post-Folk"
-                ],
-                "countries": [
-                    "🇫🇮"
-                ]
-            }
-        },
-        "Pedair": {
-            "en": {
-                "summary":
-                    "Welsh folk quartet reimagining tradition with harmony.",
-                "genres": [
-                    "Welsh folk"
-                ],
-                "countries": [
-                    "🏴"
-                ]
-            },
-            "de": {
-                "summary": "Walisisches Folk-Quartett mit neuen Arrangements.",
-                "genres": [
-                    "Walisischer Folk"
-                ],
-                "countries": [
-                    "🏴"
-                ]
-            }
-        },
-        "Querido & Müller": {
-            "en": {
-                "summary":
-                    "60s-inspired singer-songwriter with poetic storytelling",
-                "genres": [
-                    "folk",
-                    "singer-songwriter"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "60er-inspirierter Singer-Songwriter mit poetischem Storytelling",
-                "genres": [
-                    "Folk",
-                    "Singer-Songwriter"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Saucējas": {
-            "en": {
-                "summary":
-                    "Latvian women's ensemble revives traditional polyphony",
-                "genres": [
-                    "Latvian traditional folk"
-                ],
-                "countries": [
-                    "🇱🇻"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Lettisches Frauenensemble für traditionellen Mehrgesang",
-                "genres": [
-                    "Lettischer traditioneller Folk"
-                ],
-                "countries": [
-                    "🇱🇻"
-                ]
-            }
-        },
-        "Jrpjej": {
-            "en": {
-                "summary": "Post-traditional Circassian ritual music revival",
-                "genres": [
-                    "post-traditional",
-                    "Circassian ritual music"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Posttraditionelle tscherkessische Ritualmusik-Neubelebung",
-                "genres": [
-                    "Posttraditionell",
-                    "Tscherkessische Ritualmusik"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Sorvina": {
-            "en": {
-                "summary": "Jazz-rap and neo-soul storyteller with groove.",
-                "genres": [
-                    "jazz-rap",
-                    "neo-soul"
-                ],
-                "countries": [
-                    "🇺🇸"
-                ]
-            },
-            "de": {
-                "summary": "Jazz-Rap und Neo-Soul Storytellerin mit Groove.",
-                "genres": [
-                    "Jazz-Rap",
-                    "Neo-Soul"
-                ],
-                "countries": [
-                    "🇺🇸"
-                ]
-            }
-        },
-        "Ledisi & Thüringer Symphoniker Saalfeld-Rudolstadt": {
-            "en": {
-                "summary": "Grammy-winning contemporary soul trailblazer",
-                "genres": [
-                    "contemporary soul",
-                    "traditional R&B"
-                ],
-                "countries": [
-                    "🇺🇸"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Grammy-prämierte Wegbereiterin des Contemporary Soul",
-                "genres": [
-                    "Contemporary Soul",
-                    "Traditional R&B"
-                ],
-                "countries": [
-                    "🇺🇸"
-                ]
-            }
-        },
-        "Baba Sissoko & Mediterranean Blues": {
-            "en": {
-                "summary":
-                    "Malian griot fusing tradition with Mediterranean blues",
-                "genres": [
-                    "Malian traditional music",
-                    "Mediterranean blues"
-                ],
-                "countries": [
-                    "🇲🇱",
-                    "🇮🇹",
-                    "🇨🇮",
-                    "🇸🇳"
-                ]
-            },
-            "de": {
-                "summary": "Malischer Griot trifft auf mediterranen Blues",
-                "genres": [
-                    "Malische traditionelle Musik",
-                    "Mediterraner Blues"
-                ],
-                "countries": [
-                    "🇲🇱",
-                    "🇮🇹",
-                    "🇨🇮",
-                    "🇸🇳"
-                ]
-            }
-        },
-        "Kalejdoskop Trio": {
-            "en": {
-                "summary": "Nordic folk trio blending tradition and innovation",
-                "genres": [
-                    "Nordic folk"
-                ],
-                "countries": [
-                    "🇳🇴",
-                    "🇸🇪"
-                ]
-            },
-            "de": {
-                "summary": "Nordisches Folk-Trio mit innovativem Klang",
-                "genres": [
-                    "Nordic Folk"
-                ],
-                "countries": [
-                    "🇳🇴",
-                    "🇸🇪"
-                ]
-            }
-        },
-        "Abdullah Ibrahim": {
-            "en": {
-                "summary": "South African jazz pianist and composer",
-                "genres": [
-                    "South African jazz"
-                ],
-                "countries": [
-                    "🇿🇦"
-                ]
-            },
-            "de": {
-                "summary": "Südafrikanischer Jazzpianist und Komponist",
-                "genres": [
-                    "Südafrikanischer Jazz"
-                ],
-                "countries": [
-                    "🇿🇦"
-                ]
-            }
-        },
-        "Além Cabul": {
-            "en": {
-                "summary": "Bridging Alentejo and Afghan musical traditions",
-                "genres": [
-                    "Alentejo folk",
-                    "Afghan traditional"
-                ],
-                "countries": [
-                    "🇵🇹",
-                    "🇦🇫",
-                    "🇪🇸",
-                    "🇺🇸"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Verbindet Alentejo- und afghanische Musiktraditionen",
-                "genres": [
-                    "Alentejo-Folk",
-                    "Afghanische Volksmusik"
-                ],
-                "countries": [
-                    "🇵🇹",
-                    "🇦🇫",
-                    "🇪🇸",
-                    "🇺🇸"
-                ]
-            }
-        },
-        "Susanne Grütz & Companias": {
-            "en": {
-                "summary": "Greek songs of passion and melancholy",
-                "genres": [
-                    "Greek folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Griechische Lieder voller Leidenschaft und Melancholie",
-                "genres": [
-                    "Griechische Volksmusik"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Kids with Buns": {
-            "en": {
-                "summary": "Intimate indie rock with deep vocals",
-                "genres": [
-                    "indie rock",
-                    "indie pop"
-                ],
-                "countries": [
-                    "🇧🇪"
-                ]
-            },
-            "de": {
-                "summary": "Intimer Indie-Rock mit tiefer Stimme",
-                "genres": [
-                    "Indie-Rock",
-                    "Indie-Pop"
-                ],
-                "countries": [
-                    "🇧🇪"
-                ]
-            }
-        },
-        "Songposium": {
-            "en": {
-                "summary":
-                    "Classic German children's songwriters and educators",
-                "genres": [
-                    "German children's songs"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Klassische deutsche Kinderliedermacher und Pädagogen",
-                "genres": [
-                    "Deutsche Kinderlieder"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Shemodzakhili": {
-            "en": {
-                "summary": "Reviving Kartli-Kakheti Georgian folk traditions",
-                "genres": [
-                    "Georgian folk"
-                ],
-                "countries": [
-                    "🇬🇪"
-                ]
-            },
-            "de": {
-                "summary": "Wiederbelebung georgischer Kartli-Kakheti-Folklore",
-                "genres": [
-                    "Georgischer Folk"
-                ],
-                "countries": [
-                    "🇬🇪"
-                ]
-            }
-        },
-        "MP3": {
-            "en": {
-                "summary":
-                    "Swedish folk trio blending tradition and innovation",
-                "genres": [
-                    "Swedish folk"
-                ],
-                "countries": [
-                    "🇸🇪"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Schwedisches Folk-Trio mit innovativen Kompositionen",
-                "genres": [
-                    "Schwedischer Folk"
-                ],
-                "countries": [
-                    "🇸🇪"
                 ]
             }
         },
         "Aquabella": {
+            "browse_genres": [
+                "world_sounds",
+                "acappella"
+            ],
             "en": {
-                "summary": "World vocal group with global folk harmonies",
-                "genres": [
+                "summary": "Sing along to vibrant Malian vocal harmonies",
+                "tags": [
                     "world music",
-                    "folk"
+                    "participatory singing",
+                    "Malian traditional music"
                 ],
                 "countries": []
             },
             "de": {
-                "summary": "Weltmusik-Vokalgruppe mit globalen Folk-Harmonien",
-                "genres": [
+                "summary": "Mitsingen mit lebendigen malischen Vokalharmonien",
+                "tags": [
                     "Weltmusik",
-                    "Folk"
-                ],
-                "countries": []
-            }
-        },
-        "Ralf Gehler / Vivien Zeller": {
-            "en": {
-                "summary": "",
-                "genres": [],
-                "countries": []
-            },
-            "de": {
-                "summary": "",
-                "genres": [],
-                "countries": []
-            }
-        },
-        "Shovel Dance Collective": {
-            "en": {
-                "summary": "Radical British folk with avant-garde twists",
-                "genres": [
-                    "British folk"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Radikaler britischer Folk mit avantgardistischen Elementen",
-                "genres": [
-                    "Britischer Folk"
-                ],
-                "countries": [
-                    "🇬🇧"
-                ]
-            }
-        },
-        "Idrîsî Ensemble": {
-            "en": {
-                "summary": "Ancient Mediterranean liturgical vocal traditions",
-                "genres": [
-                    "ancient liturgical music"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Alte mediterrane liturgische Gesangstraditionen",
-                "genres": [
-                    "antike liturgische Musik"
-                ],
-                "countries": []
-            }
-        },
-        "Inter-be-ing": {
-            "en": {
-                "summary": "Improvised music inspired by eye contact.",
-                "genres": [
-                    "improvised music"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Improvisierte Musik durch Blickkontakt inspiriert.",
-                "genres": [
-                    "Improvisierte Musik"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Jiggy": {
-            "en": {
-                "summary": "Irish trad meets global dance grooves",
-                "genres": [
-                    "Irish traditional",
-                    "World fusion"
-                ],
-                "countries": [
-                    "🇮🇪"
-                ]
-            },
-            "de": {
-                "summary": "Irische Tradition trifft globale Tanzrhythmen",
-                "genres": [
-                    "Irische traditionelle Musik",
-                    "World Fusion"
-                ],
-                "countries": [
-                    "🇮🇪"
-                ]
-            }
-        },
-        "Sam Kowalski": {
-            "en": {
-                "summary":
-                    "Minimalist, meditative reinterpretations of Polish Oberek.",
-                "genres": [
-                    "Polish folk",
-                    "Oberek"
-                ],
-                "countries": [
-                    "🇵🇱"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Minimalistische, meditative Neuinterpretationen des polnischen Oberek.",
-                "genres": [
-                    "Polnische Volksmusik",
-                    "Oberek"
-                ],
-                "countries": [
-                    "🇵🇱"
-                ]
-            }
-        },
-        "Lidová musika z Chrástu": {
-            "en": {
-                "summary": "Bohemian and Sorbian folk music ensemble",
-                "genres": [
-                    "Bohemian folk",
-                    "Sorbian folk"
-                ],
-                "countries": [
-                    "🇨🇿"
-                ]
-            },
-            "de": {
-                "summary": "Ensemble für böhmische und sorbische Folklore",
-                "genres": [
-                    "Böhmische Folklore",
-                    "Sorbische Folklore"
-                ],
-                "countries": [
-                    "🇨🇿"
-                ]
-            }
-        },
-        "Jugendfolkorchester": {
-            "en": {
-                "summary": "Youth orchestra reviving German folk traditions",
-                "genres": [
-                    "German folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Jugendorchester für deutsche Folkmusik",
-                "genres": [
-                    "Deutscher Folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Liederjan": {
-            "en": {
-                "summary": "Pioneers of German folk for five decades",
-                "genres": [
-                    "German folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Pioniere des deutschen Folks seit fünfzig Jahren",
-                "genres": [
-                    "Deutschfolk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Taraf Ionică Minune": {
-            "en": {
-                "summary":
-                    "Virtuoso accordionist blending lăutărească and Manouche jazz",
-                "genres": [
-                    "lăutărească",
-                    "Manouche jazz"
-                ],
-                "countries": [
-                    "🇷🇴"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Virtuoser Akkordeonist zwischen Lăutărească und Manouche-Jazz",
-                "genres": [
-                    "lăutărească",
-                    "Manouche-Jazz"
-                ],
-                "countries": [
-                    "🇷🇴"
-                ]
-            }
-        },
-        "Tumult": {
-            "en": {
-                "summary": "Danish folk trio blending underground influences",
-                "genres": [
-                    "Danish folk"
-                ],
-                "countries": [
-                    "🇩🇰"
-                ]
-            },
-            "de": {
-                "summary": "Dänisches Folk-Trio mit Underground-Einflüssen",
-                "genres": [
-                    "Dänischer Folk"
-                ],
-                "countries": [
-                    "🇩🇰"
-                ]
-            }
-        },
-        "Sigrid Doberenz": {
-            "en": {
-                "summary": "Pioneer of participatory East German folk dance",
-                "genres": [
-                    "East German folk dance"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Pionierin des mitmachenden DDR-Volkstanzes",
-                "genres": [
-                    "DDR-Volkstanz"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Ezé Wendtoin": {
-            "en": {
-                "summary": "Afro-beats and Amapiano with West African rhythms",
-                "genres": [
-                    "Afro-beats",
-                    "Amapiano"
-                ],
-                "countries": [
-                    "🇧🇫"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Afro-Beats und Amapiano mit westafrikanischen Rhythmen",
-                "genres": [
-                    "Afro-Beats",
-                    "Amapiano"
-                ],
-                "countries": [
-                    "🇧🇫"
-                ]
-            }
-        },
-        "Choibá Chirimía": {
-            "en": {
-                "summary": "Afro-Pacific Chirimía with modern elements",
-                "genres": [
-                    "Chirimía"
-                ],
-                "countries": [
-                    "🇨🇴"
-                ]
-            },
-            "de": {
-                "summary": "Afro-pazifische Chirimía mit modernen Elementen",
-                "genres": [
-                    "Chirimía"
-                ],
-                "countries": [
-                    "🇨🇴"
-                ]
-            }
-        },
-        "Stefan Grasse": {
-            "en": {
-                "summary":
-                    "Virtuosic acoustic guitar with electro-acoustic effects",
-                "genres": [
-                    "Contemporary classical",
-                    "Flamenco jazz"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary":
-                    "Virtuose akustische Gitarre mit elektroakustischen Effekten",
-                "genres": [
-                    "Zeitgenössische Klassik",
-                    "Flamenco-Jazz"
+                    "Mitsingen",
+                    "malische Volksmusik"
                 ],
                 "countries": []
             }
         },
         "Thüringer Folkloretanzensemble": {
+            "browse_genres": [
+                "dance",
+                "folk"
+            ],
             "en": {
-                "summary": "Energetic folk dance with tradition and humor",
-                "genres": [
-                    "German folk dance"
+                "summary": "Thuringian folklore dance ensemble since 1965",
+                "tags": [
+                    "folklore dance",
+                    "show dance"
                 ],
                 "countries": [
                     "🇩🇪"
                 ]
             },
             "de": {
-                "summary":
-                    "Temperamentvoller Folkloretanz mit Tradition und Humor",
-                "genres": [
-                    "Deutscher Folkloretanz"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Iris Lorek": {
-            "en": {
-                "summary": "Sacred and healing circle dance tradition.",
-                "genres": [
-                    "sacred dance",
-                    "healing circle dance"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Traditionelle und heilende Kreistänze.",
-                "genres": [
-                    "Sacred Dance",
-                    "Heilender Kreistanz"
-                ],
-                "countries": []
-            }
-        },
-        "Kindertanzband": {
-            "en": {
-                "summary":
-                    "Children's dance with German world music influences",
-                "genres": [
-                    "children's dance music",
-                    "German world music"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Kindertanz mit deutscher Weltmusik",
-                "genres": [
-                    "Kindertanzmusik",
-                    "deutsche Weltmusik"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Taras Dorotsky": {
-            "en": {
-                "summary": "Blind bard reviving Ukrainian Kobzar tradition",
-                "genres": [
-                    "Kobzar music"
-                ],
-                "countries": [
-                    "🇺🇦"
-                ]
-            },
-            "de": {
-                "summary": "Blinder Barde der ukrainischen Kobzar-Tradition",
-                "genres": [
-                    "Kobzar-Musik"
-                ],
-                "countries": [
-                    "🇺🇦"
-                ]
-            }
-        },
-        "Los Cinc Jaus": {
-            "en": {
-                "summary": "Occitan folk dances with traditional instruments",
-                "genres": [
-                    "Occitan folk"
-                ],
-                "countries": [
-                    "🇫🇷"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Okzitanische Folktänze mit traditionellen Instrumenten",
-                "genres": [
-                    "Okzitanischer Folk"
-                ],
-                "countries": [
-                    "🇫🇷"
-                ]
-            }
-        },
-        "Progetto Tarantella": {
-            "en": {
-                "summary":
-                    "Traditional Calabrian tarantella with organetto, tamburello",
-                "genres": [
-                    "Calabrian tarantella"
-                ],
-                "countries": [
-                    "🇮🇹"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Traditionelle kalabrische Tarantella mit Organetto, Tamburello",
-                "genres": [
-                    "Kalabrische Tarantella"
-                ],
-                "countries": [
-                    "🇮🇹"
-                ]
-            }
-        },
-        "Kontraschock": {
-            "en": {
-                "summary": "Northern German dance music with fiddle and harp",
-                "genres": [
-                    "Northern German folk dance"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Norddeutsche Tanzmusik mit Geige und Harfe",
-                "genres": [
-                    "Norddeutsche Folktanzmusik"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            }
-        },
-        "Che Sudaka": {
-            "en": {
-                "summary": "Latin ska-punk with rebellious, optimistic energy",
-                "genres": [
-                    "Latin ska",
-                    "punk"
-                ],
-                "countries": [
-                    "🇦🇷"
-                ]
-            },
-            "de": {
-                "summary":
-                    "Lateinamerikanischer Ska-Punk mit rebellischer Energie",
-                "genres": [
-                    "Latin Ska",
-                    "Punk"
-                ],
-                "countries": [
-                    "🇦🇷"
-                ]
-            }
-        },
-        "Waldimania - UNESCO Kulturerbe": {
-            "en": {
-                "summary": "Showcasing modern German Waldzither folk sounds",
-                "genres": [
-                    "German folk"
-                ],
-                "countries": [
-                    "🇩🇪"
-                ]
-            },
-            "de": {
-                "summary": "Moderne deutsche Waldzither-Folkklänge im Fokus",
-                "genres": [
-                    "Deutscher Folk"
+                "summary": "Thüringer Folkloretanz mit 66 Jahren Tradition",
+                "tags": [
+                    "Folkloretanz",
+                    "Showtanz"
                 ],
                 "countries": [
                     "🇩🇪"
@@ -2908,9 +102,13 @@
             }
         },
         "Film: We all bleed red": {
+            "browse_genres": [
+                "performance"
+            ],
             "en": {
-                "summary": "Iconic close-up portraits of American society",
-                "genres": [
+                "summary": "Documentary on iconic portrait photographer Martin Schoeller.",
+                "tags": [
+                    "documentary",
                     "portrait photography"
                 ],
                 "countries": [
@@ -2918,9 +116,9 @@
                 ]
             },
             "de": {
-                "summary":
-                    "Ikonische Nahporträts der amerikanischen Gesellschaft",
-                "genres": [
+                "summary": "Doku über Porträtfotografen Martin Schoeller.",
+                "tags": [
+                    "Dokumentarfilm",
                     "Porträtfotografie"
                 ],
                 "countries": [
@@ -2929,150 +127,2577 @@
             }
         },
         "Ankerstein-Bauwelt": {
+            "browse_genres": [
+                "performance"
+            ],
             "en": {
-                "summary": "",
-                "genres": [],
-                "countries": []
-            },
-            "de": {
-                "summary": "",
-                "genres": [],
-                "countries": []
-            }
-        },
-        "Gregor Schulenburg": {
-            "en": {
-                "summary": "Ethnic woodwind and community music specialist",
-                "genres": [
-                    "World music",
-                    "Folk"
+                "summary": "Hands-on fun with historic building blocks",
+                "tags": [
+                    "craft",
+                    "interactive exhibition"
                 ],
                 "countries": []
             },
             "de": {
-                "summary":
-                    "Spezialist für Ethno-Holzblasinstrumente und Community Music",
-                "genres": [
-                    "Weltmusik",
-                    "Folk"
-                ],
-                "countries": []
-            }
-        },
-        "Chinary Junior": {
-            "en": {
-                "summary": "Bulgarian children's folk dance ensemble",
-                "genres": [
-                    "Bulgarian folk dance"
-                ],
-                "countries": [
-                    "🇧🇬"
-                ]
-            },
-            "de": {
-                "summary": "Bulgarisches Kindertanzensemble für Folklore",
-                "genres": [
-                    "Bulgarischer Volkstanz"
-                ],
-                "countries": [
-                    "🇧🇬"
-                ]
-            }
-        },
-        "Marion Haak-Schulenburg": {
-            "en": {
-                "summary": "Community singing with voice and body percussion",
-                "genres": [
-                    "community singing",
-                    "body percussion"
-                ],
-                "countries": []
-            },
-            "de": {
-                "summary": "Community Singing mit Stimme und Body Percussion",
-                "genres": [
-                    "Community Singing",
-                    "Body Percussion"
+                "summary": "Kreatives Bauen mit historischen Ankerbausteinen",
+                "tags": [
+                    "Handwerk",
+                    "Mitmach-Ausstellung"
                 ],
                 "countries": []
             }
         },
         "NIWIKK-Kollektiv & Gäste": {
+            "browse_genres": [
+                "electronic",
+                "dance"
+            ],
             "en": {
-                "summary": "Nature-inspired electronic beats and dance vibes",
-                "genres": [
-                    "electronic"
+                "summary": "Beats and dance vibes in nature",
+                "tags": [
+                    "beats",
+                    "dance"
                 ],
                 "countries": []
             },
             "de": {
-                "summary":
-                    "Naturverbundene elektronische Beats und Tanzstimmung",
-                "genres": [
-                    "Elektronisch"
+                "summary": "Beats und Tanzvibes in der Natur",
+                "tags": [
+                    "Beats",
+                    "Tanz"
                 ],
                 "countries": []
             }
         },
-        "Herr Horst": {
+        "Sketches of Mali": {
+            "browse_genres": [
+                "world_sounds"
+            ],
             "en": {
-                "summary": "Witty German rock with punk and ska flair",
-                "genres": [
-                    "German rock",
-                    "ska punk"
+                "summary": "Academic symposium: lectures on Mali",
+                "tags": [
+                    "symposium",
+                    "Mali"
+                ],
+                "countries": []
+            },
+            "de": {
+                "summary": "Akademisches Symposium: Vorträge zu Mali",
+                "tags": [
+                    "Symposium",
+                    "Mali"
+                ],
+                "countries": []
+            }
+        },
+        "Kinderfest": {
+            "browse_genres": [
+                "performance"
+            ],
+            "en": {
+                "summary": "Whimsical fictional kingdom comes to life",
+                "tags": [
+                    "theater",
+                    "musical storytelling"
+                ],
+                "countries": []
+            },
+            "de": {
+                "summary": "Skurriles Fantasie-Königreich erwacht zum Leben",
+                "tags": [
+                    "Theater",
+                    "musikalisches Storytelling"
+                ],
+                "countries": []
+            }
+        },
+        "Abschlussveranstaltung": {
+            "browse_genres": [
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Multi-artist closing showcase, short sets",
+                "tags": [],
+                "countries": []
+            },
+            "de": {
+                "summary": "Mehrkünstler-Abschluss mit Kurzprogrammen",
+                "tags": [],
+                "countries": []
+            }
+        },
+        "RIAN": {
+            "browse_genres": [
+                "hiphop",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Indie, hip-hop & cabaret with social wit",
+                "tags": [
+                    "German-language indie",
+                    "hip-hop",
+                    "cabaret"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Indie, Hip-Hop & Kabarett mit sozialem Witz",
+                "tags": [
+                    "Deutschsprachiger Indie",
+                    "Hip-Hop",
+                    "Kabarett"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Duo Ruut": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Hypnotic Estonian zither and ancient Runo song",
+                "tags": [
+                    "Estonian Folk",
+                    "Runo Song",
+                    "Ambient",
+                    "Kannel"
+                ],
+                "countries": [
+                    "🇪🇪"
+                ]
+            },
+            "de": {
+                "summary": "Hypnotische estnische Zither und alter Runo-Gesang",
+                "tags": [
+                    "Estnischer Folk",
+                    "Runo-Gesang",
+                    "Ambient",
+                    "Kannel"
+                ],
+                "countries": [
+                    "🇪🇪"
+                ]
+            }
+        },
+        "Brustmann - Schäfer - Horn": {
+            "browse_genres": [
+                "folk",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Soulful Bavarian folk with a rebellious spirit",
+                "tags": [
+                    "Bavarian Folk",
+                    "Volksmusik"
                 ],
                 "countries": [
                     "🇩🇪"
                 ]
             },
             "de": {
-                "summary":
-                    "Witziger deutscher Rock mit Punk- und Ska-Einflüssen",
-                "genres": [
+                "summary": "Tiefgründige bairische Volksmusik mit Widerspenstigkeit",
+                "tags": [
+                    "Bairische Volksmusik",
+                    "Volkslieder"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Agnes Palmisano": {
+            "browse_genres": [
+                "folk",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "UNESCO-heritage Viennese yodeling meets chanson",
+                "tags": [
+                    "Wiener Dudler",
+                    "Chanson"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Wiener Dudlerin zwischen Volkskultur und Chanson",
+                "tags": [
+                    "Wiener Dudler",
+                    "Chanson"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Blowzabella": {
+            "browse_genres": [
+                "folk",
+                "dance"
+            ],
+            "en": {
+                "summary": "Legendary British folk with bagpipes & hurdy-gurdy",
+                "tags": [
+                    "European Folk",
+                    "Bagpipes & Hurdy-Gurdy"
+                ],
+                "countries": [
+                    "🇬🇧"
+                ]
+            },
+            "de": {
+                "summary": "Legendärer britischer Folk mit Dudelsack & Drehleier",
+                "tags": [
+                    "Europäischer Folk",
+                    "Dudelsack & Drehleier"
+                ],
+                "countries": [
+                    "🇬🇧"
+                ]
+            }
+        },
+        "Nifty’s": {
+            "browse_genres": [
+                "world_sounds",
+                "jazz",
+                "experimental"
+            ],
+            "en": {
+                "summary": "Genre-defying klezmer fused with jazz and beyond",
+                "tags": [
+                    "klezmer",
+                    "jazz"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Klezmer trifft Jazz – schubladenlos und überraschend",
+                "tags": [
+                    "Klezmer",
+                    "Jazz"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "M. Lalitha & M. Nandini": {
+            "browse_genres": [
+                "classical",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Sisters blending Carnatic violin with world music",
+                "tags": [
+                    "Carnatic Music",
+                    "World Music"
+                ],
+                "countries": [
+                    "🇮🇳"
+                ]
+            },
+            "de": {
+                "summary": "Schwestern vereinen karnatische Geige mit Weltmusik",
+                "tags": [
+                    "Karnatische Musik",
+                    "Weltmusik"
+                ],
+                "countries": [
+                    "🇮🇳"
+                ]
+            }
+        },
+        "Tanzhausgeiger": {
+            "browse_genres": [
+                "folk",
+                "world_sounds",
+                "dance"
+            ],
+            "en": {
+                "summary": "Radical fiddle music meets Balkan groove",
+                "tags": [
+                    "Tanzhaus",
+                    "Hungarian folk violin",
+                    "Balkan folk"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Radikale Geigenmusik trifft balkanischen Schlendrian",
+                "tags": [
+                    "Tanzhaus",
+                    "Ungarische Volksgeige",
+                    "Balkan Folk"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Raquel Martins": {
+            "browse_genres": [
+                "chanson_lied",
+                "world_sounds",
+                "jazz"
+            ],
+            "en": {
+                "summary": "Indie Bossa Nova blending jazz, folk, and electronics",
+                "tags": [
+                    "Bossa Nova",
+                    "Indie"
+                ],
+                "countries": [
+                    "🇵🇹"
+                ]
+            },
+            "de": {
+                "summary": "Indie-Bossa-Nova mit jazzigen und elektronischen Einflüssen",
+                "tags": [
+                    "Bossa Nova",
+                    "Indie"
+                ],
+                "countries": [
+                    "🇵🇹"
+                ]
+            }
+        },
+        "Hotel Rimini": {
+            "browse_genres": [
+                "chanson_lied",
+                "jazz",
+                "pop"
+            ],
+            "en": {
+                "summary": "Poetic German chansonpop with strings and indie-jazz elegance",
+                "tags": [
+                    "chansonpop",
+                    "indie jazz",
+                    "German-language"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Poetischer Chansonpop mit Streicher, Indie und Jazz",
+                "tags": [
+                    "Chansonpop",
+                    "Indie-Jazz",
+                    "deutschsprachig"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Joce Reyome": {
+            "browse_genres": [
+                "blues_soul",
+                "folk"
+            ],
+            "en": {
+                "summary": "Raw blues voice with soul and Americana depth",
+                "tags": [
+                    "Blues",
+                    "Soul",
+                    "Americana"
+                ],
+                "countries": [
+                    "🇨🇦"
+                ]
+            },
+            "de": {
+                "summary": "Raue Blues-Stimme mit Soul und Americana-Tiefe",
+                "tags": [
+                    "Blues",
+                    "Soul",
+                    "Americana"
+                ],
+                "countries": [
+                    "🇨🇦"
+                ]
+            }
+        },
+        "Kathryn Tickell & The Darkening": {
+            "browse_genres": [
+                "folk",
+                "electronic"
+            ],
+            "en": {
+                "summary": "Northumbrian pipes meet synthesizers and modern beats",
+                "tags": [
+                    "Northumbrian Folk",
+                    "Smallpipes"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+                ]
+            },
+            "de": {
+                "summary": "Northumbrische Pipes treffen auf Synthesizer und moderne Beats",
+                "tags": [
+                    "Northumbrischer Folk",
+                    "Smallpipes"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+                ]
+            }
+        },
+        "Legiana Collective": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Acoustic world folk, multilingual voices and strings",
+                "tags": [
+                    "World Folk",
+                    "Street Music"
+                ],
+                "countries": [
+                    "🇳🇱"
+                ]
+            },
+            "de": {
+                "summary": "Akustischer Weltfolk mit vielsprachigem Gesang",
+                "tags": [
+                    "World Folk",
+                    "Straßenmusik"
+                ],
+                "countries": [
+                    "🇳🇱"
+                ]
+            }
+        },
+        "Sara Curruchich": {
+            "browse_genres": [
+                "folk",
+                "world_sounds",
+                "rock"
+            ],
+            "en": {
+                "summary": "Rock and folk rooted in Kaqchikel indigenous traditions.",
+                "tags": [
+                    "Indigenous Folk Rock",
+                    "Kaqchikel"
+                ],
+                "countries": [
+                    "🇬🇹"
+                ]
+            },
+            "de": {
+                "summary": "Rock und Folk verwurzelt in indigenen Kaqchikel-Traditionen.",
+                "tags": [
+                    "Indigener Folk-Rock",
+                    "Kaqchikel"
+                ],
+                "countries": [
+                    "🇬🇹"
+                ]
+            }
+        },
+        "Idemo": {
+            "browse_genres": [
+                "folk",
+                "world_sounds",
+                "jazz"
+            ],
+            "en": {
+                "summary": "Historical folk songs reimagined through jazz and improv",
+                "tags": [
+                    "Burgenland Folk",
+                    "Jazz",
+                    "Multilingual",
+                    "World Music"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Historische Volkslieder neu gedacht mit Jazz und Improvisation",
+                "tags": [
+                    "Burgenländischer Folk",
+                    "Jazz",
+                    "Mehrsprachig",
+                    "Weltmusik"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Derya Yildirim und Grup Şimşek": {
+            "browse_genres": [
+                "world_sounds",
+                "folk",
+                "pop"
+            ],
+            "en": {
+                "summary": "Anatolian folk meets psychedelic soul & pop",
+                "tags": [
+                    "Anatolian Psych",
+                    "Turkish Folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Anatolischer Folk trifft psychedelischen Soul & Pop",
+                "tags": [
+                    "Anatolian Psych",
+                    "Türkischer Folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Nana Benz du Togo": {
+            "browse_genres": [
+                "world_sounds",
+                "electronic"
+            ],
+            "en": {
+                "summary": "Feminist Afrobeat rooted in Togolese Voodoo",
+                "tags": [
+                    "Afrobeat",
+                    "Voodoo"
+                ],
+                "countries": [
+                    "🇹🇬"
+                ]
+            },
+            "de": {
+                "summary": "Feministischer Afrobeat mit togolesischer Voodoo-Tradition",
+                "tags": [
+                    "Afrobeat",
+                    "Voodoo"
+                ],
+                "countries": [
+                    "🇹🇬"
+                ]
+            }
+        },
+        "Ramsch & Rosen": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Contemporary Austrian folk: violin, trumpet & voice",
+                "tags": [
+                    "Austrian folk",
+                    "contemporary folk"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Zeitgenössische Volksmusik mit Geige, Trompete & Stimme",
+                "tags": [
+                    "Österreichische Volksmusik",
+                    "Zeitgenössischer Folk"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Baba Yaga": {
+            "browse_genres": [
+                "world_sounds",
+                "jazz"
+            ],
+            "en": {
+                "summary": "Balkan, Klezmer and Jazz without borders",
+                "tags": [
+                    "Klezmer",
+                    "Balkan Swing"
+                ],
+                "countries": [
+                    "🇦🇹",
+                    "🇲🇪",
+                    "🇮🇱"
+                ]
+            },
+            "de": {
+                "summary": "Balkan, Klezmer und Jazz grenzenlos",
+                "tags": [
+                    "Klezmer",
+                    "Balkan Swing"
+                ],
+                "countries": [
+                    "🇦🇹",
+                    "🇲🇪",
+                    "🇮🇱"
+                ]
+            }
+        },
+        "5/8erl in Ehr’n": {
+            "browse_genres": [
+                "blues_soul",
+                "chanson_lied",
+                "jazz"
+            ],
+            "en": {
+                "summary": "Groovy Viennese soul with jazz and charm",
+                "tags": [
+                    "Wiener Soul",
+                    "Wienerlied"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Wiener Soul mit Groove, Jazz und Schmäh",
+                "tags": [
+                    "Wiener Soul",
+                    "Wienerlied"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Freshlyground": {
+            "browse_genres": [
+                "world_sounds",
+                "folk"
+            ],
+            "en": {
+                "summary": "South African Afro-Fusion with vibrant new vocals",
+                "tags": [
+                    "Afro-Fusion",
+                    "Township-Grooves"
+                ],
+                "countries": [
+                    "🇿🇦",
+                    "🇿🇼",
+                    "🇲🇿"
+                ]
+            },
+            "de": {
+                "summary": "Südafrikanischer Afro-Fusion mit frischer neuer Stimme",
+                "tags": [
+                    "Afro-Fusion",
+                    "Township-Grooves"
+                ],
+                "countries": [
+                    "🇿🇦",
+                    "🇿🇼",
+                    "🇲🇿"
+                ]
+            }
+        },
+        "The Congos & Culture": {
+            "browse_genres": [
+                "reggae_ska",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Two roots reggae legends, first time together.",
+                "tags": [
+                    "Roots Reggae",
+                    "Rastafari"
+                ],
+                "countries": [
+                    "🇯🇲"
+                ]
+            },
+            "de": {
+                "summary": "Zwei Roots-Reggae-Legenden erstmals gemeinsam.",
+                "tags": [
+                    "Roots Reggae",
+                    "Rastafari"
+                ],
+                "countries": [
+                    "🇯🇲"
+                ]
+            }
+        },
+        "Tenores di Orosei": {
+            "browse_genres": [
+                "acappella",
+                "world_sounds",
+                "folk"
+            ],
+            "en": {
+                "summary": "Ancient Sardinian polyphonic singing, UNESCO heritage",
+                "tags": [
+                    "Cantu a Tenore",
+                    "Sardinian Folk"
+                ],
+                "countries": [
+                    "🇮🇹"
+                ]
+            },
+            "de": {
+                "summary": "Uralter sardischer Vielstimmgesang, UNESCO-Erbe",
+                "tags": [
+                    "Cantu a Tenore",
+                    "Sardischer Folk"
+                ],
+                "countries": [
+                    "🇮🇹"
+                ]
+            }
+        },
+        "Dota Kehr": {
+            "browse_genres": [
+                "chanson_lied",
+                "folk"
+            ],
+            "en": {
+                "summary": "Weimar poetry set to tender, melancholic song",
+                "tags": [
+                    "Liedermacherin",
+                    "poetry setting"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Weimarer Lyrik in zärtliche, melancholische Lieder gegossen",
+                "tags": [
+                    "Liedermacherin",
+                    "Literaturvertonung"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Kitty, Daisy & Lewis": {
+            "browse_genres": [
+                "blues_soul",
+                "folk",
+                "rock"
+            ],
+            "en": {
+                "summary": "Analog siblings mixing blues, country and rock'n'roll",
+                "tags": [
+                    "Rockabilly",
+                    "Rock'n'Roll"
+                ],
+                "countries": [
+                    "🇬🇧"
+                ]
+            },
+            "de": {
+                "summary": "Analoge Geschwisterband mit Blues, Country und Rock'n'Roll",
+                "tags": [
+                    "Rockabilly",
+                    "Rock'n'Roll"
+                ],
+                "countries": [
+                    "🇬🇧"
+                ]
+            }
+        },
+        "Blumengarten": {
+            "browse_genres": [
+                "pop",
+                "hiphop",
+                "blues_soul"
+            ],
+            "en": {
+                "summary": "Gentle indie pop about love and growing up",
+                "tags": [
+                    "indie pop",
+                    "bedroom pop"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Sanfter Indie-Pop über Liebe und Erwachsenwerden",
+                "tags": [
+                    "Indie Pop",
+                    "Bedroom Pop"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Antti Paalanen": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Hypnotic accordion folk meets trance and techno",
+                "tags": [
+                    "diatonic accordion",
+                    "Nordic folk-techno",
+                    "throat singing"
+                ],
+                "countries": [
+                    "🇫🇮"
+                ]
+            },
+            "de": {
+                "summary": "Hypnotisches Akkordeon zwischen Folk, Trance und Techno",
+                "tags": [
+                    "Diatonisches Akkordeon",
+                    "Nordischer Folk-Techno",
+                    "Kehlgesang"
+                ],
+                "countries": [
+                    "🇫🇮"
+                ]
+            }
+        },
+        "Dis is Marketa": {
+            "browse_genres": [
+                "folk",
+                "electronic"
+            ],
+            "en": {
+                "summary": "Folk vocals meet ambient and electronic textures",
+                "tags": [
+                    "Slovak Folk",
+                    "Ambient Folk"
+                ],
+                "countries": [
+                    "🇸🇰"
+                ]
+            },
+            "de": {
+                "summary": "Volkslieder treffen auf Ambient und Elektronik",
+                "tags": [
+                    "Slowakischer Folk",
+                    "Ambient Folk"
+                ],
+                "countries": [
+                    "🇸🇰"
+                ]
+            }
+        },
+        "Jugendfolkorchester": {
+            "browse_genres": [
+                "folk"
+            ],
+            "en": {
+                "summary": "Young orchestra breathing life into German folk",
+                "tags": [
+                    "German Folk",
+                    "Traditional Music"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Junges Orchester mit vergessenen deutschen Volksweisen",
+                "tags": [
+                    "Deutsche Volksmusik",
+                    "Traditionelle Musik"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Shkoon": {
+            "browse_genres": [
+                "electronic",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Arabic melodies fused with Deep House and Dub",
+                "tags": [
+                    "Arabic Deep House",
+                    "Dub"
+                ],
+                "countries": [
+                    "🇩🇪",
+                    "🇸🇾"
+                ]
+            },
+            "de": {
+                "summary": "Arabische Melodien verschmelzen mit Deep House und Dub",
+                "tags": [
+                    "Arabic Deep House",
+                    "Dub"
+                ],
+                "countries": [
+                    "🇩🇪",
+                    "🇸🇾"
+                ]
+            }
+        },
+        "Sturle Dagsland": {
+            "browse_genres": [
+                "experimental",
+                "world_sounds",
+                "folk"
+            ],
+            "en": {
+                "summary": "Raw vocal power meets ancient instruments and electronics",
+                "tags": [
+                    "experimental folk",
+                    "electroacoustic"
+                ],
+                "countries": [
+                    "🇳🇴"
+                ]
+            },
+            "de": {
+                "summary": "Rohe Stimmgewalt trifft traditionelle Instrumente und Elektronik",
+                "tags": [
+                    "Experimental Folk",
+                    "Elektroakustik"
+                ],
+                "countries": [
+                    "🇳🇴"
+                ]
+            }
+        },
+        "Whirligig": {
+            "browse_genres": [
+                "folk",
+                "dance"
+            ],
+            "en": {
+                "summary": "Scottish ceilidh band for fun, easy dancing",
+                "tags": [
+                    "Ceilidh",
+                    "Scottish Folk"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+                ]
+            },
+            "de": {
+                "summary": "Schottische Ceilidh-Band – Tanzspaß für alle",
+                "tags": [
+                    "Ceilidh",
+                    "Scottish Folk"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+                ]
+            }
+        },
+        "Zgarda": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Ukrainian ritual folk songs, reimagined with groove",
+                "tags": [
+                    "Groove Folk",
+                    "Ukrainian Folk"
+                ],
+                "countries": [
+                    "🇺🇦"
+                ]
+            },
+            "de": {
+                "summary": "Ukrainische Rituallieder neu erfunden mit Groove",
+                "tags": [
+                    "Groove Folk",
+                    "Ukrainischer Folk"
+                ],
+                "countries": [
+                    "🇺🇦"
+                ]
+            }
+        },
+        "Vandoliers": {
+            "browse_genres": [
+                "folk",
+                "rock"
+            ],
+            "en": {
+                "summary": "Outlaw country punks from Texas, raw and loud.",
+                "tags": [
+                    "Country Punk",
+                    "Outlaw Country"
+                ],
+                "countries": [
+                    "🇺🇸"
+                ]
+            },
+            "de": {
+                "summary": "Unangepasste Country-Punks aus Texas, rau und laut.",
+                "tags": [
+                    "Country Punk",
+                    "Outlaw Country"
+                ],
+                "countries": [
+                    "🇺🇸"
+                ]
+            }
+        },
+        "Der Nino aus Wien": {
+            "browse_genres": [
+                "chanson_lied",
+                "rock",
+                "pop"
+            ],
+            "en": {
+                "summary": "Vienna's unclassifiable alt-pop poet and chronicler",
+                "tags": [
+                    "Austro-Pop",
+                    "Alternative Rock",
+                    "Singer-Songwriter"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Wiens unangepasster Austro-Pop-Chronist und Literat",
+                "tags": [
+                    "Austro-Pop",
+                    "Alternative Rock",
+                    "Singer-Songwriter"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "BasBariTenori": {
+            "browse_genres": [
+                "acappella",
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Burgenland Croatian voices, dialect songs & poetry",
+                "tags": [
+                    "a cappella",
+                    "Burgenland Croatian folk",
+                    "Krowodnrock"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Burgenlandkroatische Stimmen, Dialektlieder & Lyrik",
+                "tags": [
+                    "A cappella",
+                    "Burgenlandkroatische Volksmusik",
+                    "Krowodnrock"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "A Schwoazzes Gebiss": {
+            "browse_genres": [
+                "performance",
+                "experimental"
+            ],
+            "en": {
+                "summary": "Dark post-punk meets Viennese dialect poetry",
+                "tags": [
+                    "post-punk",
+                    "spoken word",
+                    "Viennese dialect"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Düstere Post-Punk-Performance mit Wiener Nachkriegslyrik",
+                "tags": [
+                    "Post-Punk",
+                    "Spoken Word",
+                    "Wiener Dialekt"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "AltBadSeer Musi": {
+            "browse_genres": [
+                "folk",
+                "dance"
+            ],
+            "en": {
+                "summary": "Traditional Austrian dance music with singing and clapping",
+                "tags": [
+                    "Steirische Volksmusik",
+                    "Landlertanz"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Traditionelle Tänze mit Gesang und Paschen aus dem Ausseerland",
+                "tags": [
+                    "Steirische Volksmusik",
+                    "Landlertanz"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Throes + The Shine": {
+            "browse_genres": [
+                "dance",
+                "world_sounds",
+                "electronic"
+            ],
+            "en": {
+                "summary": "Kuduro meets rock for irresistible dancefloors",
+                "tags": [
+                    "Kuduro",
+                    "Dancefloor"
+                ],
+                "countries": [
+                    "🇵🇹"
+                ]
+            },
+            "de": {
+                "summary": "Kuduro trifft Rock für unwiderstehliche Dancefloors",
+                "tags": [
+                    "Kuduro",
+                    "Dancefloor"
+                ],
+                "countries": [
+                    "🇵🇹"
+                ]
+            }
+        },
+        "Frohe Zukunft": {
+            "browse_genres": [
+                "brass",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "High-energy brass meets Balkan, punk & polka",
+                "tags": [
+                    "Balkan Brass",
+                    "New Orleans Marching Band"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Wuchtige Brass-Power mit Balkan, Punk & Polka",
+                "tags": [
+                    "Balkan Brass",
+                    "New-Orleans-Marching-Band"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "La Niña": {
+            "browse_genres": [
+                "world_sounds",
+                "folk",
+                "electronic"
+            ],
+            "en": {
+                "summary": "Neapolitan folk fused with electronic beats and a cappella",
+                "tags": [
+                    "canzone napoletana",
+                    "electro-folk"
+                ],
+                "countries": [
+                    "🇮🇹"
+                ]
+            },
+            "de": {
+                "summary": "Neapolitanischer Folk trifft Elektro-Beats und A-cappella",
+                "tags": [
+                    "Canzone Napoletana",
+                    "Elektro-Folk"
+                ],
+                "countries": [
+                    "🇮🇹"
+                ]
+            }
+        },
+        "La Vespa Cougourdon Ourchestra": {
+            "browse_genres": [
+                "folk",
+                "world_sounds",
+                "performance"
+            ],
+            "en": {
+                "summary": "Wild carnival orchestra with handmade gourd instruments",
+                "tags": [
+                    "carnival music",
+                    "gourd instruments",
+                    "Occitan folk"
+                ],
+                "countries": [
+                    "🇫🇷"
+                ]
+            },
+            "de": {
+                "summary": "Wildes Karnevalsorchester mit selbstgebauten Kürbis-Instrumenten",
+                "tags": [
+                    "Karnevalsmusik",
+                    "Kürbis-Instrumente",
+                    "okzitanische Volksmusik"
+                ],
+                "countries": [
+                    "🇫🇷"
+                ]
+            }
+        },
+        "Florian Paul & Die Kapelle der letzten Hoffnung": {
+            "browse_genres": [
+                "pop",
+                "jazz",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Poetic, cinematic pop-jazz with infectious energy",
+                "tags": [
+                    "cinematic pop",
+                    "jazz",
+                    "German-language songwriting"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Filmischer Pop-Jazz mit Poesie und Lebenslust",
+                "tags": [
+                    "Cinematic Pop",
+                    "Jazz",
+                    "deutschsprachiges Songwriting"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Aba Trio": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Archaic Alpine yodel traditions reimagined instrumentally",
+                "tags": [
+                    "Naturjodel",
+                    "Alpine Folk"
+                ],
+                "countries": [
+                    "🇨🇭"
+                ]
+            },
+            "de": {
+                "summary": "Archaische Alpentraditionen instrumental neu gedacht",
+                "tags": [
+                    "Naturjodel",
+                    "Alpenfolk"
+                ],
+                "countries": [
+                    "🇨🇭"
+                ]
+            }
+        },
+        "Winkeltanz": {
+            "browse_genres": [
+                "folk",
+                "jazz"
+            ],
+            "en": {
+                "summary": "Baroque to folk trio with bagpipes and jazz",
+                "tags": [
+                    "Central European Folk",
+                    "Baroque Folk"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Barock bis Folk-Trio mit Dudelsack und Jazz",
+                "tags": [
+                    "Mitteleuropäischer Folk",
+                    "Barock-Folk"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Manu Delago & Thüringer Symphoniker": {
+            "browse_genres": [
+                "classical",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Grammy-nominated handpan master meets symphony orchestra",
+                "tags": [
+                    "handpan",
+                    "percussion"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Grammy-nominierter Handpan-Meister trifft Symphonieorchester",
+                "tags": [
+                    "Handpan",
+                    "Perkussion"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "A Birchola": {
+            "browse_genres": [
+                "jazz",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Bossa Nova and Samba with Gypsy Jazz flair",
+                "tags": [
+                    "Bossa Nova",
+                    "Samba",
+                    "Gypsy Jazz"
+                ],
+                "countries": [
+                    "🇫🇷"
+                ]
+            },
+            "de": {
+                "summary": "Bossa Nova und Samba mit Gypsy-Jazz-Charme",
+                "tags": [
+                    "Bossa Nova",
+                    "Samba",
+                    "Gypsy Jazz"
+                ],
+                "countries": [
+                    "🇫🇷"
+                ]
+            }
+        },
+        "Adaya": {
+            "browse_genres": [
+                "folk",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Poetic, magical songs by two Faun members",
+                "tags": [
+                    "poetic folk",
+                    "singer-songwriter"
+                ],
+                "countries": [
+                    "🇨🇭"
+                ]
+            },
+            "de": {
+                "summary": "Poetische, magische Songs von zwei Faun-Mitgliedern",
+                "tags": [
+                    "Poetischer Folk",
+                    "Singer-Songwriter"
+                ],
+                "countries": [
+                    "🇨🇭"
+                ]
+            }
+        },
+        "amarynda": {
+            "browse_genres": [
+                "world_sounds",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Mediterranean songs in Greek, Ladino & beyond",
+                "tags": [
+                    "Mediterranean folk",
+                    "Ladino"
+                ],
+                "countries": []
+            },
+            "de": {
+                "summary": "Mittelmeerlieder auf Griechisch, Ladino und mehr",
+                "tags": [
+                    "Mediterraner Folk",
+                    "Ladino"
+                ],
+                "countries": []
+            }
+        },
+        "Antoní": {
+            "browse_genres": [
+                "folk",
+                "electronic"
+            ],
+            "en": {
+                "summary": "Nature-inspired acoustic folk with organic electronics",
+                "tags": [
+                    "indie folk",
+                    "acoustic"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Naturinspirierter Akustik-Folk mit organischen Elektronikelementen",
+                "tags": [
+                    "Indie Folk",
+                    "Akustik"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Balafenn": {
+            "browse_genres": [
+                "folk",
+                "dance"
+            ],
+            "en": {
+                "summary": "Irish folk meets medieval Balfolk from Leipzig",
+                "tags": [
+                    "Balfolk",
+                    "Irish Folk",
+                    "Early Music"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Irish Folk und Mittelalter-Klänge für Balfolk-Fans",
+                "tags": [
+                    "Balfolk",
+                    "Irish Folk",
+                    "Alte Musik"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Beppu Punk Cats": {
+            "browse_genres": [
+                "chanson_lied",
+                "performance"
+            ],
+            "en": {
+                "summary": "Multilingual piano punk with political wit",
+                "tags": [
+                    "Klavierpunk",
+                    "political chanson"
+                ],
+                "countries": [
+                    "🇩🇪",
+                    "🇯🇵"
+                ]
+            },
+            "de": {
+                "summary": "Mehrsprachiger Klavierpunk mit politischem Witz",
+                "tags": [
+                    "Klavierpunk",
+                    "politisches Chanson"
+                ],
+                "countries": [
+                    "🇩🇪",
+                    "🇯🇵"
+                ]
+            }
+        },
+        "between the trees and me": {
+            "browse_genres": [
+                "jazz",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Bass & flugelhorn reimagine familiar songs intimately",
+                "tags": [
+                    "seven-string bass",
+                    "flugelhorn",
+                    "soundscapes",
+                    "cover reinterpretations"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Bässe und Flügelhorn interpretieren bekannte Songs neu",
+                "tags": [
+                    "Siebensaitiger Bass",
+                    "Flügelhorn",
+                    "Klanglandschaften",
+                    "Cover-Interpretationen"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Robert Carl Blank": {
+            "browse_genres": [
+                "folk",
+                "blues_soul"
+            ],
+            "en": {
+                "summary": "Americana folk drifting between melancholy and storm",
+                "tags": [
+                    "Americana",
+                    "Folk-Blues"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Americana-Folk zwischen Melancholie und Aufruhr",
+                "tags": [
+                    "Americana",
+                    "Folk-Blues"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "BlauViolett": {
+            "browse_genres": [
+                "chanson_lied",
+                "jazz"
+            ],
+            "en": {
+                "summary": "Poetic and witty duo blending chanson and jazz",
+                "tags": [
+                    "chanson",
+                    "vocal duo",
+                    "jazz-pop"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Poetisches, witziges Duo zwischen Chanson und Jazz",
+                "tags": [
+                    "Chanson",
+                    "Vocal-Duo",
+                    "Jazz-Pop"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Blechlawine": {
+            "browse_genres": [
+                "experimental",
+                "performance"
+            ],
+            "en": {
+                "summary": "Dozen drummers pound oil barrels with infectious groove.",
+                "tags": [
+                    "percussion ensemble",
+                    "barrel drumming"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Ein Dutzend Trommler grooven lautstark auf Ölfässern.",
+                "tags": [
+                    "Schlagzeug-Ensemble",
+                    "Fasstrommeln"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Alex Boldin": {
+            "browse_genres": [
+                "folk",
+                "classical"
+            ],
+            "en": {
+                "summary": "Virtuosic fingerstyle guitar melodies for mind and soul",
+                "tags": [
+                    "fingerstyle",
+                    "acoustic guitar"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Virtuose Fingerstyle-Gitarrenmelodien für Geist und Seele",
+                "tags": [
+                    "Fingerstyle",
+                    "Akustikgitarre"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Bongo Banga Band": {
+            "browse_genres": [
+                "rock",
+                "pop"
+            ],
+            "en": {
+                "summary": "Joyful drum group covers rock & pop classics",
+                "tags": [
+                    "drum group",
+                    "rock classics",
+                    "inclusive music"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Fröhliche Trommelgruppe mit Rock- und Popklassikern",
+                "tags": [
+                    "Trommelgruppe",
+                    "Rockklassiker",
+                    "Inklusive Musik"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Colheita Musi": {
+            "browse_genres": [
+                "world_sounds",
+                "folk"
+            ],
+            "en": {
+                "summary": "Brazilian musical roots meet transatlantic dialogue",
+                "tags": [
+                    "Brazilian Music",
+                    "World Music"
+                ],
+                "countries": [
+                    "🇧🇷",
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Brasilianische Musikvielfalt trifft transatlantischen Dialog",
+                "tags": [
+                    "Brasilianische Musik",
+                    "World Music"
+                ],
+                "countries": [
+                    "🇧🇷",
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Cosmonautix": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Wild, danceable folk from Cossacks to partisans.",
+                "tags": [
+                    "speedfolk",
+                    "balalaika"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Wilder, tanzbarer Folk von Kosaken bis Partisanen.",
+                "tags": [
+                    "Speedfolk",
+                    "Balalaika"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Emily Davis Duo": {
+            "browse_genres": [
+                "folk",
+                "blues_soul"
+            ],
+            "en": {
+                "summary": "Dark cinematic country-folk with gothic blues soul",
+                "tags": [
+                    "gothic blues",
+                    "country folk"
+                ],
+                "countries": [
+                    "🇦🇺"
+                ]
+            },
+            "de": {
+                "summary": "Düsterer cineastischer Country-Folk trifft Gothic-Blues",
+                "tags": [
+                    "Gothic Blues",
+                    "Country Folk"
+                ],
+                "countries": [
+                    "🇦🇺"
+                ]
+            }
+        },
+        "Deguy": {
+            "browse_genres": [
+                "blues_soul",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Heartfelt indie-soul urging you to be yourself",
+                "tags": [
+                    "indie soul",
+                    "singer-songwriter"
+                ],
+                "countries": [
+                    "🇮🇱",
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Indie-Soul-Lieder, die Mut machen, du selbst zu sein",
+                "tags": [
+                    "Indie-Soul",
+                    "Singer-Songwriter"
+                ],
+                "countries": [
+                    "🇮🇱",
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Dr. Or": {
+            "browse_genres": [
+                "chanson_lied",
+                "folk"
+            ],
+            "en": {
+                "summary": "Intimate acoustic songs with punk energy",
+                "tags": [
+                    "acoustic singer-songwriter",
+                    "punk roots"
+                ],
+                "countries": [
+                    "🇮🇱"
+                ]
+            },
+            "de": {
+                "summary": "Intime Akustik-Songs mit Punk-Energie",
+                "tags": [
+                    "Akustik-Singer-Songwriter",
+                    "Punk-Wurzeln"
+                ],
+                "countries": [
+                    "🇮🇱"
+                ]
+            }
+        },
+        "Duckworth & Duprez": {
+            "browse_genres": [
+                "world_sounds",
+                "jazz"
+            ],
+            "en": {
+                "summary": "Flamenco-jazz guitar duo with rock roots",
+                "tags": [
+                    "Nuevo Flamenco",
+                    "Jazz",
+                    "Acoustic Guitar"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+                ]
+            },
+            "de": {
+                "summary": "Flamenco-Jazz-Gitarrenduo mit Rock-Wurzeln",
+                "tags": [
+                    "Nuevo Flamenco",
+                    "Jazz",
+                    "Akustikgitarre"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+                ]
+            }
+        },
+        "Duo Gletschergliss": {
+            "browse_genres": [
+                "folk",
+                "performance"
+            ],
+            "en": {
+                "summary": "Harp & alphorn duo with fairy tale magic",
+                "tags": [
+                    "Tyrolean Harp",
+                    "Alphorn",
+                    "Storytelling"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Harfe & Alphorn mit poetischer Märchenerzählung",
+                "tags": [
+                    "Tiroler Harfe",
+                    "Alphorn",
+                    "Märchenerzählung"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Emersound": {
+            "browse_genres": [
+                "world_sounds",
+                "hiphop",
+                "reggae_ska"
+            ],
+            "en": {
+                "summary": "Drum-heavy Brazilian fusion beyond clichés",
+                "tags": [
+                    "Samba",
+                    "Maracatú",
+                    "Afrobeat"
+                ],
+                "countries": [
+                    "🇧🇷"
+                ]
+            },
+            "de": {
+                "summary": "Trommellastige brasilianische Fusion jenseits der Klischees",
+                "tags": [
+                    "Samba",
+                    "Maracatú",
+                    "Afrobeat"
+                ],
+                "countries": [
+                    "🇧🇷"
+                ]
+            }
+        },
+        "Estación 39": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Argentine bluegrass with local rhythms and traditions",
+                "tags": [
+                    "bluegrass",
+                    "country-folk"
+                ],
+                "countries": [
+                    "🇦🇷"
+                ]
+            },
+            "de": {
+                "summary": "Argentinischer Bluegrass mit lokalen Rhythmen und Traditionen",
+                "tags": [
+                    "Bluegrass",
+                    "Country-Folk"
+                ],
+                "countries": [
+                    "🇦🇷"
+                ]
+            }
+        },
+        "Suzie Fleur": {
+            "browse_genres": [
+                "chanson_lied",
+                "folk"
+            ],
+            "en": {
+                "summary": "Street singer of love, life, and heartbreak",
+                "tags": [
+                    "singer-songwriter",
+                    "street music"
+                ],
+                "countries": [
+                    "🇳🇱",
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Straßenmusikerin über Liebe, Leben und Herzschmerz",
+                "tags": [
+                    "Singer-Songwriter",
+                    "Straßenmusik"
+                ],
+                "countries": [
+                    "🇳🇱",
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Friendsbranntwein": {
+            "browse_genres": [
+                "folk",
+                "blues_soul"
+            ],
+            "en": {
+                "summary": "Bluegrass, Irish folk & blues with a rock 'n' roll kick",
+                "tags": [
+                    "Bluegrass",
+                    "Irish Folk",
+                    "Blues"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Bluegrass, Irish Folk & Blues mit Rock-'n'-Roll-Schwung",
+                "tags": [
+                    "Bluegrass",
+                    "Irish Folk",
+                    "Blues"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "The Green Apple Sea": {
+            "browse_genres": [
+                "folk",
+                "pop"
+            ],
+            "en": {
+                "summary": "Melancholic indie folk pop with Americana flair",
+                "tags": [
+                    "Indie Folk Pop",
+                    "Americana"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Melancholischer Indie-Folk-Pop mit Americana-Einflüssen",
+                "tags": [
+                    "Indie Folk Pop",
+                    "Americana"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Heart’n’Beat": {
+            "browse_genres": [
+                "world_sounds",
+                "folk"
+            ],
+            "en": {
+                "summary": "Earthy grooves and global songs by four women",
+                "tags": [
+                    "world music",
+                    "percussion"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Erdige Grooves und weltmusikalische Lieder von vier Frauen",
+                "tags": [
+                    "Weltmusik",
+                    "Perkussion"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Heated Land": {
+            "browse_genres": [
+                "folk",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Americana songs on freedom, nature & modern life",
+                "tags": [
+                    "Americana",
+                    "Singer-Songwriter"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Americana-Songs über Freiheit, Natur & Menschsein",
+                "tags": [
+                    "Americana",
+                    "Singer-Songwriter"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Heide lauscht": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Three voices on a European folk journey",
+                "tags": [
+                    "European folk",
+                    "world folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Drei Stimmen auf europäischer Folk-Reise",
+                "tags": [
+                    "Europäischer Folk",
+                    "World Folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Helmet Duty": {
+            "browse_genres": [
+                "folk"
+            ],
+            "en": {
+                "summary": "Sharp bluegrass trio with wit and humor",
+                "tags": [
+                    "bluegrass",
+                    "vocal harmonies"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Scharfes Bluegrass-Trio mit Witz und Selbstironie",
+                "tags": [
+                    "Bluegrass",
+                    "Gesangsharmonien"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Honahlei": {
+            "browse_genres": [
+                "folk",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Nostalgic duo chasing wonder and timelessness",
+                "tags": [
+                    "nostalgic folk",
+                    "singer-songwriter"
+                ],
+                "countries": [
+                    "🇨🇷",
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Nostalgisches Duo auf der Suche nach Staunen und Zeitlosigkeit",
+                "tags": [
+                    "Nostalgischer Folk",
+                    "Singer-Songwriter"
+                ],
+                "countries": [
+                    "🇨🇷",
+                    "🇦🇹"
+                ]
+            }
+        },
+        "How to folk?": {
+            "browse_genres": [
+                "folk",
+                "dance"
+            ],
+            "en": {
+                "summary": "Modern Balfolk with catchy European tunes",
+                "tags": [
+                    "Balfolk",
+                    "European Folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Moderner Balfolk mit eingängigen europäischen Melodien",
+                "tags": [
+                    "Balfolk",
+                    "Europäischer Folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Ilar": {
+            "browse_genres": [
+                "folk",
+                "jazz",
+                "experimental"
+            ],
+            "en": {
+                "summary": "Improvised folk, jazz and pop blend",
+                "tags": [
+                    "free improvisation",
+                    "folk-jazz"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Improvisierter Folk, Jazz und Pop",
+                "tags": [
+                    "Freie Improvisation",
+                    "Folk-Jazz"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "just4now": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Irish folk trio: ballads, drinking songs & traditionals",
+                "tags": [
+                    "Irish Folk",
+                    "Celtic"
+                ],
+                "countries": []
+            },
+            "de": {
+                "summary": "Irisches Folk-Trio mit Balladen, Trinkliedern & Traditionals",
+                "tags": [
+                    "Irish Folk",
+                    "Keltisch"
+                ],
+                "countries": []
+            }
+        },
+        "KaLeMeTe": {
+            "browse_genres": [
+                "folk",
+                "world_sounds",
+                "jazz"
+            ],
+            "en": {
+                "summary": "Multilingual polyphonic voices spanning folk to jazz",
+                "tags": [
+                    "polyphonic vocals",
+                    "world folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Mehrsprachiger Vielstimmgesang zwischen Folk und Weltmusik",
+                "tags": [
+                    "Mehrstimmiger Gesang",
+                    "World Folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Karwendel": {
+            "browse_genres": [
+                "chanson_lied",
+                "folk"
+            ],
+            "en": {
+                "summary": "Comforting songs with a gift for delicate arrangements.",
+                "tags": [
+                    "singer-songwriter",
+                    "chamber folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Tröstliche, lebensbejahende Lieder mit besonderen Arrangements.",
+                "tags": [
+                    "Singer-Songwriter",
+                    "Chamber Folk"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Klar & Herrlich": {
+            "browse_genres": [
+                "hiphop",
+                "reggae_ska"
+            ],
+            "en": {
+                "summary": "Groovy Hip-Hop and Dancehall party crew",
+                "tags": [
+                    "hip-hop",
+                    "dancehall"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Hip-Hop und Dancehall für sofortige Partyvibes",
+                "tags": [
+                    "Hip-Hop",
+                    "Dancehall"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Knaute und Konsorten": {
+            "browse_genres": [
+                "chanson_lied",
+                "folk"
+            ],
+            "en": {
+                "summary": "Authentic German songwriting with literary depth",
+                "tags": [
+                    "Liedermacher",
+                    "German-language songwriting"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Persönliche deutsche Texte und vertonte Lyrik",
+                "tags": [
+                    "Liedermacher",
+                    "deutschsprachiges Songwriting"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Krauka": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Ancient Norse mythology alive through old instruments",
+                "tags": [
+                    "Nordic folk",
+                    "Norse mythology",
+                    "ancient instruments"
+                ],
+                "countries": [
+                    "🇩🇰"
+                ]
+            },
+            "de": {
+                "summary": "Nordische Mythologie mit alten Instrumenten zum Leben erweckt",
+                "tags": [
+                    "Nordischer Folk",
+                    "Nordische Mythologie",
+                    "Alte Instrumente"
+                ],
+                "countries": [
+                    "🇩🇰"
+                ]
+            }
+        },
+        "LimoAllein": {
+            "browse_genres": [
+                "pop",
+                "electronic"
+            ],
+            "en": {
+                "summary": "Melancholic electropop about postmodern overwhelm.",
+                "tags": [
+                    "electropop",
+                    "melancholic"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Melancholischer Elektropop über postmoderne Überforderung.",
+                "tags": [
+                    "Elektropop",
+                    "Melancholisch"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "L.O.B.A.": {
+            "browse_genres": [
+                "world_sounds",
+                "experimental"
+            ],
+            "en": {
+                "summary": "Portuguese rhythms, experimental sounds & storytelling",
+                "tags": [
+                    "lusitanian rhythms",
+                    "experimental"
+                ],
+                "countries": [
+                    "🇵🇹"
+                ]
+            },
+            "de": {
+                "summary": "Lusitanische Rhythmen, experimentelle Klänge & Storytelling",
+                "tags": [
+                    "lusitanische Rhythmen",
+                    "Experimentell"
+                ],
+                "countries": [
+                    "🇵🇹"
+                ]
+            }
+        },
+        "Lüü-Türr": {
+            "browse_genres": [
+                "folk",
+                "acappella"
+            ],
+            "en": {
+                "summary": "Award-winning male ensemble singing ancient Estonian folk songs",
+                "tags": [
+                    "Regilaul",
+                    "Estonian Folk"
+                ],
+                "countries": [
+                    "🇪🇪"
+                ]
+            },
+            "de": {
+                "summary": "Preisgekröntes Männerensemble singt archaische estnische Volkslieder",
+                "tags": [
+                    "Regilaul",
+                    "Estnische Volkslieder"
+                ],
+                "countries": [
+                    "🇪🇪"
+                ]
+            }
+        },
+        "Mahall Trio": {
+            "browse_genres": [
+                "world_sounds",
+                "folk"
+            ],
+            "en": {
+                "summary": "Multicultural journey from Andalusia to the Arabian Sea",
+                "tags": [
+                    "world music",
+                    "Middle Eastern music"
+                ],
+                "countries": [
+                    "🇸🇾",
+                    "🇨🇿",
+                    "🇹🇷"
+                ]
+            },
+            "de": {
+                "summary": "Multikulturelle Reise von Andalusien bis zum Arabischen Meer",
+                "tags": [
+                    "Weltmusik",
+                    "Nahöstliche Musik"
+                ],
+                "countries": [
+                    "🇸🇾",
+                    "🇨🇿",
+                    "🇹🇷"
+                ]
+            }
+        },
+        "Makatumbe": {
+            "browse_genres": [
+                "world_sounds",
+                "dance",
+                "pop"
+            ],
+            "en": {
+                "summary": "Global folk and pop blended for the dancefloor.",
+                "tags": [
+                    "world music fusion",
+                    "dance"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Weltmusik aus Folk und Pop – zum Tanzen.",
+                "tags": [
+                    "World-Music-Fusion",
+                    "Dance"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Jörn Milack": {
+            "browse_genres": [
+                "rock"
+            ],
+            "en": {
+                "summary": "Solo tribute to 80s German rock band Interzone",
+                "tags": [
+                    "German Rock",
+                    "Tribute Act",
+                    "80s Rock"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Solo-Hommage an die deutsche Rockband Interzone",
+                "tags": [
                     "Deutscher Rock",
-                    "Ska-Punk"
+                    "Tribute Act",
+                    "80er Rock"
                 ],
                 "countries": [
                     "🇩🇪"
                 ]
             }
         },
-        "Bloco Explosão": {
+        "Camila Morgenstern": {
+            "browse_genres": [
+                "chanson_lied",
+                "world_sounds"
+            ],
             "en": {
-                "summary": "Berlin-based samba percussion party collective",
-                "genres": [
-                    "samba percussion"
+                "summary": "Poetic songwriting with Spanish-Latin rhythms",
+                "tags": [
+                    "Liedermacher",
+                    "Latin Folk"
                 ],
                 "countries": [
                     "🇩🇪"
                 ]
             },
             "de": {
-                "summary": "Berliner Samba-Percussion-Party-Kollektiv",
-                "genres": [
-                    "Samba-Percussion"
+                "summary": "Poetische Liedermacherei mit spanisch-lateinamerikanischen Rhythmen",
+                "tags": [
+                    "Liedermacher",
+                    "Latin Folk"
                 ],
                 "countries": [
                     "🇩🇪"
                 ]
             }
         },
-        "Frank Bettenhausen & Maura Knierim": {
+        "Marla Moya": {
+            "browse_genres": [
+                "folk",
+                "chanson_lied"
+            ],
             "en": {
-                "summary": "Chamber and world music harpist, ensemble member",
-                "genres": [
-                    "chamber music",
-                    "world music"
+                "summary": "Raw, intimate folk songs of hope and change",
+                "tags": [
+                    "psych-folk",
+                    "singer-songwriter"
+                ],
+                "countries": [
+                    "🇺🇸"
+                ]
+            },
+            "de": {
+                "summary": "Rauer, intimer Folk über Hoffnung und Umbruch",
+                "tags": [
+                    "Psych-Folk",
+                    "Singer-Songwriter"
+                ],
+                "countries": [
+                    "🇺🇸"
+                ]
+            }
+        },
+        "Mukkefuk-Orkestra": {
+            "browse_genres": [
+                "brass",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Balkan brass band that gets your feet moving",
+                "tags": [
+                    "Balkan Brass",
+                    "World Music"
                 ],
                 "countries": [
                     "🇩🇪"
                 ]
             },
             "de": {
-                "summary":
-                    "Kammer- und Weltmusik-Harfenistin, Ensemblemitglied",
-                "genres": [
-                    "Kammermusik",
+                "summary": "Kleine Brassband, die in die Füße geht",
+                "tags": [
+                    "Balkan Brass",
                     "Weltmusik"
                 ],
                 "countries": [
@@ -3080,136 +2705,601 @@
                 ]
             }
         },
-        "Sketches of Mali": {
+        "Hania Nafali": {
+            "browse_genres": [
+                "classical",
+                "performance"
+            ],
             "en": {
-                "summary": "",
-                "genres": [],
-                "countries": []
-            },
-            "de": {
-                "summary": "",
-                "genres": [],
-                "countries": []
-            }
-        },
-        "Zwischen Heimat und Fremde": {
-            "en": {
-                "summary": "Greek songs of passion and melancholy",
-                "genres": [
-                    "Greek folk"
+                "summary": "Classical guitar with humor and curious facts",
+                "tags": [
+                    "classical guitar",
+                    "solo guitar"
                 ],
                 "countries": [
-                    "🇬🇷",
+                    "🇵🇱"
+                ]
+            },
+            "de": {
+                "summary": "Klassische Gitarre mit Humor und kuriosen Fakten",
+                "tags": [
+                    "Klassische Gitarre",
+                    "Solokitarre"
+                ],
+                "countries": [
+                    "🇵🇱"
+                ]
+            }
+        },
+        "Nomadenpuls": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Romani folk songs – passionate, danceable, and melancholic",
+                "tags": [
+                    "Romani music",
+                    "Eastern European folklore"
+                ],
+                "countries": [
                     "🇩🇪"
                 ]
             },
             "de": {
-                "summary":
-                    "Griechische Lieder voller Leidenschaft und Melancholie",
-                "genres": [
-                    "Griechische Volksmusik"
+                "summary": "Roma-Folklore – leidenschaftlich, tanzbar und melancholisch",
+                "tags": [
+                    "Sinti & Roma Musik",
+                    "Osteuropäische Folklore"
                 ],
                 "countries": [
-                    "🇬🇷",
                     "🇩🇪"
                 ]
             }
         },
-        "Zakhar Davydenko": {
+        "Ossternhagen & Band": {
+            "browse_genres": [
+                "chanson_lied",
+                "rock"
+            ],
             "en": {
-                "summary": "Ukrainian violinist reflecting on war's impact",
-                "genres": [
-                    "classical"
+                "summary": "Raw, passionate live covers with authentic feel",
+                "tags": [
+                    "live covers",
+                    "raw vocals"
                 ],
                 "countries": [
-                    "🇺🇦"
+                    "🇩🇪"
                 ]
             },
             "de": {
-                "summary": "Ukrainischer Geiger über Krieg und Kultur",
-                "genres": [
-                    "Klassik"
+                "summary": "Rau, leidenschaftlich – Live-Covers mit echtem Gefühl",
+                "tags": [
+                    "Live-Covers",
+                    "rohe Vocals"
                 ],
                 "countries": [
-                    "🇺🇦"
+                    "🇩🇪"
                 ]
             }
         },
-        "Kinderfest": {
+        "Partiprivati": {
+            "browse_genres": [
+                "pop",
+                "dance"
+            ],
             "en": {
-                "summary": "",
-                "genres": [],
-                "countries": []
+                "summary": "Fresh indie-pop with depth and dancefloor energy",
+                "tags": [
+                    "indie-pop",
+                    "indie"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
             },
             "de": {
-                "summary": "",
-                "genres": [],
-                "countries": []
+                "summary": "Frischer Indie-Pop mit Tiefgang und Tanzflächen-Energie",
+                "tags": [
+                    "Indie-Pop",
+                    "Indie"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
             }
         },
-        "Berbo & Rabrenović": {
+        "Riders Connection": {
+            "browse_genres": [
+                "reggae_ska",
+                "blues_soul"
+            ],
             "en": {
-                "summary": "Humorous German-Balkan musical fusion",
-                "genres": [
-                    "Balkan fusion"
+                "summary": "Minimalist reggae-soul-folk blend with beatbox",
+                "tags": [
+                    "folk-blues",
+                    "reggae",
+                    "human beatbox"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Minimalistischer Reggae-Soul-Folk-Mix mit Beatbox",
+                "tags": [
+                    "Folk-Blues",
+                    "Reggae",
+                    "Human Beatbox"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "D.Şahin": {
+            "browse_genres": [
+                "blues_soul",
+                "pop"
+            ],
+            "en": {
+                "summary": "Soulful blend of earthy R&B and indie-pop",
+                "tags": [
+                    "Rhythm 'n' Blues",
+                    "Indie-Pop"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Soulige Stimme zwischen R&B und Indie-Pop",
+                "tags": [
+                    "Rhythm 'n' Blues",
+                    "Indie-Pop"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Skupa": {
+            "browse_genres": [
+                "world_sounds",
+                "jazz",
+                "experimental"
+            ],
+            "en": {
+                "summary": "Balkan, jazz & flamenco with free improvisation",
+                "tags": [
+                    "Balkan",
+                    "Flamenco",
+                    "Free Improvisation"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Balkan, Jazz & Flamenco mit freier Improvisation",
+                "tags": [
+                    "Balkan",
+                    "Flamenco",
+                    "Freie Improvisation"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Stereo Naked": {
+            "browse_genres": [
+                "folk",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Bluegrass duo blending folk, charm & dry humor",
+                "tags": [
+                    "bluegrass",
+                    "indie-folk"
+                ],
+                "countries": [
+                    "🇳🇿",
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Bluegrass-Duo mit Folk, Charme und trockenem Humor",
+                "tags": [
+                    "Bluegrass",
+                    "Indie-Folk"
+                ],
+                "countries": [
+                    "🇳🇿",
+                    "🇩🇪"
+                ]
+            }
+        },
+        "The String Company": {
+            "browse_genres": [
+                "world_sounds",
+                "folk"
+            ],
+            "en": {
+                "summary": "Balkan rhythms and klezmer fire, danceable world music",
+                "tags": [
+                    "Balkan",
+                    "Klezmer",
+                    "World Music"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Balkanrhythmen und Klezmerglut – tanzende Weltmusikpoesie",
+                "tags": [
+                    "Balkan",
+                    "Klezmer",
+                    "Weltmusik"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Tante Maro": {
+            "browse_genres": [
+                "world_sounds",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "From Paris to the Balkans, dance-worthy world music",
+                "tags": [
+                    "Balkan",
+                    "Chanson"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Von Paris bis zum Balkan – mitreißende Weltmusik",
+                "tags": [
+                    "Balkan",
+                    "Chanson"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Tau Ensemble": {
+            "browse_genres": [
+                "world_sounds",
+                "jazz",
+                "experimental"
+            ],
+            "en": {
+                "summary": "Turkish-Arabic traditions meet jazz and experimentation",
+                "tags": [
+                    "Middle Eastern Jazz",
+                    "Experimental World Music"
                 ],
                 "countries": [
                     "🇩🇪",
-                    "🇷🇸",
-                    "🇧🇦"
+                    "🇮🇱"
                 ]
             },
             "de": {
-                "summary": "Humorvolle deutsch-balkanische Musikfusion",
-                "genres": [
-                    "Balkan-Fusion"
+                "summary": "Türkisch-arabische Traditionen treffen Jazz und Experiment",
+                "tags": [
+                    "Middle Eastern Jazz",
+                    "Experimentelle Weltmusik"
                 ],
                 "countries": [
                     "🇩🇪",
-                    "🇷🇸",
-                    "🇧🇦"
+                    "🇮🇱"
                 ]
             }
         },
-        "Preis der Deutschen Schallplattenkritik": {
+        "Jan-Philipp Tödte & Talkin’ Music": {
+            "browse_genres": [
+                "world_sounds",
+                "jazz"
+            ],
             "en": {
-                "summary": "Young German folk musicians shaping new traditions",
-                "genres": [
-                    "contemporary folk"
+                "summary": "Handpan grooves fusing world, jazz, and rock",
+                "tags": [
+                    "Worldbeat",
+                    "Handpan"
                 ],
                 "countries": [
                     "🇩🇪"
                 ]
             },
             "de": {
-                "summary": "Junge deutsche Folkmusik mit neuen Impulsen",
-                "genres": [
-                    "zeitgenössischer Folk"
+                "summary": "Handpan-Grooves aus Worldbeat, Jazz und Rock",
+                "tags": [
+                    "Worldbeat",
+                    "Handpan"
                 ],
                 "countries": [
                     "🇩🇪"
                 ]
             }
         },
-        "Sahel Roots": {
+        "Totally Cantoj Bassman": {
+            "browse_genres": [
+                "chanson_lied",
+                "world_sounds"
+            ],
             "en": {
-                "summary": "Malian duo blending folk and Sahelian roots",
-                "genres": [
-                    "Malian folk",
-                    "Sahelian traditional"
+                "summary": "Witty German songwriting with danceable world flair",
+                "tags": [
+                    "German-language chanson",
+                    "dance-friendly"
                 ],
                 "countries": [
-                    "🇲🇱"
+                    "🇩🇪"
                 ]
             },
             "de": {
-                "summary": "Malisches Duo mit Folk- und Sahel-Wurzeln",
-                "genres": [
-                    "Malischer Folk",
-                    "Sahelische Tradition"
+                "summary": "Witzige deutschsprachige Songs mit internationalem Tanzflair",
+                "tags": [
+                    "Deutschsprachiger Chanson",
+                    "Tanzbar"
                 ],
                 "countries": [
-                    "🇲🇱"
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Tribubu": {
+            "browse_genres": [
+                "world_sounds",
+                "folk"
+            ],
+            "en": {
+                "summary": "Rumba-Afro-Folk fusion crossing cultural borders",
+                "tags": [
+                    "Rumba",
+                    "Afro-Folk"
+                ],
+                "countries": [
+                    "🇪🇸",
+                    "🇬🇧",
+                    "🇨🇮"
+                ]
+            },
+            "de": {
+                "summary": "Rumba-Afro-Folk-Fusion, die Kulturgrenzen überwindet",
+                "tags": [
+                    "Rumba",
+                    "Afro-Folk"
+                ],
+                "countries": [
+                    "🇪🇸",
+                    "🇬🇧",
+                    "🇨🇮"
+                ]
+            }
+        },
+        "Trio Khan": {
+            "browse_genres": [
+                "jazz",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Jazz fused with Middle Eastern sounds",
+                "tags": [
+                    "Jazz",
+                    "Middle Eastern Music"
+                ],
+                "countries": [
+                    "🇸🇾",
+                    "🇺🇦",
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Jazz trifft nahöstliche Klänge",
+                "tags": [
+                    "Jazz",
+                    "Nahöstliche Musik"
+                ],
+                "countries": [
+                    "🇸🇾",
+                    "🇺🇦",
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Trio Talan": {
+            "browse_genres": [
+                "world_sounds",
+                "jazz",
+                "classical"
+            ],
+            "en": {
+                "summary": "Persian, Kurdish traditions meet Baroque and jazz",
+                "tags": [
+                    "Persian music",
+                    "Baroque"
+                ],
+                "countries": [
+                    "🇮🇷",
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Persische, kurdische Tradition trifft Barock und Jazz",
+                "tags": [
+                    "Persische Musik",
+                    "Barock"
+                ],
+                "countries": [
+                    "🇮🇷",
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Von Bergamon": {
+            "browse_genres": [
+                "chanson_lied",
+                "pop"
+            ],
+            "en": {
+                "summary": "Poetic indie pop with open-ended lyrics",
+                "tags": [
+                    "Liedermacher",
+                    "Indie Pop"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Poetischer Indie-Pop mit Raum für freie Assoziation",
+                "tags": [
+                    "Liedermacher",
+                    "Indie-Pop"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Norika Wacker": {
+            "browse_genres": [
+                "performance",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "Cheeky clown duo: music, stories & a bird",
+                "tags": [
+                    "clown",
+                    "storytelling"
+                ],
+                "countries": []
+            },
+            "de": {
+                "summary": "Freches Clown-Duo: Musik, Geschichten & ein Vogel",
+                "tags": [
+                    "Clown",
+                    "Storytelling"
+                ],
+                "countries": []
+            }
+        },
+        "XALOC": {
+            "browse_genres": [
+                "chanson_lied",
+                "pop"
+            ],
+            "en": {
+                "summary": "Whimsical storytelling, from danceable to dramatic",
+                "tags": [
+                    "indie pop",
+                    "chanson",
+                    "storytelling"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Verspieltes Storytelling zwischen tanzbar und dramatisch",
+                "tags": [
+                    "Indie-Pop",
+                    "Chanson",
+                    "Storytelling"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Zababa": {
+            "browse_genres": [
+                "world_sounds",
+                "performance"
+            ],
+            "en": {
+                "summary": "Handpan & didgeridoo fusing East and West",
+                "tags": [
+                    "Handpan",
+                    "World Fusion"
+                ],
+                "countries": [
+                    "🇲🇦",
+                    "🇫🇷"
+                ]
+            },
+            "de": {
+                "summary": "Handpan & Didgeridoo zwischen Orient und Okzident",
+                "tags": [
+                    "Handpan",
+                    "World Fusion"
+                ],
+                "countries": [
+                    "🇲🇦",
+                    "🇫🇷"
+                ]
+            }
+        },
+        "ZOFF": {
+            "browse_genres": [
+                "world_sounds",
+                "folk",
+                "reggae_ska"
+            ],
+            "en": {
+                "summary": "Danceable world folk meets Latin, Ska & Balkan",
+                "tags": [
+                    "Worldfolk",
+                    "Ska",
+                    "Balkan"
+                ],
+                "countries": []
+            },
+            "de": {
+                "summary": "Tanzbarer Worldfolk mit Latin, Ska und Balkan",
+                "tags": [
+                    "Worldfolk",
+                    "Ska",
+                    "Balkan"
+                ],
+                "countries": []
+            }
+        },
+        "Zwei Stimmen": {
+            "browse_genres": [
+                "world_sounds",
+                "chanson_lied"
+            ],
+            "en": {
+                "summary": "German-Arabic stories, oriental rhythms, oud",
+                "tags": [
+                    "Arabic-German fusion",
+                    "oud"
+                ],
+                "countries": [
+                    "🇩🇪",
+                    "🇸🇾",
+                    "🇲🇦"
+                ]
+            },
+            "de": {
+                "summary": "Deutsch-arabische Geschichten mit Oud und Orient-Rhythmen",
+                "tags": [
+                    "Arabisch-Deutsche Fusion",
+                    "Oud"
+                ],
+                "countries": [
+                    "🇩🇪",
+                    "🇸🇾",
+                    "🇲🇦"
                 ]
             }
         }

@@ -66,27 +66,24 @@ struct ArtistEventCell: View {
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.tertiary)
         }
-        .background(
-            NavigationLink(
-                isActive: Binding {
-                    selectedCollisionArtist != nil
-                } set: { value in
-                    if !value {
-                        selectedCollisionArtist = nil
-                    }
+        .navigationDestination(
+            isPresented: Binding {
+                selectedCollisionArtist != nil
+            } set: { value in
+                if !value {
+                    selectedCollisionArtist = nil
                 }
-            ) {
-                if let artist = selectedCollisionArtist {
-                    ArtistDetailView(
-                        artist: artist,
-                        highlightedEventId: event.id
-                    )
-                }
-            } label: {
+            }
+        ) {
+            if let artist = selectedCollisionArtist {
+                ArtistDetailView(
+                    artist: artist,
+                    highlightedEventId: event.id
+                )
+            } else {
                 EmptyView()
             }
-            .hidden()
-        )
+        }
         .contextMenu {
             if case .success(let intersectingEvents) = eventsThatIntersect {
                 ForEach(intersectingEvents) { (intersectingEvent: Event) in

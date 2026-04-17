@@ -1,0 +1,82 @@
+[
+  {
+    "id": "folk",
+    "label_de": "Folk",
+    "label_en": "Folk"
+  },
+  {
+    "id": "world_sounds",
+    "label_de": "World Sounds",
+    "label_en": "World Sounds"
+  },
+  {
+    "id": "chanson_lied",
+    "label_de": "Chanson & Lied",
+    "label_en": "Chanson & Songwriting"
+  },
+  {
+    "id": "jazz",
+    "label_de": "Jazz",
+    "label_en": "Jazz"
+  },
+  {
+    "id": "blues_soul",
+    "label_de": "Blues & Soul",
+    "label_en": "Blues & Soul"
+  },
+  {
+    "id": "pop",
+    "label_de": "Pop",
+    "label_en": "Pop"
+  },
+  {
+    "id": "rock",
+    "label_de": "Rock",
+    "label_en": "Rock"
+  },
+  {
+    "id": "dance",
+    "label_de": "Tanz",
+    "label_en": "Dance"
+  },
+  {
+    "id": "brass",
+    "label_de": "Brass",
+    "label_en": "Brass"
+  },
+  {
+    "id": "electronic",
+    "label_de": "Electronic",
+    "label_en": "Electronic"
+  },
+  {
+    "id": "classical",
+    "label_de": "Klassik",
+    "label_en": "Classical"
+  },
+  {
+    "id": "acappella",
+    "label_de": "A cappella",
+    "label_en": "A cappella"
+  },
+  {
+    "id": "reggae_ska",
+    "label_de": "Reggae & Ska",
+    "label_en": "Reggae & Ska"
+  },
+  {
+    "id": "hiphop",
+    "label_de": "Hip-Hop",
+    "label_en": "Hip-Hop"
+  },
+  {
+    "id": "experimental",
+    "label_de": "Experimentell",
+    "label_en": "Experimental"
+  },
+  {
+    "id": "performance",
+    "label_de": "Performance",
+    "label_en": "Performance"
+  }
+]
