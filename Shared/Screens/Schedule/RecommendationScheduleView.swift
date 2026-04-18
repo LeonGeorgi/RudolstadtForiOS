@@ -97,6 +97,8 @@ struct RecommendationScheduleView: View {
                         }
                     }
                     .pickerStyle(.segmented)
+                    .padding(8)
+                    .scheduleDaySwitcherStyle()
                     .padding(.horizontal)
                     .padding(.bottom, 10)
                     .padding(.top, 5)

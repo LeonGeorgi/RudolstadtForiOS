@@ -6,6 +6,7 @@ struct ScrollableProgramViewContent: View {
 
     @State var scrollOffset: CGPoint
     @State private var currentTime: Date = Date()
+    @State private var currentTimeUpdateTask: Task<Void, Never>?
 
     let timeIntervals: [Date]
     let stages: [(Stage, [EventOrGap])]
@@ -17,6 +18,7 @@ struct ScrollableProgramViewContent: View {
     private let firstEventPadding: CGFloat = CGFloat(0)
     private let columnSpacing: CGFloat = CGFloat(5)
     private let heightPerHour: Double = 65
+    private let stageHeaderCornerRadius: CGFloat = 12
 
     var body: some View {
         if stages.isEmpty {
@@ -32,6 +34,9 @@ struct ScrollableProgramViewContent: View {
             }
         } else {
             ZStack {
+                Color(.systemBackground)
+                .ignoresSafeArea()
+
                 GeometryReader { geo in
                     ScrollView([.horizontal, .vertical]) {
                         HStack(alignment: .top, spacing: columnSpacing) {
@@ -102,6 +107,7 @@ struct ScrollableProgramViewContent: View {
                         ForEach(timeIntervals, id: \.self) { time in
                             Text(dateFormatter.string(from: time))
                                 .font(.system(size: 12, weight: .semibold))
+                                .monospacedDigit()
                                 .padding(.trailing, 8)
                                 .padding(.leading, 5)
                                 .frame(
@@ -129,9 +135,9 @@ struct ScrollableProgramViewContent: View {
                     .zIndex(-1)
                     .offset(y: scrollOffset.y)
 
-                    HStack(alignment: .top, spacing: columnSpacing / 2) {
+                    HStack(alignment: .top, spacing: columnSpacing) {
                         Spacer()
-                            .frame(width: timeWidth + columnSpacing / 2)
+                            .frame(width: timeWidth)
                         ForEach(stages, id: \.0.id) { (stage, _) in
                             NavigationLink(
                                 value: AppNavigationRoute.stage(
@@ -153,10 +159,6 @@ struct ScrollableProgramViewContent: View {
                                 StagePreview(stage: stage)
                             }
 
-                            //.background(getColorForStage(stage))
-                            Divider()
-                                .frame(width: 1, height: stageNameHeight + 15)
-                                .padding(.vertical, 4)
                         }
                         Spacer()
                     }
@@ -167,6 +169,7 @@ struct ScrollableProgramViewContent: View {
                         HStack(alignment: .center, spacing: 0) {
                             Text(dateFormatter.string(from: currentTime))
                                 .font(.system(size: 12, weight: .semibold))
+                                .monospacedDigit()
                                 .foregroundColor(.red)
                                 .padding(.horizontal, 10)
                                 .frame(
@@ -197,6 +200,10 @@ struct ScrollableProgramViewContent: View {
             }
             .onAppear {
                 startUpdatingCurrentTime()
+            }
+            .onDisappear {
+                currentTimeUpdateTask?.cancel()
+                currentTimeUpdateTask = nil
             }
         }
     }
@@ -233,10 +240,9 @@ struct ScrollableProgramViewContent: View {
                 size: 15,
                 font: .system(size: 10, weight: .bold)
             )
-            .padding(.top, 5)
-            .padding(.bottom, 5)
+            .padding(.top, 4)
+            .padding(.bottom, 4)
             Text(stage.localizedName)
-                .padding(.bottom, 4)
                 .frame(
                     width: columnWidth - 1,
                     height: stageNameHeight,
@@ -247,6 +253,14 @@ struct ScrollableProgramViewContent: View {
                 .lineLimit(3)
                 .multilineTextAlignment(.center)
         }
+        .frame(width: columnWidth, height: stageNameHeight + 20)
+        .background(stageHeaderBackground(for: stage))
+        .clipShape(
+            RoundedRectangle(
+                cornerRadius: stageHeaderCornerRadius,
+                style: .continuous
+            )
+        )
     }
 
     func currentTimeLinePosition() -> CGFloat? {
@@ -284,17 +298,32 @@ struct ScrollableProgramViewContent: View {
     }
 
     func startUpdatingCurrentTime() {
-        let calendar = Calendar.current
+        guard currentTimeUpdateTask == nil else { return }
 
-        let components = calendar.dateComponents(
-            [.year, .month, .day, .hour, .minute],
-            from: Date().addingTimeInterval(60)
-        )
-        let nextMinute = calendar.date(from: components)!
-        let interval = nextMinute.timeIntervalSince(Date())
-        DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
-            self.currentTime = Date()
-            startUpdatingCurrentTime()
+        currentTimeUpdateTask = Task {
+            while !Task.isCancelled {
+                let calendar = Calendar.current
+                let components = calendar.dateComponents(
+                    [.year, .month, .day, .hour, .minute],
+                    from: Date().addingTimeInterval(60)
+                )
+
+                guard let nextMinute = calendar.date(from: components) else {
+                    return
+                }
+
+                let interval = nextMinute.timeIntervalSince(Date())
+                let sleepNanoseconds = UInt64(max(interval, 1) * 1_000_000_000)
+
+                try? await Task.sleep(nanoseconds: sleepNanoseconds)
+                if Task.isCancelled {
+                    return
+                }
+
+                await MainActor.run {
+                    currentTime = Date()
+                }
+            }
         }
     }
     func getColorForStage(_ stage: Stage) -> Color {
@@ -361,6 +390,14 @@ struct ScrollableProgramViewContent: View {
                     .saturation(0.4)
             }
         }
+    }
+}
+
+private extension ScrollableProgramViewContent {
+    @ViewBuilder
+    func stageHeaderBackground(for _: Stage) -> some View {
+        Rectangle()
+            .fill(Color(.secondarySystemBackground))
     }
 }
 

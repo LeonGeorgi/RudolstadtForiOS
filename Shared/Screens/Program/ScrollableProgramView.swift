@@ -38,19 +38,50 @@ struct ScrollableProgramView: View {
     }
 
     private func generateEventGapList(ev: [Event]) -> [EventOrGap] {
+        let sortedEvents = ev.sorted { e1, e2 in
+            if e1.date != e2.date {
+                return e1.date < e2.date
+            }
+
+            // If two events start at the same time, place the longer one first.
+            // This keeps layout deterministic and prevents duplicate start slots
+            // from pushing later events down in this stacked timeline model.
+            let e1End = e1.endDate(
+                durationInMinutes: dataStore.estimatedEventDurations?[e1.id] ?? 60
+            )
+            let e2End = e2.endDate(
+                durationInMinutes: dataStore.estimatedEventDurations?[e2.id] ?? 60
+            )
+            if e1End != e2End {
+                return e1End > e2End
+            }
+
+            return e1.id < e2.id
+        }
         var lastTime = firstEventTime
         var result: [EventOrGap] = []
-        for event: Event in ev {
+        for event: Event in sortedEvents {
+            // If source data overlaps on the same stage, ignore entries that begin
+            // inside an already occupied block. This avoids cascading drift for all
+            // following events in the column.
+            if event.date < lastTime {
+                continue
+            }
+
             if lastTime < event.date {
                 result.append(
                     .gap(Gap(duration: event.date.timeIntervalSince(lastTime)))
                 )
             }
             result.append(.event(event))
-            lastTime = event.endDate(
+            let eventEnd = event.endDate(
                 durationInMinutes: dataStore.estimatedEventDurations?[event.id]
                     ?? 60
             )
+            // Keep timeline monotonic even with bad/overlapping source data.
+            if eventEnd > lastTime {
+                lastTime = eventEnd
+            }
         }
         return result
 

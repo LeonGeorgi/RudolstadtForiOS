@@ -14,6 +14,7 @@ struct TableProgramCell: View {
     private var isSaved: Bool {
         return settings.savedEvents.contains(event.id)
     }
+    private let cornerRadius: CGFloat = 10
 
     var body: some View {
         renderContent()
@@ -25,6 +26,8 @@ struct TableProgramCell: View {
     }
 
     func renderContent() -> some View {
+        let baseColor = getColorForEvent(event)
+        let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
         return NavigationLink(
             value: AppNavigationRoute.artist(
                 id: event.artist.id,
@@ -87,15 +90,21 @@ struct TableProgramCell: View {
                 }
             }
             .frame(width: width, height: height)
-            .background(getColorForEvent(event).opacity(0.7))
-            // set foreground to white if saved, else black
+            .tableProgramCellBackground(
+                color: baseColor,
+                isSaved: isSaved,
+                shape: shape
+            )
+            .overlay {
+                shape
+                    .stroke(
+                        isSaved
+                            ? Color.white.opacity(0.34)
+                            : Color.white.opacity(0.2),
+                        lineWidth: 0.65
+                    )
+            }
             .foregroundColor(.black)
-            .cornerRadius(4)
-            /*.overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(Color.black, lineWidth: 1)
-                    .opacity(0.15)
-            )*/
         }
         .buttonStyle(.plain)
     }
@@ -128,6 +137,21 @@ struct TableProgramCell: View {
                 return Color.artistTypeOther
             }
         }
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func tableProgramCellBackground(
+        color: Color,
+        isSaved: Bool,
+        shape: RoundedRectangle
+    ) -> some View {
+        self
+            .background(
+                shape
+                    .fill(color)
+            )
     }
 }
 
