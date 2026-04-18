@@ -27,9 +27,25 @@ struct ArtistDetailSplitBackground: View {
 
 struct ArtistAISummaryBlock: View {
     let artist: Artist
-    let onInfoTap: () -> Void
 
     @EnvironmentObject var settings: UserSettings
+
+    private var headlineGradient: LinearGradient {
+        let warm = OKHSLColorConverter.okhslToSRGB(.init(h: 0.02, s: 0.82, l: 0.71))
+        let pink = OKHSLColorConverter.okhslToSRGB(.init(h: 0.89, s: 0.79, l: 0.68))
+        let blue = OKHSLColorConverter.okhslToSRGB(.init(h: 0.67, s: 0.83, l: 0.69))
+        let cyan = OKHSLColorConverter.okhslToSRGB(.init(h: 0.56, s: 0.79, l: 0.72))
+        return LinearGradient(
+            colors: [
+                Color(red: warm.r, green: warm.g, blue: warm.b),
+                Color(red: pink.r, green: pink.g, blue: pink.b),
+                Color(red: blue.r, green: blue.g, blue: blue.b),
+                Color(red: cyan.r, green: cyan.g, blue: cyan.b),
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
 
     var body: some View {
         if settings.aiSummaryEnabled, let ai = artist.ai, ai.hasContent {
@@ -37,43 +53,30 @@ struct ArtistAISummaryBlock: View {
                 in: .whitespacesAndNewlines
             )
 
-            VStack(alignment: .leading, spacing: 10) {
-                if let localizedSummary, !localizedSummary.isEmpty {
-                    HStack(alignment: .top, spacing: 10) {
-                        Button(action: onInfoTap) {
-                            ArtistAIGradientIcon()
-                        }
-                        .buttonStyle(.plain)
+            ArtistDetailContentBlock {
+                Text("artist.ai.header")
+                    .font(.headline)
+                    .foregroundStyle(headlineGradient)
 
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(localizedSummary)
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(.secondary)
-                        }
-                    }
+                if let localizedSummary, !localizedSummary.isEmpty {
+                    Text(localizedSummary)
+                        .font(.body)
                 }
 
+                Text("artist.ai.footer")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .shadow(color: .black.opacity(0.06), radius: 4, x: 0, y: 1)
+            .overlay {
+                GeometryReader { proxy in
+                    Color.clear.preference(
+                        key: DescriptionBackgroundStartPreferenceKey.self,
+                        value: proxy.frame(in: .global).minY - 12
+                    )
+                }
             }
         }
-    }
-}
-
-private struct ArtistAIGradientIcon: View {
-    var body: some View {
-        Image(systemName: "sparkles.2")
-            .font(.system(size: 16, weight: .semibold))
-            .foregroundStyle(
-                LinearGradient(
-                    colors: [
-                        Color(red: 1.0, green: 0.48, blue: 0.19),
-                        Color(red: 0.98, green: 0.23, blue: 0.60),
-                        Color(red: 0.39, green: 0.36, blue: 1.0),
-                        Color(red: 0.0, green: 0.72, blue: 1.0),
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
     }
 }
 
@@ -174,7 +177,7 @@ struct ArtistDescriptionBlock: View {
                     .font(.body)
             }
             .padding(.horizontal, 16)
-            .padding(.top, 20)
+            .padding(.top, 6)
             .padding(.bottom, 32)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
@@ -232,7 +235,7 @@ struct DescriptionBackgroundStartPreferenceKey: SwiftUI.PreferenceKey {
     static let defaultValue = CGFloat.infinity
 
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
+        value = min(value, nextValue())
     }
 }
 
@@ -258,7 +261,7 @@ private struct ArtistDetailContentBlock<Content: View>: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 8) {
             content()
         }
         .padding(16)

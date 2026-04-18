@@ -33,34 +33,6 @@ struct RecommendationScheduleView: View {
         return festivalDays(from: entities.events)
     }
     
-    private var currentDayLabel: String {
-        if availableEventDays.contains(selectedDay) {
-            return Util.shortWeekDay(day: selectedDay)
-        }
-        
-        if let firstDay = availableEventDays.first {
-            return Util.shortWeekDay(day: firstDay)
-        }
-        
-        return "--"
-    }
-    
-    private var canGoToPreviousDay: Bool {
-        guard let index = availableEventDays.firstIndex(of: selectedDay) else {
-            return false
-        }
-        
-        return index > 0
-    }
-    
-    private var canGoToNextDay: Bool {
-        guard let index = availableEventDays.firstIndex(of: selectedDay) else {
-            return false
-        }
-        
-        return index < availableEventDays.count - 1
-    }
-    
     func generateShownEvents(events: [Event]) -> [Event]? {
         switch settings.getScheduleFilterType(settings.scheduleFilterType) {
         case .saved:
@@ -115,48 +87,23 @@ struct RecommendationScheduleView: View {
         }
         .navigationTitle("schedule.title")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
+        .safeAreaInset(edge: .top) {
             if !availableEventDays.isEmpty {
-                ToolbarItemGroup(placement: .topBarLeading) {
-                    Button {
-                        moveDay(by: -1)
-                    } label: {
-                        Label(
-                            "schedule.day.prev.button",
-                            systemImage: "chevron.left"
-                        )
-                    }
-                    .disabled(!canGoToPreviousDay)
-                    
-                    Menu {
-                        Picker("schedule.day.picker", selection: $selectedDay) {
-                            ForEach(availableEventDays, id: \.self) { day in
-                                Text(Util.fullWeekDay(day: day))
-                                    .tag(day)
-                            }
+                VStack(spacing: 0) {
+                    Picker("schedule.day.picker", selection: $selectedDay) {
+                        ForEach(availableEventDays, id: \.self) { day in
+                            Text(Util.shortWeekDay(day: day))
+                                .tag(day)
                         }
-                    } label: {
-                        Text(currentDayLabel)
-                            .lineLimit(1)
-                            .frame(minWidth: 30)
                     }
-                    
-                    Button {
-                        moveDay(by: 1)
-                    } label: {
-                        Label(
-                            "schedule.day.next.button",
-                            systemImage: "chevron.right"
-                        )
-                    }
-                    .disabled(!canGoToNextDay)
-                    
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
+                    .padding(.top, 5)
                 }
             }
-            
-            ToolbarItem(placement: .principal) {
-                Text("")
-            }
+        }
+        .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
                     settings.toggleScheduleViewType()
@@ -209,19 +156,6 @@ struct RecommendationScheduleView: View {
                 .labelStyle(.iconOnly)
             }
         }
-    }
-    
-    private func moveDay(by delta: Int) {
-        guard let index = availableEventDays.firstIndex(of: selectedDay) else {
-            return
-        }
-        
-        let nextIndex = index + delta
-        guard availableEventDays.indices.contains(nextIndex) else {
-            return
-        }
-        
-        selectedDay = availableEventDays[nextIndex]
     }
     
     private func ensureSelectedDay() {

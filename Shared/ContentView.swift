@@ -64,8 +64,9 @@ struct ContentView: View {
             return 0
         }
     }
-    
-    var body: some View {
+
+    @ViewBuilder
+    private var appTabView: some View {
         TabView(selection: selectionBinding) {
             
             NavigationStack(path: $mapPath) {
@@ -133,6 +134,10 @@ struct ContentView: View {
             }
             .tag(AppTab.more)
         }
+    }
+    
+    var body: some View {
+        appTabView
         .onAppear {
             UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound, .badge]) {
@@ -151,6 +156,7 @@ struct ContentView: View {
                 Task {
                     print("Trying to load new festival data")
                     await dataStore.loadData()
+                    dataStore.loadArtistLinks()
                     await dataStore.loadNews()
                     dataStore.estimateEventDurations()
                     dataStore.updateRecommentations(

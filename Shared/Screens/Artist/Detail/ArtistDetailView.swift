@@ -89,10 +89,12 @@ struct ArtistDetailView: View {
                             imageTransitionNamespace: imageViewerTransition
                         )
 
-                        ArtistAISummaryBlock(artist: artist) {
-                            isShowingAIInfo = true
-                        }
                         ArtistDetailLinksView(artist: artist)
+
+                        ArtistRatingView(artist: artist)
+                            .padding(.horizontal, 34)
+                            .frame(maxWidth: .infinity)
+
                         ArtistNoteBlock(note: artistNote) {
                             isShowingNoteEditView = true
                         }
@@ -104,6 +106,10 @@ struct ArtistDetailView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 12)
                     .padding(.bottom, 18)
+
+                    ArtistAISummaryBlock(artist: artist)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 2)
 
                     ArtistDescriptionBlock(
                         description: artist.formattedDescription,

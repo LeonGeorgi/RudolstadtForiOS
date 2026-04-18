@@ -4,6 +4,8 @@ struct ArtistDetailHeaderView: View {
     let artist: Artist
     let imageTransitionNamespace: Namespace.ID
 
+    @Environment(\.colorScheme) private var colorScheme
+
     private var imageViewerTransitionID: String {
         "artist-full-image-\(artist.id)"
     }
@@ -85,8 +87,6 @@ struct ArtistDetailHeaderView: View {
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.top, 4)
 
-            ratingView
-                .padding(.top, 6)
         }
         .padding(.top, 4)
     }
@@ -113,24 +113,23 @@ struct ArtistDetailHeaderView: View {
         }
     }
 
+    private var imageStrokeColor: Color {
+        colorScheme == .dark ? .white.opacity(0.22) : .black.opacity(0.15)
+    }
+
     private var styledArtistImage: some View {
         ArtistImageView(artist: artist, fullImage: true)
             .aspectRatio(8.0 / 7.0, contentMode: .fill)
             .frame(maxWidth: .infinity)
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .stroke(.white.opacity(0.22), lineWidth: 0.5)
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .stroke(imageStrokeColor, lineWidth: 0.5)
             )
-            .shadow(color: .black.opacity(0.28), radius: 18, x: 0, y: 10)
-            .padding(.horizontal, 34)
+            .shadow(color: .black.opacity(0.25), radius: 15, x: 0, y: 8)
+            .padding(.horizontal, 40)
     }
 
-    private var ratingView: some View {
-        ArtistRatingView(artist: artist)
-        .padding(.horizontal, 34)
-        .frame(maxWidth: .infinity)
-    }
 }
 
 struct ArtistDetailLinksView: View {
@@ -139,7 +138,12 @@ struct ArtistDetailLinksView: View {
     @EnvironmentObject var dataStore: DataStore
 
     private var artistLinks: ArtistLinks? {
-        dataStore.artistLinks?[artist.name]
+        if let exact = dataStore.artistLinks?[artist.name] {
+            return exact
+        }
+
+        let normalizedName = normalizeArtistLinkKey(artist.name)
+        return dataStore.artistLinks?[normalizedName]
     }
 
     private var hasArtistLinks: Bool {
@@ -155,60 +159,58 @@ struct ArtistDetailLinksView: View {
     }
 
     private var artistLinksView: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                if let videoUrl = artist.videoUrl {
-                    LinkButton(label: "Video", scale: 0.6) {
-                        Image("youtube")
-                    } action: {
-                        UIApplication.shared.open(videoUrl)
-                    }
-                }
-
-                if let url = artist.url, let url = URL(string: url) {
-                    LinkButton(label: "artist.website", scale: 1.0) {
-                        Image(systemName: "globe")
-                    } action: {
-                        UIApplication.shared.open(url)
-                    }
-                }
-
-                if let facebookUrl = artist.facebookUrl {
-                    LinkButton(label: "Facebook", scale: 0.8) {
-                        Image("facebook")
-                    } action: {
-                        UIApplication.shared.open(facebookUrl)
-                    }
-                }
-
-                if let instagramUrl = artist.instagramUrl {
-                    LinkButton(label: "Instagram", scale: 0.8) {
-                        Image("instagram")
-                    } action: {
-                        UIApplication.shared.open(instagramUrl)
-                    }
-                }
-
-                if let appleMusicURL = artistLinks?.appleMusicURL {
-                    LinkButton(label: "Apple Music", scale: 1.0) {
-                        Image(systemName: "music.note")
-                    } action: {
-                        UIApplication.shared.open(URL(string: appleMusicURL)!)
-                    }
-                }
-
-                if let spotifyURL = artistLinks?.spotifyURL {
-                    LinkButton(label: "Spotify", scale: 0.7) {
-                        Image("spotify")
-                    } action: {
-                        UIApplication.shared.open(URL(string: spotifyURL)!)
-                    }
+        HStack(spacing: 12) {
+            if let videoUrl = artist.videoUrl {
+                LinkButton(label: "Video", scale: 0.6) {
+                    Image("youtube")
+                } action: {
+                    UIApplication.shared.open(videoUrl)
                 }
             }
-            .padding(.horizontal, 4)
-            .padding(.vertical, 8)
+
+            if let url = artist.url, let url = URL(string: url) {
+                LinkButton(label: "artist.website", scale: 1.0) {
+                    Image(systemName: "globe")
+                } action: {
+                    UIApplication.shared.open(url)
+                }
+            }
+
+            if let facebookUrl = artist.facebookUrl {
+                LinkButton(label: "Facebook", scale: 0.8) {
+                    Image("facebook")
+                } action: {
+                    UIApplication.shared.open(facebookUrl)
+                }
+            }
+
+            if let instagramUrl = artist.instagramUrl {
+                LinkButton(label: "Instagram", scale: 0.8) {
+                    Image("instagram")
+                } action: {
+                    UIApplication.shared.open(instagramUrl)
+                }
+            }
+
+            if let appleMusicURL = artistLinks?.appleMusicURL, let url = URL(string: appleMusicURL) {
+                LinkButton(label: "Apple Music", scale: 1.0) {
+                    Image(systemName: "music.note")
+                } action: {
+                    UIApplication.shared.open(url)
+                }
+            }
+
+            if let spotifyURL = artistLinks?.spotifyURL, let url = URL(string: spotifyURL) {
+                LinkButton(label: "Spotify", scale: 0.7) {
+                    Image("spotify")
+                } action: {
+                    UIApplication.shared.open(url)
+                }
+            }
         }
-        .scrollClipDisabled()
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.horizontal, 4)
+        .padding(.vertical, 2)
     }
 
     var body: some View {
@@ -226,37 +228,24 @@ private struct LinkButton: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 6) {
-                icon()
-                    .renderingMode(.template)
-                    .frame(width: 16, height: 16)
-                    .scaleEffect(scale)
-                Text(label)
-                    .font(.caption.weight(.semibold))
-                    .lineLimit(1)
-            }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 7)
-            .contentShape(Capsule())
+            icon()
+                .renderingMode(.template)
+                .frame(width: 18, height: 18)
+                .scaleEffect(scale)
+                .frame(width: 40, height: 40)
+                .contentShape(Circle())
         }
+        .accessibilityLabel(Text(label))
         .artistDetailLinkButtonStyle()
     }
 }
 
 private extension View {
-    @ViewBuilder
     func artistDetailLinkButtonStyle() -> some View {
-        if #available(iOS 26.0, macOS 26.0, *) {
-            self
-                .buttonStyle(.glass)
-        } else {
-            self
-                .buttonStyle(.plain)
-                .background(.regularMaterial, in: Capsule())
-                .overlay(
-                    Capsule()
-                        .stroke(.white.opacity(0.16), lineWidth: 0.5)
-                )
-        }
+        self
+            .frame(width: 50, height: 50)
+            .buttonBorderShape(.circle)
+            .background(Color.primary.opacity(0.12), in: Circle())
+            .foregroundStyle(.foreground)
     }
 }

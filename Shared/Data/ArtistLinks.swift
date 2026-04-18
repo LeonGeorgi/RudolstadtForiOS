@@ -9,9 +9,19 @@ struct ArtistLinks {
     }
 }
 
+func normalizeArtistLinkKey(_ input: String) -> String {
+    input
+        .replacingOccurrences(of: "&#34;", with: "\"")
+        .replacingOccurrences(of: "“", with: "\"")
+        .replacingOccurrences(of: "”", with: "\"")
+        .replacingOccurrences(of: "’", with: "'")
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+        .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+}
+
 func parseArtistLinks() -> [String: ArtistLinks] {
     let resource = "\(DataStore.year)_artist_urls"
-    let fallbackResource = "2024_artist_urls"
+    let fallbackResource = "2026_artist_urls"
     guard
         let filepath =
             Bundle.main.path(forResource: resource, ofType: "csv")
@@ -35,6 +45,12 @@ func parseArtistLinks() -> [String: ArtistLinks] {
                     in: .newlines
                 )
                 let artistName = columns[0].trimmingCharacters(in: .newlines)
+
+                // Skip header line.
+                if artistName == "Artist Name" {
+                    continue
+                }
+
                 let spotifyURL = spotifyPart.isEmpty ? nil : spotifyPart
                 let appleMusicURL =
                     appleMusicPart.isEmpty ? nil : appleMusicPart
@@ -44,6 +60,11 @@ func parseArtistLinks() -> [String: ArtistLinks] {
                     appleMusicURL: appleMusicURL
                 )
                 artistDict[artistName] = links
+
+                let normalizedArtistName = normalizeArtistLinkKey(artistName)
+                if artistDict[normalizedArtistName] == nil {
+                    artistDict[normalizedArtistName] = links
+                }
             }
         }
 
