@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 
 struct AIArtistData {
     let summaryDE: String?
@@ -204,6 +205,11 @@ struct Area: Identifiable, Hashable {
 }
 
 struct Event: Identifiable {
+    private static let walkingSpeedMetersPerMinute = 80.0
+    private static let walkDistancesByStage = loadWalkDistancesByStage(
+        fileName: "stage_walk_distances"
+    )
+
     let id: Int
     let dayInJuly: Int
     let timeAsString: String
@@ -317,10 +323,98 @@ struct Event: Identifiable {
     func intersects(with other: Event, event1Duration: Int, event2Duration: Int)
         -> Bool
     {
-        festivalDay == other.festivalDay
-            && !(startTimeInMinutes > other.startTimeInMinutes + event2Duration
-                || startTimeInMinutes + event1Duration
-                    < other.startTimeInMinutes)
+        intersects(
+            with: other,
+            event1Duration: event1Duration,
+            event2Duration: event2Duration,
+            maxAllowedMissedMinutes: 0
+        )
+    }
+
+    func intersects(
+        with other: Event,
+        event1Duration: Int,
+        event2Duration: Int,
+        maxAllowedMissedMinutes: Int,
+        arrivalBufferMinutes: Int = 0
+    ) -> Bool {
+        guard festivalDay == other.festivalDay else {
+            return false
+        }
+
+        let firstStartsBeforeOrAtSecond = startTimeInMinutes <= other.startTimeInMinutes
+
+        if firstStartsBeforeOrAtSecond {
+            return missesTooMuchOfFollowingEvent(
+                firstEvent: self,
+                firstEventDuration: event1Duration,
+                secondEvent: other,
+                maxAllowedMissedMinutes: maxAllowedMissedMinutes,
+                arrivalBufferMinutes: arrivalBufferMinutes
+            )
+        } else {
+            return missesTooMuchOfFollowingEvent(
+                firstEvent: other,
+                firstEventDuration: event2Duration,
+                secondEvent: self,
+                maxAllowedMissedMinutes: maxAllowedMissedMinutes,
+                arrivalBufferMinutes: arrivalBufferMinutes
+            )
+        }
+    }
+
+    private func missesTooMuchOfFollowingEvent(
+        firstEvent: Event,
+        firstEventDuration: Int,
+        secondEvent: Event,
+        maxAllowedMissedMinutes: Int,
+        arrivalBufferMinutes: Int
+    ) -> Bool {
+        let firstEventEnd = firstEvent.startTimeInMinutes + firstEventDuration
+        let transferMinutes = Self.walkingMinutes(
+            from: firstEvent.stage,
+            to: secondEvent.stage
+        )
+        let arrivalAtSecondEvent = firstEventEnd + transferMinutes
+        let requiredArrivalTime = secondEvent.startTimeInMinutes - arrivalBufferMinutes
+        let missedMinutes = max(0, arrivalAtSecondEvent - requiredArrivalTime)
+        return missedMinutes > maxAllowedMissedMinutes
+    }
+
+    private static func walkingMinutes(from firstStage: Stage, to secondStage: Stage) -> Int {
+        if firstStage.id == secondStage.id {
+            return 0
+        }
+
+        if let distanceInMeters = walkingDistanceInMeters(
+            from: firstStage.id,
+            to: secondStage.id
+        ) {
+            return max(1, Int(ceil(distanceInMeters / walkingSpeedMetersPerMinute)))
+        }
+
+        let firstLocation = CLLocation(
+            latitude: firstStage.latitude,
+            longitude: firstStage.longitude
+        )
+        let secondLocation = CLLocation(
+            latitude: secondStage.latitude,
+            longitude: secondStage.longitude
+        )
+        let airDistanceInMeters = secondLocation.distance(from: firstLocation)
+        return max(1, Int(ceil(airDistanceInMeters / walkingSpeedMetersPerMinute)))
+    }
+
+    private static func walkingDistanceInMeters(from sourceStageID: Int, to targetStageID: Int)
+        -> Double?
+    {
+        if let directDistance = walkDistancesByStage[sourceStageID]?[targetStageID] {
+            return directDistance
+        }
+        if let inverseDistance = walkDistancesByStage[targetStageID]?[sourceStageID] {
+            return inverseDistance
+        }
+        return nil
     }
 
     static let example = Event(
@@ -331,6 +425,35 @@ struct Event: Identifiable {
         artist: .example,
         tag: .example
     )
+}
+
+private func loadWalkDistancesByStage(fileName: String) -> [Int: [Int: Double]] {
+    guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+        print("Could not find file \(fileName).json in bundle")
+        return [:]
+    }
+
+    do {
+        let data = try Data(contentsOf: url)
+        let decoded = try JSONDecoder().decode([String: [String: Double]].self, from: data)
+        return decoded.reduce(into: [Int: [Int: Double]]()) { partialResult, entry in
+            guard let sourceStageId = Int(entry.key) else {
+                return
+            }
+            let convertedTargets = entry.value.reduce(into: [Int: Double]()) {
+                targetResult,
+                targetEntry in
+                guard let targetStageId = Int(targetEntry.key) else {
+                    return
+                }
+                targetResult[targetStageId] = targetEntry.value
+            }
+            partialResult[sourceStageId] = convertedTargets
+        }
+    } catch {
+        print("Error decoding \(fileName).json: \(error)")
+        return [:]
+    }
 }
 
 struct NewsItem: Identifiable {

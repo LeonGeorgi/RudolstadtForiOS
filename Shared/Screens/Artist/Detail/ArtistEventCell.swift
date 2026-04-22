@@ -34,7 +34,8 @@ struct ArtistEventCell: View {
                         ] ?? 60,
                         event2Duration: dataStore.estimatedEventDurations?[
                             event.id
-                        ] ?? 60
+                        ] ?? 60,
+                        maxAllowedMissedMinutes: 5
                     )
             }
         }

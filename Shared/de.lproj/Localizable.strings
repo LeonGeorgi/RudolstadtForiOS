@@ -4,6 +4,7 @@
 "news.short" = "News";
 "news.long" = "Neuigkeiten";
 "news.refresh.title" = "Aktualisieren";
+"news.featured_artists" = "Vorgestellte Künstler";
 
 "artist.notes.headline" = "NOTIZEN";
 "artist.add-note.button" = "Notizen hinzufügen";

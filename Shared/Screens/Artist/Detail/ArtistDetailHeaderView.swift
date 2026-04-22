@@ -75,7 +75,7 @@ struct ArtistDetailHeaderView: View {
                                     .font(.caption2.weight(.semibold))
                                     .foregroundStyle(.secondary)
                                 Text(localizedTags.joined(separator: " • "))
-                                    .font(.caption.weight(.semibold))
+                                    .font(.subheadline)
                                     .foregroundStyle(.secondary)
                                     .multilineTextAlignment(.center)
                             }

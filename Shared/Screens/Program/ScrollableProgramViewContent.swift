@@ -326,6 +326,7 @@ struct ScrollableProgramViewContent: View {
             }
         }
     }
+
     func getColorForStage(_ stage: Stage) -> Color {
         switch stage.area.id {
         case 1:

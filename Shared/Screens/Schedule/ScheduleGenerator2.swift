@@ -1,6 +1,7 @@
 import Foundation
 
 class ScheduleGenerator2 {
+    private let scheduleArrivalBufferMinutes = 2
 
     init(
         allEvents: [Event],
@@ -14,7 +15,10 @@ class ScheduleGenerator2 {
         self.allArtists = allArtists
         var dict: [Int: Int] = [:]
         for (idAsString, rating) in artistRatings {
-            dict[Int(idAsString)!] = rating
+            guard let id = Int(idAsString) else {
+                continue
+            }
+            dict[id] = rating
         }
         self.artistRatings = dict
         self.eventDurations = eventDurations
@@ -32,133 +36,88 @@ class ScheduleGenerator2 {
         let storedEvents = allEvents.filter { event in
             storedEventIds.contains(event.id)
         }
+        .sorted(by: eventSortOrder)
+        let storedEventIdsSet = Set(storedEvents.map { $0.id })
+        let storedArtistIds = Set(storedEvents.map { $0.artist.id })
+
         let now = Date.now
         let interestingEvents = allEvents.filter { event in
             userIsInterestedInArtist(artist: event.artist)
+                && !storedEventIdsSet.contains(event.id)
+                && !storedArtistIds.contains(event.artist.id)
                 && !intersects(events: storedEvents, current: event)
                 && isEventInFuture(event: event, now: now)
         }
+        .sorted(by: recommendationSortOrder)
 
-        let interestingArtistIds = allArtists.filter { artist in
-            userIsInterestedInArtist(artist: artist)
-        }
-        .map { artist in
-            artist.id
+        let interestingEventsByArtist = Dictionary(grouping: interestingEvents) { event in
+            event.artist.id
         }
 
-        // Generate start solution
         var solution: [Event] = storedEvents
-        for event in interestingEvents.shuffled() {
-            if !solution.contains(where: { (solutionEvent: Event) in
-                solutionEvent.artist.id == event.artist.id
-                    || intersects(e1: solutionEvent, e2: event)
+        let artistIdsByPriority = interestingEventsByArtist.keys.sorted {
+            firstArtistId,
+            secondArtistId in
+            let firstRating = artistRatings[firstArtistId] ?? 0
+            let secondRating = artistRatings[secondArtistId] ?? 0
+            if firstRating == secondRating {
+                return firstArtistId < secondArtistId
+            }
+            return firstRating > secondRating
+        }
+
+        // Deterministic initial fill: one best-fitting event per artist.
+        for artistId in artistIdsByPriority {
+            let artistEvents = (interestingEventsByArtist[artistId] ?? [])
+                .sorted(by: recommendationSortOrder)
+            if let firstFeasibleEvent = artistEvents.first(where: { event in
+                !intersects(events: solution, current: event)
             }) {
-                solution.append(event)
+                solution.append(firstFeasibleEvent)
             }
         }
+        solution.sort(by: eventSortOrder)
 
-        // Calculate solution score
-        var score = 0
-        for event in solution {
-            score += calculateScore(for: event)
-        }
-        let iterations = max(200, min(interestingEvents.count * 20, 1000))
-        print("Calculating recommendations in \(iterations) iterations")
-        let optimalScore = interestingArtistIds.map { artistId in
-            let rating = (artistRatings[artistId] ?? 0)
-            return rating * rating
-        }.reduce(0, +)
-        print("Initial score: \(score); Best possible score: \(optimalScore)")
-        let solutionArtistIds = Set(
-            solution.map {
-                $0.artist.id
-            }
-        )
-        var remainingArtistIds = Set(
-            interestingArtistIds.filter { artistId in
-                !solutionArtistIds.contains(artistId)
-            }
-        )
-
-        var bestSolutionSoFar: [Event] = []
-        var bestSolutionScore: Int = 0
-
-        for t in 0..<iterations {
-            let eventsOfRemainingArtists = interestingEvents.filter { event in
-                remainingArtistIds.contains(event.artist.id)
-            }
-
-            // Choose one event of an artist who does not occur in the schedule yet
-            guard
-                let eventToAdd: Event = eventsOfRemainingArtists.randomElement()
-            else {
-                print("Optimal solution found")
-                break
-            }
-
-            // Calculate which events intersect with the new event
-            let eventsToRemove: [Event] = solution.filter {
-                intersects(e1: $0, e2: eventToAdd)
-            }
-
-            // Calculate if the replacement should be carried out
-
-            var replace: Bool = false
-
-            var scoreDiff = calculateScore(for: eventToAdd)
-            for event in eventsToRemove {
-                scoreDiff -= calculateScore(for: event)
-            }
-
-            let oldScore = score
-            let newScore = oldScore + scoreDiff
-
-            if newScore >= oldScore {
-                // New solution is not worse than the old one
-                replace = true
-            } else {
-                // Select with decreasing probability
-                let probability =
-                    Float(iterations - t) / Float(iterations * 10)
-                    * Float(17 + scoreDiff) / 17.0
-                if Float.random(in: 0.0..<1.0) < probability {
-                    //print("\(oldScore) -> \(newScore)")
-                    replace = true
-                }
-            }
-
-            if replace {
-                // Backup old solution, if score was higher
-                if oldScore > newScore {
-                    bestSolutionSoFar = solution
-                    bestSolutionScore = oldScore
+        // Deterministic local improvement:
+        // allow replacement of non-stored items when score strictly improves.
+        var improved = true
+        while improved {
+            improved = false
+            for eventToAdd in interestingEvents {
+                if solution.contains(where: { $0.id == eventToAdd.id }) {
+                    continue
                 }
 
-                // Do the actual replacement
-                for event in eventsToRemove {
-                    if let index = solution.firstIndex(where: {
-                        $0.id == event.id
-                    }) {
-                        solution.remove(at: index)
-                        // solutionArtistIds.remove(event.artist.id)
-                        remainingArtistIds.insert(event.artist.id)
-                    }
+                let removableConflicts = solution.filter { existingEvent in
+                    !storedEventIdsSet.contains(existingEvent.id)
+                        && (existingEvent.artist.id == eventToAdd.artist.id
+                            || intersects(e1: existingEvent, e2: eventToAdd))
                 }
-                solution.append(eventToAdd)
-                // solutionArtistIds.insert(newEvent.artist.id)
-                remainingArtistIds.remove(eventToAdd.artist.id)
 
-                score = newScore
+                let scoreToRemove = removableConflicts.reduce(0) { partial, event in
+                    partial + calculateScore(for: event)
+                }
+                let scoreDiff = calculateScore(for: eventToAdd) - scoreToRemove
+                if scoreDiff <= 0 {
+                    continue
+                }
+
+                let removableIds = Set(removableConflicts.map { $0.id })
+                let candidateSolutionWithoutConflicts = solution.filter { event in
+                    !removableIds.contains(event.id)
+                }
+                if intersects(events: candidateSolutionWithoutConflicts, current: eventToAdd) {
+                    continue
+                }
+
+                solution = candidateSolutionWithoutConflicts + [eventToAdd]
+                solution.sort(by: eventSortOrder)
+                improved = true
             }
         }
-        score = 0
-        for event in solution {
-            score += calculateScore(for: event)
-        }
-        if bestSolutionScore > score {
-            print("Selected backup solution, because it was better")
-            solution = bestSolutionSoFar
-            score = bestSolutionScore
+
+        let score = solution.reduce(0) { partial, event in
+            partial + calculateScore(for: event)
         }
         print("Final score \(score)")
         return solution
@@ -187,6 +146,25 @@ class ScheduleGenerator2 {
         return rating * rating
     }
 
+    private func eventSortOrder(lhs: Event, rhs: Event) -> Bool {
+        if lhs.festivalDay != rhs.festivalDay {
+            return lhs.festivalDay < rhs.festivalDay
+        }
+        if lhs.startTimeInMinutes != rhs.startTimeInMinutes {
+            return lhs.startTimeInMinutes < rhs.startTimeInMinutes
+        }
+        return lhs.id < rhs.id
+    }
+
+    private func recommendationSortOrder(lhs: Event, rhs: Event) -> Bool {
+        let lhsScore = calculateScore(for: lhs)
+        let rhsScore = calculateScore(for: rhs)
+        if lhsScore != rhsScore {
+            return lhsScore > rhsScore
+        }
+        return eventSortOrder(lhs: lhs, rhs: rhs)
+    }
+
     func eventsFor(artist: Artist) -> [Event] {
         if let cachedEvents = artistEventCache[artist.id] {
             return cachedEvents
@@ -203,7 +181,9 @@ class ScheduleGenerator2 {
         return e1.intersects(
             with: e2,
             event1Duration: eventDurations?[e1.id] ?? 60,
-            event2Duration: eventDurations?[e2.id] ?? 60
+            event2Duration: eventDurations?[e2.id] ?? 60,
+            maxAllowedMissedMinutes: 0,
+            arrivalBufferMinutes: scheduleArrivalBufferMinutes
         )
     }
 

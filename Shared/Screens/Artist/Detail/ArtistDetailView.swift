@@ -18,7 +18,6 @@ struct ArtistDetailView: View {
 
     @State private var artistBackgroundColor: Color
     @State private var descriptionBackgroundColor: Color
-    @State private var descriptionBackgroundStartY = CGFloat.infinity
 
     init(artist: Artist, highlightedEventId: Int?) {
         self.artist = artist
@@ -74,15 +73,8 @@ struct ArtistDetailView: View {
     }
 
     var body: some View {
-        ZStack {
-            ArtistDetailSplitBackground(
-                artistBackgroundColor: artistBackgroundColor,
-                descriptionBackgroundColor: descriptionBackgroundColor,
-                descriptionBackgroundStartY: descriptionBackgroundStartY
-            )
-
-            ScrollView {
-                VStack(spacing: 0) {
+        ScrollView {
+            VStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 18) {
                         ArtistDetailHeaderView(
                             artist: artist,
@@ -107,22 +99,23 @@ struct ArtistDetailView: View {
                     .padding(.top, 12)
                     .padding(.bottom, 18)
 
-                    ArtistAISummaryBlock(artist: artist)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 2)
+                    VStack(spacing: 0) {
+                        ArtistAISummaryBlock(artist: artist)
+                            .padding(.horizontal, 16)
+                            .padding(.top, 10)
+                            .padding(.bottom, 2)
 
-                    ArtistDescriptionBlock(
-                        description: artist.formattedDescription,
-                        backgroundColor: descriptionBackgroundColor
-                    )
+                        ArtistDescriptionBlock(
+                            description: artist.formattedDescription,
+                            backgroundColor: .clear
+                        )
 
-                    ArtistBrowseGenresBlock(artist: artist)
-                }
+                        ArtistBrowseGenresBlock(artist: artist)
+                    }
+                    .background(descriptionBackgroundColor)
             }
         }
-        .onPreferenceChange(DescriptionBackgroundStartPreferenceKey.self) { startY in
-            descriptionBackgroundStartY = startY
-        }
+        .background(artistBackgroundColor.ignoresSafeArea())
         .toolbarBackground(.visible, for: .navigationBar)
         .onChange(of: systemColorScheme) {
             applyCachedColors(for: systemColorScheme)

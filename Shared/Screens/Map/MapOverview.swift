@@ -51,13 +51,13 @@ struct MapOverview: View {
         }
         .navigationBarTitle("locations.title", displayMode: .inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(
-                    settings.mapType == 0
-                        ? "list.title" : "map.title"
-                ) {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
                     settings.toggleMapType()
+                } label: {
+                    Image(systemName: settings.mapType == 0 ? "list.bullet" : "map")
                 }
+                .accessibilityLabel(settings.mapType == 0 ? "list.title" : "map.title")
             }
         }
         .toolbarBackground(

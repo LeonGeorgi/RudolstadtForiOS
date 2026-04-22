@@ -10,15 +10,18 @@ struct NewsListView: View {
         renderContent()
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("news.refresh.title") {
+                    Button {
                         refreshButtonDisabled = true
                         Task {
                             await dataStore
                                 .updateAndLoadNewsIfNecessary()
                             refreshButtonDisabled = false
                         }
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
                     }
                     .disabled(refreshButtonDisabled)
+                    .accessibilityLabel("news.refresh.title")
                 }
             }
             .navigationTitle("news.long")

@@ -1,30 +1,5 @@
 import SwiftUI
 
-struct ArtistDetailSplitBackground: View {
-    let artistBackgroundColor: Color
-    let descriptionBackgroundColor: Color
-    let descriptionBackgroundStartY: CGFloat
-
-    var body: some View {
-        GeometryReader { proxy in
-            if descriptionBackgroundStartY < proxy.size.height {
-                let splitY = max(descriptionBackgroundStartY, 0)
-
-                VStack(spacing: 0) {
-                    artistBackgroundColor
-                        .frame(height: splitY)
-                    descriptionBackgroundColor
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-                .ignoresSafeArea()
-            } else {
-                artistBackgroundColor
-                    .ignoresSafeArea()
-            }
-        }
-    }
-}
-
 struct ArtistAISummaryBlock: View {
     let artist: Artist
 
@@ -68,14 +43,6 @@ struct ArtistAISummaryBlock: View {
                     .foregroundStyle(.secondary)
             }
             .shadow(color: .black.opacity(0.06), radius: 4, x: 0, y: 1)
-            .overlay {
-                GeometryReader { proxy in
-                    Color.clear.preference(
-                        key: DescriptionBackgroundStartPreferenceKey.self,
-                        value: proxy.frame(in: .global).minY - 12
-                    )
-                }
-            }
         }
     }
 }
@@ -180,17 +147,7 @@ struct ArtistDescriptionBlock: View {
             .padding(.top, 6)
             .padding(.bottom, 32)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                backgroundColor
-                    .overlay {
-                        GeometryReader { proxy in
-                            Color.clear.preference(
-                                key: DescriptionBackgroundStartPreferenceKey.self,
-                                value: proxy.frame(in: .global).minY
-                            )
-                        }
-                    }
-            )
+            .background(backgroundColor)
         }
     }
 }
@@ -228,14 +185,6 @@ struct ArtistBrowseGenresBlock: View {
                 .padding(.top, 14)
                 .padding(.bottom, 26)
         }
-    }
-}
-
-struct DescriptionBackgroundStartPreferenceKey: SwiftUI.PreferenceKey {
-    static let defaultValue = CGFloat.infinity
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = min(value, nextValue())
     }
 }
 

@@ -8,17 +8,33 @@ import MapKit
 import SwiftUI
 
 struct StageDetailView: View {
+    fileprivate static let walkingSpeedMetersPerMinute = 80.0
+    fileprivate static let walkDistancesByStage = loadWalkDistancesByStage(
+        fileName: "stage_walk_distances"
+    )
+    fileprivate static let distanceFormatter: MeasurementFormatter = {
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.unitStyle = .short
+        return formatter
+    }()
+    fileprivate static let walkTimeFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute]
+        formatter.maximumUnitCount = 1
+        formatter.unitsStyle = .short
+        return formatter
+    }()
+
     let stage: Stage
     let highlightedEventId: Int?
 
     @EnvironmentObject var dataStore: DataStore
 
-    @State var nearbyStages: [StageDistance] = []
     @State var selectedDay: Int = -1
-    @State private var nearbyBackgroundStartY = CGFloat.infinity
     @State private var isShowingInteractiveMap = false
     @State private var interactiveMapRecenterTrigger = 0
-    @State private var selectedEventForNavigation: Event?
+    @State private var onlyStagesWithConcerts = true
 
     func events(_ entities: FestivalData) -> [Int: [Event]] {
         Dictionary(
@@ -44,27 +60,16 @@ struct StageDetailView: View {
         Color(.secondarySystemBackground)
     }
 
-    private var isEventNavigationPresented: Binding<Bool> {
-        Binding(
-            get: { selectedEventForNavigation != nil },
-            set: { isPresented in
-                if !isPresented {
-                    selectedEventForNavigation = nil
-                }
-            }
-        )
+    private var nearbyStages: [StageDistance] {
+        guard case .success(let entities) = dataStore.data else {
+            return []
+        }
+        return calculateNearbyStages(entities)
     }
 
     var body: some View {
-        ZStack {
-            ArtistDetailSplitBackground(
-                artistBackgroundColor: Color(.systemBackground),
-                descriptionBackgroundColor: nearbySectionTint,
-                descriptionBackgroundStartY: nearbyBackgroundStartY
-            )
-
-            ScrollView {
-                VStack(spacing: 0) {
+        ScrollView {
+            VStack(spacing: 0) {
                     topMapHero
                         .padding(.top, 16)
 
@@ -79,19 +84,15 @@ struct StageDetailView: View {
                         nearbyStagesSection
                             .padding(.top, 20)
                     }
-                }
-                .padding(.bottom, 28)
             }
+            .padding(.bottom, 28)
         }
+        .background(Color(.systemBackground).ignoresSafeArea())
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .tabBar)
-        .onPreferenceChange(DescriptionBackgroundStartPreferenceKey.self) { startY in
-            nearbyBackgroundStartY = startY
-        }
         .onAppear {
             if case .success(let entities) = dataStore.data {
-                self.calculateNearbyStages(entities)
                 let days = self.eventDays(entities)
                 let highlightedEventDay = entities.events.first { event in
                     event.id == highlightedEventId
@@ -140,14 +141,6 @@ struct StageDetailView: View {
                             }
                         }
                     }
-            }
-        }
-        .navigationDestination(isPresented: isEventNavigationPresented) {
-            if let event = selectedEventForNavigation {
-                ArtistDetailView(
-                    artist: event.artist,
-                    highlightedEventId: event.id
-                )
             }
         }
     }
@@ -248,12 +241,38 @@ struct StageDetailView: View {
         let sortedNearbyStages = nearbyStages.sorted { first, second in
             first.distance < second.distance
         }
+        let filteredNearbyStages: [StageDistance]
+        if onlyStagesWithConcerts, case .success(let entities) = dataStore.data {
+            let stageIdsWithEvents = Set(entities.events.map { $0.stage.id })
+            filteredNearbyStages = sortedNearbyStages.filter { stageDistance in
+                stageIdsWithEvents.contains(stageDistance.stage.id)
+            }
+        } else {
+            filteredNearbyStages = sortedNearbyStages
+        }
 
         return VStack(alignment: .leading, spacing: 12) {
-            sectionHeader("stage.nearby")
+            HStack(spacing: 12) {
+                sectionHeader("stage.nearby")
+                Spacer()
+                Button {
+                    onlyStagesWithConcerts.toggle()
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(
+                            systemName: onlyStagesWithConcerts
+                                ? "checkmark.square.fill" : "square"
+                        )
+                        Text("Only stages")
+                            .font(.caption)
+                    }
+                    .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+            }
 
             VStack(spacing: 0) {
-                ForEach(Array(sortedNearbyStages.enumerated()), id: \.element.id) { index, stageDistance in
+                ForEach(Array(filteredNearbyStages.enumerated()), id: \.element.id) { index, stageDistance in
                     NavigationLink(
                         value: AppNavigationRoute.stage(
                             id: stageDistance.stage.id,
@@ -266,7 +285,7 @@ struct StageDetailView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(stageDistance.stage.localizedName)
                                     .lineLimit(1)
-                                Text("\(Int(stageDistance.distance / 10) * 10) METER")
+                                Text(stageDistance.distanceAndWalkTimeText)
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -282,7 +301,7 @@ struct StageDetailView: View {
                     }
                     .buttonStyle(.plain)
 
-                    if index < sortedNearbyStages.count - 1 {
+                    if index < filteredNearbyStages.count - 1 {
                         Divider()
                             .padding(.leading, 40)
                     }
@@ -293,17 +312,7 @@ struct StageDetailView: View {
         .padding(.top, 18)
         .padding(.bottom, 30)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            nearbySectionTint
-                .overlay {
-                    GeometryReader { proxy in
-                        Color.clear.preference(
-                            key: DescriptionBackgroundStartPreferenceKey.self,
-                            value: proxy.frame(in: .global).minY
-                        )
-                    }
-                }
-        )
+        .background(nearbySectionTint)
     }
 
     private func sectionHeader(_ titleKey: LocalizedStringKey) -> some View {
@@ -312,39 +321,50 @@ struct StageDetailView: View {
             .foregroundStyle(.secondary)
     }
 
-    func calculateNearbyStages(_ entities: FestivalData) {
-        self.nearbyStages = entities.stages.filter { stage in
-            stage.area.id == self.stage.area.id && stage.id != self.stage.id
-        }.map { stage in
-            StageDistance(
-                stage: stage,
-                distance: calculateAirDistance(first: self.stage, second: stage)
-            )
-        }
-        /*for stage in allStages {
-            if stage == self.stage {
-                continue
+    func calculateNearbyStages(_ entities: FestivalData) -> [StageDistance] {
+        entities.stages
+            .filter { stage in
+                stage.id != self.stage.id
             }
-            calculateWalkingDistance(first: self.stage, second: stage) { distance in
-                if distance <= 500 {
-                    self.nearbyStages.append(StageDistance(stage: stage, distance: distance))
-                }
+            .map { stage in
+                let walkingDistance = self.walkingDistanceInMeters(to: stage)
+                let fallbackAirDistance = calculateAirDistance(
+                    first: self.stage,
+                    second: stage
+                )
+                return StageDistance(
+                    stage: stage,
+                    distance: walkingDistance ?? fallbackAirDistance,
+                    walkingDistanceInMeters: walkingDistance,
+                    estimatedWalkMinutes: walkingDistance.map(
+                        estimateWalkMinutes(distanceInMeters:)
+                    )
+                )
             }
-        }*/
+            .sorted { first, second in
+                first.distance < second.distance
+            }
     }
 
     func renderEvent(_ event: Event) -> some View {
         let shouldBeHighlighted = highlightedEventId == event.id
-        return StageEventCell(event: event, imageWidth: 64, imageHeight: 56)
-            .padding(.vertical, 8)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                shouldBeHighlighted ? Color.yellow.opacity(0.22) : Color.clear
+        return NavigationLink(
+            value: AppNavigationRoute.artist(
+                id: event.artist.id,
+                highlightedEventId: event.id
             )
-            .contentShape(Rectangle())
-            .onTapGesture {
-                selectedEventForNavigation = event
-            }
+        ) {
+            StageEventCell(event: event, imageWidth: 64, imageHeight: 56)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(
+                    shouldBeHighlighted ? Color.yellow.opacity(0.22) : Color.clear
+                )
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, -16)
     }
 
     func calculateAirDistance(first: Stage, second: Stage) -> Double {
@@ -359,43 +379,21 @@ struct StageDetailView: View {
         return destination.distance(from: start)
     }
 
-    func calculateWalkingDistance(
-        first: Stage,
-        second: Stage,
-        completion: @escaping (Double) -> Void
-    ) {
+    private func walkingDistanceInMeters(to otherStage: Stage) -> Double? {
+        let fromId = self.stage.id
+        let toId = otherStage.id
 
-        let start = CLLocation(
-            latitude: first.latitude,
-            longitude: first.longitude
-        )
-        let destination = CLLocation(
-            latitude: second.latitude,
-            longitude: second.longitude
-        )
-
-        let request: MKDirections.Request = MKDirections.Request()
-
-        let sourcePM = MKPlacemark(coordinate: start.coordinate)
-        let destinationPM = MKPlacemark(coordinate: destination.coordinate)
-        request.source = MKMapItem(placemark: sourcePM)
-        request.destination = MKMapItem(placemark: destinationPM)
-
-        // Walking distance
-        request.transportType = MKDirectionsTransportType.walking
-
-        // If you're open to getting more than one route,
-        // requestsAlternateRoutes = true; else requestsAlternateRoutes = false;
-        request.requestsAlternateRoutes = false
-
-        let directions = MKDirections(request: request)
-
-        directions.calculate { (response, error) in
-            print((response, error))
-            if let response = response, let route = response.routes.first {
-                completion(route.expectedTravelTime)
-            }
+        if let directDistance = Self.walkDistancesByStage[fromId]?[toId] {
+            return directDistance
         }
+        if let inverseDistance = Self.walkDistancesByStage[toId]?[fromId] {
+            return inverseDistance
+        }
+        return nil
+    }
+
+    private func estimateWalkMinutes(distanceInMeters: Double) -> Int {
+        max(1, Int((distanceInMeters / Self.walkingSpeedMetersPerMinute).rounded()))
     }
 }
 
@@ -418,9 +416,62 @@ private struct MapLocateButtonStyle: ViewModifier {
 struct StageDistance: Identifiable {
     let stage: Stage
     let distance: Double
+    let walkingDistanceInMeters: Double?
+    let estimatedWalkMinutes: Int?
 
     var id: Int {
         stage.id
+    }
+
+    var distanceAndWalkTimeText: String {
+        if let walkingDistanceInMeters, let estimatedWalkMinutes {
+            let distanceString = StageDetailView.distanceFormatter.string(
+                from: Measurement(value: walkingDistanceInMeters, unit: UnitLength.meters)
+            )
+            let estimatedSeconds = TimeInterval(estimatedWalkMinutes * 60)
+            let timeString =
+                StageDetailView.walkTimeFormatter.string(from: estimatedSeconds)
+                ?? "\(estimatedWalkMinutes) min"
+            return "\(distanceString) • ~\(timeString)"
+        }
+
+        let airDistanceRoundedTo10m = Int(distance / 10.0) * 10
+        let distanceString = StageDetailView.distanceFormatter.string(
+            from: Measurement(
+                value: Double(airDistanceRoundedTo10m),
+                unit: UnitLength.meters
+            )
+        )
+        return distanceString
+    }
+}
+
+private func loadWalkDistancesByStage(fileName: String) -> [Int: [Int: Double]] {
+    guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+        print("Could not find file \(fileName).json in bundle")
+        return [:]
+    }
+
+    do {
+        let data = try Data(contentsOf: url)
+        let decoded = try JSONDecoder().decode([String: [String: Double]].self, from: data)
+        return decoded.reduce(into: [Int: [Int: Double]]()) { partialResult, entry in
+            guard let sourceStageId = Int(entry.key) else {
+                return
+            }
+            let convertedTargets = entry.value.reduce(into: [Int: Double]()) {
+                targetResult,
+                targetEntry in
+                guard let targetStageId = Int(targetEntry.key) else {
+                    return
+                }
+                targetResult[targetStageId] = targetEntry.value
+            }
+            partialResult[sourceStageId] = convertedTargets
+        }
+    } catch {
+        print("Error decoding \(fileName).json: \(error)")
+        return [:]
     }
 }
 

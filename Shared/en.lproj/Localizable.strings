@@ -4,6 +4,7 @@
 "news.short" = "News";
 "news.long" = "News";
 "news.refresh.title" = "Refresh";
+"news.featured_artists" = "Featured artists";
 
 "artist.notes.headline" = "NOTES";
 "artist.add-note.button" = "Add notes";
