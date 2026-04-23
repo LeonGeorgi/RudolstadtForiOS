@@ -26,7 +26,7 @@ jobs:
           xcodebuild test \
             -project "RudolstadtForiOS.xcodeproj" \
             -scheme "RudolstadtForiOS (iOS)" \
-            -destination "platform=iOS Simulator,name=iPhone 16 Pro" \
+            -destination "platform=iOS Simulator,name=iPhone 17 Pro,OS=26.4.1" \
             -derivedDataPath "$DERIVED_DATA_PATH" \
             -resultBundlePath "$RESULT_BUNDLE_PATH" \
             CODE_SIGNING_ALLOWED=NO \
