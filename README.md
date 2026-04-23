@@ -4,6 +4,9 @@ This is an unofficial client for the so called "Rudolstadt-Festival" written in 
 ## Screenshots
 ![Screenshots](Screenshots.png "Screenshots")
 
+Screenshot UI tests run on GitHub Actions for every push via `.github/workflows/ios-screenshot-tests.yml`.
+Each workflow run uploads extracted PNG screenshots plus the full `.xcresult` bundle as downloadable artifacts in the run summary.
+
 ## Special Features
 - Dark mode
 - Search in lists

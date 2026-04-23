@@ -23,6 +23,10 @@ struct ContentView: View {
     @State private var artistsPath = NavigationPath()
     @State private var newsPath = NavigationPath()
     @State private var morePath = NavigationPath()
+
+    private var isScreenshotMode: Bool {
+        ProcessInfo.processInfo.arguments.contains("-screenshotMode")
+    }
     
     private var selectionBinding: Binding<AppTab> {
         Binding(
@@ -139,14 +143,16 @@ struct ContentView: View {
     var body: some View {
         appTabView
         .onAppear {
-            UNUserNotificationCenter.current()
-                .requestAuthorization(options: [.alert, .sound, .badge]) {
-                    granted,
-                    error in
-                    print(
-                        "Permission granted: \(granted), error: \(String(describing: error))"
-                    )
-                }
+            if !isScreenshotMode {
+                UNUserNotificationCenter.current()
+                    .requestAuthorization(options: [.alert, .sound, .badge]) {
+                        granted,
+                        error in
+                        print(
+                            "Permission granted: \(granted), error: \(String(describing: error))"
+                        )
+                    }
+            }
             // dataStore.setupUpdateNewsTask()
             print("test")
         }

@@ -1,0 +1,77 @@
+name: iOS Screenshot Tests
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  screenshot-tests:
+    runs-on: macos-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Run screenshot tests
+        env:
+          RESULT_BUNDLE_PATH: ${{ runner.temp }}/AppStoreScreenshots.xcresult
+          DERIVED_DATA_PATH: ${{ runner.temp }}/DerivedData
+          XCODEBUILD_LOG_PATH: ${{ runner.temp }}/xcodebuild-screenshot-tests.log
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project "RudolstadtForiOS.xcodeproj" \
+            -scheme "RudolstadtForiOS (iOS)" \
+            -destination "platform=iOS Simulator,name=iPhone 16 Pro" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -resultBundlePath "$RESULT_BUNDLE_PATH" \
+            CODE_SIGNING_ALLOWED=NO \
+            | tee "$XCODEBUILD_LOG_PATH"
+
+      - name: Extract screenshots from result bundle
+        if: always()
+        env:
+          RESULT_BUNDLE_PATH: ${{ runner.temp }}/AppStoreScreenshots.xcresult
+          SCREENSHOT_EXPORT_PATH: ${{ runner.temp }}/exported-screenshots
+        run: ./scripts/extract-screenshots.sh "$RESULT_BUNDLE_PATH" "$SCREENSHOT_EXPORT_PATH"
+
+      - name: Upload extracted screenshots
+        id: upload_screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-screenshots-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/exported-screenshots
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload xcresult bundle and logs
+        id: upload_xcresult
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-screenshot-test-diagnostics-${{ github.run_number }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/AppStoreScreenshots.xcresult
+            ${{ runner.temp }}/xcodebuild-screenshot-tests.log
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Add workflow summary
+        if: always()
+        env:
+          SCREENSHOT_ARTIFACT_URL: ${{ steps.upload_screenshots.outputs.artifact-url }}
+          XCRESULT_ARTIFACT_URL: ${{ steps.upload_xcresult.outputs.artifact-url }}
+        run: |
+          {
+            echo "## Screenshot Test Artifacts"
+            echo
+            echo "- Extracted screenshots: ${SCREENSHOT_ARTIFACT_URL:-not uploaded}"
+            echo "- XCResult bundle and logs: ${XCRESULT_ARTIFACT_URL:-not uploaded}"
+            echo
+            echo "Artifacts are also available at the bottom of this workflow run."
+          } >> "$GITHUB_STEP_SUMMARY"

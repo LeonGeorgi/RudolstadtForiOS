@@ -1,0 +1,93 @@
+{
+  "configurations" : [
+    {
+      "id" : "E2AA1A10-BAE3-4C1F-B3A4-2D8F8B510101",
+      "name" : "English-Light",
+      "options" : {
+        "environmentVariableEntries" : [
+          {
+            "key" : "APP_STORE_SCREENSHOT_LOCALE",
+            "value" : "en"
+          },
+          {
+            "key" : "APP_STORE_SCREENSHOT_APPEARANCE",
+            "value" : "light"
+          }
+        ],
+        "language" : "en",
+        "region" : "US"
+      }
+    },
+    {
+      "id" : "E2AA1A10-BAE3-4C1F-B3A4-2D8F8B510102",
+      "name" : "English-Dark",
+      "options" : {
+        "environmentVariableEntries" : [
+          {
+            "key" : "APP_STORE_SCREENSHOT_LOCALE",
+            "value" : "en"
+          },
+          {
+            "key" : "APP_STORE_SCREENSHOT_APPEARANCE",
+            "value" : "dark"
+          }
+        ],
+        "language" : "en",
+        "region" : "US"
+      }
+    },
+    {
+      "id" : "E2AA1A10-BAE3-4C1F-B3A4-2D8F8B510103",
+      "name" : "German-Light",
+      "options" : {
+        "environmentVariableEntries" : [
+          {
+            "key" : "APP_STORE_SCREENSHOT_LOCALE",
+            "value" : "de"
+          },
+          {
+            "key" : "APP_STORE_SCREENSHOT_APPEARANCE",
+            "value" : "light"
+          }
+        ],
+        "language" : "de",
+        "region" : "DE"
+      }
+    },
+    {
+      "id" : "E2AA1A10-BAE3-4C1F-B3A4-2D8F8B510104",
+      "name" : "German-Dark",
+      "options" : {
+        "environmentVariableEntries" : [
+          {
+            "key" : "APP_STORE_SCREENSHOT_LOCALE",
+            "value" : "de"
+          },
+          {
+            "key" : "APP_STORE_SCREENSHOT_APPEARANCE",
+            "value" : "dark"
+          }
+        ],
+        "language" : "de",
+        "region" : "DE"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:RudolstadtForiOS.xcodeproj",
+      "identifier" : "3551CC4728043624004F9471",
+      "name" : "RudolstadtForiOS (iOS)"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:RudolstadtForiOS.xcodeproj",
+        "identifier" : "3551CC5428043624004F9471",
+        "name" : "Tests iOS"
+      }
+    }
+  ],
+  "version" : 1
+}
