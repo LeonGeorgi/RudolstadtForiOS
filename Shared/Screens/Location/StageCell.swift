@@ -5,7 +5,7 @@ struct StageCell: View {
 
     var body: some View {
         HStack {
-            StageNumber(stage: stage, size: 30)
+            StageNumber(stage: stage, size: 34)
             Text(stage.localizedName)
         }
     }

@@ -53,7 +53,7 @@ struct MapView: View, Equatable {
                     VStack {
                         StageNumber(
                             stage: annotation.stage,
-                            size: 25,
+                            size: 28,
                             font: .system(size: 15)
                         )
                     }
@@ -148,27 +148,26 @@ struct MapView: View, Equatable {
 
     private func renderCircle(_ color: Color) -> some View {
         let size: CGFloat = 15
-        let ringWidth = max(1, size * 0.06)
 
         return Circle()
             .frame(width: size, height: size)
-            .foregroundStyle(
-                LinearGradient(
-                    colors: [color.opacity(0.82), color.opacity(1.0)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+            .foregroundStyle(color)
+            .overlay(
+                Circle()
+                    .frame(width: size * 0.42, height: size * 0.42)
+                    .foregroundStyle(.white.opacity(0.16))
+                    .offset(x: -size * 0.17, y: -size * 0.17)
             )
             .overlay(
                 Circle()
-                    .stroke(.white.opacity(0.65), lineWidth: ringWidth)
-                    .blur(radius: ringWidth * 0.25)
+                    .stroke(.black.opacity(0.12), lineWidth: 1)
             )
             .overlay(
                 Circle()
-                    .stroke(.black.opacity(0.15), lineWidth: 0.5)
+                    .inset(by: size * 0.12)
+                    .stroke(.white.opacity(0.28), lineWidth: 0.8)
             )
-            .shadow(color: .black.opacity(0.16), radius: 2, y: 1)
+            .shadow(color: .black.opacity(0.14), radius: 1.6, y: 1)
     }
 }
 

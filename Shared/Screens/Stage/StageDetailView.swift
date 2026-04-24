@@ -153,7 +153,7 @@ struct StageDetailView: View {
     private var stageHeader: some View {
         VStack(spacing: 10) {
             HStack(alignment: .center, spacing: 10) {
-                StageNumber(stage: stage, size: 34)
+                StageNumber(stage: stage, size: 40)
 
                 Text(stage.localizedName)
                     .font(.system(size: 32, weight: .bold, design: .rounded))
@@ -285,7 +285,7 @@ struct StageDetailView: View {
                         )
                     ) {
                         HStack(spacing: 12) {
-                            StageNumber(stage: stageDistance.stage, size: 26)
+                            StageNumber(stage: stageDistance.stage, size: 30)
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(stageDistance.stage.localizedName)

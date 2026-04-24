@@ -237,8 +237,8 @@ struct ScrollableProgramViewContent: View {
         return VStack(alignment: .center, spacing: 0) {
             StageNumber(
                 stage: stage,
-                size: 15,
-                font: .system(size: 10, weight: .bold)
+                size: 18,
+                font: .system(size: 11, weight: .heavy, design: .rounded)
             )
             .padding(.top, 4)
             .padding(.bottom, 4)
