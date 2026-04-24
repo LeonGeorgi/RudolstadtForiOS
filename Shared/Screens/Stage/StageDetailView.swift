@@ -88,9 +88,14 @@ struct StageDetailView: View {
             .padding(.bottom, 28)
         }
         .background(Color(.systemBackground).ignoresSafeArea())
-        .navigationTitle("")
+        .navigationTitle(stage.localizedName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .tabBar)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                EmptyView()
+            }
+        }
         .onAppear {
             if case .success(let entities) = dataStore.data {
                 let days = self.eventDays(entities)

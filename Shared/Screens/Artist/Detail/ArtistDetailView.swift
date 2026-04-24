@@ -124,8 +124,11 @@ struct ArtistDetailView: View {
             await loadArtistBackgroundColor()
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("")
+        .navigationTitle(artist.formattedName)
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                EmptyView()
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack {
                     Button(action: {
