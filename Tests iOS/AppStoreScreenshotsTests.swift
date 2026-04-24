@@ -1,6 +1,8 @@
 import XCTest
 
 final class AppStoreScreenshotsTests: XCTestCase {
+    private let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         false
     }
@@ -19,7 +21,12 @@ final class AppStoreScreenshotsTests: XCTestCase {
             app.launchArguments += ["-uiuserinterfacestyle", "light"]
         }
 
+        addUIInterruptionMonitor(withDescription: "System Permissions") { [weak self] alert -> Bool in
+            self?.acceptAlertIfNeeded(alert: alert) ?? false
+        }
+
         app.launch()
+        acceptSystemAlertIfNeeded(app: app)
         XCUIDevice.shared.orientation = .portrait
 
         XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 20))
@@ -58,6 +65,8 @@ final class AppStoreScreenshotsTests: XCTestCase {
             mapButton.tap()
         }
 
+        acceptSystemAlertIfNeeded(app: app)
+        waitForMapToRender(app: app)
         captureScreenshot(app: app, key: "locations_map")
     }
 
@@ -138,6 +147,60 @@ final class AppStoreScreenshotsTests: XCTestCase {
         attachment.name = name
         attachment.lifetime = .keepAlways
         add(attachment)
+    }
+
+    private func acceptSystemAlertIfNeeded(app: XCUIApplication) {
+        let alert = springboard.alerts.firstMatch
+        guard alert.waitForExistence(timeout: 2) else {
+            return
+        }
+
+        XCTAssertTrue(acceptAlertIfNeeded(alert: alert), "Could not accept system alert")
+
+        // Trigger interruption handling to complete before continuing.
+        app.tap()
+    }
+
+    private func acceptAlertIfNeeded(alert: XCUIElement) -> Bool {
+        let allowButtonLabels = [
+            "Allow",
+            "OK",
+            "Allow While Using App",
+            "Allow Once",
+            "Immer erlauben",
+            "Beim Verwenden der App erlauben",
+            "Einmal erlauben",
+            "Erlauben"
+        ]
+
+        for label in allowButtonLabels {
+            let button = alert.buttons[label]
+            if button.exists {
+                button.tap()
+                return true
+            }
+        }
+
+        let defaultButton = alert.buttons.matching(
+            NSPredicate(format: "userTestingAttributes CONTAINS %@", "default-button")
+        ).firstMatch
+        if defaultButton.exists {
+            defaultButton.tap()
+            return true
+        }
+
+        return false
+    }
+
+    private func waitForMapToRender(app: XCUIApplication) {
+        let map = app.otherElements["festival-map"].firstMatch
+        XCTAssertTrue(map.waitForExistence(timeout: 15), "Map did not appear")
+
+        let stageMarker = app.staticTexts["1"].firstMatch
+        _ = waitAndScrollToElement(app: app, element: stageMarker, timeout: 10)
+
+        // Apple Maps tiles can still paint shortly after the view appears.
+        sleep(2)
     }
 
     private func firstExistingStaticText(in app: XCUIApplication, candidates: [String], timeout: TimeInterval) -> XCUIElement {

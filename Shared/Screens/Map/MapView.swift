@@ -60,6 +60,7 @@ struct MapView: View, Equatable {
                 }
             }
         }
+        .accessibilityIdentifier("festival-map")
         .mapStyle(
             .standard(
                 elevation: .realistic,

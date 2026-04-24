@@ -16,6 +16,21 @@ struct RudolstadtForiOSApp: App {
     let iapManager = IAPManager()
     let newsRefresher = NewsRefresher()
 
+    private var screenshotColorScheme: ColorScheme? {
+        guard ProcessInfo.processInfo.arguments.contains("-screenshotMode") else {
+            return nil
+        }
+
+        switch ProcessInfo.processInfo.environment["APP_STORE_SCREENSHOT_APPEARANCE"] {
+        case "dark":
+            return .dark
+        case "light":
+            return .light
+        default:
+            return nil
+        }
+    }
+
     init() {
         configureCache()
     }
@@ -36,6 +51,7 @@ struct RudolstadtForiOSApp: App {
                 .environmentObject(dataStore)
                 .environmentObject(userSettings)
                 .environmentObject(iapManager)
+                .preferredColorScheme(screenshotColorScheme)
                 .onAppear {
                     userSettings.onChange {
                         DispatchQueue.global(qos: .userInitiated).async {
