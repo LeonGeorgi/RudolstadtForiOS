@@ -130,7 +130,8 @@ final class AppStoreScreenshotsTests: XCTestCase {
         let name = screenshotName(
             key: key,
             deviceName: ProcessInfo.processInfo.environment["SIMULATOR_DEVICE_NAME"] ?? "simulator",
-            localeCode: localeCode()
+            localeCode: localeCode(),
+            appearance: appearanceMode()
         )
 
         let attachment = XCTAttachment(screenshot: screenshot)
@@ -205,8 +206,13 @@ final class AppStoreScreenshotsTests: XCTestCase {
         ProcessInfo.processInfo.environment["APP_STORE_SCREENSHOT_APPEARANCE"] ?? "light"
     }
 
-    private func screenshotName(key: String, deviceName: String, localeCode: String) -> String {
-        "\(sanitize(key))_\(sanitize(localeCode))_\(sanitize(deviceName))"
+    private func screenshotName(
+        key: String,
+        deviceName: String,
+        localeCode: String,
+        appearance: String
+    ) -> String {
+        "\(sanitize(key))_\(sanitize(localeCode))_\(sanitize(appearance))_\(sanitize(deviceName))"
     }
 
     private func sanitize(_ value: String) -> String {
