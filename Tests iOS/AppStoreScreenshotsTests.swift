@@ -13,6 +13,8 @@ final class AppStoreScreenshotsTests: XCTestCase {
 
     func testMainScreenScreenshot() throws {
         let app = XCUIApplication()
+        app.launchEnvironment["APP_STORE_SCREENSHOT_APPEARANCE"] = appearanceMode()
+        app.launchEnvironment["APP_STORE_SCREENSHOT_LOCALE"] = localeCode()
         app.launchArguments += ["-screenshotMode", "YES"]
 
         if appearanceMode() == "dark" {
