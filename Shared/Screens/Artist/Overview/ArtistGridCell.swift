@@ -9,54 +9,113 @@ struct ArtistGridCell: View {
         settings.ratings["\(artist.id)"] ?? 0
     }
 
+    private var artistSymbol: String? {
+        settings.getArtistIcon(for: artist)
+    }
+
+    private var flags: String? {
+        let value = (artist.ai?.flags ?? []).joined(separator: "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return value.isEmpty ? nil : value
+    }
+
+    private var countryAndFlags: String? {
+        let country = artist.countries.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+        let value = [country, flags]
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return value.isEmpty ? nil : value
+    }
+
     var body: some View {
-        GeometryReader { proxy in
-            let imageWidth = proxy.size.width
-            let imageHeight = imageWidth * 7 / 8
+        VStack(alignment: .leading, spacing: 5) {
+            ZStack(alignment: .bottomTrailing) {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.secondary.opacity(0.12))
 
-            VStack(alignment: .leading, spacing: 7) {
-                ZStack(alignment: .bottomTrailing) {
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.secondary.opacity(0.12))
+                ArtistImageView(artist: artist, fullImage: true)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                    ArtistImageView(artist: artist, fullImage: true)
-                        .frame(width: imageWidth, height: imageHeight)
-                        .clipped()
-
-                    if artistRating != 0 {
-                        ArtistRatingSymbol(artist: artist)
-                            .font(.caption2)
-                            .foregroundColor(.primary)
-                            .padding(5)
-                            .background(.thinMaterial, in: Circle())
-                            .padding(4)
-                    }
-                }
-                .frame(width: imageWidth, height: imageHeight)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.secondary.opacity(0.16), lineWidth: 0.5)
-                )
-                .artistImageTransitionSource(
-                    id: artist.id,
-                    namespace: imageTransitionNamespace
-                )
-
-                Text(artist.formattedName)
-                    .font(.caption.weight(.semibold))
-                    .foregroundColor(.primary)
-                    .lineLimit(2)
-                    .lineSpacing(1)
-                    .multilineTextAlignment(.leading)
-                    .minimumScaleFactor(0.85)
-                    .frame(height: 36, alignment: .topLeading)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                ratingBadge
+                    .padding(8)
             }
-            .frame(width: imageWidth, alignment: .topLeading)
+            .aspectRatio(8 / 7, contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .stroke(Color.secondary.opacity(0.16), lineWidth: 0.5)
+            )
+            .artistImageTransitionSource(
+                id: artist.id,
+                namespace: imageTransitionNamespace
+            )
+
+            Text(artist.formattedName)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.94)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            if let countryAndFlags {
+                Text(countryAndFlags)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.94)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
         }
-        .aspectRatio(0.74, contentMode: .fit)
-        .contentShape(RoundedRectangle(cornerRadius: 8))
+        .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
+    @ViewBuilder
+    private var ratingBadge: some View {
+        if artistRating > 0 {
+            HStack(spacing: 4) {
+                ForEach(0..<artistRating, id: \.self) { _ in
+                    Image(systemName: settings.likeIcon)
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+            }
+            .padding(.horizontal, 9)
+            .padding(.vertical, 7)
+            .background(
+                Capsule(style: .continuous)
+                    .fill(.black.opacity(0.7))
+            )
+            .overlay(
+                Capsule(style: .continuous)
+                    .stroke(.white.opacity(0.18), lineWidth: 0.8)
+            )
+            .shadow(color: .black.opacity(0.28), radius: 8, y: 4)
+        } else if artistRating < 0 {
+            HStack(spacing: 5) {
+                Image(systemName: artistSymbol ?? "hand.thumbsdown.fill")
+                    .font(.system(size: 10, weight: .bold))
+                Text("Noted")
+                    .font(.caption2.weight(.bold))
+            }
+            .foregroundStyle(.white)
+            .padding(.horizontal, 9)
+            .padding(.vertical, 7)
+            .background(
+                Capsule(style: .continuous)
+                    .fill(.black.opacity(0.7))
+            )
+            .overlay(
+                Capsule(style: .continuous)
+                    .stroke(.white.opacity(0.18), lineWidth: 0.8)
+            )
+            .shadow(color: .black.opacity(0.28), radius: 8, y: 4)
+        } else {
+            Color.clear
+        }
     }
 }
 

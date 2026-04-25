@@ -14,10 +14,16 @@ struct StageEventCell: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                HStack(alignment: .center) {
+                HStack(alignment: .center, spacing: 12) {
                     ArtistImageView(artist: event.artist, fullImage: false)
                         .frame(width: imageWidth, height: imageHeight)
-                    VStack(alignment: .leading, spacing: 0) {
+                        .clipShape(
+                            RoundedRectangle(
+                                cornerRadius: 14,
+                                style: .continuous
+                            )
+                        )
+                    VStack(alignment: .leading, spacing: 2) {
                         if event.tag != nil {
                             Text(event.tag!.localizedName.uppercased())
                                 .font(.system(size: 11))
@@ -32,11 +38,8 @@ struct StageEventCell: View {
                         Text(event.timeAsString)
                             .lineLimit(1)
                             .font(.subheadline)
-
                     }
-
                 }
-
             }
             Spacer()
             if artistRating() != 0 {
@@ -44,10 +47,11 @@ struct StageEventCell: View {
                     .foregroundStyle(.secondary)
             }
             EventSavedIcon(event: self.event)
-        }.contextMenu {
+        }
+        .contextMenu {
             SaveEventButton(event: event)
-        }.id(settings.idFor(event: event))
-
+        }
+        .id(settings.idFor(event: event))
     }
 }
 
@@ -55,5 +59,7 @@ struct StageEventCell_Previews: PreviewProvider {
     static var previews: some View {
         StageEventCell(event: .example, imageWidth: 64, imageHeight: 56)
             .environmentObject(UserSettings())
+            .padding()
+            .background(Color(.systemGroupedBackground))
     }
 }

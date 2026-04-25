@@ -77,7 +77,7 @@ final class UserSettings: ObservableObject {
 
     // 0 - List
     // 1 - Grid
-    @UserDefault(key: "view/artist/viewtype", defaultValue: 0)
+    @UserDefault(key: "view/artist/viewtype/v2", defaultValue: 1)
     var artistViewType: Int
 
     // 0 - All

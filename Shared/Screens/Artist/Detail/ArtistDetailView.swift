@@ -109,8 +109,6 @@ struct ArtistDetailView: View {
                             description: artist.formattedDescription,
                             backgroundColor: .clear
                         )
-
-                        ArtistBrowseGenresBlock(artist: artist)
                     }
                     .background(descriptionBackgroundColor)
             }

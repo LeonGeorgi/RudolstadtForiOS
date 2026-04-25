@@ -364,7 +364,9 @@ struct StageDetailView: View {
                 .padding(.vertical, 8)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(
-                    shouldBeHighlighted ? Color.yellow.opacity(0.22) : Color.clear
+                    shouldBeHighlighted
+                        ? Color.rudolstadt.opacity(0.12)
+                        : Color.clear
                 )
                 .contentShape(Rectangle())
         }

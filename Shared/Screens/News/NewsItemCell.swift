@@ -13,30 +13,38 @@ struct NewsItemCell: View {
 
     var body: some View {
         NavigationLink(value: AppNavigationRoute.news(id: newsItem.id)) {
-            HStack(alignment: .firstTextBaseline) {
+            HStack(alignment: .top, spacing: 10) {
                 Circle()
                     .foregroundColor(.blue)
                     .frame(width: 10, height: 10)
+                    .padding(.top, 5)
                     .opacity(settings.readNews.contains(newsItem.id) ? 0 : 1)
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text(newsItem.formattedShortDescription)
                         .font(.headline)
-                        .lineLimit(1)
+                        .lineLimit(2)
                     if !newsItem.formattedLongDescription.isEmpty {
                         Text(newsItem.formattedLongDescription)
-                            .lineLimit(1)
+                            .lineLimit(2)
                             .font(.subheadline)
+                            .foregroundStyle(.secondary)
                     } else {
                         Text(newsItem.formattedContent)
-                            .lineLimit(1)
+                            .lineLimit(2)
                             .font(.subheadline)
+                            .foregroundStyle(.secondary)
                     }
                     Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
             }
+            .padding(.vertical, 6)
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
+        .listRowInsets(EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16))
+        .listRowBackground(Color.clear)
     }
 }
 
@@ -44,5 +52,7 @@ struct NewsItemCell_Previews: PreviewProvider {
     static var previews: some View {
         NewsItemCell(newsItem: .example)
             .environmentObject(UserSettings())
+            .padding()
+            .background(Color(.systemGroupedBackground))
     }
 }

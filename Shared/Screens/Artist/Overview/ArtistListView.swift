@@ -25,7 +25,7 @@ struct ArtistListView: View {
     @State var favoriteArtistsOnly = false
 
     private let gridColumns = Array(
-        repeating: GridItem(.flexible(), spacing: 10),
+        repeating: GridItem(.flexible(), spacing: 11),
         count: 3
     )
 
@@ -163,7 +163,7 @@ struct ArtistListView: View {
 
         if settings.artistViewType == 1 {
             ScrollView {
-                LazyVGrid(columns: gridColumns, spacing: 0) {
+                LazyVGrid(columns: gridColumns, spacing: 16) {
                     ForEach(sortedArtists) { artist in
                         NavigationLink(
                             value: AppNavigationRoute.artist(
@@ -180,8 +180,8 @@ struct ArtistListView: View {
                     }
                 }
                 .padding(.horizontal, 12)
-                .padding(.top, 12)
-                .padding(.bottom, 12)
+                .padding(.top, 14)
+                .padding(.bottom, 14)
             }
         } else {
             List {
