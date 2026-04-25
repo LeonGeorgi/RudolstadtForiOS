@@ -474,8 +474,7 @@
         "Hotel Rimini": {
             "browse_genres": [
                 "chanson_lied",
-                "jazz",
-                "pop"
+                "jazz"
             ],
             "en": {
                 "summary": "Poetic German chansonpop with strings and indie-jazz elegance",
@@ -641,8 +640,7 @@
         "Derya Yildirim und Grup Şimşek": {
             "browse_genres": [
                 "world_sounds",
-                "folk",
-                "pop"
+                "folk"
             ],
             "en": {
                 "summary": "Anatolian folk meets psychedelic soul & pop",
@@ -1152,8 +1150,7 @@
         "Der Nino aus Wien": {
             "browse_genres": [
                 "chanson_lied",
-                "rock",
-                "pop"
+                "rock"
             ],
             "en": {
                 "summary": "Vienna's unclassifiable alt-pop poet and chronicler",
@@ -2576,8 +2573,7 @@
         "Makatumbe": {
             "browse_genres": [
                 "world_sounds",
-                "dance",
-                "pop"
+                "dance"
             ],
             "en": {
                 "summary": "Global folk and pop blended for the dancefloor.",
@@ -3300,6 +3296,722 @@
                     "🇩🇪",
                     "🇸🇾",
                     "🇲🇦"
+                ]
+            }
+        },
+        "Songposium": {
+            "browse_genres": [
+                "chanson_lied",
+                "folk"
+            ],
+            "en": {
+                "summary": "Storytelling rooted in myth and legend",
+                "tags": [
+                    "storytelling",
+                    "western-influenced"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Geschichtenerzählen zwischen Mythos und Legende",
+                "tags": [
+                    "Storytelling",
+                    "Western-inspiriert"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Ralf Gehler / Vivien Zeller": {
+            "browse_genres": [
+                "folk",
+                "dance"
+            ],
+            "en": {
+                "summary": "Rediscover forgotten East German folk melodies",
+                "tags": [
+                    "DDR folk",
+                    "traditional dance music"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Vergessene DDR-Folkmelodien gemeinsam neu entdecken",
+                "tags": [
+                    "DDR-Folk",
+                    "traditionelle Tanzmusik"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Skizzen aus Österreich": {
+            "browse_genres": [
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Academic symposium exploring music from Mali",
+                "tags": [
+                    "symposium",
+                    "Mali"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Wissenschaftliches Symposium zur Musik aus Mali",
+                "tags": [
+                    "Symposium",
+                    "Mali"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Z.O.F.F.": {
+            "browse_genres": [
+                "folk",
+                "world_sounds",
+                "reggae_ska"
+            ],
+            "en": {
+                "summary": "Danceable world folk with Ska and Balkan",
+                "tags": [
+                    "World Folk",
+                    "Ska",
+                    "Balkan"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Tanzbarer Worldfolk mit Ska, Latin und Balkan",
+                "tags": [
+                    "Worldfolk",
+                    "Ska",
+                    "Balkan"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Duga": {
+            "browse_genres": [
+                "folk",
+                "electronic"
+            ],
+            "en": {
+                "summary": "Dark Nordic folk meets modern electronics",
+                "tags": [
+                    "nordic folk",
+                    "dark folk",
+                    "folk electronics"
+                ],
+                "countries": [
+                    "🇸🇪"
+                ]
+            },
+            "de": {
+                "summary": "Düsterer nordischer Folk trifft moderne Elektronik",
+                "tags": [
+                    "Nordic Folk",
+                    "Dark Folk",
+                    "Folk Elektronik"
+                ],
+                "countries": [
+                    "🇸🇪"
+                ]
+            }
+        },
+        "Eabhal": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Hebridean Gaelic folk with energetic instrumentals",
+                "tags": [
+                    "Scottish Gaelic folk",
+                    "Hebridean folk"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+                ]
+            },
+            "de": {
+                "summary": "Gälischer Hebriden-Folk mit energiegeladenen Instrumentals",
+                "tags": [
+                    "Schottischer Gälischer Folk",
+                    "Hebriden-Folk"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+                ]
+            }
+        },
+        "Tolstoys": {
+            "browse_genres": [
+                "pop",
+                "rock",
+                "electronic"
+            ],
+            "en": {
+                "summary": "Dreamy psychedelic pop with slavic trip-hop magic",
+                "tags": [
+                    "Dream Pop",
+                    "Psychedelic Rock"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Verträumter psychedelischer Pop mit slawischem Trip-Hop-Zauber",
+                "tags": [
+                    "Dream Pop",
+                    "Psychedelic Rock"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Bille": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Contemporary Latvian folk trio through the seasons",
+                "tags": [
+                    "Latvian Folk",
+                    "Vocal Trio"
+                ],
+                "countries": [
+                    "🇱🇻"
+                ]
+            },
+            "de": {
+                "summary": "Zeitgenössisches lettisches Volksmusik-Trio durch die Jahreszeiten",
+                "tags": [
+                    "Lettische Volksmusik",
+                    "Gesangstrio"
+                ],
+                "countries": [
+                    "🇱🇻"
+                ]
+            }
+        },
+        "Phønix & Embla": {
+            "browse_genres": [
+                "folk",
+                "dance"
+            ],
+            "en": {
+                "summary": "35 years of traditional Danish folk & dance",
+                "tags": [
+                    "Danish folk",
+                    "traditional dance music"
+                ],
+                "countries": [
+                    "🇩🇰"
+                ]
+            },
+            "de": {
+                "summary": "35 Jahre dänische Volkslieder und Tanzmelodien",
+                "tags": [
+                    "Dänischer Folk",
+                    "Traditionelle Tanzmusik"
+                ],
+                "countries": [
+                    "🇩🇰"
+                ]
+            }
+        },
+        "Muslim Shaggan": {
+            "browse_genres": [
+                "classical",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Virtuosic Pakistani master of Khayal singing",
+                "tags": [
+                    "Khayal",
+                    "Hindustani Classical Vocal"
+                ],
+                "countries": [
+                    "🇵🇰"
+                ]
+            },
+            "de": {
+                "summary": "Virtuoser pakistanischer Meister des Khayal-Gesangs",
+                "tags": [
+                    "Khayal",
+                    "Hindustani Klassischer Gesang"
+                ],
+                "countries": [
+                    "🇵🇰"
+                ]
+            }
+        },
+        "Clare Sands": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Irish folk fiddler blending tradition and world sounds",
+                "tags": [
+                    "Irish Folk",
+                    "World Fusion"
+                ],
+                "countries": [
+                    "🇮🇪"
+                ]
+            },
+            "de": {
+                "summary": "Irische Folk-Geigerin verbindet Tradition und Weltklang",
+                "tags": [
+                    "Irish Folk",
+                    "World Fusion"
+                ],
+                "countries": [
+                    "🇮🇪"
+                ]
+            }
+        },
+        "Bulgarka Junior Quartet": {
+            "browse_genres": [
+                "world_sounds",
+                "folk",
+                "acappella"
+            ],
+            "en": {
+                "summary": "Masters of Bulgarian polyphonic folk singing",
+                "tags": [
+                    "Bulgarian polyphonic singing",
+                    "traditional folk"
+                ],
+                "countries": [
+                    "🇧🇬"
+                ]
+            },
+            "de": {
+                "summary": "Meisterinnen des bulgarischen mehrstimmigen Volksgesangs",
+                "tags": [
+                    "Bulgarischer Vielstimmiger Gesang",
+                    "Traditioneller Folk"
+                ],
+                "countries": [
+                    "🇧🇬"
+                ]
+            }
+        },
+        "miniBaroši": {
+            "browse_genres": [
+                "folk",
+                "world_sounds",
+                "jazz"
+            ],
+            "en": {
+                "summary": "West Carpathian folk meets jazz and world music",
+                "tags": [
+                    "West Carpathian folk",
+                    "jazz-folk fusion"
+                ],
+                "countries": [
+                    "🇨🇿"
+                ]
+            },
+            "de": {
+                "summary": "Westkarpaten-Folk trifft Jazz und Weltmusik",
+                "tags": [
+                    "Westkarpaten-Folk",
+                    "Jazz-Folk-Fusion"
+                ],
+                "countries": [
+                    "🇨🇿"
+                ]
+            }
+        },
+        "Mwsog": {
+            "browse_genres": [
+                "folk",
+                "rock"
+            ],
+            "en": {
+                "summary": "Ritual Welsh acid folk meets psychedelic rock",
+                "tags": [
+                    "Acid Folk",
+                    "Psychedelic Rock"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+                ]
+            },
+            "de": {
+                "summary": "Ritueller walisischer Acid Folk trifft Psychedelic Rock",
+                "tags": [
+                    "Acid Folk",
+                    "Psychedelic Rock"
+                ],
+                "countries": [
+                    "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+                ]
+            }
+        },
+        "Wowakin": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Swinging Polish folk with a dark cabaret spirit",
+                "tags": [
+                    "Polish Folk",
+                    "Mazowsze",
+                    "Traditional Dance"
+                ],
+                "countries": [
+                    "🇵🇱"
+                ]
+            },
+            "de": {
+                "summary": "Schwungvoller polnischer Folk mit düsterem Kabarett-Geist",
+                "tags": [
+                    "Polnischer Folk",
+                    "Mazowsze",
+                    "Traditioneller Tanz"
+                ],
+                "countries": [
+                    "🇵🇱"
+                ]
+            }
+        },
+        "La Talvera": {
+            "browse_genres": [
+                "folk",
+                "dance"
+            ],
+            "en": {
+                "summary": "Traditional Occitan folk for dancing",
+                "tags": [
+                    "Occitan Folk",
+                    "Traditional Dance"
+                ],
+                "countries": [
+                    "🇫🇷"
+                ]
+            },
+            "de": {
+                "summary": "Traditioneller okzitanischer Folk zum Tanzen",
+                "tags": [
+                    "Okzitanischer Folk",
+                    "Traditioneller Tanz"
+                ],
+                "countries": [
+                    "🇫🇷"
+                ]
+            }
+        },
+        "Basaseachi Ballet Folclórico": {
+            "browse_genres": [
+                "dance",
+                "folk"
+            ],
+            "en": {
+                "summary": "Vibrant Mexican folk dance from the diaspora",
+                "tags": [
+                    "Ballet Folklórico",
+                    "Mexican Folklore"
+                ],
+                "countries": [
+                    "🇲🇽",
+                    "🇺🇸"
+                ]
+            },
+            "de": {
+                "summary": "Lebendiger mexikanischer Folkloretanz aus der Diaspora",
+                "tags": [
+                    "Ballet Folklórico",
+                    "Mexikanische Folklore"
+                ],
+                "countries": [
+                    "🇲🇽",
+                    "🇺🇸"
+                ]
+            }
+        },
+        "Rastak": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Iranian folk music from Persian to Baluchi roots",
+                "tags": [
+                    "Persian Folk",
+                    "Iranian Traditional Music"
+                ],
+                "countries": [
+                    "🇮🇷"
+                ]
+            },
+            "de": {
+                "summary": "Iranische Volksmusik von persischen bis balutschischen Wurzeln",
+                "tags": [
+                    "Persischer Folk",
+                    "Iranische Volksmusik"
+                ],
+                "countries": [
+                    "🇮🇷"
+                ]
+            }
+        },
+        "BandAdriatica": {
+            "browse_genres": [
+                "world_sounds",
+                "brass"
+            ],
+            "en": {
+                "summary": "Mediterranean brass fusion across cultures and borders",
+                "tags": [
+                    "Mediterranean Folk",
+                    "Balkan Brass"
+                ],
+                "countries": [
+                    "🇮🇹"
+                ]
+            },
+            "de": {
+                "summary": "Mediterraner Brass-Sound zwischen Balkan und Nahost",
+                "tags": [
+                    "Mediterraner Folk",
+                    "Balkan Brass"
+                ],
+                "countries": [
+                    "🇮🇹"
+                ]
+            }
+        },
+        "Bentu": {
+            "browse_genres": [
+                "world_sounds",
+                "folk"
+            ],
+            "en": {
+                "summary": "Afro-Brazilian Congado meets acoustic guitar mastery",
+                "tags": [
+                    "Congado",
+                    "Acoustic Fingerstyle Guitar"
+                ],
+                "countries": [
+                    "🇧🇷"
+                ]
+            },
+            "de": {
+                "summary": "Afro-brasilianischer Congado trifft Fingerstyle-Gitarrenkunst",
+                "tags": [
+                    "Congado",
+                    "Acoustic Fingerstyle Guitar"
+                ],
+                "countries": [
+                    "🇧🇷"
+                ]
+            }
+        },
+        "Päivi Hirvonen": {
+            "browse_genres": [
+                "folk",
+                "chanson_lied",
+                "pop"
+            ],
+            "en": {
+                "summary": "Lyric-driven Finnish folk meets cinematic pop",
+                "tags": [
+                    "Nordic Folk",
+                    "Cinematic Pop"
+                ],
+                "countries": [
+                    "🇫🇮"
+                ]
+            },
+            "de": {
+                "summary": "Textstarker finnischer Folk trifft cineastischen Pop",
+                "tags": [
+                    "Nordic Folk",
+                    "Cinematic Pop"
+                ],
+                "countries": [
+                    "🇫🇮"
+                ]
+            }
+        },
+        "Tamburica Cindrof": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Croatian Tamburica folk strings from Burgenland",
+                "tags": [
+                    "Tamburica",
+                    "Croatian Folk"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Kroatische Tamburica-Volksmusik aus dem Burgenland",
+                "tags": [
+                    "Tamburica",
+                    "Kroatische Volksmusik"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "die knoedel": {
+            "browse_genres": [
+                "folk",
+                "experimental"
+            ],
+            "en": {
+                "summary": "Avant-garde Tyrolean folk with wit and humor",
+                "tags": [
+                    "Neue Volksmusik",
+                    "Tyrolean folk",
+                    "avant-garde"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Avantgardistische Tiroler Volksmusik mit Witz",
+                "tags": [
+                    "Neue Volksmusik",
+                    "Tiroler Volksmusik",
+                    "Avantgarde"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            }
+        },
+        "Kapela Janiszewskich": {
+            "browse_genres": [
+                "folk",
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Traditional Polish folk dances from Pomerania",
+                "tags": [
+                    "Polish folk",
+                    "traditional dance music"
+                ],
+                "countries": [
+                    "🇵🇱"
+                ]
+            },
+            "de": {
+                "summary": "Traditionelle polnische Tanzmusik aus Pommern",
+                "tags": [
+                    "Polnische Volksmusik",
+                    "Traditionelle Tanzmusik"
+                ],
+                "countries": [
+                    "🇵🇱"
+                ]
+            }
+        },
+        "Katokye": {
+            "browse_genres": [
+                "world_sounds"
+            ],
+            "en": {
+                "summary": "Artist from Uganda",
+                "tags": [
+                    "Ugandan music"
+                ],
+                "countries": [
+                    "🇺🇬"
+                ]
+            },
+            "de": {
+                "summary": "Künstler aus Uganda",
+                "tags": [
+                    "Ugandische Musik"
+                ],
+                "countries": [
+                    "🇺🇬"
+                ]
+            }
+        },
+        "Christoph Lambertz & David Saam": {
+            "browse_genres": [
+                "chanson_lied",
+                "folk"
+            ],
+            "en": {
+                "summary": "Sing-along of Viennese songs, yodels & schlager",
+                "tags": [
+                    "Wiener Lied",
+                    "Austropop",
+                    "Jodler"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            },
+            "de": {
+                "summary": "Mitmachsingen mit Wiener Lied, Jodlern und Schlager",
+                "tags": [
+                    "Wiener Lied",
+                    "Austropop",
+                    "Jodler"
+                ],
+                "countries": [
+                    "🇩🇪"
+                ]
+            }
+        },
+        "Simon Mayer": {
+            "browse_genres": [
+                "folk",
+                "dance",
+                "performance"
+            ],
+            "en": {
+                "summary": "Folk dance meets contemporary performance art",
+                "tags": [
+                    "contemporary dance",
+                    "folk dance"
+                ],
+                "countries": [
+                    "🇦🇹"
+                ]
+            },
+            "de": {
+                "summary": "Volkstanz trifft zeitgenössische Performance-Kunst",
+                "tags": [
+                    "Zeitgenössischer Tanz",
+                    "Volkstanz"
+                ],
+                "countries": [
+                    "🇦🇹"
                 ]
             }
         }
