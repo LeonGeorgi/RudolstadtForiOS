@@ -1,3 +1,5 @@
+import Foundation
+
 func convertAPIRudolstadtDataToEntities(
     apiData: APIRudolstadtData,
     extraData: ExtraDataCollection
@@ -101,14 +103,14 @@ func convertAPIArtistToArtist(
         hiddenFromArtistList: apiArtist.hideArtist,
         artistType: artistType,
         someNumber: 0,
-        name: apiArtist.name,
-        countries: apiArtist.country ?? "",
+        name: apiArtist.name.decodingHTMLCharacterReferences(),
+        countries: (apiArtist.country ?? "").decodingHTMLCharacterReferences(),
         url: apiArtist.website,
         facebookID: apiArtist.facebook,
         youtubeID: apiArtist.video,
         instagram: apiArtist.instagram,
-        descriptionGerman: apiArtist.descriptionDE,
-        descriptionEnglish: apiArtist.descriptionEN,
+        descriptionGerman: apiArtist.descriptionDE.decodingHTMLCharacterReferences(),
+        descriptionEnglish: apiArtist.descriptionEN.decodingHTMLCharacterReferences(),
         thumbImageUrlString: "https://www.rudolstadt-festival.de/"
             + apiArtist.imgThumb,
         fullImageUrlString: "https://www.rudolstadt-festival.de/"
@@ -130,17 +132,17 @@ func convertAPINewsItemToNewsItem(apiNewsItem: APINewsItem) -> NewsItem {
         languageCode: apiNewsItem.language,
         dateAsString: date ?? "",
         timeAsString: time ?? "",
-        shortDescription: apiNewsItem.title,
-        longDescription: apiNewsItem.teaser,
-        content: apiNewsItem.text,
+        shortDescription: apiNewsItem.title.decodingHTMLCharacterReferences(),
+        longDescription: apiNewsItem.teaser.decodingHTMLCharacterReferences(),
+        content: apiNewsItem.text.decodingHTMLCharacterReferences(),
     )
 }
 
 func convertAPIAreaToArea(apiArea: APIArea) -> Area {
     return Area(
         id: apiArea.id,
-        germanName: apiArea.title,
-        englishName: apiArea.titleEN,
+        germanName: apiArea.title.decodingHTMLCharacterReferences(),
+        englishName: apiArea.titleEN.decodingHTMLCharacterReferences(),
     )
 }
 
@@ -195,10 +197,10 @@ func convertAPIStageToStage(apiStage: APIStage, areas: [Area]) -> Stage? {
     )
     return Stage(
         id: apiStage.id,
-        germanName: apiStage.title,
-        englishName: apiStage.titleEN,
-        germanDescription: apiStage.description,
-        englishDescription: apiStage.descriptionEN,
+        germanName: apiStage.title.decodingHTMLCharacterReferences(),
+        englishName: apiStage.titleEN.decodingHTMLCharacterReferences(),
+        germanDescription: apiStage.description?.decodingHTMLCharacterReferences(),
+        englishDescription: apiStage.descriptionEN?.decodingHTMLCharacterReferences(),
         stageNumber: apiStage.mapNumber,
         latitude: apiStage.lat,
         longitude: apiStage.lon,
@@ -210,7 +212,55 @@ func convertAPIStageToStage(apiStage: APIStage, areas: [Area]) -> Stage? {
 func convertAPITagToTag(apiTag: APITag) -> Tag {
     return Tag(
         id: apiTag.id,
-        germanName: apiTag.title,
-        englishName: apiTag.titleEN,
+        germanName: apiTag.title.decodingHTMLCharacterReferences(),
+        englishName: apiTag.titleEN.decodingHTMLCharacterReferences(),
     )
+}
+
+private extension String {
+    func decodingHTMLCharacterReferences() -> String {
+        var result = self
+
+        let hexPattern = #"&#x([0-9A-Fa-f]+);"#
+        if let regex = try? NSRegularExpression(pattern: hexPattern) {
+            let matches = regex.matches(
+                in: result,
+                range: NSRange(result.startIndex..., in: result)
+            )
+
+            for match in matches.reversed() {
+                guard
+                    let fullRange = Range(match.range(at: 0), in: result),
+                    let codeRange = Range(match.range(at: 1), in: result),
+                    let scalar = UInt32(result[codeRange], radix: 16),
+                    let unicodeScalar = UnicodeScalar(scalar)
+                else {
+                    continue
+                }
+                result.replaceSubrange(fullRange, with: String(unicodeScalar))
+            }
+        }
+
+        let decimalPattern = #"&#([0-9]+);"#
+        if let regex = try? NSRegularExpression(pattern: decimalPattern) {
+            let matches = regex.matches(
+                in: result,
+                range: NSRange(result.startIndex..., in: result)
+            )
+
+            for match in matches.reversed() {
+                guard
+                    let fullRange = Range(match.range(at: 0), in: result),
+                    let codeRange = Range(match.range(at: 1), in: result),
+                    let scalar = UInt32(result[codeRange], radix: 10),
+                    let unicodeScalar = UnicodeScalar(scalar)
+                else {
+                    continue
+                }
+                result.replaceSubrange(fullRange, with: String(unicodeScalar))
+            }
+        }
+
+        return result
+    }
 }

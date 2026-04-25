@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A10000022F990001004F9471 /* DataConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000012F990001004F9471 /* DataConverterTests.swift */; };
+		A1B2C3D42F9A0001004F9471 /* Rudolstadt.icon in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */; };
+		A1B2C3D52F9A0001004F9471 /* Rudolstadt.icon in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */; };
 		32A11008167D61F884FC47D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A112FBB6E762F9793E8E60 /* Localizable.strings */; };
 		32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */; };
 		32A11109B3E2EF29D23B96E8 /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1157496D310116DCD5206 /* ArtistImageView.swift */; };
@@ -158,6 +161,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A10000052F990001004F9471 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3551CC3C28043622004F9471 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3551CC4728043624004F9471;
+			remoteInfo = "RudolstadtForiOS (iOS)";
+		};
 		3551CC5628043624004F9471 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3551CC3C28043622004F9471 /* Project object */;
@@ -175,6 +185,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A10000012F990001004F9471 /* DataConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverterTests.swift; sourceTree = "<group>"; };
+		A10000042F990001004F9471 /* Unit Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Rudolstadt.icon; sourceTree = "<group>"; };
 		32A1103D160E868E6BF7EC72 /* ImageUrlUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUrlUtil.swift; sourceTree = "<group>"; };
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
 		32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistRatingSymbol.swift; sourceTree = "<group>"; };
@@ -269,6 +282,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A10000072F990001004F9471 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3551CC4528043624004F9471 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -483,6 +503,7 @@
 		354B966B2BE78CDD00F58179 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */,
 				353596FB2F9324F800723570 /* stage_walk_distances.json */,
 				353596F72F922C0B00723570 /* browse_taxonomy.json */,
 				356F08922E0A9382004F27E6 /* extra_data.json */,
@@ -510,6 +531,7 @@
 				3551CC4F28043624004F9471 /* macOS */,
 				3551CC5828043624004F9471 /* Tests iOS */,
 				3551CC6428043624004F9471 /* Tests macOS */,
+				A10000032F990001004F9471 /* Unit Tests */,
 				3551CC4928043624004F9471 /* Products */,
 				356A65BE2BE803310006761D /* Frameworks */,
 				353596FF2F98A18A00723570 /* AppStoreScreenshots.xctestplan */,
@@ -543,8 +565,17 @@
 				3551CC4E28043624004F9471 /* RudolstadtForiOS.app */,
 				3551CC5528043624004F9471 /* Tests iOS.xctest */,
 				3551CC6128043624004F9471 /* Tests macOS.xctest */,
+				A10000042F990001004F9471 /* Unit Tests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A10000032F990001004F9471 /* Unit Tests */ = {
+			isa = PBXGroup;
+			children = (
+				A10000012F990001004F9471 /* DataConverterTests.swift */,
+			);
+			path = "Unit Tests";
 			sourceTree = "<group>";
 		};
 		3551CC4F28043624004F9471 /* macOS */ = {
@@ -598,6 +629,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A10000092F990001004F9471 /* Unit Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000D2F990001004F9471 /* Build configuration list for PBXNativeTarget "Unit Tests" */;
+			buildPhases = (
+				A10000062F990001004F9471 /* Sources */,
+				A10000072F990001004F9471 /* Frameworks */,
+				A10000082F990001004F9471 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A100000A2F990001004F9471 /* PBXTargetDependency */,
+			);
+			name = "Unit Tests";
+			productName = "Unit Tests";
+			productReference = A10000042F990001004F9471 /* Unit Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		3551CC4728043624004F9471 /* RudolstadtForiOS (iOS) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3551CC7128043624004F9471 /* Build configuration list for PBXNativeTarget "RudolstadtForiOS (iOS)" */;
@@ -701,6 +750,10 @@
 						CreatedOnToolsVersion = 13.3;
 						TestTargetID = 3551CC4D28043624004F9471;
 					};
+					A10000092F990001004F9471 = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 3551CC4728043624004F9471;
+					};
 				};
 			};
 			buildConfigurationList = 3551CC3F28043622004F9471 /* Build configuration list for PBXProject "RudolstadtForiOS" */;
@@ -725,15 +778,24 @@
 				3551CC4D28043624004F9471 /* RudolstadtForiOS (macOS) */,
 				3551CC5428043624004F9471 /* Tests iOS */,
 				3551CC6028043624004F9471 /* Tests macOS */,
+				A10000092F990001004F9471 /* Unit Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A10000082F990001004F9471 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3551CC4628043624004F9471 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1B2C3D42F9A0001004F9471 /* Rudolstadt.icon in Resources */,
 				353596FC2F9324F800723570 /* stage_walk_distances.json in Resources */,
 				35D0A4892A07372A004C506D /* Colors.xcassets in Resources */,
 				3551CC6D28043624004F9471 /* Assets.xcassets in Resources */,
@@ -751,6 +813,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1B2C3D52F9A0001004F9471 /* Rudolstadt.icon in Resources */,
 				3551CC6E28043624004F9471 /* Assets.xcassets in Resources */,
 				35D0A48A2A07372A004C506D /* Colors.xcassets in Resources */,
 				32A11008167D61F884FC47D3 /* Localizable.strings in Resources */,
@@ -775,6 +838,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A10000062F990001004F9471 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000022F990001004F9471 /* DataConverterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3551CC4428043624004F9471 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -934,6 +1005,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A100000A2F990001004F9471 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3551CC4728043624004F9471 /* RudolstadtForiOS (iOS) */;
+			targetProxy = A10000052F990001004F9471 /* PBXContainerItemProxy */;
+		};
 		3551CC5728043624004F9471 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3551CC4728043624004F9471 /* RudolstadtForiOS (iOS) */;
@@ -982,6 +1058,61 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A100000B2F990001004F9471 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RJYK9W2A39;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.leongeorgi.Unit-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rudolstadt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Rudolstadt";
+				TEST_TARGET_NAME = "RudolstadtForiOS (iOS)";
+			};
+			name = Debug;
+		};
+		A100000C2F990001004F9471 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RJYK9W2A39;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.leongeorgi.Unit-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rudolstadt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Rudolstadt";
+				TEST_TARGET_NAME = "RudolstadtForiOS (iOS)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		3551CC6F28043624004F9471 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1098,7 +1229,7 @@
 		3551CC7228043624004F9471 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Rudolstadt;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1134,7 +1265,7 @@
 		3551CC7328043624004F9471 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Rudolstadt;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1174,7 +1305,7 @@
 		3551CC7528043624004F9471 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Rudolstadt;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1203,7 +1334,7 @@
 		3551CC7628043624004F9471 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Rudolstadt;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1313,6 +1444,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A100000D2F990001004F9471 /* Build configuration list for PBXNativeTarget "Unit Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000B2F990001004F9471 /* Debug */,
+				A100000C2F990001004F9471 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3551CC3F28043622004F9471 /* Build configuration list for PBXProject "RudolstadtForiOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
