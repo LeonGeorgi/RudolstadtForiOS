@@ -168,9 +168,19 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "ticket.type.festival" = "Dauerkarte";
 
 "donations.title" = "Spenden";
-"donations.description" = "Diese App wurde in meiner Freizeit entwickelt und ist kostenlos verfügbar. Wenn dir die App gefällt und du mir helfen möchtest, mein Festivalticket zu finanzieren, kannst du hier spenden. Vielen Dank! 😊";
-"donation.button.title" = "%@ meines Festivaltickets (%@)";
-"donations.disclaimer" = "Die Spenden gehen an mich (den Entwickler der App) persönlich und nicht an den Veranstalter des Festivals.";
+"donations.hero.title" = "App unterstützen";
+"donations.description" = "Diese App wird unabhängig in meiner Freizeit entwickelt und kostenlos bereitgestellt. Wenn sie dir beim Festival hilft, kannst du hier freiwillig etwas zur Weiterentwicklung und Pflege beitragen.";
+"donations.hero.note" = "Ganz ohne Verpflichtung. Die App bleibt selbstverständlich auch ohne Spende vollständig nutzbar.";
+"donations.hero.ticket-note" = "Wenn möglich, wird bei den Beiträgen zusätzlich der ungefähre Bezug zum Preis eines Festivaltickets angezeigt.";
+"donations.options.title" = "Beitrag wählen";
+"donations.options.description.ticket" = "Falls möglich, wird angezeigt, wie sich ein Beitrag grob zum Preis eines Festivaltickets verhält.";
+"donations.options.description.generic" = "Die Beiträge sind freiwillig und unterstützen die Pflege und Weiterentwicklung der App.";
+"donations.loading" = "Spendenoptionen werden geladen…";
+"donation.button.percentage" = "%.0f%%";
+"donation.card.caption.ticket" = "Etwa %@ eines Festivaltickets";
+"donation.card.caption.generic" = "Freiwilliger Beitrag";
+"donations.disclaimer.title" = "Hinweis";
+"donations.disclaimer" = "Spenden gehen direkt an mich als Entwickler dieser App und nicht an den Veranstalter des Festivals.";
 
 "settings.title" = "Einstellungen";
 "settings.language" = "Sprache ändern";

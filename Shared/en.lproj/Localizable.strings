@@ -169,9 +169,19 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "ticket.type.festival" = "Season ticket";
 
 "donations.title" = "Donate";
-"donations.description" = "This app was developed in my free time and is available for free. If you like the app and want to help me finance my festival ticket, you can donate here. Thank you very much! 😊";
-"donation.button.title" = "%@ of my festival ticket (%@)";
-"donations.disclaimer" = "Donations go to me (the developer of the app) personally and not to the organizer of the festival.";
+"donations.hero.title" = "Support the app";
+"donations.description" = "This app is developed independently in my free time and is available for free. If it helps you during the festival, you can optionally contribute to its maintenance and future improvements here.";
+"donations.hero.note" = "Completely optional. The app stays fully usable without a donation.";
+"donations.hero.ticket-note" = "Where possible, contributions also show their approximate relation to the price of a festival ticket.";
+"donations.options.title" = "Choose an amount";
+"donations.options.description.ticket" = "Where possible, the page shows how a contribution roughly relates to the price of a festival ticket.";
+"donations.options.description.generic" = "Contributions are optional and help support the maintenance and future development of the app.";
+"donations.loading" = "Loading donation options…";
+"donation.button.percentage" = "%.0f%%";
+"donation.card.caption.ticket" = "About %@ of a festival ticket";
+"donation.card.caption.generic" = "Optional contribution";
+"donations.disclaimer.title" = "Note";
+"donations.disclaimer" = "Donations go directly to me as the developer of this app, not to the festival organizer.";
 
 "settings.title" = "Settings";
 "settings.language" = "Change language";
