@@ -177,8 +177,12 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "donations.options.description.generic" = "Die Beiträge sind freiwillig und unterstützen die Pflege und Weiterentwicklung der App.";
 "donations.loading" = "Spendenoptionen werden geladen…";
 "donation.button.percentage" = "%.0f%%";
-"donation.card.caption.ticket" = "Etwa %@ eines Festivaltickets";
-"donation.card.caption.generic" = "Freiwilliger Beitrag";
+"donation.card.caption.200" = "Sehr lieb.";
+"donation.card.caption.500" = "Vielen Dank.";
+"donation.card.caption.1000" = "Das hilft spürbar.";
+"donation.card.caption.2000" = "Das ist wirklich großzügig.";
+"donation.card.caption.5000" = "Okay, das ist fast schon legendär.";
+"donation.card.caption.default" = "Danke dir.";
 "donations.disclaimer.title" = "Hinweis";
 "donations.disclaimer" = "Spenden gehen direkt an mich als Entwickler dieser App und nicht an den Veranstalter des Festivals.";
 

@@ -178,8 +178,12 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "donations.options.description.generic" = "Contributions are optional and help support the maintenance and future development of the app.";
 "donations.loading" = "Loading donation options…";
 "donation.button.percentage" = "%.0f%%";
-"donation.card.caption.ticket" = "About %@ of a festival ticket";
-"donation.card.caption.generic" = "Optional contribution";
+"donation.card.caption.200" = "Very kind.";
+"donation.card.caption.500" = "Thanks a lot.";
+"donation.card.caption.1000" = "That genuinely helps.";
+"donation.card.caption.2000" = "That is really generous.";
+"donation.card.caption.5000" = "Okay, that is almost legendary.";
+"donation.card.caption.default" = "Thank you.";
 "donations.disclaimer.title" = "Note";
 "donations.disclaimer" = "Donations go directly to me as the developer of this app, not to the festival organizer.";
 

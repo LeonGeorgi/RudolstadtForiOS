@@ -29,6 +29,7 @@ struct StageDetailView: View {
     let stage: Stage
     let highlightedEventId: Int?
 
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject var dataStore: DataStore
 
     @State var selectedDay: Int = -1
@@ -221,25 +222,32 @@ struct StageDetailView: View {
     private var topMapHero: some View {
         StageMapView(stage: stage)
             .allowsHitTesting(false)
-            .frame(height: 188)
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .aspectRatio(4.0 / 3.0, contentMode: .fill)
+            .frame(maxWidth: .infinity)
+            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .stroke(.white.opacity(0.22), lineWidth: 0.5)
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .stroke(mapPreviewStrokeColor, lineWidth: 0.5)
             )
-            .shadow(color: .black.opacity(0.28), radius: 18, x: 0, y: 10)
-            .padding(.horizontal, 34)
+            .shadow(color: .black.opacity(0.25), radius: 15, x: 0, y: 8)
+            .padding(.horizontal, 56)
             .overlay {
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
                     .fill(Color.clear)
-                    .padding(.horizontal, 34)
-                    .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    .padding(.horizontal, 56)
+                    .contentShape(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    )
                     .onTapGesture {
                         isShowingInteractiveMap = true
                     }
             }
             .accessibilityAddTraits(.isButton)
             .accessibilityLabel(Text("stage.map"))
+    }
+
+    private var mapPreviewStrokeColor: Color {
+        colorScheme == .dark ? .white.opacity(0.22) : .black.opacity(0.15)
     }
 
     private var nearbyStagesSection: some View {

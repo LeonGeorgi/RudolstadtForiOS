@@ -194,15 +194,19 @@ struct DonationButton: View {
     }
 
     private var secondaryLine: LocalizedStringKey {
-        if let percentage = formattedPercentage(of: product) {
-            return LocalizedStringKey(
-                String(
-                    format: NSLocalizedString("donation.card.caption.ticket", comment: ""),
-                    percentage
-                )
-            )
-        } else {
-            return "donation.card.caption.generic"
+        switch product.productIdentifier {
+        case "donation200":
+            return "donation.card.caption.200"
+        case "donation500":
+            return "donation.card.caption.500"
+        case "donation1000":
+            return "donation.card.caption.1000"
+        case "donation2000":
+            return "donation.card.caption.2000"
+        case "donation5000":
+            return "donation.card.caption.5000"
+        default:
+            return "donation.card.caption.default"
         }
     }
 
