@@ -27,11 +27,11 @@ struct StageNumber: View {
     }
 
     var textColor: Color {
-        stage.stageType == .other ? .black : .white
+        .white
     }
 
     private var usesLightText: Bool {
-        stage.stageType != .other
+        true
     }
 
     private var defaultFont: Font {

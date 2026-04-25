@@ -351,44 +351,27 @@ struct ScrollableProgramViewContent: View {
         switch event.artist.artistType {
         case .stage:
             if settings.savedEvents.contains(event.id) {
-                return Color.red
-                    .brightness(colorScheme == .light ? 0.2 : -0.2)
-                    .saturation(0.8)
+                return Color.artistTypeStageSaved
             } else {
-                return Color.red
-                    .brightness(colorScheme == .light ? 0.5 : -0.5)
-                    .saturation(0.4)
+                return Color.artistTypeStage
             }
         case .dance:
-
             if settings.savedEvents.contains(event.id) {
-                return Color.purple
-                    .brightness(colorScheme == .light ? 0.2 : -0.2)
-                    .saturation(0.6)
+                return Color.artistTypeDanceSaved
             } else {
-                return Color.purple
-                    .brightness(colorScheme == .light ? 0.5 : -0.5)
-                    .saturation(0.4)
+                return Color.artistTypeDance
             }
         case .street:
             if settings.savedEvents.contains(event.id) {
-                return Color.orange
-                    .brightness(colorScheme == .light ? 0.2 : -0.2)
-                    .saturation(0.6)
+                return Color.artistTypeStreetSaved
             } else {
-                return Color.orange
-                    .brightness(colorScheme == .light ? 0.4 : -0.4)
-                    .saturation(0.4)
+                return Color.artistTypeStreet
             }
         case .other:
             if settings.savedEvents.contains(event.id) {
-                return Color.green
-                    .brightness(colorScheme == .light ? 0.2 : -0.2)
-                    .saturation(0.6)
+                return Color.artistTypeOtherSaved
             } else {
-                return Color.green
-                    .brightness(colorScheme == .light ? 0.4 : -0.4)
-                    .saturation(0.4)
+                return Color.artistTypeOther
             }
         }
     }

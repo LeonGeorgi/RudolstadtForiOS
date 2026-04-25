@@ -67,7 +67,7 @@ struct MapView: View, Equatable {
                 pointsOfInterest: .including([.atm]),
             )
         )
-        .accentColor(.blue)
+        .accentColor(.rudolstadt)
         .onAppear {
             manager.startLocationTracking()
         }
