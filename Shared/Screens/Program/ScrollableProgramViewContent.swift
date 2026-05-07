@@ -125,7 +125,7 @@ struct ScrollableProgramViewContent: View {
 
                     VStack(spacing: 0) {
 
-                        ForEach(timeIntervals) { date in
+                        ForEach(timeIntervals, id: \.self) { date in
                             Divider()
                                 .frame(height: heightPerHour * 0.5)
                                 .padding(0)
@@ -408,11 +408,5 @@ struct ScrollableProgramViewContent_Previews: PreviewProvider {
             estimatedEventDurations: nil
         )
         .environmentObject(UserSettings())
-    }
-}
-
-extension Date: Identifiable {
-    public var id: Int {
-        self.hashValue
     }
 }

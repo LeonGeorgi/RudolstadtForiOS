@@ -99,6 +99,13 @@ struct AboutView: View {
                         )
                     }
             }
+            Section(header: Text("about.licenses.header")) {
+                Text("about.licenses.content")
+
+                NavigationLink(destination: LicensesView()) {
+                    Text("about.licenses.title")
+                }
+            }
         }.listStyle(GroupedListStyle())
             .font(.body)
             .navigationTitle("about.title")

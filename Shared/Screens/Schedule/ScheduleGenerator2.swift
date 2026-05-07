@@ -1,36 +1,183 @@
 import Foundation
 
-class ScheduleGenerator2 {
+struct RecommendationSnapshot: Equatable {
+    let recommendedEventIds: [Int]
+    let estimatedEventDurations: [Int: Int]
+}
+
+protocol RecommendationProviding {
+    func buildSnapshot(
+        data: FestivalData,
+        savedEventIds: [Int],
+        ratings: [String: Int],
+        now: Date
+    ) -> RecommendationSnapshot
+}
+
+final class RecommendationService: RecommendationProviding {
+    func buildSnapshot(
+        data: FestivalData,
+        savedEventIds: [Int],
+        ratings: [String: Int],
+        now: Date = .now
+    ) -> RecommendationSnapshot {
+        let estimatedEventDurations = estimateEventDurations(events: data.events)
+        let generator = ScheduleGenerator2(
+            allEvents: data.events,
+            storedEventIds: savedEventIds,
+            artistRatings: ratings,
+            eventDurations: estimatedEventDurations,
+            now: now
+        )
+
+        return RecommendationSnapshot(
+            recommendedEventIds: generator.generateRecommendations(),
+            estimatedEventDurations: estimatedEventDurations
+        )
+    }
+
+    func estimateEventDurations(events: [Event]) -> [Int: Int] {
+        let reversedEvents = events.sorted { e1, e2 in
+            e1.date > e2.date
+        }
+        let reversedEventsByStage = Dictionary(grouping: reversedEvents) { event in
+            event.stage.id
+        }
+        var eventDurations = [Int: Int]()
+
+        for (_, reversedEventsForStage) in reversedEventsByStage {
+            var subsequentEvent: Event? = nil
+            for currentEvent in reversedEventsForStage {
+                var length = 60
+                if let subsequentEvent {
+                    let minutesUntilNextEvent =
+                        subsequentEvent.date.timeIntervalSince(currentEvent.date) / 60
+                    let minutesUntilNextEventRoundedDown =
+                        floor(minutesUntilNextEvent / 30.0) * 30
+                    if minutesUntilNextEventRoundedDown < 30 {
+                        length = Int(minutesUntilNextEvent)
+                    } else if minutesUntilNextEventRoundedDown < 60 {
+                        length = Int(minutesUntilNextEventRoundedDown)
+                    } else {
+                        let halfWayTimeInterval =
+                            floor((minutesUntilNextEvent / 2) / 30.0) * 30
+                        if halfWayTimeInterval < 30 {
+                            length = Int(halfWayTimeInterval)
+                        } else if halfWayTimeInterval <= 90 {
+                            length = Int(halfWayTimeInterval)
+                        } else if minutesUntilNextEvent > 300 {
+                            length = 60
+                        } else {
+                            length = 90
+                        }
+                    }
+                }
+                eventDurations[currentEvent.id] = length
+                subsequentEvent = currentEvent
+            }
+        }
+
+        return eventDurations
+    }
+}
+
+struct RecommendationSchedulePresenter {
+    let dataState: LoadingEntity<FestivalData>
+    let recommendationState: LoadingEntity<[Int]>
+    let scheduleFilterType: ScheduleType
+    let savedEventIds: Set<Int>
+    let positiveRatedArtistIds: Set<Int>
+
+    var availableEventDays: [Int] {
+        guard case .success(let entities) = dataState else {
+            return []
+        }
+
+        return festivalDays(from: entities.events)
+    }
+
+    var shownEvents: LoadingEntity<[Event]> {
+        switch dataState {
+        case .loading:
+            return .loading
+        case .failure(let reason):
+            return .failure(reason)
+        case .success(let entities):
+            return mapShownEvents(from: entities.events)
+        }
+    }
+
+    private func mapShownEvents(from events: [Event]) -> LoadingEntity<[Event]> {
+        switch scheduleFilterType {
+        case .saved:
+            return .success(events.filter { event in
+                savedEventIds.contains(event.id)
+            })
+        case .interesting:
+            return .success(events.filter { event in
+                savedEventIds.contains(event.id)
+                    || positiveRatedArtistIds.contains(event.artist.id)
+            })
+        case .all:
+            return .success(events)
+        case .optimal:
+            switch recommendationState {
+            case .loading:
+                return .loading
+            case .failure(let reason):
+                return .failure(reason)
+            case .success(let recommendedEventIds):
+                let recommendedEventIdSet = Set(recommendedEventIds)
+                return .success(events.filter { event in
+                    savedEventIds.contains(event.id)
+                        || recommendedEventIdSet.contains(event.id)
+                })
+            }
+        }
+    }
+
+    private func festivalDays(from events: [Event]) -> [Int] {
+        Set(events.lazy.map { event in
+            event.festivalDay
+        }).sorted(by: <).filter { day in
+            if DataStore.year == 2023 && day < 6 {
+                return false
+            } else {
+                return true
+            }
+        }
+    }
+}
+
+final class ScheduleGenerator2 {
     private let scheduleArrivalBufferMinutes = 2
 
     init(
         allEvents: [Event],
         storedEventIds: [Int],
-        allArtists: [Artist],
         artistRatings: [String: Int],
-        eventDurations: [Int: Int]?
+        eventDurations: [Int: Int],
+        now: Date
     ) {
         self.allEvents = allEvents
         self.storedEventIds = Set(storedEventIds)
-        self.allArtists = allArtists
-        var dict: [Int: Int] = [:]
+        var normalizedRatings = [Int: Int]()
         for (idAsString, rating) in artistRatings {
             guard let id = Int(idAsString) else {
                 continue
             }
-            dict[id] = rating
+            normalizedRatings[id] = rating
         }
-        self.artistRatings = dict
+        self.artistRatings = normalizedRatings
         self.eventDurations = eventDurations
+        self.now = now
     }
 
     let allEvents: [Event]
     let storedEventIds: Set<Int>
-    let allArtists: [Artist]
     let artistRatings: [Int: Int]
-    let eventDurations: [Int: Int]?
-
-    var artistEventCache: [Int: [Event]] = Dictionary()
+    let eventDurations: [Int: Int]
+    let now: Date
 
     func generate() -> [Event] {
         let storedEvents = allEvents.filter { event in
@@ -40,13 +187,12 @@ class ScheduleGenerator2 {
         let storedEventIdsSet = Set(storedEvents.map { $0.id })
         let storedArtistIds = Set(storedEvents.map { $0.artist.id })
 
-        let now = Date.now
         let interestingEvents = allEvents.filter { event in
             userIsInterestedInArtist(artist: event.artist)
                 && !storedEventIdsSet.contains(event.id)
                 && !storedArtistIds.contains(event.artist.id)
                 && !intersects(events: storedEvents, current: event)
-                && isEventInFuture(event: event, now: now)
+                && isEventInFuture(event: event)
         }
         .sorted(by: recommendationSortOrder)
 
@@ -66,7 +212,6 @@ class ScheduleGenerator2 {
             return firstRating > secondRating
         }
 
-        // Deterministic initial fill: one best-fitting event per artist.
         for artistId in artistIdsByPriority {
             let artistEvents = (interestingEventsByArtist[artistId] ?? [])
                 .sorted(by: recommendationSortOrder)
@@ -78,8 +223,6 @@ class ScheduleGenerator2 {
         }
         solution.sort(by: eventSortOrder)
 
-        // Deterministic local improvement:
-        // allow replacement of non-stored items when score strictly improves.
         var improved = true
         while improved {
             improved = false
@@ -116,19 +259,7 @@ class ScheduleGenerator2 {
             }
         }
 
-        let score = solution.reduce(0) { partial, event in
-            partial + calculateScore(for: event)
-        }
-        print("Final score \(score)")
         return solution
-    }
-
-    private func isEventInFuture(event: Event, now: Date) -> Bool {
-        event.date >= now  //|| true // uncomment for testing, don't foget to comment again after that
-    }
-
-    private func userIsInterestedInArtist(artist: Artist) -> Bool {
-        (artistRatings[artist.id] ?? 0) > 0
     }
 
     func generateRecommendations() -> [Int] {
@@ -138,12 +269,19 @@ class ScheduleGenerator2 {
         .map { event in
             event.id
         }
-
     }
 
     func calculateScore(for event: Event) -> Int {
-        let rating = (artistRatings[event.artist.id] ?? 0)
+        let rating = artistRatings[event.artist.id] ?? 0
         return rating * rating
+    }
+
+    private func isEventInFuture(event: Event) -> Bool {
+        event.date >= now
+    }
+
+    private func userIsInterestedInArtist(artist: Artist) -> Bool {
+        (artistRatings[artist.id] ?? 0) > 0
     }
 
     private func eventSortOrder(lhs: Event, rhs: Event) -> Bool {
@@ -165,35 +303,19 @@ class ScheduleGenerator2 {
         return eventSortOrder(lhs: lhs, rhs: rhs)
     }
 
-    func eventsFor(artist: Artist) -> [Event] {
-        if let cachedEvents = artistEventCache[artist.id] {
-            return cachedEvents
-        } else {
-            let events = allEvents.filter { event in
-                event.artist.id == artist.id
-            }
-            artistEventCache[artist.id] = events
-            return events
-        }
-    }
-
-    func intersects(e1: Event, e2: Event) -> Bool {
-        return e1.intersects(
+    private func intersects(e1: Event, e2: Event) -> Bool {
+        e1.intersects(
             with: e2,
-            event1Duration: eventDurations?[e1.id] ?? 60,
-            event2Duration: eventDurations?[e2.id] ?? 60,
+            event1Duration: eventDurations[e1.id] ?? 60,
+            event2Duration: eventDurations[e2.id] ?? 60,
             maxAllowedMissedMinutes: 0,
             arrivalBufferMinutes: scheduleArrivalBufferMinutes
         )
     }
 
-    func intersects(events: [Event], current: Event) -> Bool {
+    private func intersects(events: [Event], current: Event) -> Bool {
         events.contains { event in
-            let collides = intersects(e1: event, e2: current)
-            /*if collides {
-                print("collides with \(event.shortWeekDay) \(event.timeAsString) \(event.artist.name)")
-            }*/
-            return collides
+            intersects(e1: event, e2: current)
         }
     }
 }

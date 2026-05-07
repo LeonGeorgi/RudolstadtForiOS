@@ -101,7 +101,7 @@ struct BrowseTaxonomyEntry: Codable, Hashable {
     }
 
     var localizedLabel: String {
-        if Locale.current.languageCode == "de" {
+        if Locale.current.appLanguageCodeIdentifier == "de" {
             return labelDE
         } else {
             return labelEN

@@ -6,11 +6,16 @@ struct DonationView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     let ticketPrice = 166.00
+    private let donationIDs: Set<String> = [
+        "donation200",
+        "donation500",
+        "donation1000",
+        "donation2000",
+        "donation5000",
+    ]
 
-    var sortedProducts: [SKProduct] {
-        iapManager.products.sorted { first, second in
-            first.price.doubleValue < second.price.doubleValue
-        }
+    var sortedProducts: [Product] {
+        iapManager.products
     }
 
     private var pageBackground: LinearGradient {
@@ -49,21 +54,10 @@ struct DonationView: View {
             .padding(.bottom, 28)
         }
         .background(pageBackground.ignoresSafeArea())
-        .onAppear {
-            let donationIDs: Set<String> = [
-                "donation200",
-                "donation500",
-                "donation1000",
-                "donation2000",
-                "donation5000",
-            ]
-            iapManager.fetchProducts(productIDs: donationIDs)
+        .task {
+            await iapManager.fetchProducts(productIDs: donationIDs)
         }
         .navigationBarTitle("donations.title", displayMode: .inline)
-    }
-
-    private var showsTicketReference: Bool {
-        sortedProducts.contains { $0.priceLocale.currencyCode == "EUR" }
     }
 
     private var heroCard: some View {
@@ -81,11 +75,6 @@ struct DonationView: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 
-            if showsTicketReference {
-                Text("donations.hero.ticket-note")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
         }
         .padding(20)
         .background(
@@ -121,7 +110,7 @@ struct DonationView: View {
             ],
             spacing: 12
         ) {
-            ForEach(sortedProducts, id: \.productIdentifier) { product in
+            ForEach(sortedProducts, id: \.id) { product in
                 DonationButton(product: product, ticketPrice: ticketPrice)
             }
         }
@@ -149,11 +138,11 @@ struct DonationButton: View {
     @EnvironmentObject var iapManager: IAPManager
     @Environment(\.colorScheme) private var colorScheme
 
-    var product: SKProduct
+    var product: Product
     let ticketPrice: Double
 
     private var tintColor: Color {
-        switch product.productIdentifier {
+        switch product.id {
         case "donation200":
             return Color.rudolstadt.opacity(0.82)
         case "donation500":
@@ -194,7 +183,7 @@ struct DonationButton: View {
     }
 
     private var secondaryLine: LocalizedStringKey {
-        switch product.productIdentifier {
+        switch product.id {
         case "donation200":
             return "donation.card.caption.200"
         case "donation500":
@@ -210,18 +199,15 @@ struct DonationButton: View {
         }
     }
 
-    func formattedPercentage(of product: SKProduct) -> String? {
-        guard product.priceLocale.currencyCode == "EUR" else { return nil }
-        let donationAmount = product.price.doubleValue * 0.7
+    func formattedPercentage(of product: Product) -> String? {
+        guard product.priceFormatStyle.currencyCode == "EUR" else { return nil }
+        let donationAmount = NSDecimalNumber(decimal: product.price).doubleValue
         let percentage = donationAmount / ticketPrice * 100
         return String(format: NSLocalizedString("donation.button.percentage", comment: ""), locale: Locale.current, percentage)
     }
 
-    func localizedPrice(_ product: SKProduct) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = product.priceLocale
-        return formatter.string(from: product.price) ?? "\(product.price)"
+    func localizedPrice(_ product: Product) -> String {
+        product.displayPrice
     }
 }
 

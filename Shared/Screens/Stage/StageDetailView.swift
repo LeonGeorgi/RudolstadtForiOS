@@ -104,7 +104,8 @@ struct StageDetailView: View {
                     event.id == highlightedEventId
                 }?.festivalDay
                 self.selectedDay =
-                    highlightedEventDay ?? Util.getCurrentFestivalDay(
+                    highlightedEventDay
+                    ?? FestivalDateUtilities.getCurrentFestivalDay(
                         eventDays: days
                     ) ?? days.first ?? -1
             }
@@ -197,8 +198,8 @@ struct StageDetailView: View {
                 let days = eventDays(entities)
                 if !days.isEmpty {
                     Picker("Date", selection: $selectedDay) {
-                        ForEach(days) { day in
-                            Text(Util.shortWeekDay(day: day)).tag(day)
+                        ForEach(days, id: \.self) { day in
+                            Text(FestivalDateUtilities.shortWeekDay(day: day)).tag(day)
                         }
                     }
                     .pickerStyle(.segmented)
@@ -487,12 +488,6 @@ private func loadWalkDistancesByStage(fileName: String) -> [Int: [Int: Double]] 
     } catch {
         print("Error decoding \(fileName).json: \(error)")
         return [:]
-    }
-}
-
-extension Int: Identifiable {
-    public var id: Int {
-        self
     }
 }
 

@@ -74,7 +74,7 @@ struct SettingsView: View {
         URLCache.shared.removeAllCachedResponses()
         SDImageCache.shared.clearMemory()
         SDImageCache.shared.clearDisk {
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 isClearingCache = false
                 isShowingCacheClearedAlert = true
             }

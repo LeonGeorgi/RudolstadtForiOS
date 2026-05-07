@@ -20,7 +20,15 @@ struct MapView: View, Equatable {
 
     var locations: [MapLocation]
 
-    @State private var mapRegion = MKCoordinateRegion(
+    @State private var cameraPosition: MapCameraPosition = .region(
+        Self.initialFestivalRegion
+    )
+    @State private var isAdjustingRegion = false
+
+    @StateObject private var manager = LocationManager()
+    @State private var enabledStageFilters = Set(MapLegendFilter.allCases)
+
+    private static let initialFestivalRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
             latitude: 50.719877,
             longitude: 11.338449
@@ -28,8 +36,15 @@ struct MapView: View, Equatable {
         span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
     )
 
-    @StateObject private var manager = LocationManager()
-    @State private var enabledStageFilters = Set(MapLegendFilter.allCases)
+    private static let recenterFestivalRegion = MKCoordinateRegion(
+        center: initialFestivalRegion.center,
+        span: MKCoordinateSpan(latitudeDelta: 0.024, longitudeDelta: 0.024)
+    )
+
+    private static let maximumZoomOutSpan = MKCoordinateSpan(
+        latitudeDelta: 0.06,
+        longitudeDelta: 0.06
+    )
 
     private var filteredLocations: [MapLocation] {
         locations.filter { location in
@@ -39,23 +54,30 @@ struct MapView: View, Equatable {
 
     var body: some View {
         Map(
-            coordinateRegion: $mapRegion,
-            showsUserLocation: true,
-            annotationItems: filteredLocations
-        ) { annotation in
-            MapAnnotation(coordinate: annotation.coordinate) {
-                NavigationLink(
-                    value: AppNavigationRoute.stage(
-                        id: annotation.stage.id,
-                        highlightedEventId: nil
-                    )
+            position: $cameraPosition,
+            interactionModes: [.pan, .zoom]
+        ) {
+            UserAnnotation()
+
+            ForEach(filteredLocations) { annotation in
+                Annotation(
+                    "",
+                    coordinate: annotation.coordinate,
+                    anchor: .bottom
                 ) {
-                    VStack {
-                        StageNumber(
-                            stage: annotation.stage,
-                            size: 28,
-                            font: .system(size: 15)
+                    NavigationLink(
+                        value: AppNavigationRoute.stage(
+                            id: annotation.stage.id,
+                            highlightedEventId: nil
                         )
+                    ) {
+                        VStack {
+                            StageNumber(
+                                stage: annotation.stage,
+                                size: 28,
+                                font: .system(size: 15)
+                            )
+                        }
                     }
                 }
             }
@@ -68,6 +90,20 @@ struct MapView: View, Equatable {
             )
         )
         .accentColor(.rudolstadt)
+        .onMapCameraChange(frequency: .continuous) { context in
+            guard !isAdjustingRegion else {
+                return
+            }
+
+            let clampedRegion = clampedZoomOutRegion(for: context.region)
+            guard !clampedRegion.isApproximatelyEqual(to: context.region) else {
+                return
+            }
+
+            isAdjustingRegion = true
+            cameraPosition = .region(clampedRegion)
+            isAdjustingRegion = false
+        }
         .onAppear {
             manager.startLocationTracking()
         }
@@ -100,6 +136,47 @@ struct MapView: View, Equatable {
             .padding(.top, 8)
             .padding(.horizontal, 10)
         }
+        .overlay(alignment: .bottomTrailing) {
+            Button {
+                recenterToFestivalArea(animated: true)
+            } label: {
+                Image(systemName: "scope")
+                    .font(.title3.weight(.semibold))
+                    .frame(width: 36, height: 36)
+            }
+            .modifier(MapRecenterButtonStyle())
+            .padding(.trailing, 16)
+            .padding(.bottom, 24)
+            .accessibilityLabel("Center on festival area")
+        }
+    }
+
+    private func recenterToFestivalArea(animated: Bool) {
+        let update = {
+            cameraPosition = .region(Self.recenterFestivalRegion)
+        }
+
+        if animated {
+            withAnimation(.easeInOut(duration: 0.28), update)
+        } else {
+            update()
+        }
+    }
+
+    private func clampedZoomOutRegion(for region: MKCoordinateRegion) -> MKCoordinateRegion {
+        MKCoordinateRegion(
+            center: region.center,
+            span: MKCoordinateSpan(
+                latitudeDelta: Swift.min(
+                    region.span.latitudeDelta,
+                    Self.maximumZoomOutSpan.latitudeDelta
+                ),
+                longitudeDelta: Swift.min(
+                    region.span.longitudeDelta,
+                    Self.maximumZoomOutSpan.longitudeDelta
+                )
+            )
+        )
     }
 
     private func legendToggleChip(
@@ -168,6 +245,37 @@ struct MapView: View, Equatable {
                     .stroke(.white.opacity(0.28), lineWidth: 0.8)
             )
             .shadow(color: .black.opacity(0.14), radius: 1.6, y: 1)
+    }
+}
+
+private extension MKCoordinateRegion {
+    func isApproximatelyEqual(
+        to other: MKCoordinateRegion,
+        tolerance: Double = 0.000_001
+    ) -> Bool {
+        abs(center.latitude - other.center.latitude) < tolerance
+            && abs(center.longitude - other.center.longitude) < tolerance
+            && abs(span.latitudeDelta - other.span.latitudeDelta) < tolerance
+            && abs(span.longitudeDelta - other.span.longitudeDelta) < tolerance
+    }
+}
+
+private struct MapRecenterButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .buttonStyle(.glass)
+                .buttonBorderShape(.circle)
+                .controlSize(.regular)
+        } else {
+            content
+                .background(.ultraThinMaterial, in: Circle())
+                .overlay {
+                    Circle()
+                        .stroke(.white.opacity(0.22), lineWidth: 0.8)
+                }
+                .shadow(color: .black.opacity(0.14), radius: 10, y: 4)
+        }
     }
 }
 

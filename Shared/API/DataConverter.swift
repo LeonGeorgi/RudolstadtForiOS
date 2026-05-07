@@ -78,7 +78,7 @@ func convertAPIArtistToArtist(
     events: [APIEvent]
 ) -> Artist {
     let eventsForArtist = events.filter { event in
-        event.artist.id == apiArtist.id
+        event.artist == apiArtist.id
     }
     let tagsForArist = eventsForArtist.flatMap { event in
         event.tags.compactMap { tagId in
@@ -98,13 +98,15 @@ func convertAPIArtistToArtist(
         browseGenreIDs: extaArtistData?.browseGenres ?? [],
         flags: extaArtistData?.en?.countries ?? extaArtistData?.de?.countries ?? []
     )
+    let countries = (apiArtist.country ?? "").decodingHTMLCharacterReferences()
     return Artist(
         id: apiArtist.id,
         hiddenFromArtistList: apiArtist.hideArtist,
         artistType: artistType,
         someNumber: 0,
         name: apiArtist.name.decodingHTMLCharacterReferences(),
-        countries: (apiArtist.country ?? "").decodingHTMLCharacterReferences(),
+        countries: countries,
+        countryCodes: parseArtistCountryCodes(countries),
         url: apiArtist.website,
         facebookID: apiArtist.facebook,
         youtubeID: apiArtist.video,
@@ -155,10 +157,10 @@ func convertAPIEventToEvent(
     guard let dayInJuly = apiEvent.getDayInJuly() else {
         return nil
     }
-    guard let stage = stages.first(where: { $0.id == apiEvent.stage.id }) else {
+    guard let stage = stages.first(where: { $0.id == apiEvent.stage }) else {
         return nil
     }
-    guard let artist = artists.first(where: { $0.id == apiEvent.artist.id })
+    guard let artist = artists.first(where: { $0.id == apiEvent.artist })
     else {
         return nil
     }
@@ -189,7 +191,7 @@ func convertAPIStageCategoryToStageType(apiCategory: APIStageCategory)
 }
 
 func convertAPIStageToStage(apiStage: APIStage, areas: [Area]) -> Stage? {
-    guard let area = areas.first(where: { $0.id == apiStage.area.id }) else {
+    guard let area = areas.first(where: { $0.id == apiStage.area }) else {
         return nil
     }
     let stageType = convertAPIStageCategoryToStageType(

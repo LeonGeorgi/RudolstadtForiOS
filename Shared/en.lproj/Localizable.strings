@@ -55,6 +55,12 @@ You can find the artists you find interesting when you click on \"Favorites\" in
 "artists.saved.empty" = "You have not saved any artists yet. Mark your interest on the artist page to save the artist here.";
 "artists.all.button" = "All artists";
 "artists.favorites.button" = "Favorites";
+"artists.view.world_map" = "World map";
+"artists.map.instructions" = "Tap a country to see the artists coming from there.";
+"artists.map.empty" = "No country data is available for the current artist selection.";
+"artists.map.selected_count" = "%1$lld artists from %2$@";
+"artists.map.legend" = "Darker countries mean more artists.";
+"artists.map.show_artists" = "Show artists";
 
 "artisttypes.all" = "Select all";
 
@@ -141,6 +147,16 @@ The app does not collect any data from you. Everything you do in the app stays o
 When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. I have now completed my master's degree in computer science and went to Japan with a DAAD scholarship. That means I cannot be at the festival this year, but I still hope the app helps you have a good time in Rudolstadt.
 
 I built this app in my spare time because I wanted a more convenient way to use the festival program. Originally I just wanted to use it myself, but because I was happy with the result, I decided to publish it. Have fun with it!";
+"about.licenses.header" = "Open source";
+"about.licenses.content" = "This app uses third-party libraries and data sources. Their license notices are listed here.";
+"about.licenses.title" = "Open source licenses";
+"licenses.data_sources.title" = "Data sources";
+"licenses.library_sources.title" = "Libraries";
+"licenses.public_domain.title" = "Public domain";
+"licenses.repository.title" = "Project page";
+"licenses.license_text.title" = "License text";
+"licenses.notice.title" = "Notice";
+"licenses.navigation_title" = "Licenses";
 
 "copy.link.title" = "Copy link";
 "copy.email.title" = "Copy email address";
@@ -172,12 +188,12 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "donations.hero.title" = "Support the app";
 "donations.description" = "This app is developed independently in my free time and is available for free. If it helps you during the festival, you can optionally contribute to its maintenance and future improvements here.";
 "donations.hero.note" = "Completely optional. The app stays fully usable without a donation.";
-"donations.hero.ticket-note" = "Where possible, contributions also show their approximate relation to the price of a festival ticket.";
+"donations.hero.ticket-note" = "1% of a festival ticket";
 "donations.options.title" = "Choose an amount";
 "donations.options.description.ticket" = "Where possible, the page shows how a contribution roughly relates to the price of a festival ticket.";
 "donations.options.description.generic" = "Contributions are optional and help support the maintenance and future development of the app.";
 "donations.loading" = "Loading donation options…";
-"donation.button.percentage" = "%.0f%%";
+"donation.button.percentage" = "%.0f%% of a festival ticket";
 "donation.card.caption.200" = "Very kind.";
 "donation.card.caption.500" = "Thanks a lot.";
 "donation.card.caption.1000" = "That genuinely helps.";
@@ -199,3 +215,7 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "settings.clear_cache.done_title" = "Cache cleared";
 "settings.clear_cache.done_message" = "Cached data was removed. Your ratings and saved events are unchanged.";
 "settings.clear_cache.ok" = "OK";
+
+"artists.map.loading" = "Loading world map…";
+"artists.map.loading.subtitle" = "Preparing country outlines in the background.";
+"artists.map.loading.failed" = "The world map could not be prepared right now.";

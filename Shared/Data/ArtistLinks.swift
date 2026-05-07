@@ -32,7 +32,7 @@ func parseArtistLinks() -> [String: ArtistLinks] {
     }
 
     do {
-        let contents = try String(contentsOfFile: filepath)
+        let contents = try String(contentsOfFile: filepath, encoding: .utf8)
         let rows = contents.components(separatedBy: "\n")
 
         var artistDict = [String: ArtistLinks]()

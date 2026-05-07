@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BusView: View {
     var body: some View {
-        WebView(
+        EmbeddedWebView(
             url: URL(
                 string:
                     "https://auskunft.kombus-online.eu/widget/tff/?tpl=165D206D86C"

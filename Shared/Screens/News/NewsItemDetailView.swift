@@ -126,35 +126,31 @@ struct NewsItemDetailView: View {
             "NewsMentionDebug: data ready for news \(newsItem.id), artists=\(entities.artists.count), stages=\(entities.stages.count), textLength=\(normalizedText.count)"
         )
 
-        let result = await withCheckedContinuation { continuation in
-            DispatchQueue.global(qos: .userInitiated).async {
-                let artists = entities.artists.compactMap { artist -> (Artist, Int)? in
-                    guard
-                        let index = firstAppearanceIndex(
-                            in: normalizedText,
-                            candidate: artist.formattedName
-                        )
-                    else {
-                        return nil
-                    }
-                    return (artist, index)
-                }
-                .sorted { lhs, rhs in
-                    lhs.1 < rhs.1
-                }
-                .map { pair in
-                    pair.0
-                }
-
-                let stages = entities.stages.filter { stage in
-                    containsMention(
-                        normalizedText: normalizedText,
-                        candidate: stage.localizedName
+        let result = MentionLookupResult(
+            artists: entities.artists.compactMap { artist -> (Artist, Int)? in
+                guard
+                    let index = firstAppearanceIndex(
+                        in: normalizedText,
+                        candidate: artist.formattedName
                     )
+                else {
+                    return nil
                 }
-                continuation.resume(returning: MentionLookupResult(artists: artists, stages: stages))
+                return (artist, index)
             }
-        }
+            .sorted { lhs, rhs in
+                lhs.1 < rhs.1
+            }
+            .map { pair in
+                pair.0
+            },
+            stages: entities.stages.filter { stage in
+                containsMention(
+                    normalizedText: normalizedText,
+                    candidate: stage.localizedName
+                )
+            }
+        )
 
         if Task.isCancelled {
             print("NewsMentionDebug: lookup cancelled for news \(newsItem.id)")

@@ -7,16 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A10000022F990001004F9471 /* DataConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000012F990001004F9471 /* DataConverterTests.swift */; };
-		A1B2C3D42F9A0001004F9471 /* Rudolstadt.icon in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */; };
-		A1B2C3D52F9A0001004F9471 /* Rudolstadt.icon in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */; };
 		32A11008167D61F884FC47D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A112FBB6E762F9793E8E60 /* Localizable.strings */; };
 		32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */; };
 		32A11109B3E2EF29D23B96E8 /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1157496D310116DCD5206 /* ArtistImageView.swift */; };
 		32A1111CA4E03E0903D86E29 /* ArtistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1107C6295E7BA267D0F71 /* ArtistCell.swift */; };
 		32A1116B6BA8D17499860263 /* SaveEventButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1136EDC420F6A3EAE3479 /* SaveEventButton.swift */; };
 		32A111B567F87F1627C561FF /* StageNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11BD8767914773C96A46B /* StageNumber.swift */; };
-		32A111D06B3F187ED5308393 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1194705F0DC9D18C2B09B /* Util.swift */; };
+		32A111D06B3F187ED5308393 /* FestivalDateUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1194705F0DC9D18C2B09B /* FestivalDateUtilities.swift */; };
 		32A111D43D702F38C6382630 /* LocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11302171E3C741D1E762D /* LocationListView.swift */; };
 		32A111E0096A7F39D7ECB1AF /* StageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1161ADFDC7FFC2CE970F5 /* StageCell.swift */; };
 		32A112281C396A44DF12BBB1 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */; };
@@ -26,6 +23,14 @@
 		32A112A1CF3EDC6BC9BECDE4 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11314CA54C51CF1BFDF9D /* ScheduleView.swift */; };
 		32A112B24A555BB9F43659A1 /* RatingSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11C3491E3EF12BFE1CC75 /* RatingSymbol.swift */; };
 		32A112BC323E026BE8507F8E /* ArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118FFA2F41B67DECD8B61 /* ArtistListView.swift */; };
+		A100000F2FA00001004F9471 /* ArtistOverviewContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000102FA00001004F9471 /* ArtistOverviewContentView.swift */; };
+		A10000302FB00001004F9471 /* ArtistMapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000312FB00001004F9471 /* ArtistMapOverviewView.swift */; };
+		A10000342FB10001004F9471 /* ArtistOverviewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000332FB10001004F9471 /* ArtistOverviewState.swift */; };
+		A10000362FB10001004F9471 /* ArtistBrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000352FB10001004F9471 /* ArtistBrowseView.swift */; };
+		A10000382FB10001004F9471 /* ArtistMapScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000372FB10001004F9471 /* ArtistMapScreenView.swift */; };
+		A10000112FA00001004F9471 /* ArtistListToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000122FA00001004F9471 /* ArtistListToolbar.swift */; };
+		A10000132FA00001004F9471 /* ShownArtistTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000142FA00001004F9471 /* ShownArtistTypes.swift */; };
+		A10000152FA00001004F9471 /* ArtistImageColorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000162FA00001004F9471 /* ArtistImageColorCache.swift */; };
 		32A1138E193F6CB4137516BE /* TimeProgramEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */; };
 		32A114CF01BEBF851BA275B6 /* LoadingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11760C2446A479758E817 /* LoadingListView.swift */; };
 		32A114D5C53D71E50A745B7C /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */; };
@@ -42,10 +47,18 @@
 		32A116A708F55334C83246C6 /* ArtistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11CB9E490D35A061D5106 /* ArtistDetailView.swift */; };
 		32A116BE192EE63EA4089774 /* ScheduleGenerator2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11D4B68D9C986BBCB747A /* ScheduleGenerator2.swift */; };
 		32A116DBBEBAB380329768B0 /* ArtistListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A118FFA2F41B67DECD8B61 /* ArtistListView.swift */; };
+		A10000172FA00001004F9471 /* ArtistOverviewContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000102FA00001004F9471 /* ArtistOverviewContentView.swift */; };
+		A10000322FB00001004F9471 /* ArtistMapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000312FB00001004F9471 /* ArtistMapOverviewView.swift */; };
+		A100003A2FB10001004F9471 /* ArtistOverviewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000332FB10001004F9471 /* ArtistOverviewState.swift */; };
+		A100003C2FB10001004F9471 /* ArtistBrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000352FB10001004F9471 /* ArtistBrowseView.swift */; };
+		A100003E2FB10001004F9471 /* ArtistMapScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000372FB10001004F9471 /* ArtistMapScreenView.swift */; };
+		A10000182FA00001004F9471 /* ArtistListToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000122FA00001004F9471 /* ArtistListToolbar.swift */; };
+		A10000192FA00001004F9471 /* ShownArtistTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000142FA00001004F9471 /* ShownArtistTypes.swift */; };
+		A100001A2FA00001004F9471 /* ArtistImageColorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000162FA00001004F9471 /* ArtistImageColorCache.swift */; };
 		32A1173EE6141DB87056E57E /* StageEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11E3751FD81FE837E074B /* StageEventCell.swift */; };
 		32A1176978B8CDBD08C500CF /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0EB895F91CC56EB642 /* StageMapView.swift */; };
 		32A118717C7FB0F1F9082736 /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A117348D2BF00F51BF852E /* NewsListView.swift */; };
-		32A118A07CA6F813F4380570 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1194705F0DC9D18C2B09B /* Util.swift */; };
+		32A118A07CA6F813F4380570 /* FestivalDateUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1194705F0DC9D18C2B09B /* FestivalDateUtilities.swift */; };
 		32A118F15EE900F7D1D916E5 /* ArtistRatingSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */; };
 		32A1190D2BC1583EA5BCD4F4 /* SaveEventButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1136EDC420F6A3EAE3479 /* SaveEventButton.swift */; };
 		32A1199EB080E7865A284792 /* StageMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11B0EB895F91CC56EB642 /* StageMapView.swift */; };
@@ -75,24 +88,22 @@
 		35028CC42805BEA6004F0E3F /* HelperTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35028CC32805BEA6004F0E3F /* HelperTypes.swift */; };
 		3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732428547CE0008932A9 /* ParkAndRideView.swift */; };
 		3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732428547CE0008932A9 /* ParkAndRideView.swift */; };
-		3505732828549B81008932A9 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732728549B81008932A9 /* WebView.swift */; };
-		3505732928549B81008932A9 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732728549B81008932A9 /* WebView.swift */; };
+		3505732828549B81008932A9 /* EmbeddedWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732728549B81008932A9 /* EmbeddedWebView.swift */; };
+		3505732928549B81008932A9 /* EmbeddedWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732728549B81008932A9 /* EmbeddedWebView.swift */; };
 		3505732B28549BF8008932A9 /* BusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732A28549BF8008932A9 /* BusView.swift */; };
 		3505732C28549BF8008932A9 /* BusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732A28549BF8008932A9 /* BusView.swift */; };
 		3505732E2854A794008932A9 /* GeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732D2854A794008932A9 /* GeneralView.swift */; };
 		3505732F2854A794008932A9 /* GeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732D2854A794008932A9 /* GeneralView.swift */; };
 		350573342854F73C008932A9 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573332854F73C008932A9 /* AboutView.swift */; };
 		350573352854F73C008932A9 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573332854F73C008932A9 /* AboutView.swift */; };
+		3505739A2FB00000008932A9 /* LicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573992FB00000008932A9 /* LicensesView.swift */; };
+		3505739B2FB00000008932A9 /* LicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573992FB00000008932A9 /* LicensesView.swift */; };
 		350573372854FA4C008932A9 /* EventSavedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573362854FA4C008932A9 /* EventSavedIcon.swift */; };
 		350573382854FA4C008932A9 /* EventSavedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573362854FA4C008932A9 /* EventSavedIcon.swift */; };
 		3505733A2855B2C3008932A9 /* ContextCopyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573392855B2C3008932A9 /* ContextCopyButton.swift */; };
 		3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573392855B2C3008932A9 /* ContextCopyButton.swift */; };
 		350573452857E9BE008932A9 /* MapOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573442857E9BE008932A9 /* MapOverview.swift */; };
 		350573472857F312008932A9 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573462857F312008932A9 /* MapView.swift */; };
-		351316C82B800D0700B87F74 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 351316C72B800D0700B87F74 /* ImageViewer */; };
-		351316CA2B800D0700B87F74 /* ImageViewerRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 351316C92B800D0700B87F74 /* ImageViewerRemote */; };
-		351316CC2B800D1F00B87F74 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 351316CB2B800D1F00B87F74 /* ImageViewer */; };
-		351316CE2B800D1F00B87F74 /* ImageViewerRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 351316CD2B800D1F00B87F74 /* ImageViewerRemote */; };
 		351359B02BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351359AF2BE7A9D0007C0480 /* ArtistRatingView.swift */; };
 		351359B12BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351359AF2BE7A9D0007C0480 /* ArtistRatingView.swift */; };
 		35143AB22F8E21FC006DA6B7 /* ArtistGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35143AB12F8E21FC006DA6B7 /* ArtistGridCell.swift */; };
@@ -124,8 +135,8 @@
 		3551CC6828043624004F9471 /* Tests_macOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC6728043624004F9471 /* Tests_macOSLaunchTests.swift */; };
 		3551CC6928043624004F9471 /* RudolstadtForiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */; };
 		3551CC6A28043624004F9471 /* RudolstadtForiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */; };
-		3551CC6B28043624004F9471 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC4228043623004F9471 /* ContentView.swift */; };
-		3551CC6C28043624004F9471 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC4228043623004F9471 /* ContentView.swift */; };
+		3551CC6B28043624004F9471 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC4228043623004F9471 /* RootTabView.swift */; };
+		3551CC6C28043624004F9471 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC4228043623004F9471 /* RootTabView.swift */; };
 		3551CC6D28043624004F9471 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3551CC4328043624004F9471 /* Assets.xcassets */; };
 		3551CC6E28043624004F9471 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3551CC4328043624004F9471 /* Assets.xcassets */; };
 		3551CC8128043DA2004F9471 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551CC8028043DA2004F9471 /* DataModel.swift */; };
@@ -158,16 +169,24 @@
 		35D0A4922A0754CE004C506D /* StagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A4912A0754CE004C506D /* StagePreview.swift */; };
 		35D0A4932A0754CE004C506D /* StagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A4912A0754CE004C506D /* StagePreview.swift */; };
 		35DC40512DFEF3960077079B /* NewsRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DC40502DFEF3920077079B /* NewsRefresher.swift */; };
+		A10000092F9A1001004F9471 /* ArtistCountryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */; };
+		A100000A2F9A1001004F9471 /* ArtistCountryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */; };
+		A100000C2F9A1001004F9471 /* ArtistWorldMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000D2F9A1001004F9471 /* ArtistWorldMapView.swift */; };
+		A100000E2F9A1001004F9471 /* ArtistWorldMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000D2F9A1001004F9471 /* ArtistWorldMapView.swift */; };
+		A10000122F9A1001004F9471 /* world_countries.geojson in Resources */ = {isa = PBXBuildFile; fileRef = A10000112F9A1001004F9471 /* world_countries.geojson */; };
+		A10000132F9A1001004F9471 /* world_countries.geojson in Resources */ = {isa = PBXBuildFile; fileRef = A10000112F9A1001004F9471 /* world_countries.geojson */; };
+		A10000142F9A1001004F9471 /* world_countries_detail.geojson in Resources */ = {isa = PBXBuildFile; fileRef = A10000152F9A1001004F9471 /* world_countries_detail.geojson */; };
+		A10000162F9A1001004F9471 /* world_countries_detail.geojson in Resources */ = {isa = PBXBuildFile; fileRef = A10000152F9A1001004F9471 /* world_countries_detail.geojson */; };
+		A10000292FA10001004F9471 /* TextFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000282FA10001004F9471 /* TextFormatting.swift */; };
+		A100002B2FA10001004F9471 /* ViewGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002A2FA10001004F9471 /* ViewGestures.swift */; };
+		A100002C2FA10001004F9471 /* TextFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000282FA10001004F9471 /* TextFormatting.swift */; };
+		A100002D2FA10001004F9471 /* ViewGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002A2FA10001004F9471 /* ViewGestures.swift */; };
+		A10000022F990001004F9471 /* DataConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000012F990001004F9471 /* DataConverterTests.swift */; };
+		A1B2C3D42F9A0001004F9471 /* Rudolstadt.icon in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */; };
+		A1B2C3D52F9A0001004F9471 /* Rudolstadt.icon in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A10000052F990001004F9471 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3551CC3C28043622004F9471 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3551CC4728043624004F9471;
-			remoteInfo = "RudolstadtForiOS (iOS)";
-		};
 		3551CC5628043624004F9471 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3551CC3C28043622004F9471 /* Project object */;
@@ -182,12 +201,16 @@
 			remoteGlobalIDString = 3551CC4D28043624004F9471;
 			remoteInfo = "RudolstadtForiOS (macOS)";
 		};
+		A10000052F990001004F9471 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3551CC3C28043622004F9471 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3551CC4728043624004F9471;
+			remoteInfo = "RudolstadtForiOS (iOS)";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A10000012F990001004F9471 /* DataConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverterTests.swift; sourceTree = "<group>"; };
-		A10000042F990001004F9471 /* Unit Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Rudolstadt.icon; sourceTree = "<group>"; };
 		32A1103D160E868E6BF7EC72 /* ImageUrlUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUrlUtil.swift; sourceTree = "<group>"; };
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
 		32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistRatingSymbol.swift; sourceTree = "<group>"; };
@@ -202,8 +225,16 @@
 		32A11760C2446A479758E817 /* LoadingListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingListView.swift; sourceTree = "<group>"; };
 		32A118737B48B6BA52141F0D /* StageDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageDetailView.swift; sourceTree = "<group>"; };
 		32A118FFA2F41B67DECD8B61 /* ArtistListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistListView.swift; sourceTree = "<group>"; };
+		A10000102FA00001004F9471 /* ArtistOverviewContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistOverviewContentView.swift; sourceTree = "<group>"; };
+		A10000312FB00001004F9471 /* ArtistMapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistMapOverviewView.swift; sourceTree = "<group>"; };
+		A10000332FB10001004F9471 /* ArtistOverviewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistOverviewState.swift; sourceTree = "<group>"; };
+		A10000352FB10001004F9471 /* ArtistBrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistBrowseView.swift; sourceTree = "<group>"; };
+		A10000372FB10001004F9471 /* ArtistMapScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistMapScreenView.swift; sourceTree = "<group>"; };
+		A10000122FA00001004F9471 /* ArtistListToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistListToolbar.swift; sourceTree = "<group>"; };
+		A10000142FA00001004F9471 /* ShownArtistTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShownArtistTypes.swift; sourceTree = "<group>"; };
+		A10000162FA00001004F9471 /* ArtistImageColorCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistImageColorCache.swift; sourceTree = "<group>"; };
 		32A11925147B0DC31E33C3E6 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = Localizable.strings; sourceTree = "<group>"; };
-		32A1194705F0DC9D18C2B09B /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		32A1194705F0DC9D18C2B09B /* FestivalDateUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FestivalDateUtilities.swift; sourceTree = "<group>"; };
 		32A11A53C0B10E0676C445ED /* TimeProgramEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeProgramEventCell.swift; sourceTree = "<group>"; };
 		32A11B0EB895F91CC56EB642 /* StageMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageMapView.swift; sourceTree = "<group>"; };
 		32A11BD8767914773C96A46B /* StageNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageNumber.swift; sourceTree = "<group>"; };
@@ -221,10 +252,11 @@
 		32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		35028CC32805BEA6004F0E3F /* HelperTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperTypes.swift; sourceTree = "<group>"; };
 		3505732428547CE0008932A9 /* ParkAndRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkAndRideView.swift; sourceTree = "<group>"; };
-		3505732728549B81008932A9 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		3505732728549B81008932A9 /* EmbeddedWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddedWebView.swift; sourceTree = "<group>"; };
 		3505732A28549BF8008932A9 /* BusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusView.swift; sourceTree = "<group>"; };
 		3505732D2854A794008932A9 /* GeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralView.swift; sourceTree = "<group>"; };
 		350573332854F73C008932A9 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		350573992FB00000008932A9 /* LicensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesView.swift; sourceTree = "<group>"; };
 		350573362854FA4C008932A9 /* EventSavedIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSavedIcon.swift; sourceTree = "<group>"; };
 		350573392855B2C3008932A9 /* ContextCopyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextCopyButton.swift; sourceTree = "<group>"; };
 		350573422856442B008932A9 /* RudolstadtForiOS--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RudolstadtForiOS--iOS--Info.plist"; sourceTree = "<group>"; };
@@ -249,7 +281,7 @@
 		35514C442DD0E2960004137D /* DataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverter.swift; sourceTree = "<group>"; };
 		35514C4A2DD0EBB00004137D /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtForiOSApp.swift; sourceTree = "<group>"; };
-		3551CC4228043623004F9471 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3551CC4228043623004F9471 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		3551CC4328043624004F9471 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3551CC4828043624004F9471 /* Rudolstadt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rudolstadt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3551CC4E28043624004F9471 /* RudolstadtForiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RudolstadtForiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -279,23 +311,23 @@
 		35D0A48E2A07504C004C506D /* SaveEventPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveEventPreview.swift; sourceTree = "<group>"; };
 		35D0A4912A0754CE004C506D /* StagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagePreview.swift; sourceTree = "<group>"; };
 		35DC40502DFEF3920077079B /* NewsRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRefresher.swift; sourceTree = "<group>"; };
+		A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistCountryParser.swift; sourceTree = "<group>"; };
+		A100000D2F9A1001004F9471 /* ArtistWorldMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistWorldMapView.swift; sourceTree = "<group>"; };
+		A10000112F9A1001004F9471 /* world_countries.geojson */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = world_countries.geojson; sourceTree = "<group>"; };
+		A10000152F9A1001004F9471 /* world_countries_detail.geojson */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = world_countries_detail.geojson; sourceTree = "<group>"; };
+		A10000282FA10001004F9471 /* TextFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatting.swift; sourceTree = "<group>"; };
+		A100002A2FA10001004F9471 /* ViewGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewGestures.swift; sourceTree = "<group>"; };
+		A10000012F990001004F9471 /* DataConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverterTests.swift; sourceTree = "<group>"; };
+		A10000042F990001004F9471 /* Unit Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Rudolstadt.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A10000072F990001004F9471 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3551CC4528043624004F9471 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				351316C82B800D0700B87F74 /* ImageViewer in Frameworks */,
 				35CF484A285B7E4E00D13B6F /* SDWebImageSwiftUI in Frameworks */,
-				351316CA2B800D0700B87F74 /* ImageViewerRemote in Frameworks */,
 				356A65C02BE803310006761D /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,8 +336,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				351316CE2B800D1F00B87F74 /* ImageViewerRemote in Frameworks */,
-				351316CC2B800D1F00B87F74 /* ImageViewer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,17 +353,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A10000072F990001004F9471 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		32A112822EEBA64538AA38A6 /* Artist */ = {
 			isa = PBXGroup;
 			children = (
-				32A1157496D310116DCD5206 /* ArtistImageView.swift */,
-				32A11D4A2C31A990A10DB370 /* ArtistTypeFilterView.swift */,
-				32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */,
+				A10000202FA10001004F9471 /* Components */,
 				32A118D0B19F4C8931FB9933 /* Overview */,
 				32A1172F56E4E45800FFB647 /* Detail */,
+				A10000212FA10001004F9471 /* Support */,
 			);
 			path = Artist;
 			sourceTree = "<group>";
@@ -348,19 +384,14 @@
 			path = Stage;
 			sourceTree = "<group>";
 		};
-		32A1139B0A5731511CC06981 /* Views */ = {
+		32A1139B0A5731511CC06981 /* SharedUI */ = {
 			isa = PBXGroup;
 			children = (
 				32A11C3491E3EF12BFE1CC75 /* RatingSymbol.swift */,
-				32A1136EDC420F6A3EAE3479 /* SaveEventButton.swift */,
 				32A11760C2446A479758E817 /* LoadingListView.swift */,
-				3505732728549B81008932A9 /* WebView.swift */,
-				350573362854FA4C008932A9 /* EventSavedIcon.swift */,
-				350573392855B2C3008932A9 /* ContextCopyButton.swift */,
-				35D0A48E2A07504C004C506D /* SaveEventPreview.swift */,
-				35D0A4912A0754CE004C506D /* StagePreview.swift */,
+				A10000272FA10001004F9471 /* EventActions */,
 			);
-			path = Views;
+			path = SharedUI;
 			sourceTree = "<group>";
 		};
 		32A1149A358407B10CC2C734 /* Screens */ = {
@@ -412,10 +443,19 @@
 		};
 		32A118D0B19F4C8931FB9933 /* Overview */ = {
 			isa = PBXGroup;
-			children = (
-				32A118FFA2F41B67DECD8B61 /* ArtistListView.swift */,
+				children = (
+					32A118FFA2F41B67DECD8B61 /* ArtistListView.swift */,
+					A10000102FA00001004F9471 /* ArtistOverviewContentView.swift */,
+					A10000312FB00001004F9471 /* ArtistMapOverviewView.swift */,
+					A10000332FB10001004F9471 /* ArtistOverviewState.swift */,
+					A10000352FB10001004F9471 /* ArtistBrowseView.swift */,
+					A10000372FB10001004F9471 /* ArtistMapScreenView.swift */,
+					A10000122FA00001004F9471 /* ArtistListToolbar.swift */,
+					A10000142FA00001004F9471 /* ShownArtistTypes.swift */,
+				A10000162FA00001004F9471 /* ArtistImageColorCache.swift */,
 				32A1107C6295E7BA267D0F71 /* ArtistCell.swift */,
 				35143AB12F8E21FC006DA6B7 /* ArtistGridCell.swift */,
+				A100000D2F9A1001004F9471 /* ArtistWorldMapView.swift */,
 				35143AB42F8E2510006DA6B7 /* ArtistImageNavigationTransition.swift */,
 			);
 			path = Overview;
@@ -426,11 +466,14 @@
 			children = (
 				35879AE62E11CA630041FFD3 /* SettingsView.swift */,
 				350573332854F73C008932A9 /* AboutView.swift */,
+				350573992FB00000008932A9 /* LicensesView.swift */,
 				3505732A28549BF8008932A9 /* BusView.swift */,
 				356A65C62BE809360006761D /* DonationView.swift */,
 				3505732D2854A794008932A9 /* GeneralView.swift */,
 				32A11EABD81D0BA97B963376 /* MoreView.swift */,
 				3505732428547CE0008932A9 /* ParkAndRideView.swift */,
+				A10000222FA10001004F9471 /* Components */,
+				A10000232FA10001004F9471 /* Support */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -452,6 +495,7 @@
 				3568726529C0239300520EC5 /* ScrollableProgramView.swift */,
 				3568C7A929F93B6700A7AA7D /* ScrollableProgramViewContent.swift */,
 				3568C7AF29FB59AC00A7AA7D /* TableProgramCell.swift */,
+				A10000242FA10001004F9471 /* Components */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -481,12 +525,12 @@
 			isa = PBXGroup;
 			children = (
 				356F08942E0A93B8004F27E6 /* ExtraData.swift */,
-				35DC40502DFEF3920077079B /* NewsRefresher.swift */,
 				3551CC8028043DA2004F9471 /* DataModel.swift */,
 				3551CC8328043E8D004F9471 /* DataStore.swift */,
 				35028CC32805BEA6004F0E3F /* HelperTypes.swift */,
 				32A113E8EF0720699AAD91D0 /* DataLoader.swift */,
 				354B96762BE798D100F58179 /* ArtistLinks.swift */,
+				A10000252FA10001004F9471 /* Support */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -507,6 +551,8 @@
 				353596FB2F9324F800723570 /* stage_walk_distances.json */,
 				353596F72F922C0B00723570 /* browse_taxonomy.json */,
 				356F08922E0A9382004F27E6 /* extra_data.json */,
+				A10000112F9A1001004F9471 /* world_countries.geojson */,
+				A10000152F9A1001004F9471 /* world_countries_detail.geojson */,
 				354B96722BE78D7C00F58179 /* 2024_artist_urls.csv */,
 				353596F92F92464800723570 /* 2026_artist_urls.csv */,
 			);
@@ -541,17 +587,15 @@
 		3551CC4028043622004F9471 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				A100001B2FA10001004F9471 /* App */,
 				35514C432DD0E26E0004137D /* API */,
 				354B966B2BE78CDD00F58179 /* Resources */,
-				3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */,
-				3551CC4228043623004F9471 /* ContentView.swift */,
 				35028CC22805BE8D004F0E3F /* Data */,
 				3551CC4328043624004F9471 /* Assets.xcassets */,
 				35D0A4882A07372A004C506D /* Colors.xcassets */,
-				35D0A48B2A073AFF004C506D /* ColorExtensions.swift */,
+				356A65C22BE805900006761D /* Core */,
 				32A1149A358407B10CC2C734 /* Screens */,
-				356A65C22BE805900006761D /* Util */,
-				32A1139B0A5731511CC06981 /* Views */,
+				32A1139B0A5731511CC06981 /* SharedUI */,
 				32A11D64F476FFB4DA9968D7 /* en.lproj */,
 				32A11762C36E75B5B5A648F7 /* de.lproj */,
 			);
@@ -568,14 +612,6 @@
 				A10000042F990001004F9471 /* Unit Tests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		A10000032F990001004F9471 /* Unit Tests */ = {
-			isa = PBXGroup;
-			children = (
-				A10000012F990001004F9471 /* DataConverterTests.swift */,
-			);
-			path = "Unit Tests";
 			sourceTree = "<group>";
 		};
 		3551CC4F28043624004F9471 /* macOS */ = {
@@ -613,40 +649,126 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		356A65C22BE805900006761D /* Util */ = {
+		356A65C22BE805900006761D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				35D0A48B2A073AFF004C506D /* ColorExtensions.swift */,
+				32A1194705F0DC9D18C2B09B /* FestivalDateUtilities.swift */,
+				A10000282FA10001004F9471 /* TextFormatting.swift */,
+				A100002A2FA10001004F9471 /* ViewGestures.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		A100001B2FA10001004F9471 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */,
+				3551CC4228043623004F9471 /* RootTabView.swift */,
+				A100001C2FA10001004F9471 /* Navigation */,
+				A100001D2FA10001004F9471 /* Background */,
+				A100001E2FA10001004F9471 /* State */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A100001C2FA10001004F9471 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				35143AC62F8E793E006DA6B7 /* AppNavigationRoute.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		A100001D2FA10001004F9471 /* Background */ = {
+			isa = PBXGroup;
+			children = (
+				35DC40502DFEF3920077079B /* NewsRefresher.swift */,
+			);
+			path = Background;
+			sourceTree = "<group>";
+		};
+		A100001E2FA10001004F9471 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		A10000202FA10001004F9471 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				32A1157496D310116DCD5206 /* ArtistImageView.swift */,
+				32A11D4A2C31A990A10DB370 /* ArtistTypeFilterView.swift */,
+				32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A10000212FA10001004F9471 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */,
+				353596F42F921E2900723570 /* OKHSLColorConverter.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		A10000222FA10001004F9471 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				350573392855B2C3008932A9 /* ContextCopyButton.swift */,
+				3505732728549B81008932A9 /* EmbeddedWebView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A10000232FA10001004F9471 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				356A65C32BE805B70006761D /* IAPManager.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		A10000242FA10001004F9471 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				35D0A48E2A07504C004C506D /* SaveEventPreview.swift */,
+				35D0A4912A0754CE004C506D /* StagePreview.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A10000252FA10001004F9471 /* Support */ = {
 			isa = PBXGroup;
 			children = (
 				32A1103D160E868E6BF7EC72 /* ImageUrlUtil.swift */,
-				32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */,
-				32A1194705F0DC9D18C2B09B /* Util.swift */,
-				356A65C32BE805B70006761D /* IAPManager.swift */,
-				35143AC62F8E793E006DA6B7 /* AppNavigationRoute.swift */,
-				353596F42F921E2900723570 /* OKHSLColorConverter.swift */,
 			);
-			path = Util;
+			path = Support;
+			sourceTree = "<group>";
+		};
+		A10000272FA10001004F9471 /* EventActions */ = {
+			isa = PBXGroup;
+			children = (
+				32A1136EDC420F6A3EAE3479 /* SaveEventButton.swift */,
+				350573362854FA4C008932A9 /* EventSavedIcon.swift */,
+			);
+			path = EventActions;
+			sourceTree = "<group>";
+		};
+		A10000032F990001004F9471 /* Unit Tests */ = {
+			isa = PBXGroup;
+			children = (
+				A10000012F990001004F9471 /* DataConverterTests.swift */,
+			);
+			path = "Unit Tests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A10000092F990001004F9471 /* Unit Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A100000D2F990001004F9471 /* Build configuration list for PBXNativeTarget "Unit Tests" */;
-			buildPhases = (
-				A10000062F990001004F9471 /* Sources */,
-				A10000072F990001004F9471 /* Frameworks */,
-				A10000082F990001004F9471 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A100000A2F990001004F9471 /* PBXTargetDependency */,
-			);
-			name = "Unit Tests";
-			productName = "Unit Tests";
-			productReference = A10000042F990001004F9471 /* Unit Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		3551CC4728043624004F9471 /* RudolstadtForiOS (iOS) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3551CC7128043624004F9471 /* Build configuration list for PBXNativeTarget "RudolstadtForiOS (iOS)" */;
@@ -662,8 +784,6 @@
 			name = "RudolstadtForiOS (iOS)";
 			packageProductDependencies = (
 				35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */,
-				351316C72B800D0700B87F74 /* ImageViewer */,
-				351316C92B800D0700B87F74 /* ImageViewerRemote */,
 			);
 			productName = "RudolstadtForiOS (iOS)";
 			productReference = 3551CC4828043624004F9471 /* Rudolstadt.app */;
@@ -683,8 +803,6 @@
 			);
 			name = "RudolstadtForiOS (macOS)";
 			packageProductDependencies = (
-				351316CB2B800D1F00B87F74 /* ImageViewer */,
-				351316CD2B800D1F00B87F74 /* ImageViewerRemote */,
 			);
 			productName = "RudolstadtForiOS (macOS)";
 			productReference = 3551CC4E28043624004F9471 /* RudolstadtForiOS.app */;
@@ -725,6 +843,24 @@
 			productName = "Tests macOS";
 			productReference = 3551CC6128043624004F9471 /* Tests macOS.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		A10000092F990001004F9471 /* Unit Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000D2F990001004F9471 /* Build configuration list for PBXNativeTarget "Unit Tests" */;
+			buildPhases = (
+				A10000062F990001004F9471 /* Sources */,
+				A10000072F990001004F9471 /* Frameworks */,
+				A10000082F990001004F9471 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A100000A2F990001004F9471 /* PBXTargetDependency */,
+			);
+			name = "Unit Tests";
+			productName = "Unit Tests";
+			productReference = A10000042F990001004F9471 /* Unit Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -768,7 +904,6 @@
 			mainGroup = 3551CC3B28043622004F9471;
 			packageReferences = (
 				35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
-				351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */,
 			);
 			productRefGroup = 3551CC4928043624004F9471 /* Products */;
 			projectDirPath = "";
@@ -784,13 +919,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A10000082F990001004F9471 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3551CC4628043624004F9471 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -804,6 +932,8 @@
 				353596F82F922C0B00723570 /* browse_taxonomy.json in Resources */,
 				32A11ACDDD0BA72386A7E319 /* Localizable.strings in Resources */,
 				356F08932E0A9382004F27E6 /* extra_data.json in Resources */,
+				A10000122F9A1001004F9471 /* world_countries.geojson in Resources */,
+				A10000142F9A1001004F9471 /* world_countries_detail.geojson in Resources */,
 				32A115480EF0AF9794B76632 /* Localizable.strings in Resources */,
 				353596FA2F92464800723570 /* 2026_artist_urls.csv in Resources */,
 			);
@@ -818,6 +948,8 @@
 				35D0A48A2A07372A004C506D /* Colors.xcassets in Resources */,
 				32A11008167D61F884FC47D3 /* Localizable.strings in Resources */,
 				32A11235CEB1CB61653B3149 /* Localizable.strings in Resources */,
+				A10000132F9A1001004F9471 /* world_countries.geojson in Resources */,
+				A10000162F9A1001004F9471 /* world_countries_detail.geojson in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,31 +967,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		A10000062F990001004F9471 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		A10000082F990001004F9471 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10000022F990001004F9471 /* DataConverterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		3551CC4428043624004F9471 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				356F08952E0A93BC004F27E6 /* ExtraData.swift in Sources */,
 				356A65C42BE805B70006761D /* IAPManager.swift in Sources */,
-				3551CC6B28043624004F9471 /* ContentView.swift in Sources */,
+				3551CC6B28043624004F9471 /* RootTabView.swift in Sources */,
 				3551CC8128043DA2004F9471 /* DataModel.swift in Sources */,
 				35DC40512DFEF3960077079B /* NewsRefresher.swift in Sources */,
 				3551CC8428043E8D004F9471 /* DataStore.swift in Sources */,
 				3551CC6928043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
 				32A11D09A42D86B69106B718 /* NewsItemDetailView.swift in Sources */,
 				35514C452DD0E2A20004137D /* DataConverter.swift in Sources */,
-				3505732828549B81008932A9 /* WebView.swift in Sources */,
+				A10000092F9A1001004F9471 /* ArtistCountryParser.swift in Sources */,
+				3505732828549B81008932A9 /* EmbeddedWebView.swift in Sources */,
 				353596F52F921E2900723570 /* OKHSLColorConverter.swift in Sources */,
 				32A11F2390384051C89FAB56 /* NewsItemCell.swift in Sources */,
 				32A118717C7FB0F1F9082736 /* NewsListView.swift in Sources */,
@@ -874,7 +1006,9 @@
 				32A116A1195BBB5DB20404C1 /* RatingSymbol.swift in Sources */,
 				354B96772BE798D100F58179 /* ArtistLinks.swift in Sources */,
 				32A1116B6BA8D17499860263 /* SaveEventButton.swift in Sources */,
-				32A118A07CA6F813F4380570 /* Util.swift in Sources */,
+				32A118A07CA6F813F4380570 /* FestivalDateUtilities.swift in Sources */,
+				A10000292FA10001004F9471 /* TextFormatting.swift in Sources */,
+				A100002B2FA10001004F9471 /* ViewGestures.swift in Sources */,
 				32A11EF0FC00667B09CA5D0A /* StageEventCell.swift in Sources */,
 				3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */,
 				3505732E2854A794008932A9 /* GeneralView.swift in Sources */,
@@ -896,7 +1030,16 @@
 				350573372854FA4C008932A9 /* EventSavedIcon.swift in Sources */,
 				35143AC52F8E71AE006DA6B7 /* ArtistDetailSections.swift in Sources */,
 				32A116961BFEAF82D52B6574 /* MoreView.swift in Sources */,
-				32A116DBBEBAB380329768B0 /* ArtistListView.swift in Sources */,
+						32A116DBBEBAB380329768B0 /* ArtistListView.swift in Sources */,
+						A10000172FA00001004F9471 /* ArtistOverviewContentView.swift in Sources */,
+						A10000322FB00001004F9471 /* ArtistMapOverviewView.swift in Sources */,
+						A100003A2FB10001004F9471 /* ArtistOverviewState.swift in Sources */,
+						A100003C2FB10001004F9471 /* ArtistBrowseView.swift in Sources */,
+						A100003E2FB10001004F9471 /* ArtistMapScreenView.swift in Sources */,
+						A10000182FA00001004F9471 /* ArtistListToolbar.swift in Sources */,
+					A10000192FA00001004F9471 /* ShownArtistTypes.swift in Sources */,
+				A100001A2FA00001004F9471 /* ArtistImageColorCache.swift in Sources */,
+				A100000C2F9A1001004F9471 /* ArtistWorldMapView.swift in Sources */,
 				35D0A48C2A073AFF004C506D /* ColorExtensions.swift in Sources */,
 				32A115A10E8AE4441C178095 /* ArtistCell.swift in Sources */,
 				3505732B28549BF8008932A9 /* BusView.swift in Sources */,
@@ -907,6 +1050,7 @@
 				32A11E6DA66C383089064DD4 /* ArtistEventCell.swift in Sources */,
 				32A11C422B2F012460218204 /* RecommendationScheduleView.swift in Sources */,
 				350573342854F73C008932A9 /* AboutView.swift in Sources */,
+				3505739A2FB00000008932A9 /* LicensesView.swift in Sources */,
 				32A111E0096A7F39D7ECB1AF /* StageCell.swift in Sources */,
 				35143AB52F8E2510006DA6B7 /* ArtistImageNavigationTransition.swift in Sources */,
 				350573452857E9BE008932A9 /* MapOverview.swift in Sources */,
@@ -925,14 +1069,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				35D0A4902A07504C004C506D /* SaveEventPreview.swift in Sources */,
-				3551CC6C28043624004F9471 /* ContentView.swift in Sources */,
+				3551CC6C28043624004F9471 /* RootTabView.swift in Sources */,
 				3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */,
 				3551CC6A28043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
 				32A11EB5EC53FC5A4C48B3D8 /* NewsItemDetailView.swift in Sources */,
 				35143AC42F8E71AE006DA6B7 /* ArtistDetailSections.swift in Sources */,
 				350573352854F73C008932A9 /* AboutView.swift in Sources */,
+				3505739B2FB00000008932A9 /* LicensesView.swift in Sources */,
 				32A1128745664A1934AD6E63 /* NewsItemCell.swift in Sources */,
 				32A11DF1A47E2B6156D38E77 /* NewsListView.swift in Sources */,
+				A100000A2F9A1001004F9471 /* ArtistCountryParser.swift in Sources */,
 				3505732F2854A794008932A9 /* GeneralView.swift in Sources */,
 				35143AC22F8E7094006DA6B7 /* ArtistDetailHeaderView.swift in Sources */,
 				32A112281C396A44DF12BBB1 /* UserSettings.swift in Sources */,
@@ -943,7 +1089,9 @@
 				32A112B24A555BB9F43659A1 /* RatingSymbol.swift in Sources */,
 				35879AE82E11CA680041FFD3 /* SettingsView.swift in Sources */,
 				32A1190D2BC1583EA5BCD4F4 /* SaveEventButton.swift in Sources */,
-				32A111D06B3F187ED5308393 /* Util.swift in Sources */,
+				32A111D06B3F187ED5308393 /* FestivalDateUtilities.swift in Sources */,
+				A100002C2FA10001004F9471 /* TextFormatting.swift in Sources */,
+				A100002D2FA10001004F9471 /* ViewGestures.swift in Sources */,
 				3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
 				32A1173EE6141DB87056E57E /* StageEventCell.swift in Sources */,
 				35D0A4932A0754CE004C506D /* StagePreview.swift in Sources */,
@@ -960,7 +1108,16 @@
 				32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */,
 				3568C7B129FB59AC00A7AA7D /* TableProgramCell.swift in Sources */,
 				32A11F1703B29A8DBE6E672B /* MoreView.swift in Sources */,
-				32A112BC323E026BE8507F8E /* ArtistListView.swift in Sources */,
+						32A112BC323E026BE8507F8E /* ArtistListView.swift in Sources */,
+						A100000F2FA00001004F9471 /* ArtistOverviewContentView.swift in Sources */,
+						A10000302FB00001004F9471 /* ArtistMapOverviewView.swift in Sources */,
+						A10000342FB10001004F9471 /* ArtistOverviewState.swift in Sources */,
+						A10000362FB10001004F9471 /* ArtistBrowseView.swift in Sources */,
+						A10000382FB10001004F9471 /* ArtistMapScreenView.swift in Sources */,
+						A10000112FA00001004F9471 /* ArtistListToolbar.swift in Sources */,
+					A10000132FA00001004F9471 /* ShownArtistTypes.swift in Sources */,
+				A10000152FA00001004F9471 /* ArtistImageColorCache.swift in Sources */,
+				A100000E2F9A1001004F9471 /* ArtistWorldMapView.swift in Sources */,
 				32A1111CA4E03E0903D86E29 /* ArtistCell.swift in Sources */,
 				35143ABF2F8E700C006DA6B7 /* ZoomableRemoteImageViewer.swift in Sources */,
 				32A116A708F55334C83246C6 /* ArtistDetailView.swift in Sources */,
@@ -968,7 +1125,7 @@
 				356A65C52BE805B70006761D /* IAPManager.swift in Sources */,
 				32A115A10353E19E13E5F510 /* ArtistEventCell.swift in Sources */,
 				3568726729C0239300520EC5 /* ScrollableProgramView.swift in Sources */,
-				3505732928549B81008932A9 /* WebView.swift in Sources */,
+				3505732928549B81008932A9 /* EmbeddedWebView.swift in Sources */,
 				351359B12BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */,
 				35143AB22F8E21FC006DA6B7 /* ArtistGridCell.swift in Sources */,
 				32A11A5EB7B117FBF994E013 /* RecommendationScheduleView.swift in Sources */,
@@ -1002,14 +1159,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A10000062F990001004F9471 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000022F990001004F9471 /* DataConverterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A100000A2F990001004F9471 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3551CC4728043624004F9471 /* RudolstadtForiOS (iOS) */;
-			targetProxy = A10000052F990001004F9471 /* PBXContainerItemProxy */;
-		};
 		3551CC5728043624004F9471 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3551CC4728043624004F9471 /* RudolstadtForiOS (iOS) */;
@@ -1019,6 +1179,11 @@
 			isa = PBXTargetDependency;
 			target = 3551CC4D28043624004F9471 /* RudolstadtForiOS (macOS) */;
 			targetProxy = 3551CC6228043624004F9471 /* PBXContainerItemProxy */;
+		};
+		A100000A2F990001004F9471 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3551CC4728043624004F9471 /* RudolstadtForiOS (iOS) */;
+			targetProxy = A10000052F990001004F9471 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1058,61 +1223,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		A100000B2F990001004F9471 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RJYK9W2A39;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.leongeorgi.Unit-Tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rudolstadt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Rudolstadt";
-				TEST_TARGET_NAME = "RudolstadtForiOS (iOS)";
-			};
-			name = Debug;
-		};
-		A100000C2F990001004F9471 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RJYK9W2A39;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.leongeorgi.Unit-Tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rudolstadt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Rudolstadt";
-				TEST_TARGET_NAME = "RudolstadtForiOS (iOS)";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		3551CC6F28043624004F9471 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1233,7 +1343,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = RJYK9W2A39;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1246,12 +1356,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2026.1;
+				MARKETING_VERSION = 2026.2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1269,7 +1379,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = RJYK9W2A39;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1284,12 +1394,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2026.1;
+				MARKETING_VERSION = 2026.2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS;
 				PRODUCT_NAME = Rudolstadt;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1368,7 +1478,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RJYK9W2A39;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.leongeorgi.Tests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1388,7 +1498,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RJYK9W2A39;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.leongeorgi.Tests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1441,18 +1551,64 @@
 			};
 			name = Release;
 		};
+		A100000B2F990001004F9471 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RJYK9W2A39;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.leongeorgi.Unit-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rudolstadt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Rudolstadt";
+				TEST_TARGET_NAME = "RudolstadtForiOS (iOS)";
+			};
+			name = Debug;
+		};
+		A100000C2F990001004F9471 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RJYK9W2A39;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.leongeorgi.Unit-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rudolstadt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Rudolstadt";
+				TEST_TARGET_NAME = "RudolstadtForiOS (iOS)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A100000D2F990001004F9471 /* Build configuration list for PBXNativeTarget "Unit Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A100000B2F990001004F9471 /* Debug */,
-				A100000C2F990001004F9471 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		3551CC3F28043622004F9471 /* Build configuration list for PBXProject "RudolstadtForiOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1498,17 +1654,18 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		A100000D2F990001004F9471 /* Build configuration list for PBXNativeTarget "Unit Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000B2F990001004F9471 /* Debug */,
+				A100000C2F990001004F9471 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Jake-Short/swiftui-image-viewer.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.3.1;
-			};
-		};
 		35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -1520,26 +1677,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		351316C72B800D0700B87F74 /* ImageViewer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
-			productName = ImageViewer;
-		};
-		351316C92B800D0700B87F74 /* ImageViewerRemote */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
-			productName = ImageViewerRemote;
-		};
-		351316CB2B800D1F00B87F74 /* ImageViewer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
-			productName = ImageViewer;
-		};
-		351316CD2B800D1F00B87F74 /* ImageViewerRemote */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 351316C62B800C6E00B87F74 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
-			productName = ImageViewerRemote;
-		};
 		35CF4849285B7E4E00D13B6F /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;

@@ -10,7 +10,7 @@ struct AIArtistData {
     let flags: [String]
 
     var localizedSummary: String? {
-        if Locale.current.languageCode == "de" {
+        if Locale.current.appLanguageCodeIdentifier == "de" {
             return summaryDE?.trimmingCharacters(in: .whitespacesAndNewlines)
         } else {
             return summaryEN?.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -18,7 +18,7 @@ struct AIArtistData {
     }
 
     var localizedTags: [String] {
-        if Locale.current.languageCode == "de" {
+        if Locale.current.appLanguageCodeIdentifier == "de" {
             return tagsDE
         } else {
             return tagsEN
@@ -38,6 +38,7 @@ struct Artist: Identifiable {
     let someNumber: Int
     let name: String
     let countries: String
+    let countryCodes: [String]
     let url: String?
     let facebookID: String?
     let youtubeID: String?
@@ -53,7 +54,7 @@ struct Artist: Identifiable {
     }
 
     var formattedDescription: String? {
-        let isGerman = Locale.current.languageCode == "de"
+        let isGerman = Locale.current.appLanguageCodeIdentifier == "de"
         let description = isGerman ? descriptionGerman : descriptionEnglish
         guard let description = description else {
             return nil
@@ -119,6 +120,7 @@ struct Artist: Identifiable {
         someNumber: 0,
         name: "Michael Jackson",
         countries: "USA",
+        countryCodes: ["USA"],
         url: "http://www.michaeljackson.de/",
         facebookID: "michaeljackson",
         youtubeID: "QNJL6nfu__Q",
@@ -172,7 +174,7 @@ enum ArtistType: Int, Identifiable, CaseIterable {
     }
 
     var localizedName: String {
-        if Locale.current.languageCode == "de" {
+        if Locale.current.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName
@@ -186,7 +188,7 @@ struct Area: Identifiable, Hashable {
     let englishName: String
 
     var localizedName: String {
-        if Locale.current.languageCode == "de" {
+        if Locale.current.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName
@@ -466,7 +468,7 @@ struct NewsItem: Identifiable {
     let content: String
 
     var isInCurrentLanguage: Bool {
-        let appIsInGerman = Locale.current.languageCode == "de"
+        let appIsInGerman = Locale.current.appLanguageCodeIdentifier == "de"
         let languageIsGerman = languageCode == "de"
         return appIsInGerman == languageIsGerman
     }
@@ -531,7 +533,7 @@ struct Stage: Identifiable, Hashable {
     let stageType: StageType
 
     var localizedName: String {
-        if Locale.current.languageCode == "de" {
+        if Locale.current.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName
@@ -539,7 +541,7 @@ struct Stage: Identifiable, Hashable {
     }
 
     var localizedDescription: String? {
-        if Locale.current.languageCode == "de" {
+        if Locale.current.appLanguageCodeIdentifier == "de" {
             return germanDescription
         } else {
             return englishDescription
@@ -609,7 +611,7 @@ enum StageType: Int, Identifiable, CaseIterable {
     }
 
     var localizedName: String {
-        if Locale.current.languageCode == "de" {
+        if Locale.current.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName
@@ -623,7 +625,7 @@ struct Tag: Identifiable {
     let englishName: String
 
     var localizedName: String {
-        if Locale.current.languageCode == "de" {
+        if Locale.current.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName

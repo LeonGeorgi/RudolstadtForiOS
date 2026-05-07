@@ -55,6 +55,12 @@ Du kannst die Künstler, die du interessant findest, unter \"Favoriten\" in der 
 "artists.saved.empty" = "Du hast noch keine Favoriten. Markiere dein Interesse auf der Künstlerseite, um Künstler hier zu speichern.";
 "artists.all.button" = "Alle";
 "artists.favorites.button" = "Favoriten";
+"artists.view.world_map" = "Weltkarte";
+"artists.map.instructions" = "Tippe auf ein Land, um die Künstler von dort zu sehen.";
+"artists.map.empty" = "Für die aktuelle Künstlerauswahl sind keine Länderdaten verfügbar.";
+"artists.map.selected_count" = "%1$lld Künstler aus %2$@";
+"artists.map.legend" = "Dunklere Länder stehen für mehr Künstler.";
+"artists.map.show_artists" = "Künstler anzeigen";
 "artisttypes.all" = "Alle auswählen";
 
 "locations.title" = "Orte";
@@ -141,6 +147,16 @@ Die App sammelt keinerlei Daten von dir. Alles, was du in der App machst, bleibt
 Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (damals noch das \"TFF Rudolstadt\"). Seitdem bin ich immer wieder auf das Festival gegangen und finde nach wie vor große Freude daran. Inzwischen habe ich meinen Master in Informatik abgeschlossen und bin mit einem DAAD-Stipendium nach Japan gegangen. Deshalb kann ich dieses Jahr leider nicht beim Festival dabei sein, aber ich hoffe trotzdem, dass euch die App eine schöne Zeit in Rudolstadt erleichtert.
 
 Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequemer nutzen wollte. Eigentlich wollte ich die App einfach nur selbst benutzen, aber weil ich mit dem Ergebnis zufrieden war, habe ich mich dazu entschieden, sie zu veröffentlichen. Viel Spaß damit!";
+"about.licenses.header" = "Open Source";
+"about.licenses.content" = "Diese App verwendet Bibliotheken und Datenquellen von Dritten. Ihre Lizenzhinweise findest du hier.";
+"about.licenses.title" = "Open-Source-Lizenzen";
+"licenses.data_sources.title" = "Datenquellen";
+"licenses.library_sources.title" = "Bibliotheken";
+"licenses.public_domain.title" = "Gemeinfrei";
+"licenses.repository.title" = "Projektseite";
+"licenses.license_text.title" = "Lizenztext";
+"licenses.notice.title" = "Hinweis";
+"licenses.navigation_title" = "Lizenzen";
 
 "copy.link.title" = "Link kopieren";
 "copy.email.title" = "E-Mail-Adresse kopieren";
@@ -171,12 +187,12 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "donations.hero.title" = "App unterstützen";
 "donations.description" = "Diese App wird unabhängig in meiner Freizeit entwickelt und kostenlos bereitgestellt. Wenn sie dir beim Festival hilft, kannst du hier freiwillig etwas zur Weiterentwicklung und Pflege beitragen.";
 "donations.hero.note" = "Ganz ohne Verpflichtung. Die App bleibt selbstverständlich auch ohne Spende vollständig nutzbar.";
-"donations.hero.ticket-note" = "Wenn möglich, wird bei den Beiträgen zusätzlich der ungefähre Bezug zum Preis eines Festivaltickets angezeigt.";
+"donations.hero.ticket-note" = "1 % eines Festivaltickets";
 "donations.options.title" = "Beitrag wählen";
 "donations.options.description.ticket" = "Falls möglich, wird angezeigt, wie sich ein Beitrag grob zum Preis eines Festivaltickets verhält.";
 "donations.options.description.generic" = "Die Beiträge sind freiwillig und unterstützen die Pflege und Weiterentwicklung der App.";
 "donations.loading" = "Spendenoptionen werden geladen…";
-"donation.button.percentage" = "%.0f%%";
+"donation.button.percentage" = "%.0f %% eines Festivaltickets";
 "donation.card.caption.200" = "Sehr lieb.";
 "donation.card.caption.500" = "Vielen Dank.";
 "donation.card.caption.1000" = "Das hilft spürbar.";
@@ -198,3 +214,7 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "settings.clear_cache.done_title" = "Cache gelöscht";
 "settings.clear_cache.done_message" = "Zwischengespeicherte Daten wurden entfernt. Deine Bewertungen und gespeicherten Veranstaltungen sind unverändert.";
 "settings.clear_cache.ok" = "OK";
+
+"artists.map.loading" = "Weltkarte wird geladen…";
+"artists.map.loading.subtitle" = "Die Ländergrenzen werden im Hintergrund vorbereitet.";
+"artists.map.loading.failed" = "Die Weltkarte konnte gerade nicht vorbereitet werden.";

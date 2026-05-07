@@ -52,7 +52,7 @@ private struct ZoomableImageScrollView: UIViewRepresentable {
         imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
         imageView.sd_setImage(with: url) { _, _, _, _ in
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 context.coordinator.updateLayout(in: scrollView)
             }
         }
@@ -75,7 +75,7 @@ private struct ZoomableImageScrollView: UIViewRepresentable {
         if context.coordinator.imageView?.sd_imageURL != url {
             scrollView.zoomScale = 1
             context.coordinator.imageView?.sd_setImage(with: url) { _, _, _, _ in
-                DispatchQueue.main.async {
+                Task { @MainActor in
                     context.coordinator.updateLayout(in: scrollView)
                 }
             }

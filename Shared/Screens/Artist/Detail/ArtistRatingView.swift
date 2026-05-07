@@ -12,7 +12,7 @@ struct ArtistRatingView: View {
         VStack {
             ZStack {
                 HStack(spacing: 0) {
-                    ForEach(1...3) { rating in
+                    ForEach(1...3, id: \.self) { rating in
                         Image(systemName: settings.likeIcon)
                             .font(.system(size: 35))
                             .frame(width: 40, height: 40)

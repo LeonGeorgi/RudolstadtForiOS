@@ -14,85 +14,61 @@ struct RecommendationScheduleView: View {
     @EnvironmentObject var settings: UserSettings
     
     @State private var selectedDay = -1
-    
-    var storedEvents: [Int] {
-        settings.savedEvents
-    }
-    
-    var interestingArtists: [Int] {
-        settings.ratings.filter { element in
-            element.value > 0
-        }.keys.map { a in Int(a)! }
-    }
-    
-    private var availableEventDays: [Int] {
-        guard case .success(let entities) = dataStore.data else {
-            return []
-        }
-        
-        return festivalDays(from: entities.events)
-    }
-    
-    func generateShownEvents(events: [Event]) -> [Event]? {
-        switch settings.getScheduleFilterType(settings.scheduleFilterType) {
-        case .saved:
-            return events.filter { event in
-                storedEvents.contains(event.id)
-            }
-        case .optimal:
-            if let recommendations = dataStore.recommendedEvents {
-                return events.filter { event in
-                    storedEvents.contains(event.id)
-                    || recommendations.contains(event.id)
+
+    private var presenter: RecommendationSchedulePresenter {
+        RecommendationSchedulePresenter(
+            dataState: dataStore.data,
+            recommendationState: dataStore.recommendedEvents,
+            scheduleFilterType: settings.getScheduleFilterType(
+                settings.scheduleFilterType
+            ),
+            savedEventIds: Set(settings.savedEvents),
+            positiveRatedArtistIds: Set(
+                settings.ratings.compactMap { entry in
+                    guard entry.value > 0 else {
+                        return nil
+                    }
+                    return Int(entry.key)
                 }
-            } else {
-                return []
-            }
-        case .interesting:
-            return events.filter { event in
-                storedEvents.contains(event.id)
-                || interestingArtists.contains(event.artist.id)
-            }
-        case .all:
-            return events
-        }
+            )
+        )
     }
 
     var body: some View {
         Group {
-            switch dataStore.data {
+            switch presenter.shownEvents {
             case .loading:
-                Text("events.loading")
+                if settings.getScheduleFilterType(settings.scheduleFilterType) == .optimal,
+                    case .success = dataStore.data
+                {
+                    Text("recommendations.loading")
+                } else {
+                    Text("events.loading")
+                }
             case .failure(let reason):
                 Text("Failed to load: " + reason.rawValue)
-            case .success(let entities):
-                let shownEvents = generateShownEvents(events: entities.events)
-                
-                if let events = shownEvents {
-                    RecommendationScheduleContentView(
-                        events: events,
-                        viewAsTable: settings.scheduleViewType == 0,
-                        selectedDay: $selectedDay
-                    )
-                } else {
-                    Text("recommendations.loading")
-                }
+            case .success(let events):
+                RecommendationScheduleContentView(
+                    events: events,
+                    viewAsTable: settings.scheduleViewType == 0,
+                    selectedDay: $selectedDay
+                )
             }
         }
         .onAppear {
             ensureSelectedDay()
         }
-        .onChange(of: availableEventDays) { _, _ in
+        .onChange(of: presenter.availableEventDays) { _, _ in
             ensureSelectedDay()
         }
         .navigationTitle("schedule.title")
         .navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .top) {
-            if !availableEventDays.isEmpty {
+            if !presenter.availableEventDays.isEmpty {
                 VStack(spacing: 0) {
                     Picker("schedule.day.picker", selection: $selectedDay) {
-                        ForEach(availableEventDays, id: \.self) { day in
-                            Text(Util.shortWeekDay(day: day))
+                        ForEach(presenter.availableEventDays, id: \.self) { day in
+                            Text(FestivalDateUtilities.shortWeekDay(day: day))
                                 .tag(day)
                         }
                     }
@@ -161,29 +137,17 @@ struct RecommendationScheduleView: View {
     }
     
     private func ensureSelectedDay() {
-        guard !availableEventDays.isEmpty else {
+        guard !presenter.availableEventDays.isEmpty else {
             selectedDay = -1
             return
         }
         
-        if !availableEventDays.contains(selectedDay) {
+        if !presenter.availableEventDays.contains(selectedDay) {
             selectedDay =
-            Util.getCurrentFestivalDay(eventDays: availableEventDays)
-            ?? availableEventDays.first ?? -1
-        }
-    }
-    
-    private func festivalDays(from events: [Event]) -> [Int] {
-        Set(
-            events.lazy.map { (event: Event) in
-                event.festivalDay
-            }
-        ).sorted(by: <).filter { day in
-            if DataStore.year == 2023 && day < 6 {
-                return false
-            } else {
-                return true
-            }
+                FestivalDateUtilities.getCurrentFestivalDay(
+                    eventDays: presenter.availableEventDays
+                )
+                ?? presenter.availableEventDays.first ?? -1
         }
     }
 }
