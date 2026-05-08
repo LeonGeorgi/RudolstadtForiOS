@@ -126,6 +126,17 @@ private struct LicenseEntry: Identifiable {
             )
         ),
         LicenseEntry(
+            id: "swiftui-lazypager",
+            name: "SwiftUI-LazyPager",
+            licenseName: "MIT License",
+            copyright: "Copyright (c) 2022 Brian Floersch",
+            repositoryURL: URL(string: "https://github.com/gh123man/SwiftUI-LazyPager"),
+            note: nil,
+            licenseText: mitLicense(
+                copyright: "Copyright (c) 2022 Brian Floersch"
+            )
+        ),
+        LicenseEntry(
             id: "okhsl-color-converter",
             name: "OKHSL/OKLab conversion math",
             licenseName: "MIT License",
