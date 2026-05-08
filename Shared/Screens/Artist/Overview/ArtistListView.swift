@@ -41,13 +41,6 @@ struct ArtistListView: View {
             ? "rated_artists.title" : "artists.title"
     }
 
-    private var worldMapArtists: [Artist] {
-        guard case .success(let data) = dataStore.data else {
-            return []
-        }
-        return worldMapArtists(from: data)
-    }
-
     private func filteredArtists(from data: FestivalData) -> [Artist] {
         data.artists.filter { artist in
             let artistTypeMatches: Bool
@@ -76,12 +69,6 @@ struct ArtistListView: View {
             return !artist.hiddenFromArtistList
                 && artistTypeMatches
                 && browseGenreMatches
-        }
-    }
-
-    private func worldMapArtists(from data: FestivalData) -> [Artist] {
-        data.artists.filter { artist in
-            !artist.hiddenFromArtistList
         }
     }
 
@@ -116,7 +103,6 @@ struct ArtistListView: View {
         ) { artists in
             ArtistBrowseView(
                 artists: artists,
-                worldMapArtists: worldMapArtists,
                 state: overviewState,
                 currentTipID: tipSequencer.currentTipID,
                 browseGenreOptions: browseGenreOptions,

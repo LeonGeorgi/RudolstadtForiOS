@@ -107,7 +107,7 @@ struct ArtistWorldMapView: View {
                                 loadedMap: overlayLoader.loadedMap,
                                 selectedCountryCode: selectedCountryCode
                             ) { countryCode in
-                                selectedCountryCode = countryCode
+                                navigate(.artistCountry(code: countryCode))
                             }
                         } else {
                             ArtistWorldMapRepresentable(
@@ -115,7 +115,7 @@ struct ArtistWorldMapView: View {
                                 loadedMap: overlayLoader.loadedMap,
                                 selectedCountryCode: selectedCountryCode
                             ) { countryCode in
-                                selectedCountryCode = countryCode
+                                navigate(.artistCountry(code: countryCode))
                             }
                         }
                     }

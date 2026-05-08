@@ -1,6 +1,7 @@
 import SwiftUI
 
 enum AppNavigationRoute: Hashable {
+    case artistWorldMap
     case artistCountry(code: String)
     case artist(id: Int, highlightedEventId: Int?)
     case stage(id: Int, highlightedEventId: Int?)
@@ -19,6 +20,8 @@ struct AppNavigationDestination: View {
 
     var body: some View {
         switch route {
+        case .artistWorldMap:
+            artistWorldMapDestination()
         case .artistCountry(let code):
             ArtistCountryListRouteView(countryCode: code)
         case .artist(let id, let highlightedEventId):
@@ -37,6 +40,23 @@ struct AppNavigationDestination: View {
             DonationView()
         case .settings:
             SettingsView()
+        }
+    }
+
+    @ViewBuilder
+    private func artistWorldMapDestination() -> some View {
+        switch dataStore.data {
+        case .success(let data):
+            ArtistMapScreenView(
+                artists: data.artists.filter { artist in
+                    !artist.hiddenFromArtistList
+                },
+                navigationTitleKey: "artists.title"
+            )
+        case .loading:
+            ProgressView()
+        case .failure(let reason):
+            Text("Failed to load: " + reason.rawValue)
         }
     }
 

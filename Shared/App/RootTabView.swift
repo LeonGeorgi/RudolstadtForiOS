@@ -103,7 +103,24 @@ struct RootTabView: View {
                     artistsPath.append(route)
                 }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(route: route)
+                        switch route {
+                        case .artistWorldMap:
+                            if case .success(let data) = dataStore.data {
+                                ArtistMapScreenView(
+                                    artists: data.artists.filter { artist in
+                                        !artist.hiddenFromArtistList
+                                    },
+                                    navigationTitleKey: "artists.title",
+                                    navigate: { nestedRoute in
+                                        artistsPath.append(nestedRoute)
+                                    }
+                                )
+                            } else {
+                                AppNavigationDestination(route: route)
+                            }
+                        default:
+                            AppNavigationDestination(route: route)
+                        }
                     }
             }
             .tabItem {
