@@ -115,25 +115,14 @@ private struct LicenseEntry: Identifiable {
 
     static let all: [LicenseEntry] = [
         LicenseEntry(
-            id: "sdwebimage-swiftui",
-            name: "SDWebImageSwiftUI",
+            id: "nuke",
+            name: "Nuke",
             licenseName: "MIT License",
-            copyright: "Copyright (c) 2019 lizhuoli1126@126.com <lizhuoli1126@126.com>",
-            repositoryURL: URL(string: "https://github.com/SDWebImage/SDWebImageSwiftUI"),
+            copyright: "Copyright (c) 2015-2026 Alexander Grebenyuk",
+            repositoryURL: URL(string: "https://github.com/kean/Nuke"),
             note: nil,
             licenseText: mitLicense(
-                copyright: "Copyright (c) 2019 lizhuoli1126@126.com <lizhuoli1126@126.com>"
-            )
-        ),
-        LicenseEntry(
-            id: "sdwebimage",
-            name: "SDWebImage",
-            licenseName: "MIT License",
-            copyright: "Copyright (c) 2009-2020 Olivier Poitrey rs@dailymotion.com",
-            repositoryURL: URL(string: "https://github.com/SDWebImage/SDWebImage"),
-            note: nil,
-            licenseText: mitLicense(
-                copyright: "Copyright (c) 2009-2020 Olivier Poitrey rs@dailymotion.com"
+                copyright: "Copyright (c) 2015-2026 Alexander Grebenyuk"
             )
         ),
         LicenseEntry(

@@ -1,5 +1,5 @@
+import Nuke
 import SwiftUI
-import SDWebImage
 
 struct SettingsView: View {
     @EnvironmentObject var settings: UserSettings
@@ -72,12 +72,11 @@ struct SettingsView: View {
 
         ArtistImageColorCache.shared.clearCache()
         URLCache.shared.removeAllCachedResponses()
-        SDImageCache.shared.clearMemory()
-        SDImageCache.shared.clearDisk {
-            Task { @MainActor in
-                isClearingCache = false
-                isShowingCacheClearedAlert = true
-            }
+        ImageCache.shared.removeAll()
+
+        Task { @MainActor in
+            isClearingCache = false
+            isShowingCacheClearedAlert = true
         }
     }
 }

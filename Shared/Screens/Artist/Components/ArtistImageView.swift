@@ -1,4 +1,5 @@
-import SDWebImageSwiftUI
+import Nuke
+import NukeUI
 import SwiftUI
 
 struct ArtistImageView: View {
@@ -21,20 +22,23 @@ struct ArtistImageView: View {
 
     var body: some View {
         if let selectedImageURL {
-            WebImage(
-                url: selectedImageURL,
-                options: [.scaleDownLargeImages, .highPriority],
-                context: [.imageThumbnailPixelSize: fullImage ? CGSize(width: 1200, height: 1000) : CGSize(width: 320, height: 280)]
-            )
-            .placeholder {
-                placeholderImage
-                    .overlay {
-                        ProgressView()
-                    }
+            LazyImage(url: selectedImageURL) { state in
+                if let image = state.image {
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .clipped()
+                } else {
+                    placeholderImage
+                        .overlay {
+                            ProgressView()
+                        }
+                }
             }
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .clipped()
+            .priority(.high)
+            .transaction { transaction in
+                transaction.animation = nil
+            }
         } else {
             placeholderImage
         }

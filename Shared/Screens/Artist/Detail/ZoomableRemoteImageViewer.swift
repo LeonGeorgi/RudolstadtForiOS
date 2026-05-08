@@ -1,4 +1,4 @@
-import SDWebImage
+import Nuke
 import SwiftUI
 
 struct ZoomableRemoteImageViewer: View {
@@ -51,11 +51,6 @@ private struct ZoomableImageScrollView: UIViewRepresentable {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
-        imageView.sd_setImage(with: url) { _, _, _, _ in
-            Task { @MainActor in
-                context.coordinator.updateLayout(in: scrollView)
-            }
-        }
 
         let doubleTapRecognizer = UITapGestureRecognizer(
             target: context.coordinator,
@@ -67,18 +62,15 @@ private struct ZoomableImageScrollView: UIViewRepresentable {
         scrollView.addSubview(imageView)
         context.coordinator.imageView = imageView
         context.coordinator.scrollView = scrollView
+        context.coordinator.loadImage(from: url, in: scrollView)
 
         return scrollView
     }
 
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
-        if context.coordinator.imageView?.sd_imageURL != url {
+        if context.coordinator.loadedURL != url {
             scrollView.zoomScale = 1
-            context.coordinator.imageView?.sd_setImage(with: url) { _, _, _, _ in
-                Task { @MainActor in
-                    context.coordinator.updateLayout(in: scrollView)
-                }
-            }
+            context.coordinator.loadImage(from: url, in: scrollView)
         }
 
         context.coordinator.updateLayout(in: scrollView)
@@ -87,6 +79,12 @@ private struct ZoomableImageScrollView: UIViewRepresentable {
     final class Coordinator: NSObject, UIScrollViewDelegate {
         weak var scrollView: UIScrollView?
         weak var imageView: UIImageView?
+        var loadedURL: URL?
+        private var loadTask: Task<Void, Never>?
+
+        deinit {
+            loadTask?.cancel()
+        }
 
         func viewForZooming(in scrollView: UIScrollView) -> UIView? {
             imageView
@@ -94,6 +92,32 @@ private struct ZoomableImageScrollView: UIViewRepresentable {
 
         func scrollViewDidZoom(_ scrollView: UIScrollView) {
             updateInsets(in: scrollView)
+        }
+
+        func loadImage(from url: URL, in scrollView: UIScrollView) {
+            loadedURL = url
+            loadTask?.cancel()
+            imageView?.image = nil
+
+            loadTask = Task { [weak self, weak scrollView] in
+                guard let self else { return }
+
+                do {
+                    let image = try await ImagePipeline.shared.image(for: url)
+                    try Task.checkCancellation()
+
+                    await MainActor.run {
+                        guard self.loadedURL == url, let scrollView else { return }
+                        self.imageView?.image = image
+                        self.updateLayout(in: scrollView)
+                    }
+                } catch {
+                    await MainActor.run {
+                        guard self.loadedURL == url else { return }
+                        self.imageView?.image = nil
+                    }
+                }
+            }
         }
 
         func updateLayout(in scrollView: UIScrollView) {

@@ -6,7 +6,6 @@
 //
 
 import BackgroundTasks
-import SDWebImage
 import SwiftUI
 
 @MainActor
@@ -50,17 +49,6 @@ struct RudolstadtForiOSApp: App {
                 await dataStore.refreshRecommendations()
             }
         }
-        configureCache()
-    }
-
-    func configureCache() {
-        let cache = SDImageCache.shared
-        let fiveYears: TimeInterval = 60 * 60 * 24 * 365 * 5
-        cache.config.maxDiskAge = fiveYears
-        cache.config.maxMemoryCost = 150 * 1024 * 1024
-        cache.config.maxDiskSize = 1024 * 1024 * 1024
-        cache.config.shouldCacheImagesInMemory = true
-        cache.config.shouldUseWeakMemoryCache = true
     }
 
     var body: some Scene {
