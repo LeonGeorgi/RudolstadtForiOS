@@ -177,9 +177,7 @@
 		A10000192FA00001004F9471 /* ShownArtistTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000142FA00001004F9471 /* ShownArtistTypes.swift */; };
 		A100001A2FA00001004F9471 /* ArtistImageColorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000162FA00001004F9471 /* ArtistImageColorCache.swift */; };
 		A10000292FA10001004F9471 /* TextFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000282FA10001004F9471 /* TextFormatting.swift */; };
-		A100002B2FA10001004F9471 /* ViewGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002A2FA10001004F9471 /* ViewGestures.swift */; };
 		A100002C2FA10001004F9471 /* TextFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000282FA10001004F9471 /* TextFormatting.swift */; };
-		A100002D2FA10001004F9471 /* ViewGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002A2FA10001004F9471 /* ViewGestures.swift */; };
 		A10000302FB00001004F9471 /* ArtistMapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000312FB00001004F9471 /* ArtistMapOverviewView.swift */; };
 		A10000322FB00001004F9471 /* ArtistMapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000312FB00001004F9471 /* ArtistMapOverviewView.swift */; };
 		A10000342FB10001004F9471 /* ArtistOverviewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000332FB10001004F9471 /* ArtistOverviewState.swift */; };
@@ -323,7 +321,6 @@
 		A10000152F9A1001004F9471 /* world_countries_detail.geojson */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = world_countries_detail.geojson; sourceTree = "<group>"; };
 		A10000162FA00001004F9471 /* ArtistImageColorCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistImageColorCache.swift; sourceTree = "<group>"; };
 		A10000282FA10001004F9471 /* TextFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatting.swift; sourceTree = "<group>"; };
-		A100002A2FA10001004F9471 /* ViewGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewGestures.swift; sourceTree = "<group>"; };
 		A10000312FB00001004F9471 /* ArtistMapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistMapOverviewView.swift; sourceTree = "<group>"; };
 		A10000332FB10001004F9471 /* ArtistOverviewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistOverviewState.swift; sourceTree = "<group>"; };
 		A10000352FB10001004F9471 /* ArtistBrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistBrowseView.swift; sourceTree = "<group>"; };
@@ -671,7 +668,6 @@
 				35D0A48B2A073AFF004C506D /* ColorExtensions.swift */,
 				32A1194705F0DC9D18C2B09B /* FestivalDateUtilities.swift */,
 				A10000282FA10001004F9471 /* TextFormatting.swift */,
-				A100002A2FA10001004F9471 /* ViewGestures.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1029,7 +1025,6 @@
 				32A1116B6BA8D17499860263 /* SaveEventButton.swift in Sources */,
 				32A118A07CA6F813F4380570 /* FestivalDateUtilities.swift in Sources */,
 				A10000292FA10001004F9471 /* TextFormatting.swift in Sources */,
-				A100002B2FA10001004F9471 /* ViewGestures.swift in Sources */,
 				32A11EF0FC00667B09CA5D0A /* StageEventCell.swift in Sources */,
 				3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */,
 				3505732E2854A794008932A9 /* GeneralView.swift in Sources */,
@@ -1114,7 +1109,6 @@
 				32A1190D2BC1583EA5BCD4F4 /* SaveEventButton.swift in Sources */,
 				32A111D06B3F187ED5308393 /* FestivalDateUtilities.swift in Sources */,
 				A100002C2FA10001004F9471 /* TextFormatting.swift in Sources */,
-				A100002D2FA10001004F9471 /* ViewGestures.swift in Sources */,
 				3505733B2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
 				32A1173EE6141DB87056E57E /* StageEventCell.swift in Sources */,
 				35D0A4932A0754CE004C506D /* StagePreview.swift in Sources */,
