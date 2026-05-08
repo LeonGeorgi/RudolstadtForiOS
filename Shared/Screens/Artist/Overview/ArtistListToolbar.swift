@@ -1,48 +1,56 @@
 import SwiftUI
 
-struct ArtistPresentationModePicker: View {
-    @ObservedObject var state: ArtistOverviewState
-
-    var body: some View {
-        Menu {
-            ForEach(ArtistPresentationMode.allCases, id: \.rawValue) { mode in
-                Button {
-                    state.selectedPresentationMode = mode
-                } label: {
-                    if state.selectedPresentationMode == mode {
-                        Label(mode.localizedTitle, systemImage: "checkmark")
-                    } else {
-                        Label(
-                            mode.localizedTitle,
-                            systemImage: mode.systemImageName
-                        )
-                    }
-                }
-            }
-        } label: {
-            Label(
-                state.selectedPresentationMode.localizedTitle,
-                systemImage: state.selectedPresentationMode.systemImageName
-            )
+private extension ArtistPresentationMode {
+    var toggledMode: ArtistPresentationMode {
+        switch self {
+        case .list:
+            return .grid
+        case .grid:
+            return .list
         }
-        .labelStyle(.iconOnly)
     }
 }
 
-struct ArtistPresentationModeToolbar: ToolbarContent {
+struct ArtistPresentationModeToggleButton: View {
     @ObservedObject var state: ArtistOverviewState
+    let currentTipID: String?
 
-    var body: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            ArtistPresentationModePicker(state: state)
+    var body: some View {
+        let nextMode = state.selectedPresentationMode.toggledMode
+
+        Button {
+            state.selectedPresentationMode = nextMode
+        } label: {
+            Label(nextMode.localizedTitle, systemImage: nextMode.systemImageName)
         }
+        .labelStyle(.iconOnly)
+        .accessibilityLabel(nextMode.localizedTitle)
+        .appPopoverTip(
+            DiscoverabilityTips.artistViewMode,
+            currentTipID: currentTipID,
+            arrowEdge: .top
+        )
+    }
+}
+
+struct ArtistWorldMapButton: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label("artists.view.world_map", systemImage: "globe.europe.africa.fill")
+        }
+        .labelStyle(.iconOnly)
+        .accessibilityLabel(Text("artists.view.world_map"))
     }
 }
 
 struct ArtistListToolbar: ToolbarContent {
     @ObservedObject var state: ArtistOverviewState
+    let currentTipID: String?
     let browseGenreOptions: [BrowseTaxonomyEntry]
     let localizedBrowseGenreLabel: (String) -> String
+    let showWorldMap: () -> Void
 
     private var artistTypeMenuTitle: String {
         let title = NSLocalizedString("filter.artisttypes.title", comment: "")
@@ -81,16 +89,32 @@ struct ArtistListToolbar: ToolbarContent {
             Button(action: {
                 state.favoriteArtistsOnly.toggle()
             }) {
-                if state.favoriteArtistsOnly {
-                    Text("artists.all.button")
-                } else {
-                    Text("artists.favorites.button")
-                }
+                Image(
+                    systemName: state.favoriteArtistsOnly ? "heart.fill" : "heart"
+                )
             }
+            .foregroundStyle(state.favoriteArtistsOnly ? Color.accentColor : Color.primary)
+            .accessibilityLabel(
+                state.favoriteArtistsOnly
+                    ? Text("artists.all.button")
+                    : Text("artists.favorites.button")
+            )
+            .appPopoverTip(
+                DiscoverabilityTips.artistFavorites,
+                currentTipID: currentTipID,
+                arrowEdge: .top
+            )
         }
 
         ToolbarItemGroup(placement: .navigationBarTrailing) {
-            ArtistPresentationModePicker(state: state)
+            ArtistWorldMapButton(
+                action: showWorldMap
+            )
+
+            ArtistPresentationModeToggleButton(
+                state: state,
+                currentTipID: currentTipID
+            )
 
             Menu {
                 if state.hasActiveFilters {
@@ -164,6 +188,11 @@ struct ArtistListToolbar: ToolbarContent {
                 filterButtonLabel
             }
             .accessibilityLabel(Text("filter.button"))
+            .appPopoverTip(
+                DiscoverabilityTips.artistFilters,
+                currentTipID: currentTipID,
+                arrowEdge: .top
+            )
         }
     }
 }

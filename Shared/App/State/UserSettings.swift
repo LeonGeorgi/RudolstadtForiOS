@@ -81,7 +81,6 @@ final class UserSettings: ObservableObject {
 
     // 0 - List
     // 1 - Grid
-    // 2 - World Map
     @UserDefault(key: "view/artist/viewtype/v2", defaultValue: 1)
     var artistViewType: Int
 
@@ -141,8 +140,6 @@ final class UserSettings: ObservableObject {
     func toggleArtistViewType() {
         if artistViewType == 0 {
             artistViewType = 1
-        } else if artistViewType == 1 {
-            artistViewType = 2
         } else {
             artistViewType = 0
         }

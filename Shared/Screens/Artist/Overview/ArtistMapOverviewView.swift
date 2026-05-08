@@ -2,9 +2,7 @@ import SwiftUI
 
 struct ArtistMapOverviewView: View {
     let artists: [Artist]
-    let navigate: (AppNavigationRoute) -> Void
-
-    @State private var selectedCountryCode: String? = nil
+    @Binding var selectedCountryCode: String?
 
     private var sortedArtists: [Artist] {
         artists.sorted { first, second in
@@ -41,20 +39,13 @@ struct ArtistMapOverviewView: View {
         ArtistWorldMapView(
             groups: countryGroups,
             selectedCountryCode: $selectedCountryCode,
-            navigate: navigate
+            navigate: { _ in }
         )
         .onAppear {
             syncSelectedCountryCode()
         }
         .onChange(of: countryGroups.map(\.code)) {
             syncSelectedCountryCode()
-        }
-        .onChange(of: selectedCountryCode) {
-            guard let selectedCountryCode else {
-                return
-            }
-            navigate(.artistCountry(code: selectedCountryCode))
-            self.selectedCountryCode = nil
         }
     }
 

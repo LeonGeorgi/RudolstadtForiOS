@@ -16,6 +16,9 @@ struct ArtistListView: View {
     @EnvironmentObject var dataStore: DataStore
 
     @StateObject private var overviewState = ArtistOverviewState()
+    @StateObject private var tipSequencer = TipSequencer(
+        DiscoverabilityTipSequences.artistScreen
+    )
     @Namespace private var artistImageTransition
 
     init(
@@ -36,6 +39,13 @@ struct ArtistListView: View {
     private var navigationTitleKey: LocalizedStringKey {
         overviewState.favoriteArtistsOnly
             ? "rated_artists.title" : "artists.title"
+    }
+
+    private var worldMapArtists: [Artist] {
+        guard case .success(let data) = dataStore.data else {
+            return []
+        }
+        return worldMapArtists(from: data)
     }
 
     private func filteredArtists(from data: FestivalData) -> [Artist] {
@@ -69,6 +79,12 @@ struct ArtistListView: View {
         }
     }
 
+    private func worldMapArtists(from data: FestivalData) -> [Artist] {
+        data.artists.filter { artist in
+            !artist.hiddenFromArtistList
+        }
+    }
+
     private func artistsToShow(from artists: [Artist]) -> [Artist] {
         if overviewState.favoriteArtistsOnly {
             let artistsWithRatings = artists.map { artist in
@@ -98,24 +114,17 @@ struct ArtistListView: View {
                 }
             }
         ) { artists in
-            Group {
-                if overviewState.selectedPresentationMode == .worldMap {
-                    ArtistMapScreenView(
-                        artists: artists,
-                        state: overviewState,
-                        navigate: navigate
-                    )
-                } else {
-                    ArtistBrowseView(
-                        artists: artists,
-                        state: overviewState,
-                        browseGenreOptions: browseGenreOptions,
-                        localizedBrowseGenreLabel: dataStore.localizedBrowseGenreLabel,
-                        navigationTitleKey: navigationTitleKey,
-                        imageTransitionNamespace: artistImageTransition
-                    )
-                }
-            }
+            ArtistBrowseView(
+                artists: artists,
+                worldMapArtists: worldMapArtists,
+                state: overviewState,
+                currentTipID: tipSequencer.currentTipID,
+                browseGenreOptions: browseGenreOptions,
+                localizedBrowseGenreLabel: dataStore.localizedBrowseGenreLabel,
+                navigationTitleKey: navigationTitleKey,
+                imageTransitionNamespace: artistImageTransition,
+                navigate: navigate
+            )
             .onAppear {
                 print(
                     "[ArtistWorldMap] ArtistListView content appeared mode=\(overviewState.selectedPresentationMode.rawValue) artists=\(artists.count)"
@@ -125,8 +134,12 @@ struct ArtistListView: View {
         .task {
             print("[ArtistWorldMap] ArtistListView.task start")
             ArtistWorldMapView.preloadResources()
-            overviewState.selectedPresentationMode =
+            let restoredMode =
                 ArtistPresentationMode(rawValue: settings.artistViewType) ?? .grid
+            overviewState.selectedPresentationMode = restoredMode
+            if settings.artistViewType != restoredMode.rawValue {
+                settings.artistViewType = restoredMode.rawValue
+            }
             print(
                 "[ArtistWorldMap] ArtistListView.task restored mode=\(overviewState.selectedPresentationMode.rawValue)"
             )
