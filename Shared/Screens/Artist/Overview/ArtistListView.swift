@@ -41,6 +41,16 @@ struct ArtistListView: View {
             ? "rated_artists.title" : "artists.title"
     }
 
+    private var emptyMessageKey: LocalizedStringKey {
+        if overviewState.favoriteArtistsOnly
+            && !overviewState.hasActiveFilters
+            && overviewState.searchText.isEmpty
+        {
+            return "artists.saved.empty"
+        }
+        return "artists.none-found"
+    }
+
     private func filteredArtists(from data: FestivalData) -> [Artist] {
         data.artists.filter { artist in
             let artistTypeMatches: Bool
@@ -93,6 +103,7 @@ struct ArtistListView: View {
         LoadingListView(
             noDataMessage: "artists.none-found",
             noDataSubtitle: nil,
+            showsNoDataView: false,
             dataMapper: { data in
                 artistsToShow(
                     from: filteredArtists(from: data)
@@ -105,6 +116,7 @@ struct ArtistListView: View {
                 artists: artists,
                 state: overviewState,
                 currentTipID: tipSequencer.currentTipID,
+                emptyMessageKey: emptyMessageKey,
                 browseGenreOptions: browseGenreOptions,
                 localizedBrowseGenreLabel: dataStore.localizedBrowseGenreLabel,
                 navigationTitleKey: navigationTitleKey,

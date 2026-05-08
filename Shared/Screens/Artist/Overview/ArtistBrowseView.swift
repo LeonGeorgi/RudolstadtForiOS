@@ -4,6 +4,7 @@ struct ArtistBrowseView: View {
     let artists: [Artist]
     @ObservedObject var state: ArtistOverviewState
     let currentTipID: String?
+    let emptyMessageKey: LocalizedStringKey
     let browseGenreOptions: [BrowseTaxonomyEntry]
     let localizedBrowseGenreLabel: (String) -> String
     let navigationTitleKey: LocalizedStringKey
@@ -14,7 +15,9 @@ struct ArtistBrowseView: View {
         ArtistOverviewContentView(
             artists: artists,
             selectedPresentationMode: state.selectedPresentationMode,
-            imageTransitionNamespace: imageTransitionNamespace
+            emptyMessageKey: emptyMessageKey,
+            imageTransitionNamespace: imageTransitionNamespace,
+            navigate: navigate
         )
         .searchable(text: $state.searchText)
         .disableAutocorrection(true)

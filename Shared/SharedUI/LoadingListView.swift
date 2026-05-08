@@ -4,6 +4,7 @@ struct LoadingListView<ListValues, ListView: View>: View
 where ListValues: RandomAccessCollection {
     var noDataMessage: LocalizedStringKey
     var noDataSubtitle: String? = nil
+    var showsNoDataView = true
     var dataMapper: (FestivalData) -> ListValues
     var listView: (ListValues) -> ListView
 
@@ -67,7 +68,7 @@ where ListValues: RandomAccessCollection {
             failureView(reason)
         case .success(let entities):
             let listValues = dataMapper(entities)
-            if listValues.isEmpty {
+            if showsNoDataView && listValues.isEmpty {
                 noDataView
             } else {
                 listView(listValues)

@@ -3,7 +3,9 @@ import SwiftUI
 struct ArtistOverviewContentView: View {
     let artists: [Artist]
     let selectedPresentationMode: ArtistPresentationMode
+    let emptyMessageKey: LocalizedStringKey
     let imageTransitionNamespace: Namespace.ID
+    let navigate: ((AppNavigationRoute) -> Void)?
 
     private let gridColumns = Array(
         repeating: GridItem(.flexible(), spacing: 11),
@@ -18,16 +20,30 @@ struct ArtistOverviewContentView: View {
 
     var body: some View {
         Group {
-            if selectedPresentationMode == .grid {
+            if sortedArtists.isEmpty {
+                VStack {
+                    Spacer()
+                    Text(emptyMessageKey)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 24)
+                    Spacer()
+                }
+            } else if selectedPresentationMode == .grid {
                 ScrollView {
                     LazyVGrid(columns: gridColumns, spacing: 16) {
                         ForEach(sortedArtists) { artist in
-                            NavigationLink(
-                                value: AppNavigationRoute.artist(
-                                    id: artist.id,
-                                    highlightedEventId: nil
+                            NavigationLink {
+                                ArtistDetailView(
+                                    artist: artist,
+                                    highlightedEventId: nil,
+                                    navigate: navigate
                                 )
-                            ) {
+                                .artistImageNavigationTransition(
+                                    id: artist.id,
+                                    namespace: imageTransitionNamespace
+                                )
+                            } label: {
                                 ArtistGridCell(
                                     artist: artist,
                                     imageTransitionNamespace: imageTransitionNamespace
