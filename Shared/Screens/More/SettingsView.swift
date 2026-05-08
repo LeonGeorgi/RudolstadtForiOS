@@ -50,7 +50,7 @@ struct SettingsView: View {
         }
         .font(.body)
         .listStyle(.insetGrouped)
-        .navigationBarTitle("settings.title")
+        .navigationTitle("settings.title")
         .alert("settings.clear_cache.title", isPresented: $isShowingClearCacheAlert) {
             Button("settings.clear_cache.cancel", role: .cancel) {}
             Button("settings.clear_cache.confirm", role: .destructive) {

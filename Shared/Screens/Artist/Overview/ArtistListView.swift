@@ -145,7 +145,7 @@ struct ArtistListView: View {
         .onChange(of: overviewState.selectedPresentationMode) { _, newMode in
             settings.artistViewType = newMode.rawValue
         }
-        .onChange(of: dataStore.browseTaxonomy) {
+        .onChange(of: dataStore.browseTaxonomy, initial: false) { _, _ in
             overviewState.syncBrowseGenreSelection(
                 with: browseGenreOptions
             )

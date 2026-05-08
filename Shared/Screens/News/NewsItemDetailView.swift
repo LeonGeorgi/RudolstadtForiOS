@@ -167,6 +167,7 @@ struct NewsItemDetailView: View {
                 }
             }.padding()
         }
+        .navigationTitle(newsItem.formattedShortDescription)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             settings.markNewsAsRead(newsItem)

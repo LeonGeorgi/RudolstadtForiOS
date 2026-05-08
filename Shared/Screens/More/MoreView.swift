@@ -42,7 +42,7 @@ struct MoreView: View {
             }
 
         }
-        .navigationBarTitle("more.title")
+        .navigationTitle("more.title")
         .listStyle(.plain)
         .font(.system(size: 18))
     }

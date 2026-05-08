@@ -62,7 +62,7 @@ struct RecommendationScheduleView: View {
         .onAppear {
             ensureSelectedDay()
         }
-        .onChange(of: presenter.availableEventDays) { _, _ in
+        .onChange(of: presenter.availableEventDays, initial: false) { _, _ in
             ensureSelectedDay()
         }
         .navigationTitle("schedule.title")

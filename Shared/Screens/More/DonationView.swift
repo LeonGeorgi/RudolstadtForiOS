@@ -57,7 +57,8 @@ struct DonationView: View {
         .task {
             await iapManager.fetchProducts(productIDs: donationIDs)
         }
-        .navigationBarTitle("donations.title", displayMode: .inline)
+        .navigationTitle("donations.title")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private var heroCard: some View {

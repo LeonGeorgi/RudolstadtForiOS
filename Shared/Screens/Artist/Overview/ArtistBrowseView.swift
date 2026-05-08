@@ -21,7 +21,7 @@ struct ArtistBrowseView: View {
         )
         .searchable(text: $state.searchText)
         .disableAutocorrection(true)
-        .navigationBarTitle(navigationTitleKey)
+        .navigationTitle(navigationTitleKey)
         .toolbar {
             ArtistListToolbar(
                 state: state,

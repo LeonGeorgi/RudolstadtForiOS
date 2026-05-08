@@ -90,7 +90,7 @@ struct MapView: View, Equatable {
                 pointsOfInterest: .including([.atm]),
             )
         )
-        .accentColor(.rudolstadt)
+        .tint(.rudolstadt)
         .onMapCameraChange(frequency: .continuous) { context in
             guard !isAdjustingRegion else {
                 return

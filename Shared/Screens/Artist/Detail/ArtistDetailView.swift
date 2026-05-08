@@ -126,7 +126,7 @@ struct ArtistDetailView: View {
         }
         .background(artistBackgroundColor.ignoresSafeArea())
         .toolbarBackground(.visible, for: .navigationBar)
-        .onChange(of: systemColorScheme) {
+        .onChange(of: systemColorScheme, initial: false) { _, _ in
             applyCachedColors(for: systemColorScheme)
         }
         .task(id: artist.id) {

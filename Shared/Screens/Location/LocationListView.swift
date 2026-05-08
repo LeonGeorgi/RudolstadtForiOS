@@ -72,7 +72,7 @@ struct LocationListView: View {
         }
         .searchable(text: $searchTerm)
         .disableAutocorrection(true)
-        .navigationBarTitle("locations.title")
+        .navigationTitle("locations.title")
     }
 }
 

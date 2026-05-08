@@ -56,7 +56,8 @@ struct MapOverview: View {
 
             }
         }
-        .navigationBarTitle("locations.title", displayMode: .inline)
+        .navigationTitle("locations.title")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {

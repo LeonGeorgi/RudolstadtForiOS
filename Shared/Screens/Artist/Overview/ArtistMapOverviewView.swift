@@ -45,7 +45,7 @@ struct ArtistMapOverviewView: View {
         .onAppear {
             syncSelectedCountryCode()
         }
-        .onChange(of: countryGroups.map(\.code)) {
+        .onChange(of: countryGroups.map(\.code), initial: false) { _, _ in
             syncSelectedCountryCode()
         }
     }
