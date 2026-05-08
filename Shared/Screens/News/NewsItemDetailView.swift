@@ -16,7 +16,7 @@ struct NewsItemDetailView: View {
     @State private var mentionedStages: [Stage] = []
 
     private var normalizedNewsText: String {
-        normalizeForPlainMatch(
+        normalizeForNewsMentionMatch(
             [
                 newsItem.formattedShortDescription,
                 newsItem.formattedLongDescription,
@@ -129,7 +129,7 @@ struct NewsItemDetailView: View {
         let result = MentionLookupResult(
             artists: entities.artists.compactMap { artist -> (Artist, Int)? in
                 guard
-                    let index = firstAppearanceIndex(
+                    let index = firstWholeMentionAppearanceIndex(
                         in: normalizedText,
                         candidate: artist.formattedName
                     )
@@ -158,12 +158,12 @@ struct NewsItemDetailView: View {
         }
 
         let dotaCandidates = entities.artists.filter { artist in
-            normalizeForPlainMatch(artist.formattedName).contains("dota")
+            normalizeForNewsMentionMatch(artist.formattedName).contains("dota")
         }
         for artist in dotaCandidates {
-            let normalizedCandidate = normalizeForPlainMatch(artist.formattedName)
+            let normalizedCandidate = normalizeForNewsMentionMatch(artist.formattedName)
             print(
-                "NewsMentionDebug: dota candidate='\(artist.formattedName)' normalized='\(normalizedCandidate)' matched=\(normalizedText.contains(normalizedCandidate))"
+                "NewsMentionDebug: dota candidate='\(artist.formattedName)' normalized='\(normalizedCandidate)' matched=\(containsMention(normalizedText: normalizedText, candidate: artist.formattedName))"
             )
         }
 
@@ -254,7 +254,7 @@ struct NewsItemDetailView: View {
     }
 
     private func containsMention(normalizedText: String, candidate: String) -> Bool {
-        firstAppearanceIndex(in: normalizedText, candidate: candidate) != nil
+        firstWholeMentionAppearanceIndex(in: normalizedText, candidate: candidate) != nil
     }
 
     private func firstAppearanceIndex(in normalizedText: String, candidate: String) -> Int? {
@@ -294,11 +294,68 @@ struct NewsItemDetailView: View {
             options: .regularExpression
         )
     }
+
+
+
 }
 
 private struct MentionLookupResult {
     let artists: [Artist]
     let stages: [Stage]
+}
+
+func firstWholeMentionAppearanceIndex(in normalizedText: String, candidate: String) -> Int? {
+    let normalizedCandidate = normalizeForNewsMentionMatch(candidate)
+    guard !normalizedCandidate.isEmpty else {
+        return nil
+    }
+
+    var searchRange = normalizedText.startIndex..<normalizedText.endIndex
+    while let range = normalizedText.range(
+        of: normalizedCandidate,
+        options: [],
+        range: searchRange
+    ) {
+        let characterBeforeMatch = range.lowerBound == normalizedText.startIndex
+            ? nil
+            : normalizedText[normalizedText.index(before: range.lowerBound)]
+        let characterAfterMatch = range.upperBound == normalizedText.endIndex
+            ? nil
+            : normalizedText[range.upperBound]
+
+        if isNewsMentionBoundary(characterBeforeMatch)
+            && isNewsMentionBoundary(characterAfterMatch)
+        {
+            return normalizedText.distance(
+                from: normalizedText.startIndex,
+                to: range.lowerBound
+            )
+        }
+
+        searchRange = range.upperBound..<normalizedText.endIndex
+    }
+
+    return nil
+}
+
+func normalizeForNewsMentionMatch(_ text: String) -> String {
+    normalize(string: text)
+        .lowercased()
+        .replacingOccurrences(
+            of: "[^\\p{L}\\p{N}]+",
+            with: " ",
+            options: .regularExpression
+        )
+        .replacingOccurrences(
+            of: "\\s+",
+            with: " ",
+            options: .regularExpression
+        )
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+}
+
+private func isNewsMentionBoundary(_ character: Character?) -> Bool {
+    character == nil || character == " "
 }
 
 struct NewsItemDetailView_Previews: PreviewProvider {

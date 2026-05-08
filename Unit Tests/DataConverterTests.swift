@@ -99,6 +99,61 @@ final class DataConverterTests: XCTestCase {
     }
 }
 
+final class NewsMentionMatchingTests: XCTestCase {
+    func testWholeMentionMatchRequiresBoundaryBefore() {
+        let normalizedText = normalizeForNewsMentionMatch(
+            "superBandAdriatica opens the night"
+        )
+
+        XCTAssertNil(
+            firstWholeMentionAppearanceIndex(
+                in: normalizedText,
+                candidate: "BandAdriatica"
+            )
+        )
+    }
+
+    func testWholeMentionMatchRequiresBoundaryAfter() {
+        let normalizedText = normalizeForNewsMentionMatch(
+            "BandAdriaticax returns for an encore"
+        )
+
+        XCTAssertNil(
+            firstWholeMentionAppearanceIndex(
+                in: normalizedText,
+                candidate: "BandAdriatica"
+            )
+        )
+    }
+
+    func testWholeMentionMatchRejectsPartialTrailingWordMatch() {
+        let normalizedText = normalizeForNewsMentionMatch(
+            "La Nina headlines the evening"
+        )
+
+        XCTAssertNil(
+            firstWholeMentionAppearanceIndex(
+                in: normalizedText,
+                candidate: "La Ni"
+            )
+        )
+    }
+
+    func testWholeMentionMatchAllowsNormalizedPunctuationAndDiacritics() {
+        let normalizedText = normalizeForNewsMentionMatch(
+            "Tonight: La Nina!"
+        )
+
+        XCTAssertEqual(
+            firstWholeMentionAppearanceIndex(
+                in: normalizedText,
+                candidate: "La Niña"
+            ),
+            8
+        )
+    }
+}
+
 @MainActor
 final class NewsServiceTests: XCTestCase {
     override func setUp() {
