@@ -1,166 +1,114 @@
-import Nuke
+import NukeUI
 import SwiftUI
+#if os(iOS)
+import LazyPager
+#endif
 
 struct ZoomableRemoteImageViewer: View {
     let url: URL
 
     @Environment(\.dismiss) private var dismiss
+    @State private var backgroundOpacity: CGFloat = 1
+    @State private var controlsVisible = true
+    @State private var currentPage = 0
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            ZoomableImageScrollView(url: url)
+            pagerContent
                 .ignoresSafeArea()
 
-            Button {
-                dismiss()
-            } label: {
+            if controlsVisible {
+                closeButton
+                    .padding(.trailing, 18)
+            }
+        }
+        .background(Color.black.opacity(backgroundOpacity).ignoresSafeArea())
+#if os(iOS)
+        .background(ClearFullScreenBackground())
+#endif
+    }
+
+    @ViewBuilder
+    private var pagerContent: some View {
+#if os(iOS)
+        LazyPager(data: [url], page: $currentPage) { pageURL in
+            remoteImage(for: pageURL)
+        }
+        .zoomable(min: 1, max: 5)
+        .onDismiss(backgroundOpacity: $backgroundOpacity) {
+            dismiss()
+        }
+        .onTap {
+            withAnimation(.easeInOut(duration: 0.2)) {
+                controlsVisible.toggle()
+            }
+        }
+#else
+        remoteImage(for: url)
+#endif
+    }
+
+    private var closeButton: some View {
+        Button {
+            dismiss()
+        } label: {
+            ZStack {
+                Color.clear
+                    .frame(width: 56, height: 56)
+
                 Image(systemName: "xmark")
                     .font(.headline.weight(.semibold))
                     .foregroundStyle(.white)
-                    .frame(width: 36, height: 36)
+                    .frame(width: 22, height: 22)
+                    .frame(width: 44, height: 44)
+#if os(iOS)
+                    .modifier(LiquidGlassCloseButtonStyle())
+#else
                     .background(.black.opacity(0.55), in: Circle())
+#endif
             }
-            .padding(.top, 18)
-            .padding(.trailing, 18)
         }
-        .background(Color.black.ignoresSafeArea())
-        .navigationBarBackButtonHidden()
-        .toolbar(.hidden, for: .navigationBar)
-        .toolbar(.hidden, for: .tabBar)
-    }
-}
-
-private struct ZoomableImageScrollView: UIViewRepresentable {
-    let url: URL
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator()
+        .contentShape(Rectangle())
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("Close"))
     }
 
-    func makeUIView(context: Context) -> UIScrollView {
-        let scrollView = UIScrollView()
-        scrollView.delegate = context.coordinator
-        scrollView.backgroundColor = .black
-        scrollView.minimumZoomScale = 1
-        scrollView.maximumZoomScale = 5
-        scrollView.bouncesZoom = true
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.contentInsetAdjustmentBehavior = .never
-
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.isUserInteractionEnabled = true
-
-        let doubleTapRecognizer = UITapGestureRecognizer(
-            target: context.coordinator,
-            action: #selector(Coordinator.handleDoubleTap(_:))
-        )
-        doubleTapRecognizer.numberOfTapsRequired = 2
-        imageView.addGestureRecognizer(doubleTapRecognizer)
-
-        scrollView.addSubview(imageView)
-        context.coordinator.imageView = imageView
-        context.coordinator.scrollView = scrollView
-        context.coordinator.loadImage(from: url, in: scrollView)
-
-        return scrollView
-    }
-
-    func updateUIView(_ scrollView: UIScrollView, context: Context) {
-        if context.coordinator.loadedURL != url {
-            scrollView.zoomScale = 1
-            context.coordinator.loadImage(from: url, in: scrollView)
-        }
-
-        context.coordinator.updateLayout(in: scrollView)
-    }
-
-    final class Coordinator: NSObject, UIScrollViewDelegate {
-        weak var scrollView: UIScrollView?
-        weak var imageView: UIImageView?
-        var loadedURL: URL?
-        private var loadTask: Task<Void, Never>?
-
-        deinit {
-            loadTask?.cancel()
-        }
-
-        func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-            imageView
-        }
-
-        func scrollViewDidZoom(_ scrollView: UIScrollView) {
-            updateInsets(in: scrollView)
-        }
-
-        func loadImage(from url: URL, in scrollView: UIScrollView) {
-            loadedURL = url
-            loadTask?.cancel()
-            imageView?.image = nil
-
-            loadTask = Task { [weak self, weak scrollView] in
-                guard let self else { return }
-
-                do {
-                    let image = try await ImagePipeline.shared.image(for: url)
-                    try Task.checkCancellation()
-
-                    await MainActor.run {
-                        guard self.loadedURL == url, let scrollView else { return }
-                        self.imageView?.image = image
-                        self.updateLayout(in: scrollView)
-                    }
-                } catch {
-                    await MainActor.run {
-                        guard self.loadedURL == url else { return }
-                        self.imageView?.image = nil
-                    }
+    private func remoteImage(for imageURL: URL) -> some View {
+        LazyImage(url: imageURL) { state in
+            if let image = state.image {
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            } else if state.error != nil {
+                ContentUnavailableView {
+                    Label("Image Unavailable", systemImage: "photo")
+                } description: {
+                    Text("The artist image could not be loaded.")
                 }
-            }
-        }
-
-        func updateLayout(in scrollView: UIScrollView) {
-            guard let imageView else { return }
-
-            imageView.frame = CGRect(origin: .zero, size: scrollView.bounds.size)
-            scrollView.contentSize = imageView.bounds.size
-            updateInsets(in: scrollView)
-        }
-
-        @objc func handleDoubleTap(_ recognizer: UITapGestureRecognizer) {
-            guard let scrollView else { return }
-
-            if scrollView.zoomScale > scrollView.minimumZoomScale {
-                scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+                .foregroundStyle(.white)
             } else {
-                let location = recognizer.location(in: imageView)
-                let targetScale = min(scrollView.maximumZoomScale, 2.5)
-                let zoomSize = CGSize(
-                    width: scrollView.bounds.width / targetScale,
-                    height: scrollView.bounds.height / targetScale
-                )
-                let zoomRect = CGRect(
-                    x: location.x - zoomSize.width / 2,
-                    y: location.y - zoomSize.height / 2,
-                    width: zoomSize.width,
-                    height: zoomSize.height
-                )
-                scrollView.zoom(to: zoomRect, animated: true)
+                ProgressView()
+                    .tint(.white)
             }
         }
+        .priority(.high)
+        .transaction { transaction in
+            transaction.animation = nil
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
 
-        private func updateInsets(in scrollView: UIScrollView) {
-            guard let imageView else { return }
-
-            let horizontalInset = max((scrollView.bounds.width - imageView.frame.width) / 2, 0)
-            let verticalInset = max((scrollView.bounds.height - imageView.frame.height) / 2, 0)
-            scrollView.contentInset = UIEdgeInsets(
-                top: verticalInset,
-                left: horizontalInset,
-                bottom: verticalInset,
-                right: horizontalInset
-            )
+#if os(iOS)
+private struct LiquidGlassCloseButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .glassEffect(.clear.interactive(), in: Circle())
+        } else {
+            content
+                .background(.black.opacity(0.55), in: Circle())
         }
     }
 }
+#endif

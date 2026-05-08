@@ -2,13 +2,9 @@ import SwiftUI
 
 struct ArtistDetailHeaderView: View {
     let artist: Artist
-    let imageTransitionNamespace: Namespace.ID
 
     @Environment(\.colorScheme) private var colorScheme
-
-    private var imageViewerTransitionID: String {
-        "artist-full-image-\(artist.id)"
-    }
+    @State private var isShowingFullImage = false
 
     private var countryAndFlags: String? {
         let country = artist.countries.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -43,12 +39,15 @@ struct ArtistDetailHeaderView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             if let fullImageUrl = artist.fullImageUrl {
-                NavigationLink {
-                    zoomableImageDestination(url: fullImageUrl)
+                Button {
+                    isShowingFullImage = true
                 } label: {
                     artistImage
                 }
                 .buttonStyle(.plain)
+                .fullScreenCover(isPresented: $isShowingFullImage) {
+                    ZoomableRemoteImageViewer(url: fullImageUrl)
+                }
             } else {
                 artistImage
             }
@@ -91,33 +90,11 @@ struct ArtistDetailHeaderView: View {
         .padding(.top, 4)
     }
 
-    @ViewBuilder
-    private func zoomableImageDestination(url: URL) -> some View {
-        if #available(iOS 18.0, macOS 15.0, *) {
-            ZoomableRemoteImageViewer(url: url)
-                .navigationTransition(
-                    .zoom(sourceID: imageViewerTransitionID, in: imageTransitionNamespace)
-                )
-        } else {
-            ZoomableRemoteImageViewer(url: url)
-        }
-    }
-
-    @ViewBuilder
-    private var artistImage: some View {
-        if #available(iOS 18.0, macOS 15.0, *) {
-            styledArtistImage
-                .matchedTransitionSource(id: imageViewerTransitionID, in: imageTransitionNamespace)
-        } else {
-            styledArtistImage
-        }
-    }
-
     private var imageStrokeColor: Color {
         colorScheme == .dark ? .white.opacity(0.22) : .black.opacity(0.15)
     }
 
-    private var styledArtistImage: some View {
+    private var artistImage: some View {
         ArtistImageView(artist: artist, fullImage: true)
             .aspectRatio(8.0 / 7.0, contentMode: .fill)
             .frame(maxWidth: .infinity)

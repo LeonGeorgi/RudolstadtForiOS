@@ -17,8 +17,6 @@ struct ArtistDetailView: View {
         DiscoverabilityTipSequences.artistDetailScreen
     )
 
-    @Namespace private var imageViewerTransition
-
     @State private var artistBackgroundColor: Color
     @State private var descriptionBackgroundColor: Color
 
@@ -80,8 +78,7 @@ struct ArtistDetailView: View {
             VStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 18) {
                         ArtistDetailHeaderView(
-                            artist: artist,
-                            imageTransitionNamespace: imageViewerTransition
+                            artist: artist
                         )
 
                         ArtistDetailLinksView(artist: artist)
