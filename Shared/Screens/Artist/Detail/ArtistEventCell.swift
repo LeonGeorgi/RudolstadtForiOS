@@ -8,11 +8,23 @@
 
 import SwiftUI
 
+private struct ArtistNavigationHandlerKey: EnvironmentKey {
+    static let defaultValue: ((AppNavigationRoute) -> Void)? = nil
+}
+
+extension EnvironmentValues {
+    var artistNavigationHandler: ((AppNavigationRoute) -> Void)? {
+        get { self[ArtistNavigationHandlerKey.self] }
+        set { self[ArtistNavigationHandlerKey.self] = newValue }
+    }
+}
+
 struct ArtistEventCell: View {
     let event: Event
 
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
+    @Environment(\.artistNavigationHandler) private var navigate
 
     @State var selectedCollisionArtist: Artist? = nil
 
@@ -89,7 +101,16 @@ struct ArtistEventCell: View {
             if case .success(let intersectingEvents) = eventsThatIntersect {
                 ForEach(intersectingEvents) { (intersectingEvent: Event) in
                     Button {
-                        self.selectedCollisionArtist = intersectingEvent.artist
+                        if let navigate {
+                            navigate(
+                                .artist(
+                                    id: intersectingEvent.artist.id,
+                                    highlightedEventId: event.id
+                                )
+                            )
+                        } else {
+                            self.selectedCollisionArtist = intersectingEvent.artist
+                        }
                     } label: {
                         Text(intersectingEvent.artist.formattedName)
                         Image(systemName: "exclamationmark.circle")

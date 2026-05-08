@@ -73,6 +73,7 @@ struct ArtistEventsBlock: View {
     let artistEvents: LoadingEntity<[Event]>
     let highlightedEventId: Int?
     let currentTipID: String?
+    let navigate: ((AppNavigationRoute) -> Void)?
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -115,6 +116,7 @@ struct ArtistEventsBlock: View {
                                 )
                             ) {
                                 ArtistEventCell(event: event)
+                                    .environment(\.artistNavigationHandler, navigate)
                                     .padding(.vertical, 6)
                                     .padding(.horizontal, 16)
                                     .frame(maxWidth: .infinity, alignment: .leading)

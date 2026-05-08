@@ -4,6 +4,7 @@ import SwiftUI
 struct ArtistDetailView: View {
     let artist: Artist
     let highlightedEventId: Int?
+    let navigate: ((AppNavigationRoute) -> Void)?
 
     @Environment(\.colorScheme) private var systemColorScheme
     @EnvironmentObject var settings: UserSettings
@@ -20,9 +21,14 @@ struct ArtistDetailView: View {
     @State private var artistBackgroundColor: Color
     @State private var descriptionBackgroundColor: Color
 
-    init(artist: Artist, highlightedEventId: Int?) {
+    init(
+        artist: Artist,
+        highlightedEventId: Int?,
+        navigate: ((AppNavigationRoute) -> Void)? = nil
+    ) {
         self.artist = artist
         self.highlightedEventId = highlightedEventId
+        self.navigate = navigate
         _artistBackgroundColor = State(initialValue: .clear)
         _descriptionBackgroundColor = State(initialValue: .clear)
     }
@@ -96,7 +102,8 @@ struct ArtistDetailView: View {
                         ArtistEventsBlock(
                             artistEvents: artistEvents,
                             highlightedEventId: highlightedEventId,
-                            currentTipID: tipSequencer.currentTipID
+                            currentTipID: tipSequencer.currentTipID,
+                            navigate: navigate
                         )
                     }
                     .padding(.horizontal, 16)

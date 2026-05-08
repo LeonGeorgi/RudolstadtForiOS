@@ -52,7 +52,8 @@ struct AppNavigationDestination: View {
                 artists: data.artists.filter { artist in
                     !artist.hiddenFromArtistList
                 },
-                navigationTitleKey: "artists.title"
+                navigationTitleKey: "artists.title",
+                navigate: navigate ?? { _ in }
             )
         case .loading:
             ProgressView()
@@ -66,7 +67,11 @@ struct AppNavigationDestination: View {
         switch dataStore.data {
         case .success(let data):
             if let artist = data.artists.first(where: { $0.id == id }) {
-                ArtistDetailView(artist: artist, highlightedEventId: highlightedEventId)
+                ArtistDetailView(
+                    artist: artist,
+                    highlightedEventId: highlightedEventId,
+                    navigate: navigate
+                )
             } else {
                 Text("artists.none-found")
             }

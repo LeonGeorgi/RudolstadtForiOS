@@ -74,7 +74,12 @@ struct RootTabView: View {
             NavigationStack(path: $mapPath) {
                 MapOverview()
                     .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(route: route)
+                        AppNavigationDestination(
+                            route: route,
+                            navigate: { nestedRoute in
+                                mapPath.append(nestedRoute)
+                            }
+                        )
                     }
             }
             .tabItem {
@@ -87,7 +92,12 @@ struct RootTabView: View {
             NavigationStack(path: $schedulePath) {
                 RecommendationScheduleView()
                     .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(route: route)
+                        AppNavigationDestination(
+                            route: route,
+                            navigate: { nestedRoute in
+                                schedulePath.append(nestedRoute)
+                            }
+                        )
                     }
             }
             .tabItem {
@@ -103,24 +113,12 @@ struct RootTabView: View {
                     artistsPath.append(route)
                 }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
-                        switch route {
-                        case .artistWorldMap:
-                            if case .success(let data) = dataStore.data {
-                                ArtistMapScreenView(
-                                    artists: data.artists.filter { artist in
-                                        !artist.hiddenFromArtistList
-                                    },
-                                    navigationTitleKey: "artists.title",
-                                    navigate: { nestedRoute in
-                                        artistsPath.append(nestedRoute)
-                                    }
-                                )
-                            } else {
-                                AppNavigationDestination(route: route)
+                        AppNavigationDestination(
+                            route: route,
+                            navigate: { nestedRoute in
+                                artistsPath.append(nestedRoute)
                             }
-                        default:
-                            AppNavigationDestination(route: route)
-                        }
+                        )
                     }
             }
             .tabItem {
@@ -149,7 +147,12 @@ struct RootTabView: View {
             NavigationStack(path: $morePath) {
                 MoreView()
                     .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(route: route)
+                        AppNavigationDestination(
+                            route: route,
+                            navigate: { nestedRoute in
+                                morePath.append(nestedRoute)
+                            }
+                        )
                     }
             }
             .tabItem {
