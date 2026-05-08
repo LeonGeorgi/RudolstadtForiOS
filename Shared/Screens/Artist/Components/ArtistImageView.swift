@@ -6,6 +6,9 @@ struct ArtistImageView: View {
     let artist: Artist
     let fullImage: Bool
 
+    @Environment(\.colorScheme) private var colorScheme
+    @State private var skeletonShimmerPhase: CGFloat = -1
+
     private var selectedImageURL: URL? {
         if fullImage, let fullImageUrl = artist.fullImageUrl {
             return fullImageUrl
@@ -20,6 +23,51 @@ struct ArtistImageView: View {
             .clipped()
     }
 
+    private var skeletonBaseColor: Color {
+        colorScheme == .dark ? .white.opacity(0.10) : .black.opacity(0.08)
+    }
+
+    private var skeletonHighlightColor: Color {
+        colorScheme == .dark ? .white.opacity(0.18) : .white.opacity(0.45)
+    }
+
+    private var loadingSkeleton: some View {
+        Rectangle()
+            .fill(skeletonBaseColor)
+            .overlay {
+                GeometryReader { proxy in
+                    let width = max(proxy.size.width, 1)
+
+                    LinearGradient(
+                        colors: [.clear, skeletonHighlightColor, .clear],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                    .frame(width: width * 0.6)
+                    .blur(radius: 10)
+                    .offset(x: skeletonShimmerPhase * width * 1.8)
+                }
+                .clipped()
+            }
+            .overlay {
+                ProgressView()
+                    .tint(colorScheme == .dark ? .white.opacity(0.9) : .secondary)
+                    .padding(10)
+                    .background(.ultraThinMaterial, in: Circle())
+            }
+            .onAppear {
+                guard skeletonShimmerPhase == -1 else {
+                    return
+                }
+
+                withAnimation(
+                    .linear(duration: 1.15).repeatForever(autoreverses: false)
+                ) {
+                    skeletonShimmerPhase = 1
+                }
+            }
+    }
+
     var body: some View {
         if let selectedImageURL {
             LazyImage(url: selectedImageURL) { state in
@@ -28,11 +76,10 @@ struct ArtistImageView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .clipped()
-                } else {
+                } else if state.error != nil {
                     placeholderImage
-                        .overlay {
-                            ProgressView()
-                        }
+                } else {
+                    loadingSkeleton
                 }
             }
             .priority(.high)

@@ -72,6 +72,8 @@ struct SettingsView: View {
 
         ArtistImageColorCache.shared.clearCache()
         URLCache.shared.removeAllCachedResponses()
+        Nuke.DataLoader.sharedUrlCache.removeAllCachedResponses()
+        ImagePipeline.shared.cache.removeAll(caches: [.all])
         ImageCache.shared.removeAll()
 
         Task { @MainActor in

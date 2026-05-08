@@ -32,6 +32,11 @@ struct AIArtistData {
 }
 
 struct Artist: Identifiable {
+    private static let knownFestivalPlaceholderImageNames: Set<String> = [
+        "aaaplatzhalter-jj406147npwtqwg.jpg",
+        "aaaplatzhalter-eev4gvb1gk8384g.jpg",
+    ]
+
     let id: Int
     let hiddenFromArtistList: Bool
     let artistType: ArtistType
@@ -63,11 +68,11 @@ struct Artist: Identifiable {
     }
 
     var thumbImageUrl: URL? {
-        return URL(string: thumbImageUrlString)
+        return Self.usableImageURL(from: thumbImageUrlString)
     }
 
     var fullImageUrl: URL? {
-        return URL(string: fullImageUrlString)
+        return Self.usableImageURL(from: fullImageUrlString)
     }
 
     var videoUrl: URL? {
@@ -143,6 +148,27 @@ struct Artist: Identifiable {
             flags: ["🇺🇸"]
         )
     )
+
+    private static func usableImageURL(from urlString: String) -> URL? {
+        let trimmed = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, let url = URL(string: trimmed) else {
+            return nil
+        }
+
+        let path = url.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+        guard !path.isEmpty else {
+            return nil
+        }
+
+        let fileName = (url.lastPathComponent.removingPercentEncoding
+            ?? url.lastPathComponent)
+            .lowercased()
+        guard !knownFestivalPlaceholderImageNames.contains(fileName) else {
+            return nil
+        }
+
+        return url
+    }
 }
 
 enum ArtistType: Int, Identifiable, CaseIterable {
