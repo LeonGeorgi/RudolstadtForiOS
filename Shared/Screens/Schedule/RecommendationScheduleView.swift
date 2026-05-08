@@ -14,6 +14,9 @@ struct RecommendationScheduleView: View {
     @EnvironmentObject var settings: UserSettings
     
     @State private var selectedDay = -1
+    @StateObject private var tipSequencer = TipSequencer(
+        DiscoverabilityTipSequences.scheduleScreen
+    )
 
     private var presenter: RecommendationSchedulePresenter {
         RecommendationSchedulePresenter(
@@ -51,7 +54,8 @@ struct RecommendationScheduleView: View {
                 RecommendationScheduleContentView(
                     events: events,
                     viewAsTable: settings.scheduleViewType == 0,
-                    selectedDay: $selectedDay
+                    selectedDay: $selectedDay,
+                    currentTipID: tipSequencer.currentTipID
                 )
             }
         }
@@ -99,6 +103,11 @@ struct RecommendationScheduleView: View {
                     }
                 }
                 .labelStyle(.iconOnly)
+                .appPopoverTip(
+                    DiscoverabilityTips.scheduleViewMode,
+                    currentTipID: tipSequencer.currentTipID,
+                    arrowEdge: .top
+                )
                 
                 Menu {
                     Picker(
@@ -132,6 +141,11 @@ struct RecommendationScheduleView: View {
                     )
                 }
                 .labelStyle(.iconOnly)
+                .appPopoverTip(
+                    DiscoverabilityTips.scheduleFilters,
+                    currentTipID: tipSequencer.currentTipID,
+                    arrowEdge: .top
+                )
             }
         }
     }

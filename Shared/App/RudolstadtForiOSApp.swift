@@ -7,6 +7,9 @@
 
 import BackgroundTasks
 import SwiftUI
+#if os(iOS)
+import TipKit
+#endif
 
 @MainActor
 @main
@@ -49,6 +52,7 @@ struct RudolstadtForiOSApp: App {
                 await dataStore.refreshRecommendations()
             }
         }
+        configureDiscoverabilityTips()
     }
 
     var body: some Scene {

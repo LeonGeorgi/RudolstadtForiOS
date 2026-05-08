@@ -13,6 +13,9 @@ struct ArtistDetailView: View {
     @State var isEditAlertShown: Bool = false
     @State var noteText: String = ""
     @State private var isShowingAIInfo = false
+    @StateObject private var tipSequencer = TipSequencer(
+        DiscoverabilityTipSequences.artistDetailScreen
+    )
 
     @Namespace private var imageViewerTransition
 
@@ -83,7 +86,10 @@ struct ArtistDetailView: View {
 
                         ArtistDetailLinksView(artist: artist)
 
-                        ArtistRatingView(artist: artist)
+                        ArtistRatingView(
+                            artist: artist,
+                            currentTipID: tipSequencer.currentTipID
+                        )
                             .padding(.horizontal, 34)
                             .frame(maxWidth: .infinity)
 
@@ -92,7 +98,8 @@ struct ArtistDetailView: View {
                         }
                         ArtistEventsBlock(
                             artistEvents: artistEvents,
-                            highlightedEventId: highlightedEventId
+                            highlightedEventId: highlightedEventId,
+                            currentTipID: tipSequencer.currentTipID
                         )
                     }
                     .padding(.horizontal, 16)
@@ -134,6 +141,11 @@ struct ArtistDetailView: View {
                     }) {
                         Image(systemName: "square.and.pencil")
                     }
+                    .appPopoverTip(
+                        DiscoverabilityTips.artistNotes,
+                        currentTipID: tipSequencer.currentTipID,
+                        arrowEdge: .top
+                    )
                 }
             }
         }

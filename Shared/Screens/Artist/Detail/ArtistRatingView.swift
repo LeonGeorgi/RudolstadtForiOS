@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ArtistRatingView: View {
     let artist: Artist
+    let currentTipID: String?
     @EnvironmentObject var settings: UserSettings
 
     var rating: Int {
@@ -37,6 +38,11 @@ struct ArtistRatingView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
+                .appPopoverTip(
+                    DiscoverabilityTips.artistRating,
+                    currentTipID: currentTipID,
+                    arrowEdge: .bottom
+                )
 
                 HStack {
                     Button(action: {
@@ -51,7 +57,10 @@ struct ArtistRatingView: View {
                     .disabled(rating == 0)
                     .accessibilityHidden(rating == 0)
                     Spacer()
-                    ArtistIconPicker(artist: artist)
+                    ArtistIconPicker(
+                        artist: artist,
+                        currentTipID: currentTipID
+                    )
                 }
             }
         }
@@ -61,6 +70,7 @@ struct ArtistRatingView: View {
 struct ArtistIconPicker: View {
 
     let artist: Artist
+    let currentTipID: String?
     @EnvironmentObject var settings: UserSettings
 
     var artistIcon: String? {
@@ -144,10 +154,15 @@ struct ArtistIconPicker: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
+        .appPopoverTip(
+            DiscoverabilityTips.artistIconPicker,
+            currentTipID: currentTipID,
+            arrowEdge: .bottom
+        )
     }
 }
 
 #Preview {
-    ArtistRatingView(artist: .example)
+    ArtistRatingView(artist: .example, currentTipID: nil)
         .environmentObject(UserSettings())
 }

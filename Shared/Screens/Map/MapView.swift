@@ -19,6 +19,7 @@ struct MapView: View, Equatable {
     }
 
     var locations: [MapLocation]
+    let currentTipID: String?
 
     @State private var cameraPosition: MapCameraPosition = .region(
         Self.initialFestivalRegion
@@ -110,6 +111,12 @@ struct MapView: View, Equatable {
         .ignoresSafeArea()
         .overlay(alignment: .top) {
             VStack(spacing: 8) {
+                AppInlineTipView(
+                    tip: DiscoverabilityTips.mapLegend,
+                    currentTipID: currentTipID,
+                    arrowEdge: .bottom
+                )
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         legendToggleChip(
@@ -148,6 +155,11 @@ struct MapView: View, Equatable {
             .padding(.trailing, 16)
             .padding(.bottom, 24)
             .accessibilityLabel("Center on festival area")
+            .appPopoverTip(
+                DiscoverabilityTips.mapRecenter,
+                currentTipID: currentTipID,
+                arrowEdge: .leading
+            )
         }
     }
 
@@ -334,6 +346,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(locations: [])
+        MapView(locations: [], currentTipID: nil)
     }
 }

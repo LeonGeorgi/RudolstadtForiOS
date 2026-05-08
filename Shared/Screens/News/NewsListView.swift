@@ -5,6 +5,9 @@ struct NewsListView: View {
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
     @State var refreshButtonDisabled: Bool = false
+    @StateObject private var tipSequencer = TipSequencer(
+        DiscoverabilityTipSequences.newsScreen
+    )
 
     var body: some View {
         renderContent()
@@ -43,30 +46,40 @@ struct NewsListView: View {
                     Spacer()
                 }
             } else {
-                List(
-                    news.filter { item in item.isInCurrentLanguage }
-                ) { (newsItem: NewsItem) in
-                    NewsItemCell(newsItem: newsItem)
-                        .swipeActions(
-                            edge: .leading,
-                            allowsFullSwipe: true
-                        ) {
-                            Button(action: {
-                                settings.toggleReadState(for: newsItem)
-                            }) {
-                                if settings.readNews.contains(
-                                    newsItem.id
-                                ) {
-                                    Image(systemName: "envelope.badge")
-                                } else {
-                                    Image(systemName: "envelope.open")
+                List {
+                    AppInlineTipView(
+                        tip: DiscoverabilityTips.newsSwipeReadState,
+                        currentTipID: tipSequencer.currentTipID,
+                        arrowEdge: .bottom
+                    )
+                    .listRowInsets(.init(top: 8, leading: 0, bottom: 8, trailing: 0))
+                    .listRowSeparator(.hidden)
+
+                    ForEach(news.filter { item in item.isInCurrentLanguage }) { newsItem in
+                        NewsItemCell(newsItem: newsItem)
+                            .swipeActions(
+                                edge: .leading,
+                                allowsFullSwipe: true
+                            ) {
+                                Button(action: {
+                                    settings.toggleReadState(for: newsItem)
+                                }) {
+                                    if settings.readNews.contains(
+                                        newsItem.id
+                                    ) {
+                                        Image(systemName: "envelope.badge")
+                                    } else {
+                                        Image(systemName: "envelope.open")
+                                    }
                                 }
-                            }.tint(.blue)
-                        }
-                }.listStyle(.plain)
-                    .refreshable {
-                        await dataStore.updateAndLoadNewsIfNecessary()
+                                .tint(.blue)
+                            }
                     }
+                }
+                .listStyle(.plain)
+                .refreshable {
+                    await dataStore.updateAndLoadNewsIfNecessary()
+                }
             }
         } else if case .loading = dataStore.news {
             VStack {

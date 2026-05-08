@@ -12,6 +12,9 @@ struct MapOverview: View {
 
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var settings: UserSettings
+    @StateObject private var tipSequencer = TipSequencer(
+        DiscoverabilityTipSequences.locationsScreen
+    )
 
     var annotationItems: LoadingEntity<[MapLocation]> {
         dataStore.data.map { entities in
@@ -40,7 +43,11 @@ struct MapOverview: View {
                 VStack {
 
                     if settings.mapType == 0 {
-                        MapView(locations: locations).equatable()
+                        MapView(
+                            locations: locations,
+                            currentTipID: tipSequencer.currentTipID
+                        )
+                        .equatable()
                     } else {
                         LocationListView()
                     }
@@ -58,6 +65,11 @@ struct MapOverview: View {
                     Image(systemName: settings.mapType == 0 ? "list.bullet" : "map")
                 }
                 .accessibilityLabel(settings.mapType == 0 ? "list.title" : "map.title")
+                .appPopoverTip(
+                    DiscoverabilityTips.locationsViewMode,
+                    currentTipID: tipSequencer.currentTipID,
+                    arrowEdge: .top
+                )
             }
         }
         .toolbarBackground(

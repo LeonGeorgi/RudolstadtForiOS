@@ -72,6 +72,7 @@ struct ArtistNoteBlock: View {
 struct ArtistEventsBlock: View {
     let artistEvents: LoadingEntity<[Event]>
     let highlightedEventId: Int?
+    let currentTipID: String?
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -98,6 +99,13 @@ struct ArtistEventsBlock: View {
         case .success(let events):
             if !events.isEmpty {
                 VStack(alignment: .leading, spacing: 0) {
+                    AppInlineTipView(
+                        tip: DiscoverabilityTips.eventQuickActions,
+                        currentTipID: currentTipID,
+                        arrowEdge: .bottom
+                    )
+                    .padding(.bottom, 10)
+
                     VStack(spacing: 0) {
                         ForEach(Array(events.enumerated()), id: \.element.id) { index, event in
                             NavigationLink(

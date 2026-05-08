@@ -13,6 +13,7 @@ struct RecommendationScheduleContentView: View {
     let events: [Event]
     let viewAsTable: Bool
     @Binding var selectedDay: Int
+    let currentTipID: String?
 
     var todaysEvents: [Event] {
         events.filter { event in
@@ -21,15 +22,25 @@ struct RecommendationScheduleContentView: View {
     }
 
     var body: some View {
-        ZStack {
-            Color(.systemBackground)
+        VStack(spacing: 0) {
+            AppInlineTipView(
+                tip: DiscoverabilityTips.eventQuickActions,
+                currentTipID: currentTipID,
+                arrowEdge: .bottom
+            )
+            .padding(.top, 8)
 
-            Group {
-                if viewAsTable {
-                    ScrollableProgramView(events: todaysEvents)
-                } else {
-                    ScheduleView(events: todaysEvents)
+            ZStack {
+                Color(.systemBackground)
+
+                Group {
+                    if viewAsTable {
+                        ScrollableProgramView(events: todaysEvents)
+                    } else {
+                        ScheduleView(events: todaysEvents)
+                    }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }

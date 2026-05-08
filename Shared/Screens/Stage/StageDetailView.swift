@@ -36,6 +36,9 @@ struct StageDetailView: View {
     @State private var isShowingInteractiveMap = false
     @State private var interactiveMapRecenterTrigger = 0
     @State private var onlyStagesWithConcerts = true
+    @StateObject private var tipSequencer = TipSequencer(
+        DiscoverabilityTipSequences.stageDetailScreen
+    )
 
     func events(_ entities: FestivalData) -> [Int: [Event]] {
         Dictionary(
@@ -243,6 +246,11 @@ struct StageDetailView: View {
                         isShowingInteractiveMap = true
                     }
             }
+            .appPopoverTip(
+                DiscoverabilityTips.stageMapPreview,
+                currentTipID: tipSequencer.currentTipID,
+                arrowEdge: .bottom
+            )
             .accessibilityAddTraits(.isButton)
             .accessibilityLabel(Text("stage.map"))
     }
