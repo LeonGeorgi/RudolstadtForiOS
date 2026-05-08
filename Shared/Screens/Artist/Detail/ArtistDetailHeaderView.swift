@@ -111,6 +111,7 @@ struct ArtistDetailHeaderView: View {
 
 struct ArtistDetailLinksView: View {
     let artist: Artist
+    let openURL: (URL) -> Void
 
     @EnvironmentObject var dataStore: DataStore
 
@@ -135,13 +136,24 @@ struct ArtistDetailLinksView: View {
             || hasArtistLinks
     }
 
+    private func openPreferInstalledApp(_ url: URL) {
+        UIApplication.shared.open(
+            url,
+            options: [.universalLinksOnly: true]
+        ) { success in
+            if !success {
+                openURL(url)
+            }
+        }
+    }
+
     private var artistLinksView: some View {
         HStack(spacing: 12) {
             if let videoUrl = artist.videoUrl {
                 LinkButton(label: "Video", scale: 0.6) {
                     Image("youtube")
                 } action: {
-                    UIApplication.shared.open(videoUrl)
+                    openPreferInstalledApp(videoUrl)
                 }
             }
 
@@ -149,7 +161,7 @@ struct ArtistDetailLinksView: View {
                 LinkButton(label: "artist.website", scale: 1.0) {
                     Image(systemName: "globe")
                 } action: {
-                    UIApplication.shared.open(url)
+                    openURL(url)
                 }
             }
 
@@ -157,7 +169,7 @@ struct ArtistDetailLinksView: View {
                 LinkButton(label: "Facebook", scale: 0.8) {
                     Image("facebook")
                 } action: {
-                    UIApplication.shared.open(facebookUrl)
+                    openPreferInstalledApp(facebookUrl)
                 }
             }
 
@@ -165,7 +177,7 @@ struct ArtistDetailLinksView: View {
                 LinkButton(label: "Instagram", scale: 0.8) {
                     Image("instagram")
                 } action: {
-                    UIApplication.shared.open(instagramUrl)
+                    openPreferInstalledApp(instagramUrl)
                 }
             }
 
@@ -173,7 +185,7 @@ struct ArtistDetailLinksView: View {
                 LinkButton(label: "Apple Music", scale: 1.0) {
                     Image(systemName: "music.note")
                 } action: {
-                    UIApplication.shared.open(url)
+                    openPreferInstalledApp(url)
                 }
             }
 
@@ -181,7 +193,7 @@ struct ArtistDetailLinksView: View {
                 LinkButton(label: "Spotify", scale: 0.7) {
                     Image("spotify")
                 } action: {
-                    UIApplication.shared.open(url)
+                    openPreferInstalledApp(url)
                 }
             }
         }

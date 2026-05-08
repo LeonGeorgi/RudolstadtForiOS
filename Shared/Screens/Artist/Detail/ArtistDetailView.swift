@@ -2,6 +2,11 @@ import MusicKit
 import SwiftUI
 
 struct ArtistDetailView: View {
+    private struct PresentedBrowserURL: Identifiable {
+        let id = UUID()
+        let url: URL
+    }
+
     let artist: Artist
     let highlightedEventId: Int?
     let navigate: ((AppNavigationRoute) -> Void)?
@@ -14,6 +19,7 @@ struct ArtistDetailView: View {
     @State var isEditAlertShown: Bool = false
     @State var noteText: String = ""
     @State private var isShowingAIInfo = false
+    @State private var presentedBrowserURL: PresentedBrowserURL?
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.artistDetailScreen
     )
@@ -87,7 +93,9 @@ struct ArtistDetailView: View {
                             artist: artist
                         )
 
-                        ArtistDetailLinksView(artist: artist)
+                        ArtistDetailLinksView(artist: artist) { url in
+                            presentedBrowserURL = PresentedBrowserURL(url: url)
+                        }
 
                         ArtistRatingView(
                             artist: artist,
@@ -195,6 +203,10 @@ struct ArtistDetailView: View {
                     }
             }
             .interactiveDismissDisabled()
+        }
+        .sheet(item: $presentedBrowserURL) { destination in
+            InAppSafariView(url: destination.url)
+                .ignoresSafeArea()
         }
         .alert("artist.ai.header", isPresented: $isShowingAIInfo) {
             Button("artist.ai.info.ok", role: .cancel) {}

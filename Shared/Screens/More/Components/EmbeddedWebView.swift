@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SafariServices
 import WebKit
 
 struct EmbeddedWebView: UIViewRepresentable {
@@ -36,4 +37,19 @@ struct EmbeddedWebView_Previews: PreviewProvider {
     static var previews: some View {
         EmbeddedWebView(url: URL(string: "https://www.google.com/")!)
     }
+}
+
+struct InAppSafariView: UIViewControllerRepresentable {
+    let url: URL
+
+    func makeUIViewController(context: Context) -> SFSafariViewController {
+        let viewController = SFSafariViewController(url: url)
+        viewController.dismissButtonStyle = .close
+        return viewController
+    }
+
+    func updateUIViewController(
+        _ uiViewController: SFSafariViewController,
+        context: Context
+    ) {}
 }
