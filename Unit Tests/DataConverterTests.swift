@@ -97,6 +97,120 @@ final class DataConverterTests: XCTestCase {
 
         XCTAssertEqual(artist.countryCodes, ["CIV", "FRA"])
     }
+
+    func testAttributedStringWithDetectedLinksMarksPlainURLsAsLinks() {
+        let attributedString = attributedStringWithDetectedLinks(
+            "Read more at https://example.com/news"
+        )
+
+        let runsWithLinks = attributedString.runs.compactMap(\.link)
+
+        XCTAssertEqual(
+            runsWithLinks,
+            [URL(string: "https://example.com/news")!]
+        )
+    }
+
+    func testExtractYouTubeVideoIDSupportsWatchAndShortLinks() {
+        XCTAssertEqual(
+            extractYouTubeVideoID(
+                from: URL(string: "https://www.youtube.com/watch?v=QNJL6nfu__Q")!
+            ),
+            "QNJL6nfu__Q"
+        )
+        XCTAssertEqual(
+            extractYouTubeVideoID(
+                from: URL(string: "https://youtu.be/YO1ERhWMeXc")!
+            ),
+            "YO1ERhWMeXc"
+        )
+        XCTAssertEqual(
+            extractYouTubeVideoID(
+                from: URL(string: "https://www.youtube.com/shorts/abc123XYZ_9")!
+            ),
+            "abc123XYZ_9"
+        )
+    }
+
+    func testDetectedURLsDeduplicatesAcrossMultipleStrings() {
+        let urls = detectedURLs(
+            in: [
+                "https://example.com",
+                "Video https://youtu.be/YO1ERhWMeXc",
+                "Duplicate https://example.com",
+            ]
+        )
+
+        XCTAssertEqual(
+            urls.map(\.absoluteString),
+            [
+                "https://example.com",
+                "https://youtu.be/YO1ERhWMeXc",
+            ]
+        )
+    }
+
+    func testAttributedStringWithDetectedLinksAndArtistMentionsAddsArtistLink() {
+        let artist = Artist(
+            id: 77,
+            hiddenFromArtistList: false,
+            artistType: .stage,
+            someNumber: 0,
+            name: "BandAdriatica",
+            countries: "CH",
+            countryCodes: ["CHE"],
+            url: nil,
+            facebookID: nil,
+            youtubeID: nil,
+            instagram: nil,
+            descriptionGerman: nil,
+            descriptionEnglish: nil,
+            thumbImageUrlString: "",
+            fullImageUrlString: "",
+            ai: nil
+        )
+        let attributedString = attributedStringWithDetectedLinksAndArtistMentions(
+            "Tonight: BandAdriatica live",
+            artists: [artist]
+        )
+
+        XCTAssertTrue(
+            attributedString.runs.contains { run in
+                run.link == inlineArtistLinkURL(for: artist)
+            }
+        )
+    }
+
+    func testAttributedStringWithDetectedLinksAndArtistMentionsLinksOnlyFirstOccurrence() {
+        let artist = Artist(
+            id: 78,
+            hiddenFromArtistList: false,
+            artistType: .stage,
+            someNumber: 0,
+            name: "BandAdriatica",
+            countries: "CH",
+            countryCodes: ["CHE"],
+            url: nil,
+            facebookID: nil,
+            youtubeID: nil,
+            instagram: nil,
+            descriptionGerman: nil,
+            descriptionEnglish: nil,
+            thumbImageUrlString: "",
+            fullImageUrlString: "",
+            ai: nil
+        )
+        let attributedString = attributedStringWithDetectedLinksAndArtistMentions(
+            "BandAdriatica meets BandAdriatica after the show",
+            artists: [artist]
+        )
+
+        let artistLinks = attributedString.runs.compactMap(\.link).filter { link in
+            link == inlineArtistLinkURL(for: artist)
+        }
+
+        XCTAssertEqual(artistLinks.count, 1)
+    }
 }
 
 final class NewsMentionMatchingTests: XCTestCase {
@@ -123,6 +237,19 @@ final class NewsMentionMatchingTests: XCTestCase {
                 in: normalizedText,
                 candidate: "BandAdriatica"
             )
+        )
+    }
+
+    func testArtistMentionRangesRequireWordBoundaries() {
+        let ranges = artistMentionRanges(
+            in: "superBandAdriatica opens for BandAdriatica.",
+            candidate: "BandAdriatica"
+        )
+
+        XCTAssertEqual(ranges.count, 1)
+        XCTAssertEqual(
+            String("superBandAdriatica opens for BandAdriatica."[ranges[0]]),
+            "BandAdriatica"
         )
     }
 

@@ -15,6 +15,7 @@ enum AppNavigationRoute: Hashable {
 
 struct AppNavigationDestination: View {
     let route: AppNavigationRoute
+    var navigate: ((AppNavigationRoute) -> Void)? = nil
 
     @EnvironmentObject var dataStore: DataStore
 
@@ -97,7 +98,10 @@ struct AppNavigationDestination: View {
         switch dataStore.news {
         case .success(let news):
             if let newsItem = news.first(where: { $0.id == id }) {
-                NewsItemDetailView(newsItem: newsItem)
+                NewsItemDetailView(
+                    newsItem: newsItem,
+                    navigate: navigate
+                )
             } else {
                 Text("news.empty")
             }

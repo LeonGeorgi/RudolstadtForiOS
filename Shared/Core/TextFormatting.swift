@@ -38,6 +38,110 @@ func formatString(_ string: String) -> String {
     return stringWithNewLines
 }
 
+func attributedStringWithDetectedLinks(_ text: String) -> AttributedString {
+    let mutableString = NSMutableAttributedString(string: text)
+    let detector = try? NSDataDetector(
+        types: NSTextCheckingResult.CheckingType.link.rawValue
+    )
+    let range = NSRange(text.startIndex..<text.endIndex, in: text)
+
+    detector?.enumerateMatches(in: text, options: [], range: range) {
+        result,
+        _,
+        _ in
+        guard let result, let url = result.url else {
+            return
+        }
+        mutableString.addAttribute(.link, value: url, range: result.range)
+    }
+
+    return (try? AttributedString(mutableString, including: \.foundation))
+        ?? AttributedString(text)
+}
+
+func detectedURLs(in text: String) -> [URL] {
+    let detector = try? NSDataDetector(
+        types: NSTextCheckingResult.CheckingType.link.rawValue
+    )
+    let range = NSRange(text.startIndex..<text.endIndex, in: text)
+    return detector?.matches(in: text, options: [], range: range).compactMap(\.url)
+        ?? []
+}
+
+func detectedURLs(in texts: [String]) -> [URL] {
+    var seen = Set<String>()
+    return texts.flatMap(detectedURLs).filter { url in
+        seen.insert(url.absoluteString).inserted
+    }
+}
+
+func extractYouTubeVideoID(from url: URL) -> String? {
+    guard let host = url.host?.lowercased() else {
+        return nil
+    }
+
+    if host == "youtu.be" || host.hasSuffix(".youtu.be") {
+        return sanitizedYouTubeVideoID(
+            url.pathComponents.dropFirst().first ?? ""
+        )
+    }
+
+    guard
+        host.contains("youtube.com")
+            || host.contains("youtube-nocookie.com")
+    else {
+        return nil
+    }
+
+    if
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+        let videoID = components.queryItems?.first(where: { $0.name == "v" })?.value,
+        let sanitizedID = sanitizedYouTubeVideoID(videoID)
+    {
+        return sanitizedID
+    }
+
+    let pathComponents = url.pathComponents.dropFirst()
+    let markers = ["embed", "shorts", "live", "v"]
+
+    for marker in markers {
+        if
+            let markerIndex = pathComponents.firstIndex(of: marker),
+            pathComponents.index(after: markerIndex) < pathComponents.endIndex
+        {
+            return sanitizedYouTubeVideoID(
+                pathComponents[pathComponents.index(after: markerIndex)]
+            )
+        }
+    }
+
+    return nil
+}
+
+func youtubeThumbnailURL(for videoID: String) -> URL? {
+    URL(string: "https://i.ytimg.com/vi/\(videoID)/hqdefault.jpg")
+}
+
+private func sanitizedYouTubeVideoID<S: StringProtocol>(_ candidate: S) -> String? {
+    let trimmed = candidate.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty else {
+        return nil
+    }
+
+    let allowedCharacters = CharacterSet.alphanumerics.union(
+        CharacterSet(charactersIn: "-_")
+    )
+    let filtered = String(trimmed.unicodeScalars.filter {
+        allowedCharacters.contains($0)
+    })
+
+    guard !filtered.isEmpty else {
+        return nil
+    }
+
+    return filtered
+}
+
 extension Array {
     func withApplied(
         searchTerm rawSearchTerm: String,

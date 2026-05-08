@@ -133,7 +133,12 @@ struct RootTabView: View {
             NavigationStack(path: $newsPath) {
                 NewsListView()
                     .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(route: route)
+                        AppNavigationDestination(
+                            route: route,
+                            navigate: { nestedRoute in
+                                newsPath.append(nestedRoute)
+                            }
+                        )
                     }
             }
             .tabItem {
