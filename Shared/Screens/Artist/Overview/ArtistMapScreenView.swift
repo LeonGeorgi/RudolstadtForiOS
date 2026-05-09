@@ -23,7 +23,7 @@ struct ArtistMapScreenView: View {
             selectedCountryCode: $selectedCountryCode,
             navigate: navigate
         )
-        .navigationTitle(navigationTitleKey)
+        .navigationBarTitle(navigationTitleKey)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(.visible, for: .tabBar)

@@ -55,8 +55,6 @@ struct ArtistCountryGroup: Identifiable {
 }
 
 struct ArtistWorldMapView: View {
-    private static let useSwiftUIMapExperiment = true
-
     let groups: [ArtistCountryGroup]
     @Binding var selectedCountryCode: String?
     let navigate: (AppNavigationRoute) -> Void
@@ -67,24 +65,9 @@ struct ArtistWorldMapView: View {
         debugWorldMapLog("preloadResources start")
         let overlayLoader = GeoJSONCountryOverlayLoader.worldMapShared
         overlayLoader.loadIfNeeded()
-        guard !useSwiftUIMapExperiment else {
-            debugWorldMapLog(
-                "preloadResources finished for SwiftUI path in \(debugWorldMapDurationSince(preloadStart))"
-            )
-            return
-        }
-        Task { @MainActor in
-            guard let loadedMap = await overlayLoader.ensureLoadedMap() else {
-                debugWorldMapLog(
-                    "preloadResources failed after \(debugWorldMapDurationSince(preloadStart))"
-                )
-                return
-            }
-            WorldMapViewStore.shared.prepareMapViewIfNeeded(with: loadedMap)
-            debugWorldMapLog(
-                "preloadResources prepared MKMapView in \(debugWorldMapDurationSince(preloadStart))"
-            )
-        }
+        debugWorldMapLog(
+            "preloadResources finished for SwiftUI path in \(debugWorldMapDurationSince(preloadStart))"
+        )
     }
 
     var body: some View {
@@ -100,24 +83,12 @@ struct ArtistWorldMapView: View {
                 }
             } else {
                 ZStack {
-                    Group {
-                        if Self.useSwiftUIMapExperiment {
-                            ArtistWorldMapSwiftUIMap(
-                                groups: groups,
-                                loadedMap: overlayLoader.loadedMap,
-                                selectedCountryCode: selectedCountryCode
-                            ) { countryCode in
-                                navigate(.artistCountry(code: countryCode))
-                            }
-                        } else {
-                            ArtistWorldMapRepresentable(
-                                groups: groups,
-                                loadedMap: overlayLoader.loadedMap,
-                                selectedCountryCode: selectedCountryCode
-                            ) { countryCode in
-                                navigate(.artistCountry(code: countryCode))
-                            }
-                        }
+                    ArtistWorldMapSwiftUIMap(
+                        groups: groups,
+                        loadedMap: overlayLoader.loadedMap,
+                        selectedCountryCode: selectedCountryCode
+                    ) { countryCode in
+                        navigate(.artistCountry(code: countryCode))
                     }
                     .ignoresSafeArea()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -298,281 +269,7 @@ private struct ArtistWorldMapSwiftUIMap: View {
     }
 }
 
-private struct ArtistWorldMapRepresentable {
-    let groups: [ArtistCountryGroup]
-    let loadedMap: LoadedWorldCountryMap?
-    let selectedCountryCode: String?
-    let onCountrySelected: (String) -> Void
-
-    @Environment(\.colorScheme) private var colorScheme
-
-    private var style: ArtistWorldMapStyle {
-        ArtistWorldMapStyle(
-            colorScheme: colorScheme,
-            maximumArtistCount: max(1, groups.map(\.count).max() ?? 1),
-            selectedCountryCode: selectedCountryCode
-        )
-    }
-}
-
-#if os(iOS)
-extension ArtistWorldMapRepresentable: UIViewRepresentable {
-    func makeCoordinator() -> Coordinator {
-        Coordinator(onCountrySelected: onCountrySelected)
-    }
-
-    func makeUIView(context: Context) -> WorldMapMKMapView {
-        let mapView = makeConfiguredMapView(coordinator: context.coordinator)
-        context.coordinator.configure(mapView: mapView)
-        return mapView
-    }
-
-    func updateUIView(_ mapView: WorldMapMKMapView, context: Context) {
-        context.coordinator.onCountrySelected = onCountrySelected
-        context.coordinator.update(
-            mapView: mapView,
-            groups: groups,
-            style: style,
-            loadedMap: loadedMap
-        )
-    }
-
-    static func dismantleUIView(
-        _ mapView: WorldMapMKMapView,
-        coordinator: Coordinator
-    ) {
-        if let delegate = mapView.delegate as AnyObject?, delegate === coordinator {
-            mapView.delegate = nil
-        }
-        mapView.countrySelectionHandler = nil
-    }
-}
-#elseif os(macOS)
-extension ArtistWorldMapRepresentable: NSViewRepresentable {
-    func makeCoordinator() -> Coordinator {
-        Coordinator(onCountrySelected: onCountrySelected)
-    }
-
-    func makeNSView(context: Context) -> WorldMapMKMapView {
-        let mapView = makeConfiguredMapView(coordinator: context.coordinator)
-        context.coordinator.configure(mapView: mapView)
-        return mapView
-    }
-
-    func updateNSView(_ mapView: WorldMapMKMapView, context: Context) {
-        context.coordinator.onCountrySelected = onCountrySelected
-        context.coordinator.update(
-            mapView: mapView,
-            groups: groups,
-            style: style,
-            loadedMap: loadedMap
-        )
-    }
-
-    static func dismantleNSView(
-        _ mapView: WorldMapMKMapView,
-        coordinator: Coordinator
-    ) {
-        if let delegate = mapView.delegate as AnyObject?, delegate === coordinator {
-            mapView.delegate = nil
-        }
-        mapView.countrySelectionHandler = nil
-    }
-}
-#endif
-
-private extension ArtistWorldMapRepresentable {
-    @MainActor
-    func makeConfiguredMapView(coordinator: Coordinator) -> WorldMapMKMapView {
-        let mapView = WorldMapViewStore.shared.makeMapViewIfNeeded()
-        mapView.delegate = coordinator
-        return mapView
-    }
-}
-
-private extension ArtistWorldMapRepresentable {
-    final class Coordinator: NSObject, MKMapViewDelegate {
-        var onCountrySelected: (String) -> Void
-
-        private weak var mapView: MKMapView?
-        private var style = ArtistWorldMapStyle(
-            colorScheme: .light,
-            maximumArtistCount: 1,
-            selectedCountryCode: nil
-        )
-        private var groupsByCountryCode: [String: ArtistCountryGroup] = [:]
-        private var overlayMetadataByID: [ObjectIdentifier: CountryOverlayMetadata] = [:]
-        private var lastAppearanceSignature: Int? = nil
-
-        init(onCountrySelected: @escaping (String) -> Void) {
-            self.onCountrySelected = onCountrySelected
-        }
-
-        func configure(mapView: WorldMapMKMapView) {
-            self.mapView = mapView
-            mapView.countrySelectionHandler = { [weak self, weak mapView] point in
-                guard let self, let mapView else {
-                    return
-                }
-
-                self.selectCountry(at: point, in: mapView)
-            }
-        }
-
-        func update(
-            mapView: WorldMapMKMapView,
-            groups: [ArtistCountryGroup],
-            style: ArtistWorldMapStyle,
-            loadedMap: LoadedWorldCountryMap?
-        ) {
-            self.mapView = mapView
-            self.style = style
-            groupsByCountryCode = Dictionary(
-                uniqueKeysWithValues: groups.map { ($0.code, $0) }
-            )
-
-            if let loadedMap {
-                installOverlaysIfNeeded(loadedMap, into: mapView)
-            }
-
-            refreshOverlayAppearance(in: mapView)
-        }
-
-        func mapView(
-            _ mapView: MKMapView,
-            rendererFor overlay: MKOverlay
-        ) -> MKOverlayRenderer {
-            guard let polygon = overlay as? MKPolygon else {
-                return MKOverlayRenderer(overlay: overlay)
-            }
-
-            let renderer = MKPolygonRenderer(polygon: polygon)
-            applyAppearance(to: renderer, overlay: overlay)
-            return renderer
-        }
-
-        private func installOverlaysIfNeeded(
-            _ loadedMap: LoadedWorldCountryMap,
-            into mapView: WorldMapMKMapView
-        ) {
-            overlayMetadataByID = loadedMap.overlayMetadataByID
-            if !mapView.hasInstalledWorldCountryOverlays {
-                mapView.addOverlays(loadedMap.overlays)
-                mapView.hasInstalledWorldCountryOverlays = true
-            }
-            applyInitialCameraIfNeeded(in: mapView)
-        }
-
-        private func applyInitialCameraIfNeeded(in mapView: WorldMapMKMapView) {
-            guard !mapView.hasAppliedInitialWorldCamera else {
-                return
-            }
-
-            mapView.setCameraZoomRange(
-                MKMapView.CameraZoomRange(
-                    minCenterCoordinateDistance: worldMapMinimumZoomDistance,
-                    maxCenterCoordinateDistance: worldMapMaximumZoomDistance
-                ),
-                animated: false
-            )
-            mapView.setCameraBoundary(nil, animated: false)
-            mapView.setCamera(
-                MKMapCamera(
-                    lookingAtCenter: CLLocationCoordinate2D(
-                        latitude: 18,
-                        longitude: 8
-                    ),
-                    fromDistance: 44_000_000,
-                    pitch: 48,
-                    heading: 0
-                ),
-                animated: false
-            )
-            mapView.hasAppliedInitialWorldCamera = true
-        }
-
-        private func refreshOverlayAppearance(in mapView: MKMapView) {
-            let appearanceSignature = makeAppearanceSignature()
-            guard appearanceSignature != lastAppearanceSignature else {
-                return
-            }
-            lastAppearanceSignature = appearanceSignature
-
-            for overlay in mapView.overlays {
-                guard
-                    let renderer = mapView.renderer(for: overlay)
-                        as? MKPolygonRenderer
-                else {
-                    continue
-                }
-
-                applyAppearance(to: renderer, overlay: overlay)
-            }
-        }
-
-        private func makeAppearanceSignature() -> Int {
-            var hasher = Hasher()
-            hasher.combine(style.colorSchemeHash)
-            hasher.combine(style.maximumArtistCount)
-            hasher.combine(style.selectedCountryCode)
-
-            for countryCode in groupsByCountryCode.keys.sorted() {
-                hasher.combine(countryCode)
-                hasher.combine(groupsByCountryCode[countryCode]?.count ?? 0)
-            }
-
-            return hasher.finalize()
-        }
-
-        private func applyAppearance(
-            to renderer: MKPolygonRenderer,
-            overlay: MKOverlay
-        ) {
-            let overlayID = ObjectIdentifier(overlay as AnyObject)
-            let countryCode = overlayMetadataByID[overlayID]?.code
-            let count = overlayMetadataByID[overlayID].flatMap {
-                groupsByCountryCode[$0.code]?.count
-            } ?? 0
-            let appearance = style.appearance(
-                forArtistCount: count,
-                isSelected: countryCode == style.selectedCountryCode
-            )
-
-            renderer.fillColor = appearance.fillPlatformColor
-            renderer.strokeColor = appearance.strokePlatformColor
-            renderer.lineWidth = appearance.lineWidth
-        }
-
-        private func selectCountry(at point: CGPoint, in mapView: MKMapView) {
-            for overlay in mapView.overlays.reversed() {
-                guard
-                    let renderer = mapView.renderer(for: overlay)
-                        as? MKOverlayPathRenderer,
-                    let path = renderer.path
-                else {
-                    continue
-                }
-
-                let mapPoint = MKMapPoint(mapView.convert(
-                    point,
-                    toCoordinateFrom: mapView
-                ))
-                let rendererPoint = renderer.point(for: mapPoint)
-
-                if path.contains(rendererPoint),
-                    let metadata = overlayMetadataByID[
-                        ObjectIdentifier(overlay as AnyObject)
-                    ],
-                    groupsByCountryCode[metadata.code] != nil
-                {
-                    onCountrySelected(metadata.code)
-                    return
-                }
-            }
-        }
-    }
-}
-
+@MainActor
 private struct ArtistWorldMapStyle {
     let colorScheme: ColorScheme
     let maximumArtistCount: Int
@@ -706,7 +403,6 @@ final class GeoJSONCountryOverlayLoader: ObservableObject {
     @Published private(set) var loadedMap: LoadedWorldCountryMap? = nil
     @Published private(set) var isLoading = false
     @Published private(set) var hasFailed = false
-    private var loadTask: Task<Void, Never>? = nil
     private let resourceNames: [String]
 
     private init(resourceNames: [String]) {
@@ -726,7 +422,7 @@ final class GeoJSONCountryOverlayLoader: ObservableObject {
         let loadStart = Date()
         debugWorldMapLog("loadIfNeeded started")
 
-        loadTask = Task {
+        Task {
             do {
                 let resourceNames = self.resourceNames
                 let loadedMap = try await Task.detached(priority: .userInitiated) {
@@ -756,12 +452,6 @@ final class GeoJSONCountryOverlayLoader: ObservableObject {
                 )
             }
         }
-    }
-
-    func ensureLoadedMap() async -> LoadedWorldCountryMap? {
-        loadIfNeeded()
-        await loadTask?.value
-        return loadedMap
     }
 }
 
@@ -928,124 +618,6 @@ private enum WorldCountryOverlayStoreError: Error {
 }
 
 @MainActor
-private final class WorldMapViewStore {
-    static let shared = WorldMapViewStore()
-
-    var mapView: WorldMapMKMapView?
-
-    private init() {}
-
-    func makeMapViewIfNeeded() -> WorldMapMKMapView {
-        if let mapView {
-            return mapView
-        }
-
-        let mapView = WorldMapMKMapView(frame: .zero)
-        mapView.preferredConfiguration = {
-            let configuration = MKHybridMapConfiguration(
-                elevationStyle: .realistic
-            )
-            return configuration
-        }()
-        mapView.pointOfInterestFilter = .excludingAll
-        mapView.isPitchEnabled = true
-        mapView.isRotateEnabled = false
-        mapView.showsCompass = false
-        mapView.showsScale = true
-        mapView.showsUserLocation = false
-        self.mapView = mapView
-        return mapView
-    }
-
-    func prepareMapViewIfNeeded(with loadedMap: LoadedWorldCountryMap) {
-        let mapView = makeMapViewIfNeeded()
-        if !mapView.hasInstalledWorldCountryOverlays {
-            mapView.addOverlays(loadedMap.overlays)
-            mapView.hasInstalledWorldCountryOverlays = true
-        }
-        if !mapView.hasAppliedInitialWorldCamera {
-            mapView.setCameraZoomRange(
-                MKMapView.CameraZoomRange(
-                    minCenterCoordinateDistance: worldMapMinimumZoomDistance,
-                    maxCenterCoordinateDistance: worldMapMaximumZoomDistance
-                ),
-                animated: false
-            )
-            mapView.setCameraBoundary(nil, animated: false)
-            mapView.setCamera(
-                MKMapCamera(
-                    lookingAtCenter: CLLocationCoordinate2D(
-                        latitude: 18,
-                        longitude: 8
-                    ),
-                    fromDistance: 44_000_000,
-                    pitch: 48,
-                    heading: 0
-                ),
-                animated: false
-            )
-            mapView.hasAppliedInitialWorldCamera = true
-        }
-    }
-}
-
-private final class WorldMapMKMapView: MKMapView {
-    var hasInstalledWorldCountryOverlays = false
-    var hasAppliedInitialWorldCamera = false
-    var countrySelectionHandler: ((CGPoint) -> Void)?
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        installCountrySelectionGestureRecognizer()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        installCountrySelectionGestureRecognizer()
-    }
-
-    private func installCountrySelectionGestureRecognizer() {
-        #if os(iOS)
-        let tapRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(handleCountrySelectionGesture(_:))
-        )
-        tapRecognizer.cancelsTouchesInView = false
-        addGestureRecognizer(tapRecognizer)
-        #elseif os(macOS)
-        let clickRecognizer = NSClickGestureRecognizer(
-            target: self,
-            action: #selector(handleCountrySelectionGesture(_:))
-        )
-        addGestureRecognizer(clickRecognizer)
-        #endif
-    }
-
-    #if os(iOS)
-    @objc
-    private func handleCountrySelectionGesture(
-        _ recognizer: UITapGestureRecognizer
-    ) {
-        guard recognizer.state == .ended else {
-            return
-        }
-
-        countrySelectionHandler?(recognizer.location(in: self))
-    }
-    #elseif os(macOS)
-    @objc
-    private func handleCountrySelectionGesture(
-        _ recognizer: NSClickGestureRecognizer
-    ) {
-        guard recognizer.state == .ended else {
-            return
-        }
-
-        countrySelectionHandler?(recognizer.location(in: self))
-    }
-    #endif
-}
-
 private extension PlatformColor {
     func mixed(with otherColor: PlatformColor, amount: CGFloat) -> PlatformColor {
         let clampedAmount = min(max(amount, 0), 1)
