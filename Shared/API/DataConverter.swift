@@ -191,9 +191,8 @@ func convertAPIStageCategoryToStageType(apiCategory: APIStageCategory)
 }
 
 func convertAPIStageToStage(apiStage: APIStage, areas: [Area]) -> Stage? {
-    guard let area = areas.first(where: { $0.id == apiStage.area }) else {
-        return nil
-    }
+    let area = areas.first(where: { $0.id == apiStage.area })
+        ?? fallbackArea(forMissingID: apiStage.area)
     let stageType = convertAPIStageCategoryToStageType(
         apiCategory: apiStage.category
     )
@@ -208,6 +207,14 @@ func convertAPIStageToStage(apiStage: APIStage, areas: [Area]) -> Stage? {
         longitude: apiStage.lon,
         area: area,
         stageType: stageType,
+    )
+}
+
+private func fallbackArea(forMissingID id: Int) -> Area {
+    Area(
+        id: id,
+        germanName: "Sonstige Orte",
+        englishName: "Other locations"
     )
 }
 

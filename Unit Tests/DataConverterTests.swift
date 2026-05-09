@@ -2,6 +2,32 @@ import XCTest
 @testable import Rudolstadt
 
 final class DataConverterTests: XCTestCase {
+    func testStageConversionFallsBackWhenAreaIsMissing() {
+        let stage = convertAPIStageToStage(
+            apiStage: APIStage(
+                id: 44,
+                title: "Lutherkirche",
+                titleEN: "Lutherkirche",
+                description: nil,
+                descriptionEN: nil,
+                lat: 50.719038,
+                lon: 11.327535,
+                area: 0,
+                category: .comboticket,
+                mapNumber: 8
+            ),
+            areas: [
+                Area(id: 2, germanName: "Heinepark", englishName: "Heinepark"),
+                Area(id: 3, germanName: "Innenstadt", englishName: "Inner City"),
+            ]
+        )
+
+        XCTAssertNotNil(stage)
+        XCTAssertEqual(stage?.area.id, 0)
+        XCTAssertEqual(stage?.area.germanName, "Sonstige Orte")
+        XCTAssertEqual(stage?.area.englishName, "Other locations")
+    }
+
     func testNewsItemConversionDecodesNumericCharacterReferences() {
         let apiNewsItem = APINewsItem(
             id: 42,
