@@ -1,22 +1,3 @@
-/*
- {
- "id": 98,
- "category": "concert",
- "hide_artist": false,
- "name": "VagabunT",
- "country": "",
- "website": "http://vagabunt-music.com",
- "video": "",
- "facebook": "",
- "instagram": "https://www.instagram.com/vagabunt_music",
- "soundcloud": "",
- "img_thumb": "/assets/images/v/VagabunT-bdb0k0c5hb6mzqw.jpg",
- "img_full": "/assets/images/h/VagabunT-47a6czawm0gdw3r.jpg",
- "description_de": "VagabunT spielt eine Mélange aus französischem Straßenchanson, kolumbianischer Cumbia und portugiesischem Fado gepaart mit Reggae, Folk und griechischem Wein: ein Wechselspiel aus lebensfrohen und heiteren sowie gedankenverlorenen und besinnlichen Stücken.\n&nbsp;\nAntoine Mathey, g, voc <br>Margarete Franke, voc, cl <br>Steffen Wallendorf, b <br>Björn Reinemer, perc\n&nbsp;\nmargarete.franke@yahoo.com",
- "description_en": "French street chanson meets Colombian cumbia and Portuguese fado. Add a dash of reggae, folk and Greek wine and voilà! VagabunT.\nAntoine Mathey, g, voc <br>Margarete Franke, voc, cl <br>Steffen Wallendorf, b <br>Björn Reinemer, perc\nmargarete.franke@yahoo.com"
- },
- */
-
 import Foundation
 
 struct APIRudolstadtData: Codable {
@@ -102,21 +83,6 @@ struct APIArtist: Codable {
     }
 }
 
-/*
- {
- "id": 852,
- "title": "Interview with Ezé",
- "language": "en",
- "teaser": "Deutsche Welle broadcasts the French conversation in Burkina Faso.",
- "text": "\n\n\n                    \n                            \n    \n                        \n            We are happy for Ezé! Deutsche Welle has interviewed our 2025 RUTH Award winner. The interview was conducted in French by Konstanze Fischer for the Pulsations programme: Ezé comes from Burkina Faso, where the interview was broadcast.<br><br>Ezé Wendtoin : le micro pour faire danser et pour dénoncer\nDW: &#34;Le musicien burkinabè recevra en juillet le prestigieux prix allemand de la musique du monde. Une consécration, près de 10 ans après son installation en Allemagne.&#34;\n        \n    \n            \n\n\n\n",
- "time": {
- "date": "2025-05-07 14:52:00.000000",
- "timezone_type": 3,
- "timezone": "Europe/Berlin"
- }
- },
- */
-
 struct APITime: Codable {
     let date: String  // e.g. "2025-07-06 14:00:00.000000"
     let timezoneType: Int  // eg. 3
@@ -178,14 +144,6 @@ struct APINewsItem: Codable {
     }
 }
 
-/*
- {
- "id": 1,
- "title": "Heidecksburg",
- "title_en": "Castle"
- },
- */
-
 struct APIArea: Codable {
     let id: Int
     let title: String
@@ -197,29 +155,6 @@ struct APIArea: Codable {
         case titleEN = "title_en"
     }
 }
-
-/*
- {
- "id": 7,
- "start": {
- "date": "2025-07-06 13:00:00.000000",
- "timezone_type": 3,
- "timezone": "Europe/Berlin"
- },
- "day": "06.07.2025",
- "time": "13:00",
- "stage": 18,
- "artist": 33,
- "tags": [
- 6
- ],
- "updated": {
- "date": "2025-04-03 14:25:00.000000",
- "timezone_type": 3,
- "timezone": "Europe/Berlin"
- }
- }
-    */
 
 struct APIEvent: Codable {
     let id: Int
@@ -247,21 +182,6 @@ struct APIEvent: Codable {
         return Int(dayInJuliy)
     }
 }
-
-/*
- {
- "id": 3,
- "title": "Große Bühne Heinepark",
- "title_en": "Big Stage Heinepark",
- "description": null,
- "description_en": null,
- "lat": 50.717267,
- "lon": 11.341624,
- "area": 2,
- "category": "comboticket",
- "map_number": 1
- },
- */
 
 // "cityticket"
 // "comboticket"
@@ -298,14 +218,6 @@ struct APIStage: Codable {
         case mapNumber = "map_number"
     }
 }
-
-/*
- {
- "id": 4,
- "title": "RUTH",
- "title_en": "RUTH - World Music Award"
- },
-    */
 
 struct APITag: Codable {
     let id: Int

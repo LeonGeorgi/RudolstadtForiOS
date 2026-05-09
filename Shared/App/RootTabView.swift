@@ -178,8 +178,6 @@ struct RootTabView: View {
                         )
                     }
             }
-            // dataStore.setupUpdateNewsTask()
-            print("test")
         }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {

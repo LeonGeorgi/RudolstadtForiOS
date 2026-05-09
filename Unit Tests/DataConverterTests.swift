@@ -98,9 +98,10 @@ final class DataConverterTests: XCTestCase {
         XCTAssertEqual(artist.countryCodes, ["CIV", "FRA"])
     }
 
-    func testAttributedStringWithDetectedLinksMarksPlainURLsAsLinks() {
-        let attributedString = attributedStringWithDetectedLinks(
-            "Read more at https://example.com/news"
+    func testAttributedStringWithDetectedLinksAndArtistMentionsMarksPlainURLsAsLinks() {
+        let attributedString = attributedStringWithDetectedLinksAndArtistMentions(
+            "Read more at https://example.com/news",
+            artists: []
         )
 
         let runsWithLinks = attributedString.runs.compactMap(\.link)

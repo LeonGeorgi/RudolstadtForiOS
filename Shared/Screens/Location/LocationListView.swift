@@ -40,9 +40,6 @@ struct LocationListView: View {
             }
             return s1Number < s2Number
         }
-        /*.sorted { stages, stages2 in
-            stages.area.id < stages2.area.id
-        }*/
     }
 
     var body: some View {

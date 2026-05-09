@@ -38,27 +38,6 @@ func formatString(_ string: String) -> String {
     return stringWithNewLines
 }
 
-func attributedStringWithDetectedLinks(_ text: String) -> AttributedString {
-    let mutableString = NSMutableAttributedString(string: text)
-    let detector = try? NSDataDetector(
-        types: NSTextCheckingResult.CheckingType.link.rawValue
-    )
-    let range = NSRange(text.startIndex..<text.endIndex, in: text)
-
-    detector?.enumerateMatches(in: text, options: [], range: range) {
-        result,
-        _,
-        _ in
-        guard let result, let url = result.url else {
-            return
-        }
-        mutableString.addAttribute(.link, value: url, range: result.range)
-    }
-
-    return (try? AttributedString(mutableString, including: \.foundation))
-        ?? AttributedString(text)
-}
-
 func detectedURLs(in text: String) -> [URL] {
     let detector = try? NSDataDetector(
         types: NSTextCheckingResult.CheckingType.link.rawValue

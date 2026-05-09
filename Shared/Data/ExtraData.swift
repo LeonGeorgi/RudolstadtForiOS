@@ -1,34 +1,5 @@
 import Foundation
 
-/*
- {"data": {
-   "Big Band Of Boom": {
-     "browse_genres": ["swing", "electronic"],
-     "en": {
-       "summary": "Swing meets rock with electronic flair",
-       "tags": [
-         "Swing Rock",
-         "Electro Swing"
-       ],
-       "countries": [
-         "🇬🇧"
-       ]
-     },
-     "de": {
-       "summary": "Swing trifft Rock mit elektronischem Touch",
-       "tags": [
-         "Swing Rock",
-         "Electro Swing"
-       ],
-       "countries": [
-         "🇬🇧"
-       ]
-     }
-   },
-   ...
- }}
- */
-
 struct ExtraDataEntryForLanguage: Codable {
     var summary: String?
     var tags: [String]?

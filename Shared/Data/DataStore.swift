@@ -209,7 +209,3 @@ final class DataStore: ObservableObject {
         news = LoadingEntity(from: result)
     }
 }
-
-struct FileNotFoundError: Error {
-
-}
