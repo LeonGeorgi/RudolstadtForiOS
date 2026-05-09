@@ -193,7 +193,6 @@ struct RootTabView: View {
                 NewsRefresher.scheduleNextBackgroundTask()
             }
         }
-        .tint(.rudolstadt)
     }
 }
 
