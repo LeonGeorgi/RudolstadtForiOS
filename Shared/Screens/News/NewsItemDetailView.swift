@@ -169,6 +169,12 @@ struct NewsItemDetailView: View {
         }
         .navigationTitle(newsItem.formattedShortDescription)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("")
+                    .accessibilityHidden(true)
+            }
+        }
         .onAppear {
             settings.markNewsAsRead(newsItem)
         }
