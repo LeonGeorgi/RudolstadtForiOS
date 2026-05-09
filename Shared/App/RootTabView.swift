@@ -15,6 +15,7 @@ struct RootTabView: View {
     @EnvironmentObject var userSettings: UserSettings
     @Environment(\.scenePhase) var scenePhase
 
+    @Namespace private var artistImageTransition
     @State private var selectedTab: AppTab = .schedule
     @State private var mapPath = NavigationPath()
     @State private var schedulePath = NavigationPath()
@@ -109,17 +110,18 @@ struct RootTabView: View {
             .tag(AppTab.schedule)
             
             NavigationStack(path: $artistsPath) {
-                ArtistListView { route in
+                ArtistListView(imageTransitionNamespace: artistImageTransition) { route in
                     artistsPath.append(route)
                 }
-                    .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(
-                            route: route,
-                            navigate: { nestedRoute in
-                                artistsPath.append(nestedRoute)
-                            }
-                        )
-                    }
+                .navigationDestination(for: AppNavigationRoute.self) { route in
+                    AppNavigationDestination(
+                        route: route,
+                        navigate: { nestedRoute in
+                            artistsPath.append(nestedRoute)
+                        },
+                        imageTransitionNamespace: artistImageTransition
+                    )
+                }
             }
             .tabItem {
                 VStack {

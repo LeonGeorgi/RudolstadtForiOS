@@ -3,16 +3,21 @@ import SwiftUI
 
 struct ArtistCountryListRouteView: View {
     let countryCode: String
+    let imageTransitionNamespace: Namespace.ID?
 
     @EnvironmentObject private var dataStore: DataStore
     @StateObject private var overlayLoader = GeoJSONCountryOverlayLoader.detailPreviewShared
-    @Namespace private var imageTransitionNamespace
+    @Namespace private var localImageTransitionNamespace
     @State private var layout: CountryArtistLayout = .grid
 
     private let gridColumns = Array(
         repeating: GridItem(.flexible(), spacing: 11),
         count: 3
     )
+
+    private var resolvedImageTransitionNamespace: Namespace.ID {
+        imageTransitionNamespace ?? localImageTransitionNamespace
+    }
 
     private var navigationTitleText: String {
         localizedCountryName(forRegionCode: countryCode)
@@ -73,7 +78,7 @@ struct ArtistCountryListRouteView: View {
                                     ) {
                                         ArtistGridCell(
                                             artist: artist,
-                                            imageTransitionNamespace: imageTransitionNamespace
+                                            imageTransitionNamespace: resolvedImageTransitionNamespace
                                         )
                                     }
                                     .buttonStyle(.plain)

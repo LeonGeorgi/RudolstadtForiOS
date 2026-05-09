@@ -16,6 +16,7 @@ enum AppNavigationRoute: Hashable {
 struct AppNavigationDestination: View {
     let route: AppNavigationRoute
     var navigate: ((AppNavigationRoute) -> Void)? = nil
+    var imageTransitionNamespace: Namespace.ID? = nil
 
     @EnvironmentObject var dataStore: DataStore
 
@@ -24,7 +25,10 @@ struct AppNavigationDestination: View {
         case .artistWorldMap:
             artistWorldMapDestination()
         case .artistCountry(let code):
-            ArtistCountryListRouteView(countryCode: code)
+            ArtistCountryListRouteView(
+                countryCode: code,
+                imageTransitionNamespace: imageTransitionNamespace
+            )
         case .artist(let id, let highlightedEventId):
             artistDestination(id: id, highlightedEventId: highlightedEventId)
         case .stage(let id, let highlightedEventId):
@@ -67,11 +71,20 @@ struct AppNavigationDestination: View {
         switch dataStore.data {
         case .success(let data):
             if let artist = data.artists.first(where: { $0.id == id }) {
-                ArtistDetailView(
+                let detailView = ArtistDetailView(
                     artist: artist,
                     highlightedEventId: highlightedEventId,
                     navigate: navigate
                 )
+
+                if let imageTransitionNamespace {
+                    detailView.artistImageNavigationTransition(
+                        id: artist.id,
+                        namespace: imageTransitionNamespace
+                    )
+                } else {
+                    detailView
+                }
             } else {
                 Text("artists.none-found")
             }

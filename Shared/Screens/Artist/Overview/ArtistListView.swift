@@ -11,6 +11,7 @@ import SwiftUI
 
 struct ArtistListView: View {
     let navigate: (AppNavigationRoute) -> Void
+    private let imageTransitionNamespace: Namespace.ID?
 
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
@@ -19,12 +20,18 @@ struct ArtistListView: View {
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.artistScreen
     )
-    @Namespace private var artistImageTransition
+    @Namespace private var localArtistImageTransition
 
     init(
+        imageTransitionNamespace: Namespace.ID? = nil,
         navigate: @escaping (AppNavigationRoute) -> Void = { _ in }
     ) {
+        self.imageTransitionNamespace = imageTransitionNamespace
         self.navigate = navigate
+    }
+
+    private var resolvedImageTransitionNamespace: Namespace.ID {
+        imageTransitionNamespace ?? localArtistImageTransition
     }
 
     private var browseGenreOptions: [BrowseTaxonomyEntry] {
@@ -120,7 +127,7 @@ struct ArtistListView: View {
                 browseGenreOptions: browseGenreOptions,
                 localizedBrowseGenreLabel: dataStore.localizedBrowseGenreLabel,
                 navigationTitleKey: navigationTitleKey,
-                imageTransitionNamespace: artistImageTransition,
+                imageTransitionNamespace: resolvedImageTransitionNamespace,
                 navigate: navigate
             )
             .onAppear {

@@ -16,8 +16,7 @@ struct ArtistBrowseView: View {
             artists: artists,
             selectedPresentationMode: state.selectedPresentationMode,
             emptyMessageKey: emptyMessageKey,
-            imageTransitionNamespace: imageTransitionNamespace,
-            navigate: navigate
+            imageTransitionNamespace: imageTransitionNamespace
         )
         .searchable(text: $state.searchText)
         .disableAutocorrection(true)

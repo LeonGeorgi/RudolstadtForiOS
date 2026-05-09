@@ -5,7 +5,6 @@ struct ArtistOverviewContentView: View {
     let selectedPresentationMode: ArtistPresentationMode
     let emptyMessageKey: LocalizedStringKey
     let imageTransitionNamespace: Namespace.ID
-    let navigate: ((AppNavigationRoute) -> Void)?
 
     private let gridColumns = Array(
         repeating: GridItem(.flexible(), spacing: 11),
@@ -33,17 +32,12 @@ struct ArtistOverviewContentView: View {
                 ScrollView {
                     LazyVGrid(columns: gridColumns, spacing: 16) {
                         ForEach(sortedArtists) { artist in
-                            NavigationLink {
-                                ArtistDetailView(
-                                    artist: artist,
-                                    highlightedEventId: nil,
-                                    navigate: navigate
-                                )
-                                .artistImageNavigationTransition(
+                            NavigationLink(
+                                value: AppNavigationRoute.artist(
                                     id: artist.id,
-                                    namespace: imageTransitionNamespace
+                                    highlightedEventId: nil,
                                 )
-                            } label: {
+                            ) {
                                 ArtistGridCell(
                                     artist: artist,
                                     imageTransitionNamespace: imageTransitionNamespace
