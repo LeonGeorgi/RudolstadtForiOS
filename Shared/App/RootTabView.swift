@@ -123,7 +123,7 @@ struct RootTabView: View {
             }
             .tabItem {
                 VStack {
-                    Image(systemName: "person.crop.rectangle.stack")
+                    Image(systemName: "theatermasks.fill")
                     Text("artists.title")
                 }
             }
@@ -140,7 +140,7 @@ struct RootTabView: View {
                     }
             }
             .tabItem {
-                Label("news.short", systemImage: "envelope.fill")
+                Label("news.short", systemImage: "megaphone.fill")
             }
             .badge(unreadNewsCount)
             .tag(AppTab.news)
