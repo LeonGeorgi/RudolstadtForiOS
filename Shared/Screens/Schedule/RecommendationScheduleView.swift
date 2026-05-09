@@ -98,7 +98,7 @@ struct RecommendationScheduleView: View {
                     } else {
                         Label(
                             "schedule.table.button",
-                            systemImage: "square.grid.2x2"
+                            systemImage: "calendar.day.timeline.left"
                         )
                     }
                 }
