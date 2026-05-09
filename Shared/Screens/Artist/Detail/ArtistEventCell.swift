@@ -105,7 +105,8 @@ struct ArtistEventCell: View {
                             navigate(
                                 .artist(
                                     id: intersectingEvent.artist.id,
-                                    highlightedEventId: event.id
+                                    highlightedEventId: event.id,
+                                    transitionSourceID: nil
                                 )
                             )
                         } else {

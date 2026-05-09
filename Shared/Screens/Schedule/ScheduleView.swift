@@ -42,7 +42,8 @@ struct ScheduleView: View {
                     NavigationLink(
                         value: AppNavigationRoute.artist(
                             id: event.artist.id,
-                            highlightedEventId: event.id
+                            highlightedEventId: event.id,
+                            transitionSourceID: nil
                         )
                     ) {
                         ScheduleEventCell(event: event)

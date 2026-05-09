@@ -373,7 +373,8 @@ struct StageDetailView: View {
         return NavigationLink(
             value: AppNavigationRoute.artist(
                 id: event.artist.id,
-                highlightedEventId: event.id
+                highlightedEventId: event.id,
+                transitionSourceID: nil
             )
         ) {
             StageEventCell(event: event, imageWidth: 64, imageHeight: 56)

@@ -36,6 +36,7 @@ struct ArtistOverviewContentView: View {
                                 value: AppNavigationRoute.artist(
                                     id: artist.id,
                                     highlightedEventId: nil,
+                                    transitionSourceID: artist.id
                                 )
                             ) {
                                 ArtistGridCell(
@@ -53,12 +54,13 @@ struct ArtistOverviewContentView: View {
             } else {
                 List {
                     ForEach(sortedArtists) { artist in
-                        NavigationLink(
-                            value: AppNavigationRoute.artist(
-                                id: artist.id,
-                                highlightedEventId: nil
-                            )
-                        ) {
+                            NavigationLink(
+                                value: AppNavigationRoute.artist(
+                                    id: artist.id,
+                                    highlightedEventId: nil,
+                                    transitionSourceID: nil
+                                )
+                            ) {
                             ArtistCell(artist: artist)
                         }
                         .listRowInsets(

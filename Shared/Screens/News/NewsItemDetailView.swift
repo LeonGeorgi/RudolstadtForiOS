@@ -187,7 +187,8 @@ struct NewsItemDetailView: View {
         navigate?(
             .artist(
                 id: artist.id,
-                highlightedEventId: nil
+                highlightedEventId: nil,
+                transitionSourceID: nil
             )
         )
     }
@@ -268,7 +269,8 @@ struct NewsItemDetailView: View {
         NavigationLink(
             value: AppNavigationRoute.artist(
                 id: artist.id,
-                highlightedEventId: nil
+                highlightedEventId: nil,
+                transitionSourceID: nil
             )
         ) {
             HStack(alignment: .center, spacing: 14) {

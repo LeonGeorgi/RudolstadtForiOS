@@ -31,7 +31,8 @@ struct TableProgramCell: View {
         return NavigationLink(
             value: AppNavigationRoute.artist(
                 id: event.artist.id,
-                highlightedEventId: event.id
+                highlightedEventId: event.id,
+                transitionSourceID: nil
             )
         ) {
             VStack(spacing: 0) {

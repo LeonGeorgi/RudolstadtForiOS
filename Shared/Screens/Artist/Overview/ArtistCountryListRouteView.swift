@@ -73,7 +73,8 @@ struct ArtistCountryListRouteView: View {
                                     NavigationLink(
                                         value: AppNavigationRoute.artist(
                                             id: artist.id,
-                                            highlightedEventId: nil
+                                            highlightedEventId: nil,
+                                            transitionSourceID: artist.id
                                         )
                                     ) {
                                         ArtistGridCell(
@@ -95,7 +96,8 @@ struct ArtistCountryListRouteView: View {
                                         NavigationLink(
                                             value: AppNavigationRoute.artist(
                                                 id: artist.id,
-                                                highlightedEventId: nil
+                                                highlightedEventId: nil,
+                                                transitionSourceID: nil
                                             )
                                         ) {
                                             CountryArtistListRow(artist: artist)

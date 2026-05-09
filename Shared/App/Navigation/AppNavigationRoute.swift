@@ -3,7 +3,7 @@ import SwiftUI
 enum AppNavigationRoute: Hashable {
     case artistWorldMap
     case artistCountry(code: String)
-    case artist(id: Int, highlightedEventId: Int?)
+    case artist(id: Int, highlightedEventId: Int?, transitionSourceID: Int?)
     case stage(id: Int, highlightedEventId: Int?)
     case news(id: Int)
     case about
@@ -29,8 +29,12 @@ struct AppNavigationDestination: View {
                 countryCode: code,
                 imageTransitionNamespace: imageTransitionNamespace
             )
-        case .artist(let id, let highlightedEventId):
-            artistDestination(id: id, highlightedEventId: highlightedEventId)
+        case .artist(let id, let highlightedEventId, let transitionSourceID):
+            artistDestination(
+                id: id,
+                highlightedEventId: highlightedEventId,
+                transitionSourceID: transitionSourceID
+            )
         case .stage(let id, let highlightedEventId):
             stageDestination(id: id, highlightedEventId: highlightedEventId)
         case .news(let id):
@@ -67,7 +71,11 @@ struct AppNavigationDestination: View {
     }
 
     @ViewBuilder
-    private func artistDestination(id: Int, highlightedEventId: Int?) -> some View {
+    private func artistDestination(
+        id: Int,
+        highlightedEventId: Int?,
+        transitionSourceID: Int?
+    ) -> some View {
         switch dataStore.data {
         case .success(let data):
             if let artist = data.artists.first(where: { $0.id == id }) {
@@ -77,9 +85,9 @@ struct AppNavigationDestination: View {
                     navigate: navigate
                 )
 
-                if let imageTransitionNamespace {
+                if let imageTransitionNamespace, let transitionSourceID {
                     detailView.artistImageNavigationTransition(
-                        id: artist.id,
+                        id: transitionSourceID,
                         namespace: imageTransitionNamespace
                     )
                 } else {
