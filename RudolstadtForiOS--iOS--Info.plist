@@ -6,6 +6,12 @@
 	<array>
 		<string>updateNews</string>
 	</array>
+	<key>CKSharingSupported</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Scan a friend's QR code to add their shared festival profile.</string>
+	<key>NSAccentColorName</key>
+	<string>AccentColor</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -15,6 +21,7 @@
 	<array>
 		<string>fetch</string>
 		<string>processing</string>
+		<string>remote-notification</string>
 	</array>
 </dict>
 </plist>

@@ -10,55 +10,41 @@ import SwiftUI
 
 struct MapOverview: View {
 
-    @EnvironmentObject var dataStore: DataStore
+    @Environment(\.festivalData) private var festivalData
     @EnvironmentObject var settings: UserSettings
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.locationsScreen
     )
 
-    var annotationItems: LoadingEntity<[MapLocation]> {
-        dataStore.data.map { entities in
-            entities.stages.filter { stage in
-                stage.stageNumber != nil
-            }.map { stage in
-                MapLocation(
-                    stage: stage,
-                    coordinate: CLLocationCoordinate2D(
-                        latitude: stage.latitude,
-                        longitude: stage.longitude
-                    )
+    var annotationItems: [MapLocation] {
+        festivalData.stages.filter { stage in
+            stage.stageNumber != nil
+        }.map { stage in
+            MapLocation(
+                stage: stage,
+                coordinate: CLLocationCoordinate2D(
+                    latitude: stage.latitude,
+                    longitude: stage.longitude
                 )
-            }
+            )
         }
     }
 
     var body: some View {
-        Group {
-            switch annotationItems {
-            case .loading:
-                Text("map.loading")
-            case .failure(let reason):
-                Text("Failed to load: " + reason.rawValue)
-            case .success(let locations):
-                VStack {
-
-                    if settings.mapType == 0 {
-                        MapView(
-                            locations: locations,
-                            currentTipID: tipSequencer.currentTipID
-                        )
-                        .equatable()
-                    } else {
-                        LocationListView()
-                    }
-
-                }
-
+        VStack {
+            if settings.mapType == 0 {
+                MapView(
+                    locations: annotationItems,
+                    currentTipID: tipSequencer.currentTipID
+                )
+                .equatable()
+            } else {
+                LocationListView()
             }
         }
         .navigationBarTitle("locations.title", displayMode: .inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
                     settings.toggleMapType()
                 } label: {
@@ -71,6 +57,8 @@ struct MapOverview: View {
                     arrowEdge: .top
                 )
             }
+
+            NewsToolbarItem()
         }
         .toolbarBackground(
             settings.mapType == 0 ? .hidden : .visible,

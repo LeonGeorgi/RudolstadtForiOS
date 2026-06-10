@@ -4,9 +4,10 @@ struct ArtistRatingView: View {
     let artist: Artist
     let currentTipID: String?
     @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var profile: FestivalProfileStore
 
     var rating: Int {
-        settings.ratings["\(artist.id)"] ?? 0
+        profile.ratings["\(artist.id)"] ?? 0
     }
 
     var body: some View {
@@ -24,12 +25,12 @@ struct ArtistRatingView: View {
                             )
                             .onTapGesture {
                                 if self.rating != rating {
-                                    settings.setArtistRating(
+                                    profile.setArtistRating(
                                         for: artist,
                                         rating: rating
                                     )
                                 } else {
-                                    settings.setArtistRating(
+                                    profile.setArtistRating(
                                         for: artist,
                                         rating: 0
                                     )
@@ -46,7 +47,7 @@ struct ArtistRatingView: View {
 
                 HStack {
                     Button(action: {
-                        settings.setArtistRating(for: artist, rating: 0)
+                        profile.setArtistRating(for: artist, rating: 0)
                     }) {
                         Image(systemName: "xmark")
                             .font(.system(size: 20))
@@ -72,12 +73,13 @@ struct ArtistIconPicker: View {
     let artist: Artist
     let currentTipID: String?
     @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var profile: FestivalProfileStore
 
     var artistIcon: String? {
-        let rating = settings.ratings["\(artist.id)"]
+        let rating = profile.ratings["\(artist.id)"]
         guard let rating = rating else { return nil }
         if rating < 0 {
-            let storedIcon = settings.getArtistIcon(for: artist)
+            let storedIcon = profile.getArtistIcon(for: artist)
             return storedIcon ?? "hand.thumbsdown.fill"
         }
         return nil
@@ -127,7 +129,7 @@ struct ArtistIconPicker: View {
         Menu {
             ForEach(icons, id: \.self) { icon in
                 Button(action: {
-                    settings.setArtistIcon(for: artist, icon: icon)
+                    profile.setArtistIcon(for: artist, icon: icon)
                 }) {
                     Label(
                         NSLocalizedString(
@@ -165,4 +167,5 @@ struct ArtistIconPicker: View {
 #Preview {
     ArtistRatingView(artist: .example, currentTipID: nil)
         .environmentObject(UserSettings())
+        .environmentObject(FestivalProfileStore(cloudKitEnabled: false))
 }

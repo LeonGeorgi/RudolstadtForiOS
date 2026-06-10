@@ -21,37 +21,13 @@ extension EnvironmentValues {
 
 struct ArtistEventCell: View {
     let event: Event
-
-    @EnvironmentObject var settings: UserSettings
-    @EnvironmentObject var dataStore: DataStore
+    let intersectingEvents: [Event]
+    let isSaved: Bool
+    var friendProfilesWhoSavedEvent: [SharedFestivalProfile] = []
+    let onToggleSaved: () -> Void
     @Environment(\.artistNavigationHandler) private var navigate
 
     @State var selectedCollisionArtist: Artist? = nil
-
-    var savedEventIds: [Int] {
-        settings.savedEvents
-    }
-
-    var eventsThatIntersect: LoadingEntity<[Event]> {
-        dataStore.data.map { entities in
-            let savedEvents = entities.events.filter {
-                savedEventIds.contains($0.id)
-            }
-            return savedEvents.filter {
-                $0.artist.id != event.artist.id
-                    && $0.intersects(
-                        with: event,
-                        event1Duration: dataStore.estimatedEventDurations?[
-                            $0.id
-                        ] ?? 60,
-                        event2Duration: dataStore.estimatedEventDurations?[
-                            event.id
-                        ] ?? 60,
-                        maxAllowedMissedMinutes: 5
-                    )
-            }
-        }
-    }
 
     var body: some View {
         HStack(alignment: .center, spacing: 10) {
@@ -73,7 +49,16 @@ struct ArtistEventCell: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            EventSavedIcon(event: event)
+            if !friendProfilesWhoSavedEvent.isEmpty {
+                FriendSavedEventBadges(
+                    eventID: event.id,
+                    profiles: friendProfilesWhoSavedEvent,
+                    style: .plainInline
+                )
+                .frame(minWidth: 24, minHeight: 24, alignment: .center)
+            }
+
+            EventSavedIcon(event: event, isSaved: isSaved, onToggle: onToggleSaved)
 
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
@@ -98,43 +83,32 @@ struct ArtistEventCell: View {
             }
         }
         .contextMenu {
-            if case .success(let intersectingEvents) = eventsThatIntersect {
-                ForEach(intersectingEvents) { (intersectingEvent: Event) in
-                    Button {
-                        if let navigate {
-                            navigate(
-                                .artist(
-                                    id: intersectingEvent.artist.id,
-                                    highlightedEventId: event.id,
-                                    transitionSourceID: nil
-                                )
+            ForEach(intersectingEvents) { intersectingEvent in
+                Button {
+                    if let navigate {
+                        navigate(
+                            .artist(
+                                id: intersectingEvent.artist.id,
+                                highlightedEventId: event.id,
+                                transitionSourceID: nil
                             )
-                        } else {
-                            self.selectedCollisionArtist = intersectingEvent.artist
-                        }
-                    } label: {
-                        Text(intersectingEvent.artist.formattedName)
-                        Image(systemName: "exclamationmark.circle")
+                        )
+                    } else {
+                        selectedCollisionArtist = intersectingEvent.artist
                     }
+                } label: {
+                    Text(intersectingEvent.artist.formattedName)
+                    Image(systemName: "exclamationmark.circle")
                 }
             }
-            SaveEventButton(event: event)
+            SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
         }
-        .id(settings.idFor(event: event))
+        .id("\(event.id)-\(isSaved)")
     }
 
     @ViewBuilder
     private var intersectingEventsView: some View {
-        switch eventsThatIntersect {
-        case .loading:
-            Text("events.intersecting.loading")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        case .failure(let reason):
-            Text("Failed to load: " + reason.rawValue)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        case .success(let intersectingEvents):
+        if !intersectingEvents.isEmpty {
             ForEach(intersectingEvents) { (intersectingEvent: Event) in
                 HStack(spacing: 5) {
                     Image(systemName: "exclamationmark.circle")
@@ -156,41 +130,13 @@ struct ArtistEventCell: View {
     }
 }
 
-private struct EventTimeBadge: View {
-    let event: Event
-
-    var body: some View {
-        VStack(spacing: 0) {
-            Text(event.shortWeekDay.uppercased())
-                .font(.caption2.weight(.bold))
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 4)
-                .background(.tint.opacity(0.18))
-
-            Text(event.timeAsString)
-                .font(.system(.subheadline, design: .monospaced).weight(.bold))
-                .lineLimit(1)
-                .minimumScaleFactor(0.75)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .foregroundStyle(.primary)
-        .frame(width: 52, height: 52)
-        .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 13, style: .continuous)
-                .stroke(.white.opacity(0.20), lineWidth: 0.5)
-        )
-        .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text("\(event.shortWeekDay) \(event.timeAsString)"))
-    }
-}
-
 struct ArtistEventCell_Previews: PreviewProvider {
     static var previews: some View {
-        ArtistEventCell(event: .example)
+        ArtistEventCell(
+            event: .example,
+            intersectingEvents: [],
+            isSaved: false,
+            onToggleSaved: {}
+        )
     }
 }

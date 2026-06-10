@@ -1,0 +1,177 @@
+{
+  "badgeName": "Leon",
+  "badgeColorHex": "#3D78E0",
+  "savedEventIDs": [130, 46, 255, 350],
+  "artistPreferences": [
+    {
+      "artistID": 176,
+      "rating": 3
+    },
+    {
+      "artistID": 188,
+      "rating": 2
+    },
+    {
+      "artistID": 190,
+      "rating": -1,
+      "iconName": "questionmark.circle.fill"
+    }
+  ],
+  "artistNotes": [
+    {
+      "artistID": 176,
+      "noteText": "Try to catch the late set first, then check whether there is enough time to cross over to the next saved show."
+    }
+  ],
+  "friendProfiles": [
+    {
+      "id": "maya-preview",
+      "title": "Maya's picks",
+      "ownerName": "Maya",
+      "badgeName": "Maya",
+      "badgeColorHex": "#B54E9B",
+      "festivalYear": 2026,
+      "savedEventIDs": [41, 130, 229, 346, 365, 389],
+      "artistPreferences": [
+        {
+          "artistID": 176,
+          "rating": 2
+        },
+        {
+          "artistID": 188,
+          "rating": 3
+        },
+        {
+          "artistID": 180,
+          "rating": 2
+        },
+        {
+          "artistID": 183,
+          "rating": 1
+        },
+        {
+          "artistID": 194,
+          "rating": 3
+        },
+        {
+          "artistID": 203,
+          "rating": 2
+        },
+        {
+          "artistID": 302,
+          "rating": 1
+        }
+      ]
+    },
+    {
+      "id": "sam-preview",
+      "title": "Sam's weekend",
+      "ownerName": "Sam",
+      "badgeName": "Sam",
+      "badgeColorHex": "#23867A",
+      "festivalYear": 2026,
+      "savedEventIDs": [28, 46, 66, 73, 229, 357, 390],
+      "artistPreferences": [
+        {
+          "artistID": 176,
+          "rating": -1,
+          "iconName": "questionmark.circle.fill"
+        },
+        {
+          "artistID": 190,
+          "rating": 2
+        },
+        {
+          "artistID": 179,
+          "rating": 3
+        },
+        {
+          "artistID": 188,
+          "rating": 1
+        },
+        {
+          "artistID": 191,
+          "rating": 2
+        },
+        {
+          "artistID": 206,
+          "rating": 1
+        },
+        {
+          "artistID": 311,
+          "rating": 3
+        }
+      ]
+    },
+    {
+      "id": "lina-preview",
+      "title": "Lina's route",
+      "ownerName": "Lina",
+      "badgeName": "Lina",
+      "badgeColorHex": "#D49A1F",
+      "festivalYear": 2026,
+      "savedEventIDs": [24, 42, 51, 58, 346, 366, 395],
+      "artistPreferences": [
+        {
+          "artistID": 176,
+          "rating": 1
+        },
+        {
+          "artistID": 188,
+          "rating": 2
+        },
+        {
+          "artistID": 199,
+          "rating": 3
+        },
+        {
+          "artistID": 200,
+          "rating": 3
+        },
+        {
+          "artistID": 215,
+          "rating": 2
+        },
+        {
+          "artistID": 315,
+          "rating": 1
+        }
+      ]
+    },
+    {
+      "id": "noah-preview",
+      "title": "Noah's discoveries",
+      "ownerName": "Noah",
+      "badgeName": "Noah",
+      "badgeColorHex": "#5E9F42",
+      "festivalYear": 2026,
+      "savedEventIDs": [43, 48, 52, 57, 68, 404],
+      "artistPreferences": [
+        {
+          "artistID": 67,
+          "rating": 2
+        },
+        {
+          "artistID": 144,
+          "rating": 3
+        },
+        {
+          "artistID": 205,
+          "rating": 1
+        },
+        {
+          "artistID": 221,
+          "rating": 3
+        },
+        {
+          "artistID": 295,
+          "rating": 2
+        },
+        {
+          "artistID": 303,
+          "rating": 1
+        }
+      ]
+    }
+  ]
+}

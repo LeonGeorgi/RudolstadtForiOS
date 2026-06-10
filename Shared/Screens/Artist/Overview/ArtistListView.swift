@@ -1,11 +1,3 @@
-//
-//  ArtistListView.swift
-//  RudolstadtForiOS
-//
-//  Created by Leon on 22.02.20.
-//  Copyright © 2020 Leon Georgi. All rights reserved.
-//
-
 import Foundation
 import SwiftUI
 
@@ -13,7 +5,9 @@ struct ArtistListView: View {
     let navigate: (AppNavigationRoute) -> Void
     private let imageTransitionNamespace: Namespace.ID?
 
+    @Environment(\.festivalData) private var festivalData
     @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var profile: FestivalProfileStore
     @EnvironmentObject var dataStore: DataStore
 
     @StateObject private var overviewState = ArtistOverviewState()
@@ -92,7 +86,7 @@ struct ArtistListView: View {
     private func artistsToShow(from artists: [Artist]) -> [Artist] {
         if overviewState.favoriteArtistsOnly {
             let artistsWithRatings = artists.map { artist in
-                (artist: artist, rating: settings.ratings[String(artist.id)])
+                (artist: artist, rating: profile.ratings[String(artist.id)])
             }
             let filteredArtists = artistsWithRatings.filter { item in
                 item.rating != nil && item.rating! > 0
@@ -107,37 +101,24 @@ struct ArtistListView: View {
     }
 
     var body: some View {
-        LoadingListView(
-            noDataMessage: "artists.none-found",
-            noDataSubtitle: nil,
-            showsNoDataView: false,
-            dataMapper: { data in
-                artistsToShow(
-                    from: filteredArtists(from: data)
-                ).withApplied(searchTerm: overviewState.searchText) { artist in
-                    artist.name
-                }
-            }
-        ) { artists in
-            ArtistBrowseView(
-                artists: artists,
-                state: overviewState,
-                currentTipID: tipSequencer.currentTipID,
-                emptyMessageKey: emptyMessageKey,
-                browseGenreOptions: browseGenreOptions,
-                localizedBrowseGenreLabel: dataStore.localizedBrowseGenreLabel,
-                navigationTitleKey: navigationTitleKey,
-                imageTransitionNamespace: resolvedImageTransitionNamespace,
-                navigate: navigate
-            )
-            .onAppear {
-                print(
-                    "[ArtistWorldMap] ArtistListView content appeared mode=\(overviewState.selectedPresentationMode.rawValue) artists=\(artists.count)"
-                )
-            }
+        let artists = artistsToShow(
+            from: filteredArtists(from: festivalData)
+        ).withApplied(searchTerm: overviewState.searchText) { artist in
+            artist.name
         }
+
+        ArtistBrowseView(
+            artists: artists,
+            state: overviewState,
+            currentTipID: tipSequencer.currentTipID,
+            emptyMessageKey: emptyMessageKey,
+            browseGenreOptions: browseGenreOptions,
+            localizedBrowseGenreLabel: dataStore.localizedBrowseGenreLabel,
+            navigationTitleKey: navigationTitleKey,
+            imageTransitionNamespace: resolvedImageTransitionNamespace,
+            navigate: navigate
+        )
         .task {
-            print("[ArtistWorldMap] ArtistListView.task start")
             ArtistWorldMapView.preloadResources()
             let restoredMode =
                 ArtistPresentationMode(rawValue: settings.artistViewType) ?? .grid
@@ -145,9 +126,6 @@ struct ArtistListView: View {
             if settings.artistViewType != restoredMode.rawValue {
                 settings.artistViewType = restoredMode.rawValue
             }
-            print(
-                "[ArtistWorldMap] ArtistListView.task restored mode=\(overviewState.selectedPresentationMode.rawValue)"
-            )
         }
         .onChange(of: overviewState.selectedPresentationMode) { _, newMode in
             settings.artistViewType = newMode.rawValue
@@ -160,9 +138,17 @@ struct ArtistListView: View {
     }
 }
 
+#if DEBUG
 struct ArtistListView_Previews: PreviewProvider {
+    @MainActor
     static var previews: some View {
-        ArtistListView()
-            .environmentObject(DataStore())
+        NavigationStack {
+            ArtistListView()
+                .navigationDestination(for: AppNavigationRoute.self) { _ in
+                    EmptyView()
+                }
+        }
+        .previewMockEnvironment(suiteName: "ArtistListViewPreview")
     }
 }
+#endif

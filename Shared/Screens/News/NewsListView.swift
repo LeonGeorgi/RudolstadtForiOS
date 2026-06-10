@@ -17,7 +17,7 @@ struct NewsListView: View {
                         refreshButtonDisabled = true
                         Task {
                             await dataStore
-                                .updateAndLoadNewsIfNecessary()
+                                .refreshNewsIfNecessary()
                             refreshButtonDisabled = false
                         }
                     } label: {
@@ -78,7 +78,7 @@ struct NewsListView: View {
                 }
                 .listStyle(.plain)
                 .refreshable {
-                    await dataStore.updateAndLoadNewsIfNecessary()
+                    await dataStore.refreshNewsIfNecessary()
                 }
             }
         } else if case .loading = dataStore.news {

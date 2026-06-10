@@ -1,5 +1,6 @@
 import BackgroundTasks
 import Foundation
+import OSLog
 import UserNotifications
 
 protocol NewsFetching {
@@ -8,12 +9,51 @@ protocol NewsFetching {
 
 protocol NewsCaching {
     func loadNewsFromFile() -> FileLoadingResult<[NewsItem]>
+    func loadBundledNewsBackup() -> FileLoadingResult<[NewsItem]>
     func storeAPINewsToFile(news: [APINewsItem], fileName: String) -> Bool
     func isFileOlderThan(fileName: String, date: Date?) -> Bool
 }
 
 protocol NewsNotifying {
     func notifyUser(of item: NewsItem) async throws
+}
+
+enum NewsNotificationPayload {
+    static let newsItemIDKey = "newsItemID"
+}
+
+@MainActor
+final class NewsNotificationNavigationController: ObservableObject {
+    static let shared = NewsNotificationNavigationController()
+
+    @Published private(set) var requestedNewsItemID: Int?
+
+    private init() {}
+
+    func requestOpeningNewsItem(id: Int) {
+        requestedNewsItemID = id
+    }
+
+    func requestOpeningNewsItem(from response: UNNotificationResponse) {
+        let userInfo = response.notification.request.content.userInfo
+
+        if let newsItemID = userInfo[NewsNotificationPayload.newsItemIDKey] as? Int {
+            requestOpeningNewsItem(id: newsItemID)
+        } else if let newsItemIDString = userInfo[NewsNotificationPayload.newsItemIDKey] as? String,
+            let newsItemID = Int(newsItemIDString)
+        {
+            requestOpeningNewsItem(id: newsItemID)
+        } else if let newsItemID = Int(response.notification.request.identifier) {
+            requestOpeningNewsItem(id: newsItemID)
+        }
+    }
+
+    func clearRequestedNewsItem(id: Int) {
+        guard requestedNewsItemID == id else {
+            return
+        }
+        requestedNewsItemID = nil
+    }
 }
 
 extension APIClient: NewsFetching {}
@@ -26,6 +66,9 @@ final class UserNotificationNewsNotifier: NewsNotifying {
         content.title = item.formattedShortDescription
         content.body = item.formattedLongDescription
         content.sound = .default
+        content.userInfo = [
+            NewsNotificationPayload.newsItemIDKey: item.id
+        ]
 
         let request = UNNotificationRequest(
             identifier: String(item.id),
@@ -57,14 +100,14 @@ final class NewsService {
     }
 
     convenience init(userSettings: UserSettings) {
-        let cacheUrl = try! FileManager.default.url(
+        let cacheURL = try! FileManager.default.url(
             for: .cachesDirectory,
             in: .allDomainsMask,
             appropriateFor: nil,
             create: false
         )
         self.init(
-            dataLoader: DataLoader(cacheUrl: cacheUrl),
+            dataLoader: DataLoader(cacheURL: cacheURL),
             apiClient: APIClient(),
             userSettings: userSettings
         )
@@ -74,8 +117,18 @@ final class NewsService {
         let cachedNews = dataLoader.loadNewsFromFile()
         switch cachedNews {
         case .loaded(let news):
+            AppLog.news.info("Loaded \(news.count) news items from cache")
             return .success(news)
-        case .tooOld, .notFound, .unparsable:
+        case .stale(let news):
+            AppLog.news.info(
+                "Cached news is stale with \(news.count) items; refreshing"
+            )
+            return await refreshNews()
+        case .notFound:
+            AppLog.news.info("No cached news found; refreshing")
+            return await refreshNews()
+        case .unparsable:
+            AppLog.news.error("Cached news could not be parsed; refreshing from network")
             return await refreshNews()
         }
     }
@@ -105,25 +158,32 @@ final class NewsService {
                 fileName: "news.json"
             )
             if !storedFile {
-                print("Could not store news to file")
+                AppLog.news.error("Downloaded news but failed to cache it")
             }
 
             let newsItems = apiNews.map(convertAPINewsItemToNewsItem)
+            let notifiedCount: Int
 
             if sendNotifications {
-                await notifyAboutNewItems(apiNews: apiNews, newsItems: newsItems)
+                notifiedCount = await notifyAboutNewItems(
+                    apiNews: apiNews,
+                    newsItems: newsItems
+                )
+            } else {
+                notifiedCount = 0
             }
             if markAllCurrentNewsAsSeen {
                 userSettings.oldNews = apiNews.map(\.id)
             }
 
-            print("Updated news data")
+            AppLog.news.info(
+                "Refreshed news with \(newsItems.count) items and \(notifiedCount) notifications"
+            )
             return .success(newsItems)
         } catch {
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            print("!!! NEWS DOWNLOAD FAILED")
-            print("!!! \(error.localizedDescription)")
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            AppLog.news.error(
+                "News refresh failed: \(error.localizedDescription, privacy: .public)"
+            )
             return cachedNewsResultOnFailure()
         }
     }
@@ -132,7 +192,7 @@ final class NewsService {
         switch dataLoader.loadNewsFromFile() {
         case .notFound, .unparsable:
             return true
-        case .loaded, .tooOld:
+        case .loaded, .stale:
             let someTimeAgo = Calendar.current.date(
                 byAdding: .minute,
                 value: -10,
@@ -147,18 +207,42 @@ final class NewsService {
 
     private func cachedNewsResult() -> LoadingResult<[NewsItem]> {
         switch dataLoader.loadNewsFromFile() {
-        case .loaded(let news), .tooOld(let news):
+        case .loaded(let news), .stale(let news):
+            return .success(news)
+        case .notFound, .unparsable:
+            return bundledNewsBackupResult()
+        }
+    }
+
+    private func cachedNewsResultOnFailure() -> LoadingResult<[NewsItem]> {
+        switch dataLoader.loadNewsFromFile() {
+        case .loaded(let news), .stale(let news):
+            AppLog.news.info("Using cached news after refresh failure")
+            return .success(news)
+        case .notFound, .unparsable:
+            return bundledNewsBackupResultOnFailure()
+        }
+    }
+
+    private func bundledNewsBackupResult() -> LoadingResult<[NewsItem]> {
+        switch dataLoader.loadBundledNewsBackup() {
+        case .loaded(let news), .stale(let news):
+            AppLog.news.info("Using bundled news backup with \(news.count) items")
             return .success(news)
         case .notFound, .unparsable:
             return .failure(.couldNotLoadFromFile)
         }
     }
 
-    private func cachedNewsResultOnFailure() -> LoadingResult<[NewsItem]> {
-        switch dataLoader.loadNewsFromFile() {
-        case .loaded(let news), .tooOld(let news):
+    private func bundledNewsBackupResultOnFailure() -> LoadingResult<[NewsItem]> {
+        switch dataLoader.loadBundledNewsBackup() {
+        case .loaded(let news), .stale(let news):
+            AppLog.news.info(
+                "Using bundled news backup with \(news.count) items after refresh failure"
+            )
             return .success(news)
         case .notFound, .unparsable:
+            AppLog.news.error("News refresh failed and no cached news was available")
             return .failure(.apiNotResponding)
         }
     }
@@ -166,18 +250,23 @@ final class NewsService {
     private func notifyAboutNewItems(
         apiNews: [APINewsItem],
         newsItems: [NewsItem]
-    ) async {
+    ) async -> Int {
         let oldNewsIds = Set(userSettings.oldNews)
         let newNewsIds = Set(apiNews.map(\.id)).subtracting(oldNewsIds)
+        var notifiedCount = 0
 
         for item in newsItems where newNewsIds.contains(item.id) && item.isInCurrentLanguage {
             do {
                 try await notifier.notifyUser(of: item)
                 userSettings.oldNews.append(item.id)
+                notifiedCount += 1
             } catch {
-                print("Failed to notify user about news item \(item.id): \(error)")
+                AppLog.news.error(
+                    "Failed to notify user about news item \(item.id): \(error.localizedDescription, privacy: .public)"
+                )
             }
         }
+        return notifiedCount
     }
 }
 
@@ -193,16 +282,19 @@ final class NewsRefresher {
         request.earliestBeginDate = Date(timeIntervalSinceNow: 30 * 60)  // 30 min
         do {
             try BGTaskScheduler.shared.submit(request)
-            print("Scheduled news refresh task")
+            AppLog.news.info("Scheduled next background news refresh task")
         } catch {
-            print("Failed to schedule news refresh task: \(error)")
+            AppLog.news.error(
+                "Failed to schedule background news refresh task: \(error.localizedDescription, privacy: .public)"
+            )
         }
     }
 
     /// Handle the task that the system launches.
     func handle() async {
-        print("Handling news refresh task")
+        AppLog.news.info("Handling background news refresh task")
         NewsRefresher.scheduleNextBackgroundTask()
         await newsService.refreshNewsInBackground()
+        AppLog.news.info("Finished background news refresh task")
     }
 }

@@ -24,6 +24,8 @@ struct MapView: View, Equatable {
     @StateObject private var manager = LocationManager()
     @State private var enabledStageFilters = Set(MapLegendFilter.allCases)
     @State private var mapRegion = Self.initialFestivalRegion
+    @State private var showsUserLocation = false
+    @State private var enableUserLocationTask: Task<Void, Never>?
 
     private static let initialFestivalRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
@@ -55,7 +57,13 @@ struct MapView: View, Equatable {
                 mapRegion
             },
             set: { newValue in
-                mapRegion = clampedZoomOutRegion(for: newValue)
+                let clampedRegion = clampedZoomOutRegion(for: newValue)
+                guard !regionsAreEffectivelyEqual(mapRegion, clampedRegion) else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    mapRegion = clampedRegion
+                }
             }
         )
     }
@@ -67,7 +75,7 @@ struct MapView: View, Equatable {
         Map(
             coordinateRegion: clampedRegionBinding,
             interactionModes: [.pan, .zoom],
-            showsUserLocation: true,
+            showsUserLocation: showsUserLocation,
             annotationItems: filteredLocations
         ) { annotation in
             MapAnnotation(coordinate: annotation.coordinate) {
@@ -96,7 +104,23 @@ struct MapView: View, Equatable {
         )
         .tint(.rudolstadt)
         .onAppear {
-            manager.startLocationTracking()
+            guard enableUserLocationTask == nil else {
+                return
+            }
+
+            enableUserLocationTask = Task { @MainActor in
+                await Task.yield()
+                guard !Task.isCancelled else {
+                    return
+                }
+
+                showsUserLocation = true
+                manager.startLocationTracking()
+            }
+        }
+        .onDisappear {
+            enableUserLocationTask?.cancel()
+            enableUserLocationTask = nil
         }
         .ignoresSafeArea()
         .overlay(alignment: .top) {
@@ -179,6 +203,16 @@ struct MapView: View, Equatable {
                 )
             )
         )
+    }
+
+    private func regionsAreEffectivelyEqual(
+        _ lhs: MKCoordinateRegion,
+        _ rhs: MKCoordinateRegion
+    ) -> Bool {
+        abs(lhs.center.latitude - rhs.center.latitude) < 0.000_001
+            && abs(lhs.center.longitude - rhs.center.longitude) < 0.000_001
+            && abs(lhs.span.latitudeDelta - rhs.span.latitudeDelta) < 0.000_001
+            && abs(lhs.span.longitudeDelta - rhs.span.longitudeDelta) < 0.000_001
     }
 
     private func legendToggleChip(
@@ -309,16 +343,38 @@ private struct MapLegendChipButtonStyle: ViewModifier {
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let manager = CLLocationManager()
+    private var didConfigureManager = false
+    private var isUpdatingLocation = false
 
     override init() {
         super.init()
     }
 
     func startLocationTracking() {
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
+        if !didConfigureManager {
+            manager.delegate = self
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+            didConfigureManager = true
+        }
+
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            guard !isUpdatingLocation else {
+                return
+            }
+            isUpdatingLocation = true
+            manager.startUpdatingLocation()
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            return
+        @unknown default:
+            return
+        }
+    }
+
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        startLocationTracking()
     }
 }
 

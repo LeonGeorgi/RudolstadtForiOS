@@ -1,13 +1,10 @@
 import Foundation
+import OSLog
 
 func convertAPIRudolstadtDataToEntities(
     apiData: APIRudolstadtData,
     extraData: ExtraDataCollection
 ) -> FestivalData {
-    print("Converting API data to Entities...")
-    print(
-        "Artists: \(apiData.artists.count), Areas: \(apiData.areas.count), Stages: \(apiData.stages.count), Events: \(apiData.events.count), Tags: \(apiData.tags.count)"
-    )
     let tags = apiData.tags.map(convertAPITagToTag)
     let artists = apiData.artists.map { APIArtist in
         convertAPIArtistToArtist(
@@ -125,8 +122,8 @@ func convertAPINewsItemToNewsItem(apiNewsItem: APINewsItem) -> NewsItem {
     let date = apiNewsItem.time.getDateAsGermanString()
     let time = apiNewsItem.time.getTimeAsGermanString()
     if date == nil || time == nil {
-        print(
-            "Error converting date or time for news item with ID: \(apiNewsItem.id)"
+        AppLog.news.error(
+            "Failed to parse date or time for news item \(apiNewsItem.id)"
         )
     }
     return NewsItem(

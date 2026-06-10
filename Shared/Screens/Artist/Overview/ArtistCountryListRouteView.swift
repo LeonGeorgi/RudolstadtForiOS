@@ -5,7 +5,8 @@ struct ArtistCountryListRouteView: View {
     let countryCode: String
     let imageTransitionNamespace: Namespace.ID?
 
-    @EnvironmentObject private var dataStore: DataStore
+    @Environment(\.festivalData) private var festivalData
+    @EnvironmentObject private var profile: FestivalProfileStore
     @StateObject private var overlayLoader = GeoJSONCountryOverlayLoader.detailPreviewShared
     @Namespace private var localImageTransitionNamespace
     @State private var layout: CountryArtistLayout = .grid
@@ -35,11 +36,7 @@ struct ArtistCountryListRouteView: View {
     }
 
     private var countryArtists: [Artist] {
-        guard case .success(let data) = dataStore.data else {
-            return []
-        }
-
-        return data.artists
+        festivalData.artists
             .filter { artist in
                 !artist.hiddenFromArtistList
                     && artist.countryCodes.contains(countryCode)
@@ -50,90 +47,89 @@ struct ArtistCountryListRouteView: View {
     }
 
     var body: some View {
-        Group {
-            switch dataStore.data {
-            case .loading:
-                ProgressView()
-            case .failure(let reason):
-                Text("Failed to load: " + reason.rawValue)
-            case .success:
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 22) {
-                        countryHeader
+        ScrollView {
+            VStack(alignment: .leading, spacing: 22) {
+                countryHeader
 
-                        if countryArtists.isEmpty {
-                            Text("artists.none-found")
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.top, 32)
-                        } else if layout == .grid {
-                            LazyVGrid(columns: gridColumns, spacing: 18) {
-                                ForEach(countryArtists) { artist in
-                                    NavigationLink(
-                                        value: AppNavigationRoute.artist(
-                                            id: artist.id,
-                                            highlightedEventId: nil,
-                                            transitionSourceID: artist.id
-                                        )
-                                    ) {
-                                        ArtistGridCell(
-                                            artist: artist,
-                                            imageTransitionNamespace: resolvedImageTransitionNamespace
-                                        )
-                                    }
-                                    .buttonStyle(.plain)
-                                }
-                            }
-                            .padding(.horizontal, 12)
-                            .padding(.bottom, 24)
-                        } else {
-                            VStack(alignment: .leading, spacing: 10) {
-                                countrySectionHeader("artists.title")
-
-                                LazyVStack(spacing: 0) {
-                                    ForEach(countryArtists) { artist in
-                                        NavigationLink(
-                                            value: AppNavigationRoute.artist(
-                                                id: artist.id,
-                                                highlightedEventId: nil,
-                                                transitionSourceID: nil
-                                            )
-                                        ) {
-                                            CountryArtistListRow(artist: artist)
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 10)
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .contentShape(Rectangle())
-                                        }
-                                        .buttonStyle(.plain)
-
-                                        if artist.id != countryArtists.last?.id {
-                                            Divider()
-                                                .padding(.leading, 96)
-                                        }
-                                    }
-                                }
-                                .background(
-                                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                        .fill(.thinMaterial)
+                if countryArtists.isEmpty {
+                    Text("artists.none-found")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top, 32)
+                } else if layout == .grid {
+                    LazyVGrid(columns: gridColumns, spacing: 18) {
+                        ForEach(countryArtists) { artist in
+                            NavigationLink(
+                                value: AppNavigationRoute.artist(
+                                    id: artist.id,
+                                    highlightedEventId: nil,
+                                    transitionSourceID: artist.id
                                 )
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                        .stroke(Color.primary.opacity(0.08), lineWidth: 0.8)
+                            ) {
+                                ArtistGridCell(
+                                    artist: artist,
+                                    imageTransitionNamespace: resolvedImageTransitionNamespace,
+                                    artistRating: profile.rating(for: artist.id),
+                                    artistIconName: profile.iconName(forArtistID: artist.id),
+                                    friendRatingSummary: profile.friendArtistRatingSummary(for: artist.id)
                                 )
                             }
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 24)
+                            .buttonStyle(.plain)
                         }
                     }
-                    .padding(.top, 16)
-                }
-                .background(Color.primary.opacity(0.02))
-                .task {
-                    overlayLoader.loadIfNeeded()
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 24)
+                } else {
+                    VStack(alignment: .leading, spacing: 10) {
+                        countrySectionHeader("artists.title")
+
+                        LazyVStack(spacing: 0) {
+                            ForEach(countryArtists) { artist in
+                                NavigationLink(
+                                    value: AppNavigationRoute.artist(
+                                        id: artist.id,
+                                        highlightedEventId: nil,
+                                        transitionSourceID: nil
+                                    )
+                                ) {
+                                    CountryArtistListRow(
+                                        artist: artist,
+                                        artistRating: profile.rating(for: artist.id),
+                                        artistIconName: profile.iconName(forArtistID: artist.id),
+                                        friendRatingSummary: profile.friendArtistRatingSummary(for: artist.id)
+                                    )
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 10)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .contentShape(Rectangle())
+                                }
+                                .buttonStyle(.plain)
+
+                                if artist.id != countryArtists.last?.id {
+                                    Divider()
+                                        .padding(.leading, 96)
+                                }
+                            }
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .fill(.thinMaterial)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .stroke(Color.primary.opacity(0.08), lineWidth: 0.8)
+                        )
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 24)
                 }
             }
+            .padding(.top, 16)
+        }
+        .background(Color.primary.opacity(0.02))
+        .task {
+            overlayLoader.loadIfNeeded()
         }
         .navigationTitle(navigationTitleText)
         .navigationBarTitleDisplayMode(.inline)
@@ -246,12 +242,9 @@ private struct CountryArtistLayoutPicker: View {
 
 private struct CountryArtistListRow: View {
     let artist: Artist
-
-    @EnvironmentObject private var settings: UserSettings
-
-    private var artistRating: Int {
-        settings.ratings["\(artist.id)"] ?? 0
-    }
+    let artistRating: Int
+    let artistIconName: String?
+    let friendRatingSummary: FriendArtistRatingSummary?
 
     var body: some View {
         HStack(spacing: 12) {
@@ -267,10 +260,19 @@ private struct CountryArtistListRow: View {
                 .lineLimit(2)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            if artistRating != 0 {
-                ArtistRatingSymbol(artist: artist)
-                    .foregroundStyle(.secondary)
+            if let friendRatingSummary {
+                FriendArtistRatingsBubble(
+                    summary: friendRatingSummary,
+                    style: .plainInline
+                )
+                .frame(minHeight: 24, alignment: .center)
             }
+
+            ArtistRatingListSlot(
+                rating: artistRating,
+                iconName: artistIconName,
+                reservesSpace: friendRatingSummary != nil
+            )
         }
     }
 }

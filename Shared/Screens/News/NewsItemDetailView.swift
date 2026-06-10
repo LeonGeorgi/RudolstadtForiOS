@@ -11,8 +11,8 @@ struct NewsItemDetailView: View {
     let newsItem: NewsItem
     var navigate: ((AppNavigationRoute) -> Void)? = nil
 
+    @Environment(\.festivalData) private var festivalData
     @EnvironmentObject var settings: UserSettings
-    @EnvironmentObject var dataStore: DataStore
 
     @State private var mentionedArtists: [Artist] = []
     @State private var mentionedStages: [Stage] = []
@@ -28,14 +28,7 @@ struct NewsItemDetailView: View {
     }
 
     private var mentionTaskKey: String {
-        switch dataStore.data {
-        case .loading:
-            return "\(newsItem.id)-loading"
-        case .failure(let reason):
-            return "\(newsItem.id)-failure-\(reason.rawValue)"
-        case .success(let entities):
-            return "\(newsItem.id)-success-\(entities.artists.count)-\(entities.stages.count)"
-        }
+        "\(newsItem.id)-\(festivalData.artists.count)-\(festivalData.stages.count)"
     }
 
     private var displayedLongDescription: String {
@@ -194,24 +187,10 @@ struct NewsItemDetailView: View {
     }
 
     private func loadMentionsAsync() async {
-        print("NewsMentionDebug: start lookup for news \(newsItem.id) - \(newsItem.formattedShortDescription)")
-
-        guard case .success(let entities) = dataStore.data else {
-            print("NewsMentionDebug: data not ready for news \(newsItem.id), skipping lookup")
-            await MainActor.run {
-                mentionedArtists = []
-                mentionedStages = []
-            }
-            return
-        }
-
         let normalizedText = normalizedNewsText
-        print(
-            "NewsMentionDebug: data ready for news \(newsItem.id), artists=\(entities.artists.count), stages=\(entities.stages.count), textLength=\(normalizedText.count)"
-        )
 
         let result = MentionLookupResult(
-            artists: entities.artists.compactMap { artist -> (Artist, Int)? in
+            artists: festivalData.artists.compactMap { artist -> (Artist, Int)? in
                 guard
                     let index = firstWholeMentionAppearanceIndex(
                         in: normalizedText,
@@ -228,7 +207,7 @@ struct NewsItemDetailView: View {
             .map { pair in
                 pair.0
             },
-            stages: entities.stages.filter { stage in
+            stages: festivalData.stages.filter { stage in
                 containsMention(
                     normalizedText: normalizedText,
                     candidate: stage.localizedName
@@ -237,30 +216,12 @@ struct NewsItemDetailView: View {
         )
 
         if Task.isCancelled {
-            print("NewsMentionDebug: lookup cancelled for news \(newsItem.id)")
             return
         }
-
-        let dotaCandidates = entities.artists.filter { artist in
-            normalizeForNewsMentionMatch(artist.formattedName).contains("dota")
-        }
-        for artist in dotaCandidates {
-            let normalizedCandidate = normalizeForNewsMentionMatch(artist.formattedName)
-            print(
-                "NewsMentionDebug: dota candidate='\(artist.formattedName)' normalized='\(normalizedCandidate)' matched=\(containsMention(normalizedText: normalizedText, candidate: artist.formattedName))"
-            )
-        }
-
-        print(
-            "NewsMentionDebug: lookup done for news \(newsItem.id), matched artists=\(result.artists.count), matched stages=\(result.stages.count)"
-        )
 
         await MainActor.run {
             mentionedArtists = result.artists
             mentionedStages = result.stages
-            print(
-                "NewsMentionDebug: applied to UI for news \(newsItem.id), artists=\(mentionedArtists.count), stages=\(mentionedStages.count)"
-            )
         }
     }
 

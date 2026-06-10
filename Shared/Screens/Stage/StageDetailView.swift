@@ -1,8 +1,3 @@
-//
-// Created by Leon on 27.02.20.
-// Copyright (c) 2020 Leon Georgi. All rights reserved.
-//
-
 import Foundation
 import MapKit
 import SwiftUI
@@ -30,134 +25,89 @@ struct StageDetailView: View {
     let highlightedEventId: Int?
 
     @Environment(\.colorScheme) private var colorScheme
-    @EnvironmentObject var dataStore: DataStore
+    @Environment(\.festivalData) private var festivalData
+    @EnvironmentObject private var profile: FestivalProfileStore
 
-    @State var selectedDay: Int = -1
+    @State private var selectedDay: Int = -1
     @State private var isShowingInteractiveMap = false
-    @State private var interactiveMapRecenterTrigger = 0
-    @State private var onlyStagesWithConcerts = true
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.stageDetailScreen
     )
 
-    func events(_ entities: FestivalData) -> [Int: [Event]] {
+    private func eventsGroupedByDay(_ entities: FestivalData) -> [Int: [Event]] {
         Dictionary(
             grouping: entities.events.filter { event in
                 event.stage.id == stage.id
             }
-        ) { (event: Event) in
+        ) { event in
             event.festivalDay
         }
     }
 
-    func eventDays(_ entities: FestivalData) -> [Int] {
-        events(entities).keys.sorted().filter { day in
-            if DataStore.year == 2023 && day < 6 {
-                return false
-            } else {
-                return true
+    private var nearbyStageDistances: [StageDistance] {
+        Array(calculateNearbyStages(festivalData)
+            .filter { stageDistance in
+                guard let estimatedWalkMinutes = stageDistance.estimatedWalkMinutes else {
+                    return false
+                }
+                return estimatedWalkMinutes < 10
             }
-        }
-    }
-
-    private var nearbySectionTint: Color {
-        Color(.secondarySystemBackground)
-    }
-
-    private var nearbyStages: [StageDistance] {
-        guard case .success(let entities) = dataStore.data else {
-            return []
-        }
-        return calculateNearbyStages(entities)
+            .prefix(10))
     }
 
     var body: some View {
-        ScrollView {
+        let stageDistances = nearbyStageDistances
+
+        return ScrollView {
             VStack(spacing: 0) {
-                    topMapHero
-                        .padding(.top, 16)
+                topMapHero
+                    .padding(.top, 16)
 
-                    stageHeader
-                        .padding(.horizontal, 16)
+                stageHeader
+                    .padding(.horizontal, 16)
+                    .padding(.top, 20)
+
+                eventsSection
+                    .padding(.top, 18)
+
+                if !stageDistances.isEmpty {
+                    nearbyStagesSection(stageDistances)
                         .padding(.top, 20)
-
-                    eventsSection
-                        .padding(.top, 18)
-
-                    if !nearbyStages.isEmpty {
-                        nearbyStagesSection
-                            .padding(.top, 20)
-                    }
+                }
             }
             .padding(.bottom, 28)
         }
-        .background(Color(.systemBackground).ignoresSafeArea())
         .navigationTitle(stage.localizedName)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(.hidden, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 EmptyView()
             }
         }
         .onAppear {
-            if case .success(let entities) = dataStore.data {
-                let days = self.eventDays(entities)
-                let highlightedEventDay = entities.events.first { event in
-                    event.id == highlightedEventId
-                }?.festivalDay
-                self.selectedDay =
-                    highlightedEventDay
-                    ?? FestivalDateUtilities.getCurrentFestivalDay(
-                        eventDays: days
-                    ) ?? days.first ?? -1
-            }
+            selectedDay = initialSelectedDay()
         }
         .fullScreenCover(isPresented: $isShowingInteractiveMap) {
-            NavigationStack {
-                ZStack(alignment: .bottomTrailing) {
-                    StageMapView(
-                        stage: stage,
-                        isInteractive: true,
-                        recenterTrigger: interactiveMapRecenterTrigger
-                    )
-                    .ignoresSafeArea()
-
-                    Button {
-                        interactiveMapRecenterTrigger += 1
-                    } label: {
-                        Image(systemName: "location")
-                            .font(.system(size: 17, weight: .semibold))
-                    }
-                    .modifier(MapLocateButtonStyle())
-                    .padding(.trailing, 16)
-                    .padding(.bottom, 24)
-                    .accessibilityLabel(Text("Show my location"))
-                }
-                .navigationTitle(stage.localizedName)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button("Close") {
-                                isShowingInteractiveMap = false
-                            }
-                        }
-
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button {
-                                StageMapView.openInMaps(stage: stage)
-                            } label: {
-                                Label("Open in Maps", systemImage: "map")
-                            }
-                        }
-                    }
-            }
+            StageDetailInteractiveMap(stage: stage)
         }
+    }
+
+    private func initialSelectedDay() -> Int {
+        let eventsByDay = eventsGroupedByDay(festivalData)
+        let days = eventsByDay.keys.sorted()
+        let highlightedEventDay = festivalData.events.first { event in
+            event.id == highlightedEventId
+        }?.festivalDay
+
+        return highlightedEventDay
+        ?? FestivalDateUtilities.getCurrentFestivalDay(eventDays: days)
+        ?? days.first
+        ?? -1
     }
 
     private var stageHeader: some View {
         VStack(spacing: 10) {
-            HStack(alignment: .center, spacing: 10) {
+            HStack(alignment: .center, spacing: 12) {
                 StageNumber(stage: stage, size: 40)
 
                 Text(stage.localizedName)
@@ -169,7 +119,7 @@ struct StageDetailView: View {
 
             VStack(spacing: 4) {
                 if let description = stage.localizedDescription,
-                    !description.isEmpty
+                   !description.isEmpty
                 {
                     Text(description)
                         .font(.headline)
@@ -185,36 +135,27 @@ struct StageDetailView: View {
         .frame(maxWidth: .infinity)
     }
 
-    @ViewBuilder
     private var eventsSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            sectionHeader("stage.events")
+        let eventsByDay = eventsGroupedByDay(festivalData)
+        let days = eventsByDay.keys.sorted()
+        let selectedEvents = eventsByDay[selectedDay] ?? []
 
-            switch dataStore.data {
-            case .loading:
-                Text("stage.events.loading")
-                    .foregroundStyle(.secondary)
-            case .failure(let reason):
-                Text("Failed to load: " + reason.rawValue)
-                    .foregroundStyle(.secondary)
-            case .success(let entities):
-                let days = eventDays(entities)
-                if !days.isEmpty {
-                    Picker("Date", selection: $selectedDay) {
-                        ForEach(days, id: \.self) { day in
-                            Text(FestivalDateUtilities.shortWeekDay(day: day)).tag(day)
-                        }
+        return VStack(alignment: .leading, spacing: 10) {
+            if !days.isEmpty {
+                Picker("Date", selection: $selectedDay) {
+                    ForEach(days, id: \.self) { day in
+                        Text(FestivalDateUtilities.shortWeekDay(day: day)).tag(day)
                     }
-                    .pickerStyle(.segmented)
+                }
+                .pickerStyle(.segmented)
 
-                    VStack(spacing: 0) {
-                        ForEach(Array((events(entities)[selectedDay] ?? []).enumerated()), id: \.element.id) { index, event in
-                            renderEvent(event)
+                VStack(spacing: 0) {
+                    ForEach(Array(selectedEvents.enumerated()), id: \.element.id) { index, event in
+                        eventRow(event)
 
-                            if index < (events(entities)[selectedDay] ?? []).count - 1 {
-                                Divider()
-                                    .padding(.leading, 90)
-                            }
+                        if index < selectedEvents.count - 1 {
+                            Divider()
+                                .padding(.leading, 90)
                         }
                     }
                 }
@@ -228,19 +169,19 @@ struct StageDetailView: View {
             .allowsHitTesting(false)
             .aspectRatio(4.0 / 3.0, contentMode: .fill)
             .frame(maxWidth: .infinity)
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .stroke(mapPreviewStrokeColor, lineWidth: 0.5)
             )
-            .shadow(color: .black.opacity(0.25), radius: 15, x: 0, y: 8)
+            .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
             .padding(.horizontal, 56)
             .overlay {
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .fill(Color.clear)
                     .padding(.horizontal, 56)
                     .contentShape(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
                     )
                     .onTapGesture {
                         isShowingInteractiveMap = true
@@ -259,91 +200,58 @@ struct StageDetailView: View {
         colorScheme == .dark ? .white.opacity(0.22) : .black.opacity(0.15)
     }
 
-    private var nearbyStagesSection: some View {
-        let sortedNearbyStages = nearbyStages.sorted { first, second in
-            first.distance < second.distance
-        }
-        let filteredNearbyStages: [StageDistance]
-        if onlyStagesWithConcerts, case .success(let entities) = dataStore.data {
-            let stageIdsWithEvents = Set(entities.events.map { $0.stage.id })
-            filteredNearbyStages = sortedNearbyStages.filter { stageDistance in
-                stageIdsWithEvents.contains(stageDistance.stage.id)
-            }
-        } else {
-            filteredNearbyStages = sortedNearbyStages
-        }
-
-        return VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 12) {
-                sectionHeader("stage.nearby")
-                Spacer()
-                Button {
-                    onlyStagesWithConcerts.toggle()
-                } label: {
-                    HStack(spacing: 6) {
-                        Image(
-                            systemName: onlyStagesWithConcerts
-                                ? "checkmark.square.fill" : "square"
-                        )
-                        Text("Only stages")
-                            .font(.caption)
-                    }
-                    .foregroundStyle(.secondary)
-                }
-                .buttonStyle(.plain)
-            }
+    private func nearbyStagesSection(_ nearbyStageDistances: [StageDistance]) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("stage.nearby")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.secondary)
 
             VStack(spacing: 0) {
-                ForEach(Array(filteredNearbyStages.enumerated()), id: \.element.id) { index, stageDistance in
-                    NavigationLink(
-                        value: AppNavigationRoute.stage(
-                            id: stageDistance.stage.id,
-                            highlightedEventId: nil
-                        )
-                    ) {
-                        HStack(spacing: 12) {
-                            StageNumber(stage: stageDistance.stage, size: 30)
+                ForEach(Array(nearbyStageDistances.enumerated()), id: \.element.id) { index, stageDistance in
+                    nearbyStageRow(stageDistance)
 
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(stageDistance.stage.localizedName)
-                                    .lineLimit(1)
-                                Text(stageDistance.distanceAndWalkTimeText)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-
-                            Spacer()
-
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundStyle(.tertiary)
-                        }
-                        .padding(.vertical, 10)
-                        .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-
-                    if index < filteredNearbyStages.count - 1 {
+                    if index < nearbyStageDistances.count - 1 {
                         Divider()
                             .padding(.leading, 40)
                     }
                 }
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 18)
-        .padding(.bottom, 30)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(nearbySectionTint)
+        .padding(16)
+        .background(Color(.secondarySystemBackground))
     }
 
-    private func sectionHeader(_ titleKey: LocalizedStringKey) -> some View {
-        Text(titleKey)
-            .font(.subheadline.weight(.semibold))
-            .foregroundStyle(.secondary)
+    private func nearbyStageRow(_ stageDistance: StageDistance) -> some View {
+        NavigationLink(
+            value: AppNavigationRoute.stage(
+                id: stageDistance.stage.id,
+                highlightedEventId: nil
+            )
+        ) {
+            HStack(spacing: 12) {
+                StageNumber(stage: stageDistance.stage, size: 30)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(stageDistance.stage.localizedName)
+                        .lineLimit(1)
+                    Text(stageDistance.distanceAndWalkTimeText)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(.vertical, 10)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
-    func calculateNearbyStages(_ entities: FestivalData) -> [StageDistance] {
+    private func calculateNearbyStages(_ entities: FestivalData) -> [StageDistance] {
         entities.stages
             .filter { stage in
                 stage.id != self.stage.id
@@ -368,7 +276,7 @@ struct StageDetailView: View {
             }
     }
 
-    func renderEvent(_ event: Event) -> some View {
+    private func eventRow(_ event: Event) -> some View {
         let shouldBeHighlighted = highlightedEventId == event.id
         return NavigationLink(
             value: AppNavigationRoute.artist(
@@ -377,22 +285,31 @@ struct StageDetailView: View {
                 transitionSourceID: nil
             )
         ) {
-            StageEventCell(event: event, imageWidth: 64, imageHeight: 56)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(
-                    shouldBeHighlighted
-                        ? Color.rudolstadt.opacity(0.12)
-                        : Color.clear
-                )
-                .contentShape(Rectangle())
+            StageEventCell(
+                event: event,
+                imageWidth: 64,
+                imageHeight: 56,
+                isSaved: profile.isEventSaved(event.id),
+                artistRating: profile.rating(for: event.artist.id),
+                artistIconName: profile.iconName(forArtistID: event.artist.id),
+                friendProfilesWhoSavedEvent: profile.friendProfilesSavingEvent(event.id),
+                onToggleSaved: { profile.toggleSavedEvent(event) }
+            )
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                shouldBeHighlighted
+                ? Color.rudolstadt.opacity(0.12)
+                : Color.clear
+            )
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .padding(.horizontal, -16)
     }
 
-    func calculateAirDistance(first: Stage, second: Stage) -> Double {
+    private func calculateAirDistance(first: Stage, second: Stage) -> Double {
         let start = CLLocation(
             latitude: first.latitude,
             longitude: first.longitude
@@ -422,23 +339,7 @@ struct StageDetailView: View {
     }
 }
 
-private struct MapLocateButtonStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        if #available(iOS 26.0, *) {
-            content
-                .buttonStyle(.glass)
-                .buttonBorderShape(.circle)
-                .controlSize(.large)
-        } else {
-            content
-                .frame(width: 36, height: 36)
-                .background(.ultraThinMaterial, in: Circle())
-                .clipShape(Circle())
-        }
-    }
-}
-
-struct StageDistance: Identifiable {
+private struct StageDistance: Identifiable {
     let stage: Stage
     let distance: Double
     let walkingDistanceInMeters: Double?
@@ -455,8 +356,8 @@ struct StageDistance: Identifiable {
             )
             let estimatedSeconds = TimeInterval(estimatedWalkMinutes * 60)
             let timeString =
-                StageDetailView.walkTimeFormatter.string(from: estimatedSeconds)
-                ?? "\(estimatedWalkMinutes) min"
+            StageDetailView.walkTimeFormatter.string(from: estimatedSeconds)
+            ?? "\(estimatedWalkMinutes) min"
             return "\(distanceString) • ~\(timeString)"
         }
 
@@ -500,10 +401,26 @@ private func loadWalkDistancesByStage(fileName: String) -> [Int: [Int: Double]] 
     }
 }
 
+#if DEBUG
 struct StageDetailView_Previews: PreviewProvider {
+    @MainActor
     static var previews: some View {
-        StageDetailView(stage: .example, highlightedEventId: nil)
-            .environmentObject(DataStore())
-            .environmentObject(UserSettings())
+        NavigationStack {
+            StageDetailView(
+                stage: previewStage,
+                highlightedEventId: 350
+            )
+            .navigationDestination(for: AppNavigationRoute.self) { _ in
+                EmptyView()
+            }
+        }
+        .previewMockEnvironment(suiteName: "StageDetailViewPreview")
+    }
+
+    @MainActor
+    private static var previewStage: Stage {
+        PreviewMockData.festivalData.stages.first { $0.id == 44 }
+        ?? PreviewMockData.mainStage
     }
 }
+#endif

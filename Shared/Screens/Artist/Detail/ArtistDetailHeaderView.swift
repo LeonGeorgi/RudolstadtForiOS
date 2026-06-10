@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ArtistDetailHeaderView: View {
     let artist: Artist
+    let friendRatingSummary: FriendArtistRatingSummary?
 
     @Environment(\.colorScheme) private var colorScheme
     @State private var isShowingFullImage = false
@@ -95,10 +96,21 @@ struct ArtistDetailHeaderView: View {
     }
 
     private var artistImage: some View {
-        ArtistImageView(artist: artist, fullImage: true)
-            .aspectRatio(8.0 / 7.0, contentMode: .fill)
-            .frame(maxWidth: .infinity)
+        Color.secondary.opacity(0.12)
+            .aspectRatio(8.0 / 7.0, contentMode: .fit)
+            .overlay {
+                ArtistImageView(artist: artist, fullImage: true)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .clipped()
+            }
             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .overlay(alignment: .topTrailing) {
+                if let friendRatingSummary {
+                    FriendArtistRatingsBubble(summary: friendRatingSummary)
+                        .padding(12)
+                        .allowsHitTesting(false)
+                }
+            }
             .overlay(
                 RoundedRectangle(cornerRadius: 14, style: .continuous)
                     .stroke(imageStrokeColor, lineWidth: 0.5)

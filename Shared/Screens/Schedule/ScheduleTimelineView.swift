@@ -8,7 +8,7 @@ enum EventOrGap {
     case gap(Gap)
 }
 
-struct ScrollableProgramView: View {
+struct ScheduleTimelineView: View {
     let events: [Event]
     @EnvironmentObject var dataStore: DataStore
 
@@ -47,10 +47,10 @@ struct ScrollableProgramView: View {
             // This keeps layout deterministic and prevents duplicate start slots
             // from pushing later events down in this stacked timeline model.
             let e1End = e1.endDate(
-                durationInMinutes: dataStore.estimatedEventDurations?[e1.id] ?? 60
+                durationInMinutes: dataStore.estimatedEventDurationsByEventID?[e1.id] ?? 60
             )
             let e2End = e2.endDate(
-                durationInMinutes: dataStore.estimatedEventDurations?[e2.id] ?? 60
+                durationInMinutes: dataStore.estimatedEventDurationsByEventID?[e2.id] ?? 60
             )
             if e1End != e2End {
                 return e1End > e2End
@@ -75,7 +75,7 @@ struct ScrollableProgramView: View {
             }
             result.append(.event(event))
             let eventEnd = event.endDate(
-                durationInMinutes: dataStore.estimatedEventDurations?[event.id]
+                durationInMinutes: dataStore.estimatedEventDurationsByEventID?[event.id]
                     ?? 60
             )
             // Keep timeline monotonic even with bad/overlapping source data.
@@ -98,11 +98,11 @@ struct ScrollableProgramView: View {
     private var lastEventEndTime: Date {
         let lastEvent = events.max { e1, e2 in
             e1.endDate(
-                durationInMinutes: dataStore.estimatedEventDurations?[e1.id]
+                durationInMinutes: dataStore.estimatedEventDurationsByEventID?[e1.id]
                     ?? 60
             )
                 < e2.endDate(
-                    durationInMinutes: dataStore.estimatedEventDurations?[e2.id]
+                    durationInMinutes: dataStore.estimatedEventDurationsByEventID?[e2.id]
                         ?? 60
                 )
         }
@@ -110,18 +110,18 @@ struct ScrollableProgramView: View {
             return Date()
         }
         let lastEventEndDate = lastEvent.endDate(
-            durationInMinutes: dataStore.estimatedEventDurations?[lastEvent.id]
+            durationInMinutes: dataStore.estimatedEventDurationsByEventID?[lastEvent.id]
                 ?? 60
         )
         return lastEventEndDate
     }
 
     var body: some View {
-        ScrollableProgramViewContent(
+        ScheduleTimelineContentView(
             scrollOffset: .zero,
             timeIntervals: timeIntervalList,
             stages: stageList,
-            estimatedEventDurations: dataStore.estimatedEventDurations
+            estimatedEventDurations: dataStore.estimatedEventDurationsByEventID
         )
         .safeAreaInset(edge: .bottom) {
             Text("schedule.endtimes.warning")
@@ -204,8 +204,19 @@ private let dayOfWeekFormatter: DateFormatter = {
     return formatter
 }()
 
-struct ScrollableProgramView_Previews: PreviewProvider {
+struct ScheduleTimelineView_Previews: PreviewProvider {
+    @MainActor
     static var previews: some View {
-        ScrollableProgramView(events: [Event.example])
+        NavigationStack {
+            ScheduleTimelineView(
+                events: PreviewMockData.festivalData.events.filter { event in
+                    event.festivalDay == 4
+                }
+            )
+            .navigationDestination(for: AppNavigationRoute.self) { _ in
+                EmptyView()
+            }
+        }
+        .previewMockEnvironment(suiteName: "ScheduleTimelineViewPreview")
     }
 }

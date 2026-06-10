@@ -1,16 +1,25 @@
 import SwiftUI
 
+enum FriendsTogetherListKind: Hashable {
+    case recommendations
+}
+
 enum AppNavigationRoute: Hashable {
     case artistWorldMap
     case artistCountry(code: String)
     case artist(id: Int, highlightedEventId: Int?, transitionSourceID: Int?)
     case stage(id: Int, highlightedEventId: Int?)
+    case sharedFestivalProfile(profile: SharedFestivalProfile)
+    case newsList
     case news(id: Int)
     case about
     case parkAndRide
     case bus
     case donation
     case settings
+    case syncStatus
+    case friends
+    case friendsTogether(kind: FriendsTogetherListKind)
 }
 
 struct AppNavigationDestination: View {
@@ -18,6 +27,7 @@ struct AppNavigationDestination: View {
     var navigate: ((AppNavigationRoute) -> Void)? = nil
     var imageTransitionNamespace: Namespace.ID? = nil
 
+    @Environment(\.festivalData) private var festivalData
     @EnvironmentObject var dataStore: DataStore
 
     var body: some View {
@@ -37,6 +47,10 @@ struct AppNavigationDestination: View {
             )
         case .stage(let id, let highlightedEventId):
             stageDestination(id: id, highlightedEventId: highlightedEventId)
+        case .sharedFestivalProfile(let profile):
+            SharedFestivalProfileDetailView(profile: profile)
+        case .newsList:
+            NewsListView()
         case .news(let id):
             newsDestination(id: id)
         case .about:
@@ -49,25 +63,24 @@ struct AppNavigationDestination: View {
             DonationView()
         case .settings:
             SettingsView()
+        case .syncStatus:
+            SyncStatusView()
+        case .friends:
+            FriendsView()
+        case .friendsTogether(let kind):
+            FriendsTogetherListView(kind: kind)
         }
     }
 
     @ViewBuilder
     private func artistWorldMapDestination() -> some View {
-        switch dataStore.data {
-        case .success(let data):
-            ArtistMapScreenView(
-                artists: data.artists.filter { artist in
-                    !artist.hiddenFromArtistList
-                },
-                navigationTitleKey: "artists.title",
-                navigate: navigate ?? { _ in }
-            )
-        case .loading:
-            ProgressView()
-        case .failure(let reason):
-            Text("Failed to load: " + reason.rawValue)
-        }
+        ArtistMapScreenView(
+            artists: festivalData.artists.filter { artist in
+                !artist.hiddenFromArtistList
+            },
+            navigationTitleKey: "artists.title",
+            navigate: navigate ?? { _ in }
+        )
     }
 
     @ViewBuilder
@@ -76,46 +89,32 @@ struct AppNavigationDestination: View {
         highlightedEventId: Int?,
         transitionSourceID: Int?
     ) -> some View {
-        switch dataStore.data {
-        case .success(let data):
-            if let artist = data.artists.first(where: { $0.id == id }) {
-                let detailView = ArtistDetailView(
-                    artist: artist,
-                    highlightedEventId: highlightedEventId,
-                    navigate: navigate
-                )
+        if let artist = festivalData.artists.first(where: { $0.id == id }) {
+            let detailView = ArtistDetailView(
+                artist: artist,
+                highlightedEventId: highlightedEventId,
+                navigate: navigate
+            )
 
-                if let imageTransitionNamespace, let transitionSourceID {
-                    detailView.artistImageNavigationTransition(
-                        id: transitionSourceID,
-                        namespace: imageTransitionNamespace
-                    )
-                } else {
-                    detailView
-                }
+            if let imageTransitionNamespace, let transitionSourceID {
+                detailView.artistImageNavigationTransition(
+                    id: transitionSourceID,
+                    namespace: imageTransitionNamespace
+                )
             } else {
-                Text("artists.none-found")
+                detailView
             }
-        case .loading:
-            ProgressView()
-        case .failure(let reason):
-            Text("Failed to load: " + reason.rawValue)
+        } else {
+            Text("artists.none-found")
         }
     }
 
     @ViewBuilder
     private func stageDestination(id: Int, highlightedEventId: Int?) -> some View {
-        switch dataStore.data {
-        case .success(let data):
-            if let stage = data.stages.first(where: { $0.id == id }) {
-                StageDetailView(stage: stage, highlightedEventId: highlightedEventId)
-            } else {
-                Text("locations.empty")
-            }
-        case .loading:
-            ProgressView()
-        case .failure(let reason):
-            Text("Failed to load: " + reason.rawValue)
+        if let stage = festivalData.stages.first(where: { $0.id == id }) {
+            StageDetailView(stage: stage, highlightedEventId: highlightedEventId)
+        } else {
+            Text("locations.empty")
         }
     }
 

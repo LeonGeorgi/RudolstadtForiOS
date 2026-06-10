@@ -40,6 +40,14 @@ struct MoreView: View {
                     systemImage: "gearshape"
                 )
             }
+#if os(iOS)
+            NavigationLink(value: AppNavigationRoute.syncStatus) {
+                Label(
+                    "more.sync.title",
+                    systemImage: "icloud"
+                )
+            }
+#endif
 
         }
         .navigationTitle("more.title")

@@ -1,5 +1,5 @@
 //
-//  ScheduleView.swift
+//  ScheduleContentView.swift
 //  RudolstadtForiOS
 //
 //  Created by Leon on 22.02.20.
@@ -8,10 +8,10 @@
 
 import SwiftUI
 
-struct RecommendationScheduleContentView: View {
+struct ScheduleContentView: View {
 
     let events: [Event]
-    let viewAsTable: Bool
+    let displayMode: ScheduleDisplayMode
     @Binding var selectedDay: Int
     let currentTipID: String?
 
@@ -34,10 +34,10 @@ struct RecommendationScheduleContentView: View {
                 Color(.systemBackground)
 
                 Group {
-                    if viewAsTable {
-                        ScrollableProgramView(events: todaysEvents)
+                    if displayMode == .timeline {
+                        ScheduleTimelineView(events: todaysEvents)
                     } else {
-                        ScheduleView(events: todaysEvents)
+                        ScheduleListView(events: todaysEvents)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -48,9 +48,9 @@ struct RecommendationScheduleContentView: View {
     }
 }
 
-struct RecommendationScheduleContentView_Previews: PreviewProvider {
+struct ScheduleContentView_Previews: PreviewProvider {
     static var previews: some View {
-        RecommendationScheduleView()
+        ScheduleScreen()
             .environmentObject(DataStore())
     }
 }

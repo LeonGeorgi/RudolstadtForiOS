@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct ScrollableProgramViewContent: View {
+struct ScheduleTimelineContentView: View {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var profile: FestivalProfileStore
 
     @State var scrollOffset: CGPoint
     @State private var currentTime: Date = Date()
@@ -17,7 +17,7 @@ struct ScrollableProgramViewContent: View {
     private let stageNameHeight: CGFloat = CGFloat(40)
     private let firstEventPadding: CGFloat = CGFloat(0)
     private let columnSpacing: CGFloat = CGFloat(5)
-    private let heightPerHour: Double = 65
+    private let heightPerHour: Double = 60
     private let stageHeaderCornerRadius: CGFloat = 12
 
     var body: some View {
@@ -217,10 +217,16 @@ struct ScrollableProgramViewContent: View {
                 let eventHeight = CGFloat(
                     Double(eventDuration) / 60.0 * heightPerHour
                 )
-                TableProgramCell(
+                ScheduleTimelineEventCell(
                     width: columnWidth,
                     height: eventHeight - 2,
-                    event: event
+                    event: event,
+                    eventDurationMinutes: eventDuration,
+                    isSaved: profile.isEventSaved(event.id),
+                    artistRating: profile.rating(for: event.artist.id),
+                    artistIconName: profile.iconName(forArtistID: event.artist.id),
+                    friendProfilesWhoSavedEvent: profile.friendProfilesSavingEvent(event.id),
+                    onToggleSaved: { profile.toggleSavedEvent(event) }
                 )
                 .padding(.vertical, 1)
             case .gap(let gap):
@@ -348,36 +354,32 @@ struct ScrollableProgramViewContent: View {
     }
 
     func getColorForEvent(_ event: Event) -> some View {
-        switch event.artist.artistType {
-        case .stage:
-            if settings.savedEvents.contains(event.id) {
-                return Color.artistTypeStageSaved
-            } else {
-                return Color.artistTypeStage
-            }
-        case .dance:
-            if settings.savedEvents.contains(event.id) {
-                return Color.artistTypeDanceSaved
-            } else {
-                return Color.artistTypeDance
-            }
-        case .street:
-            if settings.savedEvents.contains(event.id) {
-                return Color.artistTypeStreetSaved
-            } else {
-                return Color.artistTypeStreet
-            }
-        case .other:
-            if settings.savedEvents.contains(event.id) {
-                return Color.artistTypeOtherSaved
-            } else {
-                return Color.artistTypeOther
-            }
+        let isSaved = profile.savedEvents.contains(event.id)
+        return Color.okhsl(
+            h: event.artist.artistType.okhslHue,
+            s: scheduleColorSaturation(isSaved: isSaved),
+            l: scheduleColorLightness(isSaved: isSaved)
+        )
+    }
+
+    private func scheduleColorSaturation(isSaved: Bool) -> Double {
+        if colorScheme == .dark {
+            return isSaved ? 0.68 : 0.36
         }
+
+        return isSaved ? 0.74 : 0.43
+    }
+
+    private func scheduleColorLightness(isSaved: Bool) -> Double {
+        if colorScheme == .dark {
+            return isSaved ? 0.68 : 0.36
+        }
+
+        return isSaved ? 0.62 : 0.92
     }
 }
 
-private extension ScrollableProgramViewContent {
+private extension ScheduleTimelineContentView {
     @ViewBuilder
     func stageHeaderBackground(for _: Stage) -> some View {
         Rectangle()
@@ -399,14 +401,160 @@ struct PreferenceKey: SwiftUI.PreferenceKey {
     }
 }
 
-struct ScrollableProgramViewContent_Previews: PreviewProvider {
-    static var previews: some View {
-        ScrollableProgramViewContent(
-            scrollOffset: .zero,
-            timeIntervals: [],
-            stages: [],
-            estimatedEventDurations: nil
+#if DEBUG
+@MainActor
+private enum ScheduleTimelineContentViewPreviewData {
+    static let previewDay = 4
+
+    static func events(from environment: PreviewAppEnvironment) -> [Event] {
+        environment.festivalData.events.filter { event in
+            event.festivalDay == previewDay
+        }
+    }
+
+    static func timeIntervals(
+        events: [Event],
+        estimatedEventDurations: [Int: Int]?
+    ) -> [Date] {
+        guard let firstEventDate = events.map(\.date).min() else {
+            return []
+        }
+        guard let lastEvent = events.max(by: { first, second in
+            first.endDate(
+                durationInMinutes: estimatedEventDurations?[first.id] ?? 60
+            )
+                < second.endDate(
+                    durationInMinutes: estimatedEventDurations?[second.id] ?? 60
+                )
+        }) else {
+            return []
+        }
+
+        let lastEventEndDate = lastEvent.endDate(
+            durationInMinutes: estimatedEventDurations?[lastEvent.id] ?? 60
         )
-        .environmentObject(UserSettings())
+        return halfHourlyDates(
+            startDate: firstEventDate,
+            endDate: lastEventEndDate
+        )
+    }
+
+    static func stages(
+        events: [Event],
+        estimatedEventDurations: [Int: Int]?
+    ) -> [(Stage, [EventOrGap])] {
+        Dictionary(grouping: events) { event in
+            event.stage
+        }
+        .map { stage, events in
+            (
+                stage,
+                eventGapList(
+                    events: events,
+                    firstEventTime: events.map(\.date).min() ?? Date(),
+                    estimatedEventDurations: estimatedEventDurations
+                )
+            )
+        }
+        .sorted { first, second in
+            first.0.stageNumber ?? 1000 < second.0.stageNumber ?? 1000
+        }
+    }
+
+    private static func eventGapList(
+        events: [Event],
+        firstEventTime: Date,
+        estimatedEventDurations: [Int: Int]?
+    ) -> [EventOrGap] {
+        let sortedEvents = events.sorted { first, second in
+            first.date < second.date
+        }
+        var lastTime = firstEventTime
+        var result: [EventOrGap] = []
+
+        for event in sortedEvents {
+            if event.date < lastTime {
+                continue
+            }
+
+            if lastTime < event.date {
+                result.append(
+                    .gap(Gap(duration: event.date.timeIntervalSince(lastTime)))
+                )
+            }
+
+            result.append(.event(event))
+            let eventEnd = event.endDate(
+                durationInMinutes: estimatedEventDurations?[event.id] ?? 60
+            )
+            if eventEnd > lastTime {
+                lastTime = eventEnd
+            }
+        }
+
+        return result
+    }
+
+    private static func halfHourlyDates(
+        startDate: Date,
+        endDate: Date
+    ) -> [Date] {
+        let calendar = Calendar.current
+        let startComponents = calendar.dateComponents(
+            [.year, .month, .day, .hour, .minute],
+            from: startDate
+        )
+        let roundedMinute = ((startComponents.minute ?? 0) / 30) * 30
+        let roundedStartDate = calendar.date(
+            from: DateComponents(
+                year: startComponents.year,
+                month: startComponents.month,
+                day: startComponents.day,
+                hour: startComponents.hour,
+                minute: roundedMinute
+            )
+        ) ?? startDate
+
+        var dates: [Date] = []
+        var currentDate = roundedStartDate
+        while currentDate < endDate {
+            dates.append(currentDate)
+            currentDate = currentDate.addingTimeInterval(30 * 60)
+        }
+        dates.append(currentDate)
+        return dates
     }
 }
+
+struct ScheduleTimelineContentView_Previews: PreviewProvider {
+    @MainActor
+    static var previews: some View {
+        let environment = PreviewMockData.makeEnvironment(
+            suiteName: "ScheduleTimelineContentViewPreview"
+        )
+        let events = ScheduleTimelineContentViewPreviewData.events(
+            from: environment
+        )
+        let estimatedEventDurations = environment.dataStore.estimatedEventDurationsByEventID
+
+        NavigationStack {
+            ScheduleTimelineContentView(
+                scrollOffset: .zero,
+                timeIntervals: ScheduleTimelineContentViewPreviewData.timeIntervals(
+                    events: events,
+                    estimatedEventDurations: estimatedEventDurations
+                ),
+                stages: ScheduleTimelineContentViewPreviewData.stages(
+                    events: events,
+                    estimatedEventDurations: estimatedEventDurations
+                ),
+                estimatedEventDurations: estimatedEventDurations
+            )
+            .navigationDestination(for: AppNavigationRoute.self) { _ in
+                EmptyView()
+            }
+        }
+        .previewEnvironment(environment)
+    }
+}
+#endif

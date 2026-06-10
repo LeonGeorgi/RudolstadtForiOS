@@ -132,11 +132,12 @@ struct Artist: Identifiable {
         instagram: "michaeljackson",
         descriptionGerman:
             "Michael Joseph Jackson (* 29. August 1958 in Gary, Indiana; † 25. Juni 2009 in Los Angeles, Kalifornien) war ein US-amerikanischer Sänger, Tänzer, Songwriter, Autor, Musik- und Filmproduzent sowie Musikmanager. <br> <br> Laut dem Guinness-Buch der Rekorde ist er der erfolgreichste Entertainer aller Zeiten und zugleich der Künstler, der weltweit die meisten Wohltätigkeitsorganisationen finanziell und repräsentativ unterstützte. Für sein Engagement wurde er mehrfach ausgezeichnet und zweimal für den Friedensnobelpreis nominiert. Aufgrund seiner Erfolge in der Musik wird er als „King of Pop“ bezeichnet.",
-        descriptionEnglish: "foo fooo foooo",
+        descriptionEnglish:
+            "Michael Jackson was an American singer, dancer, songwriter, and producer whose recordings and stagecraft reshaped global pop music. His work combined R&B, funk, soul, disco, rock, and theatrical choreography, turning live performance into a precise visual language. Albums like Off the Wall, Thriller, Bad, and Dangerous made him one of the most influential entertainers of the twentieth century.",
         thumbImageUrlString:
-            "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson1_1988.jpg",
         fullImageUrlString:
-            "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson_in_1988.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/3/31/Michael_Jackson1_1988.jpg",
         ai: AIArtistData(
             summaryDE:
                 "Michael Jackson war ein US-amerikanischer Sänger, Tänzer und Musikproduzent. Er gilt als einer der erfolgreichsten Entertainer aller Zeiten.",
@@ -180,6 +181,15 @@ enum ArtistType: Int, Identifiable, CaseIterable {
     case dance = 2
     case street = 3
     case other = 4
+
+    var okhslHue: Double {
+        switch self {
+        case .stage: return 0.00
+        case .dance: return 0.25
+        case .street: return 0.5
+        case .other: return 0.75
+        }
+    }
 
     var germanName: String {
         switch self {

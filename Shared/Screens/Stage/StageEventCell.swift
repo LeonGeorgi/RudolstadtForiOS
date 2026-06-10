@@ -4,12 +4,11 @@ struct StageEventCell: View {
     let event: Event
     let imageWidth: CGFloat
     let imageHeight: CGFloat
-
-    @EnvironmentObject var settings: UserSettings
-
-    func artistRating() -> Int {
-        settings.ratings["\(event.artist.id)"] ?? 0
-    }
+    let isSaved: Bool
+    let artistRating: Int
+    let artistIconName: String?
+    let friendProfilesWhoSavedEvent: [SharedFestivalProfile]
+    let onToggleSaved: () -> Void
 
     var body: some View {
         HStack {
@@ -42,22 +41,39 @@ struct StageEventCell: View {
                 }
             }
             Spacer()
-            if artistRating() != 0 {
-                ArtistRatingSymbol(artist: self.event.artist)
+            if artistRating != 0 {
+                ArtistRatingSymbol(rating: artistRating, iconName: artistIconName)
                     .foregroundStyle(.secondary)
             }
-            EventSavedIcon(event: self.event)
+            if !friendProfilesWhoSavedEvent.isEmpty {
+                FriendSavedEventBadges(
+                    eventID: event.id,
+                    profiles: friendProfilesWhoSavedEvent,
+                    style: .plainInline
+                )
+                .frame(minWidth: 24, minHeight: 24, alignment: .center)
+            }
+            EventSavedIcon(event: self.event, isSaved: isSaved, onToggle: onToggleSaved)
         }
         .contextMenu {
-            SaveEventButton(event: event)
+            SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
         }
-        .id(settings.idFor(event: event))
+        .id("\(event.id)-\(isSaved)")
     }
 }
 
 struct StageEventCell_Previews: PreviewProvider {
     static var previews: some View {
-        StageEventCell(event: .example, imageWidth: 64, imageHeight: 56)
+        StageEventCell(
+            event: .example,
+            imageWidth: 64,
+            imageHeight: 56,
+            isSaved: false,
+            artistRating: 0,
+            artistIconName: nil,
+            friendProfilesWhoSavedEvent: [],
+            onToggleSaved: {}
+        )
             .environmentObject(UserSettings())
             .padding()
             .background(Color(.systemGroupedBackground))

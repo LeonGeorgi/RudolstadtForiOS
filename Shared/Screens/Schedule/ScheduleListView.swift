@@ -1,5 +1,5 @@
 //
-//  ScheduleView.swift
+//  ScheduleListView.swift
 //  RudolstadtForiOS
 //
 //  Created by Leon on 22.02.20.
@@ -8,21 +8,10 @@
 
 import SwiftUI
 
-struct ScheduleView: View {
+struct ScheduleListView: View {
     let events: [Event]
 
-    @EnvironmentObject var dataStore: DataStore
-    @EnvironmentObject var settings: UserSettings
-
-    var eventDays: LoadingEntity<[Int]> {
-        dataStore.data.map { entities in
-            Set(
-                entities.events.lazy.map { (event: Event) in
-                    event.festivalDay
-                }
-            ).sorted(by: <)
-        }
-    }
+    @EnvironmentObject var profile: FestivalProfileStore
 
     var body: some View {
         Group {
@@ -46,10 +35,21 @@ struct ScheduleView: View {
                             transitionSourceID: nil
                         )
                     ) {
-                        ScheduleEventCell(event: event)
+                        ScheduleEventCell(
+                            event: event,
+                            isSaved: profile.isEventSaved(event.id),
+                            artistRating: profile.rating(for: event.artist.id),
+                            artistIconName: profile.iconName(forArtistID: event.artist.id),
+                            friendProfilesWhoSavedEvent: profile.friendProfilesSavingEvent(event.id),
+                            onToggleSaved: { profile.toggleSavedEvent(event) }
+                        )
                     }
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
-                    .listRowBackground(Color.clear)
+                    .listRowBackground(
+                        profile.isEventSaved(event.id)
+                            ? Color.accentColor.opacity(0.12)
+                            : Color.clear
+                    )
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
@@ -59,9 +59,10 @@ struct ScheduleView: View {
     }
 }
 
-struct ScheduleView_Previews: PreviewProvider {
+struct ScheduleListView_Previews: PreviewProvider {
     static var previews: some View {
-        ScheduleView(events: [Event.example])
+        ScheduleListView(events: [Event.example])
             .environmentObject(DataStore())
+            .environmentObject(FestivalProfileStore(cloudKitEnabled: false))
     }
 }

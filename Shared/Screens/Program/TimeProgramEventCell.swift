@@ -10,12 +10,10 @@ import SwiftUI
 
 struct TimeProgramEventCell: View {
     let event: Event
-
-    @EnvironmentObject var settings: UserSettings
-
-    func artistRating() -> Int {
-        settings.ratings["\(event.artist.id)"] ?? 0
-    }
+    let isSaved: Bool
+    let artistRating: Int
+    let artistIconName: String?
+    let onToggleSaved: () -> Void
 
     var body: some View {
         HStack {
@@ -32,7 +30,7 @@ struct TimeProgramEventCell: View {
                             Text(event.tag!.localizedName.uppercased())
                                 .font(.system(size: 11))
                                 .fontWeight(.semibold)
-                                .foregroundColor(.accentColor)
+                                .foregroundColor(.secondary)
                                 .lineLimit(1)
                         }
 
@@ -50,25 +48,30 @@ struct TimeProgramEventCell: View {
                     }
                     Spacer()
 
-                    if artistRating() != 0 {
-                        ArtistRatingSymbol(artist: self.event.artist)
+                    if artistRating != 0 {
+                        ArtistRatingSymbol(rating: artistRating, iconName: artistIconName)
                             .foregroundStyle(.secondary)
                     }
-                    EventSavedIcon(event: self.event)
+                    EventSavedIcon(event: self.event, isSaved: isSaved, onToggle: onToggleSaved)
 
                 }
 
             }
         }.contextMenu {
-            SaveEventButton(event: event)
-        }.id(settings.idFor(event: self.event))
+            SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
+        }.id("\(event.id)-\(isSaved)")
 
     }
 }
 
 struct TimeProgramEventCell_Previews: PreviewProvider {
     static var previews: some View {
-        TimeProgramEventCell(event: .example)
-            .environmentObject(UserSettings())
+        TimeProgramEventCell(
+            event: .example,
+            isSaved: false,
+            artistRating: 0,
+            artistIconName: nil,
+            onToggleSaved: {}
+        )
     }
 }

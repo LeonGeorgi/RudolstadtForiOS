@@ -10,14 +10,14 @@ import SwiftUI
 
 struct SaveEventButton: View {
     let event: Event
-
-    @EnvironmentObject var settings: UserSettings
+    let isSaved: Bool
+    let onToggle: () -> Void
 
     var body: some View {
         Button(action: {
-            settings.toggleSavedEvent(self.event)
+            onToggle()
         }) {
-            if settings.savedEvents.contains(event.id) {
+            if isSaved {
                 Text("event.remove")
                 Image(systemName: "bookmark.fill")
             } else {

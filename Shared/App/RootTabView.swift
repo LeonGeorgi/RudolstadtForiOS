@@ -6,21 +6,24 @@ private enum AppTab: Int, Hashable {
     case map
     case schedule
     case artists
-    case news
+    case friends
     case more
 }
 
 struct RootTabView: View {
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var userSettings: UserSettings
+    @EnvironmentObject var festivalProfileStore: FestivalProfileStore
     @Environment(\.scenePhase) var scenePhase
 
+    @ObservedObject private var newsNotificationNavigation =
+        NewsNotificationNavigationController.shared
     @Namespace private var artistImageTransition
     @State private var selectedTab: AppTab = .schedule
     @State private var mapPath = NavigationPath()
     @State private var schedulePath = NavigationPath()
     @State private var artistsPath = NavigationPath()
-    @State private var newsPath = NavigationPath()
+    @State private var friendsPath = NavigationPath()
     @State private var morePath = NavigationPath()
 
     private var isScreenshotMode: Bool {
@@ -50,10 +53,21 @@ struct RootTabView: View {
             schedulePath = NavigationPath()
         case .artists:
             artistsPath = NavigationPath()
-        case .news:
-            newsPath = NavigationPath()
+        case .friends:
+            friendsPath = NavigationPath()
         case .more:
             morePath = NavigationPath()
+        }
+    }
+
+    private func openNewsFromNotification(id: Int) {
+        selectedTab = .more
+        morePath = NavigationPath()
+        morePath.append(AppNavigationRoute.news(id: id))
+        newsNotificationNavigation.clearRequestedNewsItem(id: id)
+
+        Task {
+            await dataStore.refreshNewsIfNecessary()
         }
     }
 
@@ -71,9 +85,11 @@ struct RootTabView: View {
     @ViewBuilder
     private var appTabView: some View {
         TabView(selection: selectionBinding) {
-            
             NavigationStack(path: $mapPath) {
                 MapOverview()
+                    .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
+                        mapPath.append(AppNavigationRoute.newsList)
+                    }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
                         AppNavigationDestination(
                             route: route,
@@ -90,8 +106,12 @@ struct RootTabView: View {
                 }
             }
             .tag(AppTab.map)
+
             NavigationStack(path: $schedulePath) {
-                RecommendationScheduleView()
+                ScheduleScreen()
+                    .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
+                        schedulePath.append(AppNavigationRoute.newsList)
+                    }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
                         AppNavigationDestination(
                             route: route,
@@ -110,8 +130,13 @@ struct RootTabView: View {
             .tag(AppTab.schedule)
             
             NavigationStack(path: $artistsPath) {
-                ArtistListView(imageTransitionNamespace: artistImageTransition) { route in
+                ArtistListView(
+                    imageTransitionNamespace: artistImageTransition
+                ) { route in
                     artistsPath.append(route)
+                }
+                .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
+                    artistsPath.append(AppNavigationRoute.newsList)
                 }
                 .navigationDestination(for: AppNavigationRoute.self) { route in
                     AppNavigationDestination(
@@ -130,24 +155,44 @@ struct RootTabView: View {
                 }
             }
             .tag(AppTab.artists)
-            NavigationStack(path: $newsPath) {
-                NewsListView()
+
+            NavigationStack(path: $friendsPath) {
+                FriendsView()
+                    .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
+                        friendsPath.append(AppNavigationRoute.newsList)
+                    }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
                         AppNavigationDestination(
                             route: route,
                             navigate: { nestedRoute in
-                                newsPath.append(nestedRoute)
+                                friendsPath.append(nestedRoute)
                             }
+                        )
+                    }
+                    .toolbar {
+                        NewsToolbarItem(
+                            context: NewsToolbarContext(
+                                unreadNewsCount: unreadNewsCount,
+                                openNews: {
+                                    friendsPath.append(AppNavigationRoute.newsList)
+                                }
+                            )
                         )
                     }
             }
             .tabItem {
-                Label("news.short", systemImage: "megaphone.fill")
+                VStack {
+                    Image(systemName: "person.2.fill")
+                    Text("more.friends.title")
+                }
             }
-            .badge(unreadNewsCount)
-            .tag(AppTab.news)
+            .tag(AppTab.friends)
+
             NavigationStack(path: $morePath) {
                 MoreView()
+                    .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
+                        morePath.append(AppNavigationRoute.newsList)
+                    }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
                         AppNavigationDestination(
                             route: route,
@@ -155,7 +200,17 @@ struct RootTabView: View {
                                 morePath.append(nestedRoute)
                             }
                         )
-                    }
+                }
+                .toolbar {
+                    NewsToolbarItem(
+                        context: NewsToolbarContext(
+                            unreadNewsCount: unreadNewsCount,
+                            openNews: {
+                                morePath.append(AppNavigationRoute.newsList)
+                            }
+                        )
+                    )
+                }
             }
             .tabItem {
                 VStack {
@@ -166,9 +221,10 @@ struct RootTabView: View {
             .tag(AppTab.more)
         }
     }
-    
+
     var body: some View {
         appTabView
+        .accentColor(.rudolstadt)
         .onAppear {
             if !isScreenshotMode {
                 UNUserNotificationCenter.current()
@@ -181,25 +237,139 @@ struct RootTabView: View {
                     }
             }
         }
+        .onChange(
+            of: newsNotificationNavigation.requestedNewsItemID,
+            initial: true
+        ) { _, requestedNewsItemID in
+            guard let requestedNewsItemID else {
+                return
+            }
+            openNewsFromNotification(id: requestedNewsItemID)
+        }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
-                print("App is active")
                 Task {
-                    await dataStore.refreshOnAppActive()
+                    async let cloudRefresh: Void =
+                        festivalProfileStore.refreshFromCloud(reason: "foreground")
+                    async let appRefresh: Void =
+                        dataStore.refreshOnAppActive()
+                    _ = await (cloudRefresh, appRefresh)
                 }
             } else if newPhase == .inactive {
                 UNUserNotificationCenter.current().setBadgeCount(unreadNewsCount)
-                print("App is inactive")
                 NewsRefresher.scheduleNextBackgroundTask()
             }
         }
     }
 }
 
-struct RootTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        RootTabView()
-            .environmentObject(DataStore())
-            .environmentObject(UserSettings())
+struct NewsToolbarContext {
+    let unreadNewsCount: Int
+    let openNews: () -> Void
+}
+
+private struct NewsToolbarContextKey: EnvironmentKey {
+    static let defaultValue: NewsToolbarContext? = nil
+}
+
+extension EnvironmentValues {
+    var newsToolbarContext: NewsToolbarContext? {
+        get { self[NewsToolbarContextKey.self] }
+        set { self[NewsToolbarContextKey.self] = newValue }
     }
 }
+
+extension View {
+    func newsToolbarContext(
+        unreadNewsCount: Int,
+        openNews: @escaping () -> Void
+    ) -> some View {
+        environment(
+            \.newsToolbarContext,
+            NewsToolbarContext(
+                unreadNewsCount: unreadNewsCount,
+                openNews: openNews
+            )
+        )
+    }
+}
+
+struct NewsToolbarItem: ToolbarContent {
+    @Environment(\.newsToolbarContext) private var environmentContext
+
+    private let explicitContext: NewsToolbarContext?
+
+    init(context: NewsToolbarContext? = nil) {
+        self.explicitContext = context
+    }
+
+    @ToolbarContentBuilder
+    var body: some ToolbarContent {
+        let context = explicitContext ?? environmentContext
+
+        if let context {
+            if #available(iOS 26.0, *) {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    NewsToolbarButton(context: context)
+                }
+                ToolbarSpacer(.fixed, placement: .topBarLeading)
+            } else {
+                ToolbarItem(placement: .topBarLeading) {
+                    NewsToolbarButton(context: context)
+                }
+            }
+        }
+    }
+}
+
+private struct NewsToolbarButton: View {
+    let context: NewsToolbarContext
+
+    @ViewBuilder
+    var body: some View {
+        if #available(iOS 26.0, *) {
+            newsButton {
+                Image(systemName: "megaphone.fill")
+            }
+            .badge(context.unreadNewsCount)
+        } else {
+            newsButton {
+                Image(systemName: "megaphone.fill")
+                    .overlay(alignment: .topTrailing) {
+                        if context.unreadNewsCount > 0 {
+                            Circle()
+                                .fill(Color.red)
+                                .frame(width: 8, height: 8)
+                                .offset(x: 4, y: -4)
+                        }
+                    }
+            }
+        }
+    }
+
+    private func newsButton<Label: View>(
+        @ViewBuilder label: () -> Label
+    ) -> some View {
+        Button {
+            context.openNews()
+        } label: {
+            label()
+        }
+        .accessibilityLabel("news.long")
+        .accessibilityValue(
+            context.unreadNewsCount > 0
+                ? "\(context.unreadNewsCount)"
+                : ""
+        )
+    }
+}
+
+#if DEBUG
+struct RootTabView_Previews: PreviewProvider {
+    @MainActor
+    static var previews: some View {
+        RootTabView()
+            .previewMockEnvironment(suiteName: "RootTabViewPreview")
+    }
+}
+#endif

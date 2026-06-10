@@ -8,12 +8,17 @@ enum UserSettingsChange: Hashable {
     case oldNewsState
 }
 
+enum ScheduleDisplayMode: Int {
+    case timeline = 0
+    case list = 1
+}
+
 @propertyWrapper
 struct UserDefault<T> {
     let key: String
     let defaultValue: T
 
-    @available(*, unavailable, message: "Use this property wrapper only on UserSettings.")
+    @available(*, unavailable, message: "Use this property wrapper only on UserPreferencesStore.")
     var wrappedValue: T {
         get {
             fatalError("wrappedValue is unavailable")
@@ -24,7 +29,7 @@ struct UserDefault<T> {
     }
 
     @MainActor
-    static subscript<EnclosingSelf: UserSettings>(
+    static subscript<EnclosingSelf: UserPreferencesStore>(
         _enclosingInstance instance: EnclosingSelf,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, T>,
         storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, UserDefault<T>>
@@ -43,19 +48,10 @@ struct UserDefault<T> {
 }
 
 @MainActor
-final class UserSettings: ObservableObject {
+final class UserPreferencesStore: ObservableObject {
     nonisolated let objectWillChange = ObservableObjectPublisher()
 
     private var listeners: [UserSettingsChange: [() -> Void]] = [:]
-
-    @UserDefault(key: "\(DataStore.year)/ratings", defaultValue: Dictionary())
-    var ratings: [String: Int]
-    
-    @UserDefault(key: "\(DataStore.year)/artistIcons", defaultValue: Dictionary())
-    var artistIcons: [String: String]
-
-    @UserDefault(key: "\(DataStore.year)/savedEvents", defaultValue: [])
-    var savedEvents: [Int]
 
     @UserDefault(key: "\(DataStore.year)/readNews", defaultValue: [])
     var readNews: [Int]
@@ -63,21 +59,24 @@ final class UserSettings: ObservableObject {
     @UserDefault(key: "\(DataStore.year)/oldNews", defaultValue: [])
     var oldNews: [Int]
 
-    @UserDefault(
-        key: "\(DataStore.year)/artistNotes",
-        defaultValue: Dictionary()
-    )
-    var artistNotes: [String: String]
-
     // 0 - Map
     // 1 - List
     @UserDefault(key: "view/locations/viewtype", defaultValue: 0)
     var mapType: Int
 
-    // 0 - Table
+    // 0 - Timeline
     // 1 - List
     @UserDefault(key: "view/schedule/viewtype", defaultValue: 0)
     var scheduleViewType: Int
+
+    var scheduleDisplayMode: ScheduleDisplayMode {
+        get {
+            ScheduleDisplayMode(rawValue: scheduleViewType) ?? .timeline
+        }
+        set {
+            scheduleViewType = newValue.rawValue
+        }
+    }
 
     // 0 - List
     // 1 - Grid
@@ -110,8 +109,6 @@ final class UserSettings: ObservableObject {
 
     private func changeType(forKey key: String) -> UserSettingsChange? {
         switch key {
-        case "\(DataStore.year)/ratings", "\(DataStore.year)/savedEvents":
-            return .recommendationInputs
         case "\(DataStore.year)/readNews":
             return .newsReadState
         case "\(DataStore.year)/oldNews":
@@ -129,11 +126,12 @@ final class UserSettings: ObservableObject {
         }
     }
 
-    func toggleScheduleViewType() {
-        if scheduleViewType == 0 {
-            scheduleViewType = 1
-        } else {
-            scheduleViewType = 0
+    func toggleScheduleDisplayMode() {
+        switch scheduleDisplayMode {
+        case .timeline:
+            scheduleDisplayMode = .list
+        case .list:
+            scheduleDisplayMode = .timeline
         }
     }
 
@@ -145,7 +143,7 @@ final class UserSettings: ObservableObject {
         }
     }
 
-    func setScheduleFilterType(type: ScheduleType) {
+    func setScheduleFilterType(type: ScheduleFilter) {
         switch type {
         case .all:
             scheduleFilterType = 0
@@ -158,7 +156,7 @@ final class UserSettings: ObservableObject {
         }
     }
 
-    func getScheduleFilterType(_ type: Int) -> ScheduleType {
+    func getScheduleFilterType(_ type: Int) -> ScheduleFilter {
         switch type {
         case 0:
             return .all
@@ -177,33 +175,8 @@ final class UserSettings: ObservableObject {
         listeners[change, default: []].append(listener)
     }
 
-    func toggleSavedEvent(_ event: Event) {
-        if !savedEvents.contains(event.id) {
-            savedEvents.append(event.id)
-        } else {
-            savedEvents.remove(at: savedEvents.firstIndex(of: event.id)!)
-        }
-    }
-
-    func idFor(event: Event) -> String {
-        return "\(event.id)-\(savedEvents.contains(event.id))"
-    }
-
     func idFor(newsItem: NewsItem) -> String {
         return "\(newsItem.id)-\(readNews.contains(newsItem.id))"
-    }
-    
-    func setArtistRating(for artist: Artist, rating: Int) {
-        ratings["\(artist.id)"] = rating
-    }
-    
-    func getArtistIcon(for artist: Artist) -> String? {
-        return artistIcons["\(artist.id)"]
-    }
-    
-    func setArtistIcon(for artist: Artist, icon: String) {
-        artistIcons["\(artist.id)"] = icon
-        setArtistRating(for: artist, rating: -1)
     }
 
     func markNewsAsRead(_ newsItem: NewsItem) {
@@ -222,3 +195,5 @@ final class UserSettings: ObservableObject {
         }
     }
 }
+
+typealias UserSettings = UserPreferencesStore

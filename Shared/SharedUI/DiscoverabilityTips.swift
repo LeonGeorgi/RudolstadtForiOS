@@ -4,6 +4,8 @@ import SwiftUI
 import TipKit
 #endif
 
+private let areDiscoverabilityTipsEnabled = false
+
 struct AppDiscoverabilityTip: Identifiable, Sendable {
     let id: String
 
@@ -231,6 +233,11 @@ final class TipSequencer: ObservableObject {
     }
 
     private func refreshCurrentTip() {
+        guard areDiscoverabilityTipsEnabled else {
+            currentTipID = nil
+            return
+        }
+
 #if os(iOS)
         currentTipID = tips.first(where: { appTip in
             appTip.tip.shouldDisplay
@@ -241,6 +248,10 @@ final class TipSequencer: ObservableObject {
     }
 
     private func startObserving() {
+        guard areDiscoverabilityTipsEnabled else {
+            return
+        }
+
 #if os(iOS)
         observerTasks = tips.map { appTip in
             Task { [weak self] in
@@ -258,6 +269,10 @@ final class TipSequencer: ObservableObject {
 }
 
 func configureDiscoverabilityTips() {
+    guard areDiscoverabilityTipsEnabled else {
+        return
+    }
+
 #if os(iOS)
     do {
         try Tips.configure([

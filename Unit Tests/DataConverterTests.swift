@@ -1,3 +1,4 @@
+import Combine
 import XCTest
 @testable import Rudolstadt
 
@@ -426,6 +427,49 @@ final class NewsServiceTests: XCTestCase {
     }
 }
 
+final class DataLoaderCacheMetadataTests: XCTestCase {
+    private var cacheURL: URL!
+
+    override func setUpWithError() throws {
+        cacheURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(
+            at: cacheURL,
+            withIntermediateDirectories: true
+        )
+    }
+
+    override func tearDownWithError() throws {
+        try? FileManager.default.removeItem(at: cacheURL)
+        cacheURL = nil
+    }
+
+    func testCachedFestivalDataModificationDateReadsCacheFileDate() throws {
+        let loader = DataLoader(cacheURL: cacheURL)
+        let cacheFileURL = loader.cacheFileURL(for: "rudolstadt_data.json")
+        let expectedDate = Date(timeIntervalSince1970: 1_700_000_000)
+
+        try Data("{}".utf8).write(to: cacheFileURL)
+        try FileManager.default.setAttributes(
+            [.modificationDate: expectedDate],
+            ofItemAtPath: cacheFileURL.path
+        )
+
+        let actualDate = try XCTUnwrap(loader.cachedFestivalDataModificationDate())
+        XCTAssertEqual(
+            actualDate.timeIntervalSince1970,
+            expectedDate.timeIntervalSince1970,
+            accuracy: 1
+        )
+    }
+
+    func testCachedFestivalDataModificationDateReturnsNilWhenMissing() {
+        let loader = DataLoader(cacheURL: cacheURL)
+
+        XCTAssertNil(loader.cachedFestivalDataModificationDate())
+    }
+}
+
 private final class NewsAPIStub: NewsFetching {
     var newsToReturn: [APINewsItem]
     var fetchCallCount = 0
@@ -453,6 +497,10 @@ private final class NewsCacheStub: NewsCaching {
         loadResult
     }
 
+    func loadBundledNewsBackup() -> FileLoadingResult<[NewsItem]> {
+        .notFound
+    }
+
     func storeAPINewsToFile(news: [APINewsItem], fileName: String) -> Bool {
         storedNewsIds = news.map(\.id)
         return true
@@ -472,7 +520,7 @@ private final class NewsNotifierStub: NewsNotifying {
 }
 
 final class RecommendationServiceTests: XCTestCase {
-    func testEstimateEventDurationsUsesFollowingStageEventGap() {
+    func testEstimateEventDurationsUsesAtLeastOneHourWhenPossible() {
         let stage = makeStage(id: 1, stageNumber: 1)
         let artistOne = makeArtist(id: 1)
         let artistTwo = makeArtist(id: 2)
@@ -484,8 +532,24 @@ final class RecommendationServiceTests: XCTestCase {
 
         let durations = service.estimateEventDurations(events: events)
 
-        XCTAssertEqual(durations[101], 30)
+        XCTAssertEqual(durations[101], 60)
         XCTAssertEqual(durations[102], 60)
+    }
+
+    func testEstimateEventDurationsEndsBeforeNextStageEventWhenGapIsLessThanOneHour() {
+        let stage = makeStage(id: 2, stageNumber: 2)
+        let artistOne = makeArtist(id: 3)
+        let artistTwo = makeArtist(id: 4)
+        let events = [
+            makeEvent(id: 103, dayInJuly: 3, timeAsString: "10:00", stage: stage, artist: artistOne),
+            makeEvent(id: 104, dayInJuly: 3, timeAsString: "10:45", stage: stage, artist: artistTwo),
+        ]
+        let service = RecommendationService()
+
+        let durations = service.estimateEventDurations(events: events)
+
+        XCTAssertEqual(durations[103], 45)
+        XCTAssertEqual(durations[104], 60)
     }
 
     func testBuildSnapshotReturnsNoRecommendationsWithoutPositiveRatings() {
@@ -603,15 +667,15 @@ final class RecommendationServiceTests: XCTestCase {
     }
 }
 
-final class RecommendationSchedulePresenterTests: XCTestCase {
+final class SchedulePresenterTests: XCTestCase {
     func testOptimalFilterShowsSavedAndRecommendedEvents() {
         let events = [
             makeEvent(id: 801, dayInJuly: 3, timeAsString: "18:00", stage: makeStage(id: 8), artist: makeArtist(id: 31)),
             makeEvent(id: 802, dayInJuly: 3, timeAsString: "19:00", stage: makeStage(id: 9), artist: makeArtist(id: 32)),
             makeEvent(id: 803, dayInJuly: 3, timeAsString: "20:00", stage: makeStage(id: 10), artist: makeArtist(id: 33)),
         ]
-        let presenter = RecommendationSchedulePresenter(
-            dataState: .success(makeFestivalData(events: events)),
+        let presenter = SchedulePresenter(
+            festivalData: makeFestivalData(events: events),
             recommendationState: .success([802]),
             scheduleFilterType: .optimal,
             savedEventIds: [801],
@@ -630,8 +694,8 @@ final class RecommendationSchedulePresenterTests: XCTestCase {
             makeEvent(id: 812, dayInJuly: 3, timeAsString: "19:00", stage: makeStage(id: 12), artist: makeArtist(id: 35)),
             makeEvent(id: 813, dayInJuly: 3, timeAsString: "20:00", stage: makeStage(id: 13), artist: makeArtist(id: 36)),
         ]
-        let presenter = RecommendationSchedulePresenter(
-            dataState: .success(makeFestivalData(events: events)),
+        let presenter = SchedulePresenter(
+            festivalData: makeFestivalData(events: events),
             recommendationState: .loading,
             scheduleFilterType: .interesting,
             savedEventIds: [811],
@@ -649,8 +713,8 @@ final class RecommendationSchedulePresenterTests: XCTestCase {
             makeEvent(id: 821, dayInJuly: 3, timeAsString: "18:00", stage: makeStage(id: 14), artist: makeArtist(id: 37)),
             makeEvent(id: 822, dayInJuly: 3, timeAsString: "19:00", stage: makeStage(id: 15), artist: makeArtist(id: 38)),
         ]
-        let presenter = RecommendationSchedulePresenter(
-            dataState: .success(makeFestivalData(events: events)),
+        let presenter = SchedulePresenter(
+            festivalData: makeFestivalData(events: events),
             recommendationState: .loading,
             scheduleFilterType: .saved,
             savedEventIds: [822],
@@ -668,8 +732,8 @@ final class RecommendationSchedulePresenterTests: XCTestCase {
             makeEvent(id: 831, dayInJuly: 3, timeAsString: "18:00", stage: makeStage(id: 16), artist: makeArtist(id: 39)),
             makeEvent(id: 832, dayInJuly: 3, timeAsString: "19:00", stage: makeStage(id: 17), artist: makeArtist(id: 40)),
         ]
-        let presenter = RecommendationSchedulePresenter(
-            dataState: .success(makeFestivalData(events: events)),
+        let presenter = SchedulePresenter(
+            festivalData: makeFestivalData(events: events),
             recommendationState: .loading,
             scheduleFilterType: .all,
             savedEventIds: [],
@@ -687,7 +751,9 @@ final class RecommendationSchedulePresenterTests: XCTestCase {
 final class RecommendationDataStoreTests: XCTestCase {
     func testRefreshRecommendationsStaysLoadingWithoutFestivalData() async {
         let settings = UserSettings()
+        let profileStore = makeFestivalProfileStore()
         let store = DataStore(
+            festivalProfileStore: profileStore,
             userSettings: settings,
             recommendationService: RecommendationServiceStub(
                 snapshot: RecommendationSnapshot(
@@ -700,8 +766,8 @@ final class RecommendationDataStoreTests: XCTestCase {
             now: makeDate(dayInJuly: 3, hour: 12, minute: 0)
         )
 
-        if case .loading = store.recommendedEvents {
-            XCTAssertNil(store.estimatedEventDurations)
+        if case .loading = store.recommendedEventIDs {
+            XCTAssertNil(store.estimatedEventDurationsByEventID)
         } else {
             XCTFail("Expected loading state")
         }
@@ -709,15 +775,17 @@ final class RecommendationDataStoreTests: XCTestCase {
 
     func testRefreshRecommendationsPublishesServiceSnapshot() async {
         let settings = UserSettings()
+        let profileStore = makeFestivalProfileStore()
         let snapshot = RecommendationSnapshot(
             recommendedEventIds: [902, 903],
             estimatedEventDurations: [902: 60, 903: 90]
         )
         let store = DataStore(
+            festivalProfileStore: profileStore,
             userSettings: settings,
             recommendationService: RecommendationServiceStub(snapshot: snapshot)
         )
-        store.data = .success(makeFestivalData(events: [
+        store.festivalData = .success(makeFestivalData(events: [
             makeEvent(id: 902, dayInJuly: 3, timeAsString: "18:00", stage: makeStage(id: 18), artist: makeArtist(id: 41)),
             makeEvent(id: 903, dayInJuly: 3, timeAsString: "20:00", stage: makeStage(id: 19), artist: makeArtist(id: 42)),
         ]))
@@ -726,11 +794,11 @@ final class RecommendationDataStoreTests: XCTestCase {
             now: makeDate(dayInJuly: 3, hour: 12, minute: 0)
         )
 
-        if case .success(let ids) = store.recommendedEvents {
+        if case .success(let ids) = store.recommendedEventIDs {
             XCTAssertTrue(Thread.isMainThread)
             XCTAssertEqual(ids, snapshot.recommendedEventIds)
             XCTAssertEqual(
-                store.estimatedEventDurations,
+                store.estimatedEventDurationsByEventID,
                 snapshot.estimatedEventDurations
             )
         } else {
@@ -739,41 +807,177 @@ final class RecommendationDataStoreTests: XCTestCase {
     }
 }
 
+#if os(iOS)
+final class FriendArtistRecommendationTests: XCTestCase {
+    func testRecommendationsExcludeOwnRatedArtists() {
+        let stage = makeStage(id: 20)
+        let ratedArtist = makeArtist(id: 61)
+        let unratedArtist = makeArtist(id: 62)
+        let events = [
+            makeEvent(
+                id: 1201,
+                dayInJuly: 3,
+                timeAsString: "18:00",
+                stage: stage,
+                artist: ratedArtist
+            ),
+            makeEvent(
+                id: 1202,
+                dayInJuly: 3,
+                timeAsString: "20:00",
+                stage: stage,
+                artist: unratedArtist
+            ),
+        ]
+        let friendProfile = makeSharedFestivalProfile(
+            artistPreferences: [
+                FestivalArtistPreference(
+                    artistID: ratedArtist.id,
+                    rating: 3,
+                    iconName: nil
+                ),
+                FestivalArtistPreference(
+                    artistID: unratedArtist.id,
+                    rating: 2,
+                    iconName: nil
+                ),
+            ]
+        )
+
+        let recommendations = friendArtistRecommendations(
+            friendProfiles: [friendProfile],
+            artists: [ratedArtist, unratedArtist],
+            events: events,
+            excludedArtistIDs: friendRecommendationExcludedArtistIDs(
+                savedEventIDs: [],
+                ratings: [String(ratedArtist.id): -1],
+                events: events
+            )
+        )
+
+        XCTAssertEqual(recommendations.map(\.artist.id), [unratedArtist.id])
+    }
+
+    func testRecommendationsExcludeArtistsWithOwnSavedEvents() {
+        let stage = makeStage(id: 21)
+        let savedArtist = makeArtist(id: 63)
+        let unsavedArtist = makeArtist(id: 64)
+        let events = [
+            makeEvent(
+                id: 1301,
+                dayInJuly: 3,
+                timeAsString: "18:00",
+                stage: stage,
+                artist: savedArtist
+            ),
+            makeEvent(
+                id: 1302,
+                dayInJuly: 3,
+                timeAsString: "19:00",
+                stage: stage,
+                artist: savedArtist
+            ),
+            makeEvent(
+                id: 1303,
+                dayInJuly: 3,
+                timeAsString: "20:00",
+                stage: stage,
+                artist: unsavedArtist
+            ),
+        ]
+        let friendProfile = makeSharedFestivalProfile(
+            savedEventIDs: [1302, 1303]
+        )
+
+        let recommendations = friendArtistRecommendations(
+            friendProfiles: [friendProfile],
+            artists: [savedArtist, unsavedArtist],
+            events: events,
+            excludedArtistIDs: friendRecommendationExcludedArtistIDs(
+                savedEventIDs: [1301],
+                ratings: [:],
+                events: events
+            )
+        )
+
+        XCTAssertEqual(recommendations.map(\.artist.id), [unsavedArtist.id])
+    }
+}
+#endif
+
 @MainActor
-final class UserSettingsChangeTests: XCTestCase {
+final class FestivalProfileStoreTests: XCTestCase {
     func testRecommendationInputChangeFiresForSavedEventsAndRatings() {
-        let settings = UserSettings()
+        let profileStore = makeFestivalProfileStore()
         var callbackCount = 0
-        settings.onChange(of: .recommendationInputs) {
+        profileStore.onChange(of: .recommendationInputs) {
             callbackCount += 1
         }
 
-        settings.toggleSavedEvent(Event.example)
-        settings.setArtistRating(for: Artist.example, rating: 2)
+        profileStore.toggleSavedEvent(Event.example)
+        profileStore.setArtistRating(for: Artist.example, rating: 2)
 
         XCTAssertEqual(callbackCount, 2)
     }
 
-    func testRecommendationInputChangeDoesNotFireForReadNewsUpdates() {
-        let settings = UserSettings()
-        var callbackCount = 0
-        settings.onChange(of: .recommendationInputs) {
-            callbackCount += 1
-        }
+    func testLegacyUserDefaultsValuesAreLoadedIntoFestivalProfileStore() {
+        let userDefaults = UserDefaults(suiteName: UUID().uuidString)!
+        userDefaults.set([17, 19], forKey: "\(DataStore.year)/savedEvents")
+        userDefaults.set(["42": 3, "43": -1], forKey: "\(DataStore.year)/ratings")
+        userDefaults.set(["43": "questionmark.circle.fill"], forKey: "\(DataStore.year)/artistIcons")
+        userDefaults.set(["42": "Bring earplugs"], forKey: "\(DataStore.year)/artistNotes")
 
-        settings.markNewsAsRead(
-            NewsItem(
-                id: 12,
-                languageCode: "en",
-                dateAsString: "06.07.2025",
-                timeAsString: "14:00",
-                shortDescription: "Short 12",
-                longDescription: "Long 12",
-                content: "Content 12"
-            )
+        let profileStore = FestivalProfileStore(
+            userDefaults: userDefaults,
+            cloudKitEnabled: false
         )
 
-        XCTAssertEqual(callbackCount, 0)
+        XCTAssertEqual(profileStore.savedEvents, [17, 19])
+        XCTAssertEqual(profileStore.ratings["42"], 3)
+        XCTAssertEqual(profileStore.ratings["43"], -1)
+        XCTAssertEqual(
+            profileStore.getArtistIcon(for: makeArtist(id: 43)),
+            "questionmark.circle.fill"
+        )
+        XCTAssertEqual(profileStore.noteText(for: makeArtist(id: 42)), "Bring earplugs")
+    }
+
+    func testArtistNotesAreRemovedWhenSavedAsEmpty() {
+        let profileStore = makeFestivalProfileStore()
+
+        profileStore.setArtistNote(for: Artist.example, note: "Test note")
+        profileStore.setArtistNote(for: Artist.example, note: "")
+
+        XCTAssertNil(profileStore.noteText(for: Artist.example))
+    }
+
+    func testObjectWillChangePublishesWhenProfileChanges() {
+        let profileStore = makeFestivalProfileStore()
+        var cancellables = Set<AnyCancellable>()
+        var changeCount = 0
+
+        profileStore.objectWillChange
+            .sink {
+                changeCount += 1
+            }
+            .store(in: &cancellables)
+
+        profileStore.toggleSavedEvent(Event.example)
+
+        XCTAssertGreaterThan(changeCount, 0)
+    }
+
+    func testBadgeConfigurationUpdatesOwnerBadge() {
+        let profileStore = makeFestivalProfileStore()
+
+        profileStore.updateBadge(
+            name: "Leon Georgi",
+            colorHex: "#3D78E0"
+        )
+
+        XCTAssertEqual(profileStore.badgeName, "Leon Georgi")
+        XCTAssertEqual(profileStore.badgeColorHex, "#3D78E0")
+        XCTAssertEqual(profileStore.ownerBadge.initials, "LG")
     }
 }
 
@@ -800,6 +1004,31 @@ private func makeFestivalData(events: [Event]) -> FestivalData {
         areas: unique(events.map(\.stage.area), by: \.id),
         stages: unique(events.map(\.stage), by: \.id),
         events: events
+    )
+}
+
+@MainActor
+private func makeFestivalProfileStore() -> FestivalProfileStore {
+    FestivalProfileStore(
+        userDefaults: UserDefaults(suiteName: UUID().uuidString)!,
+        cloudKitEnabled: false
+    )
+}
+
+private func makeSharedFestivalProfile(
+    id: String = "friend-profile",
+    savedEventIDs: [Int] = [],
+    artistPreferences: [FestivalArtistPreference] = []
+) -> SharedFestivalProfile {
+    SharedFestivalProfile(
+        id: id,
+        title: "Friend Profile",
+        ownerName: "Friend",
+        badgeName: nil,
+        badgeColorHex: nil,
+        festivalYear: DataStore.year,
+        savedEventIDs: savedEventIDs,
+        artistPreferences: artistPreferences
     )
 }
 

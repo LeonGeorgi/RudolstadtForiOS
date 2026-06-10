@@ -3,7 +3,7 @@ import SwiftUI
 struct SaveEventPreview: View {
     let event: Event
 
-    @EnvironmentObject var settings: UserSettings
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -44,23 +44,17 @@ struct SaveEventPreview: View {
     }
 
     func getColorForEvent(_ event: Event) -> Color {
-        switch event.artist.artistType {
-        case .stage:
-            return Color.artistTypeStageSaved
-        case .dance:
-            return Color.artistTypeDanceSaved
-        case .street:
-            return Color.artistTypeStreetSaved
-        case .other:
-            return Color.artistTypeOtherSaved
-        }
+        Color.okhsl(
+            h: event.artist.artistType.okhslHue,
+            s: colorScheme == .dark ? 0.68 : 0.74,
+            l: colorScheme == .dark ? 0.68 : 0.62
+        )
     }
 }
 
 struct SaveEventPreview_Previews: PreviewProvider {
     static var previews: some View {
         SaveEventPreview(event: .example)
-            .environmentObject(UserSettings())
             .frame(width: 400, height: 400)
     }
 }

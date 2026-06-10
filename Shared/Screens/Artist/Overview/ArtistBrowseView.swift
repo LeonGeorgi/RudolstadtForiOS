@@ -11,29 +11,94 @@ struct ArtistBrowseView: View {
     let imageTransitionNamespace: Namespace.ID
     let navigate: (AppNavigationRoute) -> Void
 
+    private var sortedArtists: [Artist] {
+        artists.sorted { first, second in
+            normalizedArtistName(first.name) < normalizedArtistName(second.name)
+        }
+    }
+
     var body: some View {
-        ArtistOverviewContentView(
-            artists: artists,
-            selectedPresentationMode: state.selectedPresentationMode,
-            emptyMessageKey: emptyMessageKey,
-            imageTransitionNamespace: imageTransitionNamespace
-        )
+        Group {
+            if state.selectedPresentationMode == .grid {
+                ArtistOverviewGridView(
+                    artists: sortedArtists,
+                    emptyMessageKey: emptyMessageKey,
+                    imageTransitionNamespace: imageTransitionNamespace,
+                    showsWorldMapCallout: state.searchText.isEmpty,
+                    showWorldMap: showWorldMap
+                )
+            } else {
+                ArtistOverviewListView(
+                    artists: sortedArtists,
+                    emptyMessageKey: emptyMessageKey,
+                    showsWorldMapCallout: state.searchText.isEmpty,
+                    showWorldMap: showWorldMap
+                )
+            }
+        }
         .searchable(text: $state.searchText)
         .disableAutocorrection(true)
         .navigationTitle(navigationTitleKey)
         .toolbar {
+            NewsToolbarItem()
+
             ArtistListToolbar(
                 state: state,
                 currentTipID: currentTipID,
                 browseGenreOptions: browseGenreOptions,
-                localizedBrowseGenreLabel: localizedBrowseGenreLabel,
-                showWorldMap: {
-                    navigate(.artistWorldMap)
-                }
+                localizedBrowseGenreLabel: localizedBrowseGenreLabel
             )
         }
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarColorScheme(nil, for: .navigationBar)
-        .toolbarColorScheme(nil, for: .tabBar)
+    }
+
+    private func showWorldMap() {
+        navigate(.artistWorldMap)
     }
 }
+
+#if DEBUG
+@MainActor
+private struct ArtistBrowseViewPreview: View {
+    @StateObject private var state = ArtistOverviewState()
+    @Namespace private var namespace
+
+    private var previewArtists: [Artist] {
+        Array(
+            PreviewMockData.festivalData.artists
+                .filter { artist in
+                    !artist.hiddenFromArtistList && artist.fullImageUrl != nil
+                }
+                .prefix(18)
+        )
+    }
+
+    var body: some View {
+        NavigationStack {
+            ArtistBrowseView(
+                artists: previewArtists,
+                state: state,
+                currentTipID: nil,
+                emptyMessageKey: "artists.none-found",
+                browseGenreOptions: [],
+                localizedBrowseGenreLabel: { $0 },
+                navigationTitleKey: "artists.title",
+                imageTransitionNamespace: namespace,
+                navigate: { _ in }
+            )
+            .navigationDestination(for: AppNavigationRoute.self) { _ in
+                EmptyView()
+            }
+        }
+    }
+}
+
+struct ArtistBrowseView_Previews: PreviewProvider {
+    @MainActor
+    static var previews: some View {
+        ArtistBrowseViewPreview()
+            .previewMockEnvironment(suiteName: "ArtistBrowseViewPreview")
+    }
+}
+#endif

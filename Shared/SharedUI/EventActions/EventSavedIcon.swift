@@ -9,8 +9,8 @@ import SwiftUI
 
 struct EventSavedIcon: View {
     let event: Event
-
-    @EnvironmentObject var settings: UserSettings
+    let isSaved: Bool
+    let onToggle: () -> Void
 
     @State var isAlertShown = false
 
@@ -29,8 +29,8 @@ struct EventSavedIcon: View {
             ),
             message: Text("event.remove.alert.message"),
             primaryButton: .default(Text("event.remove")) {
-                if settings.savedEvents.contains(event.id) {
-                    settings.toggleSavedEvent(event)
+                if isSaved {
+                    onToggle()
                 }
             },
             secondaryButton: .cancel()
@@ -39,15 +39,15 @@ struct EventSavedIcon: View {
 
     var body: some View {
         Image(
-            systemName: settings.savedEvents.contains(event.id)
+            systemName: isSaved
                 ? "bookmark.fill" : "bookmark"
         )
         .foregroundStyle(.primary)
         .onTapGesture {
-            if settings.savedEvents.contains(event.id) {
+            if isSaved {
                 isAlertShown = true
             } else {
-                settings.toggleSavedEvent(event)
+                onToggle()
             }
         }
         .alert(isPresented: $isAlertShown) {
@@ -58,6 +58,6 @@ struct EventSavedIcon: View {
 
 struct EventSavedIcon_Previews: PreviewProvider {
     static var previews: some View {
-        EventSavedIcon(event: .example)
+        EventSavedIcon(event: .example, isSaved: false, onToggle: {})
     }
 }

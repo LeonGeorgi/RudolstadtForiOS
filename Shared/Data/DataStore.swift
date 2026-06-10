@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import SwiftUI
 
 extension StringProtocol {
@@ -10,12 +11,15 @@ extension StringProtocol {
 @MainActor
 final class DataStore: ObservableObject {
 
-    @Published var data: LoadingEntity<FestivalData> = .loading
+    @Published var festivalData: LoadingEntity<FestivalData> = .loading
     @Published var news: LoadingEntity<[NewsItem]> = .loading
-    @Published var recommendedEvents: LoadingEntity<[Int]> = .loading
-    @Published var estimatedEventDurations: [Int: Int]? = nil
+    @Published var recommendedEventIDs: LoadingEntity<[Int]> = .loading
+    @Published var estimatedEventDurationsByEventID: [Int: Int]? = nil
     @Published var artistLinks: [String: ArtistLinks]? = nil
     @Published var browseTaxonomy: [BrowseTaxonomyEntry] = []
+    @Published var festivalDataLastDownloadDate: Date?
+    @Published var isUsingBundledFestivalDataBackup = false
+    @Published var festivalDataFallbackStatus: FestivalDataFallbackStatus?
     
     var extraData: ExtraDataCollection? = nil
     private var browseTaxonomyByID: [String: BrowseTaxonomyEntry] = [:]
@@ -26,76 +30,137 @@ final class DataStore: ObservableObject {
     let apiClient: APIClient
     let newsService: NewsService
     let recommendationService: RecommendationProviding
-    let userSettings: UserSettings
+    let festivalProfileStore: FestivalProfileStore
 
-    let cacheUrl: URL
+    private var pendingRecommendationRefreshTask: Task<Void, Never>?
+    private var recommendationRefreshGeneration = 0
+    private var isRefreshingAppState = false
+    private var hasLoadedFestivalContentForAppLaunch = false
+    private var lastAppStateRefreshAt: Date?
 
     init(
+        festivalProfileStore: FestivalProfileStore? = nil,
         userSettings: UserSettings? = nil,
         newsService: NewsService? = nil,
         recommendationService: RecommendationProviding? = nil
     ) {
         let resolvedUserSettings = userSettings ?? UserSettings()
-        cacheUrl = try! FileManager.default.url(
+        let resolvedFestivalProfileStore =
+            festivalProfileStore ?? FestivalProfileStore()
+        let cacheURL = try! FileManager.default.url(
             for: .cachesDirectory,
             in: .allDomainsMask,
             appropriateFor: nil,
             create: false
         )
-        dataLoader = DataLoader(cacheUrl: cacheUrl)
+        dataLoader = DataLoader(cacheURL: cacheURL)
         apiClient = APIClient()
-        self.userSettings = resolvedUserSettings
+        self.festivalProfileStore = resolvedFestivalProfileStore
         self.newsService =
             newsService ?? NewsService(userSettings: resolvedUserSettings)
         self.recommendationService = recommendationService ?? RecommendationService()
+        refreshFestivalDataDownloadMetadata()
+        loadCachedFestivalDataIfAvailable()
     }
 
-    func loadArtistLinks() {
-        print("Parsing artist links")
-        let links = parseArtistLinks()
-        artistLinks = links
-        print("Published artist links")
-    }
-
-    func refreshRecommendations(now: Date = .now) async {
-        guard case .success(let entities) = data else {
-            estimatedEventDurations = nil
-            recommendedEvents = .loading
+    private func loadArtistLinksIfNeeded() async {
+        guard artistLinks == nil else {
             return
         }
 
-        let savedEventIds = userSettings.savedEvents
-        let ratings = userSettings.ratings
+        let links = await loadArtistLinksInBackground()
+        artistLinks = links
+        AppLog.data.debug("Loaded artist links for \(links.count) artists")
+    }
 
-        recommendedEvents = .loading
-        let snapshot = recommendationService.buildSnapshot(
-            data: entities,
+    func refreshRecommendations(now: Date = .now) async {
+        guard case .success(let loadedFestivalData) = festivalData else {
+            estimatedEventDurationsByEventID = nil
+            recommendedEventIDs = .loading
+            return
+        }
+
+        let savedEventIds = festivalProfileStore.savedEvents
+        let ratings = festivalProfileStore.ratings
+        let generation = recommendationRefreshGeneration + 1
+        recommendationRefreshGeneration = generation
+
+        recommendedEventIDs = .loading
+        let snapshot = await buildRecommendationSnapshot(
+            festivalData: loadedFestivalData,
             savedEventIds: savedEventIds,
             ratings: ratings,
             now: now
         )
-        estimatedEventDurations = snapshot.estimatedEventDurations
-        recommendedEvents = .success(snapshot.recommendedEventIds)
+        guard generation == recommendationRefreshGeneration else {
+            return
+        }
+        estimatedEventDurationsByEventID = snapshot.estimatedEventDurations
+        recommendedEventIDs = .success(snapshot.recommendedEventIds)
+        AppLog.data.debug(
+            "Updated recommendations with \(snapshot.recommendedEventIds.count) events"
+        )
     }
 
-    func loadData() async {
-        if case .success = data {
+    func scheduleRecommendationRefresh(now: Date = .now) {
+        pendingRecommendationRefreshTask?.cancel()
+        pendingRecommendationRefreshTask = Task { [weak self] in
+            try? await Task.sleep(for: .milliseconds(180))
+            guard !Task.isCancelled else {
+                return
+            }
+            await self?.refreshRecommendations(now: now)
+        }
+    }
+
+    func loadOrRefreshFestivalData() async {
+        let hadLoadedFestivalDataAtStart: Bool
+        if case .success = festivalData {
+            hadLoadedFestivalDataAtStart = true
             // nothing to do
         } else {
-            data = .loading
+            hadLoadedFestivalDataAtStart = false
+            festivalData = .loading
         }
         loadExtraData()
-        print("Checking if files are up to date")
-        let (filesUpToDate, resultFromCache) = loadAndSetDataFromFilesIfUpToDate()
-        if filesUpToDate {
-            print("Files are up to date, skipping redownload")
-        } else {
-            print("Files are out of date, redownloading")
-            await downloadAndSetData(resultFromCache: resultFromCache)
+        let resolvedExtraData = extraData ?? ExtraDataCollection.empty()
+        AppLog.data.info("Refreshing festival data")
+        let resultFromCache = await loadCachedFestivalData(
+            extraData: resolvedExtraData
+        )
+        switch resultFromCache {
+        case .loaded(let cachedData):
+            festivalData = .success(cachedData)
+            isUsingBundledFestivalDataBackup = false
+            festivalDataFallbackStatus = nil
+            refreshFestivalDataDownloadMetadata()
+            AppLog.data.info(
+                "Loaded festival data from cache with \(cachedData.artists.count) artists and \(cachedData.events.count) events"
+            )
+            return
+        case .stale(let cachedData):
+            AppLog.data.info(
+                "Cached festival data is stale with \(cachedData.artists.count) artists and \(cachedData.events.count) events; downloading update"
+            )
+        case .notFound:
+            AppLog.data.info("No cached festival data found; downloading")
+        case .unparsable:
+            AppLog.data.error(
+                "Cached festival data could not be parsed; downloading fresh data"
+            )
         }
+
+        await downloadAndSetFestivalData(
+            resultFromCache: resultFromCache,
+            preserveCurrentDataOnFailure: hadLoadedFestivalDataAtStart
+        )
     }
     
     func loadExtraData() {
+        if extraData != nil && !browseTaxonomy.isEmpty {
+            return
+        }
+
         self.extraData = loadExtraDataFromResource(fileName: "extra_data")
 
         let loadedBrowseTaxonomy = loadBrowseTaxonomyFromResource(
@@ -113,29 +178,85 @@ final class DataStore: ObservableObject {
         browseTaxonomyByID[id]?.localizedLabel ?? id
     }
 
-    func loadNews() async {
-        if case .success = news {
-            // nothing to do, news is already loaded
-        } else {
-            news = .loading
+    func deleteCachedFestivalData() -> Bool {
+        let deleted = dataLoader.deleteCachedFestivalData()
+        if deleted {
+            refreshFestivalDataDownloadMetadata()
+            AppLog.data.info("Deleted cached festival data")
         }
-        let result = await newsService.loadNews()
-        news = LoadingEntity(from: result)
+        return deleted
     }
 
-    func refreshOnAppActive() async {
-        print("Trying to load latest app state")
-        await loadData()
-        loadArtistLinks()
-        await loadNews()
+    var isFestivalDataCacheStale: Bool {
+        guard festivalDataLastDownloadDate != nil else {
+            return true
+        }
+        return dataLoader.isFileStale(fileName: "rudolstadt_data.json")
+    }
+
+    func refreshOnAppActive(now: Date = .now) async {
+        guard !isRefreshingAppState else {
+            AppLog.app.debug("Skipped app-active refresh because one is already running")
+            return
+        }
+
+        if
+            let lastRefresh = lastAppStateRefreshAt,
+            now.timeIntervalSince(lastRefresh) < 20,
+            case .success = festivalData
+        {
+            await refreshRecommendations(now: now)
+            return
+        }
+
+        isRefreshingAppState = true
+        defer {
+            isRefreshingAppState = false
+            lastAppStateRefreshAt = now
+        }
+
+        AppLog.app.info("Refreshing app state after becoming active")
+        await loadOrRefreshFestivalDataIfNeeded()
+        await loadArtistLinksIfNeeded()
+        await refreshNewsIfNecessary()
         await refreshRecommendations()
+        AppLog.app.info("Finished refreshing app state")
     }
 
-    private func downloadAndSetData(
-        resultFromCache: FileLoadingResult<FestivalData>
+    func loadFestivalContentForAppLaunch(now: Date = .now) async {
+        guard !hasLoadedFestivalContentForAppLaunch else {
+            return
+        }
+
+        AppLog.app.info("Loading festival content for app launch")
+        await loadOrRefreshFestivalDataIfNeeded()
+        await loadArtistLinksIfNeeded()
+        await refreshRecommendations(now: now)
+        if case .success = festivalData {
+            hasLoadedFestivalContentForAppLaunch = true
+        }
+        lastAppStateRefreshAt = now
+        AppLog.app.info("Finished loading festival content for app launch")
+
+        refreshNewsAfterFestivalContentAppears()
+    }
+
+    private func refreshNewsAfterFestivalContentAppears() {
+        Task { [weak self] in
+            try? await Task.sleep(for: .seconds(2))
+            guard let self else {
+                return
+            }
+            await self.refreshNewsIfNecessary()
+        }
+    }
+
+    private func downloadAndSetFestivalData(
+        resultFromCache: FileLoadingResult<FestivalData>,
+        preserveCurrentDataOnFailure: Bool
     ) async {
-        if case .tooOld(let loadedData) = resultFromCache {
-            data = .success(loadedData)
+        if case .stale(let loadedData) = resultFromCache {
+            festivalData = .success(loadedData)
         }
         do {
             let apiData = try await apiClient.fetchFestivalData()
@@ -144,68 +265,231 @@ final class DataStore: ObservableObject {
                 fileName: "rudolstadt_data.json"
             )
             if !storedFile {
-                print("Could not store API data to file")
+                AppLog.data.error("Downloaded festival data but failed to cache it")
             }
+            refreshFestivalDataDownloadMetadata()
             let entities = convertAPIRudolstadtDataToEntities(
                 apiData: apiData,
                 extraData: extraData ?? ExtraDataCollection.empty()
             )
-            setDataAfterSuccessfulDownload(
-                resultFromDownload: .loaded(entities),
-                resultFromCache: resultFromCache
+            AppLog.data.info(
+                "Downloaded festival data with \(entities.artists.count) artists, \(entities.events.count) events, and \(entities.stages.count) stages"
             )
+            festivalData = .success(entities)
+            isUsingBundledFestivalDataBackup = false
+            festivalDataFallbackStatus = nil
         } catch {
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            print("!!! FESTIVAL DATA DOWNLOAD FAILED")
-            print("!!! \(error.localizedDescription)")
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            setDataAfterFailedDownload(resultFromCache: resultFromCache)
+            AppLog.data.error(
+                "Festival data refresh failed: \(error.localizedDescription, privacy: .public)"
+            )
+            setFestivalDataAfterFailedDownload(
+                resultFromCache: resultFromCache,
+                preserveCurrentDataOnFailure: preserveCurrentDataOnFailure,
+                error: error
+            )
+            refreshFestivalDataDownloadMetadata()
         }
     }
 
-    func loadAndSetDataFromFilesIfUpToDate() -> (
-        Bool, FileLoadingResult<FestivalData>
+    private func setFestivalDataAfterFailedDownload(
+        resultFromCache: FileLoadingResult<FestivalData>,
+        preserveCurrentDataOnFailure: Bool,
+        error: Error
     ) {
-        let resultFromCache = dataLoader.loadEntitiesFromFile(
+        if case .stale(let loadedData) = resultFromCache {
+            festivalData = .success(loadedData)
+            isUsingBundledFestivalDataBackup = false
+            festivalDataFallbackStatus = FestivalDataFallbackStatus(
+                source: .staleCache,
+                failure: festivalDataDownloadFailure(from: error),
+                checkedAt: .now
+            )
+            AppLog.data.info(
+                "Falling back to stale cached festival data after refresh failure"
+            )
+        } else if preserveCurrentDataOnFailure {
+            updateCurrentFestivalDataFallbackStatusAfterFailedRefresh(error)
+            AppLog.data.info(
+                "Keeping currently loaded festival data after refresh failure"
+            )
+        } else if loadBundledFestivalDataBackup(after: error) {
+            AppLog.data.info("Using bundled festival data backup after refresh failure")
+        } else {
+            festivalData = .failure(failureReasonForDownloadFailure(error))
+            AppLog.data.error("Festival data refresh failed and no cached data was available")
+        }
+    }
+
+    private func updateCurrentFestivalDataFallbackStatusAfterFailedRefresh(_ error: Error) {
+        guard isUsingBundledFestivalDataBackup else {
+            return
+        }
+
+        festivalDataFallbackStatus = FestivalDataFallbackStatus(
+            source: .bundledBackup,
+            failure: festivalDataDownloadFailure(from: error),
+            checkedAt: .now
+        )
+    }
+
+    private func loadBundledFestivalDataBackup(after error: Error) -> Bool {
+        let result = dataLoader.loadBundledFestivalDataBackup(
             extraData: extraData ?? ExtraDataCollection.empty()
         )
-        guard case .loaded(let loadedData) = resultFromCache else {
-            return (false, resultFromCache)
+
+        switch result {
+        case .loaded(let backupData), .stale(let backupData):
+            festivalData = .success(backupData)
+            isUsingBundledFestivalDataBackup = true
+            festivalDataFallbackStatus = FestivalDataFallbackStatus(
+                source: .bundledBackup,
+                failure: festivalDataDownloadFailure(from: error),
+                checkedAt: .now
+            )
+            return true
+        case .notFound, .unparsable:
+            return false
         }
-        data = .success(loadedData)
-        return (true, resultFromCache)
     }
 
-    private func setDataAfterFailedDownload(
-        resultFromCache: FileLoadingResult<FestivalData>
-    ) {
-        if case .tooOld(let loadedData) = resultFromCache {
-            data = .success(loadedData)
-        } else {
-            data = .failure(.apiNotResponding)
+    private func failureReasonForDownloadFailure(_ error: Error) -> FailureReason {
+        guard let apiClientError = error as? APIClientError else {
+            return .apiNotResponding
+        }
+
+        switch apiClientError {
+        case .httpStatus(_, let statusCode, _) where (500...599).contains(statusCode):
+            return .festivalServerError
+        case .invalidResponse(_), .httpStatus(_, _, _), .decoding(_, _, _):
+            return .apiNotResponding
         }
     }
 
-    private func setDataAfterSuccessfulDownload(
-        resultFromDownload: FileLoadingResult<FestivalData>,
-        resultFromCache: FileLoadingResult<FestivalData>
-    ) {
-        switch resultFromDownload {
-        case .loaded(let loadedData):
-            data = .success(loadedData)
-        case .tooOld(let loadedData):
-            data = .success(loadedData)
-        default:
-            if case .tooOld(let loadedData) = resultFromCache {
-                data = .success(loadedData)
-            } else {
-                data = .failure(.couldNotLoadFromFile)
+    private func festivalDataDownloadFailure(
+        from error: Error
+    ) -> FestivalDataDownloadFailure {
+        if let apiClientError = error as? APIClientError {
+            switch apiClientError {
+            case .httpStatus(_, let statusCode, _) where (500...599).contains(statusCode):
+                return FestivalDataDownloadFailure(
+                    owner: .festivalSide,
+                    httpStatusCode: statusCode
+                )
+            case .httpStatus(_, let statusCode, _) where (400...499).contains(statusCode):
+                return FestivalDataDownloadFailure(
+                    owner: .appSide,
+                    httpStatusCode: statusCode
+                )
+            case .httpStatus(_, let statusCode, _):
+                return FestivalDataDownloadFailure(
+                    owner: .unknown,
+                    httpStatusCode: statusCode
+                )
+            case .invalidResponse, .decoding:
+                return FestivalDataDownloadFailure(owner: .appSide)
+            }
+        }
+
+        if error is URLError {
+            return FestivalDataDownloadFailure(owner: .connection)
+        }
+
+        return FestivalDataDownloadFailure(owner: .unknown)
+    }
+
+    func refreshNewsIfNecessary() async {
+        let result = await newsService.refreshNewsIfNecessary()
+        news = LoadingEntity(from: result)
+    }
+
+    private func buildRecommendationSnapshot(
+        festivalData: FestivalData,
+        savedEventIds: [Int],
+        ratings: [String: Int],
+        now: Date
+    ) async -> RecommendationSnapshot {
+        let recommendationService = self.recommendationService
+        return await withCheckedContinuation { continuation in
+            DispatchQueue.global(qos: .userInitiated).async {
+                let snapshot = recommendationService.buildSnapshot(
+                    data: festivalData,
+                    savedEventIds: savedEventIds,
+                    ratings: ratings,
+                    now: now
+                )
+                continuation.resume(returning: snapshot)
             }
         }
     }
 
-    func updateAndLoadNewsIfNecessary() async {
-        let result = await newsService.refreshNewsIfNecessary()
-        news = LoadingEntity(from: result)
+    private func loadCachedFestivalData(
+        extraData: ExtraDataCollection
+    ) async -> FileLoadingResult<FestivalData> {
+        let dataLoader = self.dataLoader
+        return await withCheckedContinuation { continuation in
+            DispatchQueue.global(qos: .userInitiated).async {
+                let result = dataLoader.loadFestivalDataFromFile(extraData: extraData)
+                continuation.resume(returning: result)
+            }
+        }
+    }
+
+    private func loadArtistLinksInBackground() async -> [String: ArtistLinks] {
+        await withCheckedContinuation { continuation in
+            DispatchQueue.global(qos: .utility).async {
+                continuation.resume(returning: parseArtistLinks())
+            }
+        }
+    }
+
+    private func loadOrRefreshFestivalDataIfNeeded() async {
+        let shouldRefreshData: Bool
+        switch festivalData {
+        case .success:
+            shouldRefreshData = isUsingBundledFestivalDataBackup
+                || festivalDataLastDownloadDate == nil
+                || dataLoader.isFileStale(fileName: "rudolstadt_data.json")
+        case .loading, .failure:
+            shouldRefreshData = true
+        }
+
+        guard shouldRefreshData else {
+            return
+        }
+
+        await loadOrRefreshFestivalData()
+    }
+
+    private func loadCachedFestivalDataIfAvailable() {
+        loadExtraData()
+        let cachedResult = dataLoader.loadFestivalDataFromFile(
+            extraData: extraData ?? ExtraDataCollection.empty()
+        )
+        refreshFestivalDataDownloadMetadata()
+
+        switch cachedResult {
+        case .loaded(let cachedData):
+            festivalData = .success(cachedData)
+            isUsingBundledFestivalDataBackup = false
+            festivalDataFallbackStatus = nil
+            AppLog.data.info(
+                "Loaded festival data from cache with \(cachedData.artists.count) artists and \(cachedData.events.count) events"
+            )
+        case .stale(let cachedData):
+            festivalData = .success(cachedData)
+            isUsingBundledFestivalDataBackup = false
+            festivalDataFallbackStatus = nil
+            AppLog.data.info(
+                "Loaded stale festival data from cache with \(cachedData.artists.count) artists and \(cachedData.events.count) events"
+            )
+        case .notFound:
+            AppLog.data.info("No cached festival data available during startup")
+        case .unparsable:
+            AppLog.data.error("Cached festival data was unparsable during startup")
+        }
+    }
+
+    private func refreshFestivalDataDownloadMetadata() {
+        festivalDataLastDownloadDate = dataLoader.cachedFestivalDataModificationDate()
     }
 }

@@ -3,9 +3,13 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var dataStore: DataStore
     @State private var isShowingClearCacheAlert = false
     @State private var isClearingCache = false
     @State private var isShowingCacheClearedAlert = false
+    @State private var isShowingDeleteFestivalDataAlert = false
+    @State private var isShowingFestivalDataDeletedAlert = false
+    @State private var isShowingFestivalDataDeleteFailedAlert = false
 
     var useFlames: Binding<Bool> {
         Binding(
@@ -47,6 +51,15 @@ struct SettingsView: View {
             }
             .disabled(isClearingCache)
 
+            Button(role: .destructive) {
+                isShowingDeleteFestivalDataAlert = true
+            } label: {
+                Label(
+                    "settings.delete_festival_data.button",
+                    systemImage: "externaldrive.badge.xmark"
+                )
+            }
+
         }
         .font(.body)
         .listStyle(.insetGrouped)
@@ -64,6 +77,33 @@ struct SettingsView: View {
         } message: {
             Text("settings.clear_cache.done_message")
         }
+        .alert(
+            "settings.delete_festival_data.title",
+            isPresented: $isShowingDeleteFestivalDataAlert
+        ) {
+            Button("settings.delete_festival_data.cancel", role: .cancel) {}
+            Button("settings.delete_festival_data.confirm", role: .destructive) {
+                deleteFestivalData()
+            }
+        } message: {
+            Text("settings.delete_festival_data.message")
+        }
+        .alert(
+            "settings.delete_festival_data.done_title",
+            isPresented: $isShowingFestivalDataDeletedAlert
+        ) {
+            Button("settings.delete_festival_data.ok", role: .cancel) {}
+        } message: {
+            Text("settings.delete_festival_data.done_message")
+        }
+        .alert(
+            "settings.delete_festival_data.failed_title",
+            isPresented: $isShowingFestivalDataDeleteFailedAlert
+        ) {
+            Button("settings.delete_festival_data.ok", role: .cancel) {}
+        } message: {
+            Text("settings.delete_festival_data.failed_message")
+        }
 
     }
 
@@ -79,6 +119,14 @@ struct SettingsView: View {
         Task { @MainActor in
             isClearingCache = false
             isShowingCacheClearedAlert = true
+        }
+    }
+
+    private func deleteFestivalData() {
+        if dataStore.deleteCachedFestivalData() {
+            isShowingFestivalDataDeletedAlert = true
+        } else {
+            isShowingFestivalDataDeleteFailedAlert = true
         }
     }
 }

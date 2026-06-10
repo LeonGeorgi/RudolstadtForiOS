@@ -1,11 +1,11 @@
 import Foundation
 
-struct RecommendationSnapshot: Equatable {
+struct RecommendationSnapshot: Equatable, Sendable {
     let recommendedEventIds: [Int]
     let estimatedEventDurations: [Int: Int]
 }
 
-protocol RecommendationProviding {
+protocol RecommendationProviding: Sendable {
     func buildSnapshot(
         data: FestivalData,
         savedEventIds: [Int],
@@ -22,16 +22,16 @@ final class RecommendationService: RecommendationProviding {
         now: Date = .now
     ) -> RecommendationSnapshot {
         let estimatedEventDurations = estimateEventDurations(events: data.events)
-        let generator = ScheduleGenerator2(
+        let generator = ScheduleRecommendationGenerator(
             allEvents: data.events,
-            storedEventIds: savedEventIds,
+            savedEventIds: savedEventIds,
             artistRatings: ratings,
             eventDurations: estimatedEventDurations,
             now: now
         )
 
         return RecommendationSnapshot(
-            recommendedEventIds: generator.generateRecommendations(),
+            recommendedEventIds: generator.generateRecommendedEventIds(),
             estimatedEventDurations: estimatedEventDurations
         )
     }
@@ -52,24 +52,30 @@ final class RecommendationService: RecommendationProviding {
                 if let subsequentEvent {
                     let minutesUntilNextEvent =
                         subsequentEvent.date.timeIntervalSince(currentEvent.date) / 60
+                    var estimatedLength = length
                     let minutesUntilNextEventRoundedDown =
                         floor(minutesUntilNextEvent / 30.0) * 30
                     if minutesUntilNextEventRoundedDown < 30 {
-                        length = Int(minutesUntilNextEvent)
+                        estimatedLength = Int(minutesUntilNextEvent)
                     } else if minutesUntilNextEventRoundedDown < 60 {
-                        length = Int(minutesUntilNextEventRoundedDown)
+                        estimatedLength = Int(minutesUntilNextEventRoundedDown)
                     } else {
                         let halfWayTimeInterval =
                             floor((minutesUntilNextEvent / 2) / 30.0) * 30
                         if halfWayTimeInterval < 30 {
-                            length = Int(halfWayTimeInterval)
+                            estimatedLength = Int(halfWayTimeInterval)
                         } else if halfWayTimeInterval <= 90 {
-                            length = Int(halfWayTimeInterval)
+                            estimatedLength = Int(halfWayTimeInterval)
                         } else if minutesUntilNextEvent > 300 {
-                            length = 60
+                            estimatedLength = 60
                         } else {
-                            length = 90
+                            estimatedLength = 90
                         }
+                    }
+                    if minutesUntilNextEvent < 60 {
+                        length = Int(minutesUntilNextEvent)
+                    } else {
+                        length = max(60, estimatedLength)
                     }
                 }
                 eventDurations[currentEvent.id] = length
@@ -81,30 +87,19 @@ final class RecommendationService: RecommendationProviding {
     }
 }
 
-struct RecommendationSchedulePresenter {
-    let dataState: LoadingEntity<FestivalData>
+struct SchedulePresenter {
+    let festivalData: FestivalData
     let recommendationState: LoadingEntity<[Int]>
-    let scheduleFilterType: ScheduleType
+    let scheduleFilterType: ScheduleFilter
     let savedEventIds: Set<Int>
     let positiveRatedArtistIds: Set<Int>
 
     var availableEventDays: [Int] {
-        guard case .success(let entities) = dataState else {
-            return []
-        }
-
-        return festivalDays(from: entities.events)
+        festivalDays(from: festivalData.events)
     }
 
     var shownEvents: LoadingEntity<[Event]> {
-        switch dataState {
-        case .loading:
-            return .loading
-        case .failure(let reason):
-            return .failure(reason)
-        case .success(let entities):
-            return mapShownEvents(from: entities.events)
-        }
+        mapShownEvents(from: festivalData.events)
     }
 
     private func mapShownEvents(from events: [Event]) -> LoadingEntity<[Event]> {
@@ -149,18 +144,18 @@ struct RecommendationSchedulePresenter {
     }
 }
 
-final class ScheduleGenerator2 {
-    private let scheduleArrivalBufferMinutes = 2
+final class ScheduleRecommendationGenerator {
+    private let arrivalBufferMinutes = 2
 
     init(
         allEvents: [Event],
-        storedEventIds: [Int],
+        savedEventIds: [Int],
         artistRatings: [String: Int],
         eventDurations: [Int: Int],
         now: Date
     ) {
         self.allEvents = allEvents
-        self.storedEventIds = Set(storedEventIds)
+        self.savedEventIds = Set(savedEventIds)
         var normalizedRatings = [Int: Int]()
         for (idAsString, rating) in artistRatings {
             guard let id = Int(idAsString) else {
@@ -174,24 +169,24 @@ final class ScheduleGenerator2 {
     }
 
     let allEvents: [Event]
-    let storedEventIds: Set<Int>
+    let savedEventIds: Set<Int>
     let artistRatings: [Int: Int]
     let eventDurations: [Int: Int]
     let now: Date
 
-    func generate() -> [Event] {
-        let storedEvents = allEvents.filter { event in
-            storedEventIds.contains(event.id)
+    func generateRecommendedSchedule() -> [Event] {
+        let savedEvents = allEvents.filter { event in
+            savedEventIds.contains(event.id)
         }
         .sorted(by: eventSortOrder)
-        let storedEventIdsSet = Set(storedEvents.map { $0.id })
-        let storedArtistIds = Set(storedEvents.map { $0.artist.id })
+        let savedEventIdSet = Set(savedEvents.map { $0.id })
+        let savedArtistIds = Set(savedEvents.map { $0.artist.id })
 
         let interestingEvents = allEvents.filter { event in
             userIsInterestedInArtist(artist: event.artist)
-                && !storedEventIdsSet.contains(event.id)
-                && !storedArtistIds.contains(event.artist.id)
-                && !intersects(events: storedEvents, current: event)
+                && !savedEventIdSet.contains(event.id)
+                && !savedArtistIds.contains(event.artist.id)
+                && !intersects(events: savedEvents, current: event)
                 && isEventInFuture(event: event)
         }
         .sorted(by: recommendationSortOrder)
@@ -200,7 +195,7 @@ final class ScheduleGenerator2 {
             event.artist.id
         }
 
-        var solution: [Event] = storedEvents
+        var solution: [Event] = savedEvents
         let artistIdsByPriority = interestingEventsByArtist.keys.sorted {
             firstArtistId,
             secondArtistId in
@@ -232,7 +227,7 @@ final class ScheduleGenerator2 {
                 }
 
                 let removableConflicts = solution.filter { existingEvent in
-                    !storedEventIdsSet.contains(existingEvent.id)
+                    !savedEventIdSet.contains(existingEvent.id)
                         && (existingEvent.artist.id == eventToAdd.artist.id
                             || intersects(e1: existingEvent, e2: eventToAdd))
                 }
@@ -262,9 +257,9 @@ final class ScheduleGenerator2 {
         return solution
     }
 
-    func generateRecommendations() -> [Int] {
-        generate().filter { event in
-            !storedEventIds.contains(event.id)
+    func generateRecommendedEventIds() -> [Int] {
+        generateRecommendedSchedule().filter { event in
+            !savedEventIds.contains(event.id)
         }
         .map { event in
             event.id
@@ -309,7 +304,7 @@ final class ScheduleGenerator2 {
             event1Duration: eventDurations[e1.id] ?? 60,
             event2Duration: eventDurations[e2.id] ?? 60,
             maxAllowedMissedMinutes: 0,
-            arrivalBufferMinutes: scheduleArrivalBufferMinutes
+            arrivalBufferMinutes: arrivalBufferMinutes
         )
     }
 

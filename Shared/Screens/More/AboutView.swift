@@ -1,10 +1,3 @@
-//
-//  AboutView.swift
-//  RudolstadtForiOS
-//
-//  Created by Leon Georgi on 11.06.22.
-//
-
 import SwiftUI
 
 struct AboutView: View {
@@ -106,7 +99,7 @@ struct AboutView: View {
                     Text("about.licenses.title")
                 }
             }
-        }.listStyle(GroupedListStyle())
+        }.listStyle(.insetGrouped)
             .font(.body)
             .navigationTitle("about.title")
     }

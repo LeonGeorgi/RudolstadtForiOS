@@ -12,8 +12,8 @@ struct ArtistDetailView: View {
     let navigate: ((AppNavigationRoute) -> Void)?
 
     @Environment(\.colorScheme) private var systemColorScheme
-    @EnvironmentObject var settings: UserSettings
-    @EnvironmentObject var dataStore: DataStore
+    @Environment(\.festivalData) private var festivalData
+    @EnvironmentObject var profile: FestivalProfileStore
 
     @State private var isShowingNoteEditView = false
     @State var isEditAlertShown: Bool = false
@@ -39,16 +39,18 @@ struct ArtistDetailView: View {
         _descriptionBackgroundColor = State(initialValue: .clear)
     }
 
-    var artistEvents: LoadingEntity<[Event]> {
-        dataStore.data.map { entities in
-            entities.events.filter {
-                $0.artist.id == artist.id
-            }
+    var artistEvents: [Event] {
+        festivalData.events.filter {
+            $0.artist.id == artist.id
         }
     }
 
     var artistNote: String? {
-        settings.artistNotes["\(artist.id)"]
+        profile.noteText(for: artist)
+    }
+
+    private var friendRatingSummary: FriendArtistRatingSummary? {
+        profile.friendArtistRatingSummary(for: artist.id)
     }
 
     private func applyCachedColors(for colorScheme: ColorScheme) {
@@ -65,11 +67,8 @@ struct ArtistDetailView: View {
     }
 
     private func loadArtistBackgroundColor() async {
-        if let cachedThemeColors = ArtistImageColorCache.shared.cachedThemeColors(for: artist.id) {
-            await MainActor.run {
-                artistBackgroundColor = cachedThemeColors.backgroundColor(for: systemColorScheme)
-                descriptionBackgroundColor = cachedThemeColors.descriptionBackgroundColor(for: systemColorScheme)
-            }
+        if ArtistImageColorCache.shared.cachedThemeColors(for: artist.id) != nil {
+            applyCachedColors(for: systemColorScheme)
             return
         }
 
@@ -88,52 +87,56 @@ struct ArtistDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                    VStack(alignment: .leading, spacing: 18) {
-                        ArtistDetailHeaderView(
-                            artist: artist
-                        )
+                VStack(alignment: .leading, spacing: 18) {
+                    ArtistDetailHeaderView(
+                        artist: artist,
+                        friendRatingSummary: friendRatingSummary
+                    )
 
-                        ArtistDetailLinksView(artist: artist) { url in
-                            presentedBrowserURL = PresentedBrowserURL(url: url)
-                        }
-
-                        ArtistRatingView(
-                            artist: artist,
-                            currentTipID: tipSequencer.currentTipID
-                        )
-                            .padding(.horizontal, 34)
-                            .frame(maxWidth: .infinity)
-
-                        ArtistNoteBlock(note: artistNote) {
-                            isShowingNoteEditView = true
-                        }
-                        ArtistEventsBlock(
-                            artistEvents: artistEvents,
-                            highlightedEventId: highlightedEventId,
-                            currentTipID: tipSequencer.currentTipID,
-                            navigate: navigate
-                        )
+                    ArtistDetailLinksView(artist: artist) { url in
+                        presentedBrowserURL = PresentedBrowserURL(url: url)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
-                    .padding(.bottom, 18)
 
-                    VStack(spacing: 0) {
-                        ArtistAISummaryBlock(artist: artist)
-                            .padding(.horizontal, 16)
-                            .padding(.top, 10)
-                            .padding(.bottom, 2)
+                    ArtistRatingView(
+                        artist: artist,
+                        currentTipID: tipSequencer.currentTipID
+                    )
+                        .padding(.horizontal, 34)
+                        .frame(maxWidth: .infinity)
 
-                        ArtistDescriptionBlock(
-                            description: artist.formattedDescription,
-                            backgroundColor: .clear
-                        )
+                    ArtistNoteBlock(note: artistNote) {
+                        isShowingNoteEditView = true
                     }
-                    .background(descriptionBackgroundColor)
+                    ArtistEventsBlock(
+                        artistEvents: artistEvents,
+                        highlightedEventId: highlightedEventId,
+                        currentTipID: tipSequencer.currentTipID,
+                        navigate: navigate
+                    )
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 18)
+
+                VStack(spacing: 0) {
+                    ArtistAISummaryBlock(artist: artist)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 10)
+                        .padding(.bottom, 2)
+
+                    ArtistDescriptionBlock(
+                        description: artist.formattedDescription,
+                        backgroundColor: .clear
+                    )
+                }
+                .background(descriptionBackgroundColor)
             }
         }
         .background(artistBackgroundColor.ignoresSafeArea())
         .toolbarBackground(.visible, for: .navigationBar)
+        .onAppear {
+            applyCachedColors(for: systemColorScheme)
+        }
         .onChange(of: systemColorScheme, initial: false) { _, _ in
             applyCachedColors(for: systemColorScheme)
         }
@@ -163,24 +166,30 @@ struct ArtistDetailView: View {
         }
         .sheet(isPresented: $isShowingNoteEditView) {
             NavigationView {
-                TextEditor(text: $noteText)
+                ArtistNoteEditorView(noteText: $noteText)
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationTitle("artist.edit-note.headline")
                     .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button("artist.note.cancel") {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(role: .cancel) {
                                 if artistNote ?? "" == noteText {
                                     isShowingNoteEditView = false
                                 } else {
                                     isEditAlertShown = true
                                 }
+                            } label: {
+                                Image(systemName: "xmark")
                             }
+                            .accessibilityLabel(Text("artist.note.cancel"))
                         }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("artist.note.save") {
-                                settings.artistNotes["\(artist.id)"] = noteText
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button(role: confirmationButtonRole) {
+                                profile.setArtistNote(for: artist, note: noteText)
                                 isShowingNoteEditView = false
+                            } label: {
+                                Image(systemName: "checkmark")
                             }
+                            .accessibilityLabel(Text("artist.note.save"))
                         }
                     }
                     .alert(isPresented: $isEditAlertShown) {
@@ -216,10 +225,78 @@ struct ArtistDetailView: View {
     }
 }
 
-struct ArtistDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ArtistDetailView(artist: .example, highlightedEventId: nil)
-            .environmentObject(DataStore())
-            .environmentObject(UserSettings())
+private var confirmationButtonRole: ButtonRole? {
+    if #available(iOS 26.0, *) {
+        .confirm
+    } else {
+        nil
     }
 }
+
+private struct ArtistNoteEditorView: View {
+    @Binding var noteText: String
+
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var editorStrokeColor: Color {
+        colorScheme == .dark ? .white.opacity(0.18) : .black.opacity(0.10)
+    }
+
+    private var editorShadowColor: Color {
+        colorScheme == .dark ? .black.opacity(0.18) : .black.opacity(0.06)
+    }
+
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .fill(.regularMaterial)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                ZStack(alignment: .topLeading) {
+                    TextEditor(text: $noteText)
+                        .font(.body)
+                        .scrollContentBackground(.hidden)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 8)
+                        .frame(minHeight: 260, alignment: .topLeading)
+
+                    if noteText.isEmpty {
+                        Text("artist.note.placeholder")
+                            .font(.body)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 16)
+                            .allowsHitTesting(false)
+                    }
+                }
+                .background(.background, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .stroke(editorStrokeColor, lineWidth: 0.5)
+                )
+                .shadow(color: editorShadowColor, radius: 10, x: 0, y: 4)
+
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 18)
+            .padding(.bottom, 24)
+        }
+    }
+}
+
+#if DEBUG
+struct ArtistDetailView_Previews: PreviewProvider {
+    @MainActor
+    static var previews: some View {
+        NavigationStack {
+            ArtistDetailView(
+                artist: PreviewMockData.featuredArtist,
+                highlightedEventId: PreviewMockData.highlightedArtistEventID
+            )
+        }
+        .previewMockEnvironment(suiteName: "ArtistDetailViewPreviewProfile")
+    }
+}
+#endif

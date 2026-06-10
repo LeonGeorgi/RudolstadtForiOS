@@ -2,14 +2,13 @@ import SwiftUI
 
 struct ScheduleEventCell: View {
     let event: Event
-
-    @EnvironmentObject var settings: UserSettings
+    let isSaved: Bool
+    let artistRating: Int
+    let artistIconName: String?
+    let friendProfilesWhoSavedEvent: [SharedFestivalProfile]
+    let onToggleSaved: () -> Void
 
     @State private var showingAlert = false
-
-    func artistRating() -> Int {
-        settings.ratings["\(event.artist.id)"] ?? 0
-    }
 
     var body: some View {
         HStack {
@@ -24,7 +23,7 @@ struct ScheduleEventCell: View {
                                 Text(event.tag!.localizedName.uppercased())
                                     .font(.system(size: 11))
                                     .fontWeight(.semibold)
-                                    .foregroundColor(.accentColor)
+                                    .foregroundColor(.secondary)
                                     .lineLimit(1)
                             }
                             Text(event.artist.formattedName)
@@ -40,23 +39,39 @@ struct ScheduleEventCell: View {
 
                         }
                         Spacer()
-                        if artistRating() != 0 {
-                            ArtistRatingSymbol(artist: event.artist)
+                        if artistRating != 0 {
+                            ArtistRatingSymbol(rating: artistRating, iconName: artistIconName)
                                 .foregroundStyle(.secondary)
                         }
-                        EventSavedIcon(event: event)
-                    }.opacity(settings.savedEvents.contains(event.id) ? 1 : 0.6)
+                        if !friendProfilesWhoSavedEvent.isEmpty {
+                            FriendSavedEventBadges(
+                                eventID: event.id,
+                                profiles: friendProfilesWhoSavedEvent,
+                                style: .plainInline
+                            )
+                            .frame(minWidth: 24, minHeight: 24, alignment: .center)
+                        }
+                        EventSavedIcon(event: event, isSaved: isSaved, onToggle: onToggleSaved)
+                    }
                 }
-
             }
-        }.contextMenu {
-            SaveEventButton(event: event)
-        }.id(settings.idFor(event: event))
+        }
+        .contextMenu {
+            SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
+        }
+        .id("\(event.id)-\(isSaved)")
     }
 }
 
 struct ScheduleEventCell_Previews: PreviewProvider {
     static var previews: some View {
-        TimeProgramEventCell(event: .example)
+        ScheduleEventCell(
+            event: .example,
+            isSaved: false,
+            artistRating: 0,
+            artistIconName: nil,
+            friendProfilesWhoSavedEvent: [],
+            onToggleSaved: {}
+        )
     }
 }

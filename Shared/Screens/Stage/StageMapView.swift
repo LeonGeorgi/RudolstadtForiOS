@@ -1,11 +1,3 @@
-//
-//  StageMapView.swift
-//  RudolstadtForiOS
-//
-//  Created by Leon on 26.02.20.
-//  Copyright © 2020 Leon Georgi. All rights reserved.
-//
-
 import Foundation
 import MapKit
 import SwiftUI
@@ -42,7 +34,7 @@ struct StageMapView: UIViewRepresentable {
             view.showsCompass = true
             view.showsScale = true
             view.showsUserLocation = true
-            
+
             context.coordinator.locationManager.requestWhenInUseAuthorization()
         }
 
@@ -147,3 +139,50 @@ final class StageAnnotation: NSObject, MKAnnotation {
         )
     }
 }
+
+#if DEBUG
+@MainActor
+private struct StageMapViewPreviewShowcase: View {
+    private var stages: [Stage] {
+        Array(PreviewMockData.festivalData.stages.prefix(2))
+    }
+
+    var body: some View {
+        VStack(spacing: 16) {
+            ForEach(stages) { stage in
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(stage.localizedName)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    StageMapView(stage: stage)
+                        .frame(height: 180)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+            }
+
+            if let interactiveStage = stages.first {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Interactive")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    StageMapView(stage: interactiveStage, isInteractive: true)
+                        .frame(height: 220)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+            }
+        }
+        .padding()
+    }
+}
+
+struct StageMapView_Previews: PreviewProvider {
+    @MainActor
+    static var previews: some View {
+        StageMapViewPreviewShowcase()
+            .previewMockEnvironment(suiteName: "StageMapViewPreview")
+            .previewLayout(.sizeThatFits)
+    }
+}
+#endif

@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 
 struct APIRudolstadtData: Codable {
     let areas: [APIArea]
@@ -38,7 +39,9 @@ enum APIArtistCategory: Codable, Equatable {
         case "festival-plus":
             self = .festivalPlus
         default:
-            print("!!! UNKNOWN ARTIST CATEGORY FROM API: '\(rawValue)' !!!")
+            AppLog.data.error(
+                "Unknown artist category from API: \(rawValue, privacy: .public)"
+            )
             self = .unknown(rawValue: rawValue)
         }
     }

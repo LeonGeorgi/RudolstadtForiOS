@@ -61,13 +61,8 @@ struct ArtistWorldMapView: View {
     @StateObject private var overlayLoader = GeoJSONCountryOverlayLoader.worldMapShared
 
     static func preloadResources() {
-        let preloadStart = Date()
-        debugWorldMapLog("preloadResources start")
         let overlayLoader = GeoJSONCountryOverlayLoader.worldMapShared
         overlayLoader.loadIfNeeded()
-        debugWorldMapLog(
-            "preloadResources finished for SwiftUI path in \(debugWorldMapDurationSince(preloadStart))"
-        )
     }
 
     var body: some View {
@@ -104,7 +99,6 @@ struct ArtistWorldMapView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .task {
-            debugWorldMapLog("ArtistWorldMapView.task loadIfNeeded")
             overlayLoader.loadIfNeeded()
         }
     }
@@ -137,14 +131,6 @@ struct ArtistWorldMapView: View {
             .padding(20)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
-}
-
-private func debugWorldMapLog(_ message: String) {
-    print("[ArtistWorldMap] \(message)")
-}
-
-private func debugWorldMapDurationSince(_ startDate: Date) -> String {
-    String(format: "%.3fs", Date().timeIntervalSince(startDate))
 }
 
 private struct ArtistWorldMapSwiftUIMap: View {
@@ -219,11 +205,6 @@ private struct ArtistWorldMapSwiftUIMap: View {
                     selectCountry(at: value.location, using: proxy)
                 }
             )
-            .onAppear {
-                debugWorldMapLog(
-                    "SwiftUI Map appeared with \(loadedMap?.overlays.count ?? 0) overlays"
-                )
-            }
         }
     }
 
@@ -411,16 +392,11 @@ final class GeoJSONCountryOverlayLoader: ObservableObject {
 
     func loadIfNeeded() {
         if loadedMap != nil || isLoading {
-            debugWorldMapLog(
-                "loadIfNeeded skipped loaded=\(loadedMap != nil) isLoading=\(isLoading)"
-            )
             return
         }
 
         isLoading = true
         hasFailed = false
-        let loadStart = Date()
-        debugWorldMapLog("loadIfNeeded started")
 
         Task {
             do {
@@ -437,9 +413,6 @@ final class GeoJSONCountryOverlayLoader: ObservableObject {
 
                 self.loadedMap = loadedMap
                 self.isLoading = false
-                debugWorldMapLog(
-                    "loadIfNeeded finished with \(loadedMap.overlays.count) overlays in \(debugWorldMapDurationSince(loadStart))"
-                )
             } catch {
                 guard !Task.isCancelled else {
                     return
@@ -447,9 +420,6 @@ final class GeoJSONCountryOverlayLoader: ObservableObject {
 
                 self.hasFailed = true
                 self.isLoading = false
-                debugWorldMapLog(
-                    "loadIfNeeded failed in \(debugWorldMapDurationSince(loadStart)): \(error)"
-                )
             }
         }
     }
@@ -458,8 +428,6 @@ final class GeoJSONCountryOverlayLoader: ObservableObject {
 private enum WorldCountryOverlayStore {
 
     static func buildLoadedMap(resourceNames: [String]) throws -> LoadedWorldCountryMap {
-        let buildStart = Date()
-        debugWorldMapLog("buildLoadedMap start")
         guard let url = geoJSONURL(resourceNames: resourceNames) else {
             throw WorldCountryOverlayStoreError.resourceMissing
         }
@@ -506,9 +474,6 @@ private enum WorldCountryOverlayStore {
             overlays: overlays,
             overlayMetadataByID: overlayMetadataByID,
             hitPathsByOverlayID: hitPathsByOverlayID
-        )
-        debugWorldMapLog(
-            "buildLoadedMap finished with \(loadedMap.overlays.count) overlays in \(debugWorldMapDurationSince(buildStart))"
         )
         return loadedMap
     }

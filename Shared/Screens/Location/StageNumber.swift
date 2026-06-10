@@ -152,3 +152,54 @@ private struct ShadowStyle {
     let radius: CGFloat
     let y: CGFloat
 }
+
+#if DEBUG
+@MainActor
+private struct StageNumberPreviewShowcase: View {
+    private var stages: [Stage] {
+        Array(PreviewMockData.festivalData.stages.prefix(4)) + [stageWithoutNumber]
+    }
+
+    private var stageWithoutNumber: Stage {
+        Stage(
+            id: 9999,
+            germanName: "Preview Ort",
+            englishName: "Preview Location",
+            germanDescription: nil,
+            englishDescription: nil,
+            stageNumber: nil,
+            latitude: 50.72,
+            longitude: 11.34,
+            area: .example,
+            stageType: .other
+        )
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            ForEach(stages) { stage in
+                HStack(spacing: 18) {
+                    StageNumber(stage: stage, size: 18)
+                    StageNumber(stage: stage, size: 30)
+                    StageNumber(stage: stage, size: 44)
+
+                    Text(stage.localizedName)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+            }
+        }
+        .padding()
+    }
+}
+
+struct StageNumber_Previews: PreviewProvider {
+    @MainActor
+    static var previews: some View {
+        StageNumberPreviewShowcase()
+            .previewMockEnvironment(suiteName: "StageNumberPreview")
+            .previewLayout(.sizeThatFits)
+    }
+}
+#endif

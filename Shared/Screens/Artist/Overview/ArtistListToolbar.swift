@@ -14,10 +14,10 @@ private extension ArtistPresentationMode {
 struct ArtistPresentationModeToggleButton: View {
     @ObservedObject var state: ArtistOverviewState
     let currentTipID: String?
-
+    
     var body: some View {
         let nextMode = state.selectedPresentationMode.toggledMode
-
+        
         Button {
             state.selectedPresentationMode = nextMode
         } label: {
@@ -33,15 +33,23 @@ struct ArtistPresentationModeToggleButton: View {
     }
 }
 
-struct ArtistWorldMapButton: View {
-    let action: () -> Void
-
+struct FilterToolbarIcon: View {
+    let isActive: Bool
+    
     var body: some View {
-        Button(action: action) {
-            Label("artists.view.world_map", systemImage: "globe.europe.africa.fill")
+        if isActive {
+            ZStack {
+                Circle()
+                    .fill(Color.accentColor)
+                    .frame(width: 26, height: 26)
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(.white)
+            }
+        } else {
+            Image(systemName: "line.3.horizontal.decrease.circle")
+                .foregroundStyle(.primary)
         }
-        .labelStyle(.iconOnly)
-        .accessibilityLabel(Text("artists.view.world_map"))
     }
 }
 
@@ -50,8 +58,7 @@ struct ArtistListToolbar: ToolbarContent {
     let currentTipID: String?
     let browseGenreOptions: [BrowseTaxonomyEntry]
     let localizedBrowseGenreLabel: (String) -> String
-    let showWorldMap: () -> Void
-
+    
     private var artistTypeMenuTitle: String {
         let title = NSLocalizedString("filter.artisttypes.title", comment: "")
         if let selectedArtistType = state.selectedArtistType {
@@ -59,7 +66,7 @@ struct ArtistListToolbar: ToolbarContent {
         }
         return title
     }
-
+    
     private var genreMenuTitle: String {
         let title = NSLocalizedString("filter.genres.title", comment: "")
         if let selectedBrowseGenreID = state.selectedBrowseGenreID {
@@ -67,25 +74,22 @@ struct ArtistListToolbar: ToolbarContent {
         }
         return title
     }
-
-    @ViewBuilder
-    private var filterButtonLabel: some View {
-        if !state.hasActiveFilters {
-            Image(systemName: "line.3.horizontal.decrease.circle")
-        } else {
-            ZStack {
-                Circle()
-                    .fill(Color.accentColor)
-                    .frame(width: 26, height: 26)
-                Image(systemName: "line.3.horizontal.decrease")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.white)
-            }
-        }
-    }
-
+    
     var body: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
+        
+        ToolbarItem(placement: .topBarTrailing) {
+            ArtistPresentationModeToggleButton(
+                state: state,
+                currentTipID: currentTipID
+            )
+        }
+        
+        if #available(iOS 26.0, macOS 26.0, *) {
+            ToolbarSpacer(.fixed, placement: .topBarTrailing)
+        }
+        
+        ToolbarItemGroup(placement: .topBarTrailing) {
+            
             Button(action: {
                 state.favoriteArtistsOnly.toggle()
             }) {
@@ -96,26 +100,14 @@ struct ArtistListToolbar: ToolbarContent {
             .foregroundStyle(state.favoriteArtistsOnly ? Color.accentColor : Color.primary)
             .accessibilityLabel(
                 state.favoriteArtistsOnly
-                    ? Text("artists.all.button")
-                    : Text("artists.favorites.button")
+                ? Text("artists.all.button")
+                : Text("artists.favorites.button")
             )
             .appPopoverTip(
                 DiscoverabilityTips.artistFavorites,
                 currentTipID: currentTipID,
                 arrowEdge: .top
             )
-        }
-
-        ToolbarItemGroup(placement: .navigationBarTrailing) {
-            ArtistWorldMapButton(
-                action: showWorldMap
-            )
-
-            ArtistPresentationModeToggleButton(
-                state: state,
-                currentTipID: currentTipID
-            )
-
             Menu {
                 if state.hasActiveFilters {
                     Button("filter.clear") {
@@ -123,7 +115,7 @@ struct ArtistListToolbar: ToolbarContent {
                     }
                     Divider()
                 }
-
+                
                 Menu {
                     Button {
                         state.selectedArtistType = nil
@@ -134,7 +126,7 @@ struct ArtistListToolbar: ToolbarContent {
                             Text("artisttypes.all")
                         }
                     }
-
+                    
                     ForEach(ShownArtistTypes.allCases, id: \.self) { artistType in
                         Button {
                             state.selectedArtistType = artistType
@@ -152,7 +144,7 @@ struct ArtistListToolbar: ToolbarContent {
                 } label: {
                     Text(artistTypeMenuTitle)
                 }
-
+                
                 if !browseGenreOptions.isEmpty {
                     Menu {
                         Button {
@@ -167,7 +159,7 @@ struct ArtistListToolbar: ToolbarContent {
                                 Text("filter.genres.all")
                             }
                         }
-
+                        
                         ForEach(browseGenreOptions, id: \.id) { browseGenre in
                             let label = localizedBrowseGenreLabel(browseGenre.id)
                             Button {
@@ -185,7 +177,7 @@ struct ArtistListToolbar: ToolbarContent {
                     }
                 }
             } label: {
-                filterButtonLabel
+                FilterToolbarIcon(isActive: state.hasActiveFilters)
             }
             .accessibilityLabel(Text("filter.button"))
             .appPopoverTip(

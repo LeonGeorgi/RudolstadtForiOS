@@ -1,33 +1,27 @@
-//
-//  ScheduleView.swift
-//  RudolstadtForiOS
-//
-//  Created by Leon on 22.02.20.
-//  Copyright © 2020 Leon Georgi. All rights reserved.
-//
-
 import SwiftUI
 
-struct RecommendationScheduleView: View {
+struct ScheduleScreen: View {
     
+    @Environment(\.festivalData) private var festivalData
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var profile: FestivalProfileStore
     
     @State private var selectedDay = -1
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.scheduleScreen
     )
 
-    private var presenter: RecommendationSchedulePresenter {
-        RecommendationSchedulePresenter(
-            dataState: dataStore.data,
-            recommendationState: dataStore.recommendedEvents,
+    private var presenter: SchedulePresenter {
+        SchedulePresenter(
+            festivalData: festivalData,
+            recommendationState: dataStore.recommendedEventIDs,
             scheduleFilterType: settings.getScheduleFilterType(
                 settings.scheduleFilterType
             ),
-            savedEventIds: Set(settings.savedEvents),
+            savedEventIds: Set(profile.savedEvents),
             positiveRatedArtistIds: Set(
-                settings.ratings.compactMap { entry in
+                profile.ratings.compactMap { entry in
                     guard entry.value > 0 else {
                         return nil
                     }
@@ -36,14 +30,16 @@ struct RecommendationScheduleView: View {
             )
         )
     }
+    
+    private var hasActiveFilter: Bool {
+        settings.getScheduleFilterType(settings.scheduleFilterType) != .all
+    }
 
     var body: some View {
         Group {
             switch presenter.shownEvents {
             case .loading:
-                if settings.getScheduleFilterType(settings.scheduleFilterType) == .optimal,
-                    case .success = dataStore.data
-                {
+                if settings.getScheduleFilterType(settings.scheduleFilterType) == .optimal {
                     Text("recommendations.loading")
                 } else {
                     Text("events.loading")
@@ -51,9 +47,9 @@ struct RecommendationScheduleView: View {
             case .failure(let reason):
                 Text("Failed to load: " + reason.rawValue)
             case .success(let events):
-                RecommendationScheduleContentView(
+                ScheduleContentView(
                     events: events,
-                    viewAsTable: settings.scheduleViewType == 0,
+                    displayMode: settings.scheduleDisplayMode,
                     selectedDay: $selectedDay,
                     currentTipID: tipSequencer.currentTipID
                 )
@@ -80,24 +76,23 @@ struct RecommendationScheduleView: View {
                     .padding(8)
                     .scheduleDaySwitcherStyle()
                     .padding(.horizontal)
-                    .padding(.bottom, 10)
-                    .padding(.top, 5)
+                    .padding(.vertical, 4)
                 }
             }
         }
         .toolbar {
-            ToolbarItemGroup(placement: .topBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    settings.toggleScheduleViewType()
+                    settings.toggleScheduleDisplayMode()
                 } label: {
-                    if settings.scheduleViewType == 0 {
+                    if settings.scheduleDisplayMode == .timeline {
                         Label(
                             "schedule.list.button",
                             systemImage: "list.bullet"
                         )
                     } else {
                         Label(
-                            "schedule.table.button",
+                            "schedule.timeline.button",
                             systemImage: "calendar.day.timeline.left"
                         )
                     }
@@ -108,17 +103,23 @@ struct RecommendationScheduleView: View {
                     currentTipID: tipSequencer.currentTipID,
                     arrowEdge: .top
                 )
-                
+            }
+            
+            if #available(iOS 26.0, macOS 26.0, *) {
+                ToolbarSpacer(.fixed, placement: .topBarTrailing)
+            }
+            
+            ToolbarItemGroup(placement: .topBarTrailing) {
                 Menu {
                     Picker(
                         "filter.button",
-                        selection: Binding<ScheduleType>(
+                        selection: Binding<ScheduleFilter>(
                             get: {
                                 settings.getScheduleFilterType(
                                     settings.scheduleFilterType
                                 )
                             },
-                            set: { (type: ScheduleType) in
+                            set: { (type: ScheduleFilter) in
                                 settings.setScheduleFilterType(
                                     type: type
                                 )
@@ -126,27 +127,26 @@ struct RecommendationScheduleView: View {
                         )
                     ) {
                         Text("schedule.type.saved")
-                            .tag(ScheduleType.saved)
+                            .tag(ScheduleFilter.saved)
                         Text("schedule.type.optimal")
-                            .tag(ScheduleType.optimal)
+                            .tag(ScheduleFilter.optimal)
                         Text("schedule.type.interesting")
-                            .tag(ScheduleType.interesting)
+                            .tag(ScheduleFilter.interesting)
                         Text("schedule.type.all")
-                            .tag(ScheduleType.all)
+                            .tag(ScheduleFilter.all)
                     }
                 } label: {
-                    Label(
-                        "filter.button",
-                        systemImage: "line.3.horizontal.decrease.circle"
-                    )
+                    FilterToolbarIcon(isActive: hasActiveFilter)
                 }
-                .labelStyle(.iconOnly)
+                .accessibilityLabel(Text("filter.button"))
                 .appPopoverTip(
                     DiscoverabilityTips.scheduleFilters,
                     currentTipID: tipSequencer.currentTipID,
                     arrowEdge: .top
                 )
             }
+
+            NewsToolbarItem()
         }
     }
     
@@ -166,7 +166,7 @@ struct RecommendationScheduleView: View {
     }
 }
 
-enum ScheduleType {
+enum ScheduleFilter: Equatable {
     case saved, optimal, interesting, all
 }
 
@@ -190,9 +190,15 @@ private extension View {
     }
 }
 
-struct RecommendationScheduleView_Previews: PreviewProvider {
+struct ScheduleScreen_Previews: PreviewProvider {
+    @MainActor
     static var previews: some View {
-        RecommendationScheduleView()
-            .environmentObject(DataStore())
+        NavigationStack {
+            ScheduleScreen()
+                .navigationDestination(for: AppNavigationRoute.self) { _ in
+                    EmptyView()
+                }
+        }
+        .previewMockEnvironment(suiteName: "ScheduleScreenPreview")
     }
 }

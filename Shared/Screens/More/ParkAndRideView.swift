@@ -72,7 +72,7 @@ struct ParkAndRideView: View {
                     }.buttonStyle(PlainButtonStyle())
                 }
             }
-        }.listStyle(GroupedListStyle())
+        }.listStyle(.insetGrouped)
             .font(.body)
             .navigationTitle("park_and_ride.title")
 

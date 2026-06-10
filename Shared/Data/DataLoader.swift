@@ -1,63 +1,121 @@
 import Foundation
+import OSLog
 
-class DataLoader {
-    let cacheUrl: URL
+private enum CacheReadResult<Value> {
+    case loaded(Value, stale: Bool)
+    case notFound
+    case unparsable
+}
 
-    init(cacheUrl: URL) {
-        self.cacheUrl = cacheUrl
+final class DataLoader: @unchecked Sendable {
+    let cacheURL: URL
+
+    init(cacheURL: URL) {
+        self.cacheURL = cacheURL
     }
 
-    func loadEntitiesFromFile(extraData: ExtraDataCollection) -> FileLoadingResult<FestivalData> {
-        let (apiData, tooOld) = readAPIRudolstadtDataFromFile(
+    func loadFestivalDataFromFile(
+        extraData: ExtraDataCollection
+    ) -> FileLoadingResult<FestivalData> {
+        switch readCachedJSON(
+            APIRudolstadtData.self,
             fileName: "rudolstadt_data.json"
-        )
-        guard let apiData else {
+        ) {
+        case .loaded(let apiData, let stale):
+            let entities = convertAPIRudolstadtDataToEntities(
+                apiData: apiData,
+                extraData: extraData
+            )
+            return stale ? .stale(entities) : .loaded(entities)
+        case .notFound:
             return .notFound
+        case .unparsable:
+            return .unparsable
         }
-        let entities = convertAPIRudolstadtDataToEntities(apiData: apiData, extraData: extraData)
-        if tooOld {
-            return .tooOld(entities)
+    }
+
+    func loadBundledFestivalDataBackup(
+        extraData: ExtraDataCollection
+    ) -> FileLoadingResult<FestivalData> {
+        switch readBundledJSON(
+            APIRudolstadtData.self,
+            resourceName: "\(DataStore.year)_rudolstadt_data"
+        ) {
+        case .loaded(let apiData), .stale(let apiData):
+            let entities = convertAPIRudolstadtDataToEntities(
+                apiData: apiData,
+                extraData: extraData
+            )
+            return .loaded(entities)
+        case .notFound:
+            return .notFound
+        case .unparsable:
+            return .unparsable
         }
-        return .loaded(entities)
     }
 
     func loadNewsFromFile() -> FileLoadingResult<[NewsItem]> {
-        let (news, tooOld) = readAPINewsFromFile(fileName: "news.json")
-        print("Loaded \(news?.count ?? 0) news items from file")
-        guard let news else {
+        switch readCachedJSON([APINewsItem].self, fileName: "news.json") {
+        case .loaded(let news, let stale):
+            let newsItems = news.map(convertAPINewsItemToNewsItem)
+            return stale ? .stale(newsItems) : .loaded(newsItems)
+        case .notFound:
             return .notFound
+        case .unparsable:
+            return .unparsable
         }
-        let newsItems = news.map(convertAPINewsItemToNewsItem)
-        if tooOld {
-            return .tooOld(newsItems)
+    }
+
+    func loadBundledNewsBackup() -> FileLoadingResult<[NewsItem]> {
+        switch readBundledJSON(
+            [APINewsItem].self,
+            resourceName: "\(DataStore.year)_news"
+        ) {
+        case .loaded(let news), .stale(let news):
+            return .loaded(news.map(convertAPINewsItemToNewsItem))
+        case .notFound:
+            return .notFound
+        case .unparsable:
+            return .unparsable
         }
-        return .loaded(newsItems)
     }
 
     func storeAPIRudolstadtDataToFile(data: APIRudolstadtData, fileName: String)
         -> Bool
     {
-        let dataFile = getCacheUri(for: fileName)
+        let dataFile = cacheFileURL(for: fileName)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         do {
             let jsonData = try encoder.encode(data)
             try jsonData.write(to: dataFile)
         } catch {
-            print("Error writing to file \(dataFile): \(error)")
+            AppLog.data.error(
+                "Failed to cache festival data in \(dataFile.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)"
+            )
         }
         return FileManager.default.fileExists(atPath: dataFile.path)
     }
+
+    func deleteCachedFestivalData() -> Bool {
+        deleteCachedFile(fileName: "rudolstadt_data.json", logger: AppLog.data)
+    }
+
+    func cachedFestivalDataModificationDate() -> Date? {
+        modificationDate(for: "rudolstadt_data.json")
+    }
     
     func storeAPINewsToFile(news: [APINewsItem], fileName: String) -> Bool {
-        let dataFile = getCacheUri(for: fileName)
+        let dataFile = cacheFileURL(for: fileName)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         do {
             let jsonData = try encoder.encode(news)
             try jsonData.write(to: dataFile)
         } catch {
-            print("Error writing to file \(dataFile): \(error)")
+            AppLog.news.error(
+                "Failed to cache news in \(dataFile.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)"
+            )
         }
         return FileManager.default.fileExists(atPath: dataFile.path)
     }
@@ -65,36 +123,44 @@ class DataLoader {
     func readAPIRudolstadtDataFromFile(fileName: String) -> (
         APIRudolstadtData?, Bool
     ) {
-        let tooOld = isFileTooOld(fileName: fileName)
-        let dataFile = getCacheUri(for: fileName)
+        let stale = isFileStale(fileName: fileName)
+        let dataFile = cacheFileURL(for: fileName)
 
         do {
             let data = try Data(contentsOf: dataFile)
             let decoder = JSONDecoder()
             let apiData = try decoder.decode(APIRudolstadtData.self, from: data)
-            return (apiData, tooOld)
+            return (apiData, stale)
         } catch {
-            print("Error reading or decoding file \(dataFile): \(error)")
-            return (nil, tooOld)
+            if !isMissingFile(error) {
+                AppLog.data.error(
+                    "Failed to read cached festival data from \(dataFile.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)"
+                )
+            }
+            return (nil, stale)
         }
     }
 
     func readAPINewsFromFile(fileName: String) -> ([APINewsItem]?, Bool) {
-        let tooOld = isFileTooOld(fileName: fileName)
-        let dataFile = getCacheUri(for: fileName)
+        let stale = isFileStale(fileName: fileName)
+        let dataFile = cacheFileURL(for: fileName)
 
         do {
             let data = try Data(contentsOf: dataFile)
             let decoder = JSONDecoder()
             let apiData = try decoder.decode([APINewsItem].self, from: data)
-            return (apiData, tooOld)
+            return (apiData, stale)
         } catch {
-            print("Error reading or decoding file \(dataFile): \(error)")
-            return (nil, tooOld)
+            if !isMissingFile(error) {
+                AppLog.news.error(
+                    "Failed to read cached news from \(dataFile.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)"
+                )
+            }
+            return (nil, stale)
         }
     }
 
-    func isFileTooOld(fileName: String) -> Bool {
+    func isFileStale(fileName: String) -> Bool {
         let someTimeAgo = Calendar.current.date(
             byAdding: .hour,
             value: -3,
@@ -103,34 +169,102 @@ class DataLoader {
         return isFileOlderThan(fileName: fileName, date: someTimeAgo)
     }
 
-    func getCacheUri(for fileName: String) -> URL {
-        cacheUrl.appendingPathComponent("\(DataStore.year)_\(fileName)")
+    func cacheFileURL(for fileName: String) -> URL {
+        cacheURL.appendingPathComponent("\(DataStore.year)_\(fileName)")
     }
 
     func isFileOlderThan(fileName: String, date: Date?) -> Bool {
-        let dataFile = getCacheUri(for: fileName)
+        guard let modificationDate = modificationDate(for: fileName) else {
+            return false
+        }
+
+        if let someTimeAgo = date {
+            return modificationDate < someTimeAgo
+        }
+        return Calendar.current.compare(
+            modificationDate,
+            to: .now,
+            toGranularity: .day
+        ) == .orderedAscending
+    }
+
+    private func modificationDate(for fileName: String) -> Date? {
+        let dataFile = cacheFileURL(for: fileName)
 
         do {
             let attr = try FileManager.default.attributesOfItem(
                 atPath: dataFile.path
             )
-            guard
-                let modificationDate = attr[FileAttributeKey.modificationDate]
-                    as? Date
-            else {
-                return false
-            }
-            print("Modification date for \(fileName): \(modificationDate)")
-            if let someTimeAgo = date {
-                return modificationDate < someTimeAgo
-            }
-            return Calendar.current.compare(
-                modificationDate,
-                to: .now,
-                toGranularity: .day
-            ) == .orderedAscending
+            return attr[FileAttributeKey.modificationDate] as? Date
         } catch {
+            return nil
+        }
+    }
+
+    private func readCachedJSON<T: Decodable>(
+        _ type: T.Type,
+        fileName: String
+    ) -> CacheReadResult<T> {
+        let stale = isFileStale(fileName: fileName)
+        let dataFile = cacheFileURL(for: fileName)
+
+        do {
+            let data = try Data(contentsOf: dataFile)
+            let decodedValue = try JSONDecoder().decode(T.self, from: data)
+            return .loaded(decodedValue, stale: stale)
+        } catch {
+            if isMissingFile(error) {
+                return .notFound
+            }
+            return .unparsable
+        }
+    }
+
+    private func readBundledJSON<T: Decodable>(
+        _ type: T.Type,
+        resourceName: String
+    ) -> FileLoadingResult<T> {
+        let url = Bundle.main.url(
+            forResource: resourceName,
+            withExtension: "json"
+        ) ?? Bundle.main.url(
+            forResource: resourceName,
+            withExtension: "json",
+            subdirectory: "FestivalBackup"
+        )
+
+        guard let url else {
+            return .notFound
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            return .loaded(try JSONDecoder().decode(type, from: data))
+        } catch {
+            return .unparsable
+        }
+    }
+
+    private func deleteCachedFile(fileName: String, logger: Logger) -> Bool {
+        let dataFile = cacheFileURL(for: fileName)
+
+        do {
+            guard FileManager.default.fileExists(atPath: dataFile.path) else {
+                return true
+            }
+            try FileManager.default.removeItem(at: dataFile)
+            return true
+        } catch {
+            logger.error(
+                "Failed to delete cached file \(dataFile.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)"
+            )
             return false
         }
+    }
+
+    private func isMissingFile(_ error: Error) -> Bool {
+        let nsError = error as NSError
+        return nsError.domain == NSCocoaErrorDomain
+            && nsError.code == NSFileReadNoSuchFileError
     }
 }
