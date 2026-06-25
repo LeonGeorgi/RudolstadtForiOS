@@ -1,6 +1,10 @@
 import Nuke
 import SwiftUI
 
+private enum SettingsFeatureFlags {
+    static let showsCacheManagementActions = false
+}
+
 struct SettingsView: View {
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
@@ -44,20 +48,22 @@ struct SettingsView: View {
                     Label("settings.language", systemImage: "globe")
                 }
             }
-            Button(role: .destructive) {
-                isShowingClearCacheAlert = true
-            } label: {
-                Label("settings.clear_cache.button", systemImage: "trash")
-            }
-            .disabled(isClearingCache)
+            if SettingsFeatureFlags.showsCacheManagementActions {
+                Button(role: .destructive) {
+                    isShowingClearCacheAlert = true
+                } label: {
+                    Label("settings.clear_cache.button", systemImage: "trash")
+                }
+                .disabled(isClearingCache)
 
-            Button(role: .destructive) {
-                isShowingDeleteFestivalDataAlert = true
-            } label: {
-                Label(
-                    "settings.delete_festival_data.button",
-                    systemImage: "externaldrive.badge.xmark"
-                )
+                Button(role: .destructive) {
+                    isShowingDeleteFestivalDataAlert = true
+                } label: {
+                    Label(
+                        "settings.delete_festival_data.button",
+                        systemImage: "externaldrive.badge.xmark"
+                    )
+                }
             }
 
         }

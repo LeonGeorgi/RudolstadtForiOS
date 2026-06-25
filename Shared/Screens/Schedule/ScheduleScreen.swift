@@ -190,6 +190,7 @@ private extension View {
     }
 }
 
+#if DEBUG
 struct ScheduleScreen_Previews: PreviewProvider {
     @MainActor
     static var previews: some View {
@@ -202,3 +203,4 @@ struct ScheduleScreen_Previews: PreviewProvider {
         .previewMockEnvironment(suiteName: "ScheduleScreenPreview")
     }
 }
+#endif

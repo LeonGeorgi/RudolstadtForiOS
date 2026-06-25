@@ -204,6 +204,7 @@ private let dayOfWeekFormatter: DateFormatter = {
     return formatter
 }()
 
+#if DEBUG
 struct ScheduleTimelineView_Previews: PreviewProvider {
     @MainActor
     static var previews: some View {
@@ -220,3 +221,4 @@ struct ScheduleTimelineView_Previews: PreviewProvider {
         .previewMockEnvironment(suiteName: "ScheduleTimelineViewPreview")
     }
 }
+#endif

@@ -57,6 +57,7 @@ struct FriendsTogetherListView: View {
     }
 }
 
+#if DEBUG
 struct FriendsTogetherListView_Previews: PreviewProvider {
     @MainActor
     static var previews: some View {
@@ -74,4 +75,5 @@ struct FriendsTogetherListView_Previews: PreviewProvider {
         .previewEnvironment(environment)
     }
 }
+#endif
 #endif

@@ -56,6 +56,7 @@ private struct AreaStages: Identifiable {
     let stages: [Stage]
 }
 
+#if DEBUG
 struct LocationListView_Previews: PreviewProvider {
     @MainActor
     static var previews: some View {
@@ -68,3 +69,4 @@ struct LocationListView_Previews: PreviewProvider {
         .previewMockEnvironment(suiteName: "LocationListViewPreview")
     }
 }
+#endif
