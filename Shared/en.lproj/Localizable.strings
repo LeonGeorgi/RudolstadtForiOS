@@ -27,7 +27,7 @@
 🙂 - slight interest
 😊 - great interest
 😍 - very great interest
-You can find the artists you find interesting when you click on \"Favorites\" in the artist list. Also, your marking can be used to show you suggestions for when you can attend concerts by the artist. The data will remain completely on your device.";
+You can find artists you are interested in under \"Favorites\" in the artist list. Your rating can also be used to suggest when you can attend concerts by the artist. Ratings sync through iCloud across your devices and can be visible to invited friends when you share your festival profile.";
 "artist.ai.header" = "AI summary";
 "artist.ai.footer" = "May contain inaccuracies.";
 "artist.ai.info.ok" = "OK";
@@ -254,7 +254,7 @@ For its 34th edition, the festival welcomes Austria as the special guest country
 
 The app is up-to-date for the 2026 festival.
 
-The app does not collect any data from you. Everything you do in the app stays on your phone.";
+The app does not include third-party analytics, advertising SDKs, or tracking. Your festival profile data is stored on your device and can sync through Apple's iCloud service across your devices. If you choose to share your profile, invited friends can see your shared badge, saved events, and artist ratings. Artist notes stay private to you.";
 "about.developer.header" = "About the developer";
 "about.developer.content" = "Hi, I'm Leon.
 When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. I have now completed my master's degree in computer science and went to Japan with a DAAD scholarship. That means I cannot be at the festival this year, but I still hope the app helps you have a good time in Rudolstadt.
