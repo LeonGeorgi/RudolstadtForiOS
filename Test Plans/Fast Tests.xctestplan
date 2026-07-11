@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "4D56C991-771C-4BAA-86D0-A6378FD71FE8",
+      "name" : "Default",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:RudolstadtForiOS.xcodeproj",
+      "identifier" : "3551CC4728043624004F9471",
+      "name" : "RudolstadtForiOS (iOS)"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:RudolstadtForiOS.xcodeproj",
+        "identifier" : "A10000092F990001004F9471",
+        "name" : "Unit Tests"
+      }
+    }
+  ],
+  "version" : 1
+}
