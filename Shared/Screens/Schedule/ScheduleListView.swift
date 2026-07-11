@@ -11,6 +11,7 @@ import SwiftUI
 struct ScheduleListView: View {
     let events: [Event]
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject var profile: FestivalProfileStore
 
     var body: some View {
@@ -44,7 +45,14 @@ struct ScheduleListView: View {
                             onToggleSaved: { profile.toggleSavedEvent(event) }
                         )
                     }
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 16))
+                    .listRowInsets(
+                        .init(
+                            top: dynamicTypeSize.isAccessibilitySize ? 12 : 6,
+                            leading: 16,
+                            bottom: dynamicTypeSize.isAccessibilitySize ? 12 : 6,
+                            trailing: 16
+                        )
+                    )
                     .listRowBackground(
                         profile.isEventSaved(event.id)
                             ? Color.accentColor.opacity(0.12)

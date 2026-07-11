@@ -3,6 +3,7 @@ import SwiftUI
 struct ScheduleScreen: View {
     
     @Environment(\.festivalData) private var festivalData
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var profile: FestivalProfileStore
@@ -82,32 +83,34 @@ struct ScheduleScreen: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    settings.toggleScheduleDisplayMode()
-                } label: {
-                    if settings.scheduleDisplayMode == .timeline {
-                        Label(
-                            "schedule.list.button",
-                            systemImage: "list.bullet"
-                        )
-                    } else {
-                        Label(
-                            "schedule.timeline.button",
-                            systemImage: "calendar.day.timeline.left"
-                        )
+            if !dynamicTypeSize.isAccessibilitySize {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        settings.toggleScheduleDisplayMode()
+                    } label: {
+                        if settings.scheduleDisplayMode == .timeline {
+                            Label(
+                                "schedule.list.button",
+                                systemImage: "list.bullet"
+                            )
+                        } else {
+                            Label(
+                                "schedule.timeline.button",
+                                systemImage: "calendar.day.timeline.left"
+                            )
+                        }
                     }
+                    .labelStyle(.iconOnly)
+                    .appPopoverTip(
+                        DiscoverabilityTips.scheduleViewMode,
+                        currentTipID: tipSequencer.currentTipID,
+                        arrowEdge: .top
+                    )
                 }
-                .labelStyle(.iconOnly)
-                .appPopoverTip(
-                    DiscoverabilityTips.scheduleViewMode,
-                    currentTipID: tipSequencer.currentTipID,
-                    arrowEdge: .top
-                )
-            }
-            
-            if #available(iOS 26.0, macOS 26.0, *) {
-                ToolbarSpacer(.fixed, placement: .topBarTrailing)
+
+                if #available(iOS 26.0, macOS 26.0, *) {
+                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                }
             }
             
             ToolbarItemGroup(placement: .topBarTrailing) {

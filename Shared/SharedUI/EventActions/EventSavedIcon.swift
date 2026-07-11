@@ -10,6 +10,7 @@ import SwiftUI
 struct EventSavedIcon: View {
     let event: Event
     let isSaved: Bool
+    var symbolAlignment: Alignment = .center
     let onToggle: () -> Void
 
     @State var isAlertShown = false
@@ -50,7 +51,7 @@ struct EventSavedIcon: View {
                     ? "bookmark.fill" : "bookmark"
             )
             .foregroundStyle(.primary)
-            .frame(width: 44, height: 44)
+            .frame(width: 44, height: 44, alignment: symbolAlignment)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)

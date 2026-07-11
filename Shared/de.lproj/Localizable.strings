@@ -107,6 +107,8 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "schedule.context.open_in_maps" = "In Karten-App öffnen";
 
 "schedule.endtimes.warning" = "Achtung: Die Endzeiten der Konzerte wurden automatisch geschätzt und stimmen möglicherweise nicht mit den offiziellen Endzeiten überein.";
+"schedule.endtimes.notice" = "Endzeiten sind geschätzt";
+"schedule.endtimes.notice.hint" = "Zeigt weitere Informationen zu den geschätzten Endzeiten.";
 
 "filter.button" = "Filtern";
 "filter.clear" = "Filter zurücksetzen";

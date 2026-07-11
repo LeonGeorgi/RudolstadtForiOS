@@ -11,6 +11,7 @@ enum EventOrGap {
 struct ScheduleTimelineView: View {
     let events: [Event]
     @EnvironmentObject var dataStore: DataStore
+    @State private var isShowingEndTimeInformation = false
 
     var eventDays: [Int] {
         Set(
@@ -124,16 +125,28 @@ struct ScheduleTimelineView: View {
             estimatedEventDurations: dataStore.estimatedEventDurationsByEventID
         )
         .safeAreaInset(edge: .bottom) {
-            Text("schedule.endtimes.warning")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .lineLimit(2)
-                .minimumScaleFactor(0.7)
+            Button {
+                isShowingEndTimeInformation = true
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "info.circle")
+                        .foregroundStyle(.tint)
+                    Text("schedule.endtimes.notice")
+                        .foregroundStyle(.secondary)
+                }
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
-                .scheduleWarningStyle()
-                .padding(.horizontal, 12)
-                .padding(.bottom, 4)
+            }
+            .buttonStyle(.plain)
+            .font(.footnote)
+            .scheduleWarningStyle()
+            .padding(.bottom, 8)
+            .accessibilityHint(Text("schedule.endtimes.notice.hint"))
+            .alert("schedule.endtimes.notice", isPresented: $isShowingEndTimeInformation) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("schedule.endtimes.warning")
+            }
         }
     }
 
@@ -172,22 +185,16 @@ struct ScheduleTimelineView: View {
         return dates
     }
 }
+
 private struct ScheduleWarningStyle: ViewModifier {
     @ViewBuilder
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
             content
-                .glassEffect(.regular, in: .rect(cornerRadius: 14))
+                .glassEffect(.regular, in: .capsule)
         } else {
             content
-                .background(
-                    .regularMaterial,
-                    in: RoundedRectangle(cornerRadius: 14, style: .continuous)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .stroke(.white.opacity(0.2), lineWidth: 0.5)
-                )
+                .background(.regularMaterial, in: Capsule())
         }
     }
 }

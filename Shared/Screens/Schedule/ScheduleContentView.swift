@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ScheduleContentView: View {
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     let events: [Event]
     let displayMode: ScheduleDisplayMode
     @Binding var selectedDay: Int
@@ -19,6 +21,10 @@ struct ScheduleContentView: View {
         events.filter { event in
             event.festivalDay == selectedDay
         }
+    }
+
+    private var effectiveDisplayMode: ScheduleDisplayMode {
+        dynamicTypeSize.isAccessibilitySize ? .list : displayMode
     }
 
     var body: some View {
@@ -34,7 +40,7 @@ struct ScheduleContentView: View {
                 Color(.systemBackground)
 
                 Group {
-                    if displayMode == .timeline {
+                    if effectiveDisplayMode == .timeline {
                         ScheduleTimelineView(events: todaysEvents)
                     } else {
                         ScheduleListView(events: todaysEvents)

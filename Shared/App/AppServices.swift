@@ -107,9 +107,46 @@ enum ScreenshotRuntime {
             profile.setArtistRating(for: featuredArtist, rating: 3)
         }
 
-        for event in festivalData.events.filter({ $0.festivalDay == 4 }).prefix(3) {
+        let accessoryArtistIDs = Set([302, 336, 194])
+        let firstDayEvents = festivalData.events.filter { event in
+            event.festivalDay == 2 && accessoryArtistIDs.contains(event.artist.id)
+        }
+
+        for event in firstDayEvents {
             profile.toggleSavedEvent(event)
         }
+
+        if let firstEvent = firstDayEvents.first {
+            profile.setArtistRating(for: firstEvent.artist, rating: 3)
+        }
+        if firstDayEvents.count > 1 {
+            profile.setArtistRating(for: firstDayEvents[1].artist, rating: 1)
+        }
+
+        let firstEventID = firstDayEvents.first?.id
+        let secondEventID = firstDayEvents.dropFirst().first?.id
+        profile.syncStore.acceptedFriendProfiles = [
+            SharedFestivalProfile(
+                id: "screenshot-friend-aya",
+                title: "Aya's Festival",
+                ownerName: "Aya",
+                badgeName: "Aya",
+                badgeColorHex: "#3D78E0",
+                festivalYear: DataStore.year,
+                savedEventIDs: [firstEventID, secondEventID].compactMap { $0 },
+                artistPreferences: []
+            ),
+            SharedFestivalProfile(
+                id: "screenshot-friend-mika",
+                title: "Mika's Festival",
+                ownerName: "Mika",
+                badgeName: "Mika",
+                badgeColorHex: "#B54E9B",
+                festivalYear: DataStore.year,
+                savedEventIDs: [firstEventID].compactMap { $0 },
+                artistPreferences: []
+            )
+        ]
     }
 }
 

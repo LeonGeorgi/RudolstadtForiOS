@@ -108,6 +108,8 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "schedule.context.open_in_maps" = "Open in Maps";
 
 "schedule.endtimes.warning" = "Warning: The end times of the concerts are automatically estimated and might differ from those in the official schedule.";
+"schedule.endtimes.notice" = "End times are estimated";
+"schedule.endtimes.notice.hint" = "Shows more information about estimated end times.";
 
 "filter.button" = "Filter";
 "filter.clear" = "Clear filters";
