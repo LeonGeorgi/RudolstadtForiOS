@@ -37,9 +37,9 @@ final class FestivalProfileStore: ObservableObject {
     private var savedEventIDSet = Set<Int>()
     private var artistIconsByID: [String: String] = [:]
 
-    private let userDefaults: UserDefaults
     private let cloudKitEnabled: Bool
-    private let cachePersister: FestivalProfileCachePersister
+    private let persistence: any FestivalProfilePersisting
+    private let waitBeforePersisting: @Sendable () async -> Void
     private let now: () -> Date
     private var listeners: [FestivalProfileStoreChange: [() -> Void]] = [:]
     private var syncStoreObservation: AnyCancellable?
@@ -51,7 +51,7 @@ final class FestivalProfileStore: ObservableObject {
     private var activeRefreshReason: String?
 
 #if os(iOS)
-    private let container: CKContainer
+    private lazy var container = CKContainer(identifier: Constants.cloudKitContainerIdentifier)
     private var privateSyncEngine: CKSyncEngine?
     private var sharedSyncEngine: CKSyncEngine?
 #endif
@@ -59,21 +59,21 @@ final class FestivalProfileStore: ObservableObject {
     init(
         userDefaults: UserDefaults = .standard,
         cloudKitEnabled: Bool = FestivalProfileStore.defaultCloudKitEnabled,
-        now: @escaping () -> Date = { .now }
+        now: @escaping () -> Date = { .now },
+        persistence: (any FestivalProfilePersisting)? = nil,
+        waitBeforePersisting: @escaping @Sendable () async -> Void = {
+            try? await Task.sleep(for: .milliseconds(250))
+        }
     ) {
-        self.userDefaults = userDefaults
+        let persistence = persistence
+            ?? UserDefaultsFestivalProfilePersistence(userDefaults: userDefaults)
         self.cloudKitEnabled = cloudKitEnabled
         self.now = now
-        self.cachePersister = FestivalProfileCachePersister(
-            userDefaults: userDefaults,
-            cacheKey: Constants.cacheKey
-            )
-#if os(iOS)
-        self.container = CKContainer(identifier: Constants.cloudKitContainerIdentifier)
-#endif
-        self.cache = Self.loadCache(from: userDefaults)
+        self.persistence = persistence
+        self.waitBeforePersisting = waitBeforePersisting
+        self.cache = persistence.loadCache()
             ?? FestivalProfileCache(
-                currentProfile: Self.loadLegacyOwnerProfile(from: userDefaults),
+                currentProfile: persistence.loadLegacyOwnerProfile(),
                 sharedProfiles: [],
                 migrationVersion: 0,
                 lastSuccessfulRefreshDate: nil,
@@ -139,15 +139,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     func toggleSavedEvent(_ event: Event) {
-        var updatedEvents = savedEventIDSet
-        if updatedEvents.contains(event.id) {
-            updatedEvents.remove(event.id)
-        } else {
-            updatedEvents.insert(event.id)
-        }
-        updateCurrentProfile { currentProfile in
-            currentProfile.savedEventIDs = updatedEvents.sorted()
-        }
+        updateCurrentProfile(.toggleSavedEvent(eventID: event.id))
     }
 
     func idFor(event: Event) -> String {
@@ -228,33 +220,11 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     func updateBadge(name: String, colorHex: String) {
-        updateCurrentProfile { currentProfile in
-            currentProfile.badgeName = FestivalProfileBadge.normalizedName(name)
-            currentProfile.badgeColorHex = FestivalProfileBadge.resolvedColorHex(colorHex)
-        }
+        updateCurrentProfile(.updateBadge(name: name, colorHex: colorHex))
     }
 
     func setArtistRating(for artist: Artist, rating: Int) {
-        let key = String(artist.id)
-        updateCurrentProfile { currentProfile in
-            var preferences = Self.artistPreferencesDictionary(from: currentProfile.artistPreferences)
-            if rating == 0 {
-                preferences.removeValue(forKey: key)
-            } else {
-                var preference = preferences[key] ?? FestivalArtistPreference(
-                    artistID: artist.id,
-                    rating: rating,
-                    iconName: nil
-                )
-                preference.rating = rating
-                if rating > 0 {
-                    preference.iconName = nil
-                }
-                preferences[key] = preference
-            }
-            currentProfile.artistPreferences = preferences.values
-                .sorted { $0.artistID < $1.artistID }
-        }
+        updateCurrentProfile(.setArtistRating(artistID: artist.id, rating: rating))
     }
 
     func getArtistIcon(for artist: Artist) -> String? {
@@ -262,17 +232,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     func setArtistIcon(for artist: Artist, icon: String) {
-        let key = String(artist.id)
-        updateCurrentProfile { currentProfile in
-            var preferences = Self.artistPreferencesDictionary(from: currentProfile.artistPreferences)
-            preferences[key] = FestivalArtistPreference(
-                artistID: artist.id,
-                rating: -1,
-                iconName: icon
-            )
-            currentProfile.artistPreferences = preferences.values
-                .sorted { $0.artistID < $1.artistID }
-        }
+        updateCurrentProfile(.setArtistIcon(artistID: artist.id, iconName: icon))
     }
 
     func noteText(for artist: Artist) -> String? {
@@ -284,24 +244,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     func setArtistNote(forArtistID artistID: Int, note: String) {
-        let trimmedNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
-        updateCurrentProfile { currentProfile in
-            var notes = Dictionary(
-                uniqueKeysWithValues: currentProfile.artistNotes.map { note in
-                    (String(note.artistID), note)
-                }
-            )
-            if trimmedNote.isEmpty {
-                notes.removeValue(forKey: String(artistID))
-            } else {
-                notes[String(artistID)] = FestivalArtistNote(
-                    artistID: artistID,
-                    noteText: trimmedNote
-                )
-            }
-            currentProfile.artistNotes = notes.values
-                .sorted { $0.artistID < $1.artistID }
-        }
+        updateCurrentProfile(.setArtistNote(artistID: artistID, noteText: note))
     }
 
     func refreshFromCloud(reason: String = "manual") async {
@@ -552,13 +495,12 @@ final class FestivalProfileStore: ObservableObject {
 
     // MARK: - Local State
 
-    private func updateCurrentProfile(
-        mutate: (inout CachedOwnerFestivalProfile) -> Void
-    ) {
+    private func updateCurrentProfile(_ mutation: FestivalProfileMutation) {
         let oldProfile = cache.currentProfile
-        var updatedProfile = cache.currentProfile
-        mutate(&updatedProfile)
-        cache.currentProfile = normalized(currentProfile: updatedProfile)
+        cache.currentProfile = FestivalProfileReducer.applying(
+            mutation,
+            to: oldProfile
+        )
         applyCurrentProfile(cache.currentProfile)
         persistCache()
         notifyRecommendationInputsChangedIfNeeded(old: oldProfile, new: cache.currentProfile)
@@ -626,15 +568,19 @@ final class FestivalProfileStore: ObservableObject {
     private func persistCache(immediately: Bool = false) {
         let cacheSnapshot = cache
         pendingPersistTask?.cancel()
-        pendingPersistTask = Task { [cachePersister] in
+        pendingPersistTask = Task { [persistence, waitBeforePersisting] in
             if !immediately {
-                try? await Task.sleep(for: .milliseconds(250))
+                await waitBeforePersisting()
                 guard !Task.isCancelled else {
                     return
                 }
             }
-            await cachePersister.persist(cacheSnapshot)
+            persistence.persist(cacheSnapshot)
         }
+    }
+
+    func flushPendingPersistence() async {
+        await pendingPersistTask?.value
     }
 
     private func notifyRecommendationInputsChangedIfNeeded(
@@ -780,9 +726,10 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
     private func profileRootRecordID(
         zoneID: CKRecordZone.ID? = nil
     ) -> CKRecord.ID {
-        CKRecord.ID(
-            recordName: "FestivalProfile-\(DataStore.year)",
-            zoneID: zoneID ?? profileZoneID
+        FestivalProfileCloudRecordMapper.recordID(
+            for: .profile,
+            profileZoneID: zoneID ?? profileZoneID,
+            notesZoneID: notesZoneID
         )
     }
 
@@ -790,9 +737,10 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
         eventID: Int,
         zoneID: CKRecordZone.ID? = nil
     ) -> CKRecord.ID {
-        CKRecord.ID(
-            recordName: "SavedEvent-\(DataStore.year)-\(eventID)",
-            zoneID: zoneID ?? profileZoneID
+        FestivalProfileCloudRecordMapper.recordID(
+            for: .savedEvent(eventID: eventID),
+            profileZoneID: zoneID ?? profileZoneID,
+            notesZoneID: notesZoneID
         )
     }
 
@@ -800,16 +748,18 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
         artistID: Int,
         zoneID: CKRecordZone.ID? = nil
     ) -> CKRecord.ID {
-        CKRecord.ID(
-            recordName: "ArtistPreference-\(DataStore.year)-\(artistID)",
-            zoneID: zoneID ?? profileZoneID
+        FestivalProfileCloudRecordMapper.recordID(
+            for: .artistPreference(artistID: artistID),
+            profileZoneID: zoneID ?? profileZoneID,
+            notesZoneID: notesZoneID
         )
     }
 
     private func artistNoteRecordID(artistID: Int) -> CKRecord.ID {
-        CKRecord.ID(
-            recordName: "ArtistNote-\(DataStore.year)-\(artistID)",
-            zoneID: notesZoneID
+        FestivalProfileCloudRecordMapper.recordID(
+            for: .artistNote(artistID: artistID),
+            profileZoneID: profileZoneID,
+            notesZoneID: notesZoneID
         )
     }
 
@@ -1087,12 +1037,14 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
             AppLog.sync.error(
                 "Failed to save CloudKit record \(failedRecordSave.record.recordID.recordName, privacy: .public): \(failedRecordSave.error.localizedDescription, privacy: .public)"
             )
-            switch failedRecordSave.error.code {
-            case .serverRecordChanged:
+            switch FestivalProfileSyncConflictPolicy.action(
+                for: failedRecordSave.error.code
+            ) {
+            case .mergeServerRecord:
                 if let serverRecord = failedRecordSave.error.serverRecord {
                     mergeOwnerRecordFromServer(serverRecord)
                 }
-            case .zoneNotFound:
+            case .recreateZoneAndRetry:
                 privateSyncEngine?.state.add(pendingDatabaseChanges: [
                     .saveZone(CKRecordZone(zoneID: failedRecordSave.record.recordID.zoneID))
                 ])
@@ -1100,19 +1052,14 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
                 privateSyncEngine?.state.add(pendingRecordZoneChanges: [
                     .saveRecord(failedRecordSave.record.recordID)
                 ])
-            case .unknownItem:
+            case .retryWithoutSystemFields:
                 clearSystemFields(for: failedRecordSave.record.recordID)
                 privateSyncEngine?.state.add(pendingRecordZoneChanges: [
                     .saveRecord(failedRecordSave.record.recordID)
                 ])
-            case .networkFailure,
-                 .networkUnavailable,
-                 .serviceUnavailable,
-                 .zoneBusy,
-                 .notAuthenticated,
-                 .operationCancelled:
+            case .waitForAutomaticRetry:
                 break
-            default:
+            case .fail:
                 setSyncState(.error(failedRecordSave.error.localizedDescription))
             }
         }
@@ -1143,54 +1090,11 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
             .saveZone(CKRecordZone(zoneID: notesZoneID))
         ])
 
-        var pendingChanges: [CKSyncEngine.PendingRecordZoneChange] = []
-
-        pendingChanges.append(.saveRecord(profileRootRecordID()))
-
-        let oldSavedEventIDs = Set(oldProfile.savedEventIDs)
-        let newSavedEventIDs = Set(newProfile.savedEventIDs)
-        for addedEventID in newSavedEventIDs.subtracting(oldSavedEventIDs) {
-            pendingChanges.append(.saveRecord(savedEventRecordID(eventID: addedEventID)))
-        }
-        for removedEventID in oldSavedEventIDs.subtracting(newSavedEventIDs) {
-            pendingChanges.append(.deleteRecord(savedEventRecordID(eventID: removedEventID)))
-        }
-
-        let oldPreferences = Dictionary(
-            uniqueKeysWithValues: oldProfile.artistPreferences.map { preference in
-                (preference.artistID, preference)
-            }
+        let plannedChanges = FestivalProfileSyncPlanner.changes(
+            from: oldProfile,
+            to: newProfile
         )
-        let newPreferences = Dictionary(
-            uniqueKeysWithValues: newProfile.artistPreferences.map { preference in
-                (preference.artistID, preference)
-            }
-        )
-
-        for (artistID, preference) in newPreferences where oldPreferences[artistID] != preference {
-            pendingChanges.append(.saveRecord(artistPreferenceRecordID(artistID: artistID)))
-        }
-        for removedArtistID in Set(oldPreferences.keys).subtracting(newPreferences.keys) {
-            pendingChanges.append(.deleteRecord(artistPreferenceRecordID(artistID: removedArtistID)))
-        }
-
-        let oldNotes = Dictionary(
-            uniqueKeysWithValues: oldProfile.artistNotes.map { note in
-                (note.artistID, note)
-            }
-        )
-        let newNotes = Dictionary(
-            uniqueKeysWithValues: newProfile.artistNotes.map { note in
-                (note.artistID, note)
-            }
-        )
-
-        for (artistID, note) in newNotes where oldNotes[artistID] != note {
-            pendingChanges.append(.saveRecord(artistNoteRecordID(artistID: artistID)))
-        }
-        for removedArtistID in Set(oldNotes.keys).subtracting(newNotes.keys) {
-            pendingChanges.append(.deleteRecord(artistNoteRecordID(artistID: removedArtistID)))
-        }
+        let pendingChanges = plannedChanges.map(pendingRecordZoneChange)
 
         privateSyncEngine.state.add(pendingRecordZoneChanges: pendingChanges)
         AppLog.sync.info(
@@ -1208,57 +1112,59 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
             .saveZone(CKRecordZone(zoneID: notesZoneID))
         ])
 
-        var pendingChanges: [CKSyncEngine.PendingRecordZoneChange] = [
-            .saveRecord(profileRootRecordID())
-        ]
-        pendingChanges.append(contentsOf: cache.currentProfile.savedEventIDs.map { eventID in
-            .saveRecord(self.savedEventRecordID(eventID: eventID))
-        })
-        pendingChanges.append(contentsOf: cache.currentProfile.artistPreferences.map { preference in
-            .saveRecord(self.artistPreferenceRecordID(artistID: preference.artistID))
-        })
-        pendingChanges.append(contentsOf: cache.currentProfile.artistNotes.map { note in
-            .saveRecord(self.artistNoteRecordID(artistID: note.artistID))
-        })
+        let plannedChanges = FestivalProfileSyncPlanner.fullUpload(for: cache.currentProfile)
+        let pendingChanges = plannedChanges.map(pendingRecordZoneChange)
         privateSyncEngine.state.add(pendingRecordZoneChanges: pendingChanges)
         AppLog.sync.info(
             "Queued full CloudKit upload with \(pendingChanges.count) records for snapshot \(self.syncSnapshotSummary(), privacy: .public)"
         )
     }
 
+    private func pendingRecordZoneChange(
+        for change: FestivalProfileSyncChange
+    ) -> CKSyncEngine.PendingRecordZoneChange {
+        switch change {
+        case .save(let record):
+            return .saveRecord(recordID(for: record))
+        case .delete(let record):
+            return .deleteRecord(recordID(for: record))
+        }
+    }
+
+    private func recordID(for record: FestivalProfileSyncRecord) -> CKRecord.ID {
+        FestivalProfileCloudRecordMapper.recordID(
+            for: record,
+            profileZoneID: profileZoneID,
+            notesZoneID: notesZoneID
+        )
+    }
+
     private func mergeOwnerRecordFromServer(_ record: CKRecord) {
-        switch record.recordType {
-        case Constants.profileRecordType:
-            cache.currentProfile.festivalYear = (record["festivalYear"] as? Int) ?? DataStore.year
-            cache.currentProfile.badgeName = FestivalProfileBadge.normalizedName(
-                record["badgeName"] as? String
-            )
-            cache.currentProfile.badgeColorHex = FestivalProfileBadge.resolvedColorHex(
-                record["badgeColorHex"] as? String
-            )
+        guard let payload = FestivalProfileCloudRecordMapper.payload(from: record) else {
+            return
+        }
+
+        switch payload {
+        case .profile(let festivalYear, _, let badgeName, let badgeColorHex):
+            cache.currentProfile.festivalYear = festivalYear
+            cache.currentProfile.badgeName = badgeName
+            cache.currentProfile.badgeColorHex = badgeColorHex
             cache.currentProfile.shareRecordName = record.share?.recordID.recordName
             cache.currentProfile.rootRecordSystemFieldsData = encodeSystemFields(for: record)
-        case Constants.savedEventRecordType:
-            let eventID = (record["eventID"] as? Int) ?? eventIDFromRecordName(record.recordID.recordName)
+        case .savedEvent(let eventID):
             if !cache.currentProfile.savedEventIDs.contains(eventID) {
                 cache.currentProfile.savedEventIDs.append(eventID)
                 cache.currentProfile.savedEventIDs.sort()
             }
             cache.currentProfile.savedEventRecordSystemFieldsByName[record.recordID.recordName] = encodeSystemFields(for: record)
-        case Constants.artistPreferenceRecordType:
-            guard let preference = makeArtistPreference(from: record) else {
-                return
-            }
+        case .artistPreference(let preference):
             var preferences = Self.artistPreferencesDictionary(from: cache.currentProfile.artistPreferences)
             preferences[String(preference.artistID)] = preference
             cache.currentProfile.artistPreferences = preferences.values.sorted { lhs, rhs in
                 lhs.artistID < rhs.artistID
             }
             cache.currentProfile.artistPreferenceRecordSystemFieldsByName[record.recordID.recordName] = encodeSystemFields(for: record)
-        case Constants.artistNoteRecordType:
-            guard let note = makeArtistNote(from: record) else {
-                return
-            }
+        case .artistNote(let note):
             var notes = Dictionary(
                 uniqueKeysWithValues: cache.currentProfile.artistNotes.map { note in
                     (note.artistID, note)
@@ -1269,12 +1175,13 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
                 lhs.artistID < rhs.artistID
             }
             cache.currentProfile.artistNoteRecordSystemFieldsByName[record.recordID.recordName] = encodeSystemFields(for: record)
-        default:
-            break
         }
     }
 
     private func mergeSharedRecordFromServer(_ record: CKRecord) {
+        guard let payload = FestivalProfileCloudRecordMapper.payload(from: record) else {
+            return
+        }
         let sharedProfileID = sharedProfileID(for: record.recordID.zoneID)
         var sharedProfile = cache.sharedProfiles.first(where: { $0.id == sharedProfileID })
             ?? CachedSharedFestivalProfile(
@@ -1288,26 +1195,18 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
                 artistPreferences: []
             )
 
-        switch record.recordType {
-        case Constants.profileRecordType:
-            sharedProfile.title = (record["profileName"] as? String) ?? Constants.profileName
-            sharedProfile.badgeName = FestivalProfileBadge.normalizedName(
-                record["badgeName"] as? String
-            )
-            sharedProfile.badgeColorHex = FestivalProfileBadge.resolvedColorHex(
-                record["badgeColorHex"] as? String
-            )
-            sharedProfile.festivalYear = (record["festivalYear"] as? Int) ?? DataStore.year
-        case Constants.savedEventRecordType:
-            let eventID = (record["eventID"] as? Int) ?? eventIDFromRecordName(record.recordID.recordName)
+        switch payload {
+        case .profile(let festivalYear, let title, let badgeName, let badgeColorHex):
+            sharedProfile.title = title
+            sharedProfile.badgeName = badgeName
+            sharedProfile.badgeColorHex = badgeColorHex
+            sharedProfile.festivalYear = festivalYear
+        case .savedEvent(let eventID):
             if !sharedProfile.savedEventIDs.contains(eventID) {
                 sharedProfile.savedEventIDs.append(eventID)
                 sharedProfile.savedEventIDs.sort()
             }
-        case Constants.artistPreferenceRecordType:
-            guard let preference = makeArtistPreference(from: record) else {
-                return
-            }
+        case .artistPreference(let preference):
             var preferences = Dictionary(
                 uniqueKeysWithValues: sharedProfile.artistPreferences.map { preference in
                     (preference.artistID, preference)
@@ -1317,7 +1216,7 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
             sharedProfile.artistPreferences = preferences.values.sorted { lhs, rhs in
                 lhs.artistID < rhs.artistID
             }
-        default:
+        case .artistNote:
             break
         }
 
@@ -1450,19 +1349,13 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
             recordType: Constants.profileRecordType,
             recordID: recordID
         )
-        record["festivalYear"] = DataStore.year as CKRecordValue
-        record["schemaVersion"] = Constants.schemaVersion as CKRecordValue
-        record["updatedAt"] = now() as CKRecordValue
-        record["profileName"] = Constants.profileName as CKRecordValue
-        if let badgeName = FestivalProfileBadge.normalizedName(cache.currentProfile.badgeName) {
-            record["badgeName"] = badgeName as CKRecordValue
-        } else {
-            record["badgeName"] = nil
-        }
-        record["badgeColorHex"] = FestivalProfileBadge.resolvedColorHex(
-            cache.currentProfile.badgeColorHex
-        ) as CKRecordValue
-        return record
+        return FestivalProfileCloudRecordMapper.populate(
+            record,
+            for: .profile,
+            from: cache.currentProfile,
+            updatedAt: now(),
+            profileRootRecordID: recordID
+        ) ?? record
     }
 
     private func makeSavedEventRecord(eventID: Int, recordID: CKRecord.ID) -> CKRecord {
@@ -1471,11 +1364,13 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
             recordType: Constants.savedEventRecordType,
             recordID: recordID
         )
-        record["festivalYear"] = DataStore.year as CKRecordValue
-        record["eventID"] = eventID as CKRecordValue
-        record["updatedAt"] = now() as CKRecordValue
-        record.setParent(profileRootRecordID())
-        return record
+        return FestivalProfileCloudRecordMapper.populate(
+            record,
+            for: .savedEvent(eventID: eventID),
+            from: cache.currentProfile,
+            updatedAt: now(),
+            profileRootRecordID: profileRootRecordID()
+        ) ?? record
     }
 
     private func makeArtistPreferenceRecord(
@@ -1487,17 +1382,13 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
             recordType: Constants.artistPreferenceRecordType,
             recordID: recordID
         )
-        record["festivalYear"] = DataStore.year as CKRecordValue
-        record["artistID"] = preference.artistID as CKRecordValue
-        record["rating"] = preference.rating as CKRecordValue
-        if let iconName = preference.iconName {
-            record["iconName"] = iconName as CKRecordValue
-        } else {
-            record["iconName"] = nil
-        }
-        record["updatedAt"] = now() as CKRecordValue
-        record.setParent(profileRootRecordID())
-        return record
+        return FestivalProfileCloudRecordMapper.populate(
+            record,
+            for: .artistPreference(artistID: preference.artistID),
+            from: cache.currentProfile,
+            updatedAt: now(),
+            profileRootRecordID: profileRootRecordID()
+        ) ?? record
     }
 
     private func makeArtistNoteRecord(
@@ -1509,28 +1400,13 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
             recordType: Constants.artistNoteRecordType,
             recordID: recordID
         )
-        record["festivalYear"] = DataStore.year as CKRecordValue
-        record["artistID"] = note.artistID as CKRecordValue
-        record["noteText"] = note.noteText as CKRecordValue
-        record["updatedAt"] = now() as CKRecordValue
-        return record
-    }
-
-    private func makeArtistPreference(from record: CKRecord) -> FestivalArtistPreference? {
-        let artistID = (record["artistID"] as? Int) ?? artistIDFromRecordName(record.recordID.recordName)
-        let rating = (record["rating"] as? Int) ?? 0
-        let iconName = record["iconName"] as? String
-        return FestivalArtistPreference(
-            artistID: artistID,
-            rating: rating,
-            iconName: iconName
-        )
-    }
-
-    private func makeArtistNote(from record: CKRecord) -> FestivalArtistNote? {
-        let artistID = (record["artistID"] as? Int) ?? artistIDFromRecordName(record.recordID.recordName)
-        let noteText = (record["noteText"] as? String) ?? ""
-        return FestivalArtistNote(artistID: artistID, noteText: noteText)
+        return FestivalProfileCloudRecordMapper.populate(
+            record,
+            for: .artistNote(artistID: note.artistID),
+            from: cache.currentProfile,
+            updatedAt: now(),
+            profileRootRecordID: profileRootRecordID()
+        ) ?? record
     }
 
     private func friendlyOwnerName(for zoneID: CKRecordZone.ID) -> String? {

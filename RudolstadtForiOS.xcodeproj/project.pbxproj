@@ -207,6 +207,10 @@
 		C100000B2FD00001004F9471 /* FestivalProfileStore+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000122FD00001004F9471 /* FestivalProfileStore+Helpers.swift */; };
 		C100000C2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000132FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift */; };
 		C100000D2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000132FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift */; };
+		C30000012FF00001004F9471 /* FestivalProfileLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000052FF00001004F9471 /* FestivalProfileLogic.swift */; };
+		C30000022FF00001004F9471 /* FestivalProfileLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000052FF00001004F9471 /* FestivalProfileLogic.swift */; };
+		C30000032FF00001004F9471 /* FestivalProfileCloudKitMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000062FF00001004F9471 /* FestivalProfileCloudKitMapping.swift */; };
+		C30000042FF00001004F9471 /* FestivalProfileCloudKitMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000062FF00001004F9471 /* FestivalProfileCloudKitMapping.swift */; };
 		C20000012FE00001004F9471 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000002FE00001004F9471 /* AppLog.swift */; };
 		C20000022FE00001004F9471 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000002FE00001004F9471 /* AppLog.swift */; };
 		C20000042FE00001004F9471 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000032FE00001004F9471 /* AppServices.swift */; };
@@ -415,6 +419,8 @@
 		C10000112FD00001004F9471 /* FestivalProfileModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileModels.swift; sourceTree = "<group>"; };
 		C10000122FD00001004F9471 /* FestivalProfileStore+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FestivalProfileStore+Helpers.swift"; sourceTree = "<group>"; };
 		C10000132FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FestivalProfileStore+CloudKitEvent.swift"; sourceTree = "<group>"; };
+		C30000052FF00001004F9471 /* FestivalProfileLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileLogic.swift; sourceTree = "<group>"; };
+		C30000062FF00001004F9471 /* FestivalProfileCloudKitMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileCloudKitMapping.swift; sourceTree = "<group>"; };
 		C20000002FE00001004F9471 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		C20000032FE00001004F9471 /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
 		C20000062FE00001004F9471 /* FestivalDataGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalDataGate.swift; sourceTree = "<group>"; };
@@ -918,6 +924,8 @@
 				C10000112FD00001004F9471 /* FestivalProfileModels.swift */,
 				C10000122FD00001004F9471 /* FestivalProfileStore+Helpers.swift */,
 				C10000132FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift */,
+				C30000052FF00001004F9471 /* FestivalProfileLogic.swift */,
+				C30000062FF00001004F9471 /* FestivalProfileCloudKitMapping.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -1239,6 +1247,8 @@
 				C10000092FD00001004F9471 /* FestivalProfileModels.swift in Sources */,
 				C100000B2FD00001004F9471 /* FestivalProfileStore+Helpers.swift in Sources */,
 				C100000D2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */,
+				C30000022FF00001004F9471 /* FestivalProfileLogic.swift in Sources */,
+				C30000042FF00001004F9471 /* FestivalProfileCloudKitMapping.swift in Sources */,
 				32A11D471C05E7D81DC6B78D /* ArtistImageView.swift in Sources */,
 				32A11C4891712FA79641C202 /* StageDetailView.swift in Sources */,
 				D30000022FBE0001004F9471 /* StageDetailInteractiveMap.swift in Sources */,
@@ -1358,6 +1368,8 @@
 				C10000082FD00001004F9471 /* FestivalProfileModels.swift in Sources */,
 				C100000A2FD00001004F9471 /* FestivalProfileStore+Helpers.swift in Sources */,
 				C100000C2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */,
+				C30000012FF00001004F9471 /* FestivalProfileLogic.swift in Sources */,
+				C30000032FF00001004F9471 /* FestivalProfileCloudKitMapping.swift in Sources */,
 				32A11109B3E2EF29D23B96E8 /* ArtistImageView.swift in Sources */,
 				32A11E9B874719DD76F77CD0 /* StageDetailView.swift in Sources */,
 				D30000032FBE0001004F9471 /* StageDetailInteractiveMap.swift in Sources */,

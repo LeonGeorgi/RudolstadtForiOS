@@ -1,6 +1,9 @@
 import Combine
 import Foundation
 import Testing
+#if os(iOS)
+import CloudKit
+#endif
 @testable import Rudolstadt
 
 @MainActor
@@ -96,4 +99,120 @@ struct FestivalProfileStoreTests {
         #expect(profileStore.badgeColorHex == "#3D78E0")
         #expect(profileStore.ownerBadge.initials == "LG")
     }
+
+    @Test
+    func localMutationPersistsThroughInjectedAdapterWithoutDelay() async {
+        let initialProfile = TestFixtures.cachedOwnerFestivalProfile()
+        let persistence = FestivalProfilePersistenceSpy(
+            loadedCache: TestFixtures.festivalProfileCache(
+                currentProfile: initialProfile
+            ),
+            legacyProfile: initialProfile
+        )
+        let profileStore = FestivalProfileStore(
+            cloudKitEnabled: false,
+            persistence: persistence,
+            waitBeforePersisting: {}
+        )
+
+        profileStore.toggleSavedEvent(Event.example)
+        await profileStore.flushPendingPersistence()
+
+        #expect(persistence.persistedCaches.count == 1)
+        #expect(
+            persistence.persistedCaches.last?.currentProfile.savedEventIDs
+                == [Event.example.id]
+        )
+        #expect(profileStore.iCloudStatus == .unavailable("Cloud sync disabled"))
+    }
+
+    @Test
+    func profileReducerNormalizesLocalMutationsWithoutStoreOrSystemAdapters() {
+        let profile = TestFixtures.cachedOwnerFestivalProfile(
+            savedEventIDs: [9, 3]
+        )
+
+        let updatedProfile = FestivalProfileReducer.applying(
+            .setArtistNote(artistID: 42, noteText: "  Bring earplugs  "),
+            to: profile
+        )
+
+        #expect(updatedProfile.savedEventIDs == [3, 9])
+        #expect(
+            updatedProfile.artistNotes
+                == [FestivalArtistNote(artistID: 42, noteText: "Bring earplugs")]
+        )
+    }
+
+    @Test
+    func syncPlannerDescribesChangedAndDeletedProfileRecords() {
+        let oldProfile = TestFixtures.cachedOwnerFestivalProfile(
+            savedEventIDs: [1],
+            artistPreferences: [
+                FestivalArtistPreference(artistID: 2, rating: 1, iconName: nil)
+            ],
+            artistNotes: [FestivalArtistNote(artistID: 3, noteText: "Old")]
+        )
+        let newProfile = TestFixtures.cachedOwnerFestivalProfile(
+            savedEventIDs: [4],
+            artistPreferences: [
+                FestivalArtistPreference(artistID: 2, rating: 3, iconName: nil)
+            ]
+        )
+
+        let changes = FestivalProfileSyncPlanner.changes(
+            from: oldProfile,
+            to: newProfile
+        )
+
+        #expect(changes == [
+            .save(.profile),
+            .save(.savedEvent(eventID: 4)),
+            .delete(.savedEvent(eventID: 1)),
+            .save(.artistPreference(artistID: 2)),
+            .delete(.artistNote(artistID: 3))
+        ])
+    }
+
+#if os(iOS)
+    @Test
+    func cloudKitMappingAndConflictPolicyAreCallableWithoutSyncEngine() {
+        let profileZoneID = CKRecordZone.ID(
+            zoneName: "ProfileZone",
+            ownerName: CKCurrentUserDefaultName
+        )
+        let notesZoneID = CKRecordZone.ID(
+            zoneName: "NotesZone",
+            ownerName: CKCurrentUserDefaultName
+        )
+        let recordID = FestivalProfileCloudRecordMapper.recordID(
+            for: .savedEvent(eventID: 42),
+            profileZoneID: profileZoneID,
+            notesZoneID: notesZoneID,
+            festivalYear: 2026
+        )
+        let record = CKRecord(
+            recordType: FestivalProfileStore.Constants.savedEventRecordType,
+            recordID: recordID
+        )
+
+        #expect(recordID.recordName == "SavedEvent-2026-42")
+        #expect(
+            FestivalProfileCloudRecordMapper.payload(from: record)
+                == .savedEvent(eventID: 42)
+        )
+        #expect(
+            FestivalProfileSyncConflictPolicy.action(for: .serverRecordChanged)
+                == .mergeServerRecord
+        )
+        #expect(
+            FestivalProfileSyncConflictPolicy.action(for: .zoneNotFound)
+                == .recreateZoneAndRetry
+        )
+        #expect(
+            FestivalProfileSyncConflictPolicy.action(for: .networkUnavailable)
+                == .waitForAutomaticRetry
+        )
+    }
+#endif
 }

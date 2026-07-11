@@ -32,6 +32,40 @@ enum TestFixtures {
         )
     }
 
+    static func cachedOwnerFestivalProfile(
+        savedEventIDs: [Int] = [],
+        artistPreferences: [FestivalArtistPreference] = [],
+        artistNotes: [FestivalArtistNote] = []
+    ) -> CachedOwnerFestivalProfile {
+        CachedOwnerFestivalProfile(
+            festivalYear: DataStore.year,
+            badgeName: nil,
+            badgeColorHex: FestivalProfileBadge.defaultColorHex,
+            savedEventIDs: savedEventIDs,
+            artistPreferences: artistPreferences,
+            artistNotes: artistNotes,
+            shareRecordName: nil,
+            shareRecordSystemFieldsData: nil,
+            rootRecordSystemFieldsData: nil,
+            savedEventRecordSystemFieldsByName: [:],
+            artistPreferenceRecordSystemFieldsByName: [:],
+            artistNoteRecordSystemFieldsByName: [:]
+        )
+    }
+
+    static func festivalProfileCache(
+        currentProfile: CachedOwnerFestivalProfile? = nil
+    ) -> FestivalProfileCache {
+        FestivalProfileCache(
+            currentProfile: currentProfile ?? cachedOwnerFestivalProfile(),
+            sharedProfiles: [],
+            migrationVersion: FestivalProfileStore.Constants.migrationVersion,
+            lastSuccessfulRefreshDate: nil,
+            privateStateSerializationData: nil,
+            sharedStateSerializationData: nil
+        )
+    }
+
     @MainActor
     static func festivalProfileStore() -> FestivalProfileStore {
         FestivalProfileStore(

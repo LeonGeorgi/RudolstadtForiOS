@@ -201,7 +201,7 @@ struct FestivalArtistNote: Codable, Hashable, Identifiable, Sendable {
     }
 }
 
-struct CachedOwnerFestivalProfile: Codable, Sendable {
+struct CachedOwnerFestivalProfile: Codable, Equatable, Sendable {
     var festivalYear: Int
     var badgeName: String?
     var badgeColorHex: String?
@@ -216,7 +216,7 @@ struct CachedOwnerFestivalProfile: Codable, Sendable {
     var artistNoteRecordSystemFieldsByName: [String: Data]
 }
 
-struct CachedSharedFestivalProfile: Codable, Sendable {
+struct CachedSharedFestivalProfile: Codable, Equatable, Sendable {
     var id: String
     var title: String
     var ownerName: String?
@@ -227,7 +227,7 @@ struct CachedSharedFestivalProfile: Codable, Sendable {
     var artistPreferences: [FestivalArtistPreference]
 }
 
-struct FestivalProfileCache: Codable, Sendable {
+struct FestivalProfileCache: Codable, Equatable, Sendable {
     var currentProfile: CachedOwnerFestivalProfile
     var sharedProfiles: [CachedSharedFestivalProfile]
     var migrationVersion: Int
@@ -236,19 +236,86 @@ struct FestivalProfileCache: Codable, Sendable {
     var sharedStateSerializationData: Data?
 }
 
-actor FestivalProfileCachePersister {
-    private let userDefaults: UserDefaults
-    private let cacheKey: String
+protocol FestivalProfilePersisting: Sendable {
+    func loadCache() -> FestivalProfileCache?
+    func loadLegacyOwnerProfile() -> CachedOwnerFestivalProfile
+    func persist(_ cache: FestivalProfileCache)
+}
 
-    init(userDefaults: UserDefaults, cacheKey: String) {
+final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @unchecked Sendable {
+    private let userDefaults: UserDefaults
+
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
-        self.cacheKey = cacheKey
+    }
+
+    func loadCache() -> FestivalProfileCache? {
+        guard let cachedData = userDefaults.data(forKey: FestivalProfileStore.Constants.cacheKey) else {
+            return nil
+        }
+        return try? JSONDecoder().decode(FestivalProfileCache.self, from: cachedData)
+    }
+
+    func loadLegacyOwnerProfile() -> CachedOwnerFestivalProfile {
+        let savedEventIDs = (
+            userDefaults.array(forKey: FestivalProfileStore.Constants.legacySavedEventsKey) as? [Int]
+                ?? []
+        )
+        .sorted()
+        let ratings = userDefaults.dictionary(
+            forKey: FestivalProfileStore.Constants.legacyRatingsKey
+        ) as? [String: Int] ?? [:]
+        let icons = userDefaults.dictionary(
+            forKey: FestivalProfileStore.Constants.legacyArtistIconsKey
+        ) as? [String: String] ?? [:]
+        let notes = userDefaults.dictionary(
+            forKey: FestivalProfileStore.Constants.legacyArtistNotesKey
+        ) as? [String: String] ?? [:]
+
+        let preferences = ratings.compactMap { entry -> FestivalArtistPreference? in
+            guard let artistID = Int(entry.key) else {
+                return nil
+            }
+            return FestivalArtistPreference(
+                artistID: artistID,
+                rating: entry.value,
+                iconName: icons[entry.key]
+            )
+        }
+        .sorted { lhs, rhs in
+            lhs.artistID < rhs.artistID
+        }
+
+        let artistNotes = notes.compactMap { entry -> FestivalArtistNote? in
+            guard let artistID = Int(entry.key) else {
+                return nil
+            }
+            return FestivalArtistNote(artistID: artistID, noteText: entry.value)
+        }
+        .sorted { lhs, rhs in
+            lhs.artistID < rhs.artistID
+        }
+
+        return CachedOwnerFestivalProfile(
+            festivalYear: DataStore.year,
+            badgeName: nil,
+            badgeColorHex: FestivalProfileBadge.defaultColorHex,
+            savedEventIDs: savedEventIDs,
+            artistPreferences: preferences,
+            artistNotes: artistNotes,
+            shareRecordName: nil,
+            shareRecordSystemFieldsData: nil,
+            rootRecordSystemFieldsData: nil,
+            savedEventRecordSystemFieldsByName: [:],
+            artistPreferenceRecordSystemFieldsByName: [:],
+            artistNoteRecordSystemFieldsByName: [:]
+        )
     }
 
     func persist(_ cache: FestivalProfileCache) {
         guard let encodedCache = try? JSONEncoder().encode(cache) else {
             return
         }
-        userDefaults.set(encodedCache, forKey: cacheKey)
+        userDefaults.set(encodedCache, forKey: FestivalProfileStore.Constants.cacheKey)
     }
 }

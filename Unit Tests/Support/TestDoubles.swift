@@ -1,6 +1,41 @@
 import Foundation
 @testable import Rudolstadt
 
+final class FestivalProfilePersistenceSpy: FestivalProfilePersisting, @unchecked Sendable {
+    private let lock = NSLock()
+    private let loadedCache: FestivalProfileCache?
+    private let legacyProfile: CachedOwnerFestivalProfile
+    private var persistedCachesStorage: [FestivalProfileCache] = []
+
+    init(
+        loadedCache: FestivalProfileCache? = nil,
+        legacyProfile: CachedOwnerFestivalProfile
+    ) {
+        self.loadedCache = loadedCache
+        self.legacyProfile = legacyProfile
+    }
+
+    func loadCache() -> FestivalProfileCache? {
+        loadedCache
+    }
+
+    func loadLegacyOwnerProfile() -> CachedOwnerFestivalProfile {
+        legacyProfile
+    }
+
+    func persist(_ cache: FestivalProfileCache) {
+        lock.lock()
+        persistedCachesStorage.append(cache)
+        lock.unlock()
+    }
+
+    var persistedCaches: [FestivalProfileCache] {
+        lock.lock()
+        defer { lock.unlock() }
+        return persistedCachesStorage
+    }
+}
+
 actor HTTPClientStub: HTTPClient {
     typealias Handler = @Sendable (URL) async throws -> HTTPResponse
 
