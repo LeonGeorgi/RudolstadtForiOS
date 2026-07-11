@@ -7,7 +7,7 @@ Each YAML file captures one independent App Store screenshot. The runner relaunc
 Use a dedicated booted iOS 26 simulator. The runner builds with normal simulator signing, installs the app, fixes the status bar, and captures German and English light-mode screenshots by default:
 
 ```sh
-DEVICE_ID=<simulator-udid> Scripts/capture-app-store-screenshots.sh
+DEVICE_ID=<simulator-udid> scripts/capture-app-store-screenshots.sh
 ```
 
 Optional environment variables:
@@ -18,5 +18,9 @@ Optional environment variables:
 - `DERIVED_DATA_PATH=/tmp/custom-derived-data`
 
 Generated PNGs are stored below `AppStoreScreenshots/<locale>/<appearance>/<device>/` and are ignored by Git.
+
+## GitHub Actions
+
+Run the **App Store Screenshots** workflow manually from the Actions tab. It selects an available iOS 26 iPhone simulator, installs the pinned Maestro CLI version, runs this same capture script, and uploads the generated screenshots as a workflow artifact.
 
 The app's `-screenshotMode` launch argument loads the bundled festival and news backups, disables network refreshes and CloudKit, and resets screenshot-relevant preferences. Artist photography and Apple map tiles are still rendered by their normal production components, so allow those views to settle before capture.

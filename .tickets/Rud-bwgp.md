@@ -36,3 +36,11 @@ Follow-up: artist detail screenshot may capture before async background color ex
 **2026-07-11T05:05:41Z**
 
 Artist detail follow-up fixed: ArtistDetailView now exposes a theme-ready accessibility state only after cached/extracted colors are applied; screenshot mode applies them without transition animation. Maestro waits for artist-detail-216-theme-ready. Full de/en light pipeline passed on iPhone 17e (iOS 26.5), and both generated detail screenshots were visually checked.
+
+**2026-07-11T05:14:14Z**
+
+User approved follow-up: replace the obsolete GitHub Actions XCTest workflow with the Maestro screenshot runner and artifact upload. Remote artist images and map tiles are explicitly out of scope and tracked separately.
+
+**2026-07-11T05:16:03Z**
+
+Replaced obsolete GitHub XCTest workflow with a manual macos-26 Maestro workflow: pinned Java/Maestro setup, dynamic iOS 26 iPhone selection, shared capture runner, screenshot artifact upload, failure diagnostics, and run summary. Updated README. Validation passed for YAML parsing, bash syntax, whitespace, and simulator-selection logic against installed devices. Actual GitHub-hosted execution requires commit/push and manual dispatch.

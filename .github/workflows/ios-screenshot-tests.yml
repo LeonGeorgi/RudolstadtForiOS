@@ -1,11 +1,13 @@
-name: iOS Screenshot Tests
+name: App Store Screenshots
 
 on:
-  push:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  screenshot-tests:
+  capture-screenshots:
     runs-on: macos-26
     timeout-minutes: 45
 
@@ -13,52 +15,73 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Maestro
+        env:
+          MAESTRO_VERSION: "2.6.1"
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+          "$HOME/.maestro/bin/maestro" --version
+
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Run screenshot tests
+      - name: Select iOS 26 simulator
+        id: simulator
+        run: |
+          DEVICE_ID="$({
+            xcrun simctl list devices available --json | \
+              ruby -rjson -e '
+                preferred_names = ["iPhone 17 Pro", "iPhone 17", "iPhone 17e"]
+                devices = JSON.parse(STDIN.read).fetch("devices")
+                candidates = devices.flat_map do |runtime, runtime_devices|
+                  next [] unless runtime.include?("iOS-26")
+                  runtime_devices.select { |device| device["isAvailable"] && device["name"].start_with?("iPhone") }
+                end
+                abort("No available iOS 26 iPhone simulator found") if candidates.empty?
+                selected = candidates.min_by do |device|
+                  preferred_names.index(device.fetch("name")) || preferred_names.length
+                end
+                puts selected.fetch("udid")
+              '
+          })"
+          echo "device-id=$DEVICE_ID" >> "$GITHUB_OUTPUT"
+          xcrun simctl list devices available
+
+      - name: Capture App Store screenshots
         env:
-          RESULT_BUNDLE_PATH: ${{ runner.temp }}/AppStoreScreenshots.xcresult
-          DERIVED_DATA_PATH: ${{ runner.temp }}/DerivedData
-          XCODEBUILD_LOG_PATH: ${{ runner.temp }}/xcodebuild-screenshot-tests.log
+          DEVICE_ID: ${{ steps.simulator.outputs.device-id }}
+          DERIVED_DATA_PATH: ${{ runner.temp }}/AppStoreScreenshotDerivedData
+          OUTPUT_ROOT: ${{ runner.temp }}/AppStoreScreenshots
+          MAESTRO_CLI_NO_ANALYTICS: "1"
         run: |
           set -o pipefail
-          xcodebuild test \
-            -project "RudolstadtForiOS.xcodeproj" \
-            -scheme "RudolstadtForiOS (iOS)" \
-            -destination "platform=iOS Simulator,name=iPhone 17 Pro,OS=26.4.1" \
-            -only-testing:"Tests iOS/AppStoreScreenshotsTests/testMainScreenScreenshot" \
-            -derivedDataPath "$DERIVED_DATA_PATH" \
-            -resultBundlePath "$RESULT_BUNDLE_PATH" \
-            CODE_SIGNING_ALLOWED=NO \
-            | tee "$XCODEBUILD_LOG_PATH"
+          scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots.log"
 
-      - name: Extract screenshots from result bundle
-        if: always()
-        env:
-          RESULT_BUNDLE_PATH: ${{ runner.temp }}/AppStoreScreenshots.xcresult
-          SCREENSHOT_EXPORT_PATH: ${{ runner.temp }}/exported-screenshots
-        run: ./scripts/extract-screenshots.sh "$RESULT_BUNDLE_PATH" "$SCREENSHOT_EXPORT_PATH"
-
-      - name: Upload extracted screenshots
+      - name: Upload screenshots
         id: upload_screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ios-screenshots-${{ github.run_number }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/exported-screenshots
+          name: app-store-screenshots-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/AppStoreScreenshots
           if-no-files-found: warn
           retention-days: 14
 
-      - name: Upload xcresult bundle and logs
-        id: upload_xcresult
-        if: always()
+      - name: Upload diagnostics
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: ios-screenshot-test-diagnostics-${{ github.run_number }}-${{ github.run_attempt }}
+          name: app-store-screenshot-diagnostics-${{ github.run_number }}-${{ github.run_attempt }}
           path: |
-            ${{ runner.temp }}/AppStoreScreenshots.xcresult
-            ${{ runner.temp }}/xcodebuild-screenshot-tests.log
+            ${{ runner.temp }}/app-store-screenshots.log
+            ${{ runner.temp }}/AppStoreScreenshots
           if-no-files-found: warn
           retention-days: 14
 
@@ -66,13 +89,12 @@ jobs:
         if: always()
         env:
           SCREENSHOT_ARTIFACT_URL: ${{ steps.upload_screenshots.outputs.artifact-url }}
-          XCRESULT_ARTIFACT_URL: ${{ steps.upload_xcresult.outputs.artifact-url }}
         run: |
           {
-            echo "## Screenshot Test Artifacts"
+            echo "## App Store Screenshots"
             echo
-            echo "- Extracted screenshots: ${SCREENSHOT_ARTIFACT_URL:-not uploaded}"
-            echo "- XCResult bundle and logs: ${XCRESULT_ARTIFACT_URL:-not uploaded}"
+            echo "- Result: ${{ job.status }}"
+            echo "- Screenshots: ${SCREENSHOT_ARTIFACT_URL:-not uploaded}"
             echo
-            echo "Artifacts are also available at the bottom of this workflow run."
+            echo "The artifact contains German and English light-mode screenshots grouped by simulator."
           } >> "$GITHUB_STEP_SUMMARY"
