@@ -26,84 +26,117 @@ struct ArtistEventCell: View {
     var friendProfilesWhoSavedEvent: [SharedFestivalProfile] = []
     let onToggleSaved: () -> Void
     @Environment(\.artistNavigationHandler) private var navigate
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @State var selectedCollisionArtist: Artist? = nil
 
     var body: some View {
+        eventContent
+            .navigationDestination(
+                isPresented: Binding {
+                    selectedCollisionArtist != nil
+                } set: { value in
+                    if !value {
+                        selectedCollisionArtist = nil
+                    }
+                }
+            ) {
+                if let artist = selectedCollisionArtist {
+                    ArtistDetailView(
+                        artist: artist,
+                        highlightedEventId: event.id
+                    )
+                } else {
+                    EmptyView()
+                }
+            }
+            .contextMenu {
+                ForEach(intersectingEvents) { intersectingEvent in
+                    Button {
+                        if let navigate {
+                            navigate(
+                                .artist(
+                                    id: intersectingEvent.artist.id,
+                                    highlightedEventId: event.id,
+                                    transitionSourceID: nil
+                                )
+                            )
+                        } else {
+                            selectedCollisionArtist = intersectingEvent.artist
+                        }
+                    } label: {
+                        Text(intersectingEvent.artist.formattedName)
+                        Image(systemName: "exclamationmark.circle")
+                    }
+                }
+                SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
+            }
+            .id("\(event.id)-\(isSaved)")
+    }
+
+    @ViewBuilder
+    private var eventContent: some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            HStack(alignment: .top, spacing: 12) {
+                EventTimeBadge(event: event)
+                    .dynamicTypeSize(.large)
+
+                eventMetadata
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .dynamicTypeSize(.accessibility1)
+
+                trailingAccessories
+                    .dynamicTypeSize(.accessibility1)
+            }
+        } else {
+            regularEventContent
+        }
+    }
+
+    private var regularEventContent: some View {
         HStack(alignment: .center, spacing: 10) {
             EventTimeBadge(event: event)
 
-            VStack(alignment: .leading, spacing: 3) {
-                if let tag = event.tag {
-                    Text(tag.localizedName.uppercased())
-                        .font(.caption2.weight(.semibold))
-                        .foregroundStyle(.primary.opacity(0.72))
-                        .lineLimit(1)
-                }
+            eventMetadata
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text(event.stage.localizedName)
-                    .font(.body.weight(.semibold))
-                    .lineLimit(1)
-
-                intersectingEventsView
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            if !friendProfilesWhoSavedEvent.isEmpty {
-                FriendSavedEventBadges(
-                    eventID: event.id,
-                    profiles: friendProfilesWhoSavedEvent,
-                    style: .plainInline
-                )
-                .frame(minWidth: 24, minHeight: 24, alignment: .center)
-            }
-
-            EventSavedIcon(event: event, isSaved: isSaved, onToggle: onToggleSaved)
-
-            Image(systemName: "chevron.right")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.tertiary)
+            trailingAccessories
         }
-        .navigationDestination(
-            isPresented: Binding {
-                selectedCollisionArtist != nil
-            } set: { value in
-                if !value {
-                    selectedCollisionArtist = nil
-                }
+    }
+
+    private var eventMetadata: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            if let tag = event.tag {
+                Text(tag.localizedName.uppercased())
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(.primary.opacity(0.72))
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
             }
-        ) {
-            if let artist = selectedCollisionArtist {
-                ArtistDetailView(
-                    artist: artist,
-                    highlightedEventId: event.id
-                )
-            } else {
-                EmptyView()
-            }
+
+            Text(event.stage.localizedName)
+                .font(.body.weight(.semibold))
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
+
+            intersectingEventsView
         }
-        .contextMenu {
-            ForEach(intersectingEvents) { intersectingEvent in
-                Button {
-                    if let navigate {
-                        navigate(
-                            .artist(
-                                id: intersectingEvent.artist.id,
-                                highlightedEventId: event.id,
-                                transitionSourceID: nil
-                            )
-                        )
-                    } else {
-                        selectedCollisionArtist = intersectingEvent.artist
-                    }
-                } label: {
-                    Text(intersectingEvent.artist.formattedName)
-                    Image(systemName: "exclamationmark.circle")
-                }
-            }
-            SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
+    }
+
+    @ViewBuilder
+    private var trailingAccessories: some View {
+        if !friendProfilesWhoSavedEvent.isEmpty {
+            FriendSavedEventBadges(
+                eventID: event.id,
+                profiles: friendProfilesWhoSavedEvent,
+                style: .plainInline
+            )
+            .frame(minWidth: 24, minHeight: 24, alignment: .center)
         }
-        .id("\(event.id)-\(isSaved)")
+
+        EventSavedIcon(event: event, isSaved: isSaved, onToggle: onToggleSaved)
+
+        Image(systemName: "chevron.right")
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.tertiary)
     }
 
     @ViewBuilder

@@ -5,6 +5,7 @@ struct ArtistDetailHeaderView: View {
     let friendRatingSummary: FriendArtistRatingSummary?
 
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var isShowingFullImage = false
 
     private var countryAndFlags: String? {
@@ -38,7 +39,10 @@ struct ArtistDetailHeaderView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(
+            alignment: .leading,
+            spacing: dynamicTypeSize.isAccessibilitySize ? 14 : 10
+        ) {
             if let fullImageUrl = artist.fullImageUrl {
                 Button {
                     isShowingFullImage = true
@@ -53,12 +57,21 @@ struct ArtistDetailHeaderView: View {
                 artistImage
             }
 
-            VStack(spacing: 4) {
+            VStack(
+                alignment: dynamicTypeSize.isAccessibilitySize ? .leading : .center,
+                spacing: dynamicTypeSize.isAccessibilitySize ? 8 : 4
+            ) {
                 Text(artist.formattedName)
-                    .font(.title.bold())
-                    .multilineTextAlignment(.center)
-                    .lineLimit(3)
-                    .minimumScaleFactor(0.75)
+                    .font(
+                        dynamicTypeSize.isAccessibilitySize
+                            ? .title2.bold()
+                            : .title.bold()
+                    )
+                    .multilineTextAlignment(
+                        dynamicTypeSize.isAccessibilitySize ? .leading : .center
+                    )
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 3)
+                    .minimumScaleFactor(dynamicTypeSize.isAccessibilitySize ? 1 : 0.75)
 
                 if hasMetadata {
                     VStack(spacing: 3) {
@@ -66,7 +79,9 @@ struct ArtistDetailHeaderView: View {
                             Text(countryAndFlags)
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
-                                .multilineTextAlignment(.center)
+                                .multilineTextAlignment(
+                                    dynamicTypeSize.isAccessibilitySize ? .leading : .center
+                                )
                         }
 
                         if !localizedTags.isEmpty {
@@ -77,14 +92,24 @@ struct ArtistDetailHeaderView: View {
                                 Text(localizedTags.joined(separator: " • "))
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(
+                                        dynamicTypeSize.isAccessibilitySize ? .leading : .center
+                                    )
                             }
-                            .frame(maxWidth: .infinity, alignment: .center)
+                            .frame(
+                                maxWidth: .infinity,
+                                alignment: dynamicTypeSize.isAccessibilitySize
+                                    ? .leading
+                                    : .center
+                            )
                         }
                     }
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .center)
+            .frame(
+                maxWidth: .infinity,
+                alignment: dynamicTypeSize.isAccessibilitySize ? .leading : .center
+            )
             .padding(.top, 4)
 
         }
@@ -97,7 +122,10 @@ struct ArtistDetailHeaderView: View {
 
     private var artistImage: some View {
         Color.secondary.opacity(0.12)
-            .aspectRatio(8.0 / 7.0, contentMode: .fit)
+            .aspectRatio(
+                dynamicTypeSize.isAccessibilitySize ? 16.0 / 9.0 : 8.0 / 7.0,
+                contentMode: .fit
+            )
             .overlay {
                 ArtistImageView(artist: artist, fullImage: true)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -116,7 +144,7 @@ struct ArtistDetailHeaderView: View {
                     .stroke(imageStrokeColor, lineWidth: 0.5)
             )
             .shadow(color: .black.opacity(0.25), radius: 15, x: 0, y: 8)
-            .padding(.horizontal, 40)
+            .padding(.horizontal, dynamicTypeSize.isAccessibilitySize ? 16 : 40)
     }
 
 }
@@ -126,6 +154,7 @@ struct ArtistDetailLinksView: View {
     let openURL: (URL) -> Void
 
     @EnvironmentObject var dataStore: DataStore
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private var artistLinks: ArtistLinks? {
         if let exact = dataStore.artistLinks?[artist.name] {
@@ -159,8 +188,8 @@ struct ArtistDetailLinksView: View {
         }
     }
 
-    private var artistLinksView: some View {
-        HStack(spacing: 12) {
+    @ViewBuilder
+    private var linkButtons: some View {
             if let videoUrl = artist.videoUrl {
                 LinkButton(label: "Video", scale: 0.6) {
                     Image("youtube")
@@ -208,15 +237,31 @@ struct ArtistDetailLinksView: View {
                     openPreferInstalledApp(url)
                 }
             }
+    }
+
+    @ViewBuilder
+    private var artistLinksView: some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            LazyVGrid(
+                columns: [GridItem(.adaptive(minimum: 50, maximum: 50), spacing: 12)],
+                alignment: .center,
+                spacing: 12
+            ) {
+                linkButtons
+            }
+        } else {
+            HStack(spacing: 12) {
+                linkButtons
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .center)
-        .padding(.horizontal, 4)
-        .padding(.vertical, 2)
     }
 
     var body: some View {
         if hasAnyLinks {
             artistLinksView
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.horizontal, 4)
+                .padding(.vertical, 2)
         }
     }
 }
@@ -231,6 +276,7 @@ private struct LinkButton: View {
         Button(action: action) {
             icon()
                 .renderingMode(.template)
+                .font(.system(size: 18))
                 .frame(width: 18, height: 18)
                 .scaleEffect(scale)
                 .frame(width: 40, height: 40)

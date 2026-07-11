@@ -7,6 +7,7 @@ struct ArtistEventsBlock: View {
     let navigate: ((AppNavigationRoute) -> Void)?
     
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
     @EnvironmentObject private var dataStore: DataStore
@@ -88,7 +89,10 @@ struct ArtistEventsBlock: View {
                 if index < artistEvents.count - 1 {
                     Divider()
                         .overlay(eventDividerColor)
-                        .padding(.leading, 16 + 52 + 10)
+                        .padding(
+                            .leading,
+                            dynamicTypeSize.isAccessibilitySize ? 16 : 16 + 52 + 10
+                        )
                 }
                 
             }

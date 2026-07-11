@@ -12,6 +12,7 @@ struct ArtistDetailView: View {
     let navigate: ((AppNavigationRoute) -> Void)?
 
     @Environment(\.colorScheme) private var systemColorScheme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject var profile: FestivalProfileStore
 
@@ -99,7 +100,10 @@ struct ArtistDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                VStack(alignment: .leading, spacing: 18) {
+                VStack(
+                    alignment: .leading,
+                    spacing: dynamicTypeSize.isAccessibilitySize ? 14 : 18
+                ) {
                     ArtistDetailHeaderView(
                         artist: artist,
                         friendRatingSummary: friendRatingSummary
@@ -113,7 +117,10 @@ struct ArtistDetailView: View {
                         artist: artist,
                         currentTipID: tipSequencer.currentTipID
                     )
-                        .padding(.horizontal, 34)
+                        .padding(
+                            .horizontal,
+                            dynamicTypeSize.isAccessibilitySize ? 0 : 34
+                        )
                         .frame(maxWidth: .infinity)
 
                     ArtistNoteBlock(note: artistNote) {
