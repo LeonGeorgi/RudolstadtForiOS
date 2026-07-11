@@ -14,7 +14,8 @@ struct RecommendationDataStoreTests {
                     recommendedEventIds: [901],
                     estimatedEventDurations: [901: 60]
                 )
-            )
+            ),
+            loadInitialData: false
         )
         store.festivalData = .loading
 
@@ -38,7 +39,8 @@ struct RecommendationDataStoreTests {
         let store = DataStore(
             festivalProfileStore: TestFixtures.festivalProfileStore(),
             userSettings: TestFixtures.userSettings(),
-            recommendationService: RecommendationServiceStub(snapshot: snapshot)
+            recommendationService: RecommendationServiceStub(snapshot: snapshot),
+            loadInitialData: false
         )
         store.festivalData = .success(
             TestFixtures.festivalData(events: [

@@ -7,6 +7,26 @@ private enum CacheReadResult<Value> {
     case unparsable
 }
 
+protocol FestivalDataCaching: Sendable {
+    func loadFestivalDataFromFile(
+        extraData: ExtraDataCollection
+    ) -> FileLoadingResult<FestivalData>
+    func loadBundledFestivalDataBackup(
+        extraData: ExtraDataCollection
+    ) -> FileLoadingResult<FestivalData>
+    func storeAPIRudolstadtDataToFile(
+        data: APIRudolstadtData,
+        fileName: String
+    ) -> Bool
+    func deleteCachedFestivalData() -> Bool
+    func cachedFestivalDataModificationDate() -> Date?
+    func isFileStale(fileName: String) -> Bool
+}
+
+protocol BundledNewsLoading: Sendable {
+    func loadBundledNewsBackup() -> FileLoadingResult<[NewsItem]>
+}
+
 final class DataLoader: @unchecked Sendable {
     let cacheURL: URL
     private let calendar: Calendar
@@ -276,3 +296,5 @@ final class DataLoader: @unchecked Sendable {
             && nsError.code == NSFileReadNoSuchFileError
     }
 }
+
+extension DataLoader: FestivalDataCaching, BundledNewsLoading {}

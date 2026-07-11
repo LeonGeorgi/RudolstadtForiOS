@@ -152,6 +152,16 @@ enum TestFixtures {
         )
     }
 
+    static func apiFestivalData() -> APIRudolstadtData {
+        APIRudolstadtData(
+            areas: [],
+            artists: [],
+            events: [],
+            stages: [],
+            tags: []
+        )
+    }
+
     static func newsItem(id: Int, languageCode: String) -> NewsItem {
         NewsItem(
             id: id,

@@ -1,6 +1,117 @@
 import Foundation
 @testable import Rudolstadt
 
+actor HTTPClientStub: HTTPClient {
+    typealias Handler = @Sendable (URL) async throws -> HTTPResponse
+
+    private let handler: Handler
+    private(set) var requestedURLs: [URL] = []
+
+    init(handler: @escaping Handler) {
+        self.handler = handler
+    }
+
+    func data(from url: URL) async throws -> HTTPResponse {
+        requestedURLs.append(url)
+        return try await handler(url)
+    }
+}
+
+final class FestivalDataFetcherStub: @unchecked Sendable, FestivalDataFetching {
+    private let lock = NSLock()
+    private let result: Result<APIRudolstadtData, Error>
+    private var storedFetchCallCount = 0
+
+    var fetchCallCount: Int {
+        lock.withLock { storedFetchCallCount }
+    }
+
+    init(data: APIRudolstadtData) {
+        result = .success(data)
+    }
+
+    init(error: Error) {
+        result = .failure(error)
+    }
+
+    func fetchFestivalData() async throws -> APIRudolstadtData {
+        lock.withLock {
+            storedFetchCallCount += 1
+        }
+        return try result.get()
+    }
+}
+
+final class FestivalDataCacheStub: @unchecked Sendable, FestivalDataCaching,
+    BundledNewsLoading
+{
+    private let lock = NSLock()
+    private let loadResult: FileLoadingResult<FestivalData>
+    private let bundledFestivalResult: FileLoadingResult<FestivalData>
+    private let bundledNewsResult: FileLoadingResult<[NewsItem]>
+    private var storedLoadCallCount = 0
+    private var storedStoreCallCount = 0
+
+    var loadCallCount: Int {
+        lock.withLock { storedLoadCallCount }
+    }
+
+    var storeCallCount: Int {
+        lock.withLock { storedStoreCallCount }
+    }
+
+    init(
+        loadResult: FileLoadingResult<FestivalData> = .notFound,
+        bundledFestivalResult: FileLoadingResult<FestivalData> = .notFound,
+        bundledNewsResult: FileLoadingResult<[NewsItem]> = .notFound
+    ) {
+        self.loadResult = loadResult
+        self.bundledFestivalResult = bundledFestivalResult
+        self.bundledNewsResult = bundledNewsResult
+    }
+
+    func loadFestivalDataFromFile(
+        extraData: ExtraDataCollection
+    ) -> FileLoadingResult<FestivalData> {
+        lock.withLock {
+            storedLoadCallCount += 1
+        }
+        return loadResult
+    }
+
+    func loadBundledFestivalDataBackup(
+        extraData: ExtraDataCollection
+    ) -> FileLoadingResult<FestivalData> {
+        bundledFestivalResult
+    }
+
+    func storeAPIRudolstadtDataToFile(
+        data: APIRudolstadtData,
+        fileName: String
+    ) -> Bool {
+        lock.withLock {
+            storedStoreCallCount += 1
+        }
+        return true
+    }
+
+    func deleteCachedFestivalData() -> Bool {
+        true
+    }
+
+    func cachedFestivalDataModificationDate() -> Date? {
+        nil
+    }
+
+    func isFileStale(fileName: String) -> Bool {
+        false
+    }
+
+    func loadBundledNewsBackup() -> FileLoadingResult<[NewsItem]> {
+        bundledNewsResult
+    }
+}
+
 final class NewsAPIStub: NewsFetching {
     var newsToReturn: [APINewsItem]
     var fetchCallCount = 0

@@ -155,6 +155,8 @@
 		F100010C2F990001004F9471 /* TestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000C2F990001004F9471 /* TestDoubles.swift */; };
 		F100010D2F990001004F9471 /* UserPreferencesStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000D2F990001004F9471 /* UserPreferencesStoreTests.swift */; };
 		F100010E2F990001004F9471 /* FestivalDateUtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000E2F990001004F9471 /* FestivalDateUtilitiesTests.swift */; };
+		F100010F2F990001004F9471 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000F2F990001004F9471 /* APIClientTests.swift */; };
+		F10001102F990001004F9471 /* FestivalDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000172F990001004F9471 /* FestivalDataStoreTests.swift */; };
 		A10000092F9A1001004F9471 /* ArtistCountryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */; };
 		A100000A2F9A1001004F9471 /* ArtistCountryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */; };
 		A100000C2F9A1001004F9471 /* ArtistWorldMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000D2F9A1001004F9471 /* ArtistWorldMapView.swift */; };
@@ -386,6 +388,8 @@
 		F100000C2F990001004F9471 /* TestDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDoubles.swift; sourceTree = "<group>"; };
 		F100000D2F990001004F9471 /* UserPreferencesStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesStoreTests.swift; sourceTree = "<group>"; };
 		F100000E2F990001004F9471 /* FestivalDateUtilitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalDateUtilitiesTests.swift; sourceTree = "<group>"; };
+		F100000F2F990001004F9471 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
+		F10000172F990001004F9471 /* FestivalDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalDataStoreTests.swift; sourceTree = "<group>"; };
 		A10000042F990001004F9471 /* Unit Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistCountryParser.swift; sourceTree = "<group>"; };
 		A100000D2F9A1001004F9471 /* ArtistWorldMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistWorldMapView.swift; sourceTree = "<group>"; };
@@ -833,6 +837,7 @@
 		F10000122F990001004F9471 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F100000F2F990001004F9471 /* APIClientTests.swift */,
 				F10000042F990001004F9471 /* NewsServiceTests.swift */,
 			);
 			path = Services;
@@ -850,6 +855,7 @@
 		F10000142F990001004F9471 /* AppState */ = {
 			isa = PBXGroup;
 			children = (
+				F10000172F990001004F9471 /* FestivalDataStoreTests.swift */,
 				F10000082F990001004F9471 /* RecommendationDataStoreTests.swift */,
 				F100000D2F990001004F9471 /* UserPreferencesStoreTests.swift */,
 			);
@@ -1463,6 +1469,8 @@
 				F100010C2F990001004F9471 /* TestDoubles.swift in Sources */,
 				F100010D2F990001004F9471 /* UserPreferencesStoreTests.swift in Sources */,
 				F100010E2F990001004F9471 /* FestivalDateUtilitiesTests.swift in Sources */,
+				F100010F2F990001004F9471 /* APIClientTests.swift in Sources */,
+				F10001102F990001004F9471 /* FestivalDataStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

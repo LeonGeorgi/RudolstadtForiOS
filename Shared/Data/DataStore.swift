@@ -26,8 +26,9 @@ final class DataStore: ObservableObject {
 
     nonisolated static let year = 2026
 
-    let dataLoader: DataLoader
-    let apiClient: APIClient
+    private let festivalDataCache: any FestivalDataCaching
+    private let bundledNewsLoader: any BundledNewsLoading
+    private let festivalDataFetcher: any FestivalDataFetching
     let newsService: NewsService
     let recommendationService: RecommendationProviding
     let festivalProfileStore: FestivalProfileStore
@@ -42,23 +43,36 @@ final class DataStore: ObservableObject {
         festivalProfileStore: FestivalProfileStore? = nil,
         userSettings: UserSettings? = nil,
         newsService: NewsService? = nil,
-        recommendationService: RecommendationProviding? = nil
+        recommendationService: RecommendationProviding? = nil,
+        festivalDataFetcher: (any FestivalDataFetching)? = nil,
+        festivalDataCache: (any FestivalDataCaching)? = nil,
+        bundledNewsLoader: (any BundledNewsLoading)? = nil,
+        loadInitialData: Bool = true
     ) {
         let resolvedUserSettings = userSettings ?? UserSettings()
         let resolvedFestivalProfileStore =
             festivalProfileStore ?? FestivalProfileStore()
-        let cacheURL = try! FileManager.default.url(
-            for: .cachesDirectory,
-            in: .allDomainsMask,
-            appropriateFor: nil,
-            create: false
-        )
-        dataLoader = DataLoader(cacheURL: cacheURL)
-        apiClient = APIClient()
+        let resolvedFestivalDataCache: any FestivalDataCaching
+        let resolvedBundledNewsLoader: any BundledNewsLoading
+        if let festivalDataCache, let bundledNewsLoader {
+            resolvedFestivalDataCache = festivalDataCache
+            resolvedBundledNewsLoader = bundledNewsLoader
+        } else {
+            let defaultDataLoader = Self.makeDefaultDataLoader()
+            resolvedFestivalDataCache = festivalDataCache ?? defaultDataLoader
+            resolvedBundledNewsLoader = bundledNewsLoader ?? defaultDataLoader
+        }
+        self.festivalDataCache = resolvedFestivalDataCache
+        self.bundledNewsLoader = resolvedBundledNewsLoader
+        self.festivalDataFetcher = festivalDataFetcher ?? APIClient()
         self.festivalProfileStore = resolvedFestivalProfileStore
         self.newsService =
             newsService ?? NewsService(userSettings: resolvedUserSettings)
         self.recommendationService = recommendationService ?? RecommendationService()
+
+        guard loadInitialData else {
+            return
+        }
 
         if ScreenshotRuntime.isEnabled {
             loadBundledScreenshotData()
@@ -67,6 +81,22 @@ final class DataStore: ObservableObject {
 
         refreshFestivalDataDownloadMetadata()
         loadCachedFestivalDataIfAvailable()
+    }
+
+    private static func makeDefaultDataLoader() -> DataLoader {
+        do {
+            let cacheURL = try FileManager.default.url(
+                for: .cachesDirectory,
+                in: .allDomainsMask,
+                appropriateFor: nil,
+                create: false
+            )
+            return DataLoader(cacheURL: cacheURL)
+        } catch {
+            preconditionFailure(
+                "Could not resolve cache directory: \(error.localizedDescription)"
+            )
+        }
     }
 
     private func loadArtistLinksIfNeeded() async {
@@ -185,7 +215,7 @@ final class DataStore: ObservableObject {
     }
 
     func deleteCachedFestivalData() -> Bool {
-        let deleted = dataLoader.deleteCachedFestivalData()
+        let deleted = festivalDataCache.deleteCachedFestivalData()
         if deleted {
             refreshFestivalDataDownloadMetadata()
             AppLog.data.info("Deleted cached festival data")
@@ -197,7 +227,9 @@ final class DataStore: ObservableObject {
         guard festivalDataLastDownloadDate != nil else {
             return true
         }
-        return dataLoader.isFileStale(fileName: "rudolstadt_data.json")
+        return festivalDataCache.isFileStale(
+            fileName: "rudolstadt_data.json"
+        )
     }
 
     func refreshOnAppActive(now: Date = .now) async {
@@ -277,8 +309,8 @@ final class DataStore: ObservableObject {
             festivalData = .success(loadedData)
         }
         do {
-            let apiData = try await apiClient.fetchFestivalData()
-            let storedFile = dataLoader.storeAPIRudolstadtDataToFile(
+            let apiData = try await festivalDataFetcher.fetchFestivalData()
+            let storedFile = festivalDataCache.storeAPIRudolstadtDataToFile(
                 data: apiData,
                 fileName: "rudolstadt_data.json"
             )
@@ -351,7 +383,7 @@ final class DataStore: ObservableObject {
     }
 
     private func loadBundledFestivalDataBackup(after error: Error) -> Bool {
-        let result = dataLoader.loadBundledFestivalDataBackup(
+        let result = festivalDataCache.loadBundledFestivalDataBackup(
             extraData: extraData ?? ExtraDataCollection.empty()
         )
 
@@ -447,10 +479,12 @@ final class DataStore: ObservableObject {
     private func loadCachedFestivalData(
         extraData: ExtraDataCollection
     ) async -> FileLoadingResult<FestivalData> {
-        let dataLoader = self.dataLoader
+        let festivalDataCache = self.festivalDataCache
         return await withCheckedContinuation { continuation in
             DispatchQueue.global(qos: .userInitiated).async {
-                let result = dataLoader.loadFestivalDataFromFile(extraData: extraData)
+                let result = festivalDataCache.loadFestivalDataFromFile(
+                    extraData: extraData
+                )
                 continuation.resume(returning: result)
             }
         }
@@ -470,7 +504,9 @@ final class DataStore: ObservableObject {
         case .success:
             shouldRefreshData = isUsingBundledFestivalDataBackup
                 || festivalDataLastDownloadDate == nil
-                || dataLoader.isFileStale(fileName: "rudolstadt_data.json")
+                || festivalDataCache.isFileStale(
+                    fileName: "rudolstadt_data.json"
+                )
         case .loading, .failure:
             shouldRefreshData = true
         }
@@ -484,7 +520,7 @@ final class DataStore: ObservableObject {
 
     private func loadCachedFestivalDataIfAvailable() {
         loadExtraData()
-        let cachedResult = dataLoader.loadFestivalDataFromFile(
+        let cachedResult = festivalDataCache.loadFestivalDataFromFile(
             extraData: extraData ?? ExtraDataCollection.empty()
         )
         refreshFestivalDataDownloadMetadata()
@@ -515,7 +551,7 @@ final class DataStore: ObservableObject {
         loadExtraData()
         let resolvedExtraData = extraData ?? ExtraDataCollection.empty()
 
-        switch dataLoader.loadBundledFestivalDataBackup(
+        switch festivalDataCache.loadBundledFestivalDataBackup(
             extraData: resolvedExtraData
         ) {
         case .loaded(let data), .stale(let data):
@@ -526,7 +562,7 @@ final class DataStore: ObservableObject {
             festivalData = .failure(.couldNotLoadFromFile)
         }
 
-        switch dataLoader.loadBundledNewsBackup() {
+        switch bundledNewsLoader.loadBundledNewsBackup() {
         case .loaded(let items), .stale(let items):
             news = .success(items)
         case .notFound, .unparsable:
@@ -537,6 +573,7 @@ final class DataStore: ObservableObject {
     }
 
     private func refreshFestivalDataDownloadMetadata() {
-        festivalDataLastDownloadDate = dataLoader.cachedFestivalDataModificationDate()
+        festivalDataLastDownloadDate =
+            festivalDataCache.cachedFestivalDataModificationDate()
     }
 }

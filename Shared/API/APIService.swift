@@ -8,8 +8,37 @@ enum Endpoint: String, CaseIterable {
     case stages = "stages"
     case tags = "tags"
 
-    var url: URL {
-        URL(string: "https://www.rudolstadt-festival.de/api/\(rawValue)")!
+    func url(relativeTo baseURL: URL) -> URL {
+        baseURL.appendingPathComponent(rawValue)
+    }
+}
+
+struct HTTPResponse: Sendable {
+    let data: Data
+    let statusCode: Int?
+}
+
+protocol HTTPClient: Sendable {
+    func data(from url: URL) async throws -> HTTPResponse
+}
+
+protocol FestivalDataFetching: Sendable {
+    func fetchFestivalData() async throws -> APIRudolstadtData
+}
+
+struct URLSessionHTTPClient: HTTPClient {
+    private let session: URLSession
+
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
+
+    func data(from url: URL) async throws -> HTTPResponse {
+        let (data, response) = try await session.data(from: url)
+        return HTTPResponse(
+            data: data,
+            statusCode: (response as? HTTPURLResponse)?.statusCode
+        )
     }
 }
 
@@ -30,31 +59,48 @@ enum APIClientError: LocalizedError {
     }
 }
 
-struct APIClient {
+struct APIClient: FestivalDataFetching, Sendable {
+    static let productionBaseURL: URL = {
+        guard let url = URL(string: "https://www.rudolstadt-festival.de/api/") else {
+            preconditionFailure("Invalid production API base URL")
+        }
+        return url
+    }()
 
-    private let session = URLSession.shared
+    private let httpClient: any HTTPClient
+    private let baseURL: URL
+
+    init(
+        httpClient: any HTTPClient = URLSessionHTTPClient(),
+        baseURL: URL = APIClient.productionBaseURL
+    ) {
+        self.httpClient = httpClient
+        self.baseURL = baseURL
+    }
 
     func fetch<T: Decodable>(_ type: T.Type, from endpoint: Endpoint)
         async throws -> T
     {
-        let (data, response) = try await session.data(from: endpoint.url)
-        guard let response = response as? HTTPURLResponse else {
+        let response = try await httpClient.data(
+            from: endpoint.url(relativeTo: baseURL)
+        )
+        guard let statusCode = response.statusCode else {
             throw APIClientError.invalidResponse(endpoint: endpoint)
         }
-        guard (200...299).contains(response.statusCode) else {
+        guard (200...299).contains(statusCode) else {
             throw APIClientError.httpStatus(
                 endpoint: endpoint,
-                statusCode: response.statusCode,
-                bodyPreview: makeBodyPreview(from: data)
+                statusCode: statusCode,
+                bodyPreview: makeBodyPreview(from: response.data)
             )
         }
         do {
-            return try JSONDecoder().decode(T.self, from: data)
+            return try JSONDecoder().decode(T.self, from: response.data)
         } catch {
             throw APIClientError.decoding(
                 endpoint: endpoint,
                 underlyingError: error,
-                bodyPreview: makeBodyPreview(from: data)
+                bodyPreview: makeBodyPreview(from: response.data)
             )
         }
     }
