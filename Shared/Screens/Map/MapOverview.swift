@@ -51,6 +51,7 @@ struct MapOverview: View {
                     Image(systemName: settings.mapType == 0 ? "list.bullet" : "map")
                 }
                 .accessibilityLabel(settings.mapType == 0 ? "list.title" : "map.title")
+                .accessibilityIdentifier("locations-view-mode-toggle")
                 .appPopoverTip(
                     DiscoverabilityTips.locationsViewMode,
                     currentTipID: tipSequencer.currentTipID,

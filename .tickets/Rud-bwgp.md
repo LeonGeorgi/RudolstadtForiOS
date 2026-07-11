@@ -44,3 +44,11 @@ User approved follow-up: replace the obsolete GitHub Actions XCTest workflow wit
 **2026-07-11T05:16:03Z**
 
 Replaced obsolete GitHub XCTest workflow with a manual macos-26 Maestro workflow: pinned Java/Maestro setup, dynamic iOS 26 iPhone selection, shared capture runner, screenshot artifact upload, failure diagnostics, and run summary. Updated README. Validation passed for YAML parsing, bash syntax, whitespace, and simulator-selection logic against installed devices. Actual GitHub-hosted execution requires commit/push and manual dispatch.
+
+**2026-07-11T06:04:24Z**
+
+User approved CI robustness follow-up after run 29141337716: add stable accessibility identifiers for tab and map/list navigation, then update Maestro flows to use identifiers instead of localized text.
+
+**2026-07-11T06:06:27Z**
+
+CI navigation fix implemented after run 29141337716: added stable IDs for all app tabs, the locations map/list toggle, and the news toolbar button; updated five Maestro flows to use IDs instead of localized navigation text. All six flow YAML files parse, identifier references match source, and git diff whitespace check passes. Build/runtime verification not run because it was not explicitly requested.

@@ -8,7 +8,7 @@ tags:
       id: "schedule-screen"
     timeout: 20000
 - tapOn:
-    text: "Artists|Künstler"
+    id: "tab-artists"
 - tapOn:
     text: "Search|Suchen"
 - inputText: "La Nina"

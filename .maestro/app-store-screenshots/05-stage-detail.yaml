@@ -8,9 +8,9 @@ tags:
       id: "schedule-screen"
     timeout: 20000
 - tapOn:
-    text: "Locations|Orte"
+    id: "tab-locations"
 - tapOn:
-    text: "List|Liste"
+    id: "locations-view-mode-toggle"
 - extendedWaitUntil:
     visible:
       id: "location-7"

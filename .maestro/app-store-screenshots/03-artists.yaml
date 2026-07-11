@@ -8,7 +8,7 @@ tags:
       id: "schedule-screen"
     timeout: 20000
 - tapOn:
-    text: "Artists|Künstler"
+    id: "tab-artists"
 - extendedWaitUntil:
     visible:
       id: "artist-194"
