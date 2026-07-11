@@ -4,6 +4,15 @@
 - If verification is useful, suggest the relevant build command instead of running it independently.
 - Write new code according to clean code principles: keep it simple, readable, well-named, focused, and consistent with the existing project style.
 
+## Working approach
+
+- Before changing code, inspect the relevant implementation, its callers, and nearby conventions. Do not guess when the repository can answer the question.
+- State assumptions when they materially affect behavior, architecture, or scope. Ask the user only when the uncertainty cannot be resolved from the repository and different answers would lead to meaningfully different implementations.
+- Define the observable outcome before implementing. For non-trivial work, identify how the result can be verified and keep implementation and verification aligned with that outcome.
+- Make the smallest coherent change that fully solves the requested problem. Do not expand the scope with speculative features, unrelated cleanup, or preventive abstractions.
+- Preserve existing behavior unless changing it is part of the request. When requirements conflict with current behavior, surface the conflict explicitly.
+- Before handing off, review the diff for unintended changes, unresolved assumptions, duplicated logic, and missing relevant states. Report what was and was not verified.
+
 ## Code quality
 
 - Prefer simple, explicit solutions over clever abstractions. Add abstractions only when they clarify responsibilities or remove meaningful duplication.
@@ -21,7 +30,7 @@
 - Keep interfaces focused, visually balanced, and consistent. Pay attention to hierarchy, spacing, alignment, typography, image treatment, content density, and all relevant states.
 - Do not “improve” the design by automatically adding cards, rounded backgrounds, materials, gradients, shadows, glass effects, or custom controls. Add visual treatment only when it serves a clear structural or semantic purpose.
 - Consider accessibility, localization, Dark Mode, different device sizes, and large Dynamic Type part of the design—not optional cleanup.
-- For UI changes, inspect the existing screen first, preserve what already works, build the app, and verify the rendered result in the simulator. Do not judge visual quality from source code alone.
+- For UI changes, inspect the existing screen first and preserve what already works. When the user has authorized running or building the app, verify the rendered result in the simulator; otherwise explain that visual verification remains outstanding and suggest the relevant command or workflow. Do not judge visual quality from source code alone.
 - Prefer a small, well-justified improvement over an unnecessary redesign. If a change is primarily subjective, explain the trade-off before implementing it.
 
 ## Issue tracking
