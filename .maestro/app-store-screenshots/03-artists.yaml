@@ -8,7 +8,7 @@ tags:
       id: "schedule-screen"
     timeout: 20000
 - tapOn:
-    id: "tab-artists"
+    id: "theatermasks\\.fill"
 - extendedWaitUntil:
     visible:
       id: "artist-194"

@@ -52,3 +52,11 @@ User approved CI robustness follow-up after run 29141337716: add stable accessib
 **2026-07-11T06:06:27Z**
 
 CI navigation fix implemented after run 29141337716: added stable IDs for all app tabs, the locations map/list toggle, and the news toolbar button; updated five Maestro flows to use IDs instead of localized navigation text. All six flow YAML files parse, identifier references match source, and git diff whitespace check passes. Build/runtime verification not run because it was not explicitly requested.
+
+**2026-07-11T06:49:15Z**
+
+User approved the follow-up based on run 29142506630: remove ineffective identifiers inside SwiftUI tabItem labels and target the native SF Symbol resource IDs exposed by the CI accessibility hierarchy.
+
+**2026-07-11T06:49:51Z**
+
+Fixed run 29142506630 failure using the captured CI accessibility hierarchy: removed five tabItem accessibility identifiers that SwiftUI did not propagate to UITabBarButton, and changed locations/artist flows to exact escaped native resource IDs map.fill and theatermasks.fill. All six YAML flows parse, selectors resolve to the intended regex strings, and git diff whitespace passes. No build/runtime run performed.

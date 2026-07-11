@@ -8,7 +8,7 @@ tags:
       id: "schedule-screen"
     timeout: 20000
 - tapOn:
-    id: "tab-artists"
+    id: "theatermasks\\.fill"
 - tapOn:
     text: "Search|Suchen"
 - inputText: "La Nina"

@@ -104,7 +104,6 @@ struct RootTabView: View {
                     Image(systemName: "map.fill")
                     Text("locations.title")
                 }
-                .accessibilityIdentifier("tab-locations")
             }
             .tag(AppTab.map)
 
@@ -127,7 +126,6 @@ struct RootTabView: View {
                     Image(systemName: "calendar")
                     Text("schedule.title")
                 }
-                .accessibilityIdentifier("tab-schedule")
             }
             .tag(AppTab.schedule)
             
@@ -155,7 +153,6 @@ struct RootTabView: View {
                     Image(systemName: "theatermasks.fill")
                     Text("artists.title")
                 }
-                .accessibilityIdentifier("tab-artists")
             }
             .tag(AppTab.artists)
 
@@ -188,7 +185,6 @@ struct RootTabView: View {
                     Image(systemName: "person.2.fill")
                     Text("more.friends.title")
                 }
-                .accessibilityIdentifier("tab-friends")
             }
             .tag(AppTab.friends)
 
@@ -221,7 +217,6 @@ struct RootTabView: View {
                     Image(systemName: "ellipsis")
                     Text("more.title")
                 }
-                .accessibilityIdentifier("tab-more")
             }
             .tag(AppTab.more)
         }

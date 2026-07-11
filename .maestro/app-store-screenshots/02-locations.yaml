@@ -8,7 +8,7 @@ tags:
       id: "schedule-screen"
     timeout: 20000
 - tapOn:
-    id: "tab-locations"
+    id: "map\\.fill"
 - extendedWaitUntil:
     visible:
       id: "festival-map"
