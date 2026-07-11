@@ -22,6 +22,18 @@
 "artist.links" = "LINKS";
 "artist.description" = "BESCHREIBUNG";
 "artist.rating.explanation.content" = "Gedrückt halten für mehr Optionen";
+"artist.rating.set.1" = "Künstler mit einem Herz bewerten";
+"artist.rating.set.2" = "Künstler mit zwei Herzen bewerten";
+"artist.rating.set.3" = "Künstler mit drei Herzen bewerten";
+"artist.rating.current.0" = "Keine Bewertung";
+"artist.rating.current.1" = "Aktuell ein Herz";
+"artist.rating.current.2" = "Aktuell zwei Herzen";
+"artist.rating.current.3" = "Aktuell drei Herzen";
+"artist.rating.reset" = "Künstlerbewertung zurücksetzen";
+"event.saved.add" = "Veranstaltung speichern";
+"event.saved.remove" = "Veranstaltung aus gespeicherten Veranstaltungen entfernen";
+"event.saved.value.saved" = "Gespeichert";
+"event.saved.value.not_saved" = "Nicht gespeichert";
 "artist.rating.explanation.extra" = "🥱 - kein Interesse
 🤔 - unentschlossen
 🙂 - leichtes Interesse

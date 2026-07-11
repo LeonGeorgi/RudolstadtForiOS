@@ -38,18 +38,29 @@ struct EventSavedIcon: View {
     }
 
     var body: some View {
-        Image(
-            systemName: isSaved
-                ? "bookmark.fill" : "bookmark"
-        )
-        .foregroundStyle(.primary)
-        .onTapGesture {
+        Button {
             if isSaved {
                 isAlertShown = true
             } else {
                 onToggle()
             }
+        } label: {
+            Image(
+                systemName: isSaved
+                    ? "bookmark.fill" : "bookmark"
+            )
+            .foregroundStyle(.primary)
+            .frame(width: 44, height: 44)
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
+        .accessibilityLabel(
+            Text(isSaved ? "event.saved.remove" : "event.saved.add")
+        )
+        .accessibilityValue(
+            Text(isSaved ? "event.saved.value.saved" : "event.saved.value.not_saved")
+        )
+        .accessibilityAddTraits(isSaved ? .isSelected : [])
         .alert(isPresented: $isAlertShown) {
             createAlert()
         }

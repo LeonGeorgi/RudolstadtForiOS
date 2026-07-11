@@ -15,27 +15,42 @@ struct ArtistRatingView: View {
             ZStack {
                 HStack(spacing: 0) {
                     ForEach(1...3, id: \.self) { rating in
-                        Image(systemName: settings.likeIcon)
-                            .font(.system(size: 35))
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(
-                                self.rating >= rating
-                                    ? Color.red
-                                    : Color.secondary
+                        Button {
+                            profile.setArtistRating(
+                                for: artist,
+                                rating: self.rating == rating ? 0 : rating
                             )
-                            .onTapGesture {
-                                if self.rating != rating {
-                                    profile.setArtistRating(
-                                        for: artist,
-                                        rating: rating
-                                    )
-                                } else {
-                                    profile.setArtistRating(
-                                        for: artist,
-                                        rating: 0
-                                    )
-                                }
-                            }
+                        } label: {
+                            Image(systemName: settings.likeIcon)
+                                .font(.system(size: 35))
+                                .frame(width: 44, height: 44)
+                                .foregroundStyle(
+                                    self.rating >= rating
+                                        ? Color.red
+                                        : Color.secondary
+                                )
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(
+                            Text(
+                                NSLocalizedString(
+                                    "artist.rating.set.\(rating)",
+                                    comment: "Artist rating button"
+                                )
+                            )
+                        )
+                        .accessibilityValue(
+                            Text(
+                                NSLocalizedString(
+                                    "artist.rating.current.\(self.rating)",
+                                    comment: "Current artist rating"
+                                )
+                            )
+                        )
+                        .accessibilityAddTraits(
+                            self.rating == rating ? .isSelected : []
+                        )
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -53,10 +68,13 @@ struct ArtistRatingView: View {
                             .font(.system(size: 20))
                             .foregroundColor(.secondary)
                             .opacity(rating == 0 ? 0 : 1)
+                            .frame(width: 44, height: 44)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
                     .disabled(rating == 0)
                     .accessibilityHidden(rating == 0)
+                    .accessibilityLabel(Text("artist.rating.reset"))
                     Spacer()
                     ArtistIconPicker(
                         artist: artist,

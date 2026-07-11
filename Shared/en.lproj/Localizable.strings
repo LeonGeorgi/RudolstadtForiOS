@@ -22,6 +22,18 @@
 "artist.links" = "LINKS";
 "artist.description" = "DESCRIPTION";
 "artist.rating.explanation.content" = "Long press for more options";
+"artist.rating.set.1" = "Rate artist with one heart";
+"artist.rating.set.2" = "Rate artist with two hearts";
+"artist.rating.set.3" = "Rate artist with three hearts";
+"artist.rating.current.0" = "Not rated";
+"artist.rating.current.1" = "Currently one heart";
+"artist.rating.current.2" = "Currently two hearts";
+"artist.rating.current.3" = "Currently three hearts";
+"artist.rating.reset" = "Reset artist rating";
+"event.saved.add" = "Save event";
+"event.saved.remove" = "Remove event from saved events";
+"event.saved.value.saved" = "Saved";
+"event.saved.value.not_saved" = "Not saved";
 "artist.rating.explanation.extra" = "🥱 - no interest
 🤔 - undecided
 🙂 - slight interest
