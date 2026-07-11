@@ -1,6 +1,36 @@
 import Combine
+import UserNotifications
 import XCTest
 @testable import Rudolstadt
+
+final class NotificationPermissionPresentationTests: XCTestCase {
+    func testPresentsPrePromptOnlyBeforeSystemDecisionAndBeforeDeferral() {
+        XCTAssertTrue(
+            NotificationPermissionController.shouldPresentPrePrompt(
+                authorizationStatus: .notDetermined,
+                promptState: .notPresented
+            )
+        )
+        XCTAssertFalse(
+            NotificationPermissionController.shouldPresentPrePrompt(
+                authorizationStatus: .notDetermined,
+                promptState: .deferred
+            )
+        )
+        XCTAssertFalse(
+            NotificationPermissionController.shouldPresentPrePrompt(
+                authorizationStatus: .authorized,
+                promptState: .notPresented
+            )
+        )
+        XCTAssertFalse(
+            NotificationPermissionController.shouldPresentPrePrompt(
+                authorizationStatus: .denied,
+                promptState: .notPresented
+            )
+        )
+    }
+}
 
 final class DataConverterTests: XCTestCase {
     func testStageConversionFallsBackWhenAreaIsMissing() {

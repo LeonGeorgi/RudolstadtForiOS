@@ -13,6 +13,12 @@ enum ScheduleDisplayMode: Int {
     case list = 1
 }
 
+enum NotificationPromptState: Int {
+    case notPresented
+    case deferred
+    case systemPromptRequested
+}
+
 @propertyWrapper
 struct UserDefault<T> {
     let key: String
@@ -58,6 +64,19 @@ final class UserPreferencesStore: ObservableObject {
 
     @UserDefault(key: "\(DataStore.year)/oldNews", defaultValue: [])
     var oldNews: [Int]
+
+    @UserDefault(key: "notifications/newsPrompt/v1", defaultValue: 0)
+    private var notificationPromptStateRawValue: Int
+
+    var notificationPromptState: NotificationPromptState {
+        get {
+            NotificationPromptState(rawValue: notificationPromptStateRawValue)
+                ?? .notPresented
+        }
+        set {
+            notificationPromptStateRawValue = newValue.rawValue
+        }
+    }
 
     // 0 - Map
     // 1 - List

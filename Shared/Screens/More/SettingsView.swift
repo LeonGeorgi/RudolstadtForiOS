@@ -8,6 +8,9 @@ private enum SettingsFeatureFlags {
 struct SettingsView: View {
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var dataStore: DataStore
+    @Environment(\.scenePhase) private var scenePhase
+    @StateObject private var notificationPermissionController =
+        NotificationPermissionController.shared
     @State private var isShowingClearCacheAlert = false
     @State private var isClearingCache = false
     @State private var isShowingCacheClearedAlert = false
@@ -35,6 +38,19 @@ struct SettingsView: View {
 
     var body: some View {
         List {
+            Section {
+                Button(action: handleNotificationSettingsAction) {
+                    HStack {
+                        Label("settings.notifications", systemImage: "bell.badge")
+                        Spacer()
+                        Text(notificationStatusLabel)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            } footer: {
+                Text("settings.notifications.footer")
+            }
+
             Toggle(isOn: showAISummaries) {
                 Label("settings.show_ai_summaries", systemImage: "sparkles")
             }
@@ -70,6 +86,12 @@ struct SettingsView: View {
         .font(.body)
         .listStyle(.insetGrouped)
         .navigationTitle("settings.title")
+        .task(id: scenePhase) {
+            guard scenePhase == .active else {
+                return
+            }
+            await notificationPermissionController.refreshAuthorizationStatus()
+        }
         .alert("settings.clear_cache.title", isPresented: $isShowingClearCacheAlert) {
             Button("settings.clear_cache.cancel", role: .cancel) {}
             Button("settings.clear_cache.confirm", role: .destructive) {
@@ -111,6 +133,33 @@ struct SettingsView: View {
             Text("settings.delete_festival_data.failed_message")
         }
 
+    }
+
+    private var notificationStatusLabel: LocalizedStringKey {
+        switch notificationPermissionController.authorizationStatus {
+        case .authorized, .provisional, .ephemeral:
+            "settings.notifications.on"
+        case .denied:
+            "settings.notifications.off"
+        case .notDetermined:
+            "settings.notifications.activate"
+        @unknown default:
+            "settings.notifications.open"
+        }
+    }
+
+    private func handleNotificationSettingsAction() {
+        if notificationPermissionController.authorizationStatus == .notDetermined {
+            settings.notificationPromptState = .systemPromptRequested
+            Task {
+                await notificationPermissionController.requestAuthorization()
+                if notificationPermissionController.authorizationStatus == .notDetermined {
+                    settings.notificationPromptState = .deferred
+                }
+            }
+        } else if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
+        }
     }
 
     private func clearCachedData() {

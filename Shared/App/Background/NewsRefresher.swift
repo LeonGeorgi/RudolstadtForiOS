@@ -23,6 +23,48 @@ enum NewsNotificationPayload {
 }
 
 @MainActor
+final class NotificationPermissionController: ObservableObject {
+    static let shared = NotificationPermissionController()
+
+    @Published private(set) var authorizationStatus: UNAuthorizationStatus = .notDetermined
+
+    private let notificationCenter: UNUserNotificationCenter
+
+    private init(notificationCenter: UNUserNotificationCenter = .current()) {
+        self.notificationCenter = notificationCenter
+    }
+
+    func refreshAuthorizationStatus() async {
+        let settings = await notificationCenter.notificationSettings()
+        authorizationStatus = settings.authorizationStatus
+    }
+
+    @discardableResult
+    func requestAuthorization() async -> Bool {
+        do {
+            let granted = try await notificationCenter.requestAuthorization(
+                options: [.alert, .sound, .badge]
+            )
+            await refreshAuthorizationStatus()
+            return granted
+        } catch {
+            AppLog.news.error(
+                "Notification authorization failed: \(error.localizedDescription, privacy: .public)"
+            )
+            await refreshAuthorizationStatus()
+            return false
+        }
+    }
+
+    static func shouldPresentPrePrompt(
+        authorizationStatus: UNAuthorizationStatus,
+        promptState: NotificationPromptState
+    ) -> Bool {
+        authorizationStatus == .notDetermined && promptState == .notPresented
+    }
+}
+
+@MainActor
 final class NewsNotificationNavigationController: ObservableObject {
     static let shared = NewsNotificationNavigationController()
 

@@ -5,6 +5,10 @@
 "news.long" = "News";
 "news.refresh.title" = "Refresh";
 "news.featured_artists" = "Featured artists";
+"notifications.prompt.title" = "Stay up to date at the festival";
+"notifications.prompt.message" = "Get important program changes and the latest festival news.";
+"notifications.prompt.activate" = "Enable notifications";
+"notifications.prompt.later" = "Later";
 
 "artist.notes.headline" = "NOTES";
 "artist.add-note.button" = "Add notes";
@@ -347,6 +351,12 @@ I built this app in my spare time because I wanted a more convenient way to use 
 
 "settings.title" = "Settings";
 "settings.language" = "Change language";
+"settings.notifications" = "Notifications";
+"settings.notifications.footer" = "Keeps you informed about important program changes and the latest festival news.";
+"settings.notifications.on" = "On";
+"settings.notifications.off" = "Off";
+"settings.notifications.activate" = "Enable";
+"settings.notifications.open" = "Open";
 "settings.show_ai_summaries" = "Show AI summaries";
 "settings.use_flames" = "Use flames instead of hearts";
 "settings.clear_cache.button" = "Clear cached data";

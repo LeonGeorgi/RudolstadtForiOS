@@ -5,6 +5,10 @@
 "news.long" = "Neuigkeiten";
 "news.refresh.title" = "Aktualisieren";
 "news.featured_artists" = "Vorgestellte Künstler";
+"notifications.prompt.title" = "Beim Festival auf dem Laufenden bleiben";
+"notifications.prompt.message" = "Erhalte wichtige Programmänderungen und aktuelle Festivalmeldungen.";
+"notifications.prompt.activate" = "Benachrichtigungen aktivieren";
+"notifications.prompt.later" = "Später";
 
 "artist.notes.headline" = "NOTIZEN";
 "artist.add-note.button" = "Notizen hinzufügen";
@@ -346,6 +350,12 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 
 "settings.title" = "Einstellungen";
 "settings.language" = "Sprache ändern";
+"settings.notifications" = "Benachrichtigungen";
+"settings.notifications.footer" = "Informiert dich über wichtige Programmänderungen und aktuelle Festivalmeldungen.";
+"settings.notifications.on" = "Ein";
+"settings.notifications.off" = "Aus";
+"settings.notifications.activate" = "Aktivieren";
+"settings.notifications.open" = "Öffnen";
 "settings.show_ai_summaries" = "KI-Zusammenfassungen anzeigen";
 "settings.use_flames" = "Statt Herzen Flammen verwenden";
 "settings.clear_cache.button" = "Cache leeren";

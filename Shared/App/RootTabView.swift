@@ -11,6 +11,8 @@ private enum AppTab: Int, Hashable {
 }
 
 struct RootTabView: View {
+    private static let notificationPromptDelay: Duration = .seconds(5)
+
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var festivalProfileStore: FestivalProfileStore
@@ -18,6 +20,8 @@ struct RootTabView: View {
 
     @ObservedObject private var newsNotificationNavigation =
         NewsNotificationNavigationController.shared
+    @StateObject private var notificationPermissionController =
+        NotificationPermissionController.shared
     @Namespace private var artistImageTransition
     @State private var selectedTab: AppTab = .schedule
     @State private var mapPath = NavigationPath()
@@ -25,6 +29,7 @@ struct RootTabView: View {
     @State private var artistsPath = NavigationPath()
     @State private var friendsPath = NavigationPath()
     @State private var morePath = NavigationPath()
+    @State private var isShowingNotificationPrompt = false
 
     private var isScreenshotMode: Bool {
         ScreenshotRuntime.isEnabled
@@ -236,14 +241,40 @@ struct RootTabView: View {
                 return
             }
 
-            UNUserNotificationCenter.current()
-                .requestAuthorization(options: [.alert, .sound, .badge]) {
-                    granted,
-                    error in
-                    print(
-                        "Permission granted: \(granted), error: \(String(describing: error))"
-                    )
+        }
+        .task(id: scenePhase) {
+            guard scenePhase == .active, !isScreenshotMode else {
+                return
+            }
+
+            await notificationPermissionController.refreshAuthorizationStatus()
+            guard NotificationPermissionController.shouldPresentPrePrompt(
+                authorizationStatus: notificationPermissionController.authorizationStatus,
+                promptState: userSettings.notificationPromptState
+            ) else {
+                return
+            }
+
+            try? await Task.sleep(for: Self.notificationPromptDelay)
+            guard !Task.isCancelled, scenePhase == .active else {
+                return
+            }
+            isShowingNotificationPrompt = true
+        }
+        .sheet(
+            isPresented: $isShowingNotificationPrompt,
+            onDismiss: {
+                if userSettings.notificationPromptState == .notPresented {
+                    userSettings.notificationPromptState = .deferred
                 }
+            }
+        ) {
+            NotificationPermissionPromptView(
+                activate: activateNewsNotifications,
+                defer: deferNewsNotifications
+            )
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
         }
         .onChange(
             of: newsNotificationNavigation.requestedNewsItemID,
@@ -268,6 +299,52 @@ struct RootTabView: View {
                 NewsRefresher.scheduleNextBackgroundTask()
             }
         }
+    }
+
+    private func activateNewsNotifications() {
+        isShowingNotificationPrompt = false
+        Task {
+            try? await Task.sleep(for: .milliseconds(300))
+            userSettings.notificationPromptState = .systemPromptRequested
+            await notificationPermissionController.requestAuthorization()
+            if notificationPermissionController.authorizationStatus == .notDetermined {
+                userSettings.notificationPromptState = .deferred
+            }
+        }
+    }
+
+    private func deferNewsNotifications() {
+        userSettings.notificationPromptState = .deferred
+        isShowingNotificationPrompt = false
+    }
+}
+
+private struct NotificationPermissionPromptView: View {
+    let activate: () -> Void
+    let `defer`: () -> Void
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "bell.badge.fill")
+                .font(.largeTitle)
+                .foregroundStyle(.tint)
+                .accessibilityHidden(true)
+
+            VStack(spacing: 8) {
+                Text("notifications.prompt.title")
+                    .font(.title2.bold())
+                Text("notifications.prompt.message")
+                    .foregroundStyle(.secondary)
+            }
+            .multilineTextAlignment(.center)
+
+            Button("notifications.prompt.activate", action: activate)
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+
+            Button("notifications.prompt.later", action: `defer`)
+        }
+        .padding(24)
     }
 }
 
