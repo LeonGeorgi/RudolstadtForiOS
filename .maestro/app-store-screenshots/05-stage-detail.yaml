@@ -1,0 +1,26 @@
+appId: de.leongeorgi.RudolstadtForiOS
+name: App Store - Stage detail
+tags:
+  - app-store
+---
+- extendedWaitUntil:
+    visible:
+      id: "schedule-screen"
+    timeout: 20000
+- tapOn:
+    text: "Locations|Orte"
+- tapOn:
+    text: "List|Liste"
+- extendedWaitUntil:
+    visible:
+      id: "location-7"
+    timeout: 15000
+- tapOn:
+    id: "location-7"
+- extendedWaitUntil:
+    visible:
+      id: "stage-detail-7"
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: 05-stage-detail

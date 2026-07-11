@@ -59,6 +59,12 @@ final class DataStore: ObservableObject {
         self.newsService =
             newsService ?? NewsService(userSettings: resolvedUserSettings)
         self.recommendationService = recommendationService ?? RecommendationService()
+
+        if ScreenshotRuntime.isEnabled {
+            loadBundledScreenshotData()
+            return
+        }
+
         refreshFestivalDataDownloadMetadata()
         loadCachedFestivalDataIfAvailable()
     }
@@ -195,6 +201,11 @@ final class DataStore: ObservableObject {
     }
 
     func refreshOnAppActive(now: Date = .now) async {
+        if ScreenshotRuntime.isEnabled {
+            await refreshRecommendations(now: ScreenshotRuntime.referenceDate)
+            return
+        }
+
         guard !isRefreshingAppState else {
             AppLog.app.debug("Skipped app-active refresh because one is already running")
             return
@@ -225,6 +236,13 @@ final class DataStore: ObservableObject {
 
     func loadFestivalContentForAppLaunch(now: Date = .now) async {
         guard !hasLoadedFestivalContentForAppLaunch else {
+            return
+        }
+
+        if ScreenshotRuntime.isEnabled {
+            await loadArtistLinksIfNeeded()
+            await refreshRecommendations(now: ScreenshotRuntime.referenceDate)
+            hasLoadedFestivalContentForAppLaunch = true
             return
         }
 
@@ -398,6 +416,10 @@ final class DataStore: ObservableObject {
     }
 
     func refreshNewsIfNecessary() async {
+        guard !ScreenshotRuntime.isEnabled else {
+            return
+        }
+
         let result = await newsService.refreshNewsIfNecessary()
         news = LoadingEntity(from: result)
     }
@@ -487,6 +509,31 @@ final class DataStore: ObservableObject {
         case .unparsable:
             AppLog.data.error("Cached festival data was unparsable during startup")
         }
+    }
+
+    private func loadBundledScreenshotData() {
+        loadExtraData()
+        let resolvedExtraData = extraData ?? ExtraDataCollection.empty()
+
+        switch dataLoader.loadBundledFestivalDataBackup(
+            extraData: resolvedExtraData
+        ) {
+        case .loaded(let data), .stale(let data):
+            festivalData = .success(data)
+            isUsingBundledFestivalDataBackup = false
+            festivalDataFallbackStatus = nil
+        case .notFound, .unparsable:
+            festivalData = .failure(.couldNotLoadFromFile)
+        }
+
+        switch dataLoader.loadBundledNewsBackup() {
+        case .loaded(let items), .stale(let items):
+            news = .success(items)
+        case .notFound, .unparsable:
+            news = .failure(.couldNotLoadFromFile)
+        }
+
+        AppLog.data.info("Loaded deterministic bundled data for screenshots")
     }
 
     private func refreshFestivalDataDownloadMetadata() {

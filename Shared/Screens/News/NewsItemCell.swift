@@ -43,6 +43,7 @@ struct NewsItemCell: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("news-\(newsItem.id)")
         .listRowInsets(EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16))
         .listRowBackground(Color.clear)
     }

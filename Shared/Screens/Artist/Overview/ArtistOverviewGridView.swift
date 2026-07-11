@@ -45,6 +45,7 @@ struct ArtistOverviewGridView: View {
                                 )
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("artist-\(artist.id)")
                         }
                     }
                     .padding(.horizontal, 12)

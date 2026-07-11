@@ -58,6 +58,7 @@ struct StageEventCell: View {
         .contextMenu {
             SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
         }
+        .accessibilityIdentifier("event-\(event.id)")
         .id("\(event.id)-\(isSaved)")
     }
 }

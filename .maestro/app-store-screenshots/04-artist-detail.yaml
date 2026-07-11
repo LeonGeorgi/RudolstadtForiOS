@@ -1,0 +1,31 @@
+appId: de.leongeorgi.RudolstadtForiOS
+name: App Store - Artist detail
+tags:
+  - app-store
+---
+- extendedWaitUntil:
+    visible:
+      id: "schedule-screen"
+    timeout: 20000
+- tapOn:
+    text: "Artists|Künstler"
+- tapOn:
+    text: "Search|Suchen"
+- inputText: "La Nina"
+- extendedWaitUntil:
+    visible:
+      id: "artist-216"
+    timeout: 15000
+- tapOn:
+    id: "artist-216"
+- extendedWaitUntil:
+    visible:
+      id: "artist-detail-216-theme-ready"
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: "artist-image-loaded-216"
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: 04-artist-detail

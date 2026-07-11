@@ -77,6 +77,7 @@ struct StageDetailView: View {
             }
             .padding(.bottom, 28)
         }
+        .accessibilityIdentifier("stage-detail-\(stage.id)")
         .navigationTitle(stage.localizedName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

@@ -38,6 +38,7 @@ struct LocationListView: View {
                                 StageNumber(stage: stage, size: 34)
                             }
                         }
+                        .accessibilityIdentifier("location-\(stage.id)")
                     }
                 }
             }

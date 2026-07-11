@@ -27,7 +27,7 @@ struct RootTabView: View {
     @State private var morePath = NavigationPath()
 
     private var isScreenshotMode: Bool {
-        ProcessInfo.processInfo.arguments.contains("-screenshotMode")
+        ScreenshotRuntime.isEnabled
     }
     
     private var selectionBinding: Binding<AppTab> {
@@ -226,16 +226,24 @@ struct RootTabView: View {
         appTabView
         .accentColor(.rudolstadt)
         .onAppear {
-            if !isScreenshotMode {
-                UNUserNotificationCenter.current()
-                    .requestAuthorization(options: [.alert, .sound, .badge]) {
-                        granted,
-                        error in
-                        print(
-                            "Permission granted: \(granted), error: \(String(describing: error))"
-                        )
-                    }
+            if isScreenshotMode {
+                selectedTab = .schedule
+                mapPath = NavigationPath()
+                schedulePath = NavigationPath()
+                artistsPath = NavigationPath()
+                friendsPath = NavigationPath()
+                morePath = NavigationPath()
+                return
             }
+
+            UNUserNotificationCenter.current()
+                .requestAuthorization(options: [.alert, .sound, .badge]) {
+                    granted,
+                    error in
+                    print(
+                        "Permission granted: \(granted), error: \(String(describing: error))"
+                    )
+                }
         }
         .onChange(
             of: newsNotificationNavigation.requestedNewsItemID,

@@ -107,7 +107,10 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     nonisolated static var defaultCloudKitEnabled: Bool {
-        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil
+        !ScreenshotRuntime.isEnabled
+            && ProcessInfo.processInfo.environment[
+                "XCTestConfigurationFilePath"
+            ] == nil
             && ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1"
     }
 

@@ -1,0 +1,14 @@
+appId: de.leongeorgi.RudolstadtForiOS
+name: App Store - Schedule
+tags:
+  - app-store
+---
+- extendedWaitUntil:
+    visible:
+      id: "schedule-screen"
+    timeout: 20000
+- tapOn:
+    text: "Sat|Sa\\."
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: 01-schedule

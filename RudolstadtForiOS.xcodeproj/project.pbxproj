@@ -97,7 +97,6 @@
 		353596F82F922C0B00723570 /* browse_taxonomy.json in Resources */ = {isa = PBXBuildFile; fileRef = 353596F72F922C0B00723570 /* browse_taxonomy.json */; };
 		353596FA2F92464800723570 /* 2026_artist_urls.csv in Resources */ = {isa = PBXBuildFile; fileRef = 353596F92F92464800723570 /* 2026_artist_urls.csv */; };
 		353596FC2F9324F800723570 /* stage_walk_distances.json in Resources */ = {isa = PBXBuildFile; fileRef = 353596FB2F9324F800723570 /* stage_walk_distances.json */; };
-		353596FE2F98A16300723570 /* AppStoreScreenshotsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353596FD2F98A16300723570 /* AppStoreScreenshotsTests.swift */; };
 		354B96772BE798D100F58179 /* ArtistLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354B96762BE798D100F58179 /* ArtistLinks.swift */; };
 		35514C402DD0DFF30004137D /* APIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35514C3F2DD0DFEE0004137D /* APIModel.swift */; };
 		35514C452DD0E2A20004137D /* DataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35514C442DD0E2960004137D /* DataConverter.swift */; };
@@ -325,8 +324,6 @@
 		353596F72F922C0B00723570 /* browse_taxonomy.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = browse_taxonomy.json; sourceTree = "<group>"; };
 		353596F92F92464800723570 /* 2026_artist_urls.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2026_artist_urls.csv; sourceTree = "<group>"; };
 		353596FB2F9324F800723570 /* stage_walk_distances.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stage_walk_distances.json; sourceTree = "<group>"; };
-		353596FD2F98A16300723570 /* AppStoreScreenshotsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshotsTests.swift; sourceTree = "<group>"; };
-		353596FF2F98A18A00723570 /* AppStoreScreenshots.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppStoreScreenshots.xctestplan; sourceTree = "<group>"; };
 		354B96762BE798D100F58179 /* ArtistLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistLinks.swift; sourceTree = "<group>"; };
 		35514C3F2DD0DFEE0004137D /* APIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModel.swift; sourceTree = "<group>"; };
 		35514C442DD0E2960004137D /* DataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverter.swift; sourceTree = "<group>"; };
@@ -695,7 +692,6 @@
 				A10000032F990001004F9471 /* Unit Tests */,
 				3551CC4928043624004F9471 /* Products */,
 				356A65BE2BE803310006761D /* Frameworks */,
-				353596FF2F98A18A00723570 /* AppStoreScreenshots.xctestplan */,
 			);
 			sourceTree = "<group>";
 		};
@@ -742,7 +738,6 @@
 			children = (
 				3551CC5928043624004F9471 /* Tests_iOS.swift */,
 				3551CC5B28043624004F9471 /* Tests_iOSLaunchTests.swift */,
-				353596FD2F98A16300723570 /* AppStoreScreenshotsTests.swift */,
 			);
 			path = "Tests iOS";
 			sourceTree = "<group>";
@@ -1343,7 +1338,6 @@
 			files = (
 				3551CC5C28043624004F9471 /* Tests_iOSLaunchTests.swift in Sources */,
 				3551CC5A28043624004F9471 /* Tests_iOS.swift in Sources */,
-				353596FE2F98A16300723570 /* AppStoreScreenshotsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

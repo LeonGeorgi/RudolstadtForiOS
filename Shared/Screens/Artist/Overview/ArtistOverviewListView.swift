@@ -42,6 +42,7 @@ struct ArtistOverviewListView: View {
                             friendRatingSummary: profile.friendArtistRatingSummary(for: artist.id)
                         )
                     }
+                    .accessibilityIdentifier("artist-\(artist.id)")
                     .listRowInsets(
                         .init(top: 0, leading: 0, bottom: 0, trailing: 16)
                     )

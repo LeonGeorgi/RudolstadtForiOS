@@ -55,6 +55,7 @@ struct ScheduleScreen: View {
                 )
             }
         }
+        .accessibilityIdentifier("schedule-screen")
         .onAppear {
             ensureSelectedDay()
         }

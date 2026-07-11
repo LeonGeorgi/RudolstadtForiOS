@@ -160,6 +160,7 @@ struct NewsItemDetailView: View {
                 }
             }.padding()
         }
+        .accessibilityIdentifier("news-detail-\(newsItem.id)")
         .navigationTitle(newsItem.formattedShortDescription)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

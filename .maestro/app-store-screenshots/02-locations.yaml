@@ -1,0 +1,18 @@
+appId: de.leongeorgi.RudolstadtForiOS
+name: App Store - Locations
+tags:
+  - app-store
+---
+- extendedWaitUntil:
+    visible:
+      id: "schedule-screen"
+    timeout: 20000
+- tapOn:
+    text: "Locations|Orte"
+- extendedWaitUntil:
+    visible:
+      id: "festival-map"
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: 02-locations

@@ -26,6 +26,7 @@ struct ArtistDetailView: View {
 
     @State private var artistBackgroundColor: Color
     @State private var descriptionBackgroundColor: Color
+    @State private var isArtistThemeReady = false
 
     init(
         artist: Artist,
@@ -53,6 +54,23 @@ struct ArtistDetailView: View {
         profile.friendArtistRatingSummary(for: artist.id)
     }
 
+    private func applyThemeColors(
+        _ themeColors: ArtistImageThemeColors,
+        for colorScheme: ColorScheme
+    ) {
+        let updateColors = {
+            artistBackgroundColor = themeColors.backgroundColor(for: colorScheme)
+            descriptionBackgroundColor = themeColors.descriptionBackgroundColor(for: colorScheme)
+            isArtistThemeReady = true
+        }
+
+        if ScreenshotRuntime.isEnabled {
+            updateColors()
+        } else {
+            withAnimation(.easeInOut(duration: 0.25), updateColors)
+        }
+    }
+
     private func applyCachedColors(for colorScheme: ColorScheme) {
         guard
             let cachedThemeColors = ArtistImageColorCache.shared.cachedThemeColors(for: artist.id)
@@ -60,10 +78,7 @@ struct ArtistDetailView: View {
             return
         }
 
-        withAnimation(.easeInOut(duration: 0.25)) {
-            artistBackgroundColor = cachedThemeColors.backgroundColor(for: colorScheme)
-            descriptionBackgroundColor = cachedThemeColors.descriptionBackgroundColor(for: colorScheme)
-        }
+        applyThemeColors(cachedThemeColors, for: colorScheme)
     }
 
     private func loadArtistBackgroundColor() async {
@@ -77,10 +92,7 @@ struct ArtistDetailView: View {
         }
 
         await MainActor.run {
-            withAnimation(.easeInOut(duration: 0.35)) {
-                artistBackgroundColor = themeColors.backgroundColor(for: systemColorScheme)
-                descriptionBackgroundColor = themeColors.descriptionBackgroundColor(for: systemColorScheme)
-            }
+            applyThemeColors(themeColors, for: systemColorScheme)
         }
     }
 
@@ -132,12 +144,16 @@ struct ArtistDetailView: View {
                 .background(descriptionBackgroundColor)
             }
         }
+        .accessibilityIdentifier(
+            "artist-detail-\(artist.id)-theme-\(isArtistThemeReady ? "ready" : "loading")"
+        )
         .background(artistBackgroundColor.ignoresSafeArea())
         .toolbarBackground(.visible, for: .navigationBar)
         .onAppear {
             applyCachedColors(for: systemColorScheme)
         }
         .onChange(of: systemColorScheme, initial: false) { _, _ in
+            isArtistThemeReady = false
             applyCachedColors(for: systemColorScheme)
         }
         .task(id: artist.id) {

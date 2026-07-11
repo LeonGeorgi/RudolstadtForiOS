@@ -1,0 +1,22 @@
+appId: de.leongeorgi.RudolstadtForiOS
+name: App Store - Artists
+tags:
+  - app-store
+---
+- extendedWaitUntil:
+    visible:
+      id: "schedule-screen"
+    timeout: 20000
+- tapOn:
+    text: "Artists|Künstler"
+- extendedWaitUntil:
+    visible:
+      id: "artist-194"
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: "artist-image-loaded-194"
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: 03-artists

@@ -76,10 +76,13 @@ struct ArtistImageView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .clipped()
+                        .accessibilityIdentifier("artist-image-loaded-\(artist.id)")
                 } else if state.error != nil {
                     placeholderImage
+                        .accessibilityIdentifier("artist-image-failed-\(artist.id)")
                 } else {
                     loadingSkeleton
+                        .accessibilityIdentifier("artist-image-loading-\(artist.id)")
                 }
             }
             .priority(.high)
@@ -88,6 +91,7 @@ struct ArtistImageView: View {
             }
         } else {
             placeholderImage
+                .accessibilityIdentifier("artist-image-placeholder-\(artist.id)")
         }
     }
 }
