@@ -8,7 +8,7 @@ struct RecommendationDataStoreTests {
     func refreshRecommendationsStaysLoadingWithoutFestivalData() async {
         let store = DataStore(
             festivalProfileStore: TestFixtures.festivalProfileStore(),
-            userSettings: UserSettings(),
+            userSettings: TestFixtures.userSettings(),
             recommendationService: RecommendationServiceStub(
                 snapshot: RecommendationSnapshot(
                     recommendedEventIds: [901],
@@ -37,7 +37,7 @@ struct RecommendationDataStoreTests {
         )
         let store = DataStore(
             festivalProfileStore: TestFixtures.festivalProfileStore(),
-            userSettings: UserSettings(),
+            userSettings: TestFixtures.userSettings(),
             recommendationService: RecommendationServiceStub(snapshot: snapshot)
         )
         store.festivalData = .success(

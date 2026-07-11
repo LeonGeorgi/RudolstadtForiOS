@@ -15,6 +15,12 @@ protocol RecommendationProviding: Sendable {
 }
 
 final class RecommendationService: RecommendationProviding {
+    private let calendar: Calendar
+
+    init(calendar: Calendar = .current) {
+        self.calendar = calendar
+    }
+
     func buildSnapshot(
         data: FestivalData,
         savedEventIds: [Int],
@@ -27,7 +33,8 @@ final class RecommendationService: RecommendationProviding {
             savedEventIds: savedEventIds,
             artistRatings: ratings,
             eventDurations: estimatedEventDurations,
-            now: now
+            now: now,
+            calendar: calendar
         )
 
         return RecommendationSnapshot(
@@ -38,7 +45,7 @@ final class RecommendationService: RecommendationProviding {
 
     func estimateEventDurations(events: [Event]) -> [Int: Int] {
         let reversedEvents = events.sorted { e1, e2 in
-            e1.date > e2.date
+            e1.date(calendar: calendar) > e2.date(calendar: calendar)
         }
         let reversedEventsByStage = Dictionary(grouping: reversedEvents) { event in
             event.stage.id
@@ -51,7 +58,9 @@ final class RecommendationService: RecommendationProviding {
                 var length = 60
                 if let subsequentEvent {
                     let minutesUntilNextEvent =
-                        subsequentEvent.date.timeIntervalSince(currentEvent.date) / 60
+                        subsequentEvent.date(calendar: calendar).timeIntervalSince(
+                            currentEvent.date(calendar: calendar)
+                        ) / 60
                     var estimatedLength = length
                     let minutesUntilNextEventRoundedDown =
                         floor(minutesUntilNextEvent / 30.0) * 30
@@ -93,6 +102,23 @@ struct SchedulePresenter {
     let scheduleFilterType: ScheduleFilter
     let savedEventIds: Set<Int>
     let positiveRatedArtistIds: Set<Int>
+    private let calendar: Calendar
+
+    init(
+        festivalData: FestivalData,
+        recommendationState: LoadingEntity<[Int]>,
+        scheduleFilterType: ScheduleFilter,
+        savedEventIds: Set<Int>,
+        positiveRatedArtistIds: Set<Int>,
+        calendar: Calendar = .current
+    ) {
+        self.festivalData = festivalData
+        self.recommendationState = recommendationState
+        self.scheduleFilterType = scheduleFilterType
+        self.savedEventIds = savedEventIds
+        self.positiveRatedArtistIds = positiveRatedArtistIds
+        self.calendar = calendar
+    }
 
     var availableEventDays: [Int] {
         festivalDays(from: festivalData.events)
@@ -133,7 +159,7 @@ struct SchedulePresenter {
 
     private func festivalDays(from events: [Event]) -> [Int] {
         Set(events.lazy.map { event in
-            event.festivalDay
+            event.festivalDay(calendar: calendar)
         }).sorted(by: <).filter { day in
             if DataStore.year == 2023 && day < 6 {
                 return false
@@ -152,7 +178,8 @@ final class ScheduleRecommendationGenerator {
         savedEventIds: [Int],
         artistRatings: [String: Int],
         eventDurations: [Int: Int],
-        now: Date
+        now: Date,
+        calendar: Calendar = .current
     ) {
         self.allEvents = allEvents
         self.savedEventIds = Set(savedEventIds)
@@ -166,6 +193,7 @@ final class ScheduleRecommendationGenerator {
         self.artistRatings = normalizedRatings
         self.eventDurations = eventDurations
         self.now = now
+        self.calendar = calendar
     }
 
     let allEvents: [Event]
@@ -173,6 +201,7 @@ final class ScheduleRecommendationGenerator {
     let artistRatings: [Int: Int]
     let eventDurations: [Int: Int]
     let now: Date
+    let calendar: Calendar
 
     func generateRecommendedSchedule() -> [Event] {
         let savedEvents = allEvents.filter { event in
@@ -272,7 +301,7 @@ final class ScheduleRecommendationGenerator {
     }
 
     private func isEventInFuture(event: Event) -> Bool {
-        event.date >= now
+        event.date(calendar: calendar) >= now
     }
 
     private func userIsInterestedInArtist(artist: Artist) -> Bool {
@@ -280,11 +309,15 @@ final class ScheduleRecommendationGenerator {
     }
 
     private func eventSortOrder(lhs: Event, rhs: Event) -> Bool {
-        if lhs.festivalDay != rhs.festivalDay {
-            return lhs.festivalDay < rhs.festivalDay
+        let lhsFestivalDay = lhs.festivalDay(calendar: calendar)
+        let rhsFestivalDay = rhs.festivalDay(calendar: calendar)
+        if lhsFestivalDay != rhsFestivalDay {
+            return lhsFestivalDay < rhsFestivalDay
         }
-        if lhs.startTimeInMinutes != rhs.startTimeInMinutes {
-            return lhs.startTimeInMinutes < rhs.startTimeInMinutes
+        let lhsStartTime = lhs.startTimeInMinutes(calendar: calendar)
+        let rhsStartTime = rhs.startTimeInMinutes(calendar: calendar)
+        if lhsStartTime != rhsStartTime {
+            return lhsStartTime < rhsStartTime
         }
         return lhs.id < rhs.id
     }
@@ -304,7 +337,8 @@ final class ScheduleRecommendationGenerator {
             event1Duration: eventDurations[e1.id] ?? 60,
             event2Duration: eventDurations[e2.id] ?? 60,
             maxAllowedMissedMinutes: 0,
-            arrivalBufferMinutes: arrivalBufferMinutes
+            arrivalBufferMinutes: arrivalBufferMinutes,
+            calendar: calendar
         )
     }
 

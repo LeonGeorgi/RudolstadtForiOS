@@ -40,6 +40,7 @@ final class FestivalProfileStore: ObservableObject {
     private let userDefaults: UserDefaults
     private let cloudKitEnabled: Bool
     private let cachePersister: FestivalProfileCachePersister
+    private let now: () -> Date
     private var listeners: [FestivalProfileStoreChange: [() -> Void]] = [:]
     private var syncStoreObservation: AnyCancellable?
     private var cache: FestivalProfileCache
@@ -57,10 +58,12 @@ final class FestivalProfileStore: ObservableObject {
 
     init(
         userDefaults: UserDefaults = .standard,
-        cloudKitEnabled: Bool = FestivalProfileStore.defaultCloudKitEnabled
+        cloudKitEnabled: Bool = FestivalProfileStore.defaultCloudKitEnabled,
+        now: @escaping () -> Date = { .now }
     ) {
         self.userDefaults = userDefaults
         self.cloudKitEnabled = cloudKitEnabled
+        self.now = now
         self.cachePersister = FestivalProfileCachePersister(
             userDefaults: userDefaults,
             cacheKey: Constants.cacheKey
@@ -339,7 +342,7 @@ final class FestivalProfileStore: ObservableObject {
                 try await sharedSyncEngine.fetchChanges()
             }
             try await refreshCurrentShareParticipants()
-            let refreshDate = Date.now
+            let refreshDate = now()
             syncStore.lastSuccessfulRefreshDate = refreshDate
             cache.lastSuccessfulRefreshDate = refreshDate
             persistCache()
@@ -1449,7 +1452,7 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
         )
         record["festivalYear"] = DataStore.year as CKRecordValue
         record["schemaVersion"] = Constants.schemaVersion as CKRecordValue
-        record["updatedAt"] = Date.now as CKRecordValue
+        record["updatedAt"] = now() as CKRecordValue
         record["profileName"] = Constants.profileName as CKRecordValue
         if let badgeName = FestivalProfileBadge.normalizedName(cache.currentProfile.badgeName) {
             record["badgeName"] = badgeName as CKRecordValue
@@ -1470,7 +1473,7 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
         )
         record["festivalYear"] = DataStore.year as CKRecordValue
         record["eventID"] = eventID as CKRecordValue
-        record["updatedAt"] = Date.now as CKRecordValue
+        record["updatedAt"] = now() as CKRecordValue
         record.setParent(profileRootRecordID())
         return record
     }
@@ -1492,7 +1495,7 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
         } else {
             record["iconName"] = nil
         }
-        record["updatedAt"] = Date.now as CKRecordValue
+        record["updatedAt"] = now() as CKRecordValue
         record.setParent(profileRootRecordID())
         return record
     }
@@ -1509,7 +1512,7 @@ extension FestivalProfileStore: CKSyncEngineDelegate {
         record["festivalYear"] = DataStore.year as CKRecordValue
         record["artistID"] = note.artistID as CKRecordValue
         record["noteText"] = note.noteText as CKRecordValue
-        record["updatedAt"] = Date.now as CKRecordValue
+        record["updatedAt"] = now() as CKRecordValue
         return record
     }
 

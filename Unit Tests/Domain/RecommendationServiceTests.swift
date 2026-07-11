@@ -22,7 +22,7 @@ struct RecommendationServiceTests {
             ),
         ]
 
-        let durations = RecommendationService().estimateEventDurations(
+        let durations = makeService().estimateEventDurations(
             events: events
         )
 
@@ -50,7 +50,7 @@ struct RecommendationServiceTests {
             ),
         ]
 
-        let durations = RecommendationService().estimateEventDurations(
+        let durations = makeService().estimateEventDurations(
             events: events
         )
 
@@ -70,7 +70,7 @@ struct RecommendationServiceTests {
             )
         ])
 
-        let snapshot = RecommendationService().buildSnapshot(
+        let snapshot = makeService().buildSnapshot(
             data: festivalData,
             savedEventIds: [],
             ratings: [:],
@@ -101,7 +101,7 @@ struct RecommendationServiceTests {
             ),
         ])
 
-        let snapshot = RecommendationService().buildSnapshot(
+        let snapshot = makeService().buildSnapshot(
             data: festivalData,
             savedEventIds: [301],
             ratings: ["22": 3],
@@ -132,7 +132,7 @@ struct RecommendationServiceTests {
             ),
         ])
 
-        let snapshot = RecommendationService().buildSnapshot(
+        let snapshot = makeService().buildSnapshot(
             data: festivalData,
             savedEventIds: [],
             ratings: ["23": 2],
@@ -162,7 +162,7 @@ struct RecommendationServiceTests {
             ),
         ])
 
-        let snapshot = RecommendationService().buildSnapshot(
+        let snapshot = makeService().buildSnapshot(
             data: festivalData,
             savedEventIds: [],
             ratings: ["24": 3, "25": 1],
@@ -192,7 +192,7 @@ struct RecommendationServiceTests {
             ),
         ])
 
-        let snapshot = RecommendationService().buildSnapshot(
+        let snapshot = makeService().buildSnapshot(
             data: festivalData,
             savedEventIds: [],
             ratings: ["26": 3, "27": 3],
@@ -213,7 +213,7 @@ struct RecommendationServiceTests {
                 artist: TestFixtures.artist(id: 28)
             )
         ])
-        let service = RecommendationService()
+        let service = makeService()
         let now = TestFixtures.date(dayInJuly: 3, hour: 12, minute: 0)
 
         let first = service.buildSnapshot(
@@ -230,5 +230,9 @@ struct RecommendationServiceTests {
         )
 
         #expect(first == second)
+    }
+
+    private func makeService() -> RecommendationService {
+        RecommendationService(calendar: TestFixtures.festivalCalendar)
     }
 }

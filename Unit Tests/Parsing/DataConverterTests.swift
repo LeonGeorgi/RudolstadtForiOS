@@ -86,6 +86,22 @@ struct DataConverterTests {
     }
 
     @Test
+    func localizedCountryNameUsesExplicitLocale() {
+        #expect(
+            localizedCountryName(
+                forRegionCode: "DEU",
+                locale: Locale(identifier: "de_DE")
+            ) == "Deutschland"
+        )
+        #expect(
+            localizedCountryName(
+                forRegionCode: "DEU",
+                locale: Locale(identifier: "en_US")
+            ) == "Germany"
+        )
+    }
+
+    @Test
     func countryParserHandlesAPIProvidedAlpha3CodesAndAliases() {
         #expect(parseArtistCountryCodes("DEU") == ["DEU"])
         #expect(parseArtistCountryCodes("JAP | DEU") == ["JPN", "DEU"])

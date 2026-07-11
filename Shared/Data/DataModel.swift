@@ -10,7 +10,11 @@ struct AIArtistData {
     let flags: [String]
 
     var localizedSummary: String? {
-        if Locale.current.appLanguageCodeIdentifier == "de" {
+        localizedSummary(locale: .current)
+    }
+
+    func localizedSummary(locale: Locale) -> String? {
+        if locale.appLanguageCodeIdentifier == "de" {
             return summaryDE?.trimmingCharacters(in: .whitespacesAndNewlines)
         } else {
             return summaryEN?.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -18,7 +22,11 @@ struct AIArtistData {
     }
 
     var localizedTags: [String] {
-        if Locale.current.appLanguageCodeIdentifier == "de" {
+        localizedTags(locale: .current)
+    }
+
+    func localizedTags(locale: Locale) -> [String] {
+        if locale.appLanguageCodeIdentifier == "de" {
             return tagsDE
         } else {
             return tagsEN
@@ -26,8 +34,13 @@ struct AIArtistData {
     }
 
     var hasContent: Bool {
-        return (localizedSummary != nil && !localizedSummary!.isEmpty)
-            || !localizedTags.isEmpty
+        hasContent(locale: .current)
+    }
+
+    func hasContent(locale: Locale) -> Bool {
+        let summary = localizedSummary(locale: locale)
+        return summary?.isEmpty == false
+            || !localizedTags(locale: locale).isEmpty
     }
 }
 
@@ -59,7 +72,11 @@ struct Artist: Identifiable {
     }
 
     var formattedDescription: String? {
-        let isGerman = Locale.current.appLanguageCodeIdentifier == "de"
+        formattedDescription(locale: .current)
+    }
+
+    func formattedDescription(locale: Locale) -> String? {
+        let isGerman = locale.appLanguageCodeIdentifier == "de"
         let description = isGerman ? descriptionGerman : descriptionEnglish
         guard let description = description else {
             return nil
@@ -108,12 +125,16 @@ struct Artist: Identifiable {
     }
 
     func matches(searchTerm: String) -> Bool {
+        matches(searchTerm: searchTerm, locale: .current)
+    }
+
+    func matches(searchTerm: String, locale: Locale) -> Bool {
         if searchTerm.isEmpty {
             return true
         }
-        return normalize(string: name).contains(searchTerm)
-            || (formattedDescription.map {
-                normalize(string: $0)
+        return normalize(string: name, locale: locale).contains(searchTerm)
+            || (formattedDescription(locale: locale).map {
+                normalize(string: $0, locale: locale)
             }?
             .contains(searchTerm) ?? false)
     }
@@ -210,7 +231,11 @@ enum ArtistType: Int, Identifiable, CaseIterable {
     }
 
     var localizedName: String {
-        if Locale.current.appLanguageCodeIdentifier == "de" {
+        localizedName(locale: .current)
+    }
+
+    func localizedName(locale: Locale) -> String {
+        if locale.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName
@@ -224,7 +249,11 @@ struct Area: Identifiable, Hashable {
     let englishName: String
 
     var localizedName: String {
-        if Locale.current.appLanguageCodeIdentifier == "de" {
+        localizedName(locale: .current)
+    }
+
+    func localizedName(locale: Locale) -> String {
+        if locale.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName
@@ -256,7 +285,11 @@ struct Event: Identifiable {
     let tag: Tag?
 
     var festivalHour: Int {
-        let hour = Calendar.current.component(.hour, from: date)
+        festivalHour(calendar: .current)
+    }
+
+    func festivalHour(calendar: Calendar) -> Int {
+        let hour = calendar.component(.hour, from: date(calendar: calendar))
         if hour < 5 {
             return hour + 24
         } else {
@@ -265,12 +298,20 @@ struct Event: Identifiable {
     }
 
     var startTimeInMinutes: Int {
-        let minutes = Calendar.current.component(.minute, from: date)
-        return festivalHour * 60 + minutes
+        startTimeInMinutes(calendar: .current)
+    }
+
+    func startTimeInMinutes(calendar: Calendar) -> Int {
+        let minutes = calendar.component(.minute, from: date(calendar: calendar))
+        return festivalHour(calendar: calendar) * 60 + minutes
     }
 
     var festivalDay: Int {
-        if festivalHour >= 24 {
+        festivalDay(calendar: .current)
+    }
+
+    func festivalDay(calendar: Calendar) -> Int {
+        if festivalHour(calendar: calendar) >= 24 {
             return dayInJuly - 1
         } else {
             return dayInJuly
@@ -278,33 +319,67 @@ struct Event: Identifiable {
     }
 
     var secondaryInformation: String {
+        secondaryInformation(locale: .current)
+    }
+
+    func secondaryInformation(locale: Locale) -> String {
         if let tag = tag {
-            return "\(timeAsString) (\(tag.localizedName))"
+            return "\(timeAsString) (\(tag.localizedName(locale: locale)))"
         } else {
             return timeAsString
         }
     }
 
     var shortInformation: String {
+        shortInformation(locale: .current)
+    }
+
+    func shortInformation(locale: Locale) -> String {
         if let tag = tag {
-            return "\(stage.localizedName) (\(tag.localizedName))"
+            let stageName = stage.localizedName(locale: locale)
+            let tagName = tag.localizedName(locale: locale)
+            return "\(stageName) (\(tagName))"
         } else {
-            return stage.localizedName
+            return stage.localizedName(locale: locale)
         }
     }
 
     func matches(searchTerm: String) -> Bool {
+        matches(
+            searchTerm: searchTerm,
+            calendar: .current,
+            locale: .current
+        )
+    }
+
+    func matches(
+        searchTerm: String,
+        calendar: Calendar,
+        locale: Locale
+    ) -> Bool {
         if searchTerm.isEmpty {
             return true
         }
-        let normalizedArtistName = normalize(string: artist.name)
-        let normalizedStageName = normalize(string: stage.localizedName)
+        let normalizedArtistName = normalize(string: artist.name, locale: locale)
+        let normalizedStageName = normalize(
+            string: stage.localizedName(locale: locale),
+            locale: locale
+        )
         let normalizedTagName = tag.map {
-            normalize(string: $0.localizedName)
+            normalize(string: $0.localizedName(locale: locale), locale: locale)
         }
-        let normalizedTimeAsString = normalize(string: timeAsString)
-        let normalizedWeekDay = normalize(string: weekDay)
-        let normalizedShortWeekDay = normalize(string: shortWeekDay)
+        let normalizedTimeAsString = normalize(
+            string: timeAsString,
+            locale: locale
+        )
+        let normalizedWeekDay = normalize(
+            string: weekDay(calendar: calendar, locale: locale),
+            locale: locale
+        )
+        let normalizedShortWeekDay = normalize(
+            string: shortWeekDay(calendar: calendar, locale: locale),
+            locale: locale
+        )
         return searchTerm.split(separator: " ").allSatisfy { subTerm in
             normalizedArtistName.contains(subTerm)
                 || normalizedStageName.contains(subTerm)
@@ -316,6 +391,10 @@ struct Event: Identifiable {
     }
 
     var date: Date {
+        date(calendar: .current)
+    }
+
+    func date(calendar: Calendar) -> Date {
         var dateComponents = DateComponents()
         dateComponents.year = DataStore.year
         dateComponents.month = 7
@@ -325,36 +404,63 @@ struct Event: Identifiable {
         dateComponents.hour = Int(splittedTime[0])
         dateComponents.minute = Int(splittedTime[1])
 
-        let userCalendar = Calendar.current  // user calendar
-        return userCalendar.date(from: dateComponents)!
+        guard let date = calendar.date(from: dateComponents) else {
+            preconditionFailure("Could not create event date")
+        }
+        return date
     }
 
-    func endDate(durationInMinutes: Int) -> Date {
-        date.addingTimeInterval(Double(durationInMinutes) * 60)
+    func endDate(
+        durationInMinutes: Int,
+        calendar: Calendar = .current
+    ) -> Date {
+        date(calendar: calendar).addingTimeInterval(
+            Double(durationInMinutes) * 60
+        )
     }
 
     var festivalDate: Date {
+        festivalDate(calendar: .current)
+    }
+
+    func festivalDate(calendar: Calendar) -> Date {
         var dateComponents = DateComponents()
         dateComponents.year = DataStore.year
         dateComponents.month = 7
-        dateComponents.day = festivalDay
+        dateComponents.day = festivalDay(calendar: calendar)
         //dateComponents.timeZone = TimeZone(abbreviation: "CEST")
 
-        let userCalendar = Calendar.current
-        return userCalendar.date(from: dateComponents)!
+        guard let date = calendar.date(from: dateComponents) else {
+            preconditionFailure("Could not create festival date")
+        }
+        return date
     }
 
     var weekDay: String {
+        weekDay(calendar: .current, locale: .current)
+    }
+
+    func weekDay(calendar: Calendar, locale: Locale) -> String {
         let dateFormatter = DateFormatter()
+        dateFormatter.calendar = calendar
+        dateFormatter.locale = locale
+        dateFormatter.timeZone = calendar.timeZone
         dateFormatter.dateFormat = "EEEE"
-        return dateFormatter.string(from: date)
+        return dateFormatter.string(from: date(calendar: calendar))
 
     }
 
     var shortWeekDay: String {
+        shortWeekDay(calendar: .current, locale: .current)
+    }
+
+    func shortWeekDay(calendar: Calendar, locale: Locale) -> String {
         let dateFormatter = DateFormatter()
+        dateFormatter.calendar = calendar
+        dateFormatter.locale = locale
+        dateFormatter.timeZone = calendar.timeZone
         dateFormatter.dateFormat = "EE"
-        return dateFormatter.string(from: date)
+        return dateFormatter.string(from: date(calendar: calendar))
 
     }
 
@@ -374,13 +480,19 @@ struct Event: Identifiable {
         event1Duration: Int,
         event2Duration: Int,
         maxAllowedMissedMinutes: Int,
-        arrivalBufferMinutes: Int = 0
+        arrivalBufferMinutes: Int = 0,
+        calendar: Calendar = .current
     ) -> Bool {
-        guard festivalDay == other.festivalDay else {
+        guard
+            festivalDay(calendar: calendar)
+                == other.festivalDay(calendar: calendar)
+        else {
             return false
         }
 
-        let firstStartsBeforeOrAtSecond = startTimeInMinutes <= other.startTimeInMinutes
+        let firstStartsBeforeOrAtSecond =
+            startTimeInMinutes(calendar: calendar)
+            <= other.startTimeInMinutes(calendar: calendar)
 
         if firstStartsBeforeOrAtSecond {
             return missesTooMuchOfFollowingEvent(
@@ -388,7 +500,8 @@ struct Event: Identifiable {
                 firstEventDuration: event1Duration,
                 secondEvent: other,
                 maxAllowedMissedMinutes: maxAllowedMissedMinutes,
-                arrivalBufferMinutes: arrivalBufferMinutes
+                arrivalBufferMinutes: arrivalBufferMinutes,
+                calendar: calendar
             )
         } else {
             return missesTooMuchOfFollowingEvent(
@@ -396,7 +509,8 @@ struct Event: Identifiable {
                 firstEventDuration: event2Duration,
                 secondEvent: self,
                 maxAllowedMissedMinutes: maxAllowedMissedMinutes,
-                arrivalBufferMinutes: arrivalBufferMinutes
+                arrivalBufferMinutes: arrivalBufferMinutes,
+                calendar: calendar
             )
         }
     }
@@ -406,15 +520,20 @@ struct Event: Identifiable {
         firstEventDuration: Int,
         secondEvent: Event,
         maxAllowedMissedMinutes: Int,
-        arrivalBufferMinutes: Int
+        arrivalBufferMinutes: Int,
+        calendar: Calendar
     ) -> Bool {
-        let firstEventEnd = firstEvent.startTimeInMinutes + firstEventDuration
+        let firstEventEnd =
+            firstEvent.startTimeInMinutes(calendar: calendar)
+            + firstEventDuration
         let transferMinutes = Self.walkingMinutes(
             from: firstEvent.stage,
             to: secondEvent.stage
         )
         let arrivalAtSecondEvent = firstEventEnd + transferMinutes
-        let requiredArrivalTime = secondEvent.startTimeInMinutes - arrivalBufferMinutes
+        let requiredArrivalTime =
+            secondEvent.startTimeInMinutes(calendar: calendar)
+            - arrivalBufferMinutes
         let missedMinutes = max(0, arrivalAtSecondEvent - requiredArrivalTime)
         return missedMinutes > maxAllowedMissedMinutes
     }
@@ -504,7 +623,11 @@ struct NewsItem: Identifiable {
     let content: String
 
     var isInCurrentLanguage: Bool {
-        let appIsInGerman = Locale.current.appLanguageCodeIdentifier == "de"
+        isInLanguage(.current)
+    }
+
+    func isInLanguage(_ locale: Locale) -> Bool {
+        let appIsInGerman = locale.appLanguageCodeIdentifier == "de"
         let languageIsGerman = languageCode == "de"
         return appIsInGerman == languageIsGerman
     }
@@ -522,16 +645,27 @@ struct NewsItem: Identifiable {
     }
 
     func matches(searchTerm: String) -> Bool {
+        matches(searchTerm: searchTerm, locale: .current)
+    }
+
+    func matches(searchTerm: String, locale: Locale) -> Bool {
         if searchTerm.isEmpty {
             return true
         }
-        let normalizedDate = normalize(string: dateAsString)
-        let normalizedTime = normalize(string: timeAsString)
-        let normalizedShortDescription = normalize(string: shortDescription)
-        let normalizedLongDescription = normalize(
-            string: formattedLongDescription
+        let normalizedDate = normalize(string: dateAsString, locale: locale)
+        let normalizedTime = normalize(string: timeAsString, locale: locale)
+        let normalizedShortDescription = normalize(
+            string: shortDescription,
+            locale: locale
         )
-        let normalizedContent = normalize(string: formattedContent)
+        let normalizedLongDescription = normalize(
+            string: formattedLongDescription,
+            locale: locale
+        )
+        let normalizedContent = normalize(
+            string: formattedContent,
+            locale: locale
+        )
         return searchTerm.split(separator: " ").allSatisfy { subTerm in
             normalizedDate.contains(subTerm) || normalizedTime.contains(subTerm)
                 || normalizedShortDescription.contains(subTerm)
@@ -569,7 +703,11 @@ struct Stage: Identifiable, Hashable {
     let stageType: StageType
 
     var localizedName: String {
-        if Locale.current.appLanguageCodeIdentifier == "de" {
+        localizedName(locale: .current)
+    }
+
+    func localizedName(locale: Locale) -> String {
+        if locale.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName
@@ -577,7 +715,11 @@ struct Stage: Identifiable, Hashable {
     }
 
     var localizedDescription: String? {
-        if Locale.current.appLanguageCodeIdentifier == "de" {
+        localizedDescription(locale: .current)
+    }
+
+    func localizedDescription(locale: Locale) -> String? {
+        if locale.appLanguageCodeIdentifier == "de" {
             return germanDescription
         } else {
             return englishDescription
@@ -585,13 +727,23 @@ struct Stage: Identifiable, Hashable {
     }
 
     func matches(searchTerm: String) -> Bool {
+        matches(searchTerm: searchTerm, locale: .current)
+    }
+
+    func matches(searchTerm: String, locale: Locale) -> Bool {
         if searchTerm.isEmpty {
             return true
         }
-        return normalize(string: localizedName).contains(searchTerm)
-            || normalize(string: area.localizedName).contains(searchTerm)
-            || (localizedDescription.map {
-                normalize(string: $0)
+        return normalize(
+            string: localizedName(locale: locale),
+            locale: locale
+        ).contains(searchTerm)
+            || normalize(
+                string: area.localizedName(locale: locale),
+                locale: locale
+            ).contains(searchTerm)
+            || (localizedDescription(locale: locale).map {
+                normalize(string: $0, locale: locale)
             }?
             .contains(searchTerm) ?? false)
             || stageNumber.map {
@@ -647,7 +799,11 @@ enum StageType: Int, Identifiable, CaseIterable {
     }
 
     var localizedName: String {
-        if Locale.current.appLanguageCodeIdentifier == "de" {
+        localizedName(locale: .current)
+    }
+
+    func localizedName(locale: Locale) -> String {
+        if locale.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName
@@ -661,7 +817,11 @@ struct Tag: Identifiable {
     let englishName: String
 
     var localizedName: String {
-        if Locale.current.appLanguageCodeIdentifier == "de" {
+        localizedName(locale: .current)
+    }
+
+    func localizedName(locale: Locale) -> String {
+        if locale.appLanguageCodeIdentifier == "de" {
             return germanName
         } else {
             return englishName

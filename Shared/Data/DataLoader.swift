@@ -9,9 +9,17 @@ private enum CacheReadResult<Value> {
 
 final class DataLoader: @unchecked Sendable {
     let cacheURL: URL
+    private let calendar: Calendar
+    private let now: @Sendable () -> Date
 
-    init(cacheURL: URL) {
+    init(
+        cacheURL: URL,
+        calendar: Calendar = .current,
+        now: @escaping @Sendable () -> Date = { .now }
+    ) {
         self.cacheURL = cacheURL
+        self.calendar = calendar
+        self.now = now
     }
 
     func loadFestivalDataFromFile(
@@ -161,10 +169,10 @@ final class DataLoader: @unchecked Sendable {
     }
 
     func isFileStale(fileName: String) -> Bool {
-        let someTimeAgo = Calendar.current.date(
+        let someTimeAgo = calendar.date(
             byAdding: .hour,
             value: -3,
-            to: Date.now
+            to: now()
         )
         return isFileOlderThan(fileName: fileName, date: someTimeAgo)
     }
@@ -181,9 +189,9 @@ final class DataLoader: @unchecked Sendable {
         if let someTimeAgo = date {
             return modificationDate < someTimeAgo
         }
-        return Calendar.current.compare(
+        return calendar.compare(
             modificationDate,
-            to: .now,
+            to: now(),
             toGranularity: .day
         ) == .orderedAscending
     }

@@ -42,12 +42,13 @@ struct UserDefault<T> {
     ) -> T {
         get {
             let wrapper = instance[keyPath: storageKeyPath]
-            return UserDefaults.standard.object(forKey: wrapper.key) as? T ?? wrapper.defaultValue
+            return instance.userDefaults.object(forKey: wrapper.key) as? T
+                ?? wrapper.defaultValue
         }
         set {
             let wrapper = instance[keyPath: storageKeyPath]
             instance.objectWillChange.send()
-            UserDefaults.standard.set(newValue, forKey: wrapper.key)
+            instance.userDefaults.set(newValue, forKey: wrapper.key)
             instance.notifySettingsDidChange(forKey: wrapper.key)
         }
     }
@@ -57,6 +58,7 @@ struct UserDefault<T> {
 final class UserPreferencesStore: ObservableObject {
     nonisolated let objectWillChange = ObservableObjectPublisher()
 
+    fileprivate let userDefaults: UserDefaults
     private var listeners: [UserSettingsChange: [() -> Void]] = [:]
 
     @UserDefault(key: "\(DataStore.year)/readNews", defaultValue: [])
@@ -115,7 +117,9 @@ final class UserPreferencesStore: ObservableObject {
     @UserDefault(key: "view/artist/likeIcon", defaultValue: "heart.fill")
     var likeIcon: String
 
-    init() {}
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+    }
 
     fileprivate func notifySettingsDidChange(forKey key: String) {
         guard let change = changeType(forKey: key) else {

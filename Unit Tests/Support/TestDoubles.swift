@@ -19,6 +19,7 @@ final class NewsCacheStub: NewsCaching {
     let loadResult: FileLoadingResult<[NewsItem]>
     var storedNewsIds: [Int] = []
     var isFileOlderThanReturnValue = true
+    var requestedOlderThanDate: Date?
 
     init(loadResult: FileLoadingResult<[NewsItem]>) {
         self.loadResult = loadResult
@@ -38,7 +39,8 @@ final class NewsCacheStub: NewsCaching {
     }
 
     func isFileOlderThan(fileName: String, date: Date?) -> Bool {
-        isFileOlderThanReturnValue
+        requestedOlderThanDate = date
+        return isFileOlderThanReturnValue
     }
 }
 

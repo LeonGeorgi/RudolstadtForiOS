@@ -612,16 +612,19 @@ func parseArtistCountryCodes(_ rawValue: String) -> [String] {
     }
 }
 
-func localizedCountryName(forRegionCode code: String) -> String {
+func localizedCountryName(
+    forRegionCode code: String,
+    locale: Locale = .current
+) -> String {
     let uppercasedCode = code.uppercased()
     if let alpha2Code = isoA3ToA2[uppercasedCode],
-        let localized = Locale.current.localizedString(
+        let localized = locale.localizedString(
             forRegionCode: alpha2Code
         )
     {
         return localized
     }
-    if Locale.current.appLanguageCodeIdentifier == "de" {
+    if locale.appLanguageCodeIdentifier == "de" {
         return manualCountryDisplayNamesDE[uppercasedCode]
             ?? manualCountryDisplayNamesEN[uppercasedCode]
             ?? uppercasedCode

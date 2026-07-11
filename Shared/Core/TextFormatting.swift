@@ -6,10 +6,10 @@ extension Locale {
     }
 }
 
-func normalize(string: String) -> String {
+func normalize(string: String, locale: Locale = .current) -> String {
     string.folding(
         options: [.diacriticInsensitive, .caseInsensitive, .widthInsensitive],
-        locale: Locale.current
+        locale: locale
     ).trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
@@ -124,6 +124,7 @@ private func sanitizedYouTubeVideoID<S: StringProtocol>(_ candidate: S) -> Strin
 extension Array {
     func withApplied(
         searchTerm rawSearchTerm: String,
+        locale: Locale = .current,
         mapper: (Element) -> String
     ) -> [Element] {
         let trimmedSearchTerm = rawSearchTerm.trimmingCharacters(
@@ -133,9 +134,9 @@ extension Array {
             return self
         }
 
-        let searchTerm = normalize(string: trimmedSearchTerm)
+        let searchTerm = normalize(string: trimmedSearchTerm, locale: locale)
         return filter { element in
-            normalize(string: mapper(element)).contains(searchTerm)
+            normalize(string: mapper(element), locale: locale).contains(searchTerm)
         }
         .enumerated()
         .sorted { element1, element2 in
@@ -145,8 +146,8 @@ extension Array {
             let mapped1 = mapper(element1.element)
             let mapped2 = mapper(element2.element)
 
-            let string1 = normalize(string: mapped1)
-            let string2 = normalize(string: mapped2)
+            let string1 = normalize(string: mapped1, locale: locale)
+            let string2 = normalize(string: mapped2, locale: locale)
 
             let s1 = string1.starts(with: searchTerm)
             let s2 = string2.starts(with: searchTerm)
@@ -160,6 +161,7 @@ extension Array {
 
     func withApplied(
         searchTerm rawSearchTerm: String,
+        locale: Locale = .current,
         matcher: (Element, String) -> Bool
     ) -> [Element] {
         let trimmedSearchTerm = rawSearchTerm.trimmingCharacters(
@@ -169,7 +171,7 @@ extension Array {
             return self
         }
 
-        let searchTerm = normalize(string: trimmedSearchTerm)
+        let searchTerm = normalize(string: trimmedSearchTerm, locale: locale)
         return filter { element in
             matcher(element, searchTerm)
         }

@@ -2,6 +2,27 @@ import Foundation
 @testable import Rudolstadt
 
 enum TestFixtures {
+    static var festivalCalendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.locale = Locale(identifier: "en_US_POSIX")
+        calendar.timeZone = TimeZone(identifier: "Europe/Berlin") ?? .gmt
+        return calendar
+    }
+
+    static func isolatedUserDefaults() -> UserDefaults {
+        let suiteName = "RudolstadtTests.\(UUID().uuidString)"
+        guard let userDefaults = UserDefaults(suiteName: suiteName) else {
+            preconditionFailure("Could not create isolated UserDefaults suite")
+        }
+        userDefaults.removePersistentDomain(forName: suiteName)
+        return userDefaults
+    }
+
+    @MainActor
+    static func userSettings() -> UserSettings {
+        UserSettings(userDefaults: isolatedUserDefaults())
+    }
+
     static func festivalData(events: [Event]) -> FestivalData {
         FestivalData(
             artists: unique(events.map(\.artist), by: \.id),
@@ -14,8 +35,9 @@ enum TestFixtures {
     @MainActor
     static func festivalProfileStore() -> FestivalProfileStore {
         FestivalProfileStore(
-            userDefaults: UserDefaults(suiteName: UUID().uuidString)!,
-            cloudKitEnabled: false
+            userDefaults: isolatedUserDefaults(),
+            cloudKitEnabled: false,
+            now: { date(dayInJuly: 3, hour: 12, minute: 0) }
         )
     }
 
@@ -36,7 +58,12 @@ enum TestFixtures {
         )
     }
 
-    static func artist(id: Int, name: String? = nil) -> Artist {
+    static func artist(
+        id: Int,
+        name: String? = nil,
+        descriptionGerman: String? = nil,
+        descriptionEnglish: String? = nil
+    ) -> Artist {
         Artist(
             id: id,
             hiddenFromArtistList: false,
@@ -49,8 +76,8 @@ enum TestFixtures {
             facebookID: nil,
             youtubeID: nil,
             instagram: nil,
-            descriptionGerman: nil,
-            descriptionEnglish: nil,
+            descriptionGerman: descriptionGerman,
+            descriptionEnglish: descriptionEnglish,
             thumbImageUrlString: "https://example.com/thumb.jpg",
             fullImageUrlString: "https://example.com/full.jpg",
             ai: nil
@@ -90,8 +117,13 @@ enum TestFixtures {
         )
     }
 
-    static func date(dayInJuly: Int, hour: Int, minute: Int) -> Date {
-        Calendar.current.date(
+    static func date(
+        dayInJuly: Int,
+        hour: Int,
+        minute: Int,
+        calendar: Calendar = festivalCalendar
+    ) -> Date {
+        guard let date = calendar.date(
             from: DateComponents(
                 year: DataStore.year,
                 month: 7,
@@ -99,7 +131,10 @@ enum TestFixtures {
                 hour: hour,
                 minute: minute
             )
-        )!
+        ) else {
+            preconditionFailure("Could not create festival test date")
+        }
+        return date
     }
 
     static func apiNewsItem(id: Int, language: String) -> APINewsItem {

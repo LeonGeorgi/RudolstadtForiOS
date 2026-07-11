@@ -128,17 +128,26 @@ final class NewsService {
     private let apiClient: NewsFetching
     private let userSettings: UserSettings
     private let notifier: NewsNotifying
+    private let calendar: Calendar
+    private let locale: Locale
+    private let now: () -> Date
 
     init(
         dataLoader: NewsCaching,
         apiClient: NewsFetching,
         userSettings: UserSettings,
-        notifier: NewsNotifying = UserNotificationNewsNotifier()
+        notifier: NewsNotifying = UserNotificationNewsNotifier(),
+        calendar: Calendar = .current,
+        locale: Locale = .current,
+        now: @escaping () -> Date = { .now }
     ) {
         self.dataLoader = dataLoader
         self.apiClient = apiClient
         self.userSettings = userSettings
         self.notifier = notifier
+        self.calendar = calendar
+        self.locale = locale
+        self.now = now
     }
 
     convenience init(userSettings: UserSettings) {
@@ -235,10 +244,10 @@ final class NewsService {
         case .notFound, .unparsable:
             return true
         case .loaded, .stale:
-            let someTimeAgo = Calendar.current.date(
+            let someTimeAgo = calendar.date(
                 byAdding: .minute,
                 value: -10,
-                to: Date.now
+                to: now()
             )
             return dataLoader.isFileOlderThan(
                 fileName: "news.json",
@@ -297,7 +306,8 @@ final class NewsService {
         let newNewsIds = Set(apiNews.map(\.id)).subtracting(oldNewsIds)
         var notifiedCount = 0
 
-        for item in newsItems where newNewsIds.contains(item.id) && item.isInCurrentLanguage {
+        for item in newsItems
+        where newNewsIds.contains(item.id) && item.isInLanguage(locale) {
             do {
                 try await notifier.notifyUser(of: item)
                 userSettings.oldNews.append(item.id)

@@ -10,7 +10,8 @@ struct SchedulePresenterTests {
             recommendationState: .success([802]),
             scheduleFilterType: .optimal,
             savedEventIds: [801],
-            positiveRatedArtistIds: []
+            positiveRatedArtistIds: [],
+            calendar: TestFixtures.festivalCalendar
         )
 
         guard case .success(let shownEvents) = presenter.shownEvents else {
@@ -28,7 +29,8 @@ struct SchedulePresenterTests {
             recommendationState: .loading,
             scheduleFilterType: .interesting,
             savedEventIds: [811],
-            positiveRatedArtistIds: [812]
+            positiveRatedArtistIds: [812],
+            calendar: TestFixtures.festivalCalendar
         )
 
         guard case .success(let shownEvents) = presenter.shownEvents else {
@@ -46,7 +48,8 @@ struct SchedulePresenterTests {
             recommendationState: .loading,
             scheduleFilterType: .saved,
             savedEventIds: [822],
-            positiveRatedArtistIds: []
+            positiveRatedArtistIds: [],
+            calendar: TestFixtures.festivalCalendar
         )
 
         guard case .success(let shownEvents) = presenter.shownEvents else {
@@ -64,7 +67,8 @@ struct SchedulePresenterTests {
             recommendationState: .loading,
             scheduleFilterType: .all,
             savedEventIds: [],
-            positiveRatedArtistIds: []
+            positiveRatedArtistIds: [],
+            calendar: TestFixtures.festivalCalendar
         )
 
         guard case .success(let shownEvents) = presenter.shownEvents else {
