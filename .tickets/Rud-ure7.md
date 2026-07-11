@@ -2,7 +2,7 @@
 id: Rud-ure7
 status: open
 deps: []
-links: [Rud-4lwc]
+links: [Rud-4lwc, Rud-m87x]
 created: 2026-07-11T06:33:49Z
 type: task
 priority: 2

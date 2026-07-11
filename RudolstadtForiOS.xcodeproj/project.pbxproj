@@ -141,7 +141,18 @@
 		35D0A4922A0754CE004C506D /* StagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A4912A0754CE004C506D /* StagePreview.swift */; };
 		35D0A4932A0754CE004C506D /* StagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A4912A0754CE004C506D /* StagePreview.swift */; };
 		35DC40512DFEF3960077079B /* NewsRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DC40502DFEF3920077079B /* NewsRefresher.swift */; };
-		A10000022F990001004F9471 /* DataConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000012F990001004F9471 /* DataConverterTests.swift */; };
+		F10001012F990001004F9471 /* NotificationPermissionPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000012F990001004F9471 /* NotificationPermissionPresentationTests.swift */; };
+		F10001022F990001004F9471 /* DataConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000022F990001004F9471 /* DataConverterTests.swift */; };
+		F10001032F990001004F9471 /* NewsMentionMatchingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000032F990001004F9471 /* NewsMentionMatchingTests.swift */; };
+		F10001042F990001004F9471 /* NewsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000042F990001004F9471 /* NewsServiceTests.swift */; };
+		F10001052F990001004F9471 /* DataLoaderCacheMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000052F990001004F9471 /* DataLoaderCacheMetadataTests.swift */; };
+		F10001062F990001004F9471 /* RecommendationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000062F990001004F9471 /* RecommendationServiceTests.swift */; };
+		F10001072F990001004F9471 /* SchedulePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000072F990001004F9471 /* SchedulePresenterTests.swift */; };
+		F10001082F990001004F9471 /* RecommendationDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000082F990001004F9471 /* RecommendationDataStoreTests.swift */; };
+		F10001092F990001004F9471 /* FriendArtistRecommendationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */; };
+		F100010A2F990001004F9471 /* FestivalProfileStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000A2F990001004F9471 /* FestivalProfileStoreTests.swift */; };
+		F100010B2F990001004F9471 /* TestFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000B2F990001004F9471 /* TestFixtures.swift */; };
+		F100010C2F990001004F9471 /* TestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000C2F990001004F9471 /* TestDoubles.swift */; };
 		A10000092F9A1001004F9471 /* ArtistCountryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */; };
 		A100000A2F9A1001004F9471 /* ArtistCountryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */; };
 		A100000C2F9A1001004F9471 /* ArtistWorldMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000D2F9A1001004F9471 /* ArtistWorldMapView.swift */; };
@@ -359,7 +370,18 @@
 		35D0A48E2A07504C004C506D /* SaveEventPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveEventPreview.swift; sourceTree = "<group>"; };
 		35D0A4912A0754CE004C506D /* StagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagePreview.swift; sourceTree = "<group>"; };
 		35DC40502DFEF3920077079B /* NewsRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRefresher.swift; sourceTree = "<group>"; };
-		A10000012F990001004F9471 /* DataConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverterTests.swift; sourceTree = "<group>"; };
+		F10000012F990001004F9471 /* NotificationPermissionPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionPresentationTests.swift; sourceTree = "<group>"; };
+		F10000022F990001004F9471 /* DataConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverterTests.swift; sourceTree = "<group>"; };
+		F10000032F990001004F9471 /* NewsMentionMatchingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsMentionMatchingTests.swift; sourceTree = "<group>"; };
+		F10000042F990001004F9471 /* NewsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsServiceTests.swift; sourceTree = "<group>"; };
+		F10000052F990001004F9471 /* DataLoaderCacheMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoaderCacheMetadataTests.swift; sourceTree = "<group>"; };
+		F10000062F990001004F9471 /* RecommendationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationServiceTests.swift; sourceTree = "<group>"; };
+		F10000072F990001004F9471 /* SchedulePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePresenterTests.swift; sourceTree = "<group>"; };
+		F10000082F990001004F9471 /* RecommendationDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationDataStoreTests.swift; sourceTree = "<group>"; };
+		F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRecommendationTests.swift; sourceTree = "<group>"; };
+		F100000A2F990001004F9471 /* FestivalProfileStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileStoreTests.swift; sourceTree = "<group>"; };
+		F100000B2F990001004F9471 /* TestFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFixtures.swift; sourceTree = "<group>"; };
+		F100000C2F990001004F9471 /* TestDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDoubles.swift; sourceTree = "<group>"; };
 		A10000042F990001004F9471 /* Unit Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A100000B2F9A1001004F9471 /* ArtistCountryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistCountryParser.swift; sourceTree = "<group>"; };
 		A100000D2F9A1001004F9471 /* ArtistWorldMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistWorldMapView.swift; sourceTree = "<group>"; };
@@ -773,9 +795,76 @@
 		A10000032F990001004F9471 /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
-				A10000012F990001004F9471 /* DataConverterTests.swift */,
+				F10000142F990001004F9471 /* AppState */,
+				F10000102F990001004F9471 /* Domain */,
+				F10000152F990001004F9471 /* Notifications */,
+				F10000112F990001004F9471 /* Parsing */,
+				F10000132F990001004F9471 /* Persistence */,
+				F10000122F990001004F9471 /* Services */,
+				F10000162F990001004F9471 /* Support */,
 			);
 			path = "Unit Tests";
+			sourceTree = "<group>";
+		};
+		F10000102F990001004F9471 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */,
+				F10000062F990001004F9471 /* RecommendationServiceTests.swift */,
+				F10000072F990001004F9471 /* SchedulePresenterTests.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		F10000112F990001004F9471 /* Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				F10000022F990001004F9471 /* DataConverterTests.swift */,
+				F10000032F990001004F9471 /* NewsMentionMatchingTests.swift */,
+			);
+			path = Parsing;
+			sourceTree = "<group>";
+		};
+		F10000122F990001004F9471 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F10000042F990001004F9471 /* NewsServiceTests.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F10000132F990001004F9471 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				F10000052F990001004F9471 /* DataLoaderCacheMetadataTests.swift */,
+				F100000A2F990001004F9471 /* FestivalProfileStoreTests.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		F10000142F990001004F9471 /* AppState */ = {
+			isa = PBXGroup;
+			children = (
+				F10000082F990001004F9471 /* RecommendationDataStoreTests.swift */,
+			);
+			path = AppState;
+			sourceTree = "<group>";
+		};
+		F10000152F990001004F9471 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				F10000012F990001004F9471 /* NotificationPermissionPresentationTests.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		F10000162F990001004F9471 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				F100000C2F990001004F9471 /* TestDoubles.swift */,
+				F100000B2F990001004F9471 /* TestFixtures.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		A100001B2FA10001004F9471 /* App */ = {
@@ -1354,7 +1443,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10000022F990001004F9471 /* DataConverterTests.swift in Sources */,
+				F10001012F990001004F9471 /* NotificationPermissionPresentationTests.swift in Sources */,
+				F10001022F990001004F9471 /* DataConverterTests.swift in Sources */,
+				F10001032F990001004F9471 /* NewsMentionMatchingTests.swift in Sources */,
+				F10001042F990001004F9471 /* NewsServiceTests.swift in Sources */,
+				F10001052F990001004F9471 /* DataLoaderCacheMetadataTests.swift in Sources */,
+				F10001062F990001004F9471 /* RecommendationServiceTests.swift in Sources */,
+				F10001072F990001004F9471 /* SchedulePresenterTests.swift in Sources */,
+				F10001082F990001004F9471 /* RecommendationDataStoreTests.swift in Sources */,
+				F10001092F990001004F9471 /* FriendArtistRecommendationTests.swift in Sources */,
+				F100010A2F990001004F9471 /* FestivalProfileStoreTests.swift in Sources */,
+				F100010B2F990001004F9471 /* TestFixtures.swift in Sources */,
+				F100010C2F990001004F9471 /* TestDoubles.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
