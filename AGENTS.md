@@ -4,6 +4,47 @@
 - If verification is useful, suggest the relevant build command instead of running it independently.
 - Write new code according to clean code principles: keep it simple, readable, well-named, focused, and consistent with the existing project style.
 
+## Code quality
+
+- Prefer simple, explicit solutions over clever abstractions. Add abstractions only when they clarify responsibilities or remove meaningful duplication.
+- Treat a smaller codebase as a meaningful quality advantage. Prefer changes that remove code and obsolete complexity, and justify additions by the value they provide. Never reduce code at the expense of clarity, correctness, or maintainability.
+- Keep components focused, follow the existing architecture and conventions, and avoid unrelated refactoring.
+- Model state and data flow clearly. Avoid force unwraps, hidden side effects, duplicated sources of truth, and silently ignored errors.
+- Use structured, cancellation-aware Swift concurrency with clear task ownership and correct actor isolation.
+- Add or update tests for non-trivial logic and regressions when practical. Test observable behavior, not implementation details.
+
+## Product and UI quality
+
+- Treat this as a polished consumer iOS app, not merely a functionally correct project.
+- Target the design language and native APIs of iOS 26 and newer. Prefer standard SwiftUI behavior, system components, semantic colors, Dynamic Type, and familiar iOS navigation and interactions.
+- Preserve the app’s distinctive festival identity and its useful custom experiences, especially the schedule timeline, artist imagery, and discovery features. Native does not mean generic.
+- Keep interfaces focused, visually balanced, and consistent. Pay attention to hierarchy, spacing, alignment, typography, image treatment, content density, and all relevant states.
+- Do not “improve” the design by automatically adding cards, rounded backgrounds, materials, gradients, shadows, glass effects, or custom controls. Add visual treatment only when it serves a clear structural or semantic purpose.
+- Consider accessibility, localization, Dark Mode, different device sizes, and large Dynamic Type part of the design—not optional cleanup.
+- For UI changes, inspect the existing screen first, preserve what already works, build the app, and verify the rendered result in the simulator. Do not judge visual quality from source code alone.
+- Prefer a small, well-justified improvement over an unnecessary redesign. If a change is primarily subjective, explain the trade-off before implementing it.
+
+## Issue tracking
+
+This project uses **ticket (`tk`)** for tracking tasks, follow-up work, and dependencies. Tickets are stored as Markdown files in `.tickets/`.
+
+- `tk ready` — find unblocked work
+- `tk create "Title" --type task --priority 2` — create a task
+- `tk start <id>` — mark work as in progress
+- `tk add-note <id> "Note"` — record progress or context
+- `tk close <id>` — mark work as complete
+- `tk dep <id> <dependency-id>` — record a dependency
+
+Use `tk` instead of Beads or ad hoc task lists in other repository files. Run `tk --help` for the full and up-to-date command reference.
+
+### User approval gate
+
+- Every ticket created by an agent or LLM must initially have the `needs-approval` tag, for example: `tk create "Title" --type task --priority 2 --tags needs-approval`.
+- Only the user may approve a ticket. Approval is represented by removing `needs-approval` and adding the `approved` tag.
+- Agents must not start, implement, or otherwise work on a ticket unless it has the `approved` tag.
+- Before starting ticket work, inspect the ticket with `tk show <id>` and verify that `approved` is present. If approval is missing, stop and ask the user for approval.
+- The user explicitly requesting implementation of a specific ticket counts as approval; update its tags to `approved` before starting work.
+
 ## Simulator screenshots of specific screens
 
 Use this workflow when the user explicitly asks to run the app and capture a particular iOS screen. Prefer real UI navigation over adding launch arguments or other screenshot-only behavior to production code.
