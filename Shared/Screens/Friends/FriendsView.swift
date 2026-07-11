@@ -28,6 +28,7 @@ struct FriendsView: View {
     @State private var badgeNameDraft = ""
     @State private var badgeColorHexDraft = FestivalProfileBadge.defaultColorHex
     @State private var isShowingBadgeColorPicker = false
+    @State private var isCheckingICloud = false
     @FocusState private var isBadgeNameFieldFocused: Bool
 
     private let contentHorizontalPadding: CGFloat = 16
@@ -63,14 +64,36 @@ struct FriendsView: View {
         )
     }
 
+    private var isBadgeConfigured: Bool {
+        FestivalProfileBadge.normalizedName(profile.badgeName) != nil
+    }
+
+    private var isICloudAvailable: Bool {
+        guard case .available = profileSync.iCloudStatus else {
+            return false
+        }
+        return true
+    }
+
+    private var isSetupComplete: Bool {
+        isBadgeConfigured && isICloudAvailable
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 28) {
+                if !isSetupComplete {
+                    setupIntroduction
+                }
                 profileBadgeSection
-                togetherSections
-                followingSection
-                followedBySection
-                privacySection
+                if !isSetupComplete {
+                    iCloudSetupSection
+                } else {
+                    connectionSection
+                    togetherSections
+                    followingSection
+                    followedBySection
+                }
             }
             .padding(.horizontal, contentHorizontalPadding)
             .padding(.vertical, 20)
@@ -105,17 +128,6 @@ struct FriendsView: View {
         } message: {
             Text(shareErrorMessage ?? "")
         }
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    isShowingFriendScanner = true
-                } label: {
-                    Image(systemName: "qrcode.viewfinder")
-                }
-                .disabled(isShareActionDisabled)
-                .accessibilityLabel("friends.add_new")
-            }
-        }
         .onAppear {
             syncBadgeDraftsFromProfile()
             refreshShareParticipants()
@@ -134,19 +146,50 @@ struct FriendsView: View {
         }
     }
 
+    private var setupIntroduction: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("friends.setup.title")
+                .font(.title3.weight(.semibold))
+
+            Text(setupNextStepKey)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .accessibilityElement(children: .combine)
+    }
+
+    private var setupNextStepKey: LocalizedStringKey {
+        if !isBadgeConfigured {
+            return "friends.setup.next.badge"
+        }
+        if isCheckingICloud || profileSync.iCloudStatus == .checking {
+            return "friends.setup.next.icloud_checking"
+        }
+        return "friends.setup.next.icloud_unavailable"
+    }
+
     private var profileBadgeSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            FriendsSectionTitle("friends.badge.section")
+            FriendsSectionTitle(
+                isSetupComplete ? "friends.badge.section" : "friends.setup.badge.section"
+            )
 
             profileBadgeEditor
                 .padding(14)
                 .background(Color(.secondarySystemGroupedBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
 
+            if !isSetupComplete, isBadgeConfigured {
+                Label("friends.setup.badge.ready", systemImage: "checkmark.circle.fill")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.green)
+            }
+
             Text("friends.badge.footer")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
+        .accessibilityElement(children: .contain)
     }
 
     private var profileBadgeEditor: some View {
@@ -158,8 +201,6 @@ struct FriendsView: View {
                     .textInputAutocapitalization(.words)
                     .autocorrectionDisabled()
                     .focused($isBadgeNameFieldFocused)
-
-                profileHeaderActionButtons
             }
 
             if !isSaveBadgeDisabled {
@@ -208,39 +249,6 @@ struct FriendsView: View {
         }
     }
 
-    private var profileHeaderActionButtons: some View {
-        HStack(spacing: 8) {
-            showQRCodeButton
-            shareInviteLinkButton
-        }
-    }
-
-    private var showQRCodeButton: some View {
-        Button {
-            isShowingMyQRCode = true
-        } label: {
-            Image(systemName: "qrcode")
-                .frame(width: 18, height: 18)
-        }
-        .buttonStyle(.bordered)
-        .controlSize(.small)
-        .disabled(isShareActionDisabled)
-        .accessibilityLabel("friends.show_my_qr_code.accessibility")
-    }
-
-    private var shareInviteLinkButton: some View {
-        Button {
-            handleShareButtonTapped()
-        } label: {
-            Image(systemName: "square.and.arrow.up")
-                .frame(width: 18, height: 18)
-        }
-        .buttonStyle(.bordered)
-        .controlSize(.small)
-        .disabled(isShareActionDisabled)
-        .accessibilityLabel("friends.share_invite_link.accessibility")
-    }
-
     private var saveChangesButton: some View {
         Button("friends.badge.save") {
             profile.updateBadge(
@@ -251,6 +259,149 @@ struct FriendsView: View {
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.small)
+    }
+
+    private var iCloudSetupSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            FriendsSectionTitle("friends.setup.icloud.section")
+
+            HStack(alignment: .top, spacing: 12) {
+                iCloudStatusIcon
+                    .frame(width: 24, height: 24)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(iCloudStatusTitleKey)
+                        .font(.subheadline.weight(.semibold))
+
+                    if let detail = iCloudStatusDetail {
+                        Text(detail)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    if shouldOfferICloudRetry {
+                        Button("friends.setup.icloud.retry") {
+                            checkICloudAgain()
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                        .padding(.top, 4)
+                    }
+                }
+
+                Spacer(minLength: 0)
+            }
+            .padding(14)
+            .background(Color(.secondarySystemGroupedBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+        }
+        .accessibilityElement(children: .contain)
+    }
+
+    @ViewBuilder
+    private var iCloudStatusIcon: some View {
+        if isCheckingICloud || profileSync.iCloudStatus == .checking {
+            ProgressView()
+        } else if isICloudAvailable {
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundStyle(.green)
+        } else {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundStyle(.orange)
+        }
+    }
+
+    private var iCloudStatusTitleKey: LocalizedStringKey {
+        if isCheckingICloud || profileSync.iCloudStatus == .checking {
+            return "friends.setup.icloud.checking"
+        }
+        if isICloudAvailable {
+            return "friends.setup.icloud.ready"
+        }
+        return "friends.setup.icloud.unavailable"
+    }
+
+    private var iCloudStatusDetail: String? {
+        guard case .unavailable(let reason) = profileSync.iCloudStatus else {
+            return nil
+        }
+        return localizedICloudUnavailableReason(reason)
+    }
+
+    private var shouldOfferICloudRetry: Bool {
+        guard !isCheckingICloud, case .unavailable = profileSync.iCloudStatus else {
+            return false
+        }
+        return true
+    }
+
+    private var connectionSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            FriendsSectionTitle("friends.actions.section")
+
+            VStack(spacing: 0) {
+                connectionButton(
+                    title: "friends.show_my_qr_code",
+                    systemImage: "qrcode"
+                ) {
+                    isShowingMyQRCode = true
+                }
+
+                Divider()
+
+                connectionButton(
+                    title: "friends.share_invite_link",
+                    systemImage: "square.and.arrow.up"
+                ) {
+                    handleShareButtonTapped()
+                }
+
+                Divider()
+
+                connectionButton(
+                    title: "friends.add_new",
+                    systemImage: "qrcode.viewfinder"
+                ) {
+                    isShowingFriendScanner = true
+                }
+            }
+            .background(Color(.secondarySystemGroupedBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+
+            if profileSync.isPreparingShare {
+                ProgressView("friends.setup.connect.preparing")
+                    .font(.footnote)
+            }
+
+            Text("friends.privacy.body")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+        .accessibilityElement(children: .contain)
+    }
+
+    private func connectionButton(
+        title: LocalizedStringKey,
+        systemImage: String,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            HStack(spacing: 12) {
+                Image(systemName: systemImage)
+                    .frame(width: 24)
+                    .foregroundStyle(Color.rudolstadt)
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+                Spacer(minLength: 8)
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(14)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(isShareActionDisabled)
     }
 
     @ViewBuilder
@@ -370,24 +521,6 @@ struct FriendsView: View {
                     .buttonStyle(.plain)
                 }
             }
-
-            Button {
-                isShowingFriendScanner = true
-            } label: {
-                Label("friends.add_new", systemImage: "qrcode.viewfinder")
-                    .font(.subheadline.weight(.semibold))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(14)
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-            }
-            .buttonStyle(.plain)
-            .disabled(isShareActionDisabled)
-
-            Text("friends.following.add_hint")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
@@ -402,37 +535,21 @@ struct FriendsView: View {
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Button {
-                    handleManageShareButtonTapped()
-                } label: {
-                    HStack(spacing: 8) {
-                        Label("friends.followed_by.details", systemImage: "person.2")
-                            .font(.subheadline.weight(.semibold))
-                        Spacer(minLength: 8)
-                        Image(systemName: "chevron.right")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.tertiary)
+                if profileSync.shareState == .shared {
+                    Button {
+                        handleManageShareButtonTapped()
+                    } label: {
+                        HStack(spacing: 8) {
+                            Label("friends.followed_by.details", systemImage: "person.2")
+                                .font(.subheadline.weight(.semibold))
+                            Spacer(minLength: 8)
+                            Image(systemName: "chevron.right")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(.tertiary)
+                        }
                     }
-                }
-                .buttonStyle(.plain)
-                .disabled(isShareActionDisabled || profileSync.shareState != .shared)
-
-                Divider()
-
-                HStack(spacing: 8) {
-                    followedByActionButton(
-                        title: "friends.show_my_qr_code",
-                        systemImage: "qrcode"
-                    ) {
-                        isShowingMyQRCode = true
-                    }
-
-                    followedByActionButton(
-                        title: "friends.share_invite_link",
-                        systemImage: "square.and.arrow.up"
-                    ) {
-                        handleShareButtonTapped()
-                    }
+                    .buttonStyle(.plain)
+                    .disabled(profileSync.isPreparingShare)
                 }
             }
             .padding(14)
@@ -449,27 +566,6 @@ struct FriendsView: View {
         )
     }
 
-    private func followedByActionButton(
-        title: LocalizedStringKey,
-        systemImage: String,
-        action: @escaping () -> Void
-    ) -> some View {
-        Button(action: action) {
-            Label(title, systemImage: systemImage)
-                .font(.subheadline.weight(.semibold))
-                .lineLimit(1)
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 10)
-                .background(
-                    Color(.tertiarySystemGroupedBackground),
-                    in: RoundedRectangle(cornerRadius: 8, style: .continuous)
-                )
-        }
-        .buttonStyle(.plain)
-        .disabled(isShareActionDisabled)
-    }
-
     private func friendsEmptyMessage(_ key: LocalizedStringKey) -> some View {
         Text(key)
             .font(.subheadline)
@@ -478,16 +574,6 @@ struct FriendsView: View {
             .padding(14)
             .background(Color(.secondarySystemGroupedBackground))
             .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-    }
-
-    private var privacySection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            FriendsSectionTitle("friends.privacy.section")
-
-            Text("friends.privacy.body")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-        }
     }
 
     private func friendProfileSubtitle(_ profile: SharedFestivalProfile) -> String {
@@ -531,6 +617,35 @@ struct FriendsView: View {
         Task {
             await profile.refreshShareParticipants()
         }
+    }
+
+    private func checkICloudAgain() {
+        isCheckingICloud = true
+        Task {
+            await profile.refreshFromCloud(reason: "friends-setup")
+            isCheckingICloud = false
+        }
+    }
+
+    private func localizedICloudUnavailableReason(_ reason: String) -> String {
+        let localizationKey: String
+        switch reason {
+        case "Could not determine your iCloud status.":
+            localizationKey = "friends.setup.icloud.reason.unknown"
+        case "Sign in to iCloud to sync your festival profile.":
+            localizationKey = "friends.setup.icloud.reason.no_account"
+        case "iCloud sync is restricted on this device.":
+            localizationKey = "friends.setup.icloud.reason.restricted"
+        case "iCloud is temporarily unavailable.":
+            localizationKey = "friends.setup.icloud.reason.temporary"
+        case "iCloud is unavailable right now.":
+            localizationKey = "friends.setup.icloud.reason.unavailable"
+        case "Cloud sync disabled":
+            localizationKey = "friends.setup.icloud.reason.disabled"
+        default:
+            return reason
+        }
+        return friendsLocalizedString(localizationKey)
     }
 
     private func handleShareButtonTapped() {
