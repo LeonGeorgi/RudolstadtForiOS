@@ -76,6 +76,8 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "artists.map.selected_count" = "%1$lld artists from %2$@";
 "artists.map.legend" = "Darker countries mean more artists.";
 "artists.map.show_artists" = "Show artists";
+"artists.map.accessibility.artist_count.one" = "%lld artist";
+"artists.map.accessibility.artist_count.other" = "%lld artists";
 
 "artisttypes.all" = "Select all";
 

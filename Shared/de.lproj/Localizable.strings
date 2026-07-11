@@ -76,6 +76,8 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "artists.map.selected_count" = "%1$lld Künstler aus %2$@";
 "artists.map.legend" = "Dunklere Länder stehen für mehr Künstler.";
 "artists.map.show_artists" = "Künstler anzeigen";
+"artists.map.accessibility.artist_count.one" = "%lld Künstler";
+"artists.map.accessibility.artist_count.other" = "%lld Künstler";
 "artisttypes.all" = "Alle auswählen";
 
 "locations.title" = "Orte";

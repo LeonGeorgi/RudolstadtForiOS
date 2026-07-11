@@ -172,6 +172,14 @@ private struct ArtistWorldMapSwiftUIMap: View {
         )
     }
 
+    private var accessibilityGroups: [ArtistCountryGroup] {
+        groups.sorted {
+            $0.localizedName.localizedCaseInsensitiveCompare(
+                $1.localizedName
+            ) == .orderedAscending
+        }
+    }
+
     var body: some View {
         MapReader { proxy in
             Map(
@@ -206,6 +214,32 @@ private struct ArtistWorldMapSwiftUIMap: View {
                 }
             )
         }
+        .accessibilityRepresentation {
+            VStack {
+                ForEach(accessibilityGroups) { group in
+                    Button {
+                        onCountrySelected(group.code)
+                    } label: {
+                        Text(accessibilityLabel(for: group))
+                    }
+                    .accessibilityAddTraits(
+                        group.code == selectedCountryCode ? .isSelected : []
+                    )
+                }
+            }
+        }
+    }
+
+    private func accessibilityLabel(for group: ArtistCountryGroup) -> String {
+        let countKey = group.count == 1
+            ? "artists.map.accessibility.artist_count.one"
+            : "artists.map.accessibility.artist_count.other"
+        let count = String(
+            format: NSLocalizedString(countKey, comment: ""),
+            locale: Locale.current,
+            group.count
+        )
+        return "\(group.localizedName), \(count)"
     }
 
     private func appearance(for overlay: MKPolygon) -> WorldMapOverlayAppearance {
