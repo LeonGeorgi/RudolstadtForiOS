@@ -3,6 +3,7 @@ import SwiftUI
 struct ArtistDetailHeaderView: View {
     let artist: Artist
     let friendRatingSummary: FriendArtistRatingSummary?
+    let onTitleVisibilityChange: (Bool) -> Void
 
     @Environment(\.artistDetailTheme) private var theme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -72,6 +73,9 @@ struct ArtistDetailHeaderView: View {
                     )
                     .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 3)
                     .minimumScaleFactor(dynamicTypeSize.isAccessibilitySize ? 1 : 0.75)
+                    .onScrollVisibilityChange(threshold: 0.1) { isVisible in
+                        onTitleVisibilityChange(isVisible)
+                    }
 
                 if hasMetadata {
                     VStack(spacing: 3) {

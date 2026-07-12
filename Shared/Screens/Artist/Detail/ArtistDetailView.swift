@@ -21,6 +21,7 @@ struct ArtistDetailView: View {
     @State var noteText: String = ""
     @State private var isShowingAIInfo = false
     @State private var presentedBrowserURL: PresentedBrowserURL?
+    @State private var isArtistTitleVisible = true
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.artistDetailScreen
     )
@@ -103,7 +104,10 @@ struct ArtistDetailView: View {
                 ) {
                     ArtistDetailHeaderView(
                         artist: artist,
-                        friendRatingSummary: friendRatingSummary
+                        friendRatingSummary: friendRatingSummary,
+                        onTitleVisibilityChange: { isVisible in
+                            isArtistTitleVisible = isVisible
+                        }
                     )
 
                     ArtistDetailLinksView(artist: artist) { url in
@@ -164,7 +168,7 @@ struct ArtistDetailView: View {
             await loadArtistBackgroundColor()
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(artist.formattedName)
+        .navigationTitle(isArtistTitleVisible ? "" : artist.formattedName)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 EmptyView()

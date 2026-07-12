@@ -1,6 +1,6 @@
 ---
 id: Rud-hwlz
-status: open
+status: closed
 deps: []
 links: [Rud-tuxh]
 created: 2026-07-11T04:21:04Z
@@ -8,7 +8,7 @@ type: task
 priority: 2
 assignee: Leon Georgi
 parent: Rud-lyze
-tags: [needs-approval, design-audit, ios26, artist-detail, visual-design, navigation-title, effort-small, confidence-high]
+tags: [approved, design-audit, ios26, artist-detail, visual-design, navigation-title, effort-small, confidence-high]
 ---
 # Künstlerdetail: Seitentitel und Navigationstitel über den Scrollzustand zusammenführen
 
@@ -42,3 +42,8 @@ Nicht-Ziele:
 - Back-Button und Toolbar-Aktionen bleiben stabil positioniert.
 - Das Verhalten wurde in Light und Dark Mode sowie mindestens auf einem kleinen und einem großen iPhone geprüft.
 
+## Notes
+
+**2026-07-12T16:27:27Z**
+
+Scrollabhängige Titelübergabe mit onScrollVisibilityChange am Inhaltstitel umgesetzt. Simulator-Build erfolgreich. Auf iPhone 17 / iOS 26.4 mit 5/8erl und A Schwoazzes Gebiss geprüft: oberer, gescrollter und zurückgescrollter Zustand sowie Light/Dark Mode; kein doppelter Titel oder Layoutsprung beobachtet. Nutzer hat auf weitere visuelle Prüfung auf kleinem/großem Gerät und Dynamic Type verzichtet. Keine Tests ausgeführt.
