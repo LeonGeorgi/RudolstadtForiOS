@@ -125,19 +125,28 @@ struct CompactRatingGlyph: View {
     }
 
     var body: some View {
-        ZStack {
-            ForEach(0..<visibleRating, id: \.self) { index in
+        Group {
+            if iconName == "heart.fill", visibleRating > 0 {
+                RatingHeartGlyph(
+                    rating: visibleRating,
+                    color: color
+                )
+            } else {
                 ZStack {
-                    Image(systemName: iconName)
-                        .font(.system(size: glyphSize * 1.22, weight: .bold))
-                        .foregroundStyle(haloColor)
+                    ForEach(0..<visibleRating, id: \.self) { index in
+                        ZStack {
+                            Image(systemName: iconName)
+                                .font(.system(size: glyphSize * 1.22, weight: .bold))
+                                .foregroundStyle(haloColor)
 
-                    Image(systemName: iconName)
-                        .font(.system(size: glyphSize, weight: .bold))
-                        .foregroundStyle(color)
+                            Image(systemName: iconName)
+                                .font(.system(size: glyphSize, weight: .bold))
+                                .foregroundStyle(color)
+                        }
+                        .offset(offset(for: index))
+                        .zIndex(Double(index))
+                    }
                 }
-                .offset(offset(for: index))
-                .zIndex(Double(index))
             }
         }
         .frame(width: size + spread * 2, height: size + spread * 2)

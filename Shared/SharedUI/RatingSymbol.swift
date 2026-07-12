@@ -13,12 +13,23 @@ struct RatingSymbol: View {
                 .foregroundColor(.secondary)
 
         } else {
-            ZStack {
-                ForEach(0..<visibleRating, id: \.self) { index in
-                    RatingSymbolGlyph(systemName: settings.likeIcon)
-                        .scaleEffect(glyphScale)
-                        .offset(offset(for: index))
-                        .zIndex(Double(index))
+            Group {
+                if settings.likeIcon == "heart.fill" {
+                    RatingHeartGlyph(rating: visibleRating, color: .red)
+                        .shadow(
+                            color: .black.opacity(0.18),
+                            radius: 1,
+                            y: 0.5
+                        )
+                } else {
+                    ZStack {
+                        ForEach(0..<visibleRating, id: \.self) { index in
+                            RatingSymbolGlyph(systemName: settings.likeIcon)
+                                .scaleEffect(glyphScale)
+                                .offset(offset(for: index))
+                                .zIndex(Double(index))
+                        }
+                    }
                 }
             }
             .frame(width: stackWidth, height: stackHeight)
@@ -62,6 +73,23 @@ struct RatingSymbol: View {
         default:
             return 0.7
         }
+    }
+}
+
+struct RatingHeartGlyph: View {
+    let rating: Int
+    let color: Color
+
+    private var assetName: String {
+        "rating-heart-\(min(max(rating, 1), 3))"
+    }
+
+    var body: some View {
+        Image(assetName)
+            .resizable()
+            .renderingMode(.template)
+            .scaledToFit()
+            .foregroundStyle(color)
     }
 }
 
