@@ -186,10 +186,27 @@ enum TestFixtures {
         )
     }
 
-    static func apiFestivalData() -> APIRudolstadtData {
+    static func apiFestivalData(artistID: Int? = nil) -> APIRudolstadtData {
         APIRudolstadtData(
             areas: [],
-            artists: [],
+            artists: artistID.map { id in
+                [APIArtist(
+                    id: id,
+                    category: .concert,
+                    hideArtist: false,
+                    name: "API Artist \(id)",
+                    country: "Germany",
+                    website: nil,
+                    video: nil,
+                    facebook: nil,
+                    instagram: nil,
+                    soundcloud: nil,
+                    imgThumb: "",
+                    imgFull: "",
+                    descriptionDE: "",
+                    descriptionEN: ""
+                )]
+            } ?? [],
             events: [],
             stages: [],
             tags: []

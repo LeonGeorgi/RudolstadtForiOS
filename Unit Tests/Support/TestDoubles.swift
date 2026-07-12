@@ -84,8 +84,11 @@ final class FestivalDataCacheStub: @unchecked Sendable, FestivalDataCaching,
     private let loadResult: FileLoadingResult<FestivalData>
     private let bundledFestivalResult: FileLoadingResult<FestivalData>
     private let bundledNewsResult: FileLoadingResult<[NewsItem]>
+    private let storeResult: Bool
+    private let modificationDate: Date?
     private var storedLoadCallCount = 0
     private var storedStoreCallCount = 0
+    private var storedBundledFestivalLoadCallCount = 0
 
     var loadCallCount: Int {
         lock.withLock { storedLoadCallCount }
@@ -95,14 +98,22 @@ final class FestivalDataCacheStub: @unchecked Sendable, FestivalDataCaching,
         lock.withLock { storedStoreCallCount }
     }
 
+    var bundledFestivalLoadCallCount: Int {
+        lock.withLock { storedBundledFestivalLoadCallCount }
+    }
+
     init(
         loadResult: FileLoadingResult<FestivalData> = .notFound,
         bundledFestivalResult: FileLoadingResult<FestivalData> = .notFound,
-        bundledNewsResult: FileLoadingResult<[NewsItem]> = .notFound
+        bundledNewsResult: FileLoadingResult<[NewsItem]> = .notFound,
+        storeResult: Bool = true,
+        modificationDate: Date? = nil
     ) {
         self.loadResult = loadResult
         self.bundledFestivalResult = bundledFestivalResult
         self.bundledNewsResult = bundledNewsResult
+        self.storeResult = storeResult
+        self.modificationDate = modificationDate
     }
 
     func loadFestivalDataFromFile(
@@ -117,7 +128,10 @@ final class FestivalDataCacheStub: @unchecked Sendable, FestivalDataCaching,
     func loadBundledFestivalDataBackup(
         extraData: ExtraDataCollection
     ) -> FileLoadingResult<FestivalData> {
-        bundledFestivalResult
+        lock.withLock {
+            storedBundledFestivalLoadCallCount += 1
+        }
+        return bundledFestivalResult
     }
 
     func storeAPIRudolstadtDataToFile(
@@ -127,7 +141,7 @@ final class FestivalDataCacheStub: @unchecked Sendable, FestivalDataCaching,
         lock.withLock {
             storedStoreCallCount += 1
         }
-        return true
+        return storeResult
     }
 
     func deleteCachedFestivalData() -> Bool {
@@ -135,7 +149,7 @@ final class FestivalDataCacheStub: @unchecked Sendable, FestivalDataCaching,
     }
 
     func cachedFestivalDataModificationDate() -> Date? {
-        nil
+        modificationDate
     }
 
     func isFileStale(fileName: String) -> Bool {
@@ -144,6 +158,24 @@ final class FestivalDataCacheStub: @unchecked Sendable, FestivalDataCaching,
 
     func loadBundledNewsBackup() -> FileLoadingResult<[NewsItem]> {
         bundledNewsResult
+    }
+}
+
+actor ControlledFestivalDataFetcher: FestivalDataFetching {
+    private var continuations: [CheckedContinuation<APIRudolstadtData, Error>] = []
+
+    var fetchCallCount: Int {
+        continuations.count
+    }
+
+    func fetchFestivalData() async throws -> APIRudolstadtData {
+        try await withCheckedThrowingContinuation { continuation in
+            continuations.append(continuation)
+        }
+    }
+
+    func resumeFetch(at index: Int, with data: APIRudolstadtData) {
+        continuations[index].resume(returning: data)
     }
 }
 

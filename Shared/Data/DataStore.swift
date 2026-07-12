@@ -35,6 +35,7 @@ final class DataStore: ObservableObject {
 
     private var pendingRecommendationRefreshTask: Task<Void, Never>?
     private var recommendationRefreshGeneration = 0
+    private var festivalDataRefreshGeneration = 0
     private var isRefreshingAppState = false
     private var hasLoadedFestivalContentForAppLaunch = false
     private var lastAppStateRefreshAt: Date?
@@ -151,6 +152,8 @@ final class DataStore: ObservableObject {
     }
 
     func loadOrRefreshFestivalData() async {
+        let generation = festivalDataRefreshGeneration + 1
+        festivalDataRefreshGeneration = generation
         let hadLoadedFestivalDataAtStart: Bool
         if case .success = festivalData {
             hadLoadedFestivalDataAtStart = true
@@ -165,6 +168,9 @@ final class DataStore: ObservableObject {
         let resultFromCache = await loadCachedFestivalData(
             extraData: resolvedExtraData
         )
+        guard generation == festivalDataRefreshGeneration else {
+            return
+        }
         switch resultFromCache {
         case .loaded(let cachedData):
             festivalData = .success(cachedData)
@@ -189,7 +195,8 @@ final class DataStore: ObservableObject {
 
         await downloadAndSetFestivalData(
             resultFromCache: resultFromCache,
-            preserveCurrentDataOnFailure: hadLoadedFestivalDataAtStart
+            preserveCurrentDataOnFailure: hadLoadedFestivalDataAtStart,
+            generation: generation
         )
     }
     
@@ -304,13 +311,17 @@ final class DataStore: ObservableObject {
 
     private func downloadAndSetFestivalData(
         resultFromCache: FileLoadingResult<FestivalData>,
-        preserveCurrentDataOnFailure: Bool
+        preserveCurrentDataOnFailure: Bool,
+        generation: Int
     ) async {
         if case .stale(let loadedData) = resultFromCache {
             festivalData = .success(loadedData)
         }
         do {
             let apiData = try await festivalDataFetcher.fetchFestivalData()
+            guard generation == festivalDataRefreshGeneration else {
+                return
+            }
             let storedFile = festivalDataCache.storeAPIRudolstadtDataToFile(
                 data: apiData,
                 fileName: "rudolstadt_data.json"
@@ -330,6 +341,9 @@ final class DataStore: ObservableObject {
             isUsingBundledFestivalDataBackup = false
             festivalDataFallbackStatus = nil
         } catch {
+            guard generation == festivalDataRefreshGeneration else {
+                return
+            }
             AppLog.data.error(
                 "Festival data refresh failed: \(error.localizedDescription, privacy: .public)"
             )
