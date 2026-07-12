@@ -1,8 +1,13 @@
 # Codex Instructions
 
-- Do not run builds, build commands, or compile checks unless the user explicitly asks for them.
-- If verification is useful, suggest the relevant build command instead of running it independently.
 - Write new code according to clean code principles: keep it simple, readable, well-named, focused, and consistent with the existing project style.
+
+## Build and verification
+
+- After changing code, you may run the smallest relevant non-destructive compile check or targeted test.
+- Do not run clean builds, full builds, full test suites, simulator builds, or launch the app without explicit user authorization.
+- Respect explicit requests not to build or test.
+- Report which verification was performed and which relevant verification remains outstanding.
 
 ## Working approach
 
