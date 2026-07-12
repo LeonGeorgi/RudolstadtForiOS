@@ -11,6 +11,7 @@ import SwiftUI
 struct ScheduleListView: View {
     let events: [Event]
 
+    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject var profile: FestivalProfileStore
 
@@ -55,7 +56,7 @@ struct ScheduleListView: View {
                     )
                     .listRowBackground(
                         profile.isEventSaved(event.id)
-                            ? Color.accentColor.opacity(0.12)
+                            ? savedEventBackground
                             : Color.clear
                     )
                 }
@@ -64,6 +65,10 @@ struct ScheduleListView: View {
                 .background(Color.clear)
             }
         }
+    }
+
+    private var savedEventBackground: Color {
+        Color.accentColor.opacity(colorScheme == .dark ? 0.24 : 0.12)
     }
 }
 
