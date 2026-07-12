@@ -129,6 +129,64 @@ struct ArtistImageThemeColors: Codable {
             return light.descriptionBackgroundColor(for: .light)
         }
     }
+
+    func artistDetailTheme(for colorScheme: ColorScheme) -> ArtistDetailTheme {
+        let dominantColor = colorScheme == .dark ? dark : light
+        let isDark = colorScheme == .dark
+
+        return ArtistDetailTheme(
+            pageBackground: dominantColor.backgroundColor,
+            descriptionSurface: dominantColor.surfaceColor(
+                lightnessDelta: isDark ? -0.03 : 0.03
+            ),
+            actionSurface: dominantColor.surfaceColor(
+                saturationMultiplier: 0.72,
+                lightnessDelta: isDark ? 0.09 : -0.08
+            ),
+            eventSurface: dominantColor.surfaceColor(
+                saturationMultiplier: 0.78,
+                lightnessDelta: isDark ? 0.07 : -0.055
+            ),
+            contentSurface: dominantColor.surfaceColor(
+                saturationMultiplier: 0.78,
+                lightnessDelta: isDark ? -0.045 : 0.05
+            ),
+            separator: dominantColor.surfaceColor(
+                saturationMultiplier: 0.65,
+                lightnessDelta: isDark ? 0.14 : -0.13
+            ).opacity(isDark ? 0.55 : 0.4),
+            imageBorder: dominantColor.surfaceColor(
+                saturationMultiplier: 0.7,
+                lightnessDelta: isDark ? 0.2 : -0.2
+            ).opacity(0.65),
+            shadow: dominantColor.surfaceColor(
+                saturationMultiplier: 0.75,
+                lightnessDelta: -0.32
+            ).opacity(isDark ? 0.42 : 0.24)
+        )
+    }
+}
+
+private extension ArtistImageDominantColor {
+    func surfaceColor(
+        saturationMultiplier: Double = 1,
+        lightnessDelta: Double
+    ) -> Color {
+        let okhsl = OKHSLColorConverter.srgbToOKHSL(.init(r: red, g: green, b: blue))
+        let adjusted = OKHSLColorConverter.OKHSL(
+            h: okhsl.h,
+            s: min(1, max(0, okhsl.s * saturationMultiplier)),
+            l: min(1, max(0, okhsl.l + lightnessDelta))
+        )
+        let rgb = OKHSLColorConverter.okhslToSRGB(adjusted)
+        return Color(
+            .sRGB,
+            red: min(1, max(0, rgb.r)),
+            green: min(1, max(0, rgb.g)),
+            blue: min(1, max(0, rgb.b)),
+            opacity: 1
+        )
+    }
 }
 
 private struct ArtistImageColorBucket {

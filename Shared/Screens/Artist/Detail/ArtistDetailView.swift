@@ -25,8 +25,7 @@ struct ArtistDetailView: View {
         DiscoverabilityTipSequences.artistDetailScreen
     )
 
-    @State private var artistBackgroundColor: Color
-    @State private var descriptionBackgroundColor: Color
+    @State private var artistTheme: ArtistDetailTheme
     @State private var isArtistThemeReady = false
 
     init(
@@ -37,8 +36,7 @@ struct ArtistDetailView: View {
         self.artist = artist
         self.highlightedEventId = highlightedEventId
         self.navigate = navigate
-        _artistBackgroundColor = State(initialValue: .clear)
-        _descriptionBackgroundColor = State(initialValue: .clear)
+        _artistTheme = State(initialValue: .fallback(for: .light))
     }
 
     var artistEvents: [Event] {
@@ -60,8 +58,7 @@ struct ArtistDetailView: View {
         for colorScheme: ColorScheme
     ) {
         let updateColors = {
-            artistBackgroundColor = themeColors.backgroundColor(for: colorScheme)
-            descriptionBackgroundColor = themeColors.descriptionBackgroundColor(for: colorScheme)
+            artistTheme = themeColors.artistDetailTheme(for: colorScheme)
             isArtistThemeReady = true
         }
 
@@ -144,17 +141,17 @@ struct ArtistDetailView: View {
                         .padding(.bottom, 2)
 
                     ArtistDescriptionBlock(
-                        description: artist.formattedDescription,
-                        backgroundColor: .clear
+                        description: artist.formattedDescription
                     )
                 }
-                .background(descriptionBackgroundColor)
+                .background(artistTheme.descriptionSurface)
             }
         }
+        .environment(\.artistDetailTheme, artistTheme)
         .accessibilityIdentifier(
             "artist-detail-\(artist.id)-theme-\(isArtistThemeReady ? "ready" : "loading")"
         )
-        .background(artistBackgroundColor.ignoresSafeArea())
+        .background(artistTheme.pageBackground.ignoresSafeArea())
         .toolbarBackground(.visible, for: .navigationBar)
         .onAppear {
             applyCachedColors(for: systemColorScheme)

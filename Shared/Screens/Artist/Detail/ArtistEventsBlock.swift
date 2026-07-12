@@ -6,19 +6,11 @@ struct ArtistEventsBlock: View {
     let currentTipID: String?
     let navigate: ((AppNavigationRoute) -> Void)?
     
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.artistDetailTheme) private var theme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
     @EnvironmentObject private var dataStore: DataStore
-    
-    private var eventDividerColor: Color {
-        colorScheme == .dark ? .white.opacity(0.22) : .black.opacity(0.12)
-    }
-    
-    private var highlightedEventBackgroundColor: Color {
-        colorScheme == .dark ? .white.opacity(0.10) : .black.opacity(0.08)
-    }
     
     private func intersectingEventsByArtistEvent(
         _ artistEvents: [Event]
@@ -79,7 +71,7 @@ struct ArtistEventsBlock: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(
                         highlightedEventId == event.id && artistEvents.count > 1
-                        ? highlightedEventBackgroundColor
+                        ? theme.actionSurface
                         : Color.clear
                     )
                     .contentShape(Rectangle())
@@ -88,7 +80,7 @@ struct ArtistEventsBlock: View {
                 
                 if index < artistEvents.count - 1 {
                     Divider()
-                        .overlay(eventDividerColor)
+                        .overlay(theme.separator)
                         .padding(
                             .leading,
                             dynamicTypeSize.isAccessibilitySize ? 16 : 16 + 52 + 10
@@ -98,7 +90,7 @@ struct ArtistEventsBlock: View {
             }
         }
         .padding(.vertical, 8)
-        .background(.background.opacity(colorScheme == .dark ? 0.3 : 0.6))
+        .background(theme.eventSurface)
         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
     }
 }

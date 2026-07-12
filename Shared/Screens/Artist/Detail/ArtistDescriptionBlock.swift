@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ArtistDescriptionBlock: View {
     let description: String?
-    let backgroundColor: Color
 
     var body: some View {
         if let description, !description.isEmpty {
@@ -14,7 +13,6 @@ struct ArtistDescriptionBlock: View {
             .padding(.top, 6)
             .padding(.bottom, 32)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(backgroundColor)
         }
     }
 }
@@ -24,8 +22,7 @@ struct ArtistDescriptionBlock_Previews: PreviewProvider {
     @MainActor
     static var previews: some View {
         ArtistDescriptionBlock(
-            description: PreviewMockData.featuredArtist.formattedDescription,
-            backgroundColor: .clear
+            description: PreviewMockData.featuredArtist.formattedDescription
         )
         .previewMockEnvironment(suiteName: "ArtistDescriptionBlockPreview")
         .previewLayout(.sizeThatFits)

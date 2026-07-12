@@ -4,7 +4,7 @@ struct ArtistDetailHeaderView: View {
     let artist: Artist
     let friendRatingSummary: FriendArtistRatingSummary?
 
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.artistDetailTheme) private var theme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var isShowingFullImage = false
 
@@ -116,10 +116,6 @@ struct ArtistDetailHeaderView: View {
         .padding(.top, 4)
     }
 
-    private var imageStrokeColor: Color {
-        colorScheme == .dark ? .white.opacity(0.22) : .black.opacity(0.15)
-    }
-
     private var artistImage: some View {
         Color.secondary.opacity(0.12)
             .aspectRatio(
@@ -141,9 +137,9 @@ struct ArtistDetailHeaderView: View {
             }
             .overlay(
                 RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .stroke(imageStrokeColor, lineWidth: 0.5)
+                    .stroke(theme.imageBorder, lineWidth: 0.5)
             )
-            .shadow(color: .black.opacity(0.25), radius: 15, x: 0, y: 8)
+            .shadow(color: theme.shadow, radius: 15, x: 0, y: 8)
             .padding(.horizontal, dynamicTypeSize.isAccessibilitySize ? 16 : 40)
     }
 
@@ -155,6 +151,7 @@ struct ArtistDetailLinksView: View {
 
     @EnvironmentObject var dataStore: DataStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.artistDetailTheme) private var theme
 
     private var artistLinks: ArtistLinks? {
         if let exact = dataStore.artistLinks?[artist.name] {
@@ -272,6 +269,8 @@ private struct LinkButton: View {
     let icon: () -> Image
     let action: () -> Void
 
+    @Environment(\.artistDetailTheme) private var theme
+
     var body: some View {
         Button(action: action) {
             icon()
@@ -283,16 +282,16 @@ private struct LinkButton: View {
                 .contentShape(Circle())
         }
         .accessibilityLabel(Text(label))
-        .artistDetailLinkButtonStyle()
+        .artistDetailLinkButtonStyle(backgroundColor: theme.actionSurface)
     }
 }
 
 private extension View {
-    func artistDetailLinkButtonStyle() -> some View {
+    func artistDetailLinkButtonStyle(backgroundColor: Color) -> some View {
         self
             .frame(width: 50, height: 50)
             .buttonBorderShape(.circle)
-            .background(Color.primary.opacity(0.12), in: Circle())
+            .background(backgroundColor, in: Circle())
             .foregroundStyle(.foreground)
     }
 }
