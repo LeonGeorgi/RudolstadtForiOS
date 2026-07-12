@@ -10,7 +10,7 @@ final class FestivalProfileStore: ObservableObject {
     // MARK: - Constants
 
     enum Constants {
-        static let cacheKey = "festival-profile-cache-v1"
+        static let legacyCacheKey = "festival-profile-cache-v1"
         static let migrationVersion = 1
         static let schemaVersion = 2
         static let localMutationSyncDelayNanoseconds: UInt64 = 750_000_000
@@ -22,10 +22,26 @@ final class FestivalProfileStore: ObservableObject {
         static let profileName = "My Festival Picks"
         static let profileZoneName = "FestivalProfileZone-\(DataStore.year)"
         static let notesZoneName = "FestivalProfileNotesZone-\(DataStore.year)"
-        static let legacySavedEventsKey = "\(DataStore.year)/savedEvents"
-        static let legacyRatingsKey = "\(DataStore.year)/ratings"
-        static let legacyArtistIconsKey = "\(DataStore.year)/artistIcons"
-        static let legacyArtistNotesKey = "\(DataStore.year)/artistNotes"
+
+        nonisolated static func cacheKey(for festivalYear: Int) -> String {
+            "festival-profile-cache-\(festivalYear)-v1"
+        }
+
+        nonisolated static func legacySavedEventsKey(for festivalYear: Int) -> String {
+            "\(festivalYear)/savedEvents"
+        }
+
+        nonisolated static func legacyRatingsKey(for festivalYear: Int) -> String {
+            "\(festivalYear)/ratings"
+        }
+
+        nonisolated static func legacyArtistIconsKey(for festivalYear: Int) -> String {
+            "\(festivalYear)/artistIcons"
+        }
+
+        nonisolated static func legacyArtistNotesKey(for festivalYear: Int) -> String {
+            "\(festivalYear)/artistNotes"
+        }
     }
 
     @Published private(set) var savedEvents: [Int] = []
@@ -66,7 +82,10 @@ final class FestivalProfileStore: ObservableObject {
         }
     ) {
         let persistence = persistence
-            ?? UserDefaultsFestivalProfilePersistence(userDefaults: userDefaults)
+            ?? UserDefaultsFestivalProfilePersistence(
+                userDefaults: userDefaults,
+                festivalYear: DataStore.year
+            )
         self.cloudKitEnabled = cloudKitEnabled
         self.now = now
         self.persistence = persistence

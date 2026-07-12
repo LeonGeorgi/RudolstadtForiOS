@@ -33,12 +33,13 @@ enum TestFixtures {
     }
 
     static func cachedOwnerFestivalProfile(
+        festivalYear: Int = DataStore.year,
         savedEventIDs: [Int] = [],
         artistPreferences: [FestivalArtistPreference] = [],
         artistNotes: [FestivalArtistNote] = []
     ) -> CachedOwnerFestivalProfile {
         CachedOwnerFestivalProfile(
-            festivalYear: DataStore.year,
+            festivalYear: festivalYear,
             badgeName: nil,
             badgeColorHex: FestivalProfileBadge.defaultColorHex,
             savedEventIDs: savedEventIDs,

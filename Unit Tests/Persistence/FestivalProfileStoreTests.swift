@@ -216,3 +216,162 @@ struct FestivalProfileStoreTests {
     }
 #endif
 }
+
+struct FestivalProfilePersistenceTests {
+    @Test
+    func cachesAndLegacyValuesAreIsolatedByFestivalYear() {
+        let userDefaults = TestFixtures.isolatedUserDefaults()
+        userDefaults.set([26], forKey: "2026/savedEvents")
+        userDefaults.set([27], forKey: "2027/savedEvents")
+        let persistence2026 = UserDefaultsFestivalProfilePersistence(
+            userDefaults: userDefaults,
+            festivalYear: 2026
+        )
+        let persistence2027 = UserDefaultsFestivalProfilePersistence(
+            userDefaults: userDefaults,
+            festivalYear: 2027
+        )
+        let cache2026 = TestFixtures.festivalProfileCache(
+            currentProfile: TestFixtures.cachedOwnerFestivalProfile(
+                festivalYear: 2026,
+                savedEventIDs: [126]
+            )
+        )
+        let cache2027 = TestFixtures.festivalProfileCache(
+            currentProfile: TestFixtures.cachedOwnerFestivalProfile(
+                festivalYear: 2027,
+                savedEventIDs: [127]
+            )
+        )
+
+        persistence2026.persist(cache2026)
+        persistence2027.persist(cache2027)
+
+        #expect(persistence2026.loadCache() == cache2026)
+        #expect(persistence2027.loadCache() == cache2027)
+        #expect(persistence2026.loadLegacyOwnerProfile().savedEventIDs == [26])
+        #expect(persistence2027.loadLegacyOwnerProfile().savedEventIDs == [27])
+    }
+
+    @Test
+    func yearIndependentCacheMigratesToItsEmbeddedFestivalYear() throws {
+        let userDefaults = TestFixtures.isolatedUserDefaults()
+        let legacyCache = TestFixtures.festivalProfileCache(
+            currentProfile: TestFixtures.cachedOwnerFestivalProfile(
+                festivalYear: 2026,
+                savedEventIDs: [42]
+            )
+        )
+        let legacyData = try JSONEncoder().encode(legacyCache)
+        userDefaults.set(
+            legacyData,
+            forKey: FestivalProfileStore.Constants.legacyCacheKey
+        )
+        let currentYearPersistence = UserDefaultsFestivalProfilePersistence(
+            userDefaults: userDefaults,
+            festivalYear: 2027
+        )
+
+        #expect(currentYearPersistence.loadCache() == nil)
+        #expect(
+            userDefaults.data(
+                forKey: FestivalProfileStore.Constants.cacheKey(for: 2026)
+            ) == legacyData
+        )
+        #expect(
+            userDefaults.object(
+                forKey: FestivalProfileStore.Constants.legacyCacheKey
+            ) == nil
+        )
+        #expect(currentYearPersistence.loadCache() == nil)
+    }
+
+    @Test
+    func legacyMigrationPreservesAnExistingValidYearCache() throws {
+        let userDefaults = TestFixtures.isolatedUserDefaults()
+        let existingCache = TestFixtures.festivalProfileCache(
+            currentProfile: TestFixtures.cachedOwnerFestivalProfile(
+                festivalYear: 2026,
+                savedEventIDs: [1]
+            )
+        )
+        let legacyCache = TestFixtures.festivalProfileCache(
+            currentProfile: TestFixtures.cachedOwnerFestivalProfile(
+                festivalYear: 2026,
+                savedEventIDs: [2]
+            )
+        )
+        userDefaults.set(
+            try JSONEncoder().encode(existingCache),
+            forKey: FestivalProfileStore.Constants.cacheKey(for: 2026)
+        )
+        userDefaults.set(
+            try JSONEncoder().encode(legacyCache),
+            forKey: FestivalProfileStore.Constants.legacyCacheKey
+        )
+        let persistence = UserDefaultsFestivalProfilePersistence(
+            userDefaults: userDefaults,
+            festivalYear: 2026
+        )
+
+        #expect(persistence.loadCache() == existingCache)
+        #expect(
+            userDefaults.object(
+                forKey: FestivalProfileStore.Constants.legacyCacheKey
+            ) == nil
+        )
+    }
+
+    @Test
+    func cacheForWrongFestivalYearIsNeitherPersistedNorLoaded() throws {
+        let userDefaults = TestFixtures.isolatedUserDefaults()
+        let persistence = UserDefaultsFestivalProfilePersistence(
+            userDefaults: userDefaults,
+            festivalYear: 2027
+        )
+        let cache2026 = TestFixtures.festivalProfileCache(
+            currentProfile: TestFixtures.cachedOwnerFestivalProfile(
+                festivalYear: 2026
+            )
+        )
+
+        persistence.persist(cache2026)
+        userDefaults.set(
+            try JSONEncoder().encode(cache2026),
+            forKey: FestivalProfileStore.Constants.cacheKey(for: 2027)
+        )
+
+        #expect(persistence.loadCache() == nil)
+    }
+
+    @Test
+    func legacyCacheIsRetainedWhenItsYearDestinationIsInvalid() throws {
+        let userDefaults = TestFixtures.isolatedUserDefaults()
+        let legacyCache = TestFixtures.festivalProfileCache(
+            currentProfile: TestFixtures.cachedOwnerFestivalProfile(
+                festivalYear: 2026,
+                savedEventIDs: [42]
+            )
+        )
+        let legacyData = try JSONEncoder().encode(legacyCache)
+        userDefaults.set(
+            legacyData,
+            forKey: FestivalProfileStore.Constants.legacyCacheKey
+        )
+        userDefaults.set(
+            Data("invalid".utf8),
+            forKey: FestivalProfileStore.Constants.cacheKey(for: 2026)
+        )
+        let persistence = UserDefaultsFestivalProfilePersistence(
+            userDefaults: userDefaults,
+            festivalYear: 2026
+        )
+
+        #expect(persistence.loadCache() == nil)
+        #expect(
+            userDefaults.data(
+                forKey: FestivalProfileStore.Constants.legacyCacheKey
+            ) == legacyData
+        )
+    }
+}

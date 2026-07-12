@@ -244,32 +244,69 @@ protocol FestivalProfilePersisting: Sendable {
 
 final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @unchecked Sendable {
     private let userDefaults: UserDefaults
+    private let festivalYear: Int
 
-    init(userDefaults: UserDefaults) {
+    init(userDefaults: UserDefaults, festivalYear: Int) {
         self.userDefaults = userDefaults
+        self.festivalYear = festivalYear
     }
 
     func loadCache() -> FestivalProfileCache? {
-        guard let cachedData = userDefaults.data(forKey: FestivalProfileStore.Constants.cacheKey) else {
-            return nil
+        migrateLegacyCacheIfNeeded()
+        let cacheKey = FestivalProfileStore.Constants.cacheKey(for: festivalYear)
+        return decodedCache(forKey: cacheKey, expectedFestivalYear: festivalYear)
+    }
+
+    private func migrateLegacyCacheIfNeeded() {
+        guard let legacyData = userDefaults.data(
+            forKey: FestivalProfileStore.Constants.legacyCacheKey
+        ),
+        let legacyCache = try? JSONDecoder().decode(
+            FestivalProfileCache.self,
+            from: legacyData
+        )
+        else {
+            return
         }
-        return try? JSONDecoder().decode(FestivalProfileCache.self, from: cachedData)
+
+        let legacyFestivalYear = legacyCache.currentProfile.festivalYear
+        let destinationKey = FestivalProfileStore.Constants.cacheKey(
+            for: legacyFestivalYear
+        )
+        if let destinationData = userDefaults.data(forKey: destinationKey) {
+            guard let destinationCache = try? JSONDecoder().decode(
+                FestivalProfileCache.self,
+                from: destinationData
+            ), destinationCache.currentProfile.festivalYear == legacyFestivalYear else {
+                return
+            }
+            userDefaults.removeObject(forKey: FestivalProfileStore.Constants.legacyCacheKey)
+            return
+        }
+
+        userDefaults.set(legacyData, forKey: destinationKey)
+        guard userDefaults.data(forKey: destinationKey) == legacyData else {
+            return
+        }
+        userDefaults.removeObject(forKey: FestivalProfileStore.Constants.legacyCacheKey)
     }
 
     func loadLegacyOwnerProfile() -> CachedOwnerFestivalProfile {
         let savedEventIDs = (
-            userDefaults.array(forKey: FestivalProfileStore.Constants.legacySavedEventsKey) as? [Int]
+            userDefaults.array(
+                forKey: FestivalProfileStore.Constants.legacySavedEventsKey(for: festivalYear)
+            ) as? [Int]
                 ?? []
         )
         .sorted()
         let ratings = userDefaults.dictionary(
-            forKey: FestivalProfileStore.Constants.legacyRatingsKey
+            forKey: FestivalProfileStore.Constants.legacyRatingsKey(for: festivalYear)
         ) as? [String: Int] ?? [:]
         let icons = userDefaults.dictionary(
-            forKey: FestivalProfileStore.Constants.legacyArtistIconsKey
+            forKey: FestivalProfileStore.Constants.legacyArtistIconsKey(for: festivalYear)
         ) as? [String: String] ?? [:]
         let notes = userDefaults.dictionary(
-            forKey: FestivalProfileStore.Constants.legacyArtistNotesKey
+            forKey: FestivalProfileStore.Constants.legacyArtistNotesKey(for: festivalYear)
         ) as? [String: String] ?? [:]
 
         let preferences = ratings.compactMap { entry -> FestivalArtistPreference? in
@@ -297,7 +334,7 @@ final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @
         }
 
         return CachedOwnerFestivalProfile(
-            festivalYear: DataStore.year,
+            festivalYear: festivalYear,
             badgeName: nil,
             badgeColorHex: FestivalProfileBadge.defaultColorHex,
             savedEventIDs: savedEventIDs,
@@ -313,9 +350,28 @@ final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @
     }
 
     func persist(_ cache: FestivalProfileCache) {
+        guard cache.currentProfile.festivalYear == festivalYear else {
+            return
+        }
         guard let encodedCache = try? JSONEncoder().encode(cache) else {
             return
         }
-        userDefaults.set(encodedCache, forKey: FestivalProfileStore.Constants.cacheKey)
+        userDefaults.set(
+            encodedCache,
+            forKey: FestivalProfileStore.Constants.cacheKey(for: festivalYear)
+        )
+    }
+
+    private func decodedCache(
+        forKey key: String,
+        expectedFestivalYear: Int
+    ) -> FestivalProfileCache? {
+        guard let data = userDefaults.data(forKey: key),
+              let cache = try? JSONDecoder().decode(FestivalProfileCache.self, from: data),
+              cache.currentProfile.festivalYear == expectedFestivalYear
+        else {
+            return nil
+        }
+        return cache
     }
 }
