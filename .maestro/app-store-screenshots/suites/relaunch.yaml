@@ -1,0 +1,8 @@
+appId: de.leongeorgi.RudolstadtForiOS
+name: App Store - Deterministic relaunch
+---
+- launchApp:
+    arguments:
+      "-screenshotMode": "YES"
+      "-AppleLanguages": ${APPLE_LANGUAGES}
+      "-AppleLocale": ${APPLE_LOCALE}

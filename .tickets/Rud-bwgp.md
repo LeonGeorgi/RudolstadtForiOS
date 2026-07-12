@@ -60,3 +60,11 @@ User approved the follow-up based on run 29142506630: remove ineffective identif
 **2026-07-11T06:49:51Z**
 
 Fixed run 29142506630 failure using the captured CI accessibility hierarchy: removed five tabItem accessibility identifiers that SwiftUI did not propagate to UITabBarButton, and changed locations/artist flows to exact escaped native resource IDs map.fill and theatermasks.fill. All six YAML flows parse, selectors resolve to the intended regex strings, and git diff whitespace passes. No build/runtime run performed.
+
+**2026-07-11T07:31:43Z**
+
+User approved all proposed CI runtime optimizations: reuse Maestro driver, batch flows per locale where feasible, run locales in parallel, and expose phase timings while preserving all 12 screenshots and deterministic relaunch behavior.
+
+**2026-07-11T07:46:24Z**
+
+Implemented CI runtime optimization: build the simulator app once and transfer it as a permission-preserving tar artifact; run de/en as a two-job matrix with fail-fast disabled; submit all six screenshot flows in one Maestro invocation per locale; relaunch deterministically before every flow through a shared subflow; reuse the installed driver for additional local locale/appearance combinations; emit build, simulator-selection, boot, install, per-flow JUnit, per-combination, and total capture timings. Updated README. Static verification passed for workflow/flow YAML, six flow references, launch arguments, bash syntax, REXML timing parser, and whitespace. No build or live Actions run was performed because the user did not explicitly request one.

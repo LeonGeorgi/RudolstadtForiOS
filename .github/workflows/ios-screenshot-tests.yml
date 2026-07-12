@@ -7,13 +7,78 @@ permissions:
   contents: read
 
 jobs:
-  capture-screenshots:
+  build-app:
     runs-on: macos-26
-    timeout-minutes: 45
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build screenshot app
+        env:
+          DERIVED_DATA_PATH: ${{ runner.temp }}/AppStoreScreenshotDerivedData
+        run: |
+          set -o pipefail
+          started_at="$(date +%s)"
+          xcodebuild build \
+            -quiet \
+            -project "RudolstadtForiOS.xcodeproj" \
+            -scheme "RudolstadtForiOS (iOS)" \
+            -configuration Debug \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            2>&1 | tee "${{ runner.temp }}/app-store-screenshot-build.log"
+          echo "Build completed in $(( $(date +%s) - started_at ))s"
+
+      - name: Package app
+        run: |
+          tar -cf "${{ runner.temp }}/Rudolstadt.app.tar" \
+            -C "${{ runner.temp }}/AppStoreScreenshotDerivedData/Build/Products/Debug-iphonesimulator" \
+            Rudolstadt.app
+
+      - name: Upload app
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-store-screenshot-app-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/Rudolstadt.app.tar
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload build diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-store-screenshot-build-diagnostics-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/app-store-screenshot-build.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  capture-screenshots:
+    needs: build-app
+    runs-on: macos-26
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        locale: [de, en]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Download app
+        uses: actions/download-artifact@v5
+        with:
+          name: app-store-screenshot-app-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/PrebuiltApp
+
+      - name: Extract app
+        run: tar -xf "${{ runner.temp }}/PrebuiltApp/Rudolstadt.app.tar" -C "${{ runner.temp }}/PrebuiltApp"
 
       - name: Set up Java
         uses: actions/setup-java@v5
@@ -29,12 +94,10 @@ jobs:
           echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
           "$HOME/.maestro/bin/maestro" --version
 
-      - name: Show Xcode version
-        run: xcodebuild -version
-
       - name: Select iOS 26 simulator
         id: simulator
         run: |
+          started_at="$(date +%s)"
           DEVICE_ID="$({
             xcrun simctl list devices available --json | \
               ruby -rjson -e '
@@ -52,35 +115,38 @@ jobs:
               '
           })"
           echo "device-id=$DEVICE_ID" >> "$GITHUB_OUTPUT"
+          echo "Simulator selection completed in $(( $(date +%s) - started_at ))s"
           xcrun simctl list devices available
 
-      - name: Capture App Store screenshots
+      - name: Capture ${{ matrix.locale }} screenshots
         env:
           DEVICE_ID: ${{ steps.simulator.outputs.device-id }}
-          DERIVED_DATA_PATH: ${{ runner.temp }}/AppStoreScreenshotDerivedData
+          LOCALES: ${{ matrix.locale }}
+          APPEARANCES: light
+          PREBUILT_APP_PATH: ${{ runner.temp }}/PrebuiltApp/Rudolstadt.app
           OUTPUT_ROOT: ${{ runner.temp }}/AppStoreScreenshots
           MAESTRO_CLI_NO_ANALYTICS: "1"
         run: |
           set -o pipefail
-          scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots.log"
+          scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.locale }}.log"
 
-      - name: Upload screenshots
+      - name: Upload ${{ matrix.locale }} screenshots
         id: upload_screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: app-store-screenshots-${{ github.run_number }}-${{ github.run_attempt }}
+          name: app-store-screenshots-${{ matrix.locale }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/AppStoreScreenshots
           if-no-files-found: warn
           retention-days: 14
 
-      - name: Upload diagnostics
+      - name: Upload ${{ matrix.locale }} diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: app-store-screenshot-diagnostics-${{ github.run_number }}-${{ github.run_attempt }}
+          name: app-store-screenshot-diagnostics-${{ matrix.locale }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: |
-            ${{ runner.temp }}/app-store-screenshots.log
+            ${{ runner.temp }}/app-store-screenshots-${{ matrix.locale }}.log
             ${{ runner.temp }}/AppStoreScreenshots
           if-no-files-found: warn
           retention-days: 14
@@ -91,10 +157,8 @@ jobs:
           SCREENSHOT_ARTIFACT_URL: ${{ steps.upload_screenshots.outputs.artifact-url }}
         run: |
           {
-            echo "## App Store Screenshots"
+            echo "## App Store Screenshots (${{ matrix.locale }})"
             echo
             echo "- Result: ${{ job.status }}"
             echo "- Screenshots: ${SCREENSHOT_ARTIFACT_URL:-not uploaded}"
-            echo
-            echo "The artifact contains German and English light-mode screenshots grouped by simulator."
           } >> "$GITHUB_STEP_SUMMARY"

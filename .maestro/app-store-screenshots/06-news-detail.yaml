@@ -3,6 +3,7 @@ name: App Store - News detail
 tags:
   - app-store
 ---
+- runFlow: suites/relaunch.yaml
 - extendedWaitUntil:
     visible:
       id: "schedule-screen"
