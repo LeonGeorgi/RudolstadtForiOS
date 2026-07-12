@@ -208,6 +208,19 @@ final class UserPreferencesStore: ObservableObject {
         }
     }
 
+    func markNewsAsRead(_ newsItems: [NewsItem]) {
+        var updatedReadNews = readNews
+        var readNewsIDs = Set(updatedReadNews)
+
+        for newsItem in newsItems where readNewsIDs.insert(newsItem.id).inserted {
+            updatedReadNews.append(newsItem.id)
+        }
+
+        if updatedReadNews != readNews {
+            readNews = updatedReadNews
+        }
+    }
+
     func toggleReadState(for newsItem: NewsItem) {
         if readNews.contains(newsItem.id) {
             readNews.removeAll { id in

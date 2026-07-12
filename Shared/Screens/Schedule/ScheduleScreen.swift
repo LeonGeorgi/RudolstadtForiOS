@@ -149,8 +149,6 @@ struct ScheduleScreen: View {
                     arrowEdge: .top
                 )
             }
-
-            NewsToolbarItem()
         }
     }
     

@@ -39,4 +39,30 @@ struct UserPreferencesStoreTests {
 
         #expect(second.notificationPromptState == .deferred)
     }
+
+    @Test
+    func marksMultipleNewsItemsAsReadWithoutDuplicates() {
+        let settings = TestFixtures.userSettings()
+        settings.readNews = [7]
+
+        settings.markNewsAsRead([
+            newsItem(id: 7),
+            newsItem(id: 8),
+            newsItem(id: 8),
+        ])
+
+        #expect(settings.readNews == [7, 8])
+    }
+
+    private func newsItem(id: Int) -> NewsItem {
+        NewsItem(
+            id: id,
+            languageCode: "en",
+            dateAsString: "",
+            timeAsString: "",
+            shortDescription: "",
+            longDescription: "",
+            content: ""
+        )
+    }
 }

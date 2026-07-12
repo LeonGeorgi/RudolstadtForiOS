@@ -81,6 +81,7 @@ final class DataStore: ObservableObject {
 
         refreshFestivalDataDownloadMetadata()
         loadCachedFestivalDataIfAvailable()
+        loadCachedNewsIfAvailable()
     }
 
     private static func makeDefaultDataLoader() -> DataLoader {
@@ -545,6 +546,14 @@ final class DataStore: ObservableObject {
         case .unparsable:
             AppLog.data.error("Cached festival data was unparsable during startup")
         }
+    }
+
+    private func loadCachedNewsIfAvailable() {
+        guard let cachedNews = newsService.loadCachedNews() else {
+            return
+        }
+
+        news = .success(cachedNews)
     }
 
     private func loadBundledScreenshotData() {

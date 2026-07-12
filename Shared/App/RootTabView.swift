@@ -17,6 +17,7 @@ struct RootTabView: View {
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var festivalProfileStore: FestivalProfileStore
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.colorScheme) private var appColorScheme
 
     @ObservedObject private var newsNotificationNavigation =
         NewsNotificationNavigationController.shared
@@ -29,6 +30,9 @@ struct RootTabView: View {
     @State private var artistsPath = NavigationPath()
     @State private var friendsPath = NavigationPath()
     @State private var morePath = NavigationPath()
+    @State private var newsSheetPath = NavigationPath()
+    @State private var isShowingNewsSheet = false
+    @State private var retainsNewsAccessoryForPresentedSheet = false
     @State private var isShowingNotificationPrompt = false
 
     private var isScreenshotMode: Bool {
@@ -76,15 +80,38 @@ struct RootTabView: View {
         }
     }
 
-    var unreadNewsCount: Int {
+    private func presentNewsSheet() {
+        newsSheetPath = NavigationPath()
+        retainsNewsAccessoryForPresentedSheet = true
+        isShowingNewsSheet = true
+    }
+
+    private var unreadNewsItems: [NewsItem] {
         if case .success(let news) = dataStore.news {
             return news.filter { item in
                 item.isInCurrentLanguage
                 && !userSettings.readNews.contains(item.id)
-            }.count
+            }
         } else {
-            return 0
+            return []
         }
+    }
+
+    var unreadNewsCount: Int {
+        unreadNewsItems.count
+    }
+
+    private var unreadNewsAccessoryContent: [UnreadNewsAccessoryContent] {
+        unreadNewsItems.map { newsItem in
+            UnreadNewsAccessoryContent(
+                title: newsItem.formattedShortDescription,
+                subtitle: newsItem.formattedLongDescription
+            )
+        }
+    }
+
+    private var shouldShowNewsAccessory: Bool {
+        unreadNewsCount > 0 || retainsNewsAccessoryForPresentedSheet
     }
 
     @ViewBuilder
@@ -92,9 +119,6 @@ struct RootTabView: View {
         TabView(selection: selectionBinding) {
             NavigationStack(path: $mapPath) {
                 MapOverview()
-                    .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
-                        mapPath.append(AppNavigationRoute.newsList)
-                    }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
                         AppNavigationDestination(
                             route: route,
@@ -114,9 +138,6 @@ struct RootTabView: View {
 
             NavigationStack(path: $schedulePath) {
                 ScheduleScreen()
-                    .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
-                        schedulePath.append(AppNavigationRoute.newsList)
-                    }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
                         AppNavigationDestination(
                             route: route,
@@ -140,9 +161,6 @@ struct RootTabView: View {
                 ) { route in
                     artistsPath.append(route)
                 }
-                .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
-                    artistsPath.append(AppNavigationRoute.newsList)
-                }
                 .navigationDestination(for: AppNavigationRoute.self) { route in
                     AppNavigationDestination(
                         route: route,
@@ -163,25 +181,12 @@ struct RootTabView: View {
 
             NavigationStack(path: $friendsPath) {
                 FriendsView()
-                    .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
-                        friendsPath.append(AppNavigationRoute.newsList)
-                    }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
                         AppNavigationDestination(
                             route: route,
                             navigate: { nestedRoute in
                                 friendsPath.append(nestedRoute)
                             }
-                        )
-                    }
-                    .toolbar {
-                        NewsToolbarItem(
-                            context: NewsToolbarContext(
-                                unreadNewsCount: unreadNewsCount,
-                                openNews: {
-                                    friendsPath.append(AppNavigationRoute.newsList)
-                                }
-                            )
                         )
                     }
             }
@@ -195,9 +200,6 @@ struct RootTabView: View {
 
             NavigationStack(path: $morePath) {
                 MoreView()
-                    .newsToolbarContext(unreadNewsCount: unreadNewsCount) {
-                        morePath.append(AppNavigationRoute.newsList)
-                    }
                     .navigationDestination(for: AppNavigationRoute.self) { route in
                         AppNavigationDestination(
                             route: route,
@@ -205,16 +207,6 @@ struct RootTabView: View {
                                 morePath.append(nestedRoute)
                             }
                         )
-                }
-                .toolbar {
-                    NewsToolbarItem(
-                        context: NewsToolbarContext(
-                            unreadNewsCount: unreadNewsCount,
-                            openNews: {
-                                morePath.append(AppNavigationRoute.newsList)
-                            }
-                        )
-                    )
                 }
             }
             .tabItem {
@@ -227,8 +219,47 @@ struct RootTabView: View {
         }
     }
 
+    @ViewBuilder
+    private var tabViewWithNewsAccessory: some View {
+        if #available(iOS 26.1, *) {
+            if shouldShowNewsAccessory {
+                appTabView
+                    .tabBarMinimizeBehavior(.onScrollDown)
+                    .tabViewBottomAccessory(isEnabled: true) {
+                        UnreadNewsAccessory(
+                            unreadCount: unreadNewsCount,
+                            content: unreadNewsAccessoryContent,
+                            appColorScheme: appColorScheme,
+                            openNews: presentNewsSheet
+                        )
+                    }
+            } else {
+                appTabView
+                    .tabBarMinimizeBehavior(.never)
+            }
+        } else if #available(iOS 26.0, *) {
+            if shouldShowNewsAccessory {
+                appTabView
+                    .tabBarMinimizeBehavior(.onScrollDown)
+                    .tabViewBottomAccessory {
+                        UnreadNewsAccessory(
+                            unreadCount: unreadNewsCount,
+                            content: unreadNewsAccessoryContent,
+                            appColorScheme: appColorScheme,
+                            openNews: presentNewsSheet
+                        )
+                    }
+            } else {
+                appTabView
+                    .tabBarMinimizeBehavior(.never)
+            }
+        } else {
+            appTabView
+        }
+    }
+
     var body: some View {
-        appTabView
+        tabViewWithNewsAccessory
         .accentColor(.rudolstadt)
         .onAppear {
             if isScreenshotMode {
@@ -241,6 +272,27 @@ struct RootTabView: View {
                 return
             }
 
+        }
+        .sheet(
+            isPresented: $isShowingNewsSheet,
+            onDismiss: {
+                newsSheetPath = NavigationPath()
+                retainsNewsAccessoryForPresentedSheet = false
+            }
+        ) {
+            NavigationStack(path: $newsSheetPath) {
+                NewsListView(allowsPullToRefresh: false)
+                    .navigationDestination(for: AppNavigationRoute.self) { route in
+                        AppNavigationDestination(
+                            route: route,
+                            navigate: { nestedRoute in
+                                newsSheetPath.append(nestedRoute)
+                            }
+                        )
+                    }
+            }
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
         }
         .task(id: scenePhase) {
             guard scenePhase == .active, !isScreenshotMode else {
@@ -256,7 +308,11 @@ struct RootTabView: View {
             }
 
             try? await Task.sleep(for: Self.notificationPromptDelay)
-            guard !Task.isCancelled, scenePhase == .active else {
+            guard
+                !Task.isCancelled,
+                scenePhase == .active,
+                !isShowingNewsSheet
+            else {
                 return
             }
             isShowingNotificationPrompt = true
@@ -319,6 +375,168 @@ struct RootTabView: View {
     }
 }
 
+private struct UnreadNewsAccessoryContent: Equatable {
+    let title: String
+    let subtitle: String
+}
+
+private struct UnreadNewsAccessoryRotationConfiguration: Equatable {
+    let content: [UnreadNewsAccessoryContent]
+    let isEnabled: Bool
+}
+
+@available(iOS 26.0, *)
+private struct UnreadNewsAccessory: View {
+    @Environment(\.tabViewBottomAccessoryPlacement) private var placement
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
+
+    @State private var headlineIndex = 0
+
+    let unreadCount: Int
+    let content: [UnreadNewsAccessoryContent]
+    let appColorScheme: ColorScheme
+    let openNews: () -> Void
+
+    private var localizedUnreadCount: String {
+        let key = unreadCount == 1
+            ? "news.unread.count.one"
+            : "news.unread.count.other"
+        return String.localizedStringWithFormat(
+            NSLocalizedString(key, comment: ""),
+            Int64(unreadCount)
+        )
+    }
+
+    private var accessibilityLabel: String {
+        String(
+            format: NSLocalizedString(
+                "news.unread.accessibility",
+                comment: ""
+            ),
+            localizedUnreadCount
+        )
+    }
+
+    private var currentContent: UnreadNewsAccessoryContent? {
+        guard !content.isEmpty else {
+            return nil
+        }
+        return content[headlineIndex % content.count]
+    }
+
+    private var headlineTransition: AnyTransition {
+        guard !reduceMotion else {
+            return .opacity
+        }
+
+        return .asymmetric(
+            insertion: .move(edge: .bottom).combined(with: .opacity),
+            removal: .move(edge: .top).combined(with: .opacity)
+        )
+    }
+
+    private var rotationConfiguration: UnreadNewsAccessoryRotationConfiguration {
+        UnreadNewsAccessoryRotationConfiguration(
+            content: content,
+            isEnabled: !reduceMotion && !voiceOverEnabled
+        )
+    }
+
+    private var primaryTextColor: Color {
+        appColorScheme == .light ? .black : .white
+    }
+
+    private var secondaryTextColor: Color {
+        primaryTextColor.opacity(0.6)
+    }
+
+    private var tertiaryTextColor: Color {
+        primaryTextColor.opacity(0.3)
+    }
+
+    var body: some View {
+        Button(action: openNews) {
+            accessoryLabel
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(accessibilityLabel))
+        .accessibilityHint(Text("news.unread.open"))
+        .accessibilityIdentifier("unread-news-accessory")
+        .task(id: rotationConfiguration) {
+            headlineIndex = 0
+            guard rotationConfiguration.isEnabled, content.count > 1 else {
+                return
+            }
+
+            while !Task.isCancelled {
+                do {
+                    try await Task.sleep(for: .seconds(6))
+                } catch {
+                    return
+                }
+
+                withAnimation(.easeInOut(duration: 0.4)) {
+                    headlineIndex = (headlineIndex + 1) % content.count
+                }
+            }
+        }
+    }
+
+    private var accessoryLabel: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "megaphone.fill")
+                .font(.body)
+                .foregroundStyle(.tint)
+                .frame(width: 28, height: 28)
+                .overlay(alignment: .topTrailing) {
+                    Text("\(unreadCount)")
+                        .font(.caption2.weight(.bold))
+                        .monospacedDigit()
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 4)
+                        .frame(minWidth: 16, minHeight: 16)
+                        .background(.red, in: Capsule())
+                        .offset(x: 6, y: -4)
+                }
+
+            ZStack(alignment: .leading) {
+                if let currentContent {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(currentContent.title)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(primaryTextColor)
+                            .lineLimit(1)
+
+                        if !currentContent.subtitle.isEmpty {
+                            Text(currentContent.subtitle)
+                                .font(.caption)
+                                .foregroundStyle(secondaryTextColor)
+                                .lineLimit(1)
+                        }
+                    }
+                    .id(headlineIndex)
+                    .transition(headlineTransition)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .clipped()
+
+            Spacer(minLength: 8)
+
+            if placement != .inline {
+                Image(systemName: "chevron.right")
+                    .font(.caption.bold())
+                    .foregroundStyle(tertiaryTextColor)
+            }
+        }
+        .padding(.horizontal, placement == .inline ? 10 : 14)
+    }
+}
+
 private struct NotificationPermissionPromptView: View {
     let activate: () -> Void
     let `defer`: () -> Void
@@ -345,108 +563,6 @@ private struct NotificationPermissionPromptView: View {
             Button("notifications.prompt.later", action: `defer`)
         }
         .padding(24)
-    }
-}
-
-struct NewsToolbarContext {
-    let unreadNewsCount: Int
-    let openNews: () -> Void
-}
-
-private struct NewsToolbarContextKey: EnvironmentKey {
-    static let defaultValue: NewsToolbarContext? = nil
-}
-
-extension EnvironmentValues {
-    var newsToolbarContext: NewsToolbarContext? {
-        get { self[NewsToolbarContextKey.self] }
-        set { self[NewsToolbarContextKey.self] = newValue }
-    }
-}
-
-extension View {
-    func newsToolbarContext(
-        unreadNewsCount: Int,
-        openNews: @escaping () -> Void
-    ) -> some View {
-        environment(
-            \.newsToolbarContext,
-            NewsToolbarContext(
-                unreadNewsCount: unreadNewsCount,
-                openNews: openNews
-            )
-        )
-    }
-}
-
-struct NewsToolbarItem: ToolbarContent {
-    @Environment(\.newsToolbarContext) private var environmentContext
-
-    private let explicitContext: NewsToolbarContext?
-
-    init(context: NewsToolbarContext? = nil) {
-        self.explicitContext = context
-    }
-
-    @ToolbarContentBuilder
-    var body: some ToolbarContent {
-        let context = explicitContext ?? environmentContext
-
-        if let context {
-            if #available(iOS 26.0, *) {
-                ToolbarItemGroup(placement: .topBarLeading) {
-                    NewsToolbarButton(context: context)
-                }
-                ToolbarSpacer(.fixed, placement: .topBarLeading)
-            } else {
-                ToolbarItem(placement: .topBarLeading) {
-                    NewsToolbarButton(context: context)
-                }
-            }
-        }
-    }
-}
-
-private struct NewsToolbarButton: View {
-    let context: NewsToolbarContext
-
-    @ViewBuilder
-    var body: some View {
-        if #available(iOS 26.0, *) {
-            newsButton {
-                Image(systemName: "megaphone.fill")
-            }
-            .badge(context.unreadNewsCount)
-        } else {
-            newsButton {
-                Image(systemName: "megaphone.fill")
-                    .overlay(alignment: .topTrailing) {
-                        if context.unreadNewsCount > 0 {
-                            Circle()
-                                .fill(Color.red)
-                                .frame(width: 8, height: 8)
-                                .offset(x: 4, y: -4)
-                        }
-                    }
-            }
-        }
-    }
-
-    private func newsButton<Label: View>(
-        @ViewBuilder label: () -> Label
-    ) -> some View {
-        Button {
-            context.openNews()
-        } label: {
-            label()
-        }
-        .accessibilityLabel("news.long")
-        .accessibilityIdentifier("news-toolbar-button")
-        .accessibilityValue(
-            context.unreadNewsCount > 0
-                ? "\(context.unreadNewsCount)"
-                : ""
-        )
     }
 }
 

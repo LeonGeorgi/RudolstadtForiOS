@@ -60,14 +60,38 @@ struct FestivalDataStoreTests {
         #expect(festivalData.events.isEmpty)
     }
 
+    @Test
+    func initializationPublishesCachedNewsImmediately() {
+        let cachedNews = [TestFixtures.newsItem(id: 21, languageCode: "en")]
+        let newsCache = NewsCacheStub(loadResult: .stale(cachedNews))
+        let newsAPI = NewsAPIStub()
+        let store = makeStore(
+            fetcher: FestivalDataFetcherStub(data: TestFixtures.apiFestivalData()),
+            cache: FestivalDataCacheStub(),
+            newsCache: newsCache,
+            newsAPI: newsAPI,
+            loadInitialData: true
+        )
+
+        guard case .success(let news) = store.news else {
+            Issue.record("Expected cached news during initialization")
+            return
+        }
+        #expect(news.map(\.id) == [21])
+        #expect(newsAPI.fetchCallCount == 0)
+    }
+
     private func makeStore(
         fetcher: FestivalDataFetcherStub,
-        cache: FestivalDataCacheStub
+        cache: FestivalDataCacheStub,
+        newsCache: NewsCacheStub = NewsCacheStub(loadResult: .notFound),
+        newsAPI: NewsAPIStub = NewsAPIStub(),
+        loadInitialData: Bool = false
     ) -> DataStore {
         let userSettings = TestFixtures.userSettings()
         let newsService = NewsService(
-            dataLoader: NewsCacheStub(loadResult: .notFound),
-            apiClient: NewsAPIStub(),
+            dataLoader: newsCache,
+            apiClient: newsAPI,
             userSettings: userSettings,
             notifier: NewsNotifierStub()
         )
@@ -78,7 +102,7 @@ struct FestivalDataStoreTests {
             festivalDataFetcher: fetcher,
             festivalDataCache: cache,
             bundledNewsLoader: cache,
-            loadInitialData: false
+            loadInitialData: loadInitialData
         )
     }
 }

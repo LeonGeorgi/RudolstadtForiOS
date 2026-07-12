@@ -8,6 +8,13 @@ struct MoreView: View {
 
     var body: some View {
         List {
+            NavigationLink(value: AppNavigationRoute.newsList) {
+                Label(
+                    "news.long",
+                    systemImage: "megaphone.fill"
+                )
+            }
+
             NavigationLink(value: AppNavigationRoute.about) {
                 Label(
                     "about.title",

@@ -4,7 +4,16 @@
 "news.short" = "News";
 "news.long" = "News";
 "news.refresh.title" = "Refresh";
+"news.actions.title" = "News Actions";
 "news.featured_artists" = "Featured artists";
+"news.unread.count.one" = "%lld unread item";
+"news.unread.count.other" = "%lld unread items";
+"news.unread.accessibility" = "News, %@";
+"news.unread.open" = "Opens News";
+"news.mark_all_read.title" = "Mark all news as read?";
+"news.mark_all_read.message" = "The unread news indicator will be removed.";
+"news.mark_all_read.action" = "Mark All as Read";
+"news.mark_all_read.cancel" = "Cancel";
 "notifications.prompt.title" = "Stay up to date at the festival";
 "notifications.prompt.message" = "Get important program changes and the latest festival news.";
 "notifications.prompt.activate" = "Enable notifications";

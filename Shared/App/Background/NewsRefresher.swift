@@ -164,23 +164,20 @@ final class NewsService {
         )
     }
 
-    func loadNews() async -> LoadingResult<[NewsItem]> {
-        let cachedNews = dataLoader.loadNewsFromFile()
-        switch cachedNews {
+    func loadCachedNews() -> [NewsItem]? {
+        switch dataLoader.loadNewsFromFile() {
         case .loaded(let news):
             AppLog.news.info("Loaded \(news.count) news items from cache")
-            return .success(news)
+            return news
         case .stale(let news):
-            AppLog.news.info(
-                "Cached news is stale with \(news.count) items; refreshing"
-            )
-            return await refreshNews()
+            AppLog.news.info("Loaded \(news.count) stale news items from cache")
+            return news
         case .notFound:
-            AppLog.news.info("No cached news found; refreshing")
-            return await refreshNews()
+            AppLog.news.info("No cached news found")
+            return nil
         case .unparsable:
-            AppLog.news.error("Cached news could not be parsed; refreshing from network")
-            return await refreshNews()
+            AppLog.news.error("Cached news could not be parsed")
+            return nil
         }
     }
 

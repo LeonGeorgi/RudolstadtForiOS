@@ -40,8 +40,6 @@ struct ArtistBrowseView: View {
         .disableAutocorrection(true)
         .navigationTitle(navigationTitleKey)
         .toolbar {
-            NewsToolbarItem()
-
             ArtistListToolbar(
                 state: state,
                 currentTipID: currentTipID,

@@ -4,7 +4,16 @@
 "news.short" = "News";
 "news.long" = "Neuigkeiten";
 "news.refresh.title" = "Aktualisieren";
+"news.actions.title" = "Neuigkeiten-Aktionen";
 "news.featured_artists" = "Vorgestellte Künstler";
+"news.unread.count.one" = "%lld ungelesene Mitteilung";
+"news.unread.count.other" = "%lld ungelesene Mitteilungen";
+"news.unread.accessibility" = "Neuigkeiten, %@";
+"news.unread.open" = "Öffnet die Neuigkeiten";
+"news.mark_all_read.title" = "Alle Neuigkeiten als gelesen markieren?";
+"news.mark_all_read.message" = "Der Hinweis auf ungelesene Neuigkeiten wird entfernt.";
+"news.mark_all_read.action" = "Alle als gelesen markieren";
+"news.mark_all_read.cancel" = "Abbrechen";
 "notifications.prompt.title" = "Beim Festival auf dem Laufenden bleiben";
 "notifications.prompt.message" = "Erhalte wichtige Programmänderungen und aktuelle Festivalmeldungen.";
 "notifications.prompt.activate" = "Benachrichtigungen aktivieren";

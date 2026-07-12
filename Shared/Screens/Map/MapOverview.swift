@@ -58,8 +58,6 @@ struct MapOverview: View {
                     arrowEdge: .top
                 )
             }
-
-            NewsToolbarItem()
         }
         .toolbarBackground(
             settings.mapType == 0 ? .hidden : .visible,

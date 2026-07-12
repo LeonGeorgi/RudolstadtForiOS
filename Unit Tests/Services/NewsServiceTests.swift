@@ -5,7 +5,7 @@ import Testing
 @MainActor
 struct NewsServiceTests {
     @Test
-    func loadNewsUsesFreshCacheWithoutFetching() async {
+    func loadCachedNewsUsesFreshCacheWithoutFetching() {
         let cachedNews = [TestFixtures.newsItem(id: 7, languageCode: "en")]
         let cache = NewsCacheStub(loadResult: .loaded(cachedNews))
         let apiClient = NewsAPIStub()
@@ -16,13 +16,31 @@ struct NewsServiceTests {
             notifier: NewsNotifierStub()
         )
 
-        let result = await service.loadNews()
+        let result = service.loadCachedNews()
 
-        guard case .success(let news) = result else {
+        guard let result else {
             Issue.record("Expected cached news")
             return
         }
-        #expect(news.map(\.id) == [7])
+        #expect(result.map(\.id) == [7])
+        #expect(apiClient.fetchCallCount == 0)
+    }
+
+    @Test
+    func loadCachedNewsUsesStaleCacheWithoutFetching() {
+        let cachedNews = [TestFixtures.newsItem(id: 8, languageCode: "en")]
+        let cache = NewsCacheStub(loadResult: .stale(cachedNews))
+        let apiClient = NewsAPIStub()
+        let service = NewsService(
+            dataLoader: cache,
+            apiClient: apiClient,
+            userSettings: TestFixtures.userSettings(),
+            notifier: NewsNotifierStub()
+        )
+
+        let result = service.loadCachedNews()
+
+        #expect(result?.map(\.id) == [8])
         #expect(apiClient.fetchCallCount == 0)
     }
 
