@@ -19,8 +19,8 @@ struct ArtistOverviewGridView: View {
             VStack(spacing: 0) {
                 if showsWorldMapCallout {
                     ArtistWorldMapCalloutCard(action: showWorldMap)
-                        .padding(.horizontal, 12)
-                        .padding(.bottom, 10)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 6)
                 }
 
                 if artists.isEmpty {
@@ -49,7 +49,7 @@ struct ArtistOverviewGridView: View {
                         }
                     }
                     .padding(.horizontal, 12)
-                    .padding(.top, showsWorldMapCallout ? 4 : 14)
+                    .padding(.top, showsWorldMapCallout ? 0 : 14)
                     .padding(.bottom, 14)
                 }
             }

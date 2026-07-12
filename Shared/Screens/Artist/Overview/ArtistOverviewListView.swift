@@ -13,7 +13,7 @@ struct ArtistOverviewListView: View {
             if showsWorldMapCallout {
                 ArtistWorldMapCalloutCard(action: showWorldMap)
                     .listRowInsets(
-                        .init(top: 0, leading: 12, bottom: 12, trailing: 12)
+                        .init(top: 0, leading: 16, bottom: 4, trailing: 16)
                     )
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)

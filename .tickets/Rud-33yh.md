@@ -1,6 +1,6 @@
 ---
 id: Rud-33yh
-status: open
+status: closed
 deps: []
 links: [Rud-tuxh]
 created: 2026-07-11T04:25:57Z
@@ -8,7 +8,7 @@ type: task
 priority: 2
 assignee: Leon Georgi
 parent: Rud-lyze
-tags: [needs-approval, design-audit, ios26, artists, visual-design, toolbar, world-map-entry, effort-small, confidence-high]
+tags: [approved, design-audit, ios26, artists, visual-design, toolbar, world-map-entry, effort-small, confidence-high]
 ---
 # Künstlerübersicht: Suche, Weltkarten-Einstieg und Toolbar klar gewichten
 
@@ -52,3 +52,8 @@ Nicht-Ziele:
 - Light und Dark Mode sowie leerer, aktiver und langer Suchtext wurden geprüft.
 - Die bestehende Weltkarten-Discovery bleibt entsprechend Rud-tuxh erhalten.
 
+## Notes
+
+**2026-07-12T16:17:38Z**
+
+Weltkarten-Einstieg als ruhige, linksbündige Discovery-Zeile ohne Capsule umgesetzt; Grid- und Listenabstände angeglichen. Verifiziert auf iPhone 17 / iOS 26.4 in Grid und Liste, Light und Dark Mode, mit aktivem langem Suchtext/leerem Ergebnis sowie durch Antippen und Navigation zur Weltkarte. Simulator-Build erfolgreich.
