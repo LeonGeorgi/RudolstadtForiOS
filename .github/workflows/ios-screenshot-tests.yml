@@ -63,9 +63,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       fail-fast: false
-      max-parallel: 2
       matrix:
-        locale: [de, en]
         device_family: [iphone, ipad]
 
     steps:
@@ -141,35 +139,34 @@ jobs:
           echo "Simulator selection completed in $(( $(date +%s) - started_at ))s"
           xcrun simctl list devices available
 
-      - name: Capture ${{ matrix.locale }} ${{ matrix.device_family }} screenshots
+      - name: Capture ${{ matrix.device_family }} screenshots
         env:
           DEVICE_ID: ${{ steps.simulator.outputs.device-id }}
-          LOCALES: ${{ matrix.locale }}
-          APPEARANCES: light dark
+          LOCALES: "de en"
           PREBUILT_APP_PATH: ${{ runner.temp }}/PrebuiltApp/Rudolstadt.app
           OUTPUT_ROOT: ${{ runner.temp }}/AppStoreScreenshots
           MAESTRO_CLI_NO_ANALYTICS: "1"
         run: |
           set -o pipefail
-          scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.locale }}-${{ matrix.device_family }}.log"
+          scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
 
-      - name: Upload ${{ matrix.locale }} ${{ matrix.device_family }} screenshots
+      - name: Upload ${{ matrix.device_family }} screenshots
         id: upload_screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: app-store-screenshots-${{ matrix.locale }}-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
+          name: app-store-screenshots-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/AppStoreScreenshots
           if-no-files-found: warn
           retention-days: 14
 
-      - name: Upload ${{ matrix.locale }} ${{ matrix.device_family }} diagnostics
+      - name: Upload ${{ matrix.device_family }} diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: app-store-screenshot-diagnostics-${{ matrix.locale }}-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
+          name: app-store-screenshot-diagnostics-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: |
-            ${{ runner.temp }}/app-store-screenshots-${{ matrix.locale }}-${{ matrix.device_family }}.log
+            ${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log
             ${{ runner.temp }}/AppStoreScreenshots
           if-no-files-found: warn
           retention-days: 14
@@ -180,7 +177,7 @@ jobs:
           SCREENSHOT_ARTIFACT_URL: ${{ steps.upload_screenshots.outputs.artifact-url }}
         run: |
           {
-            echo "## App Store Screenshots (${{ matrix.locale }}, ${{ matrix.device_family }})"
+            echo "## App Store Screenshots (${{ matrix.device_family }}, de + en)"
             echo
             echo "- Result: ${{ job.status }}"
             echo "- Screenshots: ${SCREENSHOT_ARTIFACT_URL:-not uploaded}"

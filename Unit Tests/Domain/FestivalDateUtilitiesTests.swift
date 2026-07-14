@@ -23,6 +23,26 @@ struct FestivalDateUtilitiesTests {
     }
 
     @Test
+    func weekDayIsIndependentOfRunnerTimeZone() {
+        var utcCalendar = Calendar(identifier: .gregorian)
+        utcCalendar.timeZone = .gmt
+
+        let firstFestivalWeekDay = FestivalDateUtilities.fullWeekDay(
+            day: 2,
+            calendar: utcCalendar,
+            locale: Locale(identifier: "de_DE")
+        )
+        let lastFestivalWeekDay = FestivalDateUtilities.fullWeekDay(
+            day: 5,
+            calendar: utcCalendar,
+            locale: Locale(identifier: "de_DE")
+        )
+
+        #expect(firstFestivalWeekDay == "Donnerstag")
+        #expect(lastFestivalWeekDay == "Sonntag")
+    }
+
+    @Test
     func earlyMorningBelongsToPreviousFestivalDay() {
         let now = TestFixtures.date(
             dayInJuly: 4,

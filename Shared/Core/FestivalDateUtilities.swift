@@ -1,6 +1,13 @@
 import Foundation
 
 enum FestivalDateUtilities {
+    private static let festivalTimeZone: TimeZone = {
+        guard let timeZone = TimeZone(identifier: "Europe/Berlin") else {
+            preconditionFailure("Europe/Berlin time zone is unavailable")
+        }
+        return timeZone
+    }()
+
     static func shortWeekDay(
         day: Int,
         calendar: Calendar = .current,
@@ -33,19 +40,24 @@ enum FestivalDateUtilities {
         calendar: Calendar,
         locale: Locale
     ) -> String {
-        var dateComponents = DateComponents()
-        dateComponents.year = DataStore.year
-        dateComponents.month = 7
-        dateComponents.day = day
-        dateComponents.timeZone = TimeZone(abbreviation: "CEST")
+        var festivalCalendar = calendar
+        festivalCalendar.timeZone = festivalTimeZone
 
-        guard let date = calendar.date(from: dateComponents) else {
+        let dateComponents = DateComponents(
+            calendar: festivalCalendar,
+            timeZone: festivalTimeZone,
+            year: DataStore.year,
+            month: 7,
+            day: day
+        )
+
+        guard let date = festivalCalendar.date(from: dateComponents) else {
             return ""
         }
         let dateFormatter = DateFormatter()
-        dateFormatter.calendar = calendar
+        dateFormatter.calendar = festivalCalendar
         dateFormatter.locale = locale
-        dateFormatter.timeZone = calendar.timeZone
+        dateFormatter.timeZone = festivalTimeZone
         dateFormatter.dateFormat = dateFormat
         return dateFormatter.string(from: date)
     }

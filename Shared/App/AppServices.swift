@@ -111,10 +111,50 @@ enum ScreenshotRuntime {
             return
         }
 
+        func preferredEvent(forArtistNamed artistName: String) -> Event? {
+            festivalData.events
+                .filter { $0.artist.name == artistName }
+                .min { first, second in
+                    let firstDayPriority = first.festivalDay == 5 ? 0 : 1
+                    let secondDayPriority = second.festivalDay == 5 ? 0 : 1
+                    if firstDayPriority != secondDayPriority {
+                        return firstDayPriority < secondDayPriority
+                    }
+                    return first.date < second.date
+                }
+        }
+
+        let savedScheduleEvents = [
+            "Dota Kehr",
+            "Throes + The Shine"
+        ].compactMap(preferredEvent(forArtistNamed:))
+
+        let likedScheduleArtists = [
+            "AltBadSeer Musi",
+            "Adaya",
+            "La Niña"
+        ].compactMap { artistName in
+            festivalData.artists.first { $0.name == artistName }
+        }
+
+        let friendScheduleEvents = [
+            "Zgarda",
+            "Joce Reyome",
+            "Baba Yaga"
+        ].compactMap(preferredEvent(forArtistNamed:))
+
         if let featuredArtist = festivalData.artists.first(where: {
             $0.name == "Duo Ruut"
         }) {
             profile.setArtistRating(for: featuredArtist, rating: 3)
+        }
+
+        for likedScheduleArtist in likedScheduleArtists {
+            profile.setArtistRating(for: likedScheduleArtist, rating: 3)
+        }
+
+        for savedScheduleEvent in savedScheduleEvents {
+            profile.toggleSavedEvent(savedScheduleEvent)
         }
 
         let accessoryArtistIDs = Set([302, 336, 194])
@@ -156,7 +196,7 @@ enum ScreenshotRuntime {
                 festivalYear: DataStore.year,
                 savedEventIDs: firstEventIDs(
                     for: ["Kitty, Daisy & Lewis", "RIAN", "Raquel Martins"]
-                ),
+                ) + friendScheduleEvents.map(\.id),
                 artistPreferences: []
             ),
             SharedFestivalProfile(
