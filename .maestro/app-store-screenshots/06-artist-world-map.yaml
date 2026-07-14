@@ -1,5 +1,5 @@
 appId: de.leongeorgi.RudolstadtForiOS
-name: App Store - Artist detail
+name: App Store - Artist world map
 tags:
   - app-store
 ---
@@ -11,22 +11,15 @@ tags:
 - tapOn:
     id: "theatermasks\\.fill"
 - tapOn:
-    text: "Search|Suchen"
-- inputText: "Duo Ruut"
+    text: "Explore on the world map|Auf der Weltkarte entdecken"
 - extendedWaitUntil:
     visible:
-      id: "artist-176"
-    timeout: 15000
-- tapOn:
-    id: "artist-176"
+      id: "artist-world-map"
+    timeout: 20000
 - extendedWaitUntil:
-    visible:
-      id: "artist-detail-176-theme-ready"
-    timeout: 30000
-- extendedWaitUntil:
-    visible:
-      id: "artist-image-loaded-176"
+    notVisible:
+      text: "Loading world map…|Weltkarte wird geladen…"
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: 04-artist-detail
+- takeScreenshot: 06-artist-world-map

@@ -4,5 +4,7 @@ name: App Store - Deterministic relaunch
 - launchApp:
     arguments:
       "-screenshotMode": "YES"
+      "-screenshotAppearance": ${SCREENSHOT_APPEARANCE}
       "-AppleLanguages": ${APPLE_LANGUAGES}
       "-AppleLocale": ${APPLE_LOCALE}
+- setOrientation: PORTRAIT

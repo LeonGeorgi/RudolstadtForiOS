@@ -10,6 +10,9 @@ tags:
     timeout: 20000
 - tapOn:
     text: "Sat|Sa\\."
+- swipe:
+    direction: UP
+    duration: 700
 - waitForAnimationToEnd:
     timeout: 5000
 - takeScreenshot: 01-schedule

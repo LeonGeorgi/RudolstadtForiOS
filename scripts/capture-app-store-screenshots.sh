@@ -9,6 +9,7 @@ readonly BUNDLE_ID="de.leongeorgi.RudolstadtForiOS"
 readonly DERIVED_DATA_PATH="${DERIVED_DATA_PATH:-/tmp/RudolstadtAppStoreScreenshots}"
 readonly FLOWS_PATH="$PROJECT_ROOT/.maestro/app-store-screenshots"
 readonly OUTPUT_ROOT="${OUTPUT_ROOT:-$PROJECT_ROOT/AppStoreScreenshots}"
+readonly CAPTURE_ID="${CAPTURE_ID:-$(date +%Y-%m-%d_%H%M%S)}"
 readonly DEVICE_ID="${DEVICE_ID:-${1:-}}"
 readonly PREBUILT_APP_PATH="${PREBUILT_APP_PATH:-}"
 
@@ -96,8 +97,9 @@ cleanup() {
 trap cleanup EXIT
 
 read -r -a locales <<< "${LOCALES:-de en}"
-read -r -a appearances <<< "${APPEARANCES:-light}"
-flow_files=("$FLOWS_PATH"/[0-9][0-9]-*.yaml)
+read -r -a appearances <<< "${APPEARANCES:-light dark}"
+light_flow_files=("$FLOWS_PATH"/0[1-6]-*.yaml)
+dark_flow_files=("$FLOWS_PATH"/07-*.yaml)
 driver_is_ready=false
 capture_started_at="$(date +%s)"
 
@@ -110,9 +112,15 @@ for locale in "${locales[@]}"; do
       exit 1
     fi
 
-    output_path="$OUTPUT_ROOT/$locale/$appearance/$device_name"
+    output_path="$OUTPUT_ROOT/$locale/$appearance/$device_name/$CAPTURE_ID"
     mkdir -p "$output_path"
     xcrun simctl ui "$DEVICE_ID" appearance "$appearance"
+
+    if [ "$appearance" = "dark" ]; then
+      flow_files=("${dark_flow_files[@]}")
+    else
+      flow_files=("${light_flow_files[@]}")
+    fi
 
     echo "Capturing $locale/$appearance/$device_name..."
     combination_started_at="$(date +%s)"
@@ -132,6 +140,7 @@ for locale in "${locales[@]}"; do
       "${maestro_options[@]}" \
       -e APPLE_LANGUAGES="($locale)" \
       -e APPLE_LOCALE="$app_locale" \
+      -e SCREENSHOT_APPEARANCE="$appearance" \
       "${flow_files[@]}"
     maestro_status=$?
     set -e

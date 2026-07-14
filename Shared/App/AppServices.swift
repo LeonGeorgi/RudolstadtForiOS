@@ -60,6 +60,7 @@ final class AppServices {
 
 enum ScreenshotRuntime {
     static let launchArgument = "-screenshotMode"
+    static let appearanceLaunchArgument = "-screenshotAppearance"
 
     static let referenceDate: Date = {
         var calendar = Calendar(identifier: .gregorian)
@@ -79,7 +80,15 @@ enum ScreenshotRuntime {
     }
 
     static var appearance: String? {
-        ProcessInfo.processInfo.environment["APP_STORE_SCREENSHOT_APPEARANCE"]
+        let arguments = ProcessInfo.processInfo.arguments
+        if let argumentIndex = arguments.firstIndex(of: appearanceLaunchArgument) {
+            let valueIndex = arguments.index(after: argumentIndex)
+            if valueIndex < arguments.endIndex {
+                return arguments[valueIndex]
+            }
+        }
+
+        return ProcessInfo.processInfo.environment["APP_STORE_SCREENSHOT_APPEARANCE"]
     }
 
     @MainActor
@@ -103,7 +112,7 @@ enum ScreenshotRuntime {
         }
 
         if let featuredArtist = festivalData.artists.first(where: {
-            $0.id == 216
+            $0.name == "Duo Ruut"
         }) {
             profile.setArtistRating(for: featuredArtist, rating: 3)
         }
@@ -124,8 +133,19 @@ enum ScreenshotRuntime {
             profile.setArtistRating(for: firstDayEvents[1].artist, rating: 1)
         }
 
-        let firstEventID = firstDayEvents.first?.id
-        let secondEventID = firstDayEvents.dropFirst().first?.id
+        profile.updateBadge(name: "Leon", colorHex: "#8E3A9C")
+        profile.syncStore.iCloudStatus = .available
+        profile.syncStore.acceptedShareParticipantCount = 2
+
+        func firstEventIDs(for artistNames: [String]) -> [Int] {
+            artistNames.compactMap { artistName in
+                festivalData.events
+                    .filter { $0.artist.name == artistName }
+                    .min { $0.date < $1.date }?
+                    .id
+            }
+        }
+
         profile.syncStore.acceptedFriendProfiles = [
             SharedFestivalProfile(
                 id: "screenshot-friend-aya",
@@ -134,7 +154,9 @@ enum ScreenshotRuntime {
                 badgeName: "Aya",
                 badgeColorHex: "#3D78E0",
                 festivalYear: DataStore.year,
-                savedEventIDs: [firstEventID, secondEventID].compactMap { $0 },
+                savedEventIDs: firstEventIDs(
+                    for: ["Kitty, Daisy & Lewis", "RIAN", "Raquel Martins"]
+                ),
                 artistPreferences: []
             ),
             SharedFestivalProfile(
@@ -144,7 +166,9 @@ enum ScreenshotRuntime {
                 badgeName: "Mika",
                 badgeColorHex: "#B54E9B",
                 festivalYear: DataStore.year,
-                savedEventIDs: [firstEventID].compactMap { $0 },
+                savedEventIDs: firstEventIDs(
+                    for: ["RIAN", "Sara Curruchich", "Raquel Martins"]
+                ),
                 artistPreferences: []
             )
         ]

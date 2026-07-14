@@ -1,5 +1,5 @@
 appId: de.leongeorgi.RudolstadtForiOS
-name: App Store - Stage detail
+name: App Store - Artists
 tags:
   - app-store
 ---
@@ -9,19 +9,15 @@ tags:
       id: "schedule-screen"
     timeout: 20000
 - tapOn:
-    id: "map\\.fill"
-- tapOn:
-    id: "locations-view-mode-toggle"
+    id: "theatermasks\\.fill"
 - extendedWaitUntil:
     visible:
-      id: "location-7"
-    timeout: 15000
-- tapOn:
-    id: "location-7"
+      id: "artist-194"
+    timeout: 20000
 - extendedWaitUntil:
     visible:
-      id: "stage-detail-7"
-    timeout: 15000
+      id: "artist-image-loaded-194"
+    timeout: 30000
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: 05-stage-detail
+- takeScreenshot: 02-artists

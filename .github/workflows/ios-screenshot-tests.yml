@@ -66,6 +66,7 @@ jobs:
       max-parallel: 2
       matrix:
         locale: [de, en]
+        device_family: [iphone, ipad]
 
     steps:
       - name: Checkout repository
@@ -94,20 +95,42 @@ jobs:
           echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
           "$HOME/.maestro/bin/maestro" --version
 
-      - name: Select iOS 26 simulator
+      - name: Select iOS 26 ${{ matrix.device_family }} simulator
         id: simulator
+        env:
+          DEVICE_FAMILY: ${{ matrix.device_family }}
         run: |
           started_at="$(date +%s)"
           DEVICE_ID="$({
             xcrun simctl list devices available --json | \
               ruby -rjson -e '
-                preferred_names = ["iPhone 17 Pro", "iPhone 17", "iPhone 17e"]
+                family = ENV.fetch("DEVICE_FAMILY")
+                preferred_names = if family == "iphone"
+                  ["iPhone 17 Pro", "iPhone 17", "iPhone 17e"]
+                else
+                  [
+                    "iPad Pro 13-inch (M5)",
+                    "iPad Pro 13-inch (M4)",
+                    "iPad Air 13-inch (M3)",
+                    "iPad Air 13-inch (M2)",
+                    "iPad Pro (12.9-inch) (6th generation)"
+                  ]
+                end
                 devices = JSON.parse(STDIN.read).fetch("devices")
                 candidates = devices.flat_map do |runtime, runtime_devices|
                   next [] unless runtime.include?("iOS-26")
-                  runtime_devices.select { |device| device["isAvailable"] && device["name"].start_with?("iPhone") }
+                  runtime_devices.select do |device|
+                    next false unless device["isAvailable"]
+                    name = device.fetch("name")
+                    if family == "iphone"
+                      name.start_with?("iPhone")
+                    else
+                      name.start_with?("iPad") &&
+                        (name.include?("13-inch") || name.include?("12.9-inch"))
+                    end
+                  end
                 end
-                abort("No available iOS 26 iPhone simulator found") if candidates.empty?
+                abort("No suitable iOS 26 #{family} simulator found") if candidates.empty?
                 selected = candidates.min_by do |device|
                   preferred_names.index(device.fetch("name")) || preferred_names.length
                 end
@@ -118,35 +141,35 @@ jobs:
           echo "Simulator selection completed in $(( $(date +%s) - started_at ))s"
           xcrun simctl list devices available
 
-      - name: Capture ${{ matrix.locale }} screenshots
+      - name: Capture ${{ matrix.locale }} ${{ matrix.device_family }} screenshots
         env:
           DEVICE_ID: ${{ steps.simulator.outputs.device-id }}
           LOCALES: ${{ matrix.locale }}
-          APPEARANCES: light
+          APPEARANCES: light dark
           PREBUILT_APP_PATH: ${{ runner.temp }}/PrebuiltApp/Rudolstadt.app
           OUTPUT_ROOT: ${{ runner.temp }}/AppStoreScreenshots
           MAESTRO_CLI_NO_ANALYTICS: "1"
         run: |
           set -o pipefail
-          scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.locale }}.log"
+          scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.locale }}-${{ matrix.device_family }}.log"
 
-      - name: Upload ${{ matrix.locale }} screenshots
+      - name: Upload ${{ matrix.locale }} ${{ matrix.device_family }} screenshots
         id: upload_screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: app-store-screenshots-${{ matrix.locale }}-${{ github.run_number }}-${{ github.run_attempt }}
+          name: app-store-screenshots-${{ matrix.locale }}-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/AppStoreScreenshots
           if-no-files-found: warn
           retention-days: 14
 
-      - name: Upload ${{ matrix.locale }} diagnostics
+      - name: Upload ${{ matrix.locale }} ${{ matrix.device_family }} diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: app-store-screenshot-diagnostics-${{ matrix.locale }}-${{ github.run_number }}-${{ github.run_attempt }}
+          name: app-store-screenshot-diagnostics-${{ matrix.locale }}-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: |
-            ${{ runner.temp }}/app-store-screenshots-${{ matrix.locale }}.log
+            ${{ runner.temp }}/app-store-screenshots-${{ matrix.locale }}-${{ matrix.device_family }}.log
             ${{ runner.temp }}/AppStoreScreenshots
           if-no-files-found: warn
           retention-days: 14
@@ -157,7 +180,7 @@ jobs:
           SCREENSHOT_ARTIFACT_URL: ${{ steps.upload_screenshots.outputs.artifact-url }}
         run: |
           {
-            echo "## App Store Screenshots (${{ matrix.locale }})"
+            echo "## App Store Screenshots (${{ matrix.locale }}, ${{ matrix.device_family }})"
             echo
             echo "- Result: ${{ job.status }}"
             echo "- Screenshots: ${SCREENSHOT_ARTIFACT_URL:-not uploaded}"

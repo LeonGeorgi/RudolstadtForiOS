@@ -98,6 +98,7 @@ struct ArtistWorldMapView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityIdentifier("artist-world-map")
         .task {
             overlayLoader.loadIfNeeded()
         }
