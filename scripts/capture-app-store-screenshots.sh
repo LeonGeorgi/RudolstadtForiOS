@@ -124,7 +124,7 @@ for locale in "${locales[@]}"; do
 
     echo "Capturing $locale/$appearance/$device_name..."
     combination_started_at="$(date +%s)"
-    maestro_options=()
+    maestro_options=(--no-ansi)
     if [ "$driver_is_ready" = true ]; then
       maestro_options+=(--no-reinstall-driver)
     fi
@@ -134,7 +134,6 @@ for locale in "${locales[@]}"; do
     MAESTRO_CLI_NO_ANALYTICS=1 maestro test \
       --udid "$DEVICE_ID" \
       --test-output-dir "$output_path" \
-      --no-ansi \
       --format JUNIT \
       --output "$report_path" \
       "${maestro_options[@]}" \
