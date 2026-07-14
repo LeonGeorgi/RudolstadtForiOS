@@ -33,6 +33,7 @@ struct RootTabView: View {
     @State private var newsSheetPath = NavigationPath()
     @State private var isShowingNewsSheet = false
     @State private var retainsNewsAccessoryForPresentedSheet = false
+    @State private var isArtistWorldMapVisible = false
     @State private var isShowingNotificationPrompt = false
 
     private var isScreenshotMode: Bool {
@@ -114,6 +115,22 @@ struct RootTabView: View {
         unreadNewsCount > 0 || retainsNewsAccessoryForPresentedSheet
     }
 
+    private var newsAccessoryColorScheme: ColorScheme {
+        selectedTab == .artists && isArtistWorldMapVisible
+            ? .dark
+            : appColorScheme
+    }
+
+    private func updateArtistWorldMapVisibility(
+        for route: AppNavigationRoute,
+        isVisible: Bool
+    ) {
+        guard case .artistWorldMap = route else {
+            return
+        }
+        isArtistWorldMapVisible = isVisible
+    }
+
     @ViewBuilder
     private var appTabView: some View {
         TabView(selection: selectionBinding) {
@@ -169,6 +186,18 @@ struct RootTabView: View {
                         },
                         imageTransitionNamespace: artistImageTransition
                     )
+                    .onAppear {
+                        updateArtistWorldMapVisibility(
+                            for: route,
+                            isVisible: true
+                        )
+                    }
+                    .onDisappear {
+                        updateArtistWorldMapVisibility(
+                            for: route,
+                            isVisible: false
+                        )
+                    }
                 }
             }
             .tabItem {
@@ -229,7 +258,7 @@ struct RootTabView: View {
                         UnreadNewsAccessory(
                             unreadCount: unreadNewsCount,
                             content: unreadNewsAccessoryContent,
-                            appColorScheme: appColorScheme,
+                            foregroundColorScheme: newsAccessoryColorScheme,
                             openNews: presentNewsSheet
                         )
                     }
@@ -245,7 +274,7 @@ struct RootTabView: View {
                         UnreadNewsAccessory(
                             unreadCount: unreadNewsCount,
                             content: unreadNewsAccessoryContent,
-                            appColorScheme: appColorScheme,
+                            foregroundColorScheme: newsAccessoryColorScheme,
                             openNews: presentNewsSheet
                         )
                     }
@@ -395,7 +424,7 @@ private struct UnreadNewsAccessory: View {
 
     let unreadCount: Int
     let content: [UnreadNewsAccessoryContent]
-    let appColorScheme: ColorScheme
+    let foregroundColorScheme: ColorScheme
     let openNews: () -> Void
 
     private var localizedUnreadCount: String {
@@ -444,7 +473,7 @@ private struct UnreadNewsAccessory: View {
     }
 
     private var primaryTextColor: Color {
-        appColorScheme == .light ? .black : .white
+        foregroundColorScheme == .light ? .black : .white
     }
 
     private var secondaryTextColor: Color {

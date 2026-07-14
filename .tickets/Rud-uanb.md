@@ -118,3 +118,11 @@ Accessibility-Follow-up: Rotationsintervall auf 6 Sekunden erhöht. Automatische
 **2026-07-12T15:23:46Z**
 
 Follow-up: News werden beim DataStore-Start nun synchron aus dem vorhandenen frischen oder veralteten Disk-Cache veröffentlicht. Der bestehende verzögerte Netzwerk-Refresh läuft anschließend weiter und ersetzt die angezeigten Daten erst nach Abschluss; bei fehlendem/unlesbarem Cache bleibt der bisherige Lade- und Fallback-Pfad erhalten. Regressionstests für frischen/veralteten Cache sowie den unmittelbaren DataStore-Startzustand ergänzt. git diff --check erfolgreich; Simulator-/Unit-Testlauf gemäß vorherigem Nutzerwunsch übersprungen.
+
+**2026-07-14T05:15:36Z**
+
+Follow-up: Die dunkle Künstler-Weltkarte überschreibt nicht das globale App-Farbschema, weshalb die zuvor stabilisierte Accessory-Farbe im Light Mode dunkel blieb. RootTabView verfolgt nun ausschließlich die tatsächlich sichtbare artistWorldMap-Route und verwendet dort für die News-Accessory helle Dark-Backdrop-Farben; bei Weiter-/Zurücknavigation und Tabwechsel gilt wieder das App-Farbschema. Swift-Parse und scoped git diff --check erfolgreich; kein Simulator-Build gestartet.
+
+**2026-07-14T05:24:59Z**
+
+Visuelle Nachverifikation auf ausdrücklichen Nutzerwunsch: aktuellen Stand mit XcodeBuildMCP auf verbundenem iPhone 17e (iOS 26.5) gebaut und gestartet. Mit Maestro MCP semantisch zur Künstler-Weltkarte navigiert und Screenshots aufgenommen. Dark Mode korrekt. Entscheidend: App explizit im Light Theme neu gestartet, dunkle Hybrid-Weltkarte geöffnet; Accessory rendert Titel weiß und Untertitel hellgrau. Nach Maestro-Rücknavigation in die helle Künstler-Gridansicht rendert sie wieder schwarz/dunkelgrau. Build erfolgreich; bidirektionaler Farbschemawechsel visuell bestätigt.
