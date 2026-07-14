@@ -134,7 +134,9 @@ for locale in "${locales[@]}"; do
   maestro_status=$?
   set -e
 
-  driver_is_ready=true
+  if [ "$maestro_status" -eq 0 ]; then
+    driver_is_ready=true
+  fi
   if [ -f "$report_path" ]; then
     ruby -rrexml/document -e '
       document = REXML::Document.new(File.read(ARGV.fetch(0)))

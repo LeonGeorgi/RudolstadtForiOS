@@ -146,6 +146,7 @@ jobs:
           PREBUILT_APP_PATH: ${{ runner.temp }}/PrebuiltApp/Rudolstadt.app
           OUTPUT_ROOT: ${{ runner.temp }}/AppStoreScreenshots
           MAESTRO_CLI_NO_ANALYTICS: "1"
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: "300000"
         run: |
           set -o pipefail
           scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
