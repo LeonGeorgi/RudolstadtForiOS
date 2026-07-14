@@ -82,6 +82,9 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "artists.all.button" = "Alle";
 "artists.favorites.button" = "Favoriten";
 "artists.view.world_map" = "Weltkarte";
+"artists.view.layout" = "Darstellung";
+"artists.grid.comfortable" = "Zwei Spalten";
+"artists.grid.compact" = "Drei Spalten";
 "artists.map.card.title" = "Auf der Weltkarte entdecken";
 "artists.map.card.subtitle" = "Weltkarte öffnen";
 "artists.map.instructions" = "Tippe auf ein Land, um die Künstler von dort zu sehen.";

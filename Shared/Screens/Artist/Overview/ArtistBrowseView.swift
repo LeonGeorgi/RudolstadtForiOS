@@ -22,6 +22,7 @@ struct ArtistBrowseView: View {
             if state.selectedPresentationMode == .grid {
                 ArtistOverviewGridView(
                     artists: sortedArtists,
+                    gridDensity: state.selectedGridDensity,
                     emptyMessageKey: emptyMessageKey,
                     imageTransitionNamespace: imageTransitionNamespace,
                     showsWorldMapCallout: state.searchText.isEmpty,

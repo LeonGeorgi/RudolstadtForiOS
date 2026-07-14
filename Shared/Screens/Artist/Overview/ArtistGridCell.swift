@@ -7,31 +7,43 @@ struct ArtistGridCell: View {
     let artistIconName: String?
     let friendRatingSummary: FriendArtistRatingSummary?
 
-    private var flags: String? {
-        let value = (artist.ai?.flags ?? []).joined(separator: "")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return value.isEmpty ? nil : value
-    }
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.locale) private var locale
 
-    private var countryAndFlags: String? {
-        let country = artist.countries.trimmingCharacters(
+    private var countryDescription: String? {
+        let localizedCountries = artist.countryCodes.reduce(into: [String]()) {
+            result, countryCode in
+            let country = localizedCountryName(
+                forRegionCode: countryCode,
+                locale: locale
+            )
+            if !result.contains(country) {
+                result.append(country)
+            }
+        }
+
+        if !localizedCountries.isEmpty {
+            let formatter = ListFormatter()
+            formatter.locale = locale
+            return formatter.string(from: localizedCountries)
+        }
+
+        let fallback = artist.countries.trimmingCharacters(
             in: .whitespacesAndNewlines
         )
-        let value = [country, flags]
-            .compactMap { $0 }
-            .filter { !$0.isEmpty }
-            .joined(separator: " ")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return value.isEmpty ? nil : value
+        return fallback.isEmpty ? nil : fallback
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .bottomTrailing) {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.secondary.opacity(0.12))
+                Color.secondary.opacity(0.08)
 
-                ArtistImageView(artist: artist, fullImage: true)
+                ArtistImageView(
+                    artist: artist,
+                    fullImage: true,
+                    loadingStyle: .quiet
+                )
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 ratingBadge
@@ -44,33 +56,33 @@ struct ArtistGridCell: View {
                 }
             }
             .aspectRatio(8 / 7, contentMode: .fit)
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .stroke(Color.secondary.opacity(0.16), lineWidth: 0.5)
-            )
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .artistImageTransitionSource(
                 id: artist.id,
                 namespace: imageTransitionNamespace
             )
 
-            Text(artist.formattedName)
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.primary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.94)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(artist.formattedName)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)
 
-            if let countryAndFlags {
-                Text(countryAndFlags)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.94)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                if let countryDescription {
+                    Text(countryDescription)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)
+                }
             }
+            .frame(
+                maxWidth: .infinity,
+                alignment: .topLeading
+            )
+            .dynamicTypeSize(...DynamicTypeSize.accessibility2)
+            .padding(.top, 7)
         }
-        .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 
     @ViewBuilder

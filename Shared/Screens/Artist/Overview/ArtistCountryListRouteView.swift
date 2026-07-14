@@ -6,15 +6,21 @@ struct ArtistCountryListRouteView: View {
     let imageTransitionNamespace: Namespace.ID?
 
     @Environment(\.festivalData) private var festivalData
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @EnvironmentObject private var settings: UserSettings
     @EnvironmentObject private var profile: FestivalProfileStore
     @StateObject private var overlayLoader = GeoJSONCountryOverlayLoader.detailPreviewShared
     @Namespace private var localImageTransitionNamespace
     @State private var layout: CountryArtistLayout = .grid
 
-    private let gridColumns = Array(
-        repeating: GridItem(.flexible(), spacing: 11),
-        count: 3
-    )
+    private var gridColumns: [GridItem] {
+        ArtistGridLayout.columns(
+            for: dynamicTypeSize,
+            density: ArtistGridDensity(
+                rawValue: settings.artistGridColumnCount
+            ) ?? .comfortable
+        )
+    }
 
     private var resolvedImageTransitionNamespace: Namespace.ID {
         imageTransitionNamespace ?? localImageTransitionNamespace
@@ -58,7 +64,10 @@ struct ArtistCountryListRouteView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, 32)
                 } else if layout == .grid {
-                    LazyVGrid(columns: gridColumns, spacing: 18) {
+                    LazyVGrid(
+                        columns: gridColumns,
+                        spacing: ArtistGridLayout.rowSpacing
+                    ) {
                         ForEach(countryArtists) { artist in
                             NavigationLink(
                                 value: AppNavigationRoute.artist(
@@ -78,7 +87,7 @@ struct ArtistCountryListRouteView: View {
                             .buttonStyle(.plain)
                         }
                     }
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, ArtistGridLayout.horizontalPadding)
                     .padding(.bottom, 24)
                 } else {
                     VStack(alignment: .leading, spacing: 10) {

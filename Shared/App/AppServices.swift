@@ -87,6 +87,7 @@ enum ScreenshotRuntime {
         userSettings.mapType = 0
         userSettings.scheduleDisplayMode = .timeline
         userSettings.artistViewType = 1
+        userSettings.artistGridColumnCount = ArtistGridDensity.comfortable.rawValue
         userSettings.scheduleFilterType = 0
         userSettings.readNews = []
         userSettings.oldNews = []

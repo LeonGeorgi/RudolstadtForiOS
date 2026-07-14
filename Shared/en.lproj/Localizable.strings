@@ -82,6 +82,9 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "artists.all.button" = "All artists";
 "artists.favorites.button" = "Favorites";
 "artists.view.world_map" = "World map";
+"artists.view.layout" = "View";
+"artists.grid.comfortable" = "Two columns";
+"artists.grid.compact" = "Three columns";
 "artists.map.card.title" = "Explore on the world map";
 "artists.map.card.subtitle" = "Open the world map";
 "artists.map.instructions" = "Tap a country to see the artists coming from there.";

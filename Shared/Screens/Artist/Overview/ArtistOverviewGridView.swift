@@ -1,18 +1,46 @@
 import SwiftUI
 
+enum ArtistGridLayout {
+    static let horizontalPadding: CGFloat = 16
+    static let columnSpacing: CGFloat = 12
+    static let rowSpacing: CGFloat = 18
+
+    static func columns(
+        for dynamicTypeSize: DynamicTypeSize,
+        density: ArtistGridDensity
+    ) -> [GridItem] {
+        let columnCount = dynamicTypeSize.isAccessibilitySize
+            ? ArtistGridDensity.comfortable.rawValue
+            : density.rawValue
+
+        return Array(
+            repeating: GridItem(
+                .flexible(),
+                spacing: columnSpacing,
+                alignment: .top
+            ),
+            count: columnCount
+        )
+    }
+}
+
 struct ArtistOverviewGridView: View {
     let artists: [Artist]
+    let gridDensity: ArtistGridDensity
     let emptyMessageKey: LocalizedStringKey
     let imageTransitionNamespace: Namespace.ID
     let showsWorldMapCallout: Bool
     let showWorldMap: () -> Void
 
     @EnvironmentObject private var profile: FestivalProfileStore
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    private let gridColumns = Array(
-        repeating: GridItem(.flexible(), spacing: 11),
-        count: 3
-    )
+    private var gridColumns: [GridItem] {
+        ArtistGridLayout.columns(
+            for: dynamicTypeSize,
+            density: gridDensity
+        )
+    }
 
     var body: some View {
         ScrollView {
@@ -27,7 +55,10 @@ struct ArtistOverviewGridView: View {
                     ArtistOverviewEmptyMessage(emptyMessageKey)
                         .frame(minHeight: 240)
                 } else {
-                    LazyVGrid(columns: gridColumns, spacing: 16) {
+                    LazyVGrid(
+                        columns: gridColumns,
+                        spacing: ArtistGridLayout.rowSpacing
+                    ) {
                         ForEach(artists) { artist in
                             NavigationLink(
                                 value: AppNavigationRoute.artist(
@@ -48,7 +79,7 @@ struct ArtistOverviewGridView: View {
                             .accessibilityIdentifier("artist-\(artist.id)")
                         }
                     }
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, ArtistGridLayout.horizontalPadding)
                     .padding(.top, showsWorldMapCallout ? 0 : 14)
                     .padding(.bottom, 14)
                 }
@@ -82,6 +113,7 @@ private struct ArtistOverviewGridViewPreview: View {
         NavigationStack {
             ArtistOverviewGridView(
                 artists: previewArtists,
+                gridDensity: .comfortable,
                 emptyMessageKey: "artists.none-found",
                 imageTransitionNamespace: namespace,
                 showsWorldMapCallout: true,

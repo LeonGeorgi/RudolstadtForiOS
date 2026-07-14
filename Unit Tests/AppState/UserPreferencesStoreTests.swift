@@ -41,6 +41,19 @@ struct UserPreferencesStoreTests {
     }
 
     @Test
+    func persistsArtistGridColumnCount() {
+        let userDefaults = TestFixtures.isolatedUserDefaults()
+        let first = UserSettings(userDefaults: userDefaults)
+
+        #expect(first.artistGridColumnCount == 2)
+
+        first.artistGridColumnCount = 3
+
+        let second = UserSettings(userDefaults: userDefaults)
+        #expect(second.artistGridColumnCount == 3)
+    }
+
+    @Test
     func marksMultipleNewsItemsAsReadWithoutDuplicates() {
         let settings = TestFixtures.userSettings()
         settings.readNews = [7]

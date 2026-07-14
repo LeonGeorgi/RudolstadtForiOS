@@ -2,12 +2,28 @@ import Nuke
 import NukeUI
 import SwiftUI
 
+enum ArtistImageLoadingStyle {
+    case standard
+    case quiet
+}
+
 struct ArtistImageView: View {
     let artist: Artist
     let fullImage: Bool
+    let loadingStyle: ArtistImageLoadingStyle
 
     @Environment(\.colorScheme) private var colorScheme
     @State private var skeletonShimmerPhase: CGFloat = -1
+
+    init(
+        artist: Artist,
+        fullImage: Bool,
+        loadingStyle: ArtistImageLoadingStyle = .standard
+    ) {
+        self.artist = artist
+        self.fullImage = fullImage
+        self.loadingStyle = loadingStyle
+    }
 
     private var selectedImageURL: URL? {
         if fullImage, let fullImageUrl = artist.fullImageUrl {
@@ -31,41 +47,47 @@ struct ArtistImageView: View {
         colorScheme == .dark ? .white.opacity(0.18) : .white.opacity(0.45)
     }
 
+    @ViewBuilder
     private var loadingSkeleton: some View {
-        Rectangle()
-            .fill(skeletonBaseColor)
-            .overlay {
-                GeometryReader { proxy in
-                    let width = max(proxy.size.width, 1)
+        if loadingStyle == .quiet {
+            Rectangle()
+                .fill(skeletonBaseColor)
+        } else {
+            Rectangle()
+                .fill(skeletonBaseColor)
+                .overlay {
+                    GeometryReader { proxy in
+                        let width = max(proxy.size.width, 1)
 
-                    LinearGradient(
-                        colors: [.clear, skeletonHighlightColor, .clear],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                    .frame(width: width * 0.6)
-                    .blur(radius: 10)
-                    .offset(x: skeletonShimmerPhase * width * 1.8)
+                        LinearGradient(
+                            colors: [.clear, skeletonHighlightColor, .clear],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        .frame(width: width * 0.6)
+                        .blur(radius: 10)
+                        .offset(x: skeletonShimmerPhase * width * 1.8)
+                    }
+                    .clipped()
                 }
-                .clipped()
-            }
-            .overlay {
-                ProgressView()
-                    .tint(colorScheme == .dark ? .white.opacity(0.9) : .secondary)
-                    .padding(10)
-                    .background(.ultraThinMaterial, in: Circle())
-            }
-            .onAppear {
-                guard skeletonShimmerPhase == -1 else {
-                    return
+                .overlay {
+                    ProgressView()
+                        .tint(colorScheme == .dark ? .white.opacity(0.9) : .secondary)
+                        .padding(10)
+                        .background(.ultraThinMaterial, in: Circle())
                 }
+                .onAppear {
+                    guard skeletonShimmerPhase == -1 else {
+                        return
+                    }
 
-                withAnimation(
-                    .linear(duration: 1.15).repeatForever(autoreverses: false)
-                ) {
-                    skeletonShimmerPhase = 1
+                    withAnimation(
+                        .linear(duration: 1.15).repeatForever(autoreverses: false)
+                    ) {
+                        skeletonShimmerPhase = 1
+                    }
                 }
-            }
+        }
     }
 
     var body: some View {

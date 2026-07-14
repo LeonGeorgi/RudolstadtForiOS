@@ -126,9 +126,20 @@ struct ArtistListView: View {
             if settings.artistViewType != restoredMode.rawValue {
                 settings.artistViewType = restoredMode.rawValue
             }
+
+            let restoredDensity = ArtistGridDensity(
+                rawValue: settings.artistGridColumnCount
+            ) ?? .comfortable
+            overviewState.selectedGridDensity = restoredDensity
+            if settings.artistGridColumnCount != restoredDensity.rawValue {
+                settings.artistGridColumnCount = restoredDensity.rawValue
+            }
         }
         .onChange(of: overviewState.selectedPresentationMode) { _, newMode in
             settings.artistViewType = newMode.rawValue
+        }
+        .onChange(of: overviewState.selectedGridDensity) { _, newDensity in
+            settings.artistGridColumnCount = newDensity.rawValue
         }
         .onChange(of: dataStore.browseTaxonomy, initial: false) { _, _ in
             overviewState.syncBrowseGenreSelection(

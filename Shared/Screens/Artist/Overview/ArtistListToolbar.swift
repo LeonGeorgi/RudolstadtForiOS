@@ -1,30 +1,82 @@
 import SwiftUI
 
-private extension ArtistPresentationMode {
-    var toggledMode: ArtistPresentationMode {
+private enum ArtistLayoutOption: CaseIterable, Hashable {
+    case list
+    case comfortableGrid
+    case compactGrid
+
+    var title: LocalizedStringKey {
         switch self {
         case .list:
-            return .grid
-        case .grid:
-            return .list
+            return ArtistPresentationMode.list.localizedTitle
+        case .comfortableGrid:
+            return ArtistGridDensity.comfortable.localizedTitle
+        case .compactGrid:
+            return ArtistGridDensity.compact.localizedTitle
+        }
+    }
+
+    var systemImageName: String {
+        switch self {
+        case .list:
+            return ArtistPresentationMode.list.systemImageName
+        case .comfortableGrid:
+            return ArtistGridDensity.comfortable.systemImageName
+        case .compactGrid:
+            return ArtistGridDensity.compact.systemImageName
         }
     }
 }
 
-struct ArtistPresentationModeToggleButton: View {
+struct ArtistPresentationMenu: View {
     @ObservedObject var state: ArtistOverviewState
     let currentTipID: String?
-    
-    var body: some View {
-        let nextMode = state.selectedPresentationMode.toggledMode
-        
-        Button {
-            state.selectedPresentationMode = nextMode
-        } label: {
-            Label(nextMode.localizedTitle, systemImage: nextMode.systemImageName)
+
+    private var systemImageName: String {
+        switch state.selectedPresentationMode {
+        case .list:
+            return ArtistPresentationMode.list.systemImageName
+        case .grid:
+            return state.selectedGridDensity.systemImageName
         }
-        .labelStyle(.iconOnly)
-        .accessibilityLabel(nextMode.localizedTitle)
+    }
+
+    private var selection: Binding<ArtistLayoutOption> {
+        Binding {
+            switch state.selectedPresentationMode {
+            case .list:
+                return .list
+            case .grid:
+                return state.selectedGridDensity == .comfortable
+                    ? .comfortableGrid : .compactGrid
+            }
+        } set: { option in
+            switch option {
+            case .list:
+                state.selectedPresentationMode = .list
+            case .comfortableGrid:
+                state.selectedGridDensity = .comfortable
+                state.selectedPresentationMode = .grid
+            case .compactGrid:
+                state.selectedGridDensity = .compact
+                state.selectedPresentationMode = .grid
+            }
+        }
+    }
+
+    var body: some View {
+        Menu {
+            Picker("artists.view.layout", selection: selection) {
+                ForEach(ArtistLayoutOption.allCases, id: \.self) { option in
+                    Label(option.title, systemImage: option.systemImageName)
+                        .tag(option)
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Image(systemName: systemImageName)
+        }
+        .accessibilityLabel(Text("artists.view.layout"))
         .appPopoverTip(
             DiscoverabilityTips.artistViewMode,
             currentTipID: currentTipID,
@@ -78,7 +130,7 @@ struct ArtistListToolbar: ToolbarContent {
     var body: some ToolbarContent {
         
         ToolbarItem(placement: .topBarTrailing) {
-            ArtistPresentationModeToggleButton(
+            ArtistPresentationMenu(
                 state: state,
                 currentTipID: currentTipID
             )

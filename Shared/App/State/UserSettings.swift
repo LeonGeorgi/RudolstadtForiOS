@@ -104,6 +104,11 @@ final class UserPreferencesStore: ObservableObject {
     @UserDefault(key: "view/artist/viewtype/v2", defaultValue: 1)
     var artistViewType: Int
 
+    // 2 - Comfortable grid
+    // 3 - Compact grid
+    @UserDefault(key: "view/artist/grid-columns/v1", defaultValue: 2)
+    var artistGridColumnCount: Int
+
     // 0 - All
     // 1 - Favorites
     // 2 - Optimal
