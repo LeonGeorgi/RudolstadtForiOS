@@ -25,6 +25,16 @@ tags:
     timeout: 5000
 - takeScreenshot: 01-schedule
 
+# Scrolling the timeline minimizes the iPhone tab bar. Reverse the scroll before
+# navigating so all tab items are available to Maestro again.
+- swipe:
+    direction: DOWN
+    duration: 400
+- extendedWaitUntil:
+    visible:
+      id: "theatermasks\\.fill"
+    timeout: 10000
+
 # Artists
 - tapOn:
     id: "theatermasks\\.fill"
@@ -78,6 +88,12 @@ tags:
 # Reset the selected artists tab before switching away so it is still at its root later.
 - tapOn:
     id: "theatermasks\\.fill"
+- extendedWaitUntil:
+    visible:
+      text: "Clear text|Text löschen"
+    timeout: 10000
+- tapOn:
+    text: "Clear text|Text löschen"
 - extendedWaitUntil:
     visible:
       id: "artist-194"
