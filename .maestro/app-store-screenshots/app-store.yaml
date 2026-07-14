@@ -25,11 +25,10 @@ tags:
     timeout: 5000
 - takeScreenshot: 01-schedule
 
-# Scrolling the timeline minimizes the iPhone tab bar. Reverse the scroll before
-# navigating so all tab items are available to Maestro again.
-- swipe:
-    direction: DOWN
-    duration: 400
+# Scrolling the timeline minimizes the iPhone tab bar. Tapping its remaining
+# selected tab expands it before navigating to another tab.
+- tapOn:
+    id: "calendar"
 - extendedWaitUntil:
     visible:
       id: "theatermasks\\.fill"
