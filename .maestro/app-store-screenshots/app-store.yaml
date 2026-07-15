@@ -94,7 +94,7 @@ tags:
 - tapOn:
     text: "Clear text|Text löschen"
 - tapOn:
-    text: "Cancel|Abbrechen"
+    text: "Close|Schließen"
 - extendedWaitUntil:
     visible:
       id: "artist-194"
