@@ -187,7 +187,7 @@ jobs:
   publish-screenshots:
     if: github.ref == 'refs/heads/master'
     needs: capture-screenshots
-    runs-on: ubuntu-latest
+    runs-on: macos-26
     permissions:
       contents: read
       pages: write
@@ -200,6 +200,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Download iphone screenshots
         uses: actions/download-artifact@v5
         with:
@@ -229,10 +232,17 @@ jobs:
           )
 
           for device_family in iphone ipad; do
+            if [ "$device_family" = iphone ]; then
+              thumbnail_width=360
+            else
+              thumbnail_width=480
+            fi
+
             for locale in de en; do
               source_directory="$SOURCE_ROOT/$device_family/$locale"
               destination_directory="$PAGES_ROOT/screenshots/$device_family/$locale"
-              mkdir -p "$destination_directory"
+              thumbnail_directory="$PAGES_ROOT/thumbnails/$device_family/$locale"
+              mkdir -p "$destination_directory" "$thumbnail_directory"
 
               for screenshot in "${screenshots[@]}"; do
                 source_path="$(find "$source_directory" -type f -name "$screenshot" -print -quit)"
@@ -241,9 +251,21 @@ jobs:
                   exit 1
                 fi
                 cp "$source_path" "$destination_directory/$screenshot"
+                sips \
+                  --resampleWidth "$thumbnail_width" \
+                  "$source_path" \
+                  --out "$thumbnail_directory/$screenshot" \
+                  >/dev/null
               done
             done
           done
+
+          cp .github/app-store-screenshot-gallery/index.html "$PAGES_ROOT/index.html"
+          (
+            cd "$PAGES_ROOT"
+            zip -q -r "$RUNNER_TEMP/app-store-screenshots.zip" screenshots
+          )
+          mv "$RUNNER_TEMP/app-store-screenshots.zip" "$PAGES_ROOT/app-store-screenshots.zip"
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
