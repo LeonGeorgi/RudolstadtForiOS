@@ -61,8 +61,15 @@ tags:
 - takeScreenshot: 03-locations
 
 # Artist detail
-- tapOn:
-    id: "theatermasks\\.fill"
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: "theatermasks\\.fill"
+      - extendedWaitUntil:
+          visible:
+            id: "artist-194"
+          timeout: 10000
 - tapOn:
     text: "Search|Suchen"
 - inputText: "Duo Ruut"
@@ -93,8 +100,13 @@ tags:
     timeout: 10000
 - tapOn:
     text: "Clear text|Text löschen"
-- tapOn:
-    text: "Close|Schließen"
+- runFlow:
+    when:
+      visible:
+        text: "Close|Schließen"
+    commands:
+      - tapOn:
+          text: "Close|Schließen"
 - extendedWaitUntil:
     visible:
       id: "artist-194"
@@ -127,7 +139,17 @@ tags:
 
 # Artist world map
 - tapOn:
+    id: "person.2\\.fill"
+- extendedWaitUntil:
+    visible:
+      id: "theatermasks\\.fill"
+    timeout: 10000
+- tapOn:
     id: "theatermasks\\.fill"
+- extendedWaitUntil:
+    visible:
+      id: "artist-194"
+    timeout: 10000
 - tapOn:
     text: "Explore on the world map|Auf der Weltkarte entdecken"
 - extendedWaitUntil:
