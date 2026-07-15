@@ -93,6 +93,7 @@ tags:
     timeout: 10000
 - tapOn:
     text: "Clear text|Text löschen"
+- hideKeyboard
 - extendedWaitUntil:
     visible:
       id: "artist-194"
