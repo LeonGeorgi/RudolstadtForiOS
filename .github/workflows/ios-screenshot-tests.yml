@@ -183,3 +183,76 @@ jobs:
             echo "- Result: ${{ job.status }}"
             echo "- Screenshots: ${SCREENSHOT_ARTIFACT_URL:-not uploaded}"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  publish-screenshots:
+    if: github.ref == 'refs/heads/master'
+    needs: capture-screenshots
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Download iphone screenshots
+        uses: actions/download-artifact@v5
+        with:
+          name: app-store-screenshots-iphone-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/screenshots/iphone
+
+      - name: Download ipad screenshots
+        uses: actions/download-artifact@v5
+        with:
+          name: app-store-screenshots-ipad-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/screenshots/ipad
+
+      - name: Prepare stable screenshot paths
+        env:
+          SOURCE_ROOT: ${{ runner.temp }}/screenshots
+          PAGES_ROOT: ${{ runner.temp }}/pages
+        run: |
+          set -euo pipefail
+          screenshots=(
+            01-schedule.png
+            02-artists.png
+            03-locations.png
+            04-artist-detail.png
+            05-friends.png
+            06-artist-world-map.png
+            07-schedule-dark.png
+          )
+
+          for device_family in iphone ipad; do
+            for locale in de en; do
+              source_directory="$SOURCE_ROOT/$device_family/$locale"
+              destination_directory="$PAGES_ROOT/screenshots/$device_family/$locale"
+              mkdir -p "$destination_directory"
+
+              for screenshot in "${screenshots[@]}"; do
+                source_path="$(find "$source_directory" -type f -name "$screenshot" -print -quit)"
+                if [ -z "$source_path" ]; then
+                  echo "Missing $device_family/$locale/$screenshot" >&2
+                  exit 1
+                fi
+                cp "$source_path" "$destination_directory/$screenshot"
+              done
+            done
+          done
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/pages
+
+      - name: Deploy screenshots to Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
