@@ -1,6 +1,6 @@
 ---
 id: Rud-2y23
-status: open
+status: closed
 deps: [Rud-r2ax]
 links: [Rud-tuxh]
 created: 2026-07-11T04:21:04Z
@@ -8,7 +8,7 @@ type: task
 priority: 2
 assignee: Leon Georgi
 parent: Rud-lyze
-tags: [needs-approval, design-audit, ios26, artist-detail, visual-design, hero-image, effort-small, confidence-high]
+tags: [approved, design-audit, ios26, artist-detail, visual-design, hero-image, effort-small, confidence-high]
 ---
 # Künstlerdetail: Hero-Foto enger mit der fotoabgeleiteten Farbfläche verzahnen
 
@@ -48,3 +48,8 @@ Nicht-Ziele:
 - Bild-Zoom beziehungsweise vorhandene Tap-Interaktion bleibt unverändert funktionsfähig.
 - Keine neuen dekorativen Materialien oder Effekte wurden hinzugefügt.
 
+## Notes
+
+**2026-07-14T02:08:20Z**
+
+Hero-Foto bei normalen Textgrößen von 40 auf 24 Punkte horizontalen Einzug verbreitert; Schatten auf halbe Theme-Deckkraft, Radius 8 und y 4 reduziert. Build & Run auf iPhone 17e (iOS 26.5) erfolgreich. Vorher-/Iterations-Screenshots für 5/8erl, A Birchola und Agnes Palmisano in Light Mode sowie Agnes und 5/8erl in Dark Mode geprüft. Bild-Zoom geöffnet und wieder geschlossen; Interaktion unverändert funktionsfähig. Keine Tests ausgeführt, da ausschließlich visuelles Styling geändert wurde.

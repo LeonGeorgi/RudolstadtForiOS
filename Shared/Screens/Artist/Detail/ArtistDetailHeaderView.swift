@@ -143,8 +143,8 @@ struct ArtistDetailHeaderView: View {
                 RoundedRectangle(cornerRadius: 14, style: .continuous)
                     .stroke(theme.imageBorder, lineWidth: 0.5)
             )
-            .shadow(color: theme.shadow, radius: 15, x: 0, y: 8)
-            .padding(.horizontal, dynamicTypeSize.isAccessibilitySize ? 16 : 40)
+            .shadow(color: theme.shadow.opacity(0.5), radius: 8, x: 0, y: 4)
+            .padding(.horizontal, dynamicTypeSize.isAccessibilitySize ? 16 : 24)
     }
 
 }
