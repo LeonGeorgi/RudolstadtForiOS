@@ -93,6 +93,8 @@ tags:
     timeout: 10000
 - tapOn:
     text: "Clear text|Text löschen"
+- tapOn:
+    text: "Cancel|Abbrechen"
 - extendedWaitUntil:
     visible:
       id: "artist-194"
@@ -101,13 +103,6 @@ tags:
 # Friend recommendations
 - tapOn:
     id: "person.2\\.fill"
-- runFlow:
-    when:
-      visible:
-        id: "artist-194"
-    commands:
-      - tapOn:
-          id: "person.2\\.fill"
 - scrollUntilVisible:
     element:
       text: "Friend recommendations|Freundesempfehlungen"
