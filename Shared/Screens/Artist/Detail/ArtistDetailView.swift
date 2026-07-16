@@ -2,6 +2,12 @@ import MusicKit
 import SwiftUI
 
 struct ArtistDetailView: View {
+    private enum Layout {
+        static let maximumContentWidth: CGFloat = 720
+        static let compactHorizontalMargin: CGFloat = 16
+        static let regularHorizontalMargin: CGFloat = 24
+    }
+
     private struct PresentedBrowserURL: Identifiable {
         let id = UUID()
         let url: URL
@@ -14,6 +20,7 @@ struct ArtistDetailView: View {
     @Environment(\.colorScheme) private var systemColorScheme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @EnvironmentObject var profile: FestivalProfileStore
 
     @State private var isShowingNoteEditView = false
@@ -48,6 +55,12 @@ struct ArtistDetailView: View {
 
     var artistNote: String? {
         profile.noteText(for: artist)
+    }
+
+    private var horizontalContentMargin: CGFloat {
+        horizontalSizeClass == .regular
+            ? Layout.regularHorizontalMargin
+            : Layout.compactHorizontalMargin
     }
 
     private func presentNoteEditor() {
@@ -100,58 +113,84 @@ struct ArtistDetailView: View {
         }
     }
 
+    private var primaryContent: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ArtistDetailHeaderView(
+                artist: artist,
+                friendRatingSummary: friendRatingSummary,
+                onTitleVisibilityChange: { isVisible in
+                    isArtistTitleVisible = isVisible
+                }
+            )
+
+            VStack(spacing: dynamicTypeSize.isAccessibilitySize ? 12 : 8) {
+                ArtistDetailLinksView(artist: artist) { url in
+                    presentedBrowserURL = PresentedBrowserURL(url: url)
+                }
+
+                ArtistRatingView(
+                    artist: artist,
+                    currentTipID: tipSequencer.currentTipID
+                )
+                .padding(
+                    .horizontal,
+                    dynamicTypeSize.isAccessibilitySize ? 0 : 34
+                )
+                .frame(maxWidth: .infinity)
+            }
+            .padding(.top, dynamicTypeSize.isAccessibilitySize ? 18 : 14)
+
+            if !artistEvents.isEmpty {
+                ArtistEventsBlock(
+                    artistEvents: artistEvents,
+                    highlightedEventId: highlightedEventId,
+                    currentTipID: tipSequencer.currentTipID,
+                    navigate: navigate
+                )
+                .padding(.top, dynamicTypeSize.isAccessibilitySize ? 28 : 24)
+            }
+
+            if let artistNote, !artistNote.isEmpty {
+                ArtistNoteBlock(note: artistNote) {
+                    presentNoteEditor()
+                }
+                .padding(.top, dynamicTypeSize.isAccessibilitySize ? 24 : 18)
+            }
+        }
+        .padding(.top, 12)
+        .padding(.bottom, dynamicTypeSize.isAccessibilitySize ? 24 : 20)
+    }
+
+    private var supportingContent: some View {
+        VStack(spacing: 0) {
+            ArtistAISummaryBlock(artist: artist)
+                .padding(.top, 16)
+                .padding(.bottom, 8)
+
+            ArtistDescriptionBlock(
+                description: artist.formattedDescription
+            )
+        }
+    }
+
+    private func contentColumn<Content: View>(
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        content()
+            .frame(maxWidth: Layout.maximumContentWidth, alignment: .leading)
+            .padding(.horizontal, horizontalContentMargin)
+            .frame(maxWidth: .infinity, alignment: .center)
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                VStack(
-                    alignment: .leading,
-                    spacing: dynamicTypeSize.isAccessibilitySize ? 14 : 18
-                ) {
-                    ArtistDetailHeaderView(
-                        artist: artist,
-                        friendRatingSummary: friendRatingSummary,
-                        onTitleVisibilityChange: { isVisible in
-                            isArtistTitleVisible = isVisible
-                        }
-                    )
-
-                    ArtistDetailLinksView(artist: artist) { url in
-                        presentedBrowserURL = PresentedBrowserURL(url: url)
-                    }
-
-                    ArtistRatingView(
-                        artist: artist,
-                        currentTipID: tipSequencer.currentTipID
-                    )
-                        .padding(
-                            .horizontal,
-                            dynamicTypeSize.isAccessibilitySize ? 0 : 34
-                        )
-                        .frame(maxWidth: .infinity)
-
-                    ArtistNoteBlock(note: artistNote) {
-                        presentNoteEditor()
-                    }
-                    ArtistEventsBlock(
-                        artistEvents: artistEvents,
-                        highlightedEventId: highlightedEventId,
-                        currentTipID: tipSequencer.currentTipID,
-                        navigate: navigate
-                    )
+                contentColumn {
+                    primaryContent
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 12)
-                .padding(.bottom, 18)
 
-                VStack(spacing: 0) {
-                    ArtistAISummaryBlock(artist: artist)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 10)
-                        .padding(.bottom, 2)
-
-                    ArtistDescriptionBlock(
-                        description: artist.formattedDescription
-                    )
+                contentColumn {
+                    supportingContent
                 }
                 .background(artistTheme.descriptionSurface)
             }
