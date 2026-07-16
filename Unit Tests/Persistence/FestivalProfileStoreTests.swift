@@ -70,6 +70,58 @@ struct FestivalProfileStoreTests {
     }
 
     @Test
+    func existingArtistNoteIsLoadedIntoEditorDraft() {
+        let profileStore = TestFixtures.festivalProfileStore()
+        profileStore.setArtistNote(for: Artist.example, note: "Meet at the stage")
+
+        let draft = ArtistNoteDraft(
+            noteText: profileStore.noteText(for: Artist.example)
+        )
+
+        #expect(draft.text == "Meet at the stage")
+        #expect(!draft.hasChanges)
+    }
+
+    @Test
+    func newlySavedArtistNoteIsLoadedWhenEditorReopens() {
+        let profileStore = TestFixtures.festivalProfileStore()
+        var draft = ArtistNoteDraft(
+            noteText: profileStore.noteText(for: Artist.example)
+        )
+
+        #expect(draft.text.isEmpty)
+        draft.text = "Listen from the front"
+        #expect(draft.hasChanges)
+
+        profileStore.setArtistNote(for: Artist.example, note: draft.text)
+        let reopenedDraft = ArtistNoteDraft(
+            noteText: profileStore.noteText(for: Artist.example)
+        )
+
+        #expect(reopenedDraft.text == "Listen from the front")
+        #expect(!reopenedDraft.hasChanges)
+    }
+
+    @Test
+    func deletedArtistNoteIsEmptyWhenEditorReopens() {
+        let profileStore = TestFixtures.festivalProfileStore()
+        profileStore.setArtistNote(for: Artist.example, note: "Remember this")
+        var draft = ArtistNoteDraft(
+            noteText: profileStore.noteText(for: Artist.example)
+        )
+
+        draft.text = ""
+        profileStore.setArtistNote(for: Artist.example, note: draft.text)
+        let reopenedDraft = ArtistNoteDraft(
+            noteText: profileStore.noteText(for: Artist.example)
+        )
+
+        #expect(profileStore.noteText(for: Artist.example) == nil)
+        #expect(reopenedDraft.text.isEmpty)
+        #expect(!reopenedDraft.hasChanges)
+    }
+
+    @Test
     func objectWillChangePublishesWhenProfileChanges() {
         let profileStore = TestFixtures.festivalProfileStore()
         var cancellables = Set<AnyCancellable>()

@@ -18,7 +18,7 @@ struct ArtistDetailView: View {
 
     @State private var isShowingNoteEditView = false
     @State var isEditAlertShown: Bool = false
-    @State var noteText: String = ""
+    @State private var noteDraft = ArtistNoteDraft(noteText: nil)
     @State private var isShowingAIInfo = false
     @State private var presentedBrowserURL: PresentedBrowserURL?
     @State private var isArtistTitleVisible = true
@@ -48,6 +48,11 @@ struct ArtistDetailView: View {
 
     var artistNote: String? {
         profile.noteText(for: artist)
+    }
+
+    private func presentNoteEditor() {
+        noteDraft = ArtistNoteDraft(noteText: artistNote)
+        isShowingNoteEditView = true
     }
 
     private var friendRatingSummary: FriendArtistRatingSummary? {
@@ -125,7 +130,7 @@ struct ArtistDetailView: View {
                         .frame(maxWidth: .infinity)
 
                     ArtistNoteBlock(note: artistNote) {
-                        isShowingNoteEditView = true
+                        presentNoteEditor()
                     }
                     ArtistEventsBlock(
                         artistEvents: artistEvents,
@@ -176,7 +181,7 @@ struct ArtistDetailView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack {
                     Button(action: {
-                        isShowingNoteEditView.toggle()
+                        presentNoteEditor()
                     }) {
                         Image(systemName: "square.and.pencil")
                     }
@@ -189,17 +194,17 @@ struct ArtistDetailView: View {
             }
         }
         .sheet(isPresented: $isShowingNoteEditView) {
-            NavigationView {
-                ArtistNoteEditorView(noteText: $noteText)
+            NavigationStack {
+                ArtistNoteEditorView(noteText: $noteDraft.text)
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationTitle("artist.edit-note.headline")
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button(role: .cancel) {
-                                if artistNote ?? "" == noteText {
-                                    isShowingNoteEditView = false
-                                } else {
+                                if noteDraft.hasChanges {
                                     isEditAlertShown = true
+                                } else {
+                                    isShowingNoteEditView = false
                                 }
                             } label: {
                                 Image(systemName: "xmark")
@@ -208,7 +213,7 @@ struct ArtistDetailView: View {
                         }
                         ToolbarItem(placement: .confirmationAction) {
                             Button(role: confirmationButtonRole) {
-                                profile.setArtistNote(for: artist, note: noteText)
+                                profile.setArtistNote(for: artist, note: noteDraft.text)
                                 isShowingNoteEditView = false
                             } label: {
                                 Image(systemName: "checkmark")
@@ -224,7 +229,6 @@ struct ArtistDetailView: View {
                                 Text("artist.note.cancel.alert.yes")
                             ) {
                                 isEditAlertShown = false
-                                noteText = artistNote ?? ""
                                 isShowingNoteEditView = false
                             },
                             secondaryButton: .cancel(
@@ -246,6 +250,20 @@ struct ArtistDetailView: View {
         } message: {
             Text("artist.ai.footer")
         }
+    }
+}
+
+struct ArtistNoteDraft: Equatable {
+    let originalText: String
+    var text: String
+
+    init(noteText: String?) {
+        originalText = noteText ?? ""
+        text = originalText
+    }
+
+    var hasChanges: Bool {
+        text != originalText
     }
 }
 
