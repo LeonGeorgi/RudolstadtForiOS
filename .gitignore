@@ -2,3 +2,7 @@
 Screenshots/
 AppStoreScreenshots/
 **/.DS_Store
+.codex-tmp/
+xcuserdata/
+*.xcuserstate
+/[0-9][0-9]-*.png
