@@ -81,12 +81,16 @@ tags:
     visible:
       id: "artist-176"
     timeout: 15000
-- tapOn:
-    id: "artist-176"
-- extendedWaitUntil:
-    visible:
-      id: "artist-detail-176-theme-ready"
-    timeout: 30000
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: "artist-176"
+          retryTapIfNoChange: true
+      - extendedWaitUntil:
+          visible:
+            id: "artist-detail-176-theme-ready"
+          timeout: 10000
 - extendedWaitUntil:
     visible:
       id: "artist-image-loaded-176"
