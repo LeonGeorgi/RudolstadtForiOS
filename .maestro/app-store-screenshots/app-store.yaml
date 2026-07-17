@@ -35,12 +35,16 @@ tags:
     timeout: 10000
 
 # Artists
-- tapOn:
-    id: "theatermasks\\.fill"
-- extendedWaitUntil:
-    visible:
-      id: "artist-194"
-    timeout: 20000
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: "theatermasks\\.fill"
+          retryTapIfNoChange: true
+      - extendedWaitUntil:
+          visible:
+            id: "artist-194"
+          timeout: 10000
 - extendedWaitUntil:
     visible:
       id: "artist-image-loaded-194"
