@@ -10,9 +10,11 @@ readonly DERIVED_DATA_PATH="${DERIVED_DATA_PATH:-/tmp/RudolstadtAppStoreScreensh
 readonly FLOWS_PATH="$PROJECT_ROOT/.maestro/app-store-screenshots"
 readonly FLOW_FILE="$FLOWS_PATH/app-store.yaml"
 readonly OUTPUT_ROOT="${OUTPUT_ROOT:-$PROJECT_ROOT/AppStoreScreenshots}"
+readonly DIAGNOSTICS_ROOT="${DIAGNOSTICS_ROOT:-${OUTPUT_ROOT%/}-diagnostics}"
 readonly CAPTURE_ID="${CAPTURE_ID:-$(date +%Y-%m-%d_%H%M%S)}"
 readonly DEVICE_ID="${DEVICE_ID:-${1:-}}"
 readonly PREBUILT_APP_PATH="${PREBUILT_APP_PATH:-}"
+readonly MAX_CAPTURE_ATTEMPTS=2
 
 if [ -z "$DEVICE_ID" ]; then
   echo "Usage: DEVICE_ID=<simulator-udid> $0" >&2
@@ -46,6 +48,30 @@ locale_identifier() {
       exit 1
       ;;
   esac
+}
+
+is_recoverable_driver_failure() {
+  local diagnostics_path="$1"
+
+  grep -R -E -q \
+    -e 'Failed to connect to /127\.0\.0\.1' \
+    -e 'Timed out while requesting screenshot' \
+    "$diagnostics_path"
+}
+
+print_report_timings() {
+  local report_path="$1"
+
+  if [ ! -f "$report_path" ]; then
+    return
+  fi
+
+  ruby -rrexml/document -e '
+    document = REXML::Document.new(File.read(ARGV.fetch(0)))
+    REXML::XPath.each(document, "//testcase") do |testcase|
+      puts "Timing: #{testcase.attributes["name"]} #{testcase.attributes["time"]}s"
+    end
+  ' "$report_path"
 }
 
 device_name="$({
@@ -110,45 +136,72 @@ capture_status=0
 for locale in "${locales[@]}"; do
   app_locale="$(locale_identifier "$locale")"
   output_path="$OUTPUT_ROOT/$locale/$device_name/$CAPTURE_ID"
-  mkdir -p "$output_path"
+  attempts_root="$DIAGNOSTICS_ROOT/$locale/$device_name/$CAPTURE_ID"
+  mkdir -p "$(dirname "$output_path")" "$attempts_root"
   xcrun simctl ui "$DEVICE_ID" appearance light
 
   echo "Capturing $locale/$device_name..."
   combination_started_at="$(date +%s)"
-  maestro_options=(--no-ansi)
-  if [ "$driver_is_ready" = true ]; then
-    maestro_options+=(--no-reinstall-driver)
-  fi
+  locale_status=1
 
-  report_path="$output_path/maestro-report.xml"
-  set +e
-  MAESTRO_CLI_NO_ANALYTICS=1 maestro test \
-    --udid "$DEVICE_ID" \
-    --test-output-dir "$output_path" \
-    --format JUNIT \
-    --output "$report_path" \
-    "${maestro_options[@]}" \
-    -e APPLE_LANGUAGES="($locale)" \
-    -e APPLE_LOCALE="$app_locale" \
-    "$FLOW_FILE"
-  maestro_status=$?
-  set -e
+  for ((attempt = 1; attempt <= MAX_CAPTURE_ATTEMPTS; attempt++)); do
+    attempt_output="$attempts_root/attempt-$attempt"
+    mkdir -p "$attempt_output"
+    echo "Capture attempt $attempt/$MAX_CAPTURE_ATTEMPTS for $locale/$device_name..."
 
-  if [ "$maestro_status" -eq 0 ]; then
-    driver_is_ready=true
-  fi
-  if [ -f "$report_path" ]; then
-    ruby -rrexml/document -e '
-      document = REXML::Document.new(File.read(ARGV.fetch(0)))
-      REXML::XPath.each(document, "//testcase") do |testcase|
-        puts "Timing: #{testcase.attributes["name"]} #{testcase.attributes["time"]}s"
-      end
-    ' "$report_path"
-  fi
+    maestro_options=(--no-ansi)
+    if [ "$driver_is_ready" = true ]; then
+      maestro_options+=(--no-reinstall-driver)
+    fi
+
+    report_path="$attempt_output/maestro-report.xml"
+    attempt_started_at="$(date +%s)"
+    set +e
+    MAESTRO_CLI_NO_ANALYTICS=1 maestro test \
+      --udid "$DEVICE_ID" \
+      --test-output-dir "$attempt_output" \
+      --format JUNIT \
+      --output "$report_path" \
+      "${maestro_options[@]}" \
+      -e APPLE_LANGUAGES="($locale)" \
+      -e APPLE_LOCALE="$app_locale" \
+      "$FLOW_FILE"
+    maestro_status=$?
+    set -e
+
+    print_report_timings "$report_path"
+    echo "Timing: $locale attempt $attempt $(( $(date +%s) - attempt_started_at ))s"
+
+    if [ "$maestro_status" -eq 0 ]; then
+      if [ -e "$output_path" ]; then
+        echo "Capture output already exists: $output_path" >&2
+        locale_status=1
+        break
+      fi
+
+      mv "$attempt_output" "$output_path"
+      driver_is_ready=true
+      locale_status=0
+      break
+    fi
+
+    locale_status="$maestro_status"
+    driver_is_ready=false
+    if
+      [ "$attempt" -lt "$MAX_CAPTURE_ATTEMPTS" ] &&
+      is_recoverable_driver_failure "$attempt_output"
+    then
+      echo "Maestro driver became unavailable; retrying with a fresh driver."
+      continue
+    fi
+
+    break
+  done
+
   echo "Timing: $locale capture $(( $(date +%s) - combination_started_at ))s"
 
-  if [ "$maestro_status" -ne 0 ]; then
-    capture_status="$maestro_status"
+  if [ "$locale_status" -ne 0 ]; then
+    capture_status="$locale_status"
   fi
 done
 

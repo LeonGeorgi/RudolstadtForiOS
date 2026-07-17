@@ -145,11 +145,24 @@ jobs:
           LOCALES: "de en"
           PREBUILT_APP_PATH: ${{ runner.temp }}/PrebuiltApp/Rudolstadt.app
           OUTPUT_ROOT: ${{ runner.temp }}/AppStoreScreenshots
+          DIAGNOSTICS_ROOT: ${{ runner.temp }}/AppStoreScreenshotDiagnostics
           MAESTRO_CLI_NO_ANALYTICS: "1"
           MAESTRO_DRIVER_STARTUP_TIMEOUT: "300000"
         run: |
           set -o pipefail
           scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
+
+      - name: Check for ${{ matrix.device_family }} capture diagnostics
+        id: capture_diagnostics
+        if: always()
+        env:
+          DIAGNOSTICS_ROOT: ${{ runner.temp }}/AppStoreScreenshotDiagnostics
+        run: |
+          if [ -d "$DIAGNOSTICS_ROOT" ] && [ -n "$(find "$DIAGNOSTICS_ROOT" -type f -print -quit)" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Upload ${{ matrix.device_family }} screenshots
         id: upload_screenshots
@@ -162,13 +175,13 @@ jobs:
           retention-days: 14
 
       - name: Upload ${{ matrix.device_family }} diagnostics
-        if: failure()
+        if: always() && (failure() || steps.capture_diagnostics.outputs.available == 'true')
         uses: actions/upload-artifact@v4
         with:
           name: app-store-screenshot-diagnostics-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: |
             ${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log
-            ${{ runner.temp }}/AppStoreScreenshots
+            ${{ runner.temp }}/AppStoreScreenshotDiagnostics
           if-no-files-found: warn
           retention-days: 14
 

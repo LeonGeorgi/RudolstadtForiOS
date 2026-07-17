@@ -14,6 +14,7 @@ Optional environment variables:
 
 - `LOCALES="de en"`
 - `OUTPUT_ROOT=/path/to/output`
+- `DIAGNOSTICS_ROOT=/path/to/diagnostics`
 - `CAPTURE_ID=custom-name` to use a stable name instead of a timestamped capture set
 - `DERIVED_DATA_PATH=/tmp/custom-derived-data`
 - `PREBUILT_APP_PATH=/path/to/Rudolstadt.app` to skip the build
@@ -25,5 +26,7 @@ Run the command once for each local device. For the required iPad App Store slot
 ## GitHub Actions
 
 Run the **App Store Screenshots** workflow manually from the Actions tab. It builds the app once, then runs one iPhone job and one 13-inch/12.9-inch iPad job in parallel. Each device job reuses its simulator and Maestro driver for the German and English sets and uploads one artifact containing both languages.
+
+If the local Maestro XCTest driver becomes unreachable or times out while taking a screenshot, the affected locale is retried once with a freshly installed driver. Failed attempts stay in the diagnostics artifact, while only a complete successful attempt is eligible for publishing.
 
 The app's `-screenshotMode` launch argument loads the bundled festival and news backups, disables network refreshes and CloudKit, and resets screenshot-relevant preferences. It also seeds a presentation-ready local profile and friend recommendations. Artist photography and Apple map tiles are still rendered by their normal production components, so allow those views to settle before capture.
