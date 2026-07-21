@@ -1,10 +1,13 @@
 import SwiftUI
+#if os(iOS)
+import Observation
+#else
+import Combine
+#endif
 
 struct ScheduleTimelineContentView: View {
-    @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var profile: FestivalProfileStore
-
-    @State var scrollOffset: CGPoint
+    // Preserve identity without making this parent observe offset changes.
+    @State private var scrollState = ScheduleTimelineScrollState()
     @State private var currentTime: Date = Date()
     @State private var currentTimeUpdateTask: Task<Void, Never>?
 
@@ -38,52 +41,18 @@ struct ScheduleTimelineContentView: View {
                 .ignoresSafeArea()
 
                 GeometryReader { geo in
-                    ScrollView([.horizontal, .vertical]) {
-                        HStack(alignment: .top, spacing: columnSpacing) {
-
-                            Spacer()
-                                .frame(width: timeWidth)
-
-                            ForEach(stages, id: \.0.id) {
-                                (stage, stageEvents) in
-                                VStack(alignment: .leading, spacing: 0) {
-
-                                    Spacer()
-                                        .frame(
-                                            height: stageNameHeight
-                                                + firstEventPadding
-                                                + heightPerHour * 0.25 + 25
-                                        )
-
-                                    renderEvents(stageEvents: stageEvents)
-
-                                    Spacer()
-                                }
-
-                            }
-
-                            Spacer()
-                        }
-                        .frame(
-                            minWidth: geo.size.width,
-                            minHeight: geo.size.height,
-                            alignment: .topLeading
+                    ScheduleTimelineScrollView(scrollState: scrollState) {
+                        ScheduleTimelineEventCanvas(
+                            stages: stages,
+                            estimatedEventDurations: estimatedEventDurations,
+                            minimumSize: geo.size,
+                            columnWidth: columnWidth,
+                            timeWidth: timeWidth,
+                            stageNameHeight: stageNameHeight,
+                            firstEventPadding: firstEventPadding,
+                            columnSpacing: columnSpacing,
+                            heightPerHour: heightPerHour
                         )
-                        .background(
-                            GeometryReader { proxy in
-                                Color.clear.preference(
-                                    key: PreferenceKey.self,
-                                    value: proxy.frame(
-                                        in: .named("scrollView")
-                                    ).origin
-                                )
-                            }
-                        )
-
-                    }
-                    .coordinateSpace(name: "scrollView")
-                    .onPreferenceChange(PreferenceKey.self) { position in
-                        self.scrollOffset = position
                     }
 
                     Spacer()
@@ -98,101 +67,48 @@ struct ScheduleTimelineContentView: View {
                         .allowsHitTesting(false)
                         .zIndex(4)
 
-                    VStack(alignment: .leading, spacing: 0) {
-                        Spacer()
-                            .frame(
-                                height: stageNameHeight + firstEventPadding + 25
-                            )
-
-                        ForEach(timeIntervals, id: \.self) { time in
-                            Text(dateFormatter.string(from: time))
-                                .font(.system(size: 12, weight: .semibold))
-                                .monospacedDigit()
-                                .padding(.trailing, 8)
-                                .padding(.leading, 5)
-                                .frame(
-                                    width: timeWidth,
-                                    height: CGFloat(0.5 * heightPerHour),
-                                    alignment: .trailing
-                                )
-                                .scaledToFill()
-                                .minimumScaleFactor(0.83)
-                        }
-                    }
+                    ScheduleTimelineTimeScale(
+                        timeIntervals: timeIntervals,
+                        scrollState: scrollState,
+                        timeWidth: timeWidth,
+                        topPadding: stageNameHeight + firstEventPadding + 25,
+                        heightPerHour: heightPerHour
+                    )
                     .allowsHitTesting(false)
-                    .offset(y: scrollOffset.y)
                     .zIndex(2)
 
-                    VStack(spacing: 0) {
-
-                        ForEach(timeIntervals, id: \.self) { date in
-                            Divider()
-                                .frame(height: heightPerHour * 0.5)
-                                .padding(0)
-                        }
-                    }
-                    .padding(.top, stageNameHeight + firstEventPadding + 25)
+                    ScheduleTimelineGrid(
+                        timeIntervals: timeIntervals,
+                        scrollState: scrollState,
+                        topPadding: stageNameHeight + firstEventPadding + 25,
+                        heightPerHour: heightPerHour
+                    )
                     .zIndex(-1)
-                    .offset(y: scrollOffset.y)
 
-                    HStack(alignment: .top, spacing: columnSpacing) {
-                        Spacer()
-                            .frame(width: timeWidth)
-                        ForEach(stages, id: \.0.id) { (stage, _) in
-                            NavigationLink(
-                                value: AppNavigationRoute.stage(
-                                    id: stage.id,
-                                    highlightedEventId: nil
-                                )
-                            ) {
-                                renderStage(stage)
-                            }
-                            .buttonStyle(.plain)
-                            .contextMenu {
-                                Button {
-                                    StageMapView.openInMaps(stage: stage)
-                                } label: {
-                                    Text("schedule.context.open_in_maps")
-                                    Image(systemName: "map")
-                                }
-                            } preview: {
-                                StagePreview(stage: stage)
-                            }
-
-                        }
-                        Spacer()
-                    }
-                    .offset(x: scrollOffset.x)
+                    ScheduleTimelineStageHeaders(
+                        stages: stages,
+                        scrollState: scrollState,
+                        columnWidth: columnWidth,
+                        timeWidth: timeWidth,
+                        stageNameHeight: stageNameHeight,
+                        columnSpacing: columnSpacing,
+                        cornerRadius: stageHeaderCornerRadius
+                    )
                     .zIndex(5)
 
                     currentTimeLinePosition().map { position in
-                        HStack(alignment: .center, spacing: 0) {
-                            Text(dateFormatter.string(from: currentTime))
-                                .font(.system(size: 12, weight: .semibold))
-                                .monospacedDigit()
-                                .foregroundColor(.red)
-                                .padding(.horizontal, 10)
-                                .frame(
-                                    width: timeWidth,
-                                    height: CGFloat(0.5 * heightPerHour),
-                                    alignment: .trailing
-                                )
-                                .scaledToFill()
-                                .minimumScaleFactor(0.83)
-
-                            Rectangle()
-                                .fill(Color.red)
-                                .frame(
-                                    width: geo.size.width - timeWidth,
-                                    height: 1
-                                )
-                        }
-                        .frame(height: heightPerHour * 0.5)
-                        .zIndex(3)
-                        .offset(
-                            y: position + stageNameHeight + firstEventPadding
-                                + 25 + scrollOffset.y
+                        ScheduleTimelineCurrentTimeLine(
+                            currentTime: currentTime,
+                            scrollState: scrollState,
+                            width: geo.size.width,
+                            timeWidth: timeWidth,
+                            heightPerHour: heightPerHour,
+                            verticalPosition: position
+                                + stageNameHeight
+                                + firstEventPadding
+                                + 25
                         )
+                        .zIndex(3)
                     }
 
 
@@ -206,67 +122,6 @@ struct ScheduleTimelineContentView: View {
                 currentTimeUpdateTask = nil
             }
         }
-    }
-
-    func renderEvents(stageEvents: [EventOrGap]) -> some View {
-        return ForEach(stageEvents.indices, id: \.self) { index in
-            let eventOrGap = stageEvents[index]
-            switch eventOrGap {
-            case .event(let event):
-                let eventDuration = estimatedEventDurations?[event.id] ?? 60
-                let eventHeight = CGFloat(
-                    Double(eventDuration) / 60.0 * heightPerHour
-                )
-                ScheduleTimelineEventCell(
-                    width: columnWidth,
-                    height: eventHeight - 2,
-                    event: event,
-                    eventDurationMinutes: eventDuration,
-                    isSaved: profile.isEventSaved(event.id),
-                    artistRating: profile.rating(for: event.artist.id),
-                    artistIconName: profile.iconName(forArtistID: event.artist.id),
-                    friendProfilesWhoSavedEvent: profile.friendProfilesSavingEvent(event.id),
-                    onToggleSaved: { profile.toggleSavedEvent(event) }
-                )
-                .padding(.vertical, 1)
-            case .gap(let gap):
-                let gapHeight = CGFloat(
-                    Double(gap.duration / (60 * 60)) * heightPerHour
-                )
-                Spacer()
-                    .frame(width: columnWidth, height: gapHeight)
-            }
-        }
-    }
-
-    func renderStage(_ stage: Stage) -> some View {
-        return VStack(alignment: .center, spacing: 0) {
-            StageNumber(
-                stage: stage,
-                size: 18,
-                font: .system(size: 11, weight: .heavy, design: .rounded)
-            )
-            .padding(.top, 4)
-            .padding(.bottom, 4)
-            Text(stage.localizedName)
-                .frame(
-                    width: columnWidth - 1,
-                    height: stageNameHeight,
-                    alignment: .top
-                )
-                .font(.system(size: 10, weight: .semibold))
-                .minimumScaleFactor(0.85)
-                .lineLimit(3)
-                .multilineTextAlignment(.center)
-        }
-        .frame(width: columnWidth, height: stageNameHeight + 20)
-        .background(stageHeaderBackground(for: stage))
-        .clipShape(
-            RoundedRectangle(
-                cornerRadius: stageHeaderCornerRadius,
-                style: .continuous
-            )
-        )
     }
 
     func currentTimeLinePosition() -> CGFloat? {
@@ -299,7 +154,6 @@ struct ScheduleTimelineContentView: View {
         let position = CGFloat(
             Double(totalMinutesDifference) / 60.0 * heightPerHour
         )
-        //print(position)
         return position
     }
 
@@ -332,58 +186,351 @@ struct ScheduleTimelineContentView: View {
             }
         }
     }
+}
 
-    func getColorForStage(_ stage: Stage) -> Color {
-        switch stage.area.id {
-        case 1:
-            return Color.areaType1
-        case 2:
-            return Color.areaType2
-        case 3:
-            return Color.areaType3
-        case 4:
-            return Color.areaType4
-        case 5:
-            return Color.areaType5
-        case 6:
-            return Color.areaType6
-        default:
-            return Color.clear
+#if os(iOS)
+@Observable
+private final class ScheduleTimelineScrollState {
+    private(set) var horizontalOffset: CGFloat = 0
+    private(set) var verticalOffset: CGFloat = 0
 
+    func update(to offset: CGPoint) {
+        if horizontalOffset != offset.x {
+            horizontalOffset = offset.x
+        }
+        if verticalOffset != offset.y {
+            verticalOffset = offset.y
         }
     }
+}
+#else
+private final class ScheduleTimelineScrollState: ObservableObject {
+    @Published private(set) var horizontalOffset: CGFloat = 0
+    @Published private(set) var verticalOffset: CGFloat = 0
 
-    func getColorForEvent(_ event: Event) -> some View {
-        let isSaved = profile.savedEvents.contains(event.id)
-        return Color.okhsl(
-            h: event.artist.artistType.okhslHue,
-            s: scheduleColorSaturation(isSaved: isSaved),
-            l: scheduleColorLightness(isSaved: isSaved)
-        )
+    func update(to offset: CGPoint) {
+        if horizontalOffset != offset.x {
+            horizontalOffset = offset.x
+        }
+        if verticalOffset != offset.y {
+            verticalOffset = offset.y
+        }
+    }
+}
+#endif
+
+private struct ScheduleTimelineScrollView<Content: View>: View {
+    let scrollState: ScheduleTimelineScrollState
+    let content: Content
+
+    init(
+        scrollState: ScheduleTimelineScrollState,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.scrollState = scrollState
+        self.content = content()
     }
 
-    private func scheduleColorSaturation(isSaved: Bool) -> Double {
-        if colorScheme == .dark {
-            return isSaved ? 0.68 : 0.36
+    var body: some View {
+        #if os(iOS)
+        ScrollView([.horizontal, .vertical]) {
+            content
         }
-
-        return isSaved ? 0.74 : 0.43
-    }
-
-    private func scheduleColorLightness(isSaved: Bool) -> Double {
-        if colorScheme == .dark {
-            return isSaved ? 0.68 : 0.36
+        .onScrollGeometryChange(for: CGPoint.self) { geometry in
+            CGPoint(
+                x: -(
+                    geometry.contentOffset.x
+                        + geometry.contentInsets.leading
+                ),
+                y: -(
+                    geometry.contentOffset.y
+                        + geometry.contentInsets.top
+                )
+            )
+        } action: { _, offset in
+            scrollState.update(to: offset)
         }
-
-        return isSaved ? 0.62 : 0.92
+        #else
+        ScrollView([.horizontal, .vertical]) {
+            content
+                .background(
+                    GeometryReader { proxy in
+                        Color.clear.preference(
+                            key: ScheduleTimelineScrollOffsetPreferenceKey.self,
+                            value: proxy.frame(
+                                in: .named(ScheduleTimelineCoordinateSpace.name)
+                            ).origin
+                        )
+                    }
+                )
+        }
+        .coordinateSpace(name: ScheduleTimelineCoordinateSpace.name)
+        .onPreferenceChange(ScheduleTimelineScrollOffsetPreferenceKey.self) {
+            scrollState.update(to: $0)
+        }
+        #endif
     }
 }
 
-private extension ScheduleTimelineContentView {
-    @ViewBuilder
-    func stageHeaderBackground(for _: Stage) -> some View {
-        Rectangle()
-            .fill(Color(.secondarySystemBackground))
+#if !os(iOS)
+private enum ScheduleTimelineCoordinateSpace {
+    static let name = "scheduleTimelineScrollView"
+}
+
+private struct ScheduleTimelineScrollOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGPoint = .zero
+
+    static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {
+        value = nextValue()
+    }
+}
+#endif
+
+private struct ScheduleTimelineEventCanvas: View {
+    @EnvironmentObject private var profile: FestivalProfileStore
+
+    let stages: [(Stage, [EventOrGap])]
+    let estimatedEventDurations: [Int: Int]?
+    let minimumSize: CGSize
+    let columnWidth: CGFloat
+    let timeWidth: CGFloat
+    let stageNameHeight: CGFloat
+    let firstEventPadding: CGFloat
+    let columnSpacing: CGFloat
+    let heightPerHour: Double
+
+    var body: some View {
+        HStack(alignment: .top, spacing: columnSpacing) {
+            Spacer()
+                .frame(width: timeWidth)
+
+            ForEach(stages, id: \.0.id) { (_, stageEvents) in
+                VStack(alignment: .leading, spacing: 0) {
+                    Spacer()
+                        .frame(
+                            height: stageNameHeight
+                                + firstEventPadding
+                                + heightPerHour * 0.25
+                                + 25
+                        )
+
+                    events(stageEvents)
+
+                    Spacer()
+                }
+            }
+
+            Spacer()
+        }
+        .frame(
+            minWidth: minimumSize.width,
+            minHeight: minimumSize.height,
+            alignment: .topLeading
+        )
+    }
+
+    private func events(_ stageEvents: [EventOrGap]) -> some View {
+        ForEach(stageEvents.indices, id: \.self) { index in
+            switch stageEvents[index] {
+            case .event(let event):
+                let eventDuration = estimatedEventDurations?[event.id] ?? 60
+                let eventHeight = CGFloat(
+                    Double(eventDuration) / 60.0 * heightPerHour
+                )
+                ScheduleTimelineEventCell(
+                    width: columnWidth,
+                    height: eventHeight - 2,
+                    event: event,
+                    eventDurationMinutes: eventDuration,
+                    isSaved: profile.isEventSaved(event.id),
+                    artistRating: profile.rating(for: event.artist.id),
+                    artistIconName: profile.iconName(forArtistID: event.artist.id),
+                    friendProfilesWhoSavedEvent: profile.friendProfilesSavingEvent(event.id),
+                    onToggleSaved: { profile.toggleSavedEvent(event) }
+                )
+                .padding(.vertical, 1)
+            case .gap(let gap):
+                let gapHeight = CGFloat(
+                    Double(gap.duration / (60 * 60)) * heightPerHour
+                )
+                Spacer()
+                    .frame(width: columnWidth, height: gapHeight)
+            }
+        }
+    }
+}
+
+private struct ScheduleTimelineTimeScale: View {
+    let timeIntervals: [Date]
+    #if os(iOS)
+    let scrollState: ScheduleTimelineScrollState
+    #else
+    @ObservedObject var scrollState: ScheduleTimelineScrollState
+    #endif
+    let timeWidth: CGFloat
+    let topPadding: CGFloat
+    let heightPerHour: Double
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Spacer()
+                .frame(height: topPadding)
+
+            ForEach(timeIntervals, id: \.self) { time in
+                Text(dateFormatter.string(from: time))
+                    .font(.system(size: 12, weight: .semibold))
+                    .monospacedDigit()
+                    .padding(.trailing, 8)
+                    .padding(.leading, 5)
+                    .frame(
+                        width: timeWidth,
+                        height: CGFloat(0.5 * heightPerHour),
+                        alignment: .trailing
+                    )
+                    .scaledToFill()
+                    .minimumScaleFactor(0.83)
+            }
+        }
+        .offset(y: scrollState.verticalOffset)
+    }
+}
+
+private struct ScheduleTimelineGrid: View {
+    let timeIntervals: [Date]
+    #if os(iOS)
+    let scrollState: ScheduleTimelineScrollState
+    #else
+    @ObservedObject var scrollState: ScheduleTimelineScrollState
+    #endif
+    let topPadding: CGFloat
+    let heightPerHour: Double
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ForEach(timeIntervals, id: \.self) { _ in
+                Divider()
+                    .frame(height: heightPerHour * 0.5)
+                    .padding(0)
+            }
+        }
+        .padding(.top, topPadding)
+        .offset(y: scrollState.verticalOffset)
+    }
+}
+
+private struct ScheduleTimelineStageHeaders: View {
+    let stages: [(Stage, [EventOrGap])]
+    #if os(iOS)
+    let scrollState: ScheduleTimelineScrollState
+    #else
+    @ObservedObject var scrollState: ScheduleTimelineScrollState
+    #endif
+    let columnWidth: CGFloat
+    let timeWidth: CGFloat
+    let stageNameHeight: CGFloat
+    let columnSpacing: CGFloat
+    let cornerRadius: CGFloat
+
+    var body: some View {
+        HStack(alignment: .top, spacing: columnSpacing) {
+            Spacer()
+                .frame(width: timeWidth)
+
+            ForEach(stages, id: \.0.id) { (stage, _) in
+                NavigationLink(
+                    value: AppNavigationRoute.stage(
+                        id: stage.id,
+                        highlightedEventId: nil
+                    )
+                ) {
+                    stageHeader(stage)
+                }
+                .buttonStyle(.plain)
+                .contextMenu {
+                    Button {
+                        StageMapView.openInMaps(stage: stage)
+                    } label: {
+                        Text("schedule.context.open_in_maps")
+                        Image(systemName: "map")
+                    }
+                } preview: {
+                    StagePreview(stage: stage)
+                }
+            }
+
+            Spacer()
+        }
+        .offset(x: scrollState.horizontalOffset)
+    }
+
+    private func stageHeader(_ stage: Stage) -> some View {
+        VStack(alignment: .center, spacing: 0) {
+            StageNumber(
+                stage: stage,
+                size: 18,
+                font: .system(size: 11, weight: .heavy, design: .rounded)
+            )
+            .padding(.top, 4)
+            .padding(.bottom, 4)
+
+            Text(stage.localizedName)
+                .frame(
+                    width: columnWidth - 1,
+                    height: stageNameHeight,
+                    alignment: .top
+                )
+                .font(.system(size: 10, weight: .semibold))
+                .minimumScaleFactor(0.85)
+                .lineLimit(3)
+                .multilineTextAlignment(.center)
+        }
+        .frame(width: columnWidth, height: stageNameHeight + 20)
+        .background(Color(.secondarySystemBackground))
+        .clipShape(
+            RoundedRectangle(
+                cornerRadius: cornerRadius,
+                style: .continuous
+            )
+        )
+    }
+}
+
+private struct ScheduleTimelineCurrentTimeLine: View {
+    let currentTime: Date
+    #if os(iOS)
+    let scrollState: ScheduleTimelineScrollState
+    #else
+    @ObservedObject var scrollState: ScheduleTimelineScrollState
+    #endif
+    let width: CGFloat
+    let timeWidth: CGFloat
+    let heightPerHour: Double
+    let verticalPosition: CGFloat
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text(dateFormatter.string(from: currentTime))
+                .font(.system(size: 12, weight: .semibold))
+                .monospacedDigit()
+                .foregroundColor(.red)
+                .padding(.horizontal, 10)
+                .frame(
+                    width: timeWidth,
+                    height: CGFloat(0.5 * heightPerHour),
+                    alignment: .trailing
+                )
+                .scaledToFill()
+                .minimumScaleFactor(0.83)
+
+            Rectangle()
+                .fill(Color.red)
+                .frame(
+                    width: width - timeWidth,
+                    height: 1
+                )
+        }
+        .frame(height: heightPerHour * 0.5)
+        .offset(y: verticalPosition + scrollState.verticalOffset)
     }
 }
 
@@ -392,14 +539,6 @@ private let dateFormatter: DateFormatter = {
     formatter.dateFormat = "HH:mm"
     return formatter
 }()
-
-struct PreferenceKey: SwiftUI.PreferenceKey {
-    static var defaultValue: CGPoint { .zero }
-
-    static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {
-        // No-op
-    }
-}
 
 #if DEBUG
 @MainActor
@@ -539,7 +678,6 @@ struct ScheduleTimelineContentView_Previews: PreviewProvider {
 
         NavigationStack {
             ScheduleTimelineContentView(
-                scrollOffset: .zero,
                 timeIntervals: ScheduleTimelineContentViewPreviewData.timeIntervals(
                     events: events,
                     estimatedEventDurations: estimatedEventDurations

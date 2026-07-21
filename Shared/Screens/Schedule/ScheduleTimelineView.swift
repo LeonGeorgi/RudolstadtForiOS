@@ -119,7 +119,6 @@ struct ScheduleTimelineView: View {
 
     var body: some View {
         ScheduleTimelineContentView(
-            scrollOffset: .zero,
             timeIntervals: timeIntervalList,
             stages: stageList,
             estimatedEventDurations: dataStore.estimatedEventDurationsByEventID
