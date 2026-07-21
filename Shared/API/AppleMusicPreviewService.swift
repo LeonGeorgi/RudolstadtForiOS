@@ -165,7 +165,7 @@ struct AppleMusicPreviewService: Sendable {
         components.scheme = "https"
         components.host = "itunes.apple.com"
         components.path = "/lookup"
-        var queryItems = [
+        let queryItems = [
             URLQueryItem(name: "id", value: String(reference.catalogID)),
             URLQueryItem(name: "entity", value: "song"),
             URLQueryItem(
@@ -177,9 +177,6 @@ struct AppleMusicPreviewService: Sendable {
                 value: reference.storefront.uppercased()
             ),
         ]
-        if reference.kind == .artist {
-            queryItems.append(URLQueryItem(name: "sort", value: "recent"))
-        }
         components.queryItems = queryItems
         guard let url = components.url else {
             throw AppleMusicPreviewServiceError.invalidLookupURL

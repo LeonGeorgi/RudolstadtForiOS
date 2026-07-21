@@ -92,7 +92,7 @@ struct AppleMusicPreviewServiceTests {
     }
 
     @Test
-    func artistLookupUsesFirstRecentSongWithExactArtistID() async throws {
+    func artistLookupUsesFirstMatchingSongWithExactArtistID() async throws {
         let recorder = AppleMusicPreviewRequestRecorder()
         let responseData = Data(
             """
@@ -153,7 +153,7 @@ struct AppleMusicPreviewServiceTests {
                 == "https://audio.example/dandelion.m4a"
         )
         #expect(query["limit"] == "50")
-        #expect(query["sort"] == "recent")
+        #expect(query["sort"] == nil)
     }
 
     @Test
