@@ -19,12 +19,15 @@ struct FriendArtistRatingsBubble: View {
     enum Style {
         case capsule
         case plainInline
+        case detailInline
     }
 
     let summary: FriendArtistRatingSummary
     var style: Style = .capsule
 
-    private let maxVisibleRatings = 3
+    private var maxVisibleRatings: Int {
+        style == .detailInline ? 2 : 3
+    }
 
     private var visibleEntries: [FriendArtistRatingSummary.Entry] {
         Array(summary.entries.prefix(maxVisibleRatings))
@@ -49,7 +52,7 @@ struct FriendArtistRatingsBubble: View {
                 )
             }
         }
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(accessibilityText))
     }
 
@@ -59,21 +62,70 @@ struct FriendArtistRatingsBubble: View {
             return -6
         case .plainInline:
             return -6
+        case .detailInline:
+            return -4
         }
     }
 
     private var accessibilityText: String {
         let ratingDescriptions = summary.entries.map { entry in
-            let rating = entry.preference.rating
-            if rating > 0 {
-                let label = rating == 1 ? "1 like" : "\(rating) likes"
-                return "\(entry.badge.displayName): \(label)"
-            }
-
-            return "\(entry.badge.displayName): \(entry.preference.iconName ?? "negative rating")"
+            accessibilityDescription(for: entry)
         }
 
-        return "Friend ratings: \(ratingDescriptions.joined(separator: ", "))"
+        return String.localizedStringWithFormat(
+            NSLocalizedString(
+                "artist.friend_ratings.accessibility.format",
+                comment: "Accessible summary of friend artist ratings"
+            ),
+            ratingDescriptions.joined(separator: ", ")
+        )
+    }
+
+    private func accessibilityDescription(
+        for entry: FriendArtistRatingSummary.Entry
+    ) -> String {
+        let preference = entry.preference
+        if preference.rating > 0 {
+            let key = preference.rating == 1
+                ? "artist.friend_rating.hearts.one"
+                : "artist.friend_rating.hearts.other"
+            return String.localizedStringWithFormat(
+                NSLocalizedString(key, comment: "A friend's artist rating"),
+                entry.badge.displayName,
+                preference.rating
+            )
+        }
+
+        return String.localizedStringWithFormat(
+            NSLocalizedString(
+                "artist.friend_rating.marker",
+                comment: "A friend's alternative artist rating"
+            ),
+            entry.badge.displayName,
+            localizedIconDescription(preference.iconName)
+        )
+    }
+
+    private func localizedIconDescription(_ iconName: String?) -> String {
+        guard let iconName else {
+            return NSLocalizedString(
+                "artist.icon.other",
+                comment: "Generic alternative artist rating"
+            )
+        }
+
+        let key = "artist.icon.\(iconName)"
+        let localizedDescription = NSLocalizedString(
+            key,
+            comment: "Alternative artist rating"
+        )
+        guard localizedDescription != key else {
+            return NSLocalizedString(
+                "artist.icon.other",
+                comment: "Generic alternative artist rating"
+            )
+        }
+        return localizedDescription
     }
 }
 
@@ -87,22 +139,33 @@ private struct FriendArtistRatingBadge: View {
             return 22
         case .plainInline:
             return 20
+        case .detailInline:
+            return 24
         }
+    }
+
+    private var borderLineWidth: CGFloat {
+        style == .detailInline ? 1 : 1.5
+    }
+
+    private var preferenceOffset: CGFloat {
+        style == .detailInline ? 2 : 3
     }
 
     var body: some View {
         FestivalProfileBadgeAvatar(
             badge: entry.badge,
             diameter: badgeDiameter,
-            fontScale: style == .capsule ? 0.34 : 0.42
+            fontScale: style == .capsule ? 0.34 : 0.40,
+            showsShadow: style != .detailInline
         )
         .overlay(
             Circle()
-                .strokeBorder(Color(.systemBackground), lineWidth: 1.5)
+                .strokeBorder(Color(.systemBackground), lineWidth: borderLineWidth)
         )
         .overlay(alignment: .bottomTrailing) {
             FriendArtistPreferenceDot(preference: entry.preference, style: style)
-                .offset(x: 3, y: 3)
+                .offset(x: preferenceOffset, y: preferenceOffset)
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text(entry.badge.displayName))
@@ -119,6 +182,8 @@ private struct FriendArtistRemainingCountBadge: View {
             return 22
         case .plainInline:
             return 20
+        case .detailInline:
+            return 24
         }
     }
 
@@ -132,7 +197,17 @@ private struct FriendArtistRemainingCountBadge: View {
                 Circle()
                     .strokeBorder(Color(.systemBackground), lineWidth: 1.5)
             )
-            .accessibilityLabel(Text("\(count) more friend ratings"))
+            .accessibilityLabel(Text(accessibilityLabel))
+    }
+
+    private var accessibilityLabel: String {
+        let key = count == 1
+            ? "artist.friend_ratings.remaining.one"
+            : "artist.friend_ratings.remaining.other"
+        return String.localizedStringWithFormat(
+            NSLocalizedString(key, comment: "More friend artist ratings"),
+            count
+        )
     }
 }
 
@@ -148,6 +223,8 @@ private struct FriendArtistPreferenceDot: View {
             return 14
         case .plainInline:
             return 13
+        case .detailInline:
+            return 12
         }
     }
 
@@ -166,16 +243,20 @@ private struct FriendArtistPreferenceDot: View {
                     iconName: preference.iconName ?? settings.likeIcon,
                     color: .red,
                     size: 6.4,
-                    spread: 1.8
+                    spread: style == .detailInline ? 1.7 : 1.8
                 )
             } else {
                 Image(systemName: preference.iconName ?? "hand.thumbsdown.fill")
-                    .font(.system(size: 6.5, weight: .heavy))
+                    .font(
+                        .system(
+                            size: 6.5,
+                            weight: .heavy
+                        )
+                    )
                     .foregroundStyle(.secondary)
             }
         }
         .frame(width: dotDiameter, height: dotDiameter)
-        .shadow(color: .black.opacity(0.18), radius: 2, y: 1)
     }
 
     private var dotColor: Color {

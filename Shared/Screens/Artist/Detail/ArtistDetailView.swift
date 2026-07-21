@@ -1,11 +1,14 @@
-import MusicKit
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct ArtistDetailView: View {
     private enum Layout {
         static let maximumContentWidth: CGFloat = 720
         static let compactHorizontalMargin: CGFloat = 16
         static let regularHorizontalMargin: CGFloat = 24
+        static let edgeToEdgeIntroTopSpacing: CGFloat = 12
     }
 
     private struct PresentedBrowserURL: Identifiable {
@@ -21,20 +24,20 @@ struct ArtistDetailView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @EnvironmentObject var profile: FestivalProfileStore
 
     @State private var isShowingNoteEditView = false
     @State var isEditAlertShown: Bool = false
     @State private var noteDraft = ArtistNoteDraft(noteText: nil)
-    @State private var isShowingAIInfo = false
     @State private var presentedBrowserURL: PresentedBrowserURL?
     @State private var isArtistTitleVisible = true
+    @State private var artistRatingViewportHeight: CGFloat = 0
+    @StateObject private var appleMusicPreviewPlayer = AppleMusicPreviewPlayer()
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.artistDetailScreen
     )
-
-    @State private var artistTheme: ArtistDetailTheme
-    @State private var isArtistThemeReady = false
 
     init(
         artist: Artist,
@@ -44,7 +47,6 @@ struct ArtistDetailView: View {
         self.artist = artist
         self.highlightedEventId = highlightedEventId
         self.navigate = navigate
-        _artistTheme = State(initialValue: .fallback(for: .light))
     }
 
     var artistEvents: [Event] {
@@ -63,82 +65,63 @@ struct ArtistDetailView: View {
             : Layout.compactHorizontalMargin
     }
 
+    private var usesEdgeToEdgeHero: Bool {
+        isPhone
+            && horizontalSizeClass == .compact
+            && verticalSizeClass == .regular
+            && !dynamicTypeSize.isAccessibilitySize
+    }
+
+    private var isPhone: Bool {
+        #if canImport(UIKit)
+        UIDevice.current.userInterfaceIdiom == .phone
+        #else
+        false
+        #endif
+    }
+
+    private var navigationBarBackgroundVisibility: Visibility {
+        usesEdgeToEdgeHero && isArtistTitleVisible ? .hidden : .automatic
+    }
+
     private func presentNoteEditor() {
         noteDraft = ArtistNoteDraft(noteText: artistNote)
         isShowingNoteEditView = true
     }
 
-    private var friendRatingSummary: FriendArtistRatingSummary? {
-        profile.friendArtistRatingSummary(for: artist.id)
+    private var artistTheme: ArtistDetailTheme {
+        .fallback(for: systemColorScheme)
     }
 
-    private func applyThemeColors(
-        _ themeColors: ArtistImageThemeColors,
-        for colorScheme: ColorScheme
-    ) {
-        let updateColors = {
-            artistTheme = themeColors.artistDetailTheme(for: colorScheme)
-            isArtistThemeReady = true
-        }
-
-        if ScreenshotRuntime.isEnabled {
-            updateColors()
-        } else {
-            withAnimation(.easeInOut(duration: 0.25), updateColors)
-        }
+    private var primarySectionSpacing: CGFloat {
+        dynamicTypeSize.isAccessibilitySize ? 24 : 20
     }
 
-    private func applyCachedColors(for colorScheme: ColorScheme) {
-        guard
-            let cachedThemeColors = ArtistImageColorCache.shared.cachedThemeColors(for: artist.id)
-        else {
-            return
-        }
-
-        applyThemeColors(cachedThemeColors, for: colorScheme)
-    }
-
-    private func loadArtistBackgroundColor() async {
-        if ArtistImageColorCache.shared.cachedThemeColors(for: artist.id) != nil {
-            applyCachedColors(for: systemColorScheme)
-            return
-        }
-
-        guard let themeColors = await ArtistImageColorCache.shared.themeColors(for: artist) else {
-            return
-        }
-
-        await MainActor.run {
-            applyThemeColors(themeColors, for: systemColorScheme)
-        }
-    }
-
-    private var primaryContent: some View {
+    private func primaryContent(showsInlineIdentity: Bool) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             ArtistDetailHeaderView(
                 artist: artist,
-                friendRatingSummary: friendRatingSummary,
+                showsInlineIdentity: showsInlineIdentity,
+                currentTipID: tipSequencer.currentTipID,
                 onTitleVisibilityChange: { isVisible in
                     isArtistTitleVisible = isVisible
                 }
             )
 
-            VStack(spacing: dynamicTypeSize.isAccessibilitySize ? 12 : 8) {
-                ArtistDetailLinksView(artist: artist) { url in
-                    presentedBrowserURL = PresentedBrowserURL(url: url)
-                }
+            ArtistDetailIntroView(
+                artist: artist,
+                topPadding: showsInlineIdentity
+                    ? primarySectionSpacing
+                    : Layout.edgeToEdgeIntroTopSpacing
+            )
 
-                ArtistRatingView(
-                    artist: artist,
-                    currentTipID: tipSequencer.currentTipID
-                )
-                .padding(
-                    .horizontal,
-                    dynamicTypeSize.isAccessibilitySize ? 0 : 34
-                )
-                .frame(maxWidth: .infinity)
+            ArtistDetailLinksView(
+                artist: artist,
+                topPadding: primarySectionSpacing,
+                previewPlayer: appleMusicPreviewPlayer
+            ) { url in
+                presentedBrowserURL = PresentedBrowserURL(url: url)
             }
-            .padding(.top, dynamicTypeSize.isAccessibilitySize ? 18 : 14)
 
             if !artistEvents.isEmpty {
                 ArtistEventsBlock(
@@ -147,30 +130,38 @@ struct ArtistDetailView: View {
                     currentTipID: tipSequencer.currentTipID,
                     navigate: navigate
                 )
-                .padding(.top, dynamicTypeSize.isAccessibilitySize ? 28 : 24)
+                .padding(.top, primarySectionSpacing)
+            }
+
+            if
+                let videoURL = artist.videoUrl,
+                let videoID = extractYouTubeVideoID(from: videoURL)
+            {
+                ArtistYouTubeVideoView(
+                    videoID: videoID,
+                    videoURL: videoURL
+                )
+                .padding(.top, primarySectionSpacing)
             }
 
             if let artistNote, !artistNote.isEmpty {
                 ArtistNoteBlock(note: artistNote) {
                     presentNoteEditor()
                 }
-                .padding(.top, dynamicTypeSize.isAccessibilitySize ? 24 : 18)
+                .padding(.top, primarySectionSpacing)
             }
         }
-        .padding(.top, 12)
-        .padding(.bottom, dynamicTypeSize.isAccessibilitySize ? 24 : 20)
+        .padding(.top, showsInlineIdentity ? 8 : 0)
     }
 
     private var supportingContent: some View {
         VStack(spacing: 0) {
-            ArtistAISummaryBlock(artist: artist)
-                .padding(.top, 16)
-                .padding(.bottom, 8)
-
             ArtistDescriptionBlock(
                 description: artist.formattedDescription
             )
+            .padding(.top, dynamicTypeSize.isAccessibilitySize ? 28 : 24)
         }
+        .padding(.bottom, dynamicTypeSize.isAccessibilitySize ? 24 : 20)
     }
 
     private func contentColumn<Content: View>(
@@ -182,47 +173,101 @@ struct ArtistDetailView: View {
             .frame(maxWidth: .infinity, alignment: .center)
     }
 
-    var body: some View {
+    private var edgeToEdgeHero: some View {
+        ArtistDetailImageView(
+            artist: artist,
+            presentation: .edgeToEdgeParallax
+        )
+        .overlay {
+            LinearGradient(
+                colors: [.clear, .black.opacity(0.68)],
+                startPoint: .center,
+                endPoint: .bottom
+            )
+            .accessibilityHidden(true)
+            .allowsHitTesting(false)
+        }
+        .overlay(alignment: .bottomLeading) {
+            HStack(alignment: .bottom, spacing: 12) {
+                Text(artist.formattedName)
+                    .font(.largeTitle.bold())
+                    .foregroundStyle(.white)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .layoutPriority(1)
+                    .accessibilityHeading(.h1)
+                    .onScrollVisibilityChange(threshold: 0.1) { isVisible in
+                        isArtistTitleVisible = isVisible
+                    }
+                    .allowsHitTesting(false)
+
+                ArtistRatingPopoverButton(
+                    artist: artist,
+                    currentTipID: tipSequencer.currentTipID
+                )
+            }
+            .padding(.horizontal, Layout.compactHorizontalMargin)
+            .padding(.bottom, 20)
+        }
+    }
+
+    private var detailScrollView: some View {
         ScrollView {
             VStack(spacing: 0) {
-                contentColumn {
-                    primaryContent
+                if usesEdgeToEdgeHero {
+                    edgeToEdgeHero
                 }
+
+                contentColumn {
+                    primaryContent(showsInlineIdentity: !usesEdgeToEdgeHero)
+                }
+                .background(artistTheme.pageBackground)
 
                 contentColumn {
                     supportingContent
                 }
-                .background(artistTheme.descriptionSurface)
+                .background(artistTheme.pageBackground)
             }
         }
-        .environment(\.artistDetailTheme, artistTheme)
-        .accessibilityIdentifier(
-            "artist-detail-\(artist.id)-theme-\(isArtistThemeReady ? "ready" : "loading")"
+        .ignoresSafeArea(
+            .container,
+            edges: usesEdgeToEdgeHero ? .top : []
         )
-        .background(artistTheme.pageBackground.ignoresSafeArea())
-        .toolbarBackground(.visible, for: .navigationBar)
-        .onAppear {
-            applyCachedColors(for: systemColorScheme)
-        }
-        .onChange(of: systemColorScheme, initial: false) { _, _ in
-            isArtistThemeReady = false
-            applyCachedColors(for: systemColorScheme)
-        }
-        .task(id: artist.id) {
-            await loadArtistBackgroundColor()
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(isArtistTitleVisible ? "" : artist.formattedName)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                EmptyView()
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                HStack {
-                    Button(action: {
-                        presentNoteEditor()
-                    }) {
-                        Image(systemName: "square.and.pencil")
+        .modifier(
+            ArtistDetailTopScrollEdgeEffectModifier(
+                isHidden: usesEdgeToEdgeHero && isArtistTitleVisible
+            )
+        )
+    }
+
+    var body: some View {
+        detailScrollView
+            .coordinateSpace(name: ArtistRatingCoordinateSpace.name)
+            .environment(\.artistDetailTheme, artistTheme)
+            .environment(
+                \.artistRatingViewportHeight,
+                artistRatingViewportHeight
+            )
+            .accessibilityIdentifier(
+                "artist-detail-\(artist.id)-theme-ready"
+            )
+            .background(artistTheme.pageBackground.ignoresSafeArea())
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(isArtistTitleVisible ? "" : artist.formattedName)
+            .toolbarBackgroundVisibility(
+                navigationBarBackgroundVisibility,
+                for: .navigationBar
+            )
+            .toolbarColorScheme(nil, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: presentNoteEditor) {
+                        Label(
+                            "artist.edit-note.button",
+                            systemImage: "square.and.pencil"
+                        )
+                        .labelStyle(.iconOnly)
                     }
                     .appPopoverTip(
                         DiscoverabilityTips.artistNotes,
@@ -231,10 +276,9 @@ struct ArtistDetailView: View {
                     )
                 }
             }
-        }
-        .sheet(isPresented: $isShowingNoteEditView) {
-            NavigationStack {
-                ArtistNoteEditorView(noteText: $noteDraft.text)
+            .sheet(isPresented: $isShowingNoteEditView) {
+                NavigationStack {
+                    ArtistNoteEditorView(noteText: $noteDraft.text)
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationTitle("artist.edit-note.headline")
                     .toolbar {
@@ -277,17 +321,38 @@ struct ArtistDetailView: View {
                             }
                         )
                     }
+                }
+                .interactiveDismissDisabled()
             }
-            .interactiveDismissDisabled()
-        }
-        .sheet(item: $presentedBrowserURL) { destination in
-            InAppSafariView(url: destination.url)
-                .ignoresSafeArea()
-        }
-        .alert("artist.ai.header", isPresented: $isShowingAIInfo) {
-            Button("artist.ai.info.ok", role: .cancel) {}
-        } message: {
-            Text("artist.ai.footer")
+            .sheet(item: $presentedBrowserURL) { destination in
+                InAppSafariView(url: destination.url)
+                    .ignoresSafeArea()
+            }
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.size.height
+            } action: { newHeight in
+                artistRatingViewportHeight = newHeight
+            }
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase != .active {
+                    appleMusicPreviewPlayer.pause()
+                }
+            }
+            .onDisappear {
+                appleMusicPreviewPlayer.stop()
+            }
+    }
+}
+
+private struct ArtistDetailTopScrollEdgeEffectModifier: ViewModifier {
+    let isHidden: Bool
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.scrollEdgeEffectHidden(isHidden, for: .top)
+        } else {
+            content
         }
     }
 }

@@ -5,14 +5,9 @@ struct ArtistDescriptionBlock: View {
 
     var body: some View {
         if let description, !description.isEmpty {
-            VStack(alignment: .leading, spacing: 12) {
-                Text(description)
-                    .font(.body)
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 6)
-            .padding(.bottom, 32)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            Text(description)
+                .font(.body)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }

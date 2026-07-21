@@ -11,27 +11,11 @@ struct ArtistGridCell: View {
     @Environment(\.locale) private var locale
 
     private var countryDescription: String? {
-        let localizedCountries = artist.countryCodes.reduce(into: [String]()) {
-            result, countryCode in
-            let country = localizedCountryName(
-                forRegionCode: countryCode,
-                locale: locale
-            )
-            if !result.contains(country) {
-                result.append(country)
-            }
-        }
-
-        if !localizedCountries.isEmpty {
-            let formatter = ListFormatter()
-            formatter.locale = locale
-            return formatter.string(from: localizedCountries)
-        }
-
-        let fallback = artist.countries.trimmingCharacters(
-            in: .whitespacesAndNewlines
+        localizedArtistCountryDescription(
+            rawValue: artist.countries,
+            countryCodes: artist.countryCodes,
+            locale: locale
         )
-        return fallback.isEmpty ? nil : fallback
     }
 
     var body: some View {

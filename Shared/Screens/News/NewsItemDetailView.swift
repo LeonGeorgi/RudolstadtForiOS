@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import NukeUI
 import SwiftUI
 
 struct NewsItemDetailView: View {
@@ -16,6 +15,7 @@ struct NewsItemDetailView: View {
 
     @State private var mentionedArtists: [Artist] = []
     @State private var mentionedStages: [Stage] = []
+    @State private var loadedYouTubeVideoID: String?
 
     private var normalizedNewsText: String {
         normalizeForNewsMentionMatch(
@@ -69,7 +69,6 @@ struct NewsItemDetailView: View {
         .compactMap { url in
             guard
                 let videoID = extractYouTubeVideoID(from: url),
-                let thumbnailURL = youtubeThumbnailURL(for: videoID),
                 seen.insert(videoID).inserted
             else {
                 return nil
@@ -77,8 +76,7 @@ struct NewsItemDetailView: View {
 
             return YouTubePreview(
                 videoID: videoID,
-                videoURL: url,
-                thumbnailURL: thumbnailURL
+                videoURL: url
             )
         }
     }
@@ -118,7 +116,12 @@ struct NewsItemDetailView: View {
                 if !youtubePreviews.isEmpty {
                     VStack(alignment: .leading, spacing: 14) {
                         ForEach(youtubePreviews) { preview in
-                            YouTubePreviewCard(preview: preview)
+                            YouTubePreviewCard(
+                                preview: preview,
+                                isPlayerLoaded: loadedYouTubeVideoID == preview.id
+                            ) {
+                                loadedYouTubeVideoID = preview.id
+                            }
                         }
                     }
                     .padding(.top, 12)
@@ -524,165 +527,26 @@ private func isArtistMentionBoundary(_ character: Character?) -> Bool {
 private struct YouTubePreview: Identifiable {
     let videoID: String
     let videoURL: URL
-    let thumbnailURL: URL
 
     var id: String {
         videoID
-    }
-
-    var hostLabel: String {
-        let host = videoURL.host?
-            .replacingOccurrences(of: "www.", with: "")
-            .replacingOccurrences(of: "m.", with: "")
-        return host?.isEmpty == false ? host! : "youtube.com"
     }
 }
 
 private struct YouTubePreviewCard: View {
     let preview: YouTubePreview
-
-    private let cardShape = RoundedRectangle(cornerRadius: 22, style: .continuous)
+    let isPlayerLoaded: Bool
+    let loadPlayer: () -> Void
 
     var body: some View {
-        Link(destination: preview.videoURL) {
-            ZStack(alignment: .bottomLeading) {
-                ZStack {
-                    cardShape
-                        .fill(Color.secondary.opacity(0.12))
-
-                    LazyImage(url: preview.thumbnailURL) { state in
-                        if let image = state.image {
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        } else {
-                            LinearGradient(
-                                colors: [
-                                    Color(red: 0.17, green: 0.08, blue: 0.10),
-                                    Color(red: 0.46, green: 0.09, blue: 0.12),
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                            .overlay {
-                                ProgressView()
-                                    .tint(.white)
-                            }
-                        }
-                    }
-
-                    LinearGradient(
-                        colors: [
-                            .black.opacity(0.02),
-                            .clear,
-                            .black.opacity(0.68),
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-
-                    VStack {
-                        HStack {
-                            youtubeBadge
-                            Spacer()
-                        }
-                        Spacer()
-                    }
-                    .padding(14)
-
-                    HStack(spacing: 16) {
-                        ZStack {
-                            Circle()
-                                .fill(.ultraThinMaterial.opacity(0.92))
-                                .frame(width: 58, height: 58)
-
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [
-                                            Color(red: 0.96, green: 0.18, blue: 0.16),
-                                            Color(red: 0.78, green: 0.05, blue: 0.09),
-                                        ],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                                .frame(width: 46, height: 46)
-
-                            Image(systemName: "play.fill")
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundStyle(.white)
-                                .offset(x: 1)
-                        }
-                        .shadow(color: .black.opacity(0.22), radius: 12, y: 5)
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Watch on YouTube")
-                                .font(.headline.weight(.semibold))
-                                .foregroundStyle(.white)
-
-                            Text(preview.hostLabel)
-                                .font(.subheadline)
-                                .foregroundStyle(.white.opacity(0.82))
-                        }
-
-                        Spacer()
-
-                        Image(systemName: "arrow.up.right")
-                            .font(.headline.weight(.semibold))
-                            .foregroundStyle(.white.opacity(0.9))
-                    }
-                    .padding(16)
-                    .background(
-                        LinearGradient(
-                            colors: [
-                                .clear,
-                                .black.opacity(0.10),
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .frame(maxHeight: .infinity, alignment: .bottom)
-                }
-                .clipShape(cardShape)
-            }
-            .aspectRatio(16 / 9, contentMode: .fit)
-            .overlay {
-                cardShape
-                    .stroke(Color.white.opacity(0.16), lineWidth: 1)
-            }
-            .overlay {
-                cardShape
-                    .stroke(Color.primary.opacity(0.08), lineWidth: 1)
-            }
-            .shadow(color: .black.opacity(0.18), radius: 16, y: 8)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Open YouTube video")
-    }
-
-    private var youtubeBadge: some View {
-        HStack(spacing: 8) {
-            Image("youtube")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 18, height: 18)
-
-            Text("YouTube")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.white)
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 7)
-        .background(
-            Capsule(style: .continuous)
-                .fill(Color.black.opacity(0.34))
+        YouTubeVideoView(
+            videoID: preview.videoID,
+            videoURL: preview.videoURL,
+            cornerRadius: 22,
+            isPlayerLoaded: isPlayerLoaded,
+            loadPlayer: loadPlayer
         )
-        .overlay {
-            Capsule(style: .continuous)
-                .stroke(Color.white.opacity(0.14), lineWidth: 1)
-        }
+        .shadow(color: .black.opacity(0.12), radius: 10, y: 4)
     }
 }
 

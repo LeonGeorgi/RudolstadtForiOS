@@ -259,14 +259,24 @@
 		E100001F2FE00001004F9471 /* SharedFestivalProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E100000C2FE00001004F9471 /* SharedFestivalProfileDetailView.swift */; };
 		E20000012FE10001004F9471 /* ArtistEventsBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20000032FE10001004F9471 /* ArtistEventsBlock.swift */; };
 		E20000022FE10001004F9471 /* ArtistEventsBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20000032FE10001004F9471 /* ArtistEventsBlock.swift */; };
-		E20000042FE10001004F9471 /* ArtistAISummaryBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000C2FE10001004F9471 /* ArtistAISummaryBlock.swift */; };
-		E20000052FE10001004F9471 /* ArtistAISummaryBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000C2FE10001004F9471 /* ArtistAISummaryBlock.swift */; };
+		E20000042FE10001004F9471 /* ArtistDetailIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000C2FE10001004F9471 /* ArtistDetailIntroView.swift */; };
+		E20000052FE10001004F9471 /* ArtistDetailIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000C2FE10001004F9471 /* ArtistDetailIntroView.swift */; };
 		E20000062FE10001004F9471 /* ArtistNoteBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000D2FE10001004F9471 /* ArtistNoteBlock.swift */; };
 		E20000072FE10001004F9471 /* ArtistNoteBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000D2FE10001004F9471 /* ArtistNoteBlock.swift */; };
 		E20000082FE10001004F9471 /* ArtistDescriptionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000E2FE10001004F9471 /* ArtistDescriptionBlock.swift */; };
 		E20000092FE10001004F9471 /* ArtistDescriptionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000E2FE10001004F9471 /* ArtistDescriptionBlock.swift */; };
 		E200000A2FE10001004F9471 /* ArtistBrowseGenresBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000F2FE10001004F9471 /* ArtistBrowseGenresBlock.swift */; };
 		E200000B2FE10001004F9471 /* ArtistBrowseGenresBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E200000F2FE10001004F9471 /* ArtistBrowseGenresBlock.swift */; };
+		F30000112FDD0001004F9471 /* AppleMusicPreviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30000012FDD0001004F9471 /* AppleMusicPreviewService.swift */; };
+		F30000122FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30000022FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift */; };
+		F30000132FDD0001004F9471 /* AppleMusicPreviewServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30000032FDD0001004F9471 /* AppleMusicPreviewServiceTests.swift */; };
+		F30000142FDD0001004F9471 /* AppleMusicPreviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30000012FDD0001004F9471 /* AppleMusicPreviewService.swift */; };
+		F30000152FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30000022FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift */; };
+		F30000162FDD0001004F9471 /* 2026_artist_preview_urls.csv in Resources */ = {isa = PBXBuildFile; fileRef = F30000042FDD0001004F9471 /* 2026_artist_preview_urls.csv */; };
+		F40000032FE20001004F9471 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = F40000012FE20001004F9471 /* YouTubePlayerKit */; };
+		F40000042FE20001004F9471 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = F40000012FE20001004F9471 /* YouTubePlayerKit */; };
+		F40000062FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40000052FE20001004F9471 /* ArtistYouTubeVideoView.swift */; };
+		F40000072FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40000052FE20001004F9471 /* ArtistYouTubeVideoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -445,10 +455,15 @@
 		E100000B2FE00001004F9471 /* FriendsQRCodeViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsQRCodeViews.swift; sourceTree = "<group>"; };
 		E100000C2FE00001004F9471 /* SharedFestivalProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFestivalProfileDetailView.swift; sourceTree = "<group>"; };
 		E20000032FE10001004F9471 /* ArtistEventsBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEventsBlock.swift; sourceTree = "<group>"; };
-		E200000C2FE10001004F9471 /* ArtistAISummaryBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistAISummaryBlock.swift; sourceTree = "<group>"; };
+		E200000C2FE10001004F9471 /* ArtistDetailIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistDetailIntroView.swift; sourceTree = "<group>"; };
 		E200000D2FE10001004F9471 /* ArtistNoteBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistNoteBlock.swift; sourceTree = "<group>"; };
 		E200000E2FE10001004F9471 /* ArtistDescriptionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistDescriptionBlock.swift; sourceTree = "<group>"; };
 		E200000F2FE10001004F9471 /* ArtistBrowseGenresBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistBrowseGenresBlock.swift; sourceTree = "<group>"; };
+		F30000012FDD0001004F9471 /* AppleMusicPreviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicPreviewService.swift; sourceTree = "<group>"; };
+		F30000022FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistAppleMusicPreviewView.swift; sourceTree = "<group>"; };
+		F30000032FDD0001004F9471 /* AppleMusicPreviewServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicPreviewServiceTests.swift; sourceTree = "<group>"; };
+		F30000042FDD0001004F9471 /* 2026_artist_preview_urls.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2026_artist_preview_urls.csv; sourceTree = "<group>"; };
+		F40000052FE20001004F9471 /* ArtistYouTubeVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistYouTubeVideoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -456,6 +471,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F40000032FE20001004F9471 /* YouTubePlayerKit in Frameworks */,
 				B20000012FC00001004F9471 /* LazyPager in Frameworks */,
 				A10000502FBE0001004F9471 /* Nuke in Frameworks */,
 				35CF484A285B7E4E00D13B6F /* NukeUI in Frameworks */,
@@ -467,6 +483,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F40000042FE20001004F9471 /* YouTubePlayerKit in Frameworks */,
 				A10000532FBE0001004F9471 /* Nuke in Frameworks */,
 				A10000522FBE0001004F9471 /* NukeUI in Frameworks */,
 			);
@@ -560,7 +577,9 @@
 			isa = PBXGroup;
 			children = (
 				32A11CB9E490D35A061D5106 /* ArtistDetailView.swift */,
-				E200000C2FE10001004F9471 /* ArtistAISummaryBlock.swift */,
+				F30000022FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift */,
+				F40000052FE20001004F9471 /* ArtistYouTubeVideoView.swift */,
+				E200000C2FE10001004F9471 /* ArtistDetailIntroView.swift */,
 				E200000F2FE10001004F9471 /* ArtistBrowseGenresBlock.swift */,
 				E200000E2FE10001004F9471 /* ArtistDescriptionBlock.swift */,
 				35143AC02F8E7094006DA6B7 /* ArtistDetailHeaderView.swift */,
@@ -700,6 +719,7 @@
 				A10000112F9A1001004F9471 /* world_countries.geojson */,
 				A10000152F9A1001004F9471 /* world_countries_detail.geojson */,
 				353596F92F92464800723570 /* 2026_artist_urls.csv */,
+				F30000042FDD0001004F9471 /* 2026_artist_preview_urls.csv */,
 				A1B2C3DB2FA90001004F9471 /* FestivalBackup/2026_rudolstadt_data.json */,
 				A1B2C3DC2FA90001004F9471 /* FestivalBackup/2026_news.json */,
 			);
@@ -709,6 +729,7 @@
 		35514C432DD0E26E0004137D /* API */ = {
 			isa = PBXGroup;
 			children = (
+				F30000012FDD0001004F9471 /* AppleMusicPreviewService.swift */,
 				35514C4A2DD0EBB00004137D /* APIService.swift */,
 				35514C442DD0E2960004137D /* DataConverter.swift */,
 				35514C3F2DD0DFEE0004137D /* APIModel.swift */,
@@ -844,6 +865,7 @@
 			isa = PBXGroup;
 			children = (
 				F100000F2F990001004F9471 /* APIClientTests.swift */,
+				F30000032FDD0001004F9471 /* AppleMusicPreviewServiceTests.swift */,
 				F10000042F990001004F9471 /* NewsServiceTests.swift */,
 			);
 			path = Services;
@@ -1021,6 +1043,7 @@
 				B20000022FC00001004F9471 /* LazyPager */,
 				A10000512FBE0001004F9471 /* Nuke */,
 				35CF4849285B7E4E00D13B6F /* NukeUI */,
+				F40000012FE20001004F9471 /* YouTubePlayerKit */,
 			);
 			productName = "RudolstadtForiOS (iOS)";
 			productReference = 3551CC4828043624004F9471 /* Rudolstadt.app */;
@@ -1042,6 +1065,7 @@
 			packageProductDependencies = (
 				A10000512FBE0001004F9471 /* Nuke */,
 				35CF4849285B7E4E00D13B6F /* NukeUI */,
+				F40000012FE20001004F9471 /* YouTubePlayerKit */,
 			);
 			productName = "RudolstadtForiOS (macOS)";
 			productReference = 3551CC4E28043624004F9471 /* RudolstadtForiOS.app */;
@@ -1144,6 +1168,7 @@
 			packageReferences = (
 				B20000032FC00001004F9471 /* XCRemoteSwiftPackageReference "SwiftUI-LazyPager" */,
 				35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "Nuke" */,
+				F40000022FE20001004F9471 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 			);
 			productRefGroup = 3551CC4928043624004F9471 /* Products */;
 			projectDirPath = "";
@@ -1177,6 +1202,7 @@
 				A1B2C3D72FA90001004F9471 /* FestivalBackup/2026_rudolstadt_data.json in Resources */,
 				A1B2C3D82FA90001004F9471 /* FestivalBackup/2026_news.json in Resources */,
 				353596FA2F92464800723570 /* 2026_artist_urls.csv in Resources */,
+				F30000162FDD0001004F9471 /* 2026_artist_preview_urls.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1224,6 +1250,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F40000062FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */,
+				F30000112FDD0001004F9471 /* AppleMusicPreviewService.swift in Sources */,
+				F30000122FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift in Sources */,
 				356F08952E0A93BC004F27E6 /* ExtraData.swift in Sources */,
 				356A65C42BE805B70006761D /* IAPManager.swift in Sources */,
 				3551CC6B28043624004F9471 /* RootTabView.swift in Sources */,
@@ -1287,7 +1316,7 @@
 				A20000022FA20001004F9471 /* DiscoverabilityTips.swift in Sources */,
 				35143AC52F8E71AE006DA6B7 /* ArtistDetailSections.swift in Sources */,
 				E20000022FE10001004F9471 /* ArtistEventsBlock.swift in Sources */,
-				E20000052FE10001004F9471 /* ArtistAISummaryBlock.swift in Sources */,
+				E20000052FE10001004F9471 /* ArtistDetailIntroView.swift in Sources */,
 				E20000072FE10001004F9471 /* ArtistNoteBlock.swift in Sources */,
 				E20000092FE10001004F9471 /* ArtistDescriptionBlock.swift in Sources */,
 				E200000B2FE10001004F9471 /* ArtistBrowseGenresBlock.swift in Sources */,
@@ -1342,6 +1371,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F40000072FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */,
+				F30000142FDD0001004F9471 /* AppleMusicPreviewService.swift in Sources */,
+				F30000152FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift in Sources */,
 				35D0A4902A07504C004C506D /* SaveEventPreview.swift in Sources */,
 				3551CC6C28043624004F9471 /* RootTabView.swift in Sources */,
 				3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */,
@@ -1353,7 +1385,7 @@
 				32A11EB5EC53FC5A4C48B3D8 /* NewsItemDetailView.swift in Sources */,
 				35143AC42F8E71AE006DA6B7 /* ArtistDetailSections.swift in Sources */,
 				E20000012FE10001004F9471 /* ArtistEventsBlock.swift in Sources */,
-				E20000042FE10001004F9471 /* ArtistAISummaryBlock.swift in Sources */,
+				E20000042FE10001004F9471 /* ArtistDetailIntroView.swift in Sources */,
 				E20000062FE10001004F9471 /* ArtistNoteBlock.swift in Sources */,
 				E20000082FE10001004F9471 /* ArtistDescriptionBlock.swift in Sources */,
 				E200000A2FE10001004F9471 /* ArtistBrowseGenresBlock.swift in Sources */,
@@ -1467,6 +1499,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F30000132FDD0001004F9471 /* AppleMusicPreviewServiceTests.swift in Sources */,
 				F10001012F990001004F9471 /* NotificationPermissionPresentationTests.swift in Sources */,
 				F10001022F990001004F9471 /* DataConverterTests.swift in Sources */,
 				F10001032F990001004F9471 /* NewsMentionMatchingTests.swift in Sources */,
@@ -1993,6 +2026,14 @@
 				kind = branch;
 			};
 		};
+		F40000022FE20001004F9471 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2010,6 +2051,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B20000032FC00001004F9471 /* XCRemoteSwiftPackageReference "SwiftUI-LazyPager" */;
 			productName = LazyPager;
+		};
+		F40000012FE20001004F9471 /* YouTubePlayerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F40000022FE20001004F9471 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
+			productName = YouTubePlayerKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

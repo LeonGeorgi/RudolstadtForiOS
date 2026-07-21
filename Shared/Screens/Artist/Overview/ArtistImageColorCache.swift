@@ -17,10 +17,6 @@ struct ArtistImageDominantColor: Codable {
         Color(.sRGB, red: red, green: green, blue: blue, opacity: 1.0)
     }
 
-    func descriptionBackgroundColor(for colorScheme: ColorScheme) -> Color {
-        adjustedDescriptionColor(for: colorScheme).backgroundColor
-    }
-
     func adjustedToMeetReadability(for colorScheme: ColorScheme) -> ArtistImageDominantColor {
         switch colorScheme {
         case .light:
@@ -46,23 +42,6 @@ struct ArtistImageDominantColor: Codable {
         @unknown default:
             return self
         }
-    }
-
-    private func adjustedDescriptionColor(for colorScheme: ColorScheme) -> ArtistImageDominantColor {
-        let okhsl = OKHSLColorConverter.srgbToOKHSL(.init(r: red, g: green, b: blue))
-        let lightnessDelta = colorScheme == .dark || colorScheme == .light && okhsl.l > 0.97 ? -0.03 : +0.03
-        let adjustedOKHSL = OKHSLColorConverter.OKHSL(
-            h: okhsl.h,
-            s: okhsl.s,
-            l: clamped(okhsl.l + lightnessDelta)
-        )
-        let rgb = OKHSLColorConverter.okhslToSRGB(adjustedOKHSL)
-
-        return ArtistImageDominantColor(
-            red: clamped(rgb.r),
-            green: clamped(rgb.g),
-            blue: clamped(rgb.b)
-        )
     }
 
     var relativeLuminance: Double {
@@ -119,38 +98,21 @@ struct ArtistImageThemeColors: Codable {
         }
     }
 
-    func descriptionBackgroundColor(for colorScheme: ColorScheme) -> Color {
-        switch colorScheme {
-        case .light:
-            return light.descriptionBackgroundColor(for: .light)
-        case .dark:
-            return dark.descriptionBackgroundColor(for: .dark)
-        @unknown default:
-            return light.descriptionBackgroundColor(for: .light)
-        }
-    }
-
     func artistDetailTheme(for colorScheme: ColorScheme) -> ArtistDetailTheme {
         let dominantColor = colorScheme == .dark ? dark : light
         let isDark = colorScheme == .dark
+        let contentSurface = dominantColor.surfaceColor(
+            saturationMultiplier: 0.78,
+            lightnessDelta: isDark ? 0.07 : -0.055
+        )
 
         return ArtistDetailTheme(
             pageBackground: dominantColor.backgroundColor,
-            descriptionSurface: dominantColor.surfaceColor(
-                lightnessDelta: isDark ? -0.03 : 0.03
-            ),
             actionSurface: dominantColor.surfaceColor(
                 saturationMultiplier: 0.72,
                 lightnessDelta: isDark ? 0.09 : -0.08
             ),
-            eventSurface: dominantColor.surfaceColor(
-                saturationMultiplier: 0.78,
-                lightnessDelta: isDark ? 0.07 : -0.055
-            ),
-            contentSurface: dominantColor.surfaceColor(
-                saturationMultiplier: 0.78,
-                lightnessDelta: isDark ? -0.045 : 0.05
-            ),
+            contentSurface: contentSurface,
             separator: dominantColor.surfaceColor(
                 saturationMultiplier: 0.65,
                 lightnessDelta: isDark ? 0.14 : -0.13
@@ -158,11 +120,7 @@ struct ArtistImageThemeColors: Codable {
             imageBorder: dominantColor.surfaceColor(
                 saturationMultiplier: 0.7,
                 lightnessDelta: isDark ? 0.2 : -0.2
-            ).opacity(0.65),
-            shadow: dominantColor.surfaceColor(
-                saturationMultiplier: 0.75,
-                lightnessDelta: -0.32
-            ).opacity(isDark ? 0.42 : 0.24)
+            ).opacity(0.65)
         )
     }
 }
@@ -242,10 +200,6 @@ final class ArtistImageColorCache {
 
     func cachedBackgroundColor(for artistId: Int, colorScheme: ColorScheme) -> Color? {
         cachedThemeColors(for: artistId)?.backgroundColor(for: colorScheme)
-    }
-
-    func cachedDescriptionBackgroundColor(for artistId: Int, colorScheme: ColorScheme) -> Color? {
-        cachedThemeColors(for: artistId)?.descriptionBackgroundColor(for: colorScheme)
     }
 
     func cachedThemeColors(for artistId: Int) -> ArtistImageThemeColors? {

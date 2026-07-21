@@ -51,7 +51,7 @@ final class FestivalProfileStore: ObservableObject {
     @Published private(set) var badgeColorHex: String = FestivalProfileBadge.defaultColorHex
     let syncStore = FestivalProfileSyncStore()
     private var savedEventIDSet = Set<Int>()
-    private var artistIconsByID: [String: String] = [:]
+    @Published private var artistIconsByID: [String: String] = [:]
 
     private let cloudKitEnabled: Bool
     private let persistence: any FestivalProfilePersisting
@@ -559,7 +559,7 @@ final class FestivalProfileStore: ObservableObject {
             ratings = updatedRatings
         }
 
-        artistIconsByID = Dictionary(
+        let updatedArtistIconsByID: [String: String] = Dictionary(
             uniqueKeysWithValues: profile.artistPreferences.compactMap { preference in
                 guard let iconName = preference.iconName else {
                     return nil
@@ -567,6 +567,9 @@ final class FestivalProfileStore: ObservableObject {
                 return (String(preference.artistID), iconName)
             }
         )
+        if artistIconsByID != updatedArtistIconsByID {
+            artistIconsByID = updatedArtistIconsByID
+        }
 
         let updatedArtistNotes = Dictionary(
             uniqueKeysWithValues: profile.artistNotes.map { note in

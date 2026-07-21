@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
   <title>One-heart rating</title>
-  <path
-    fill="#000000"
-    d="M8 14.2C7.6 13.8 1 9.4 1 4.8C1 2.4 2.8 1 4.8 1C6.2 1 7.4 1.8 8 2.9C8.6 1.8 9.8 1 11.2 1C13.2 1 15 2.4 15 4.8C15 9.4 8.4 13.8 8 14.2Z"
-    transform="translate(1.2 1.74) scale(1.35)"
-  />
+  <g transform="translate(0 1.448458)">
+    <path
+      fill="#000000"
+      d="M8 14.2C7.6 13.8 1 9.4 1 4.8C1 2.4 2.8 1 4.8 1C6.2 1 7.4 1.8 8 2.9C8.6 1.8 9.8 1 11.2 1C13.2 1 15 2.4 15 4.8C15 9.4 8.4 13.8 8 14.2Z"
+      transform="translate(1.2 1.74) scale(1.35)"
+    />
+  </g>
 </svg>

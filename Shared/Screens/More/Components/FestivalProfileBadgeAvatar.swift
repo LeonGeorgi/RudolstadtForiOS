@@ -4,6 +4,7 @@ struct FestivalProfileBadgeAvatar: View {
     let badge: FestivalProfileBadge
     var diameter: CGFloat = 44
     var fontScale: CGFloat = 0.34
+    var showsShadow = true
 
     var body: some View {
         let fillColor = Color(festivalProfileHex: badge.colorHex) ?? Color.rudolstadt
@@ -24,7 +25,11 @@ struct FestivalProfileBadgeAvatar: View {
                 Circle()
                     .strokeBorder(.white.opacity(0.34), lineWidth: 1)
             )
-            .shadow(color: .black.opacity(0.12), radius: 8, y: 4)
+            .shadow(
+                color: showsShadow ? .black.opacity(0.12) : .clear,
+                radius: showsShadow ? 8 : 0,
+                y: showsShadow ? 4 : 0
+            )
             .accessibilityLabel(Text("\(badge.displayName) badge"))
     }
 }

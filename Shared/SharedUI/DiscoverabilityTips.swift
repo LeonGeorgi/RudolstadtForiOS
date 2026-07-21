@@ -136,13 +136,6 @@ enum DiscoverabilityTips {
         systemImage: "heart.fill"
     )
 
-    static let artistIconPicker = AppDiscoverabilityTip(
-        id: "discoverability.artist.icon-picker",
-        titleKey: "tip.artist.icon_picker.title",
-        messageKey: "tip.artist.icon_picker.message",
-        systemImage: "ellipsis.circle"
-    )
-
     static let artistNotes = AppDiscoverabilityTip(
         id: "discoverability.artist.notes",
         titleKey: "tip.artist.notes.title",
@@ -190,7 +183,6 @@ enum DiscoverabilityTipSequences {
 
     static let artistDetailScreen = [
         DiscoverabilityTips.artistRating,
-        DiscoverabilityTips.artistIconPicker,
         DiscoverabilityTips.artistNotes,
         DiscoverabilityTips.eventQuickActions,
     ]

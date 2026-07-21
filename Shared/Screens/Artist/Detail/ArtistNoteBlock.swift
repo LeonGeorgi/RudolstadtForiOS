@@ -14,7 +14,11 @@ struct ArtistNoteBlock: View {
                         .multilineTextAlignment(.leading)
                     Spacer()
                     Button(action: onEdit) {
-                        Image(systemName: "square.and.pencil")
+                        Label(
+                            "artist.edit-note.button",
+                            systemImage: "square.and.pencil"
+                        )
+                        .labelStyle(.iconOnly)
                     }
                 }
             }

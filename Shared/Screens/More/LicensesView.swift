@@ -137,6 +137,19 @@ private struct LicenseEntry: Identifiable {
             )
         ),
         LicenseEntry(
+            id: "youtube-player-kit",
+            name: "YouTubePlayerKit",
+            licenseName: "MIT License",
+            copyright: "Copyright (c) 2025 Sven Tiigi",
+            repositoryURL: URL(
+                string: "https://github.com/SvenTiigi/YouTubePlayerKit"
+            ),
+            note: nil,
+            licenseText: mitLicense(
+                copyright: "Copyright (c) 2025 Sven Tiigi"
+            )
+        ),
+        LicenseEntry(
             id: "okhsl-color-converter",
             name: "OKHSL/OKLab conversion math",
             licenseName: "MIT License",

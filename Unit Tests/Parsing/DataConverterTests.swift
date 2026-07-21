@@ -102,6 +102,35 @@ struct DataConverterTests {
     }
 
     @Test
+    func artistCountryDescriptionKeepsUKNationsSeparate() {
+        #expect(
+            localizedArtistCountryDescription(
+                rawValue: "Scotland & England",
+                countryCodes: ["GBR"],
+                locale: Locale(identifier: "de_DE")
+            ) == "Schottland und England"
+        )
+        #expect(
+            localizedArtistCountryDescription(
+                rawValue: "SCO / Northern Ireland / Wales",
+                countryCodes: ["GBR"],
+                locale: Locale(identifier: "en_US")
+            ) == "Scotland, Northern Ireland, and Wales"
+        )
+    }
+
+    @Test
+    func artistCountryDescriptionStillLocalizesRegularCountries() {
+        #expect(
+            localizedArtistCountryDescription(
+                rawValue: "Scotland & Germany",
+                countryCodes: ["GBR", "DEU"],
+                locale: Locale(identifier: "de_DE")
+            ) == "Schottland und Deutschland"
+        )
+    }
+
+    @Test
     func countryParserHandlesAPIProvidedAlpha3CodesAndAliases() {
         #expect(parseArtistCountryCodes("DEU") == ["DEU"])
         #expect(parseArtistCountryCodes("JAP | DEU") == ["JPN", "DEU"])

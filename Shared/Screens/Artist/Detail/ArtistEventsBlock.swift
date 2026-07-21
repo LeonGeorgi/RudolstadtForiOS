@@ -1,6 +1,11 @@
 import SwiftUI
 
 struct ArtistEventsBlock: View {
+    private enum Layout {
+        static let regularTimeBadgeSize: CGFloat = 48
+        static let accessibilityTimeBadgeSize: CGFloat = 52
+    }
+
     let artistEvents: [Event]
     let highlightedEventId: Int?
     let currentTipID: String?
@@ -11,6 +16,12 @@ struct ArtistEventsBlock: View {
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
     @EnvironmentObject private var dataStore: DataStore
+
+    private var timeBadgeSize: CGFloat {
+        dynamicTypeSize.isAccessibilitySize
+            ? Layout.accessibilityTimeBadgeSize
+            : Layout.regularTimeBadgeSize
+    }
     
     private func intersectingEventsByArtistEvent(
         _ artistEvents: [Event]
@@ -52,46 +63,70 @@ struct ArtistEventsBlock: View {
         
         return VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(artistEvents.enumerated()), id: \.element.id) { index, event in
-                NavigationLink(
-                    value: AppNavigationRoute.stage(
-                        id: event.stage.id,
-                        highlightedEventId: event.id
-                    )
-                ) {
-                    ArtistEventCell(
+                let isSaved = profile.isEventSaved(event.id)
+                let friendProfiles = profile.friendProfilesSavingEvent(event.id)
+                let route = AppNavigationRoute.stage(
+                    id: event.stage.id,
+                    highlightedEventId: event.id
+                )
+
+                HStack(spacing: 0) {
+                    NavigationLink(value: route) {
+                        ArtistEventCell(
+                            event: event,
+                            intersectingEvents: intersectionsByEventID[event.id] ?? [],
+                            isSaved: isSaved,
+                            friendProfilesWhoSavedEvent: friendProfiles,
+                            showsTrailingAccessories: false,
+                            timeBadgeSize: timeBadgeSize,
+                            onToggleSaved: { profile.toggleSavedEvent(event) }
+                        )
+                        .environment(\.artistNavigationHandler, navigate)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+
+                    EventSavedIcon(
                         event: event,
-                        intersectingEvents: intersectionsByEventID[event.id] ?? [],
-                        isSaved: profile.isEventSaved(event.id),
-                        friendProfilesWhoSavedEvent: profile.friendProfilesSavingEvent(event.id),
-                        onToggleSaved: { profile.toggleSavedEvent(event) }
+                        isSaved: isSaved,
+                        onToggle: { profile.toggleSavedEvent(event) }
                     )
-                    .environment(\.artistNavigationHandler, navigate)
-                    .padding(.vertical, 6)
-                    .padding(.horizontal, 16)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(
-                        highlightedEventId == event.id && artistEvents.count > 1
-                        ? theme.actionSurface
-                        : Color.clear
-                    )
-                    .contentShape(Rectangle())
+
+                    NavigationLink(value: route) {
+                        Image(systemName: "chevron.right")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary.opacity(0.75))
+                            .frame(width: 20, height: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHidden(true)
                 }
-                .buttonStyle(.plain)
+                .padding(
+                    .vertical,
+                    dynamicTypeSize.isAccessibilitySize ? 10 : 4
+                )
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background {
+                    if highlightedEventId == event.id && artistEvents.count > 1 {
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .fill(theme.actionSurface)
+                    }
+                }
                 
                 if index < artistEvents.count - 1 {
                     Divider()
                         .overlay(theme.separator)
                         .padding(
                             .leading,
-                            dynamicTypeSize.isAccessibilitySize ? 16 : 16 + 52 + 10
+                            timeBadgeSize
+                                + (dynamicTypeSize.isAccessibilitySize ? 12 : 10)
                         )
                 }
                 
             }
         }
-        .padding(.vertical, 8)
-        .background(theme.eventSurface)
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
     }
 }
 

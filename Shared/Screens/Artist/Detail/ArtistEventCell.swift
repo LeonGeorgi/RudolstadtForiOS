@@ -24,6 +24,8 @@ struct ArtistEventCell: View {
     let intersectingEvents: [Event]
     let isSaved: Bool
     var friendProfilesWhoSavedEvent: [SharedFestivalProfile] = []
+    var showsTrailingAccessories = true
+    var timeBadgeSize: CGFloat = 52
     let onToggleSaved: () -> Void
     @Environment(\.artistNavigationHandler) private var navigate
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -78,15 +80,16 @@ struct ArtistEventCell: View {
     private var eventContent: some View {
         if dynamicTypeSize.isAccessibilitySize {
             HStack(alignment: .top, spacing: 12) {
-                EventTimeBadge(event: event)
+                EventTimeBadge(event: event, size: timeBadgeSize)
                     .dynamicTypeSize(.large)
 
                 eventMetadata
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .dynamicTypeSize(.accessibility1)
 
-                trailingAccessories
-                    .dynamicTypeSize(.accessibility1)
+                if showsTrailingAccessories {
+                    trailingAccessories
+                        .dynamicTypeSize(.accessibility1)
+                }
             }
         } else {
             regularEventContent
@@ -95,23 +98,20 @@ struct ArtistEventCell: View {
 
     private var regularEventContent: some View {
         HStack(alignment: .center, spacing: 10) {
-            EventTimeBadge(event: event)
+            EventTimeBadge(event: event, size: timeBadgeSize)
 
             eventMetadata
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            trailingAccessories
+            if showsTrailingAccessories {
+                trailingAccessories
+            }
         }
     }
 
     private var eventMetadata: some View {
         VStack(alignment: .leading, spacing: 3) {
-            if let tag = event.tag {
-                Text(tag.localizedName.uppercased())
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.primary.opacity(0.72))
-                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
-            }
+            eventMetadataHeader
 
             Text(event.stage.localizedName)
                 .font(.body.weight(.semibold))
@@ -119,6 +119,44 @@ struct ArtistEventCell: View {
 
             intersectingEventsView
         }
+    }
+
+    @ViewBuilder
+    private var eventMetadataHeader: some View {
+        if !showsTrailingAccessories && !friendProfilesWhoSavedEvent.isEmpty {
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 4) {
+                    eventTag
+                    inlineFriendBadges
+                }
+            } else {
+                HStack(spacing: 6) {
+                    eventTag
+                    inlineFriendBadges
+                }
+            }
+        } else {
+            eventTag
+        }
+    }
+
+    @ViewBuilder
+    private var eventTag: some View {
+        if let tag = event.tag {
+            Text(tag.localizedName.uppercased())
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(.primary.opacity(0.72))
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
+        }
+    }
+
+    private var inlineFriendBadges: some View {
+        FriendSavedEventBadges(
+            eventID: event.id,
+            profiles: friendProfilesWhoSavedEvent,
+            style: .plainInline
+        )
+        .frame(minWidth: 24, minHeight: 24, alignment: .center)
     }
 
     @ViewBuilder
@@ -136,7 +174,7 @@ struct ArtistEventCell: View {
 
         Image(systemName: "chevron.right")
             .font(.caption.weight(.semibold))
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(.secondary.opacity(0.75))
     }
 
     @ViewBuilder

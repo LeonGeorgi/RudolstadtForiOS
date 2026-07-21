@@ -78,6 +78,29 @@ private let manualCountryDisplayNamesDE: [String: String] = [
     "XKX": "Kosovo"
 ]
 
+private let ukNationCodes: [String: String] = [
+    "england": "ENG",
+    "northern ireland": "NIR",
+    "nordirland": "NIR",
+    "schottland": "SCO",
+    "scotland": "SCO",
+    "wales": "WAL",
+]
+
+private let ukNationDisplayNamesEN: [String: String] = [
+    "ENG": "England",
+    "NIR": "Northern Ireland",
+    "SCO": "Scotland",
+    "WAL": "Wales",
+]
+
+private let ukNationDisplayNamesDE: [String: String] = [
+    "ENG": "England",
+    "NIR": "Nordirland",
+    "SCO": "Schottland",
+    "WAL": "Wales",
+]
+
 private let countryCodeLookup: [String: String] = buildCountryCodeLookup()
 private let alpha3CodeAliases: [String: String] = [
     "ENG": "GBR",
@@ -612,6 +635,34 @@ func parseArtistCountryCodes(_ rawValue: String) -> [String] {
     }
 }
 
+func localizedArtistCountryDescription(
+    rawValue: String,
+    countryCodes: [String],
+    locale: Locale = .current
+) -> String? {
+    let displayCodes = parseCountryCodesRecursively(
+        from: rawValue,
+        preservingUKNations: true
+    )
+    let codes = displayCodes.isEmpty ? countryCodes : displayCodes
+    var seen = Set<String>()
+    let names = codes.compactMap { code -> String? in
+        guard seen.insert(code).inserted else {
+            return nil
+        }
+        return localizedArtistCountryName(for: code, locale: locale)
+    }
+
+    if !names.isEmpty {
+        let formatter = ListFormatter()
+        formatter.locale = locale
+        return formatter.string(from: names)
+    }
+
+    let fallback = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+    return fallback.isEmpty ? nil : fallback
+}
+
 func localizedCountryName(
     forRegionCode code: String,
     locale: Locale = .current
@@ -680,10 +731,19 @@ private func buildCountryCodeLookup() -> [String: String] {
     return lookup
 }
 
-private func parseCountryCodesRecursively(from rawValue: String) -> [String] {
+private func parseCountryCodesRecursively(
+    from rawValue: String,
+    preservingUKNations: Bool = false
+) -> [String] {
     let trimmedValue = preprocessCountryString(rawValue)
     guard !trimmedValue.isEmpty else {
         return []
+    }
+
+    if preservingUKNations,
+        let nationCode = ukNationCode(for: trimmedValue)
+    {
+        return [nationCode]
     }
 
     if let matchedCode = countryCode(for: trimmedValue) {
@@ -693,7 +753,12 @@ private func parseCountryCodesRecursively(from rawValue: String) -> [String] {
     for separator in ["/", ";", "|", "•", "·", "&", "+"] {
         let parts = splitCountryString(trimmedValue, by: separator)
         if parts.count > 1 {
-            return parts.flatMap(parseCountryCodesRecursively(from:))
+            return parts.flatMap {
+                parseCountryCodesRecursively(
+                    from: $0,
+                    preservingUKNations: preservingUKNations
+                )
+            }
         }
     }
 
@@ -703,13 +768,38 @@ private func parseCountryCodesRecursively(from rawValue: String) -> [String] {
             continue
         }
 
-        let parsedParts = parts.flatMap(parseCountryCodesRecursively(from:))
+        let parsedParts = parts.flatMap {
+            parseCountryCodesRecursively(
+                from: $0,
+                preservingUKNations: preservingUKNations
+            )
+        }
         if !parsedParts.isEmpty {
             return parsedParts
         }
     }
 
     return []
+}
+
+private func ukNationCode(for rawValue: String) -> String? {
+    let normalizedValue = normalizeCountryToken(rawValue)
+    if let code = ukNationCodes[normalizedValue] {
+        return code
+    }
+
+    let uppercasedValue = preprocessCountryString(rawValue).uppercased()
+    return ukNationDisplayNamesEN[uppercasedValue] == nil ? nil : uppercasedValue
+}
+
+private func localizedArtistCountryName(for code: String, locale: Locale) -> String {
+    let uppercasedCode = code.uppercased()
+    if locale.appLanguageCodeIdentifier == "de" {
+        return ukNationDisplayNamesDE[uppercasedCode]
+            ?? localizedCountryName(forRegionCode: uppercasedCode, locale: locale)
+    }
+    return ukNationDisplayNamesEN[uppercasedCode]
+        ?? localizedCountryName(forRegionCode: uppercasedCode, locale: locale)
 }
 
 private func countryCode(for rawValue: String) -> String? {

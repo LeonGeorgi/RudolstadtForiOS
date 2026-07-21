@@ -2,6 +2,7 @@ import SwiftUI
 
 struct EventTimeBadge: View {
     let event: Event
+    var size: CGFloat = 52
 
     var body: some View {
         VStack(spacing: 0) {
@@ -20,14 +21,13 @@ struct EventTimeBadge: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .foregroundStyle(.primary)
-        .frame(width: 52, height: 52)
+        .frame(width: size, height: size)
         .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 13, style: .continuous)
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .stroke(.white.opacity(0.20), lineWidth: 0.5)
         )
-        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("\(event.shortWeekDay) \(event.timeAsString)"))
     }
