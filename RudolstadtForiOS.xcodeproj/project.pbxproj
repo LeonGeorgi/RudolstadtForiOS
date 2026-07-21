@@ -121,6 +121,8 @@
 		3568C7AE29F968DE00A7AA7D /* ScheduleContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7AC29F968DE00A7AA7D /* ScheduleContentView.swift */; };
 		3568C7B029FB59AC00A7AA7D /* ScheduleTimelineEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7AF29FB59AC00A7AA7D /* ScheduleTimelineEventCell.swift */; };
 		3568C7B129FB59AC00A7AA7D /* ScheduleTimelineEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3568C7AF29FB59AC00A7AA7D /* ScheduleTimelineEventCell.swift */; };
+		E40000022FE30001004F9471 /* ScheduleTimelineZoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40000012FE30001004F9471 /* ScheduleTimelineZoom.swift */; };
+		E40000032FE30001004F9471 /* ScheduleTimelineZoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40000012FE30001004F9471 /* ScheduleTimelineZoom.swift */; };
 		356A65C02BE803310006761D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 356A65BF2BE803310006761D /* StoreKit.framework */; };
 		356A65C42BE805B70006761D /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356A65C32BE805B70006761D /* IAPManager.swift */; };
 		356A65C52BE805B70006761D /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356A65C32BE805B70006761D /* IAPManager.swift */; };
@@ -148,6 +150,7 @@
 		F10001052F990001004F9471 /* DataLoaderCacheMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000052F990001004F9471 /* DataLoaderCacheMetadataTests.swift */; };
 		F10001062F990001004F9471 /* RecommendationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000062F990001004F9471 /* RecommendationServiceTests.swift */; };
 		F10001072F990001004F9471 /* SchedulePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000072F990001004F9471 /* SchedulePresenterTests.swift */; };
+		F10001112F990001004F9471 /* ScheduleTimelineZoomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000182F990001004F9471 /* ScheduleTimelineZoomTests.swift */; };
 		F10001082F990001004F9471 /* RecommendationDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000082F990001004F9471 /* RecommendationDataStoreTests.swift */; };
 		F10001092F990001004F9471 /* FriendArtistRecommendationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */; };
 		F100010A2F990001004F9471 /* FestivalProfileStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000A2F990001004F9471 /* FestivalProfileStoreTests.swift */; };
@@ -375,6 +378,7 @@
 		3568C7A929F93B6700A7AA7D /* ScheduleTimelineContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTimelineContentView.swift; sourceTree = "<group>"; };
 		3568C7AC29F968DE00A7AA7D /* ScheduleContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleContentView.swift; sourceTree = "<group>"; };
 		3568C7AF29FB59AC00A7AA7D /* ScheduleTimelineEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTimelineEventCell.swift; sourceTree = "<group>"; };
+		E40000012FE30001004F9471 /* ScheduleTimelineZoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTimelineZoom.swift; sourceTree = "<group>"; };
 		356A65BF2BE803310006761D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.4.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		356A65C32BE805B70006761D /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		356A65C62BE809360006761D /* DonationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationView.swift; sourceTree = "<group>"; };
@@ -395,6 +399,7 @@
 		F10000052F990001004F9471 /* DataLoaderCacheMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoaderCacheMetadataTests.swift; sourceTree = "<group>"; };
 		F10000062F990001004F9471 /* RecommendationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationServiceTests.swift; sourceTree = "<group>"; };
 		F10000072F990001004F9471 /* SchedulePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePresenterTests.swift; sourceTree = "<group>"; };
+		F10000182F990001004F9471 /* ScheduleTimelineZoomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTimelineZoomTests.swift; sourceTree = "<group>"; };
 		F10000082F990001004F9471 /* RecommendationDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationDataStoreTests.swift; sourceTree = "<group>"; };
 		F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRecommendationTests.swift; sourceTree = "<group>"; };
 		F100000A2F990001004F9471 /* FestivalProfileStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileStoreTests.swift; sourceTree = "<group>"; };
@@ -683,6 +688,7 @@
 				3568726529C0239300520EC5 /* ScheduleTimelineView.swift */,
 				3568C7A929F93B6700A7AA7D /* ScheduleTimelineContentView.swift */,
 				3568C7AF29FB59AC00A7AA7D /* ScheduleTimelineEventCell.swift */,
+				E40000012FE30001004F9471 /* ScheduleTimelineZoom.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -848,6 +854,7 @@
 				F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */,
 				F10000062F990001004F9471 /* RecommendationServiceTests.swift */,
 				F10000072F990001004F9471 /* SchedulePresenterTests.swift */,
+				F10000182F990001004F9471 /* ScheduleTimelineZoomTests.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -1362,6 +1369,7 @@
 				32A115136B1411327F87FCFF /* DataLoader.swift in Sources */,
 				35143AB32F8E21FC006DA6B7 /* ArtistGridCell.swift in Sources */,
 				3568C7AA29F93B6700A7AA7D /* ScheduleTimelineContentView.swift in Sources */,
+				E40000022FE30001004F9471 /* ScheduleTimelineZoom.swift in Sources */,
 				35514C402DD0DFF30004137D /* APIModel.swift in Sources */,
 				32A111B567F87F1627C561FF /* StageNumber.swift in Sources */,
 			);
@@ -1430,6 +1438,7 @@
 				32A112A1CF3EDC6BC9BECDE4 /* ScheduleListView.swift in Sources */,
 				32A119B72F0FE2BE1FCF50FB /* ScheduleRecommendationGenerator.swift in Sources */,
 				3568C7AB29F93B6700A7AA7D /* ScheduleTimelineContentView.swift in Sources */,
+				E40000032FE30001004F9471 /* ScheduleTimelineZoom.swift in Sources */,
 				32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */,
 				3568C7B129FB59AC00A7AA7D /* ScheduleTimelineEventCell.swift in Sources */,
 				32A11F1703B29A8DBE6E672B /* MoreView.swift in Sources */,
@@ -1507,6 +1516,7 @@
 				F10001052F990001004F9471 /* DataLoaderCacheMetadataTests.swift in Sources */,
 				F10001062F990001004F9471 /* RecommendationServiceTests.swift in Sources */,
 				F10001072F990001004F9471 /* SchedulePresenterTests.swift in Sources */,
+				F10001112F990001004F9471 /* ScheduleTimelineZoomTests.swift in Sources */,
 				F10001082F990001004F9471 /* RecommendationDataStoreTests.swift in Sources */,
 				F10001092F990001004F9471 /* FriendArtistRecommendationTests.swift in Sources */,
 				F100010A2F990001004F9471 /* FestivalProfileStoreTests.swift in Sources */,

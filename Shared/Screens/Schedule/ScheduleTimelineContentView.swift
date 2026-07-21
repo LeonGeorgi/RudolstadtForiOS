@@ -10,6 +10,7 @@ struct ScheduleTimelineContentView: View {
     @State private var scrollState = ScheduleTimelineScrollState()
     @State private var currentTime: Date = Date()
     @State private var currentTimeUpdateTask: Task<Void, Never>?
+    @State private var heightPerHour = ScheduleTimelineZoom.defaultHeightPerHour
 
     let timeIntervals: [Date]
     let stages: [(Stage, [EventOrGap])]
@@ -20,7 +21,6 @@ struct ScheduleTimelineContentView: View {
     private let stageNameHeight: CGFloat = CGFloat(40)
     private let firstEventPadding: CGFloat = CGFloat(0)
     private let columnSpacing: CGFloat = CGFloat(5)
-    private let heightPerHour: Double = 60
     private let stageHeaderCornerRadius: CGFloat = 12
 
     var body: some View {
@@ -41,7 +41,13 @@ struct ScheduleTimelineContentView: View {
                 .ignoresSafeArea()
 
                 GeometryReader { geo in
-                    ScheduleTimelineScrollView(scrollState: scrollState) {
+                    ScheduleTimelineScrollView(
+                        scrollState: scrollState,
+                        heightPerHour: $heightPerHour,
+                        timelineFixedTop: stageNameHeight
+                            + firstEventPadding
+                            + 25
+                    ) {
                         ScheduleTimelineEventCanvas(
                             stages: stages,
                             estimatedEventDurations: estimatedEventDurations,
@@ -151,9 +157,7 @@ struct ScheduleTimelineContentView: View {
         let minuteDifference = currentMinute - firstIntervalMinute
 
         let totalMinutesDifference = hourDifference * 60 + minuteDifference
-        let position = CGFloat(
-            Double(totalMinutesDifference) / 60.0 * heightPerHour
-        )
+        let position = CGFloat(totalMinutesDifference) / 60 * heightPerHour
         return position
     }
 
@@ -191,15 +195,26 @@ struct ScheduleTimelineContentView: View {
 #if os(iOS)
 @Observable
 private final class ScheduleTimelineScrollState {
-    private(set) var horizontalOffset: CGFloat = 0
-    private(set) var verticalOffset: CGFloat = 0
+    private(set) var contentOffset: CGPoint = .zero
+    private(set) var contentSize: CGSize = .zero
+    private(set) var containerSize: CGSize = .zero
 
-    func update(to offset: CGPoint) {
-        if horizontalOffset != offset.x {
-            horizontalOffset = offset.x
+    var horizontalOffset: CGFloat { -contentOffset.x }
+    var verticalOffset: CGFloat { -contentOffset.y }
+
+    func update(
+        contentOffset: CGPoint,
+        contentSize: CGSize,
+        containerSize: CGSize
+    ) {
+        if self.contentOffset != contentOffset {
+            self.contentOffset = contentOffset
         }
-        if verticalOffset != offset.y {
-            verticalOffset = offset.y
+        if self.contentSize != contentSize {
+            self.contentSize = contentSize
+        }
+        if self.containerSize != containerSize {
+            self.containerSize = containerSize
         }
     }
 }
@@ -221,13 +236,25 @@ private final class ScheduleTimelineScrollState: ObservableObject {
 
 private struct ScheduleTimelineScrollView<Content: View>: View {
     let scrollState: ScheduleTimelineScrollState
+    @Binding var heightPerHour: CGFloat
+    let timelineFixedTop: CGFloat
     let content: Content
+
+    #if os(iOS)
+    @State private var scrollPosition = ScrollPosition()
+    @State private var zoomGestureSession: ScheduleTimelineZoomGestureSession?
+    @State private var zoomFrameScheduler = ScheduleTimelineZoomFrameScheduler()
+    #endif
 
     init(
         scrollState: ScheduleTimelineScrollState,
+        heightPerHour: Binding<CGFloat>,
+        timelineFixedTop: CGFloat,
         @ViewBuilder content: () -> Content
     ) {
         self.scrollState = scrollState
+        self._heightPerHour = heightPerHour
+        self.timelineFixedTop = timelineFixedTop
         self.content = content()
     }
 
@@ -235,20 +262,34 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
         #if os(iOS)
         ScrollView([.horizontal, .vertical]) {
             content
+                .disabled(zoomGestureSession != nil)
         }
-        .onScrollGeometryChange(for: CGPoint.self) { geometry in
-            CGPoint(
-                x: -(
-                    geometry.contentOffset.x
-                        + geometry.contentInsets.leading
-                ),
-                y: -(
-                    geometry.contentOffset.y
+        .scrollPosition($scrollPosition)
+        .onScrollGeometryChange(
+            for: ScheduleTimelineScrollMetrics.self
+        ) { geometry in
+            ScheduleTimelineScrollMetrics(
+                contentOffset: CGPoint(
+                    x: geometry.contentOffset.x
+                        + geometry.contentInsets.leading,
+                    y: geometry.contentOffset.y
                         + geometry.contentInsets.top
-                )
+                ),
+                contentSize: geometry.contentSize,
+                containerSize: geometry.containerSize
             )
-        } action: { _, offset in
-            scrollState.update(to: offset)
+        } action: { _, metrics in
+            scrollState.update(
+                contentOffset: metrics.contentOffset,
+                contentSize: metrics.contentSize,
+                containerSize: metrics.containerSize
+            )
+        }
+        .scrollDisabled(zoomGestureSession != nil)
+        .simultaneousGesture(spatialEventGesture)
+        .onDisappear {
+            zoomFrameScheduler.cancel()
+            zoomGestureSession = nil
         }
         #else
         ScrollView([.horizontal, .vertical]) {
@@ -270,7 +311,143 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
         }
         #endif
     }
+
+    #if os(iOS)
+    private var spatialEventGesture: some Gesture {
+        SpatialEventGesture()
+            .onChanged(handleSpatialEvents)
+            .onEnded { _ in finishZoom() }
+    }
+
+    private func handleSpatialEvents(_ events: SpatialEventCollection) {
+        let activeTouches = events.filter {
+            $0.kind == .touch && $0.phase == .active
+        }
+        guard activeTouches.count == 2 else {
+            if zoomGestureSession != nil {
+                finishZoom()
+            }
+            return
+        }
+
+        let touchPoints = activeTouches.map(\.location)
+        let centroid = CGPoint(
+            x: (touchPoints[0].x + touchPoints[1].x) / 2,
+            y: (touchPoints[0].y + touchPoints[1].y) / 2
+        )
+        let distance = hypot(
+            touchPoints[1].x - touchPoints[0].x,
+            touchPoints[1].y - touchPoints[0].y
+        )
+        guard distance > 0 else { return }
+
+        let gestureSession = zoomGestureSession
+            ?? ScheduleTimelineZoomGestureSession(
+                zoomSession: makeZoomSession(
+                    anchorViewportPoint: centroid
+                ),
+                initialTouchDistance: distance
+            )
+        zoomGestureSession = gestureSession
+        let magnification = distance / gestureSession.initialTouchDistance
+
+        zoomFrameScheduler.submit {
+            applyZoom(
+                magnification: magnification,
+                centroid: centroid,
+                session: gestureSession.zoomSession
+            )
+        }
+    }
+
+    private func finishZoom() {
+        guard zoomGestureSession != nil else { return }
+
+        zoomFrameScheduler.finish {
+            zoomGestureSession = nil
+        }
+    }
+
+    private func applyZoom(
+        magnification: CGFloat,
+        centroid: CGPoint,
+        session: ScheduleTimelineZoomSession
+    ) {
+        let update = session.update(
+            for: magnification,
+            anchorViewportPoint: centroid
+        )
+        let current = ScheduleTimelineZoomUpdate(
+            heightPerHour: heightPerHour,
+            contentOffset: scrollState.contentOffset
+        )
+        guard zoomFrameScheduler.shouldApply(
+            update,
+            relativeTo: current
+        ) else {
+            return
+        }
+
+        var transaction = Transaction(animation: nil)
+        transaction.scrollContentOffsetAdjustmentBehavior = .disabled
+        withTransaction(transaction) {
+            heightPerHour = update.heightPerHour
+            scrollPosition.scrollTo(point: update.contentOffset)
+        }
+    }
+
+    private func makeZoomSession(
+        anchorViewportPoint: CGPoint
+    ) -> ScheduleTimelineZoomSession {
+        let containerWidth = max(scrollState.containerSize.width, 1)
+        let containerHeight = max(scrollState.containerSize.height, 1)
+        let containerSize = CGSize(
+            width: containerWidth,
+            height: containerHeight
+        )
+        let contentSize = CGSize(
+            width: max(scrollState.contentSize.width, containerWidth),
+            height: max(scrollState.contentSize.height, containerHeight)
+        )
+        let clampedAnchorPoint = CGPoint(
+            x: min(
+                max(anchorViewportPoint.x, 0),
+                containerSize.width
+            ),
+            y: min(
+                max(anchorViewportPoint.y, 0),
+                containerSize.height
+            )
+        )
+        let contentOffset = CGPoint(
+            x: max(scrollState.contentOffset.x, 0),
+            y: max(scrollState.contentOffset.y, 0)
+        )
+
+        return ScheduleTimelineZoomSession(
+            baseHeightPerHour: heightPerHour,
+            contentOffset: contentOffset,
+            contentSize: contentSize,
+            containerSize: containerSize,
+            anchorViewportPoint: clampedAnchorPoint,
+            timelineFixedTop: timelineFixedTop
+        )
+    }
+    #endif
 }
+
+#if os(iOS)
+private struct ScheduleTimelineZoomGestureSession {
+    let zoomSession: ScheduleTimelineZoomSession
+    let initialTouchDistance: CGFloat
+}
+
+private struct ScheduleTimelineScrollMetrics: Equatable {
+    let contentOffset: CGPoint
+    let contentSize: CGSize
+    let containerSize: CGSize
+}
+#endif
 
 #if !os(iOS)
 private enum ScheduleTimelineCoordinateSpace {
@@ -297,7 +474,7 @@ private struct ScheduleTimelineEventCanvas: View {
     let stageNameHeight: CGFloat
     let firstEventPadding: CGFloat
     let columnSpacing: CGFloat
-    let heightPerHour: Double
+    let heightPerHour: CGFloat
 
     var body: some View {
         HStack(alignment: .top, spacing: columnSpacing) {
@@ -334,9 +511,7 @@ private struct ScheduleTimelineEventCanvas: View {
             switch stageEvents[index] {
             case .event(let event):
                 let eventDuration = estimatedEventDurations?[event.id] ?? 60
-                let eventHeight = CGFloat(
-                    Double(eventDuration) / 60.0 * heightPerHour
-                )
+                let eventHeight = CGFloat(eventDuration) / 60 * heightPerHour
                 ScheduleTimelineEventCell(
                     width: columnWidth,
                     height: eventHeight - 2,
@@ -350,9 +525,8 @@ private struct ScheduleTimelineEventCanvas: View {
                 )
                 .padding(.vertical, 1)
             case .gap(let gap):
-                let gapHeight = CGFloat(
-                    Double(gap.duration / (60 * 60)) * heightPerHour
-                )
+                let gapHeight = CGFloat(gap.duration / (60 * 60))
+                    * heightPerHour
                 Spacer()
                     .frame(width: columnWidth, height: gapHeight)
             }
@@ -369,7 +543,7 @@ private struct ScheduleTimelineTimeScale: View {
     #endif
     let timeWidth: CGFloat
     let topPadding: CGFloat
-    let heightPerHour: Double
+    let heightPerHour: CGFloat
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -384,7 +558,7 @@ private struct ScheduleTimelineTimeScale: View {
                     .padding(.leading, 5)
                     .frame(
                         width: timeWidth,
-                        height: CGFloat(0.5 * heightPerHour),
+                        height: 0.5 * heightPerHour,
                         alignment: .trailing
                     )
                     .scaledToFill()
@@ -403,7 +577,7 @@ private struct ScheduleTimelineGrid: View {
     @ObservedObject var scrollState: ScheduleTimelineScrollState
     #endif
     let topPadding: CGFloat
-    let heightPerHour: Double
+    let heightPerHour: CGFloat
 
     var body: some View {
         VStack(spacing: 0) {
@@ -504,7 +678,7 @@ private struct ScheduleTimelineCurrentTimeLine: View {
     #endif
     let width: CGFloat
     let timeWidth: CGFloat
-    let heightPerHour: Double
+    let heightPerHour: CGFloat
     let verticalPosition: CGFloat
 
     var body: some View {
@@ -516,7 +690,7 @@ private struct ScheduleTimelineCurrentTimeLine: View {
                 .padding(.horizontal, 10)
                 .frame(
                     width: timeWidth,
-                    height: CGFloat(0.5 * heightPerHour),
+                    height: 0.5 * heightPerHour,
                     alignment: .trailing
                 )
                 .scaledToFill()
