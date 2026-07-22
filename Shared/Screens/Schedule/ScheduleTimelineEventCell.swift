@@ -12,7 +12,7 @@ struct ScheduleTimelineEventCell: View {
     let artistIconName: String?
     let friendProfilesWhoSavedEvent: [SharedFestivalProfile]
     let onToggleSaved: () -> Void
-    private let cornerRadius: CGFloat = 8
+    private let cornerRadius: CGFloat = 4
 
     var body: some View {
         renderContent()

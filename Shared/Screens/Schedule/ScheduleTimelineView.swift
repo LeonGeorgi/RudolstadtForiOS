@@ -123,7 +123,7 @@ struct ScheduleTimelineView: View {
             stages: stageList,
             estimatedEventDurations: dataStore.estimatedEventDurationsByEventID
         )
-        .safeAreaInset(edge: .bottom) {
+        .overlay(alignment: .bottom) {
             Button {
                 isShowingEndTimeInformation = true
             } label: {
