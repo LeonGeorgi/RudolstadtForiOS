@@ -36,6 +36,10 @@ struct ScheduleScreen: View {
         settings.getScheduleFilterType(settings.scheduleFilterType) != .all
     }
 
+    private var effectiveDisplayMode: ScheduleDisplayMode {
+        dynamicTypeSize.isAccessibilitySize ? .list : settings.scheduleDisplayMode
+    }
+
     var body: some View {
         Group {
             switch presenter.shownEvents {
@@ -65,7 +69,7 @@ struct ScheduleScreen: View {
         }
         .navigationTitle("schedule.title")
         .navigationBarTitleDisplayMode(.inline)
-        .safeAreaInset(edge: .top) {
+        .safeAreaInset(edge: .top, spacing: 0) {
             if !presenter.availableEventDays.isEmpty {
                 VStack(spacing: 0) {
                     Picker("schedule.day.picker", selection: $selectedDay) {
@@ -79,6 +83,11 @@ struct ScheduleScreen: View {
                     .scheduleDaySwitcherStyle()
                     .padding(.horizontal)
                     .padding(.vertical, 4)
+                }
+                .background {
+                    if effectiveDisplayMode == .timeline {
+                        Color(.systemBackground)
+                    }
                 }
             }
         }
@@ -151,7 +160,7 @@ struct ScheduleScreen: View {
             }
         }
     }
-    
+
     private func ensureSelectedDay() {
         guard !presenter.availableEventDays.isEmpty else {
             selectedDay = -1

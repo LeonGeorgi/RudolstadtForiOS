@@ -151,3 +151,39 @@ Nicht-Ziele:
 **2026-07-22T03:12:00Z**
 
 2026-07-22: Temporären Live-Indikator-Demo-Modus vollständig entfernt (TimelineView, Startzeit, feste Demo-Zeitspanne und Wiederholung). Beibehalten: Apple-artige rote Pille/Linie, gemeinsame Textausrichtung, Überdeckungs-Ausblendung, Scroll- und Zoomverankerung sowie minütliche Echtzeitaktualisierung. Reale Position nun per Date-Zeitdifferenz statt Stundenkomponenten berechnet, damit Festivalzeiten über Mitternacht korrekt funktionieren. Swift-Parsecheck und git diff --check erfolgreich; visuelle Simulatorprüfung steht aus.
+
+**2026-07-22T03:16:54Z**
+
+2026-07-22: Bühnenkopfzeile in den zweiachsigen Timeline-ScrollView integriert. Horizontal folgt sie jetzt nativ dem Scrollinhalt, sodass Drag-Gesten direkt auf Bühnenname/NavigationLink scrollen; vertikal wird nur der Scrolloffset kompensiert, damit der Header gepinnt bleibt. Header-Separatoren nutzen weiterhin dieselbe gemeinsame SeparatorGrid-Implementierung. Live-Indikator ebenfalls in den Scroll-Inhalt unter den Header verlegt: vertikal nativ verankert, horizontal kompensiert, damit Pille/Linie fixiert bleiben und korrekt vom Header überdeckt werden. Swift-Parsecheck und git diff --check erfolgreich; visuelle und Touch-Prüfung im Simulator steht aus.
+
+**2026-07-22T03:24:05Z**
+
+2026-07-22: Endzeiten-Hinweis aus der unteren schwebenden Capsule in die freie Kopfzelle links über der Zeitspalte verlegt. Neuer Auslöser ist ein einfacher info.circle-Button mit 44-pt-Touchfläche, Tint-Farbe sowie bestehendem Accessibility-Label/-Hint; Alert-Inhalt unverändert. Bottom-Overlay und nun ungenutzten ScheduleWarningStyle entfernt. Swift-Parsecheck und git diff --check erfolgreich; visuelle Simulatorprüfung steht aus.
+
+**2026-07-22T03:28:55Z**
+
+2026-07-22: Timeline-spezifischen oberen Scroll-Edge auf iOS 26 auf .hard gesetzt. Dadurch erhält der Zeitplan unter Navigation/Tagessteuerung eine nahezu opake lineare Grenze statt des automatischen weichen Unter-Toolbar-Scrollens. Modifier sitzt ausschließlich am ScheduleTimelineScrollView; ScheduleListView bleibt unverändert. Auf iOS <26 bleibt das bisherige Verhalten. Swift-Parsecheck und git diff --check erfolgreich; visuelle Simulatorprüfung steht aus.
+
+**2026-07-22T03:31:38Z**
+
+2026-07-22: Horizontale Zeitrasterlinien als Hintergrund des ScheduleTimelineEventCanvas in den zweiachsigen ScrollView verlegt. Separate äußere Grid-Ebene und manuelle verticalOffset-Synchronisierung entfernt. Linien liegen weiterhin hinter Events und fester Zeitspalte, erhalten nun aber denselben nativen Scroll-Edge-Fade an Tab-Bar und oberer harter Kante wie der übrige Scrollinhalt. Swift-Parsecheck und git diff --check erfolgreich; visuelle Simulatorprüfung steht aus.
+
+**2026-07-22T03:41:16Z**
+
+2026-07-22: Oberes Timeline-Underlap strukturell entfernt. Im Timeline-Modus ist der Tages-Picker nun ein reguläres festes VStack-Element oberhalb von ScheduleContentView statt safeAreaInset; der Timeline-Zweig wird zusätzlich an seinem tatsächlichen Rahmen geclippt. Dadurch beginnt/endet der ScrollView geometrisch unter Tages-Tabs und Navigation. Listenmodus behält den bisherigen daySwitcher als top safeAreaInset und bleibt ungeclippt. Vorherigen iOS-26-hard-ScrollEdge-Workaround entfernt. Swift-Parsecheck und git diff --check erfolgreich; visuelle Simulatorprüfung steht aus.
+
+**2026-07-22T03:46:28Z**
+
+2026-07-22: Vorherige geometrische Timeline-Begrenzung nach Nutzerfeedback zurückgenommen, da .clipped() und Tages-Picker als VStack-Geschwister den nativen Bottom-Bar-Underlap sowie die Reaktion des Tab-Bar-Accessories beeinträchtigten und einen Farb-Cut erzeugten. DaySwitcher wieder als safeAreaInset für beide Modi; im Timeline-Modus liegt dahinter systemBackground, sodass Scrollinhalt nicht durch die Tabs sichtbar ist. Timeline nutzt wieder nur den nativen iOS-26-hard-Top-ScrollEdge; unten bleibt sie ungeclippt und systemintegriert. Listenansicht erhält keinen zusätzlichen Hintergrund. Swift-Parsecheck und git diff --check erfolgreich; visuelle Simulatorprüfung steht aus.
+
+**2026-07-22T03:51:09Z**
+
+2026-07-22: Oberes Durchscheinen anhand Screenshot weiter korrigiert. Timeline-Zweig setzt nun exklusiv eine sichtbare systemBackground-Navigation-Bar; ScheduleScreen top safeAreaInset verwendet spacing 0 und weiterhin systemBackground hinter dem DaySwitcher. Den zusätzlichen .hard-ScrollEdge entfernt, um Farb-Cut zu vermeiden. Kein Clipping/Masking am ScrollView: unterer Tab-Bar-Underlap und Bottom-Accessory-Scrollreaktion bleiben nativ; Listenmodus erhält keine Toolbar-Background-Änderung. Swift-Parsecheck und git diff --check erfolgreich; visuelle Simulatorprüfung steht aus.
+
+**2026-07-22T03:59:21Z**
+
+2026-07-22: Verbliebenen schmalen Cut unter den Tages-Tabs als automatischen iOS-26-Top-Scroll-Edge-Effekt behandelt und ausschließlich an der Timeline über scrollEdgeEffectHidden(true, for: .top) deaktiviert; der native untere Fade bleibt aktiv. Für zuverlässige Reaktion von Tab-Bar und Bottom Accessory die kombinierte zweiachsige iOS-ScrollView in eine eindeutige vertikale Haupt-ScrollView mit verschachtelter horizontaler ScrollView aufgeteilt. Offset-/Größenzustand und Zoom-ScrollPosition werden pro Achse synchronisiert; Bühnen-Drag, gepinnte Kopf-/Zeitspalte und Zwei-Achsen-Zoom bleiben erhalten. Swift-Parsechecks für alle geänderten Schedule-Dateien und git diff --check erfolgreich; Touch-, Zoom- und Accessory-Verhalten im Simulator weiterhin visuell zu prüfen.
+
+**2026-07-22T04:02:12Z**
+
+2026-07-22: Den unmittelbar zuvor vorgenommenen Split in verschachtelte vertikale/horizontale ScrollViews nach Nutzerfeedback vollständig zurückgenommen. Die Timeline verwendet wieder eine einzige native ScrollView([.horizontal, .vertical]) und behält dadurch freies gleichzeitiges Panning auf beiden Achsen sowie die bestehende gemeinsame ScrollPosition für Zoom. Die Bottom-Accessory-Erkennung wird nicht zulasten dieser Kerninteraktion durch eine komplexere Scroll-Architektur erzwungen. Der separate Top-Scroll-Edge-Fix bleibt bestehen. Swift-Parsecheck und git diff --check erfolgreich.

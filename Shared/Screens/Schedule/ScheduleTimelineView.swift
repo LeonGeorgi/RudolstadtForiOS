@@ -121,31 +121,15 @@ struct ScheduleTimelineView: View {
         ScheduleTimelineContentView(
             timeIntervals: timeIntervalList,
             stages: stageList,
-            estimatedEventDurations: dataStore.estimatedEventDurationsByEventID
-        )
-        .overlay(alignment: .bottom) {
-            Button {
+            estimatedEventDurations: dataStore.estimatedEventDurationsByEventID,
+            onShowEndTimeInformation: {
                 isShowingEndTimeInformation = true
-            } label: {
-                HStack(spacing: 6) {
-                    Image(systemName: "info.circle")
-                        .foregroundStyle(.tint)
-                    Text("schedule.endtimes.notice")
-                        .foregroundStyle(.secondary)
-                }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
             }
-            .buttonStyle(.plain)
-            .font(.footnote)
-            .scheduleWarningStyle()
-            .padding(.bottom, 8)
-            .accessibilityHint(Text("schedule.endtimes.notice.hint"))
-            .alert("schedule.endtimes.notice", isPresented: $isShowingEndTimeInformation) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text("schedule.endtimes.warning")
-            }
+        )
+        .alert("schedule.endtimes.notice", isPresented: $isShowingEndTimeInformation) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("schedule.endtimes.warning")
         }
     }
 
@@ -182,25 +166,6 @@ struct ScheduleTimelineView: View {
         // Füge das erste Datum nach dem Enddatum hinzu
         dates.append(currentDate)
         return dates
-    }
-}
-
-private struct ScheduleWarningStyle: ViewModifier {
-    @ViewBuilder
-    func body(content: Content) -> some View {
-        if #available(iOS 26.0, *) {
-            content
-                .glassEffect(.regular, in: .capsule)
-        } else {
-            content
-                .background(.regularMaterial, in: Capsule())
-        }
-    }
-}
-
-private extension View {
-    func scheduleWarningStyle() -> some View {
-        modifier(ScheduleWarningStyle())
     }
 }
 

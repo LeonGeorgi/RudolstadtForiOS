@@ -32,6 +32,7 @@ struct ScheduleTimelineContentView: View {
     let timeIntervals: [Date]
     let stages: [(Stage, [EventOrGap])]
     let estimatedEventDurations: [Int: Int]?
+    let onShowEndTimeInformation: () -> Void
 
     private let timeWidth: CGFloat = CGFloat(55)
     private let stageHeaderHeight: CGFloat = 60
@@ -83,6 +84,14 @@ struct ScheduleTimelineContentView: View {
                             columnSpacing: columnSpacing,
                             heightPerHour: heightPerHour
                         )
+                        .background(alignment: .topLeading) {
+                            ScheduleTimelineGrid(
+                                timeIntervals: timeIntervals,
+                                topPadding: stageHeaderHeight
+                                    + firstEventPadding,
+                                heightPerHour: heightPerHour
+                            )
+                        }
                         .overlay(alignment: .topLeading) {
                             ScheduleTimelineTimeColumn(
                                 timeIntervals: timeIntervals,
@@ -98,21 +107,29 @@ struct ScheduleTimelineContentView: View {
                             )
                             .allowsHitTesting(false)
                         }
+                        .overlay(alignment: .topLeading) {
+                            if let position = currentTimeIndicatorPosition() {
+                                ScheduleTimelineCurrentTimeLine(
+                                    currentTime: currentTime,
+                                    scrollState: scrollState,
+                                    width: geo.size.width,
+                                    timeWidth: timeWidth,
+                                    heightPerHour: heightPerHour,
+                                    verticalPosition: position
+                                )
+                            }
+                        }
+                        .overlay(alignment: .topLeading) {
+                            ScheduleTimelineStageHeaders(
+                                stages: stages,
+                                scrollState: scrollState,
+                                columnWidth: columnWidth,
+                                timeWidth: timeWidth,
+                                stageHeaderHeight: stageHeaderHeight,
+                                columnSpacing: columnSpacing
+                            )
+                        }
                     }
-
-                    Spacer()
-                        .frame(height: stageHeaderHeight)
-                        .background(Color(.systemBackground))
-                        .allowsHitTesting(false)
-                        .zIndex(4)
-
-                    ScheduleTimelineGrid(
-                        timeIntervals: timeIntervals,
-                        scrollState: scrollState,
-                        topPadding: stageHeaderHeight + firstEventPadding,
-                        heightPerHour: heightPerHour
-                    )
-                    .zIndex(-0.5)
 
                     ScheduleTimelineStageSeparators(
                         stageCount: stages.count,
@@ -145,27 +162,20 @@ struct ScheduleTimelineContentView: View {
                     .allowsHitTesting(false)
                     .zIndex(6)
 
-                    ScheduleTimelineStageHeaders(
-                        stages: stages,
-                        scrollState: scrollState,
-                        columnWidth: columnWidth,
-                        timeWidth: timeWidth,
-                        stageHeaderHeight: stageHeaderHeight,
-                        columnSpacing: columnSpacing
-                    )
-                    .zIndex(5)
-
-                    if let position = currentTimeIndicatorPosition() {
-                        ScheduleTimelineCurrentTimeLine(
-                            currentTime: currentTime,
-                            width: geo.size.width,
-                            timeWidth: timeWidth,
-                            heightPerHour: heightPerHour,
-                            verticalPosition: position
-                        )
-                        .zIndex(3)
+                    Button(action: onShowEndTimeInformation) {
+                        Image(systemName: "info.circle")
+                            .font(.body)
+                            .frame(width: 44, height: 44)
                     }
-
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.tint)
+                    .frame(
+                        width: timeColumnBoundaryWidth,
+                        height: stageHeaderHeight
+                    )
+                    .accessibilityLabel(Text("schedule.endtimes.notice"))
+                    .accessibilityHint(Text("schedule.endtimes.notice.hint"))
+                    .zIndex(7)
 
                 }
             }
@@ -182,7 +192,7 @@ struct ScheduleTimelineContentView: View {
     private func currentTimeIndicatorPosition() -> CGFloat? {
         let timelineTop = stageHeaderHeight + firstEventPadding
         return currentTimeLinePosition().map {
-            $0 + timelineTop + scrollState.verticalOffset
+            $0 + timelineTop
         }
     }
 
@@ -312,6 +322,7 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
             content
                 .disabled(zoomGestureSession != nil)
         }
+        .scheduleTimelineTopScrollEdgeHidden()
         .scrollPosition($scrollPosition)
         .onScrollGeometryChange(
             for: ScheduleTimelineScrollMetrics.self
@@ -486,6 +497,19 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
 }
 
 #if os(iOS)
+private extension View {
+    @ViewBuilder
+    func scheduleTimelineTopScrollEdgeHidden() -> some View {
+        if #available(iOS 26.0, *) {
+            scrollEdgeEffectHidden(true, for: .top)
+        } else {
+            self
+        }
+    }
+}
+#endif
+
+#if os(iOS)
 private struct ScheduleTimelineZoomGestureSession {
     let zoomSession: ScheduleTimelineZoomSession
     let initialTouchGeometry: ScheduleTimelineZoomTouchGeometry
@@ -648,11 +672,6 @@ private struct ScheduleTimelineTimeColumn: View {
 
 private struct ScheduleTimelineGrid: View {
     let timeIntervals: [Date]
-    #if os(iOS)
-    let scrollState: ScheduleTimelineScrollState
-    #else
-    @ObservedObject var scrollState: ScheduleTimelineScrollState
-    #endif
     let topPadding: CGFloat
     let heightPerHour: CGFloat
 
@@ -667,7 +686,6 @@ private struct ScheduleTimelineGrid: View {
             }
         }
         .padding(.top, topPadding)
-        .offset(y: scrollState.verticalOffset)
     }
 }
 
@@ -685,13 +703,15 @@ private struct ScheduleTimelineStageHeaders: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScheduleTimelineStageSeparators(
+            Color(.systemBackground)
+
+            ScheduleTimelineStageSeparatorGrid(
                 stageCount: stages.count,
-                scrollState: scrollState,
                 columnWidth: columnWidth,
                 timeWidth: timeWidth,
                 topPadding: 0,
-                columnSpacing: columnSpacing
+                columnSpacing: columnSpacing,
+                horizontalOffset: 0
             )
             .allowsHitTesting(false)
 
@@ -724,9 +744,10 @@ private struct ScheduleTimelineStageHeaders: View {
 
                 Spacer()
             }
-            .offset(x: scrollState.horizontalOffset)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .frame(height: stageHeaderHeight)
+        .offset(y: -scrollState.verticalOffset)
     }
 
     private func stageHeader(_ stage: Stage) -> some View {
@@ -786,6 +807,26 @@ private struct ScheduleTimelineStageSeparators: View {
     let columnSpacing: CGFloat
 
     var body: some View {
+        ScheduleTimelineStageSeparatorGrid(
+            stageCount: stageCount,
+            columnWidth: columnWidth,
+            timeWidth: timeWidth,
+            topPadding: topPadding,
+            columnSpacing: columnSpacing,
+            horizontalOffset: scrollState.horizontalOffset
+        )
+    }
+}
+
+private struct ScheduleTimelineStageSeparatorGrid: View {
+    let stageCount: Int
+    let columnWidth: CGFloat
+    let timeWidth: CGFloat
+    let topPadding: CGFloat
+    let columnSpacing: CGFloat
+    let horizontalOffset: CGFloat
+
+    var body: some View {
         GeometryReader { geometry in
             let separatorHeight = max(
                 geometry.size.height - topPadding,
@@ -800,7 +841,7 @@ private struct ScheduleTimelineStageSeparators: View {
                             + columnSpacing / 2
                             + CGFloat(boundaryIndex)
                                 * (columnWidth + columnSpacing)
-                            + scrollState.horizontalOffset,
+                            + horizontalOffset,
                         y: topPadding + separatorHeight / 2
                     )
             }
@@ -862,6 +903,11 @@ private struct ScheduleTimelineTimeColumnSeparator: View {
 
 private struct ScheduleTimelineCurrentTimeLine: View {
     let currentTime: Date
+    #if os(iOS)
+    let scrollState: ScheduleTimelineScrollState
+    #else
+    @ObservedObject var scrollState: ScheduleTimelineScrollState
+    #endif
     let width: CGFloat
     let timeWidth: CGFloat
     let heightPerHour: CGFloat
@@ -897,6 +943,7 @@ private struct ScheduleTimelineCurrentTimeLine: View {
                 )
         }
         .frame(height: heightPerHour * 0.5)
+        .offset(x: -scrollState.horizontalOffset)
         .offset(y: verticalPosition)
         .allowsHitTesting(false)
     }
@@ -1054,7 +1101,8 @@ struct ScheduleTimelineContentView_Previews: PreviewProvider {
                     events: events,
                     estimatedEventDurations: estimatedEventDurations
                 ),
-                estimatedEventDurations: estimatedEventDurations
+                estimatedEventDurations: estimatedEventDurations,
+                onShowEndTimeInformation: {}
             )
             .navigationDestination(for: AppNavigationRoute.self) { _ in
                 EmptyView()
