@@ -40,24 +40,40 @@
 
 ## Issue tracking
 
-This project uses **ticket (`tk`)** for tracking tasks, follow-up work, and dependencies. Tickets are stored as Markdown files in `.tickets/`.
+This project uses **GitHub Issues** in `LeonGeorgi/RudolstadtForiOS` for tasks,
+follow-up work, planning, and dependencies. Use the connected GitHub integration
+when available and `gh` as the command-line fallback.
 
-- `tk ready` — find unblocked work
-- `tk create "Title" --type task --priority 2` — create a task
-- `tk start <id>` — mark work as in progress
-- `tk add-note <id> "Note"` — record progress or context
-- `tk close <id>` — mark work as complete
-- `tk dep <id> <dependency-id>` — record a dependency
+- `gh issue list --repo LeonGeorgi/RudolstadtForiOS --state open` — list open work
+- `gh issue view <number> --repo LeonGeorgi/RudolstadtForiOS` — inspect an issue
+- `gh issue create --repo LeonGeorgi/RudolstadtForiOS ...` — create an issue
+- `gh issue edit <number> --add-label status:in-progress` — mark work in progress
+- `gh issue comment <number> --body "Note"` — record progress or context
+- `gh issue close <number> --reason completed` — mark work complete
+- `gh issue edit <number> --add-blocked-by <number>` — record a dependency
+- `gh issue edit <number> --parent <number>` — assign a parent issue
 
-Use `tk` instead of Beads or ad hoc task lists in other repository files. Run `tk --help` for the full and up-to-date command reference.
+Use native GitHub sub-issues for hierarchy and `blocked by` relationships for
+dependencies. Use `priority:P0` through `priority:P4` labels, where P0 is highest,
+and `type:bug`, `type:feature`, `type:task`, or `type:epic` labels for issue type.
+Use additional topic labels as needed. Do not create a parallel local tracker or
+ad hoc task list in repository files.
 
 ### User approval gate
 
-- Every ticket created by an agent or LLM must initially have the `needs-approval` tag, for example: `tk create "Title" --type task --priority 2 --tags needs-approval`.
-- Only the user may approve a ticket. Approval is represented by removing `needs-approval` and adding the `approved` tag.
-- Agents must not start, implement, or otherwise work on a ticket unless it has the `approved` tag.
-- Before starting ticket work, inspect the ticket with `tk show <id>` and verify that `approved` is present. If approval is missing, stop and ask the user for approval.
-- The user explicitly requesting implementation of a specific ticket counts as approval; update its tags to `approved` before starting work.
+- Every GitHub issue created by an agent or LLM must initially have the
+  `needs-approval` label, together with appropriate type and priority labels.
+- Only the user may approve an issue. Approval is represented by removing
+  `needs-approval` and adding the `approved` label.
+- Agents must not start, implement, or otherwise work on an issue unless it has
+  the `approved` label and has no unresolved `blocked by` relationship.
+- Before starting issue work, inspect the GitHub issue and verify that `approved`
+  is present. If approval is missing, stop and ask the user for approval.
+- The user explicitly requesting implementation of a specific issue counts as
+  approval; update its labels to `approved` before starting work.
+- When work starts, add `status:in-progress`. Record material progress as issue
+  comments. When the work is complete, remove `status:in-progress` and close the
+  issue as completed.
 
 ## Simulator screenshots of specific screens
 
