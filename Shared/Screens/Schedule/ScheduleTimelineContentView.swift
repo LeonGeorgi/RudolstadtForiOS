@@ -92,6 +92,17 @@ struct ScheduleTimelineContentView: View {
                                 heightPerHour: heightPerHour
                             )
                         }
+                        .background(alignment: .topLeading) {
+                            ScheduleTimelineStageSeparatorGrid(
+                                stageCount: stages.count,
+                                columnWidth: columnWidth,
+                                timeWidth: timeWidth,
+                                topPadding: stageHeaderHeight
+                                    + firstEventPadding,
+                                columnSpacing: columnSpacing,
+                                horizontalOffset: 0
+                            )
+                        }
                         .overlay(alignment: .topLeading) {
                             ScheduleTimelineTimeColumn(
                                 timeIntervals: timeIntervals,
@@ -105,6 +116,14 @@ struct ScheduleTimelineContentView: View {
                                     ? nil
                                     : currentTime
                             )
+                            .allowsHitTesting(false)
+                        }
+                        .overlay(alignment: .topLeading) {
+                            ScheduleTimelineTimeColumnSeparator(
+                                timeWidth: timeWidth,
+                                columnSpacing: columnSpacing
+                            )
+                            .offset(x: -scrollState.horizontalOffset)
                             .allowsHitTesting(false)
                         }
                         .overlay(alignment: .topLeading) {
@@ -131,17 +150,6 @@ struct ScheduleTimelineContentView: View {
                         }
                     }
 
-                    ScheduleTimelineStageSeparators(
-                        stageCount: stages.count,
-                        scrollState: scrollState,
-                        columnWidth: columnWidth,
-                        timeWidth: timeWidth,
-                        topPadding: stageHeaderHeight + firstEventPadding,
-                        columnSpacing: columnSpacing
-                    )
-                    .allowsHitTesting(false)
-                    .zIndex(-1)
-
                     ScheduleTimelineStageHeaderBaseline(
                         topPadding: stageHeaderHeight + firstEventPadding
                     )
@@ -159,6 +167,7 @@ struct ScheduleTimelineContentView: View {
                         timeWidth: timeWidth,
                         columnSpacing: columnSpacing
                     )
+                    .frame(height: stageHeaderHeight + firstEventPadding)
                     .allowsHitTesting(false)
                     .zIndex(6)
 
@@ -621,8 +630,9 @@ private struct ScheduleTimelineTimeColumn: View {
 
     var body: some View {
         content(obscuredTime: currentTime)
-        .frame(width: width)
-        .offset(x: -scrollState.horizontalOffset)
+            .frame(width: width)
+            .frame(maxHeight: .infinity, alignment: .top)
+            .offset(x: -scrollState.horizontalOffset)
     }
 
     private func content(obscuredTime: Date?) -> some View {
@@ -790,30 +800,6 @@ private struct ScheduleTimelineStageNumber: View {
         .background(
             StageNumber.baseColor(for: stage.stageType),
             in: Circle()
-        )
-    }
-}
-
-private struct ScheduleTimelineStageSeparators: View {
-    let stageCount: Int
-    #if os(iOS)
-    let scrollState: ScheduleTimelineScrollState
-    #else
-    @ObservedObject var scrollState: ScheduleTimelineScrollState
-    #endif
-    let columnWidth: CGFloat
-    let timeWidth: CGFloat
-    let topPadding: CGFloat
-    let columnSpacing: CGFloat
-
-    var body: some View {
-        ScheduleTimelineStageSeparatorGrid(
-            stageCount: stageCount,
-            columnWidth: columnWidth,
-            timeWidth: timeWidth,
-            topPadding: topPadding,
-            columnSpacing: columnSpacing,
-            horizontalOffset: scrollState.horizontalOffset
         )
     }
 }
