@@ -11,12 +11,12 @@ struct ScheduleTimelineContentView: View {
     @State private var currentTime: Date = Date()
     @State private var currentTimeUpdateTask: Task<Void, Never>?
     @State private var heightPerHour = ScheduleTimelineZoom.defaultHeightPerHour
+    @State private var columnWidth = ScheduleTimelineZoom.defaultColumnWidth
 
     let timeIntervals: [Date]
     let stages: [(Stage, [EventOrGap])]
     let estimatedEventDurations: [Int: Int]?
 
-    private let columnWidth: CGFloat = CGFloat(70)
     private let timeWidth: CGFloat = CGFloat(55)
     private let stageNameHeight: CGFloat = CGFloat(40)
     private let firstEventPadding: CGFloat = CGFloat(0)
@@ -44,9 +44,15 @@ struct ScheduleTimelineContentView: View {
                     ScheduleTimelineScrollView(
                         scrollState: scrollState,
                         heightPerHour: $heightPerHour,
+                        columnWidth: $columnWidth,
                         timelineFixedTop: stageNameHeight
                             + firstEventPadding
-                            + 25
+                            + 25,
+                        horizontalLayout: ScheduleTimelineHorizontalLayout(
+                            stageCount: stages.count,
+                            timeWidth: timeWidth,
+                            columnSpacing: columnSpacing
+                        )
                     ) {
                         ScheduleTimelineEventCanvas(
                             stages: stages,
@@ -237,7 +243,9 @@ private final class ScheduleTimelineScrollState: ObservableObject {
 private struct ScheduleTimelineScrollView<Content: View>: View {
     let scrollState: ScheduleTimelineScrollState
     @Binding var heightPerHour: CGFloat
+    @Binding var columnWidth: CGFloat
     let timelineFixedTop: CGFloat
+    let horizontalLayout: ScheduleTimelineHorizontalLayout
     let content: Content
 
     #if os(iOS)
@@ -249,12 +257,16 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
     init(
         scrollState: ScheduleTimelineScrollState,
         heightPerHour: Binding<CGFloat>,
+        columnWidth: Binding<CGFloat>,
         timelineFixedTop: CGFloat,
+        horizontalLayout: ScheduleTimelineHorizontalLayout,
         @ViewBuilder content: () -> Content
     ) {
         self.scrollState = scrollState
         self._heightPerHour = heightPerHour
+        self._columnWidth = columnWidth
         self.timelineFixedTop = timelineFixedTop
+        self.horizontalLayout = horizontalLayout
         self.content = content()
     }
 
@@ -331,30 +343,27 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
         }
 
         let touchPoints = activeTouches.map(\.location)
-        let centroid = CGPoint(
-            x: (touchPoints[0].x + touchPoints[1].x) / 2,
-            y: (touchPoints[0].y + touchPoints[1].y) / 2
-        )
-        let distance = hypot(
-            touchPoints[1].x - touchPoints[0].x,
-            touchPoints[1].y - touchPoints[0].y
-        )
-        guard distance > 0 else { return }
+        guard let touchGeometry = ScheduleTimelineZoomTouchGeometry(
+            firstTouch: touchPoints[0],
+            secondTouch: touchPoints[1]
+        ) else { return }
 
         let gestureSession = zoomGestureSession
             ?? ScheduleTimelineZoomGestureSession(
                 zoomSession: makeZoomSession(
-                    anchorViewportPoint: centroid
+                    anchorViewportPoint: touchGeometry.centroid
                 ),
-                initialTouchDistance: distance
+                initialTouchGeometry: touchGeometry
             )
         zoomGestureSession = gestureSession
-        let magnification = distance / gestureSession.initialTouchDistance
+        let magnification = touchGeometry.magnification(
+            relativeTo: gestureSession.initialTouchGeometry
+        )
 
         zoomFrameScheduler.submit {
             applyZoom(
                 magnification: magnification,
-                centroid: centroid,
+                centroid: touchGeometry.centroid,
                 session: gestureSession.zoomSession
             )
         }
@@ -369,7 +378,7 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
     }
 
     private func applyZoom(
-        magnification: CGFloat,
+        magnification: ScheduleTimelineZoomMagnification,
         centroid: CGPoint,
         session: ScheduleTimelineZoomSession
     ) {
@@ -379,6 +388,7 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
         )
         let current = ScheduleTimelineZoomUpdate(
             heightPerHour: heightPerHour,
+            columnWidth: columnWidth,
             contentOffset: scrollState.contentOffset
         )
         guard zoomFrameScheduler.shouldApply(
@@ -392,6 +402,7 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
         transaction.scrollContentOffsetAdjustmentBehavior = .disabled
         withTransaction(transaction) {
             heightPerHour = update.heightPerHour
+            columnWidth = update.columnWidth
             scrollPosition.scrollTo(point: update.contentOffset)
         }
     }
@@ -426,11 +437,13 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
 
         return ScheduleTimelineZoomSession(
             baseHeightPerHour: heightPerHour,
+            baseColumnWidth: columnWidth,
             contentOffset: contentOffset,
             contentSize: contentSize,
             containerSize: containerSize,
             anchorViewportPoint: clampedAnchorPoint,
-            timelineFixedTop: timelineFixedTop
+            timelineFixedTop: timelineFixedTop,
+            horizontalLayout: horizontalLayout
         )
     }
     #endif
@@ -439,7 +452,7 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
 #if os(iOS)
 private struct ScheduleTimelineZoomGestureSession {
     let zoomSession: ScheduleTimelineZoomSession
-    let initialTouchDistance: CGFloat
+    let initialTouchGeometry: ScheduleTimelineZoomTouchGeometry
 }
 
 private struct ScheduleTimelineScrollMetrics: Equatable {
