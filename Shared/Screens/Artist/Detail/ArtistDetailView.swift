@@ -115,6 +115,13 @@ struct ArtistDetailView: View {
                     : Layout.edgeToEdgeIntroTopSpacing
             )
 
+            if let artistNote, !artistNote.isEmpty {
+                ArtistNoteBlock(note: artistNote) {
+                    presentNoteEditor()
+                }
+                .padding(.top, primarySectionSpacing)
+            }
+
             ArtistDetailLinksView(
                 artist: artist,
                 topPadding: primarySectionSpacing,
@@ -141,13 +148,6 @@ struct ArtistDetailView: View {
                     videoID: videoID,
                     videoURL: videoURL
                 )
-                .padding(.top, primarySectionSpacing)
-            }
-
-            if let artistNote, !artistNote.isEmpty {
-                ArtistNoteBlock(note: artistNote) {
-                    presentNoteEditor()
-                }
                 .padding(.top, primarySectionSpacing)
             }
         }
