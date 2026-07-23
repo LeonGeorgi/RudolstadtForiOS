@@ -462,7 +462,7 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "tip.artist.rating.title" = "Künstler hier bewerten";
 "tip.artist.rating.message" = "Deine Bewertungen helfen bei Favoriten und Empfehlungen.";
 "tip.artist.notes.title" = "Notiz zu diesem Künstler";
-"tip.artist.notes.message" = "Mit diesem Button speicherst du deine eigene Notiz zu diesem Künstler.";
+"tip.artist.notes.message" = "Tippe auf den kleinen Notizzettel, um deine eigene Notiz zu diesem Künstler zu speichern.";
 "tip.news.read_state.title" = "Zum Markieren wischen";
 "tip.news.read_state.message" = "Wische eine Nachricht, um ihren Gelesen-Status schnell zu ändern.";
 "tip.stage.map_preview.title" = "Große Bühnenkarte öffnen";

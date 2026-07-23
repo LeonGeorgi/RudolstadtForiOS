@@ -2,8 +2,12 @@ import SwiftUI
 
 struct ArtistDetailIntroView: View {
     let artist: Artist
+    let note: String?
+    let currentTipID: String?
     let topPadding: CGFloat
+    let onEditNote: () -> Void
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.locale) private var locale
     @EnvironmentObject private var settings: UserSettings
 
@@ -33,24 +37,58 @@ struct ArtistDetailIntroView: View {
     }
 
     var body: some View {
-        if countryDescription != nil || localizedSummary != nil {
-            VStack(alignment: .leading, spacing: 6) {
-                if let countryDescription {
-                    Text(countryDescription)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 12) {
+                    introText
 
-                if let localizedSummary {
-                    Text(localizedSummary)
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(.primary)
-                        .fixedSize(horizontal: false, vertical: true)
+                    noteBlock
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+            } else {
+                HStack(alignment: .top, spacing: 12) {
+                    introText
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .layoutPriority(1)
+
+                    noteBlock
+                        .padding(.top, noteTopPadding)
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, topPadding)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.top, topPadding)
+    }
+
+    @ViewBuilder
+    private var introText: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if let countryDescription {
+                Text(countryDescription)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+
+            if let localizedSummary {
+                Text(localizedSummary)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
+    private var noteBlock: some View {
+        ArtistNoteBlock(note: note, onEdit: onEditNote)
+            .appPopoverTip(
+                DiscoverabilityTips.artistNotes,
+                currentTipID: currentTipID,
+                arrowEdge: .top
+            )
+    }
+
+    private var noteTopPadding: CGFloat {
+        countryDescription != nil && localizedSummary != nil ? 26 : 0
     }
 }
 
@@ -60,7 +98,10 @@ struct ArtistDetailIntroView_Previews: PreviewProvider {
     static var previews: some View {
         ArtistDetailIntroView(
             artist: PreviewMockData.featuredArtist,
-            topPadding: 20
+            note: "Don't miss the early set.",
+            currentTipID: nil,
+            topPadding: 20,
+            onEditNote: {}
         )
             .padding()
             .previewMockEnvironment(suiteName: "ArtistDetailIntroViewPreview")

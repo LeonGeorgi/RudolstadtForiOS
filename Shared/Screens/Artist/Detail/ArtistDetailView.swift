@@ -86,7 +86,26 @@ struct ArtistDetailView: View {
 
     private func presentNoteEditor() {
         noteDraft = ArtistNoteDraft(noteText: artistNote)
+        isEditAlertShown = false
         isShowingNoteEditView = true
+    }
+
+    private func requestNoteEditorDismissal() {
+        if noteDraft.hasChanges {
+            isEditAlertShown = true
+        } else {
+            isShowingNoteEditView = false
+        }
+    }
+
+    private func saveNote() {
+        profile.setArtistNote(for: artist, note: noteDraft.text)
+        isShowingNoteEditView = false
+    }
+
+    private func discardNoteChanges() {
+        isEditAlertShown = false
+        isShowingNoteEditView = false
     }
 
     private var artistTheme: ArtistDetailTheme {
@@ -110,17 +129,15 @@ struct ArtistDetailView: View {
 
             ArtistDetailIntroView(
                 artist: artist,
+                note: artistNote,
+                currentTipID: tipSequencer.currentTipID,
                 topPadding: showsInlineIdentity
                     ? primarySectionSpacing
-                    : Layout.edgeToEdgeIntroTopSpacing
-            )
-
-            if let artistNote, !artistNote.isEmpty {
-                ArtistNoteBlock(note: artistNote) {
+                    : Layout.edgeToEdgeIntroTopSpacing,
+                onEditNote: {
                     presentNoteEditor()
                 }
-                .padding(.top, primarySectionSpacing)
-            }
+            )
 
             ArtistDetailLinksView(
                 artist: artist,
@@ -260,69 +277,44 @@ struct ArtistDetailView: View {
                 for: .navigationBar
             )
             .toolbarColorScheme(nil, for: .navigationBar)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: presentNoteEditor) {
-                        Label(
-                            "artist.edit-note.button",
-                            systemImage: "square.and.pencil"
+            .fullScreenCover(isPresented: $isShowingNoteEditView) {
+                ZStack {
+                    Color.black
+                        .opacity(
+                            systemColorScheme == .dark ? 0.50 : 0.36
                         )
-                        .labelStyle(.iconOnly)
-                    }
-                    .appPopoverTip(
-                        DiscoverabilityTips.artistNotes,
-                        currentTipID: tipSequencer.currentTipID,
-                        arrowEdge: .top
+                        .ignoresSafeArea()
+
+                    ArtistNoteEditorView(
+                        noteText: $noteDraft.text,
+                        onCancel: requestNoteEditorDismissal,
+                        onSave: saveNote
                     )
-                }
-            }
-            .sheet(isPresented: $isShowingNoteEditView) {
-                NavigationStack {
-                    ArtistNoteEditorView(noteText: $noteDraft.text)
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle("artist.edit-note.headline")
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button(role: .cancel) {
-                                if noteDraft.hasChanges {
-                                    isEditAlertShown = true
-                                } else {
-                                    isShowingNoteEditView = false
-                                }
-                            } label: {
-                                Image(systemName: "xmark")
-                            }
-                            .accessibilityLabel(Text("artist.note.cancel"))
-                        }
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button(role: confirmationButtonRole) {
-                                profile.setArtistNote(for: artist, note: noteDraft.text)
-                                isShowingNoteEditView = false
-                            } label: {
-                                Image(systemName: "checkmark")
-                            }
-                            .accessibilityLabel(Text("artist.note.save"))
-                        }
-                    }
                     .alert(isPresented: $isEditAlertShown) {
                         Alert(
-                            title: Text("artist.note.cancel.alert.title"),
-                            message: Text("artist.note.cancel.alert.message"),
+                            title: Text(
+                                "artist.note.cancel.alert.title"
+                            ),
+                            message: Text(
+                                "artist.note.cancel.alert.message"
+                            ),
                             primaryButton: .destructive(
-                                Text("artist.note.cancel.alert.yes")
-                            ) {
-                                isEditAlertShown = false
-                                isShowingNoteEditView = false
-                            },
+                                Text(
+                                    "artist.note.cancel.alert.yes"
+                                ),
+                                action: discardNoteChanges
+                            ),
                             secondaryButton: .cancel(
-                                Text("artist.note.cancel.alert.no")
+                                Text(
+                                    "artist.note.cancel.alert.no"
+                                )
                             ) {
                                 isEditAlertShown = false
                             }
                         )
                     }
                 }
-                .interactiveDismissDisabled()
+                .presentationBackground(.clear)
             }
             .sheet(item: $presentedBrowserURL) { destination in
                 InAppSafariView(url: destination.url)
@@ -381,54 +373,103 @@ private var confirmationButtonRole: ButtonRole? {
 
 private struct ArtistNoteEditorView: View {
     @Binding var noteText: String
+    let onCancel: () -> Void
+    let onSave: () -> Void
 
-    @Environment(\.colorScheme) private var colorScheme
+    @FocusState private var isEditorFocused: Bool
 
-    private var editorStrokeColor: Color {
-        colorScheme == .dark ? .white.opacity(0.18) : .black.opacity(0.10)
-    }
-
-    private var editorShadowColor: Color {
-        colorScheme == .dark ? .black.opacity(0.18) : .black.opacity(0.06)
-    }
+    private let foldSize: CGFloat = 34
+    private let maximumEditorWidth: CGFloat = 680
 
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(.regularMaterial)
-                .ignoresSafeArea()
-
-            VStack(spacing: 0) {
-                ZStack(alignment: .topLeading) {
-                    TextEditor(text: $noteText)
-                        .font(.body)
-                        .scrollContentBackground(.hidden)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 8)
-                        .frame(minHeight: 260, alignment: .topLeading)
-
-                    if noteText.isEmpty {
-                        Text("artist.note.placeholder")
-                            .font(.body)
-                            .foregroundStyle(.secondary)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 16)
-                            .allowsHitTesting(false)
-                    }
-                }
-                .background(.background, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .stroke(editorStrokeColor, lineWidth: 0.5)
+        VStack(spacing: 0) {
+            HStack(spacing: 8) {
+                editorButton(
+                    systemImage: "xmark",
+                    accessibilityLabel: "artist.note.cancel",
+                    role: .cancel,
+                    action: onCancel
                 )
-                .shadow(color: editorShadowColor, radius: 10, x: 0, y: 4)
 
-                Spacer(minLength: 0)
+                Text("artist.edit-note.headline")
+                    .font(.headline)
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity)
+
+                editorButton(
+                    systemImage: "checkmark",
+                    accessibilityLabel: "artist.note.save",
+                    role: confirmationButtonRole,
+                    action: saveEditing
+                )
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 18)
-            .padding(.bottom, 24)
+            .padding(.horizontal, 8)
+            .padding(.top, 8)
+
+            ZStack(alignment: .topLeading) {
+                TextEditor(text: $noteText)
+                    .font(
+                        .custom(
+                            "Noteworthy-Light",
+                            size: 20,
+                            relativeTo: .body
+                        )
+                    )
+                    .scrollContentBackground(.hidden)
+                    .focused($isEditorFocused)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 8)
+                    .padding(.bottom, foldSize * 0.6)
+
+                if noteText.isEmpty {
+                    Text("artist.note.placeholder")
+                        .font(
+                            .custom(
+                                "Noteworthy-Light",
+                                size: 20,
+                                relativeTo: .body
+                            )
+                        )
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 16)
+                        .allowsHitTesting(false)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .frame(maxWidth: maximumEditorWidth, maxHeight: .infinity)
+        .background {
+            ArtistNotePaperBackground(foldSize: foldSize)
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 12)
+        .padding(.bottom, 16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .task {
+            isEditorFocused = true
+        }
+    }
+
+    private func editorButton(
+        systemImage: String,
+        accessibilityLabel: LocalizedStringKey,
+        role: ButtonRole?,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(role: role, action: action) {
+            Image(systemName: systemImage)
+                .font(.body.weight(.semibold))
+                .frame(width: 44, height: 44)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text(accessibilityLabel))
+    }
+
+    private func saveEditing() {
+        isEditorFocused = false
+        onSave()
     }
 }
 

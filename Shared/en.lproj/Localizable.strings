@@ -463,7 +463,7 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "tip.artist.rating.title" = "Rate artists here";
 "tip.artist.rating.message" = "Your ratings help you build favorites and recommendations.";
 "tip.artist.notes.title" = "Keep a note for this artist";
-"tip.artist.notes.message" = "Use this button to save your own note about this artist.";
+"tip.artist.notes.message" = "Tap the small note to save your own note about this artist.";
 "tip.news.read_state.title" = "Swipe to mark read or unread";
 "tip.news.read_state.message" = "Swipe a news item to quickly toggle its read state.";
 "tip.stage.map_preview.title" = "Open the full stage map";
