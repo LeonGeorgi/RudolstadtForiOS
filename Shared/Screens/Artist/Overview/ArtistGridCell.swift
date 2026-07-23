@@ -20,31 +20,36 @@ struct ArtistGridCell: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ZStack(alignment: .bottomTrailing) {
-                Color.secondary.opacity(0.08)
-
-                ArtistImageView(
-                    artist: artist,
-                    fullImage: true,
-                    loadingStyle: .quiet
-                )
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-                ratingBadge
-                    .padding(8)
-            }
-            .overlay(alignment: .topTrailing) {
-                if let friendRatingSummary {
-                    FriendArtistRatingsBubble(summary: friendRatingSummary)
+            Color.secondary.opacity(0.08)
+                .aspectRatio(8.0 / 7.0, contentMode: .fit)
+                .overlay {
+                    GeometryReader { proxy in
+                        ArtistImageView(
+                            artist: artist,
+                            fullImage: true,
+                            loadingStyle: .quiet
+                        )
+                        .frame(
+                            width: proxy.size.width,
+                            height: proxy.size.height
+                        )
+                    }
+                }
+                .overlay(alignment: .bottomTrailing) {
+                    ratingBadge
                         .padding(8)
                 }
-            }
-            .aspectRatio(8 / 7, contentMode: .fit)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-            .artistImageTransitionSource(
-                id: artist.id,
-                namespace: imageTransitionNamespace
-            )
+                .overlay(alignment: .topTrailing) {
+                    if let friendRatingSummary {
+                        FriendArtistRatingsBubble(summary: friendRatingSummary)
+                            .padding(8)
+                    }
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .artistImageTransitionSource(
+                    id: artist.id,
+                    namespace: imageTransitionNamespace
+                )
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(artist.formattedName)

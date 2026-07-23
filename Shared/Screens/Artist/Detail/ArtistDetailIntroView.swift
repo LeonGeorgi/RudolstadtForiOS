@@ -11,14 +11,6 @@ struct ArtistDetailIntroView: View {
     @Environment(\.locale) private var locale
     @EnvironmentObject private var settings: UserSettings
 
-    private var countryDescription: String? {
-        localizedArtistCountryDescription(
-            rawValue: artist.countries,
-            countryCodes: artist.countryCodes,
-            locale: locale
-        )
-    }
-
     private var localizedSummary: String? {
         guard settings.aiSummaryEnabled else {
             return nil
@@ -52,7 +44,6 @@ struct ArtistDetailIntroView: View {
                         .layoutPriority(1)
 
                     noteBlock
-                        .padding(.top, noteTopPadding)
                 }
             }
         }
@@ -62,19 +53,11 @@ struct ArtistDetailIntroView: View {
 
     @ViewBuilder
     private var introText: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            if let countryDescription {
-                Text(countryDescription)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-
-            if let localizedSummary {
-                Text(localizedSummary)
-                    .font(.title3.weight(.semibold))
-                    .foregroundStyle(.primary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+        if let localizedSummary {
+            Text(localizedSummary)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(.primary)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -87,9 +70,6 @@ struct ArtistDetailIntroView: View {
             )
     }
 
-    private var noteTopPadding: CGFloat {
-        countryDescription != nil && localizedSummary != nil ? 26 : 0
-    }
 }
 
 #if DEBUG

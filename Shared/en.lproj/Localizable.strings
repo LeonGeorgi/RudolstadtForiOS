@@ -74,6 +74,7 @@
 "event.saved.remove" = "Remove event from saved events";
 "event.saved.value.saved" = "Saved";
 "event.saved.value.not_saved" = "Not saved";
+"event.saved-by-friends" = "Saved by friends";
 "artist.rating.explanation.extra" = "🥱 - no interest
 🤔 - undecided
 🙂 - slight interest

@@ -9,6 +9,8 @@ struct ArtistDetailView: View {
         static let compactHorizontalMargin: CGFloat = 16
         static let regularHorizontalMargin: CGFloat = 24
         static let edgeToEdgeIntroTopSpacing: CGFloat = 12
+        static let identityFadeStartFraction: CGFloat = 0.25
+        static let identityFadeEndFraction: CGFloat = 0.70
     }
 
     private struct PresentedBrowserURL: Identifiable {
@@ -116,6 +118,15 @@ struct ArtistDetailView: View {
         dynamicTypeSize.isAccessibilitySize ? 24 : 20
     }
 
+    private var onCountrySelected: ((String) -> Void)? {
+        guard let navigate else {
+            return nil
+        }
+        return { countryCode in
+            navigate(.artistCountry(code: countryCode))
+        }
+    }
+
     private func primaryContent(showsInlineIdentity: Bool) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             ArtistDetailHeaderView(
@@ -124,7 +135,8 @@ struct ArtistDetailView: View {
                 currentTipID: tipSequencer.currentTipID,
                 onTitleVisibilityChange: { isVisible in
                     isArtistTitleVisible = isVisible
-                }
+                },
+                onCountrySelected: onCountrySelected
             )
 
             ArtistDetailIntroView(
@@ -152,7 +164,8 @@ struct ArtistDetailView: View {
                     artistEvents: artistEvents,
                     highlightedEventId: highlightedEventId,
                     currentTipID: tipSequencer.currentTipID,
-                    navigate: navigate
+                    navigate: navigate,
+                    horizontalHighlightBleed: horizontalContentMargin
                 )
                 .padding(.top, primarySectionSpacing)
             }
@@ -191,42 +204,78 @@ struct ArtistDetailView: View {
     }
 
     private var edgeToEdgeHero: some View {
-        ArtistDetailImageView(
-            artist: artist,
-            presentation: .edgeToEdgeParallax
-        )
-        .overlay {
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.68)],
-                startPoint: .center,
-                endPoint: .bottom
+        GeometryReader { proxy in
+            let scrollOffset = max(
+                -proxy.frame(in: .scrollView(axis: .vertical)).minY,
+                0
             )
-            .accessibilityHidden(true)
-            .allowsHitTesting(false)
-        }
-        .overlay(alignment: .bottomLeading) {
-            HStack(alignment: .bottom, spacing: 12) {
-                Text(artist.formattedName)
-                    .font(.largeTitle.bold())
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(3)
+            let identityOpacity = edgeToEdgeIdentityOpacity(
+                scrollOffset: scrollOffset,
+                heroHeight: proxy.size.height
+            )
+
+            ArtistDetailImageView(
+                artist: artist,
+                presentation: .edgeToEdgeParallax
+            )
+            .overlay {
+                LinearGradient(
+                    colors: [.clear, .black.opacity(0.68)],
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+                .accessibilityHidden(true)
+                .allowsHitTesting(false)
+            }
+            .overlay(alignment: .bottomLeading) {
+                HStack(alignment: .bottom, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ArtistCountryTagsView(
+                            artist: artist,
+                            appearance: .overImage,
+                            onCountrySelected: onCountrySelected
+                        )
+
+                        Text(artist.formattedName)
+                            .font(.largeTitle.bold())
+                            .foregroundStyle(.white)
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(3)
+                            .accessibilityHeading(.h1)
+                            .onScrollVisibilityChange(
+                                threshold: 0.1
+                            ) { isVisible in
+                                isArtistTitleVisible = isVisible
+                            }
+                            .allowsHitTesting(false)
+                    }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .layoutPriority(1)
-                    .accessibilityHeading(.h1)
-                    .onScrollVisibilityChange(threshold: 0.1) { isVisible in
-                        isArtistTitleVisible = isVisible
-                    }
-                    .allowsHitTesting(false)
 
-                ArtistRatingPopoverButton(
-                    artist: artist,
-                    currentTipID: tipSequencer.currentTipID
-                )
+                    ArtistRatingPopoverButton(
+                        artist: artist,
+                        currentTipID: tipSequencer.currentTipID
+                    )
+                }
+                .padding(.horizontal, Layout.compactHorizontalMargin)
+                .padding(.bottom, 20)
+                .opacity(identityOpacity)
+                .allowsHitTesting(identityOpacity > 0.01)
+                .accessibilityHidden(identityOpacity <= 0.01)
             }
-            .padding(.horizontal, Layout.compactHorizontalMargin)
-            .padding(.bottom, 20)
         }
+        .aspectRatio(1, contentMode: .fit)
+    }
+
+    private func edgeToEdgeIdentityOpacity(
+        scrollOffset: CGFloat,
+        heroHeight: CGFloat
+    ) -> Double {
+        let fadeStart = heroHeight * Layout.identityFadeStartFraction
+        let fadeEnd = heroHeight * Layout.identityFadeEndFraction
+        let fadeProgress = (scrollOffset - fadeStart) / (fadeEnd - fadeStart)
+
+        return Double(1 - min(max(fadeProgress, 0), 1))
     }
 
     private var detailScrollView: some View {

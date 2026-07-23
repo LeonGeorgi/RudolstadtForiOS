@@ -6,11 +6,18 @@ struct StageMapView: UIViewRepresentable {
     let stage: Stage
     let isInteractive: Bool
     let recenterTrigger: Int
+    let verticalContentOffset: CGFloat
 
-    init(stage: Stage, isInteractive: Bool = false, recenterTrigger: Int = 0) {
+    init(
+        stage: Stage,
+        isInteractive: Bool = false,
+        recenterTrigger: Int = 0,
+        verticalContentOffset: CGFloat = 0
+    ) {
         self.stage = stage
         self.isInteractive = isInteractive
         self.recenterTrigger = recenterTrigger
+        self.verticalContentOffset = verticalContentOffset
     }
 
     func makeCoordinator() -> Coordinator {
@@ -42,7 +49,13 @@ struct StageMapView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        guard isInteractive else {
+        if !isInteractive {
+            guard context.coordinator.lastVerticalContentOffset != verticalContentOffset else {
+                return
+            }
+
+            context.coordinator.lastVerticalContentOffset = verticalContentOffset
+            uiView.setCenter(parallaxCenter(in: uiView), animated: false)
             return
         }
 
@@ -50,6 +63,20 @@ struct StageMapView: UIViewRepresentable {
             context.coordinator.lastRecenterTrigger = recenterTrigger
             uiView.setUserTrackingMode(.follow, animated: true)
         }
+    }
+
+    private func parallaxCenter(in mapView: MKMapView) -> CLLocationCoordinate2D {
+        guard mapView.bounds.height > 0 else {
+            return initialRegion.center
+        }
+
+        let latitudeOffset = initialRegion.span.latitudeDelta
+            * Double(verticalContentOffset / mapView.bounds.height)
+
+        return CLLocationCoordinate2D(
+            latitude: initialRegion.center.latitude + latitudeOffset,
+            longitude: initialRegion.center.longitude
+        )
     }
 
     private var initialRegion: MKCoordinateRegion {
@@ -122,6 +149,7 @@ extension StageMapView {
     final class Coordinator {
         let locationManager = CLLocationManager()
         var lastRecenterTrigger: Int = 0
+        var lastVerticalContentOffset: CGFloat = 0
     }
 }
 

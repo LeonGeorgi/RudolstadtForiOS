@@ -538,12 +538,16 @@ private struct PositiveArtistRatingPicker: View {
     private func ratingButton(for option: Int) -> some View {
         let isFilled = rating > 0 && rating >= option
         let isSelected = rating == option
+        let symbolName = isFilled
+            ? iconName
+            : ArtistRatingOptions.baseSymbolName(for: iconName)
 
         return Button {
             setRating(option)
         } label: {
-            Image(systemName: ArtistRatingOptions.baseSymbolName(for: iconName))
-                .symbolVariant(isFilled ? .fill : .none)
+            Image(systemName: symbolName)
+                .contentTransition(.symbolEffect(.replace))
+                .animation(.default, value: symbolName)
                 .font(.system(size: iconSize, weight: .semibold))
                 .foregroundStyle(isFilled ? Color.red : Color.secondary)
                 .frame(width: buttonSize, height: buttonSize)

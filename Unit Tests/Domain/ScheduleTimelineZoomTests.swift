@@ -244,3 +244,65 @@ struct ScheduleTimelineZoomTests {
         )
     }
 }
+
+struct ScheduleTimelineEventCellDetailLevelTests {
+    @Test
+    func cardDetailsGrowAcrossFiveSemanticZoomLevels() {
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 70, height: 70)
+                == .compact
+        )
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 54, height: 84)
+                == .time
+        )
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 64, height: 104)
+                == .origin
+        )
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 70, height: 148)
+                == .discovery
+        )
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 128, height: 168)
+                == .summary
+        )
+    }
+
+    @Test
+    func cardDetailsRequireBothHorizontalAndVerticalRoom() {
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 140, height: 83)
+                == .compact
+        )
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 53, height: 240)
+                == .compact
+        )
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 127, height: 240)
+                == .discovery
+        )
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 140, height: 167)
+                == .discovery
+        )
+    }
+
+    @Test
+    func tallNarrowCardsUseTheirVerticalRoomForDetails() {
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 72, height: 170)
+                == .discovery
+        )
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 66, height: 130)
+                == .origin
+        )
+        #expect(
+            ScheduleTimelineEventCellDetailLevel(width: 58, height: 100)
+                == .time
+        )
+    }
+}

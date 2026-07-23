@@ -74,6 +74,7 @@
 "event.saved.remove" = "Veranstaltung aus gespeicherten Veranstaltungen entfernen";
 "event.saved.value.saved" = "Gespeichert";
 "event.saved.value.not_saved" = "Nicht gespeichert";
+"event.saved-by-friends" = "Von Freunden gespeichert";
 "artist.rating.explanation.extra" = "🥱 - kein Interesse
 🤔 - unentschlossen
 🙂 - leichtes Interesse

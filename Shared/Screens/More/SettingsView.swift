@@ -56,6 +56,8 @@ struct SettingsView: View {
             }
             Toggle(isOn: useFlames) {
                 Label("settings.use_flames", systemImage: settings.likeIcon)
+                    .contentTransition(.symbolEffect(.replace))
+                    .animation(.default, value: settings.likeIcon)
             }
             if let url = URL(string: UIApplication.openSettingsURLString) {
                 Button {

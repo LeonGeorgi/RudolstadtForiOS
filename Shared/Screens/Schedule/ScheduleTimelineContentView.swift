@@ -547,6 +547,7 @@ private struct ScheduleTimelineScrollOffsetPreferenceKey: PreferenceKey {
 
 private struct ScheduleTimelineEventCanvas: View {
     @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var settings: UserSettings
 
     let stages: [(Stage, [EventOrGap])]
     let estimatedEventDurations: [Int: Int]?
@@ -597,11 +598,11 @@ private struct ScheduleTimelineEventCanvas: View {
                     width: columnWidth,
                     height: eventHeight - 2,
                     event: event,
-                    eventDurationMinutes: eventDuration,
-                    isSaved: profile.isEventSaved(event.id),
-                    artistRating: profile.rating(for: event.artist.id),
-                    artistIconName: profile.iconName(forArtistID: event.artist.id),
-                    friendProfilesWhoSavedEvent: profile.friendProfilesSavingEvent(event.id),
+                    contextPreviewState: EventContextPreviewState(
+                        event: event,
+                        profile: profile,
+                        settings: settings
+                    ),
                     onToggleSaved: { profile.toggleSavedEvent(event) }
                 )
                 .padding(.vertical, 1)

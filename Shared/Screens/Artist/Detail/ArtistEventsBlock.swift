@@ -10,12 +10,14 @@ struct ArtistEventsBlock: View {
     let highlightedEventId: Int?
     let currentTipID: String?
     let navigate: ((AppNavigationRoute) -> Void)?
+    let horizontalHighlightBleed: CGFloat
     
     @Environment(\.artistDetailTheme) private var theme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
     @EnvironmentObject private var dataStore: DataStore
+    @EnvironmentObject private var settings: UserSettings
 
     private var timeBadgeSize: CGFloat {
         dynamicTypeSize.isAccessibilitySize
@@ -64,7 +66,8 @@ struct ArtistEventsBlock: View {
         return VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(artistEvents.enumerated()), id: \.element.id) { index, event in
                 let isSaved = profile.isEventSaved(event.id)
-                let friendProfiles = profile.friendProfilesSavingEvent(event.id)
+                let isHighlighted =
+                    highlightedEventId == event.id && artistEvents.count > 1
                 let route = AppNavigationRoute.stage(
                     id: event.stage.id,
                     highlightedEventId: event.id
@@ -75,8 +78,11 @@ struct ArtistEventsBlock: View {
                         ArtistEventCell(
                             event: event,
                             intersectingEvents: intersectionsByEventID[event.id] ?? [],
-                            isSaved: isSaved,
-                            friendProfilesWhoSavedEvent: friendProfiles,
+                            contextPreviewState: EventContextPreviewState(
+                                event: event,
+                                profile: profile,
+                                settings: settings
+                            ),
                             showsTrailingAccessories: false,
                             timeBadgeSize: timeBadgeSize,
                             onToggleSaved: { profile.toggleSavedEvent(event) }
@@ -109,11 +115,13 @@ struct ArtistEventsBlock: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background {
-                    if highlightedEventId == event.id && artistEvents.count > 1 {
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(theme.actionSurface)
+                    if isHighlighted {
+                        Color.rudolstadt
+                            .opacity(0.10)
+                            .padding(.horizontal, -horizontalHighlightBleed)
                     }
                 }
+                .accessibilityAddTraits(isHighlighted ? .isSelected : [])
                 
                 if index < artistEvents.count - 1 {
                     Divider()
@@ -148,7 +156,8 @@ struct ArtistEventsBlock_Previews: PreviewProvider {
                     artistEvents: artistEvents,
                     highlightedEventId: artistEvents.first?.id,
                     currentTipID: nil,
-                    navigate: nil
+                    navigate: nil,
+                    horizontalHighlightBleed: 16
                 )
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)

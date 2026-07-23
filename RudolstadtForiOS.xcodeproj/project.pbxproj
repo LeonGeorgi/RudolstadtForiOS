@@ -138,8 +138,8 @@
 		35D0A48A2A07372A004C506D /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D0A4882A07372A004C506D /* Colors.xcassets */; };
 		35D0A48C2A073AFF004C506D /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48B2A073AFF004C506D /* ColorExtensions.swift */; };
 		35D0A48D2A073AFF004C506D /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48B2A073AFF004C506D /* ColorExtensions.swift */; };
-		35D0A48F2A07504C004C506D /* SaveEventPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48E2A07504C004C506D /* SaveEventPreview.swift */; };
-		35D0A4902A07504C004C506D /* SaveEventPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48E2A07504C004C506D /* SaveEventPreview.swift */; };
+		35D0A48F2A07504C004C506D /* EventContextPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48E2A07504C004C506D /* EventContextPreview.swift */; };
+		35D0A4902A07504C004C506D /* EventContextPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A48E2A07504C004C506D /* EventContextPreview.swift */; };
 		35D0A4922A0754CE004C506D /* StagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A4912A0754CE004C506D /* StagePreview.swift */; };
 		35D0A4932A0754CE004C506D /* StagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A4912A0754CE004C506D /* StagePreview.swift */; };
 		35DC40512DFEF3960077079B /* NewsRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DC40502DFEF3920077079B /* NewsRefresher.swift */; };
@@ -389,7 +389,7 @@
 		35CF484F285B837800D13B6F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = InfoPlist.strings; sourceTree = "<group>"; };
 		35D0A4882A07372A004C506D /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		35D0A48B2A073AFF004C506D /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
-		35D0A48E2A07504C004C506D /* SaveEventPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveEventPreview.swift; sourceTree = "<group>"; };
+		35D0A48E2A07504C004C506D /* EventContextPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventContextPreview.swift; sourceTree = "<group>"; };
 		35D0A4912A0754CE004C506D /* StagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagePreview.swift; sourceTree = "<group>"; };
 		35DC40502DFEF3920077079B /* NewsRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRefresher.swift; sourceTree = "<group>"; };
 		F10000012F990001004F9471 /* NotificationPermissionPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionPresentationTests.swift; sourceTree = "<group>"; };
@@ -999,7 +999,7 @@
 		A10000242FA10001004F9471 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				35D0A48E2A07504C004C506D /* SaveEventPreview.swift */,
+				35D0A48E2A07504C004C506D /* EventContextPreview.swift */,
 				35D0A4912A0754CE004C506D /* StagePreview.swift */,
 			);
 			path = Components;
@@ -1314,7 +1314,7 @@
 				350573472857F312008932A9 /* MapView.swift in Sources */,
 				32A114D5C53D71E50A745B7C /* ScheduleEventCell.swift in Sources */,
 				35143AC12F8E7094006DA6B7 /* ArtistDetailHeaderView.swift in Sources */,
-				35D0A48F2A07504C004C506D /* SaveEventPreview.swift in Sources */,
+				35D0A48F2A07504C004C506D /* EventContextPreview.swift in Sources */,
 				3505733A2855B2C3008932A9 /* ContextCopyButton.swift in Sources */,
 				D10000042FD10001004F9471 /* FestivalProfileBadgeAvatar.swift in Sources */,
 				D10000072FD10001004F9471 /* SharedFestivalProfileRows.swift in Sources */,
@@ -1382,7 +1382,7 @@
 				F40000072FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */,
 				F30000142FDD0001004F9471 /* AppleMusicPreviewService.swift in Sources */,
 				F30000152FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift in Sources */,
-				35D0A4902A07504C004C506D /* SaveEventPreview.swift in Sources */,
+				35D0A4902A07504C004C506D /* EventContextPreview.swift in Sources */,
 				3551CC6C28043624004F9471 /* RootTabView.swift in Sources */,
 				3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */,
 				C20000052FE00001004F9471 /* AppServices.swift in Sources */,

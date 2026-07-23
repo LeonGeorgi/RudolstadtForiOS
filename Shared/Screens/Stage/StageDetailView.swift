@@ -1,8 +1,16 @@
 import Foundation
 import MapKit
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct StageDetailView: View {
+    private enum Layout {
+        static let compactHorizontalMargin: CGFloat = 16
+        static let mapParallaxFactor = 0.25
+    }
+
     fileprivate static let walkingSpeedMetersPerMinute = 80.0
     fileprivate static let walkDistancesByStage = loadWalkDistancesByStage(
         fileName: "stage_walk_distances"
@@ -24,10 +32,16 @@ struct StageDetailView: View {
     let stage: Stage
     let highlightedEventId: Int?
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var settings: UserSettings
 
+    @State private var isStageTitleVisible = true
     @State private var selectedDay: Int = -1
     @State private var isShowingInteractiveMap = false
     @StateObject private var tipSequencer = TipSequencer(
@@ -55,17 +69,36 @@ struct StageDetailView: View {
             .prefix(10))
     }
 
+    private var usesEdgeToEdgeHero: Bool {
+        isPhone
+            && horizontalSizeClass == .compact
+            && verticalSizeClass == .regular
+            && !dynamicTypeSize.isAccessibilitySize
+    }
+
+    private var isPhone: Bool {
+        #if canImport(UIKit)
+        UIDevice.current.userInterfaceIdiom == .phone
+        #else
+        false
+        #endif
+    }
+
+    private var navigationBarBackgroundVisibility: Visibility {
+        usesEdgeToEdgeHero && isStageTitleVisible ? .hidden : .automatic
+    }
+
     var body: some View {
         let stageDistances = nearbyStageDistances
 
         return ScrollView {
             VStack(spacing: 0) {
                 topMapHero
-                    .padding(.top, 16)
+                    .padding(.top, usesEdgeToEdgeHero ? 0 : 16)
 
-                stageHeader
+                stageHeader(showsInlineIdentity: !usesEdgeToEdgeHero)
                     .padding(.horizontal, 16)
-                    .padding(.top, 20)
+                    .padding(.top, usesEdgeToEdgeHero ? 16 : 20)
 
                 eventsSection
                     .padding(.top, 18)
@@ -77,14 +110,22 @@ struct StageDetailView: View {
             }
             .padding(.bottom, 28)
         }
+        .ignoresSafeArea(
+            .container,
+            edges: usesEdgeToEdgeHero ? .top : []
+        )
+        .modifier(
+            StageDetailTopScrollEdgeEffectModifier(
+                isHidden: usesEdgeToEdgeHero && isStageTitleVisible
+            )
+        )
         .accessibilityIdentifier("stage-detail-\(stage.id)")
-        .navigationTitle(stage.localizedName)
+        .navigationTitle(isStageTitleVisible ? "" : stage.localizedName)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                EmptyView()
-            }
-        }
+        .toolbarBackgroundVisibility(
+            navigationBarBackgroundVisibility,
+            for: .navigationBar
+        )
         .onAppear {
             selectedDay = initialSelectedDay()
         }
@@ -106,17 +147,22 @@ struct StageDetailView: View {
         ?? -1
     }
 
-    private var stageHeader: some View {
+    private func stageHeader(showsInlineIdentity: Bool) -> some View {
         VStack(spacing: 10) {
-            HStack(alignment: .center, spacing: 12) {
-                StageNumber(stage: stage, size: 40)
+            if showsInlineIdentity {
+                HStack(alignment: .center, spacing: 12) {
+                    StageNumber(stage: stage, size: 40)
 
-                Text(stage.localizedName)
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .lineLimit(3)
-                    .minimumScaleFactor(0.78)
+                    Text(stage.localizedName)
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .lineLimit(3)
+                        .minimumScaleFactor(0.78)
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .onScrollVisibilityChange(threshold: 0.1) { isVisible in
+                    isStageTitleVisible = isVisible
+                }
             }
-            .frame(maxWidth: .infinity, alignment: .center)
 
             VStack(spacing: 4) {
                 if let description = stage.localizedDescription,
@@ -165,7 +211,73 @@ struct StageDetailView: View {
         .padding(.horizontal, 16)
     }
 
+    @ViewBuilder
     private var topMapHero: some View {
+        if usesEdgeToEdgeHero {
+            edgeToEdgeMapHero
+        } else {
+            insetMapPreview
+        }
+    }
+
+    private var edgeToEdgeMapHero: some View {
+        GeometryReader { proxy in
+            let minY = proxy.frame(in: .scrollView(axis: .vertical)).minY
+            let mapContentOffset = reduceMotion
+                ? 0
+                : max(-minY, 0) * Layout.mapParallaxFactor
+
+            StageMapView(
+                stage: stage,
+                verticalContentOffset: mapContentOffset
+            )
+            .allowsHitTesting(false)
+            .frame(width: proxy.size.width, height: proxy.size.width)
+            .overlay {
+                LinearGradient(
+                    colors: [.clear, .black.opacity(0.68)],
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+                .accessibilityHidden(true)
+                .allowsHitTesting(false)
+            }
+        }
+        .aspectRatio(1, contentMode: .fit)
+        .overlay(alignment: .bottomLeading) {
+            HStack(alignment: .center, spacing: 12) {
+                StageNumber(stage: stage, size: 44)
+
+                Text(stage.localizedName)
+                    .font(.largeTitle.bold())
+                    .foregroundStyle(.white)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .layoutPriority(1)
+                    .accessibilityHeading(.h1)
+                    .onScrollVisibilityChange(threshold: 0.1) { isVisible in
+                        isStageTitleVisible = isVisible
+                    }
+                    .allowsHitTesting(false)
+            }
+            .padding(.horizontal, Layout.compactHorizontalMargin)
+            .padding(.bottom, 20)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            isShowingInteractiveMap = true
+        }
+        .appPopoverTip(
+            DiscoverabilityTips.stageMapPreview,
+            currentTipID: tipSequencer.currentTipID,
+            arrowEdge: .bottom
+        )
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel(Text("stage.map"))
+    }
+
+    private var insetMapPreview: some View {
         StageMapView(stage: stage)
             .allowsHitTesting(false)
             .aspectRatio(4.0 / 3.0, contentMode: .fill)
@@ -290,10 +402,11 @@ struct StageDetailView: View {
                 event: event,
                 imageWidth: 64,
                 imageHeight: 56,
-                isSaved: profile.isEventSaved(event.id),
-                artistRating: profile.rating(for: event.artist.id),
-                artistIconName: profile.iconName(forArtistID: event.artist.id),
-                friendProfilesWhoSavedEvent: profile.friendProfilesSavingEvent(event.id),
+                contextPreviewState: EventContextPreviewState(
+                    event: event,
+                    profile: profile,
+                    settings: settings
+                ),
                 onToggleSaved: { profile.toggleSavedEvent(event) }
             )
             .padding(.horizontal, 16)
@@ -399,6 +512,19 @@ private func loadWalkDistancesByStage(fileName: String) -> [Int: [Int: Double]] 
     } catch {
         print("Error decoding \(fileName).json: \(error)")
         return [:]
+    }
+}
+
+private struct StageDetailTopScrollEdgeEffectModifier: ViewModifier {
+    let isHidden: Bool
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.scrollEdgeEffectHidden(isHidden, for: .top)
+        } else {
+            content
+        }
     }
 }
 

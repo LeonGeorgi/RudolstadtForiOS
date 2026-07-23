@@ -103,6 +103,14 @@ struct DataConverterTests {
 
     @Test
     func artistCountryDescriptionKeepsUKNationsSeparate() {
+        let countries = localizedArtistCountries(
+            rawValue: "Scotland & England",
+            countryCodes: ["GBR"],
+            locale: Locale(identifier: "de_DE")
+        )
+
+        #expect(countries.map(\.name) == ["Schottland", "England"])
+        #expect(countries.map(\.countryCode) == ["GBR", "GBR"])
         #expect(
             localizedArtistCountryDescription(
                 rawValue: "Scotland & England",
@@ -128,6 +136,13 @@ struct DataConverterTests {
                 locale: Locale(identifier: "de_DE")
             ) == "Schottland und Deutschland"
         )
+        #expect(
+            localizedArtistCountryNames(
+                rawValue: "Scotland & Germany",
+                countryCodes: ["GBR", "DEU"],
+                locale: Locale(identifier: "de_DE")
+            ) == ["Schottland", "Deutschland"]
+        )
     }
 
     @Test
@@ -137,7 +152,24 @@ struct DataConverterTests {
         #expect(parseArtistCountryCodes("ENG") == ["GBR"])
         #expect(parseArtistCountryCodes("SUI") == ["CHE"])
         #expect(parseArtistCountryCodes("POR") == ["PRT"])
+        #expect(parseArtistCountryCodes("DEN") == ["DNK"])
         #expect(parseArtistCountryCodes("SAF") == ["ZAF"])
+
+        let denmark = localizedArtistCountries(
+            rawValue: "DEN",
+            countryCodes: [],
+            locale: Locale(identifier: "de_DE")
+        )
+        #expect(denmark.map(\.name) == ["Dänemark"])
+        #expect(denmark.map(\.countryCode) == ["DNK"])
+    }
+
+    @Test
+    func countryFlagsUseNormalizedCountryCodes() {
+        #expect(emojiFlag(forRegionCode: "DEU") == "🇩🇪")
+        #expect(emojiFlag(forRegionCode: "DEN") == "🇩🇰")
+        #expect(emojiFlag(forRegionCode: "GBR") == "🇬🇧")
+        #expect(emojiFlag(forRegionCode: "not-a-country") == nil)
     }
 
     @Test

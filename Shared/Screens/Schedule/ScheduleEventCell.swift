@@ -4,11 +4,24 @@ struct ScheduleEventCell: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     let event: Event
-    let isSaved: Bool
-    let artistRating: Int
-    let artistIconName: String?
-    let friendProfilesWhoSavedEvent: [SharedFestivalProfile]
+    let contextPreviewState: EventContextPreviewState
     let onToggleSaved: () -> Void
+
+    private var isSaved: Bool {
+        contextPreviewState.isSaved
+    }
+
+    private var artistRating: Int {
+        contextPreviewState.artistRating
+    }
+
+    private var artistIconName: String? {
+        contextPreviewState.artistIconName
+    }
+
+    private var friendProfilesWhoSavedEvent: [SharedFestivalProfile] {
+        contextPreviewState.friendProfilesWhoSavedEvent
+    }
 
     var body: some View {
         Group {
@@ -20,8 +33,12 @@ struct ScheduleEventCell: View {
         }
         .contextMenu {
             SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
+        } preview: {
+            EventContextPreview(
+                event: event,
+                state: contextPreviewState
+            )
         }
-        .id("\(event.id)-\(isSaved)")
     }
 
     private var standardLayout: some View {
@@ -185,10 +202,14 @@ struct ScheduleEventCell_Previews: PreviewProvider {
     static var previews: some View {
         ScheduleEventCell(
             event: .example,
-            isSaved: false,
-            artistRating: 0,
-            artistIconName: nil,
-            friendProfilesWhoSavedEvent: [],
+            contextPreviewState: EventContextPreviewState(
+                isSaved: false,
+                artistRating: 0,
+                artistIconName: nil,
+                friendProfilesWhoSavedEvent: [],
+                artistNote: nil,
+                isArtistSummaryEnabled: true
+            ),
             onToggleSaved: {}
         )
     }

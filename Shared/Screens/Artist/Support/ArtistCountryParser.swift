@@ -110,6 +110,7 @@ private let alpha3CodeAliases: [String: String] = [
     "SUI": "CHE",
     "POR": "PRT",
     "NDL": "NLD",
+    "DEN": "DNK",
     "SAF": "ZAF",
     "JAP": "JPN",
     "XKX": "XKX",
@@ -635,32 +636,73 @@ func parseArtistCountryCodes(_ rawValue: String) -> [String] {
     }
 }
 
-func localizedArtistCountryDescription(
+struct LocalizedArtistCountry: Equatable {
+    let countryCode: String?
+    let name: String
+}
+
+func localizedArtistCountries(
     rawValue: String,
     countryCodes: [String],
     locale: Locale = .current
-) -> String? {
+) -> [LocalizedArtistCountry] {
     let displayCodes = parseCountryCodesRecursively(
         from: rawValue,
         preservingUKNations: true
     )
     let codes = displayCodes.isEmpty ? countryCodes : displayCodes
     var seen = Set<String>()
-    let names = codes.compactMap { code -> String? in
+    let countries = codes.compactMap { code -> LocalizedArtistCountry? in
         guard seen.insert(code).inserted else {
             return nil
         }
-        return localizedArtistCountryName(for: code, locale: locale)
+        let uppercasedCode = code.uppercased()
+        return LocalizedArtistCountry(
+            countryCode: alpha3CodeAliases[uppercasedCode] ?? uppercasedCode,
+            name: localizedArtistCountryName(for: code, locale: locale)
+        )
     }
 
-    if !names.isEmpty {
-        let formatter = ListFormatter()
-        formatter.locale = locale
-        return formatter.string(from: names)
+    if !countries.isEmpty {
+        return countries
     }
 
     let fallback = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
-    return fallback.isEmpty ? nil : fallback
+    return fallback.isEmpty
+        ? []
+        : [LocalizedArtistCountry(countryCode: nil, name: fallback)]
+}
+
+func localizedArtistCountryNames(
+    rawValue: String,
+    countryCodes: [String],
+    locale: Locale = .current
+) -> [String] {
+    localizedArtistCountries(
+        rawValue: rawValue,
+        countryCodes: countryCodes,
+        locale: locale
+    )
+    .map(\.name)
+}
+
+func localizedArtistCountryDescription(
+    rawValue: String,
+    countryCodes: [String],
+    locale: Locale = .current
+) -> String? {
+    let names = localizedArtistCountryNames(
+        rawValue: rawValue,
+        countryCodes: countryCodes,
+        locale: locale
+    )
+    guard !names.isEmpty else {
+        return nil
+    }
+
+    let formatter = ListFormatter()
+    formatter.locale = locale
+    return formatter.string(from: names)
 }
 
 func localizedCountryName(
@@ -701,6 +743,23 @@ func alpha2CountryCode(forRegionCode code: String) -> String? {
         return alpha2Code
     }
     return isoA2ToA3[uppercasedCode] != nil ? uppercasedCode : nil
+}
+
+func emojiFlag(forRegionCode code: String) -> String? {
+    let uppercasedCode = code.uppercased()
+    let normalizedCode = alpha3CodeAliases[uppercasedCode] ?? uppercasedCode
+    guard let alpha2Code = alpha2CountryCode(forRegionCode: normalizedCode) else {
+        return nil
+    }
+
+    let regionalIndicatorBase: UInt32 = 127397
+    let scalars = alpha2Code.unicodeScalars.compactMap {
+        UnicodeScalar(regionalIndicatorBase + $0.value)
+    }
+    guard scalars.count == 2 else {
+        return nil
+    }
+    return String(String.UnicodeScalarView(scalars))
 }
 
 private func buildCountryCodeLookup() -> [String: String] {

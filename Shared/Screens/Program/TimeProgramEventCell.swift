@@ -10,10 +10,20 @@ import SwiftUI
 
 struct TimeProgramEventCell: View {
     let event: Event
-    let isSaved: Bool
-    let artistRating: Int
-    let artistIconName: String?
+    let contextPreviewState: EventContextPreviewState
     let onToggleSaved: () -> Void
+
+    private var isSaved: Bool {
+        contextPreviewState.isSaved
+    }
+
+    private var artistRating: Int {
+        contextPreviewState.artistRating
+    }
+
+    private var artistIconName: String? {
+        contextPreviewState.artistIconName
+    }
 
     var body: some View {
         HStack {
@@ -59,7 +69,12 @@ struct TimeProgramEventCell: View {
             }
         }.contextMenu {
             SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
-        }.id("\(event.id)-\(isSaved)")
+        } preview: {
+            EventContextPreview(
+                event: event,
+                state: contextPreviewState
+            )
+        }
 
     }
 }
@@ -68,9 +83,14 @@ struct TimeProgramEventCell_Previews: PreviewProvider {
     static var previews: some View {
         TimeProgramEventCell(
             event: .example,
-            isSaved: false,
-            artistRating: 0,
-            artistIconName: nil,
+            contextPreviewState: EventContextPreviewState(
+                isSaved: false,
+                artistRating: 0,
+                artistIconName: nil,
+                friendProfilesWhoSavedEvent: [],
+                artistNote: nil,
+                isArtistSummaryEnabled: true
+            ),
             onToggleSaved: {}
         )
     }

@@ -4,11 +4,24 @@ struct StageEventCell: View {
     let event: Event
     let imageWidth: CGFloat
     let imageHeight: CGFloat
-    let isSaved: Bool
-    let artistRating: Int
-    let artistIconName: String?
-    let friendProfilesWhoSavedEvent: [SharedFestivalProfile]
+    let contextPreviewState: EventContextPreviewState
     let onToggleSaved: () -> Void
+
+    private var isSaved: Bool {
+        contextPreviewState.isSaved
+    }
+
+    private var artistRating: Int {
+        contextPreviewState.artistRating
+    }
+
+    private var artistIconName: String? {
+        contextPreviewState.artistIconName
+    }
+
+    private var friendProfilesWhoSavedEvent: [SharedFestivalProfile] {
+        contextPreviewState.friendProfilesWhoSavedEvent
+    }
 
     var body: some View {
         HStack {
@@ -57,9 +70,13 @@ struct StageEventCell: View {
         }
         .contextMenu {
             SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
+        } preview: {
+            EventContextPreview(
+                event: event,
+                state: contextPreviewState
+            )
         }
         .accessibilityIdentifier("event-\(event.id)")
-        .id("\(event.id)-\(isSaved)")
     }
 }
 
@@ -69,13 +86,16 @@ struct StageEventCell_Previews: PreviewProvider {
             event: .example,
             imageWidth: 64,
             imageHeight: 56,
-            isSaved: false,
-            artistRating: 0,
-            artistIconName: nil,
-            friendProfilesWhoSavedEvent: [],
+            contextPreviewState: EventContextPreviewState(
+                isSaved: false,
+                artistRating: 0,
+                artistIconName: nil,
+                friendProfilesWhoSavedEvent: [],
+                artistNote: nil,
+                isArtistSummaryEnabled: true
+            ),
             onToggleSaved: {}
         )
-            .environmentObject(UserSettings())
             .padding()
             .background(Color(.systemGroupedBackground))
     }

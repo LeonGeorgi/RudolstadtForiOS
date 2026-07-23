@@ -19,11 +19,12 @@ struct SaveEventButton: View {
         }) {
             if isSaved {
                 Text("event.remove")
-                Image(systemName: "bookmark.fill")
             } else {
                 Text("event.save")
-                Image(systemName: "bookmark")
             }
+            Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
+                .contentTransition(.symbolEffect(.replace))
+                .animation(.default, value: isSaved)
         }
     }
 }

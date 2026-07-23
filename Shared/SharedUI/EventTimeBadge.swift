@@ -28,6 +28,12 @@ struct EventTimeBadge: View {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .stroke(.white.opacity(0.20), lineWidth: 0.5)
         )
+        .shadow(
+            color: .black.opacity(0.14),
+            radius: 2,
+            x: 0,
+            y: 1
+        )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("\(event.shortWeekDay) \(event.timeAsString)"))
     }

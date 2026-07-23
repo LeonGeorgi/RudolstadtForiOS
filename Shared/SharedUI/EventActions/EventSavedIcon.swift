@@ -50,6 +50,8 @@ struct EventSavedIcon: View {
                 systemName: isSaved
                     ? "bookmark.fill" : "bookmark"
             )
+            .contentTransition(.symbolEffect(.replace))
+            .animation(.default, value: isSaved)
             .foregroundStyle(.primary)
             .frame(width: 44, height: 44, alignment: symbolAlignment)
             .contentShape(Rectangle())

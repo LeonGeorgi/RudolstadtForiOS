@@ -324,21 +324,6 @@ private func normalizeArtistName(_ name: String) -> String {
     )
 }
 
-private func emojiFlag(forRegionCode code: String) -> String? {
-    guard let alpha2Code = alpha2CountryCode(forRegionCode: code) else {
-        return nil
-    }
-
-    let base: UInt32 = 127397
-    let scalars = alpha2Code.uppercased().unicodeScalars.compactMap {
-        UnicodeScalar(base + $0.value)
-    }
-    guard scalars.count == 2 else {
-        return nil
-    }
-    return String(String.UnicodeScalarView(scalars))
-}
-
 private func countryPreviewPath(
     for countryCode: String,
     loadedMap: LoadedWorldCountryMap?,

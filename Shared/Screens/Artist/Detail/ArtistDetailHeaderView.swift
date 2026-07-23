@@ -5,6 +5,7 @@ struct ArtistDetailHeaderView: View {
     var showsInlineIdentity = true
     let currentTipID: String?
     let onTitleVisibilityChange: (Bool) -> Void
+    let onCountrySelected: ((String) -> Void)?
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -17,27 +18,46 @@ struct ArtistDetailHeaderView: View {
                 )
 
                 HStack(alignment: .bottom, spacing: 12) {
-                    Text(artist.formattedName)
-                        .font(
-                            dynamicTypeSize.isAccessibilitySize
-                                ? .title2.bold()
-                                : .title.bold()
+                    VStack(
+                        alignment: dynamicTypeSize.isAccessibilitySize
+                            ? .leading
+                            : .center,
+                        spacing: 8
+                    ) {
+                        ArtistCountryTagsView(
+                            artist: artist,
+                            appearance: .inline,
+                            onCountrySelected: onCountrySelected
                         )
-                        .multilineTextAlignment(
-                            dynamicTypeSize.isAccessibilitySize ? .leading : .center
-                        )
-                        .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 3)
-                        .frame(
-                            maxWidth: .infinity,
-                            alignment: dynamicTypeSize.isAccessibilitySize
-                                ? .leading
-                                : .center
-                        )
-                        .layoutPriority(1)
-                        .accessibilityHeading(.h1)
-                        .onScrollVisibilityChange(threshold: 0.1) { isVisible in
-                            onTitleVisibilityChange(isVisible)
-                        }
+
+                        Text(artist.formattedName)
+                            .font(
+                                dynamicTypeSize.isAccessibilitySize
+                                    ? .title2.bold()
+                                    : .title.bold()
+                            )
+                            .multilineTextAlignment(
+                                dynamicTypeSize.isAccessibilitySize
+                                    ? .leading
+                                    : .center
+                            )
+                            .lineLimit(
+                                dynamicTypeSize.isAccessibilitySize ? nil : 3
+                            )
+                            .accessibilityHeading(.h1)
+                            .onScrollVisibilityChange(
+                                threshold: 0.1
+                            ) { isVisible in
+                                onTitleVisibilityChange(isVisible)
+                            }
+                    }
+                    .frame(
+                        maxWidth: .infinity,
+                        alignment: dynamicTypeSize.isAccessibilitySize
+                            ? .leading
+                            : .center
+                    )
+                    .layoutPriority(1)
 
                     ArtistRatingPopoverButton(
                         artist: artist,
@@ -47,6 +67,94 @@ struct ArtistDetailHeaderView: View {
                 .padding(.top, 4)
             }
         }
+    }
+}
+
+struct ArtistCountryTagsView: View {
+    enum Appearance {
+        case inline
+        case overImage
+    }
+
+    let artist: Artist
+    let appearance: Appearance
+    let onCountrySelected: ((String) -> Void)?
+
+    @Environment(\.locale) private var locale
+
+    private var countries: [LocalizedArtistCountry] {
+        localizedArtistCountries(
+            rawValue: artist.countries,
+            countryCodes: artist.countryCodes,
+            locale: locale
+        )
+    }
+
+    var body: some View {
+        if !countries.isEmpty {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 4) {
+                    countryTags
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    countryTags
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var countryTags: some View {
+        ForEach(countries, id: \.name) { country in
+            countryTag(country)
+        }
+    }
+
+    @ViewBuilder
+    private func countryTag(_ country: LocalizedArtistCountry) -> some View {
+        if
+            let countryCode = country.countryCode,
+            let onCountrySelected
+        {
+            Button {
+                onCountrySelected(countryCode)
+            } label: {
+                countryTagLabel(country.name)
+            }
+            .buttonStyle(.plain)
+        } else {
+            countryTagLabel(country.name)
+        }
+    }
+
+    private func countryTagLabel(_ countryName: String) -> some View {
+        Label(countryName, systemImage: "globe.europe.africa.fill")
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(
+                appearance == .overImage ? Color.white : Color.primary
+            )
+            .lineLimit(1)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background {
+                RoundedRectangle(cornerRadius: 7, style: .continuous)
+                    .fill(
+                        appearance == .overImage
+                            ? Color(white: 0.24).opacity(0.92)
+                            : Color.secondary.opacity(0.10)
+                    )
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 7, style: .continuous)
+                    .strokeBorder(
+                        appearance == .overImage
+                            ? Color.white.opacity(0.18)
+                            : Color.primary.opacity(0.08),
+                        lineWidth: 0.5
+                    )
+            }
+            .fixedSize()
     }
 }
 

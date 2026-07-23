@@ -22,8 +22,7 @@ extension EnvironmentValues {
 struct ArtistEventCell: View {
     let event: Event
     let intersectingEvents: [Event]
-    let isSaved: Bool
-    var friendProfilesWhoSavedEvent: [SharedFestivalProfile] = []
+    let contextPreviewState: EventContextPreviewState
     var showsTrailingAccessories = true
     var timeBadgeSize: CGFloat = 52
     let onToggleSaved: () -> Void
@@ -31,6 +30,14 @@ struct ArtistEventCell: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @State var selectedCollisionArtist: Artist? = nil
+
+    private var isSaved: Bool {
+        contextPreviewState.isSaved
+    }
+
+    private var friendProfilesWhoSavedEvent: [SharedFestivalProfile] {
+        contextPreviewState.friendProfilesWhoSavedEvent
+    }
 
     var body: some View {
         eventContent
@@ -72,8 +79,12 @@ struct ArtistEventCell: View {
                     }
                 }
                 SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
+            } preview: {
+                EventContextPreview(
+                    event: event,
+                    state: contextPreviewState
+                )
             }
-            .id("\(event.id)-\(isSaved)")
     }
 
     @ViewBuilder
@@ -206,7 +217,14 @@ struct ArtistEventCell_Previews: PreviewProvider {
         ArtistEventCell(
             event: .example,
             intersectingEvents: [],
-            isSaved: false,
+            contextPreviewState: EventContextPreviewState(
+                isSaved: false,
+                artistRating: 0,
+                artistIconName: nil,
+                friendProfilesWhoSavedEvent: [],
+                artistNote: nil,
+                isArtistSummaryEnabled: true
+            ),
             onToggleSaved: {}
         )
     }
