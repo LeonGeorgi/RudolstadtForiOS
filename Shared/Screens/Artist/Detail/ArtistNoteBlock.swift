@@ -1,10 +1,40 @@
 import SwiftUI
 import CoreFoundation
 
+struct ArtistNotePreviewGeometry: Equatable {
+    let frame: CGRect
+    let unrotatedSize: CGSize
+}
+
+private struct ArtistNotePreviewHiddenKey: EnvironmentKey {
+    static let defaultValue = false
+}
+
+private struct ArtistNotePreviewFrameHandlerKey: EnvironmentKey {
+    static let defaultValue: (ArtistNotePreviewGeometry) -> Void = { _ in }
+}
+
+extension EnvironmentValues {
+    var isArtistNotePreviewHidden: Bool {
+        get { self[ArtistNotePreviewHiddenKey.self] }
+        set { self[ArtistNotePreviewHiddenKey.self] = newValue }
+    }
+
+    var artistNotePreviewFrameHandler: (ArtistNotePreviewGeometry) -> Void {
+        get { self[ArtistNotePreviewFrameHandlerKey.self] }
+        set { self[ArtistNotePreviewFrameHandlerKey.self] = newValue }
+    }
+}
+
 struct ArtistNoteBlock: View {
     let note: String?
+    var showsPaper = true
     let onEdit: () -> Void
 
+    @Environment(\.artistNotePreviewFrameHandler)
+    private var previewFrameHandler
+    @Environment(\.isArtistNotePreviewHidden)
+    private var isPreviewHidden
     @Environment(\.locale) private var locale
 
     private var noteText: String {
@@ -63,6 +93,7 @@ struct ArtistNoteBlock: View {
                         .padding(.vertical, 7)
                 }
             }
+            .opacity(isPreviewHidden ? 0 : 1)
             .frame(
                 width: noteWidth,
                 height: noteHeight,
@@ -73,9 +104,19 @@ struct ArtistNoteBlock: View {
                 alignment: .topLeading
             )
             .background {
-                ArtistNotePaperBackground(foldSize: foldSize)
+                if !isPreviewHidden, showsPaper {
+                    ArtistNotePaperBackground(foldSize: foldSize)
+                }
             }
             .rotationEffect(.degrees(2.2))
+            .onGeometryChange(for: ArtistNotePreviewGeometry.self) { proxy in
+                ArtistNotePreviewGeometry(
+                    frame: proxy.frame(in: .global),
+                    unrotatedSize: proxy.size
+                )
+            } action: { geometry in
+                previewFrameHandler(geometry)
+            }
             .padding(.vertical, 3)
         }
         .buttonStyle(.plain)
@@ -142,49 +183,241 @@ struct ArtistNotePaperBackground: View {
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
-        ArtistNotePaper(foldSize: foldSize)
-            .fill(paperColor)
-            .overlay {
-                paperTexture
-                    .clipShape(ArtistNotePaper(foldSize: foldSize))
-            }
-            .overlay(alignment: .bottomTrailing) {
-                ArtistNotePaperFold()
-                    .fill(foldColor)
-                    .frame(width: foldSize, height: foldSize)
-                    .overlay {
-                        paperTexture
-                            .clipShape(ArtistNotePaperFold())
-                    }
-            }
-            .shadow(
-                color: .black.opacity(colorScheme == .dark ? 0.20 : 0.09),
-                radius: 3,
-                y: 2
+        Canvas(opaque: false, rendersAsynchronously: false) { context, size in
+            ArtistNotePaperDrawing.draw(
+                in: &context,
+                bounds: CGRect(origin: .zero, size: size),
+                foldSize: foldSize,
+                colorScheme: colorScheme
             )
+        }
+        .shadow(
+            color: .black.opacity(
+                ArtistNotePaperDrawing.shadowOpacity(for: colorScheme)
+            ),
+            radius: 3,
+            y: 2
+        )
+    }
+}
+
+struct ArtistNoteGrowingPaper: View, Animatable {
+    var progress: CGFloat
+    let start: CGPoint
+    let end: CGPoint
+    let sourceSize: CGSize
+    let destinationSize: CGSize
+    let sourceFoldSize: CGFloat
+    let safeAreaTop: CGFloat
+
+    @Environment(\.colorScheme) private var colorScheme
+
+    var animatableData: CGFloat {
+        get { progress }
+        set { progress = newValue }
     }
 
-    private var paperTexture: some View {
-        Image(decorative: "artist-note-paper-texture")
-            .resizable(resizingMode: .tile)
-            .blendMode(.multiply)
-            .opacity(colorScheme == .dark ? 0.30 : 0.52)
+    var body: some View {
+        Canvas(opaque: false, rendersAsynchronously: false) { context, _ in
+            let size = CGSize(
+                width: ArtistNoteMotionGeometry.interpolate(
+                    from: sourceSize.width,
+                    to: destinationSize.width,
+                    progress: progress
+                ),
+                height: ArtistNoteMotionGeometry.interpolate(
+                    from: sourceSize.height,
+                    to: destinationSize.height,
+                    progress: progress
+                )
+            )
+            let curveCenter = ArtistNoteMotionGeometry.point(
+                progress: progress,
+                start: start,
+                end: end,
+                minimumY: safeAreaTop + sourceSize.height / 2
+            )
+            let center = CGPoint(
+                x: curveCenter.x,
+                y: max(curveCenter.y, safeAreaTop + size.height / 2)
+            )
+            let foldSize = ArtistNoteMotionGeometry.interpolate(
+                from: sourceFoldSize,
+                to: 34,
+                progress: progress
+            )
+            let rotation = ArtistNoteMotionGeometry.interpolate(
+                from: ArtistNoteMotionGeometry.previewRotation,
+                to: 0,
+                progress: progress
+            )
+
+            context.translateBy(x: center.x, y: center.y)
+            context.rotate(by: .degrees(rotation))
+            ArtistNotePaperDrawing.draw(
+                in: &context,
+                bounds: CGRect(
+                    x: -size.width / 2,
+                    y: -size.height / 2,
+                    width: size.width,
+                    height: size.height
+                ),
+                foldSize: foldSize,
+                colorScheme: colorScheme
+            )
+        }
+        .shadow(
+            color: .black.opacity(
+                ArtistNotePaperDrawing.shadowOpacity(for: colorScheme)
+            ),
+            radius: 3,
+            y: 2
+        )
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
+    }
+}
+
+enum ArtistNoteMotionGeometry {
+    static let previewRotation = 2.2
+    private static let previewTextScale: CGFloat = 20 / 14
+
+    static func scaledPreviewTextScale(for progress: CGFloat) -> CGFloat {
+        interpolate(
+            from: 1,
+            to: previewTextScale,
+            progress: progress
+        )
     }
 
-    private var paperColor: Color {
-        if colorScheme == .dark {
-            Color(red: 0.31, green: 0.28, blue: 0.16)
-        } else {
-            Color(red: 1.00, green: 0.96, blue: 0.72)
+    static func textReflowProgress(for progress: CGFloat) -> CGFloat {
+        let crossfadeProgress = clamped((progress - 0.68) / 0.22)
+        return crossfadeProgress
+            * crossfadeProgress
+            * (3 - 2 * crossfadeProgress)
+    }
+
+    static func point(
+        progress: CGFloat,
+        start: CGPoint,
+        end: CGPoint,
+        minimumY: CGFloat
+    ) -> CGPoint {
+        let deltaX = end.x - start.x
+        let deltaY = end.y - start.y
+        let distance = max(hypot(deltaX, deltaY), 1)
+        let curveAmount = min(distance * 0.34, 180)
+        let control = CGPoint(
+            x: (start.x + end.x) / 2
+                - deltaY / distance * curveAmount,
+            y: max(
+                (start.y + end.y) / 2
+                    + deltaX / distance * curveAmount,
+                minimumY
+            )
+        )
+        let progress = min(max(progress, 0), 1)
+        let inverseProgress = 1 - progress
+
+        return CGPoint(
+            x: inverseProgress * inverseProgress * start.x
+                + 2 * inverseProgress * progress * control.x
+                + progress * progress * end.x,
+            y: inverseProgress * inverseProgress * start.y
+                + 2 * inverseProgress * progress * control.y
+                + progress * progress * end.y
+        )
+    }
+
+    static func interpolate(
+        from start: CGFloat,
+        to end: CGFloat,
+        progress: CGFloat
+    ) -> CGFloat {
+        start + (end - start) * clamped(progress)
+    }
+
+    private static func clamped(_ progress: CGFloat) -> CGFloat {
+        min(max(progress, 0), 1)
+    }
+}
+
+private enum ArtistNotePaperDrawing {
+    static func draw(
+        in context: inout GraphicsContext,
+        bounds: CGRect,
+        foldSize: CGFloat,
+        colorScheme: ColorScheme
+    ) {
+        drawPaper(
+            in: &context,
+            bounds: bounds,
+            foldSize: foldSize,
+            colorScheme: colorScheme
+        )
+    }
+
+    static func shadowOpacity(for colorScheme: ColorScheme) -> Double {
+        colorScheme == .dark ? 0.20 : 0.09
+    }
+
+    private static func drawPaper(
+        in context: inout GraphicsContext,
+        bounds: CGRect,
+        foldSize: CGFloat,
+        colorScheme: ColorScheme
+    ) {
+        let effectiveFoldSize = max(
+            0,
+            min(foldSize, bounds.width, bounds.height)
+        )
+        let paperPath = ArtistNotePaper(foldSize: effectiveFoldSize)
+            .path(in: bounds)
+        let foldBounds = CGRect(
+            x: bounds.maxX - effectiveFoldSize,
+            y: bounds.maxY - effectiveFoldSize,
+            width: effectiveFoldSize,
+            height: effectiveFoldSize
+        )
+        let foldPath = ArtistNotePaperFold().path(in: foldBounds)
+
+        context.fill(
+            paperPath,
+            with: .color(paperColor(for: colorScheme))
+        )
+        context.fill(
+            foldPath,
+            with: .color(foldColor(for: colorScheme))
+        )
+
+        context.drawLayer { textureContext in
+            textureContext.blendMode = .multiply
+            textureContext.opacity = textureOpacity(for: colorScheme)
+            let texture = GraphicsContext.Shading.tiledImage(
+                Image(decorative: "artist-note-paper-texture"),
+                origin: bounds.origin
+            )
+            textureContext.fill(paperPath, with: texture)
+            textureContext.fill(foldPath, with: texture)
         }
     }
 
-    private var foldColor: Color {
-        if colorScheme == .dark {
-            Color(red: 0.18, green: 0.16, blue: 0.08)
-        } else {
-            Color(red: 0.84, green: 0.74, blue: 0.34)
-        }
+    private static func paperColor(for colorScheme: ColorScheme) -> Color {
+        colorScheme == .dark
+            ? Color(red: 0.31, green: 0.28, blue: 0.16)
+            : Color(red: 1.00, green: 0.96, blue: 0.72)
+    }
+
+    private static func foldColor(for colorScheme: ColorScheme) -> Color {
+        colorScheme == .dark
+            ? Color(red: 0.18, green: 0.16, blue: 0.08)
+            : Color(red: 0.84, green: 0.74, blue: 0.34)
+    }
+
+    private static func textureOpacity(
+        for colorScheme: ColorScheme
+    ) -> Double {
+        colorScheme == .dark ? 0.30 : 0.52
     }
 }
 
