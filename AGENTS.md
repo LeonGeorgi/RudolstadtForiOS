@@ -1,21 +1,65 @@
-# Codex Instructions
+# Coding Agent Instructions
 
-- Write new code according to clean code principles: keep it simple, readable, well-named, focused, and consistent with the existing project style.
+## Project context
+
+Rudolstadt is an unofficial SwiftUI client for the Rudolstadt Festival. Most
+production code is shared by the iOS and macOS targets. Treat it as a polished,
+data-sensitive consumer app rather than a collection of independent screens.
+
+- `Shared/App` owns composition, navigation, app state, CloudKit sharing, and
+  lifecycle behavior.
+- `Shared/API` and `Shared/Data` own remote conversion, bundled festival data,
+  persistence, and data access.
+- `Shared/Core` contains focused cross-feature domain utilities.
+- `Shared/Screens` contains feature UI; `Shared/SharedUI` contains genuinely
+  shared presentation components.
+- `Unit Tests` contains the fast domain, parsing, persistence, and service tests.
+- The project deploys to iOS 18 and macOS 12.2. Design for current iOS 26
+  conventions without breaking those deployment targets; guard newer APIs and
+  provide an appropriate fallback.
+- Preserve the bundled-data fallback and distinguish remote, cached, preview,
+  and screenshot data explicitly. Do not turn failed loading into
+  plausible-looking current festival data.
+- Changes to saved events, ratings, user preferences, festival profiles, or
+  CloudKit sharing must consider migration, merge, offline, and partial-failure
+  behavior. Never risk silently discarding user state.
+- User-facing text must remain localized in German and English.
+
+Write new code according to clean code principles: keep it simple, readable,
+well-named, focused, and consistent with the existing project style.
 
 ## Build and verification
 
-- After changing code, you may run the smallest relevant non-destructive compile check or targeted test.
-- Do not run clean builds, full builds, full test suites, simulator builds, or launch the app without explicit user authorization.
+- After changing code, you may run the smallest relevant non-destructive compile
+  check or targeted test. The canonical unit-test route is the `Unit Tests`
+  scheme with the `Fast Tests` test plan; narrow it with `-only-testing` when a
+  focused test is sufficient.
+- Select an available compatible simulator at runtime rather than hard-coding a
+  device or OS patch version.
+- Targeted unit tests are permitted without separate authorization. Do not run
+  clean builds, the complete test plan, UI or screenshot tests, broad simulator
+  builds, or launch the app without explicit user authorization.
+- A launched simulator build must use normal local signing so its CloudKit
+  entitlement is present. Never launch a build produced with
+  `CODE_SIGNING_ALLOWED=NO`.
 - Respect explicit requests not to build or test.
 - Report which verification was performed and which relevant verification remains outstanding.
 
 ## Working approach
 
 - Before changing code, inspect the relevant implementation, its callers, and nearby conventions. Do not guess when the repository can answer the question.
+- Confirm the repository root and current branch, then check
+  `git status --short`. Preserve user changes and unrelated work. Stay on the
+  current branch unless the user explicitly requests otherwise.
 - State assumptions when they materially affect behavior, architecture, or scope. Ask the user only when the uncertainty cannot be resolved from the repository and different answers would lead to meaningfully different implementations.
 - Define the observable outcome before implementing. For non-trivial work, identify how the result can be verified and keep implementation and verification aligned with that outcome.
 - Make the smallest coherent change that fully solves the requested problem. Do not expand the scope with speculative features, unrelated cleanup, or preventive abstractions.
 - Preserve existing behavior unless changing it is part of the request. When requirements conflict with current behavior, surface the conflict explicitly.
+- Do not introduce a new dependency when the repository can express the logic
+  clearly without it.
+- Push back when a requested or proposed approach would create avoidable scope,
+  complexity, public API surface, or verification risk. Explain the concern and
+  offer the smaller path that still satisfies the goal.
 - Before handing off, review the diff for unintended changes, unresolved assumptions, duplicated logic, and missing relevant states. Report what was and was not verified.
 
 ## Code quality
@@ -25,12 +69,19 @@
 - Keep components focused, follow the existing architecture and conventions, and avoid unrelated refactoring.
 - Model state and data flow clearly. Avoid force unwraps, hidden side effects, duplicated sources of truth, and silently ignored errors.
 - Use structured, cancellation-aware Swift concurrency with clear task ownership and correct actor isolation.
+- Keep pure festival, recommendation, date, and schedule calculations separate
+  from SwiftUI, CloudKit, persistence, networking, and the system clock so they
+  remain deterministic and testable.
+- Preserve availability behavior across supported targets. Do not solve a new
+  SDK warning by silently raising the deployment target or removing a fallback.
 - Add or update tests for non-trivial logic and regressions when practical. Test observable behavior, not implementation details.
 
 ## Product and UI quality
 
 - Treat this as a polished consumer iOS app, not merely a functionally correct project.
-- Target the design language and native APIs of iOS 26 and newer. Prefer standard SwiftUI behavior, system components, semantic colors, Dynamic Type, and familiar iOS navigation and interactions.
+- Target the design language of iOS 26 while preserving the configured iOS 18
+  deployment target. Prefer standard SwiftUI behavior, system components,
+  semantic colors, Dynamic Type, and familiar navigation and interactions.
 - Preserve the app’s distinctive festival identity and its useful custom experiences, especially the schedule timeline, artist imagery, and discovery features. Native does not mean generic.
 - Keep interfaces focused, visually balanced, and consistent. Pay attention to hierarchy, spacing, alignment, typography, image treatment, content density, and all relevant states.
 - Do not “improve” the design by automatically adding cards, rounded backgrounds, materials, gradients, shadows, glass effects, or custom controls. Add visual treatment only when it serves a clear structural or semantic purpose.
@@ -42,51 +93,41 @@
 
 This project uses **GitHub Issues** in `LeonGeorgi/RudolstadtForiOS` for tasks,
 follow-up work, planning, and dependencies. Use the connected GitHub integration
-when available and `gh` as the command-line fallback.
+when available and `gh` as the fallback. Do not create a parallel local tracker.
 
-- `gh issue list --repo LeonGeorgi/RudolstadtForiOS --state open` — list open work
-- `gh issue view <number> --repo LeonGeorgi/RudolstadtForiOS` — inspect an issue
-- `gh issue create --repo LeonGeorgi/RudolstadtForiOS ...` — create an issue
-- `gh issue edit <number> --add-label status:in-progress` — mark work in progress
-- `gh issue comment <number> --body "Note"` — record progress or context
-- `gh issue close <number> --reason completed` — mark work complete
-- `gh issue edit <number> --add-blocked-by <number>` — record a dependency
-- `gh issue edit <number> --parent <number>` — assign a parent issue
-
-Use native GitHub sub-issues for hierarchy and `blocked by` relationships for
-dependencies. Use `priority:P0` through `priority:P4` labels, where P0 is highest,
-and `type:bug`, `type:feature`, `type:task`, or `type:epic` labels for issue type.
-Use additional topic labels as needed. Do not create a parallel local tracker or
-ad hoc task list in repository files.
-
-### User approval gate
-
-- Every GitHub issue created by an agent or LLM must initially have the
-  `needs-approval` label, together with appropriate type and priority labels.
-- Only the user may approve an issue. Approval is represented by removing
-  `needs-approval` and adding the `approved` label.
-- Agents must not start, implement, or otherwise work on an issue unless it has
-  the `approved` label and has no unresolved `blocked by` relationship.
-- Before starting issue work, inspect the GitHub issue and verify that `approved`
-  is present. If approval is missing, stop and ask the user for approval.
-- The user explicitly requesting implementation of a specific issue counts as
-  approval; update its labels to `approved` before starting work.
-- When work starts, add `status:in-progress`. Record material progress as issue
-  comments. When the work is complete, remove `status:in-progress` and close the
-  issue as completed.
+- Use native sub-issues for hierarchy and `blocked by` relationships for
+  dependencies. Use `priority:P0` through `priority:P4` and one of `type:bug`,
+  `type:feature`, `type:task`, or `type:epic` on agent-created issues.
+- Every agent-created issue starts with `needs-approval`. Only the user may
+  approve it by replacing that label with `approved`.
+- Do not implement an issue unless it is approved and unblocked. The user
+  explicitly requesting implementation of a specific issue counts as approval;
+  update its labels before starting.
+- Add `status:in-progress` when issue work starts, record material progress in
+  comments, and remove the status and close the issue when the work is complete.
 
 ## Simulator screenshots of specific screens
 
-Use this workflow when the user explicitly asks to run the app and capture a particular iOS screen. Prefer real UI navigation over adding launch arguments or other screenshot-only behavior to production code.
+Use this workflow only when the user explicitly asks to run the app and capture
+an iOS screen. The canonical App Store capture workflow and its options live in
+`.maestro/app-store-screenshots/README.md`; do not duplicate or override it here.
 
-1. Prefer the installed XcodeBuildMCP and Maestro MCP tools over shell commands and coordinate-based UI clicking.
-2. Use an iOS 26 simulator when reviewing Liquid Glass. Call Maestro's device-list tool first and reuse a connected simulator when suitable. Avoid leaving several simulators booted because CoreSimulator operations can hang.
-3. If the requested app version is already installed and running, inspect and navigate it directly with Maestro; do not rebuild unnecessarily.
-4. If a build or launch is required, first inspect XcodeBuildMCP's session defaults. Configure this project, the `RudolstadtForiOS (iOS)` scheme, the selected simulator, and bundle ID `de.leongeorgi.RudolstadtForiOS`, then use its simulator build-and-run workflow. Building is authorized only when the user explicitly requested running or rebuilding the app.
-5. Always build with normal local simulator signing so CloudKit entitlements are embedded. Do not pass `CODE_SIGNING_ALLOWED=NO`; the app traps at startup without its CloudKit entitlement.
-6. When launching specifically for screenshots, pass `-screenshotMode YES` if the launch tool supports app arguments. This mode prevents the notification permission dialog; it does not select or navigate to a screen.
-7. For navigation, use the Maestro workflow `list devices -> inspect screen -> run flow`. Inspect the hierarchy before selecting elements, use exact visible text or stable accessibility identifiers, and re-inspect after navigation rather than guessing labels or coordinates.
-8. Prefer one short inline Maestro flow for a multi-step navigation. Do not clear app state unless the task requires a fresh state, because doing so discards the user's current simulator state.
-9. After reaching the requested screen, wait for animations and remote content, especially artist images. Inspect the screen again to verify the expected destination, then capture it with Maestro's screenshot tool. If the image is still a placeholder or partially rendered, wait and capture again.
-10. Use XcodeBuildMCP's screenshot or `xcrun simctl io <UDID> screenshot /tmp/<name>.png` only as a fallback when Maestro cannot capture the screen. Use macOS Accessibility and coordinate-based clicks only as a last resort when semantic MCP navigation is unavailable.
-11. Check `git status --short` before handing off. Simulator navigation and screenshots should leave the production worktree unchanged.
+- Prefer an already booted suitable iOS 26 simulator and an already installed
+  app. Avoid unnecessary builds and avoid leaving multiple simulators booted.
+- If a build is required, use the `RudolstadtForiOS (iOS)` scheme, bundle ID
+  `de.leongeorgi.RudolstadtForiOS`, and normal simulator signing.
+- Use `-screenshotMode YES` only when deterministic seeded screenshot state is
+  intended. It loads bundled festival and news backups, disables network
+  refreshes and CloudKit, resets screenshot-relevant preferences, seeds profile
+  and friend data, and suppresses permission interruptions. It does not navigate
+  to the requested screen.
+- Prefer semantic Maestro navigation over coordinates. Inspect before acting,
+  use visible text or stable accessibility identifiers, and verify the hierarchy
+  again after navigation. Do not add screenshot-only navigation behavior to
+  production code.
+- Do not clear app state unless the task requires it. After navigation, wait for
+  animations, images, and map content, verify the destination, then capture.
+- Use lower-level simulator screenshots or coordinate-based macOS interaction
+  only when semantic tooling cannot complete the task.
+- Check `git status --short` before handing off. Screenshot work should leave the
+  production worktree unchanged.
