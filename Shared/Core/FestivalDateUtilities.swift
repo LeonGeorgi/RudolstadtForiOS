@@ -8,6 +8,14 @@ enum FestivalDateUtilities {
         return timeZone
     }()
 
+    static func calendarInFestivalTimeZone(
+        basedOn calendar: Calendar = .current
+    ) -> Calendar {
+        var festivalCalendar = calendar
+        festivalCalendar.timeZone = festivalTimeZone
+        return festivalCalendar
+    }
+
     static func shortWeekDay(
         day: Int,
         calendar: Calendar = .current,
@@ -40,8 +48,7 @@ enum FestivalDateUtilities {
         calendar: Calendar,
         locale: Locale
     ) -> String {
-        var festivalCalendar = calendar
-        festivalCalendar.timeZone = festivalTimeZone
+        let festivalCalendar = calendarInFestivalTimeZone(basedOn: calendar)
 
         let dateComponents = DateComponents(
             calendar: festivalCalendar,
@@ -67,7 +74,8 @@ enum FestivalDateUtilities {
         now: Date = .now,
         calendar: Calendar = .current
     ) -> Int? {
-        let components = calendar.dateComponents(
+        let festivalCalendar = calendarInFestivalTimeZone(basedOn: calendar)
+        let components = festivalCalendar.dateComponents(
             [.hour, .day, .month, .year],
             from: now
         )
@@ -76,12 +84,10 @@ enum FestivalDateUtilities {
         else {
             return nil
         }
-        if year != DataStore.year || month != 7 || !eventDays.contains(day) {
+        guard year == DataStore.year, month == 7 else {
             return nil
         }
-        if hour <= 5 {
-            return day - 1
-        }
-        return day
+        let festivalDay = hour < 5 ? day - 1 : day
+        return eventDays.contains(festivalDay) ? festivalDay : nil
     }
 }

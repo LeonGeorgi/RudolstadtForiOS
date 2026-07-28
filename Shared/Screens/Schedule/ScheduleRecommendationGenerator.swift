@@ -16,9 +16,17 @@ protocol RecommendationProviding: Sendable {
 
 final class RecommendationService: RecommendationProviding {
     private let calendar: Calendar
+    private let walkingDistanceMatrix: StageWalkingDistanceMatrix
 
-    init(calendar: Calendar = .current) {
-        self.calendar = calendar
+    init(
+        calendar: Calendar = .current,
+        walkingDistanceMatrix: StageWalkingDistanceMatrix =
+            StageWalkingDistanceProvider.bundled
+    ) {
+        self.calendar = FestivalDateUtilities.calendarInFestivalTimeZone(
+            basedOn: calendar
+        )
+        self.walkingDistanceMatrix = walkingDistanceMatrix
     }
 
     func buildSnapshot(
@@ -28,13 +36,21 @@ final class RecommendationService: RecommendationProviding {
         now: Date = .now
     ) -> RecommendationSnapshot {
         let estimatedEventDurations = estimateEventDurations(events: data.events)
+        let transitionEvaluator = ScheduleTransitionEvaluator(
+            transferEstimator: StageTransferEstimator(
+                stages: data.stages,
+                matrix: walkingDistanceMatrix
+            ),
+            calendar: calendar
+        )
         let generator = ScheduleRecommendationGenerator(
             allEvents: data.events,
             savedEventIds: savedEventIds,
             artistRatings: ratings,
             eventDurations: estimatedEventDurations,
             now: now,
-            calendar: calendar
+            calendar: calendar,
+            transitionEvaluator: transitionEvaluator
         )
 
         return RecommendationSnapshot(
@@ -171,15 +187,14 @@ struct SchedulePresenter {
 }
 
 final class ScheduleRecommendationGenerator {
-    private let arrivalBufferMinutes = 2
-
     init(
         allEvents: [Event],
         savedEventIds: [Int],
         artistRatings: [String: Int],
         eventDurations: [Int: Int],
         now: Date,
-        calendar: Calendar = .current
+        calendar: Calendar = .current,
+        transitionEvaluator: ScheduleTransitionEvaluator
     ) {
         self.allEvents = allEvents
         self.savedEventIds = Set(savedEventIds)
@@ -194,6 +209,7 @@ final class ScheduleRecommendationGenerator {
         self.eventDurations = eventDurations
         self.now = now
         self.calendar = calendar
+        self.transitionEvaluator = transitionEvaluator
     }
 
     let allEvents: [Event]
@@ -202,6 +218,7 @@ final class ScheduleRecommendationGenerator {
     let eventDurations: [Int: Int]
     let now: Date
     let calendar: Calendar
+    let transitionEvaluator: ScheduleTransitionEvaluator
 
     func generateRecommendedSchedule() -> [Event] {
         let savedEvents = allEvents.filter { event in
@@ -332,14 +349,13 @@ final class ScheduleRecommendationGenerator {
     }
 
     private func intersects(e1: Event, e2: Event) -> Bool {
-        e1.intersects(
-            with: e2,
-            event1Duration: eventDurations[e1.id] ?? 60,
-            event2Duration: eventDurations[e2.id] ?? 60,
-            maxAllowedMissedMinutes: 0,
-            arrivalBufferMinutes: arrivalBufferMinutes,
-            calendar: calendar
-        )
+        transitionEvaluator.assess(
+            first: e1,
+            firstDurationMinutes: eventDurations[e1.id] ?? 60,
+            second: e2,
+            secondDurationMinutes: eventDurations[e2.id] ?? 60,
+            policy: .recommendation
+        ).isConflict
     }
 
     private func intersects(events: [Event], current: Event) -> Bool {

@@ -216,6 +216,14 @@
 		C30000042FF00001004F9471 /* FestivalProfileCloudKitMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000062FF00001004F9471 /* FestivalProfileCloudKitMapping.swift */; };
 		C20000012FE00001004F9471 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000002FE00001004F9471 /* AppLog.swift */; };
 		C20000022FE00001004F9471 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000002FE00001004F9471 /* AppLog.swift */; };
+		F50000012FE40001004F9471 /* StageTransferEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000002FE40001004F9471 /* StageTransferEstimator.swift */; };
+		F50000022FE40001004F9471 /* StageTransferEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000002FE40001004F9471 /* StageTransferEstimator.swift */; };
+		F50000042FE40001004F9471 /* SchedulePlanning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000032FE40001004F9471 /* SchedulePlanning.swift */; };
+		F50000052FE40001004F9471 /* SchedulePlanning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000032FE40001004F9471 /* SchedulePlanning.swift */; };
+		F50000072FE40001004F9471 /* StageWalkingDistanceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */; };
+		F50000082FE40001004F9471 /* StageWalkingDistanceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */; };
+		F500000A2FE40001004F9471 /* FestivalSchedulePlanningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */; };
+		F500000B2FE40001004F9471 /* stage_walk_distances.json in Resources */ = {isa = PBXBuildFile; fileRef = 353596FB2F9324F800723570 /* stage_walk_distances.json */; };
 		C20000042FE00001004F9471 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000032FE00001004F9471 /* AppServices.swift */; };
 		C20000052FE00001004F9471 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000032FE00001004F9471 /* AppServices.swift */; };
 		C20000072FE00001004F9471 /* FestivalDataGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000062FE00001004F9471 /* FestivalDataGate.swift */; };
@@ -469,6 +477,10 @@
 		F30000032FDD0001004F9471 /* AppleMusicPreviewServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicPreviewServiceTests.swift; sourceTree = "<group>"; };
 		F30000042FDD0001004F9471 /* 2026_artist_preview_urls.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2026_artist_preview_urls.csv; sourceTree = "<group>"; };
 		F40000052FE20001004F9471 /* ArtistYouTubeVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistYouTubeVideoView.swift; sourceTree = "<group>"; };
+		F50000002FE40001004F9471 /* StageTransferEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageTransferEstimator.swift; sourceTree = "<group>"; };
+		F50000032FE40001004F9471 /* SchedulePlanning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePlanning.swift; sourceTree = "<group>"; };
+		F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageWalkingDistanceProvider.swift; sourceTree = "<group>"; };
+		F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalSchedulePlanningTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -702,6 +714,7 @@
 				35028CC32805BEA6004F0E3F /* HelperTypes.swift */,
 				32A113E8EF0720699AAD91D0 /* DataLoader.swift */,
 				354B96762BE798D100F58179 /* ArtistLinks.swift */,
+				F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -829,6 +842,8 @@
 				35D0A48B2A073AFF004C506D /* ColorExtensions.swift */,
 				32A1194705F0DC9D18C2B09B /* FestivalDateUtilities.swift */,
 				A10000282FA10001004F9471 /* TextFormatting.swift */,
+				F50000002FE40001004F9471 /* StageTransferEstimator.swift */,
+				F50000032FE40001004F9471 /* SchedulePlanning.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -855,6 +870,7 @@
 				F10000062F990001004F9471 /* RecommendationServiceTests.swift */,
 				F10000072F990001004F9471 /* SchedulePresenterTests.swift */,
 				F10000182F990001004F9471 /* ScheduleTimelineZoomTests.swift */,
+				F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -1218,6 +1234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1B2C3D52F9A0001004F9471 /* Rudolstadt.icon in Resources */,
+				F500000B2FE40001004F9471 /* stage_walk_distances.json in Resources */,
 				3551CC6E28043624004F9471 /* Assets.xcassets in Resources */,
 				35D0A48A2A07372A004C506D /* Colors.xcassets in Resources */,
 				32A11008167D61F884FC47D3 /* Localizable.strings in Resources */,
@@ -1268,6 +1285,9 @@
 				C20000042FE00001004F9471 /* AppServices.swift in Sources */,
 				3551CC8428043E8D004F9471 /* DataStore.swift in Sources */,
 				C20000012FE00001004F9471 /* AppLog.swift in Sources */,
+				F50000012FE40001004F9471 /* StageTransferEstimator.swift in Sources */,
+				F50000042FE40001004F9471 /* SchedulePlanning.swift in Sources */,
+				F50000072FE40001004F9471 /* StageWalkingDistanceProvider.swift in Sources */,
 				3551CC6928043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
 				C200000A2FE00001004F9471 /* CloudKitShareAppDelegate.swift in Sources */,
 				C20000072FE00001004F9471 /* FestivalDataGate.swift in Sources */,
@@ -1388,6 +1408,9 @@
 				C20000052FE00001004F9471 /* AppServices.swift in Sources */,
 				3551CC6A28043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
 				C20000022FE00001004F9471 /* AppLog.swift in Sources */,
+				F50000022FE40001004F9471 /* StageTransferEstimator.swift in Sources */,
+				F50000052FE40001004F9471 /* SchedulePlanning.swift in Sources */,
+				F50000082FE40001004F9471 /* StageWalkingDistanceProvider.swift in Sources */,
 				C200000B2FE00001004F9471 /* CloudKitShareAppDelegate.swift in Sources */,
 				C20000082FE00001004F9471 /* FestivalDataGate.swift in Sources */,
 				32A11EB5EC53FC5A4C48B3D8 /* NewsItemDetailView.swift in Sources */,
@@ -1526,6 +1549,7 @@
 				F100010E2F990001004F9471 /* FestivalDateUtilitiesTests.swift in Sources */,
 				F100010F2F990001004F9471 /* APIClientTests.swift in Sources */,
 				F10001102F990001004F9471 /* FestivalDataStoreTests.swift in Sources */,
+				F500000A2FE40001004F9471 /* FestivalSchedulePlanningTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

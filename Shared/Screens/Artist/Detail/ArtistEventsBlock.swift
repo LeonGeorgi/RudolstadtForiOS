@@ -32,6 +32,12 @@ struct ArtistEventsBlock: View {
         let estimatedEventDurations = dataStore.estimatedEventDurationsByEventID ?? [:]
         
         let savedEvents = festivalData.events.filter { savedEventIDs.contains($0.id) }
+        let transitionEvaluator = ScheduleTransitionEvaluator(
+            transferEstimator: StageTransferEstimator(
+                stages: festivalData.stages,
+                matrix: StageWalkingDistanceProvider.bundled
+            )
+        )
         
         var results: [Int: [Event]] = [:]
         results.reserveCapacity(artistEvents.count)
@@ -39,12 +45,13 @@ struct ArtistEventsBlock: View {
         for artistEvent in artistEvents {
             let intersectingEvents = savedEvents.filter { savedEvent in
                 savedEvent.artist.id != artistEvent.artist.id
-                && savedEvent.intersects(
-                    with: artistEvent,
-                    event1Duration: estimatedEventDurations[savedEvent.id] ?? 60,
-                    event2Duration: estimatedEventDurations[artistEvent.id] ?? 60,
-                    maxAllowedMissedMinutes: 5
-                )
+                && transitionEvaluator.assess(
+                    first: savedEvent,
+                    firstDurationMinutes: estimatedEventDurations[savedEvent.id] ?? 60,
+                    second: artistEvent,
+                    secondDurationMinutes: estimatedEventDurations[artistEvent.id] ?? 60,
+                    policy: .savedEventWarning
+                ).isConflict
             }
             results[artistEvent.id] = intersectingEvents
         }

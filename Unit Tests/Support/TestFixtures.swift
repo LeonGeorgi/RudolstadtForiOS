@@ -119,16 +119,23 @@ enum TestFixtures {
         )
     }
 
-    static func stage(id: Int, stageNumber: Int? = nil) -> Stage {
+    static func stage(
+        id: Int,
+        stageNumber: Int? = nil,
+        latitude: Double? = nil,
+        longitude: Double? = nil,
+        germanName: String? = nil,
+        englishName: String? = nil
+    ) -> Stage {
         Stage(
             id: id,
-            germanName: "Stage \(id)",
-            englishName: "Stage \(id)",
+            germanName: germanName ?? "Stage \(id)",
+            englishName: englishName ?? "Stage \(id)",
             germanDescription: nil,
             englishDescription: nil,
             stageNumber: stageNumber,
-            latitude: 50.0 + Double(id) * 0.001,
-            longitude: 11.0 + Double(id) * 0.001,
+            latitude: latitude ?? 50.0 + Double(id) * 0.001,
+            longitude: longitude ?? 11.0 + Double(id) * 0.001,
             area: .example,
             stageType: .festivalTicket
         )

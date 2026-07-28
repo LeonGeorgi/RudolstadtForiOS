@@ -293,7 +293,11 @@ struct RecommendationServiceTests {
             artistRatings: [:],
             eventDurations: [801: 60, 802: 60],
             now: TestFixtures.date(dayInJuly: 3, hour: 12, minute: 0),
-            calendar: TestFixtures.festivalCalendar
+            calendar: TestFixtures.festivalCalendar,
+            transitionEvaluator: makeTransitionEvaluator(
+                stages: [stage],
+                matrix: .empty
+            )
         )
 
         #expect(generator.generateRecommendedSchedule().map(\.id) == [801, 802])
@@ -354,13 +358,17 @@ struct RecommendationServiceTests {
             artist: artist
         )
 
-        let sameStageSnapshot = makeService().buildSnapshot(
+        let walkingDistanceMatrix = StageWalkingDistanceMatrix(
+            distancesByStageID: [10: [11: 160]]
+        )
+        let service = makeService(walkingDistanceMatrix: walkingDistanceMatrix)
+        let sameStageSnapshot = service.buildSnapshot(
             data: TestFixtures.festivalData(events: [savedEvent, sameStageCandidate]),
             savedEventIds: [savedEvent.id],
             ratings: ["35": 3],
             now: TestFixtures.date(dayInJuly: 3, hour: 12, minute: 0)
         )
-        let otherStageSnapshot = makeService().buildSnapshot(
+        let otherStageSnapshot = service.buildSnapshot(
             data: TestFixtures.festivalData(events: [savedEvent, otherStageCandidate]),
             savedEventIds: [savedEvent.id],
             ratings: ["35": 3],
@@ -445,6 +453,10 @@ struct RecommendationServiceTests {
             let recommendedEvents = snapshot.recommendedEventIds.compactMap { id in
                 events.first(where: { $0.id == id })
             }
+            let transitionEvaluator = makeTransitionEvaluator(
+                stages: TestFixtures.festivalData(events: events).stages,
+                matrix: .empty
+            )
 
             #expect(recommendedEvents.count == snapshot.recommendedEventIds.count)
             #expect(Set(recommendedEvents.map(\.artist.id)).count == recommendedEvents.count)
@@ -455,21 +467,40 @@ struct RecommendationServiceTests {
                 for secondIndex in recommendedEvents.indices where secondIndex > firstIndex {
                     let first = recommendedEvents[firstIndex]
                     let second = recommendedEvents[secondIndex]
-                    #expect(!first.intersects(
-                        with: second,
-                        event1Duration: snapshot.estimatedEventDurations[first.id] ?? 60,
-                        event2Duration: snapshot.estimatedEventDurations[second.id] ?? 60,
-                        maxAllowedMissedMinutes: 0,
-                        arrivalBufferMinutes: 2,
-                        calendar: TestFixtures.festivalCalendar
-                    ))
+                    #expect(!transitionEvaluator.assess(
+                        first: first,
+                        firstDurationMinutes:
+                            snapshot.estimatedEventDurations[first.id] ?? 60,
+                        second: second,
+                        secondDurationMinutes:
+                            snapshot.estimatedEventDurations[second.id] ?? 60,
+                        policy: .recommendation
+                    ).isConflict)
                 }
             }
         }
     }
 
-    private func makeService() -> RecommendationService {
-        RecommendationService(calendar: TestFixtures.festivalCalendar)
+    private func makeService(
+        walkingDistanceMatrix: StageWalkingDistanceMatrix = .empty
+    ) -> RecommendationService {
+        RecommendationService(
+            calendar: TestFixtures.festivalCalendar,
+            walkingDistanceMatrix: walkingDistanceMatrix
+        )
+    }
+
+    private func makeTransitionEvaluator(
+        stages: [Stage],
+        matrix: StageWalkingDistanceMatrix
+    ) -> ScheduleTransitionEvaluator {
+        ScheduleTransitionEvaluator(
+            transferEstimator: StageTransferEstimator(
+                stages: stages,
+                matrix: matrix
+            ),
+            calendar: TestFixtures.festivalCalendar
+        )
     }
 }
 

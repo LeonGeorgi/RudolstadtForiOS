@@ -1,5 +1,4 @@
 import Foundation
-import MapKit
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
@@ -11,10 +10,6 @@ struct StageDetailView: View {
         static let mapParallaxFactor = 0.25
     }
 
-    fileprivate static let walkingSpeedMetersPerMinute = 80.0
-    fileprivate static let walkDistancesByStage = loadWalkDistancesByStage(
-        fileName: "stage_walk_distances"
-    )
     fileprivate static let distanceFormatter: MeasurementFormatter = {
         let formatter = MeasurementFormatter()
         formatter.unitOptions = .providedUnit
@@ -61,10 +56,7 @@ struct StageDetailView: View {
     private var nearbyStageDistances: [StageDistance] {
         Array(calculateNearbyStages(festivalData)
             .filter { stageDistance in
-                guard let estimatedWalkMinutes = stageDistance.estimatedWalkMinutes else {
-                    return false
-                }
-                return estimatedWalkMinutes < 10
+                stageDistance.transfer.walkingMinutes <= 10
             }
             .prefix(10))
     }
@@ -365,27 +357,25 @@ struct StageDetailView: View {
     }
 
     private func calculateNearbyStages(_ entities: FestivalData) -> [StageDistance] {
-        entities.stages
+        let estimator = StageTransferEstimator(
+            stages: entities.stages,
+            matrix: StageWalkingDistanceProvider.bundled
+        )
+        return entities.stages
             .filter { stage in
                 stage.id != self.stage.id
             }
-            .map { stage in
-                let walkingDistance = self.walkingDistanceInMeters(to: stage)
-                let fallbackAirDistance = calculateAirDistance(
-                    first: self.stage,
-                    second: stage
-                )
+            .compactMap { stage in
+                guard let transfer = estimator.estimate(from: self.stage, to: stage) else {
+                    return nil
+                }
                 return StageDistance(
                     stage: stage,
-                    distance: walkingDistance ?? fallbackAirDistance,
-                    walkingDistanceInMeters: walkingDistance,
-                    estimatedWalkMinutes: walkingDistance.map(
-                        estimateWalkMinutes(distanceInMeters:)
-                    )
+                    transfer: transfer
                 )
             }
             .sorted { first, second in
-                first.distance < second.distance
+                first.transfer.distanceInMeters < second.transfer.distanceInMeters
             }
     }
 
@@ -423,95 +413,29 @@ struct StageDetailView: View {
         .padding(.horizontal, -16)
     }
 
-    private func calculateAirDistance(first: Stage, second: Stage) -> Double {
-        let start = CLLocation(
-            latitude: first.latitude,
-            longitude: first.longitude
-        )
-        let destination = CLLocation(
-            latitude: second.latitude,
-            longitude: second.longitude
-        )
-        return destination.distance(from: start)
-    }
-
-    private func walkingDistanceInMeters(to otherStage: Stage) -> Double? {
-        let fromId = self.stage.id
-        let toId = otherStage.id
-
-        if let directDistance = Self.walkDistancesByStage[fromId]?[toId] {
-            return directDistance
-        }
-        if let inverseDistance = Self.walkDistancesByStage[toId]?[fromId] {
-            return inverseDistance
-        }
-        return nil
-    }
-
-    private func estimateWalkMinutes(distanceInMeters: Double) -> Int {
-        max(1, Int((distanceInMeters / Self.walkingSpeedMetersPerMinute).rounded()))
-    }
 }
 
 private struct StageDistance: Identifiable {
     let stage: Stage
-    let distance: Double
-    let walkingDistanceInMeters: Double?
-    let estimatedWalkMinutes: Int?
+    let transfer: StageTransferEstimate
 
     var id: Int {
         stage.id
     }
 
     var distanceAndWalkTimeText: String {
-        if let walkingDistanceInMeters, let estimatedWalkMinutes {
-            let distanceString = StageDetailView.distanceFormatter.string(
-                from: Measurement(value: walkingDistanceInMeters, unit: UnitLength.meters)
-            )
-            let estimatedSeconds = TimeInterval(estimatedWalkMinutes * 60)
-            let timeString =
-            StageDetailView.walkTimeFormatter.string(from: estimatedSeconds)
-            ?? "\(estimatedWalkMinutes) min"
-            return "\(distanceString) • ~\(timeString)"
-        }
-
-        let airDistanceRoundedTo10m = Int(distance / 10.0) * 10
         let distanceString = StageDetailView.distanceFormatter.string(
             from: Measurement(
-                value: Double(airDistanceRoundedTo10m),
+                value: transfer.distanceInMeters,
                 unit: UnitLength.meters
             )
         )
-        return distanceString
-    }
-}
-
-private func loadWalkDistancesByStage(fileName: String) -> [Int: [Int: Double]] {
-    guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
-        print("Could not find file \(fileName).json in bundle")
-        return [:]
-    }
-
-    do {
-        let data = try Data(contentsOf: url)
-        let decoded = try JSONDecoder().decode([String: [String: Double]].self, from: data)
-        return decoded.reduce(into: [Int: [Int: Double]]()) { partialResult, entry in
-            guard let sourceStageId = Int(entry.key) else {
-                return
-            }
-            let convertedTargets = entry.value.reduce(into: [Int: Double]()) {
-                targetResult,
-                targetEntry in
-                guard let targetStageId = Int(targetEntry.key) else {
-                    return
-                }
-                targetResult[targetStageId] = targetEntry.value
-            }
-            partialResult[sourceStageId] = convertedTargets
-        }
-    } catch {
-        print("Error decoding \(fileName).json: \(error)")
-        return [:]
+        let estimatedSeconds = TimeInterval(transfer.walkingMinutes * 60)
+        let timeString = StageDetailView.walkTimeFormatter.string(from: estimatedSeconds)
+            ?? "\(transfer.walkingMinutes) min"
+        let distancePrefix = transfer.source.isEstimated ? "≈" : ""
+        let timePrefix = transfer.source.isEstimated ? "≈" : "~"
+        return "\(distancePrefix)\(distanceString) • \(timePrefix)\(timeString)"
     }
 }
 

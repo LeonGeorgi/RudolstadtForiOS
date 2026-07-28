@@ -79,6 +79,62 @@ struct FestivalDateUtilitiesTests {
     }
 
     @Test
+    func fiveOClockBelongsToCalendarFestivalDay() {
+        let now = TestFixtures.date(
+            dayInJuly: 4,
+            hour: 5,
+            minute: 0,
+            calendar: calendar
+        )
+
+        let festivalDay = FestivalDateUtilities.getCurrentFestivalDay(
+            eventDays: [3, 4],
+            now: now,
+            calendar: calendar
+        )
+
+        #expect(festivalDay == 4)
+    }
+
+    @Test
+    func earlyMorningOnlyRequiresPreviousFestivalDayInProgram() {
+        let now = TestFixtures.date(
+            dayInJuly: 4,
+            hour: 4,
+            minute: 30,
+            calendar: calendar
+        )
+
+        let festivalDay = FestivalDateUtilities.getCurrentFestivalDay(
+            eventDays: [3],
+            now: now,
+            calendar: calendar
+        )
+
+        #expect(festivalDay == 3)
+    }
+
+    @Test
+    func currentFestivalDayUsesBerlinTimeForForeignDeviceCalendar() {
+        var tokyoCalendar = Calendar(identifier: .gregorian)
+        tokyoCalendar.timeZone = TimeZone(identifier: "Asia/Tokyo") ?? .gmt
+        let berlinLateEvening = TestFixtures.date(
+            dayInJuly: 3,
+            hour: 22,
+            minute: 30,
+            calendar: calendar
+        )
+
+        let festivalDay = FestivalDateUtilities.getCurrentFestivalDay(
+            eventDays: [3, 4],
+            now: berlinLateEvening,
+            calendar: tokyoCalendar
+        )
+
+        #expect(festivalDay == 3)
+    }
+
+    @Test
     func dateOutsideFestivalReturnsNil() {
         let now = TestFixtures.date(
             dayInJuly: 8,
