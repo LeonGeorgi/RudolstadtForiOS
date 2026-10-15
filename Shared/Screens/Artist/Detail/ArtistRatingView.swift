@@ -70,6 +70,7 @@ struct ArtistRatingPopoverButton: View {
 
     let artist: Artist
     let currentTipID: String?
+    var reservesSpaceForFriendRatings = false
 
     @EnvironmentObject private var settings: UserSettings
     @EnvironmentObject private var profile: FestivalProfileStore
@@ -121,6 +122,12 @@ struct ArtistRatingPopoverButton: View {
                 .offset(y: Layout.friendRatingsVerticalOffset)
             }
         }
+        .padding(
+            .top,
+            reservesSpaceForFriendRatings && friendRatingSummary != nil
+                ? -Layout.friendRatingsVerticalOffset
+                : 0
+        )
         .appPopoverTip(
             DiscoverabilityTips.artistRating,
             currentTipID: currentTipID,

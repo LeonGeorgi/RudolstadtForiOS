@@ -8,6 +8,8 @@ import AppKit
 struct ArtistDetailView: View {
     private enum Layout {
         static let maximumContentWidth: CGFloat = 720
+        static let minimumImageColumnWidth: CGFloat = 220
+        static let maximumImageColumnWidth: CGFloat = 320
         static let compactHorizontalMargin: CGFloat = 16
         static let regularHorizontalMargin: CGFloat = 24
         static let edgeToEdgeIntroTopSpacing: CGFloat = 12
@@ -41,6 +43,7 @@ struct ArtistDetailView: View {
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.artistDetailScreen
     )
+    @ScaledMetric(relativeTo: .body) private var minimumInformationWidth: CGFloat = 360
 
     init(
         artist: Artist,
@@ -290,15 +293,53 @@ struct ArtistDetailView: View {
         return Double(1 - min(max(fadeProgress, 0), 1))
     }
 
-    private var detailScrollView: some View {
-        ScrollView {
+    @ViewBuilder
+    private func detailLayout(availableWidth: CGFloat) -> some View {
+        let canUseColumns = isPhone
+            && verticalSizeClass == .compact
+            && !dynamicTypeSize.isAccessibilitySize
+            && availableWidth >= Layout.minimumImageColumnWidth
+                + minimumInformationWidth + 3 * horizontalContentMargin
+
+        if #available(iOS 16.0, macOS 13.0, *), canUseColumns {
+            ViewThatFits(in: .vertical) {
+                HStack(alignment: .top, spacing: 0) {
+                    ArtistDetailProfileView(
+                        artist: artist,
+                        currentTipID: tipSequencer.currentTipID,
+                        onCountrySelected: onCountrySelected
+                    )
+                    .frame(width: min(
+                        Layout.maximumImageColumnWidth,
+                        max(Layout.minimumImageColumnWidth, availableWidth / 3)
+                    ))
+                    .padding(.leading, horizontalContentMargin)
+                    .padding(.vertical, 12)
+                    .onAppear { isArtistTitleVisible = true }
+
+                    detailScrollView(showsProfile: false)
+                        // Only the fixed profile determines the required height.
+                        .frame(idealHeight: 0)
+                }
+
+                detailScrollView(showsProfile: true)
+            }
+        } else {
+            detailScrollView(showsProfile: true)
+        }
+    }
+
+    private func detailScrollView(showsProfile: Bool) -> some View {
+        let showsHero = usesEdgeToEdgeHero && showsProfile
+
+        return ScrollView {
             VStack(spacing: 0) {
-                if usesEdgeToEdgeHero {
+                if showsHero {
                     edgeToEdgeHero
                 }
 
                 contentColumn {
-                    primaryContent(showsInlineIdentity: !usesEdgeToEdgeHero)
+                    primaryContent(showsInlineIdentity: showsProfile && !showsHero)
                 }
                 .background(artistTheme.pageBackground)
 
@@ -310,11 +351,11 @@ struct ArtistDetailView: View {
         }
         .ignoresSafeArea(
             .container,
-            edges: usesEdgeToEdgeHero ? .top : []
+            edges: showsHero ? .top : []
         )
         .modifier(
             ArtistDetailTopScrollEdgeEffectModifier(
-                isHidden: usesEdgeToEdgeHero && isArtistTitleVisible
+                isHidden: showsHero && isArtistTitleVisible
             )
         )
     }
@@ -341,8 +382,11 @@ struct ArtistDetailView: View {
     }
 
     var body: some View {
-        detailScrollView
+        GeometryReader { geometry in
+            detailLayout(availableWidth: geometry.size.width)
+        }
             .environment(\.artistDetailTheme, artistTheme)
+            .accessibilityElement(children: .contain)
             .accessibilityIdentifier(
                 "artist-detail-\(artist.id)-theme-ready"
             )

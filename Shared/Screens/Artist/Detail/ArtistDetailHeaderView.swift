@@ -70,6 +70,48 @@ struct ArtistDetailHeaderView: View {
     }
 }
 
+struct ArtistDetailProfileView: View {
+    let artist: Artist
+    let currentTipID: String?
+    let onCountrySelected: ((String) -> Void)?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            ArtistDetailImageView(artist: artist, presentation: .column)
+                .frame(minHeight: 96, idealHeight: 96, maxHeight: 240)
+                .frame(maxWidth: .infinity)
+                .layoutPriority(-1)
+
+            HStack(alignment: .bottom, spacing: 12) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(artist.formattedName)
+                        .font(.title3.bold())
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityHeading(.h1)
+
+                    ArtistCountryTagsView(
+                        artist: artist,
+                        appearance: .inline,
+                        onCountrySelected: onCountrySelected
+                    )
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .layoutPriority(1)
+
+                ArtistRatingPopoverButton(
+                    artist: artist,
+                    currentTipID: currentTipID,
+                    reservesSpaceForFriendRatings: true
+                )
+            }
+            .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxHeight: .infinity, alignment: .top)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("artist-profile-\(artist.id)")
+    }
+}
+
 struct ArtistCountryTagsView: View {
     enum Appearance {
         case inline
@@ -161,6 +203,7 @@ struct ArtistCountryTagsView: View {
 struct ArtistDetailImageView: View {
     enum Presentation {
         case inset
+        case column
         case edgeToEdgeParallax
     }
 
@@ -177,6 +220,7 @@ struct ArtistDetailImageView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.artistDetailTheme) private var theme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @State private var isShowingFullImage = false
 
     var body: some View {
@@ -202,30 +246,37 @@ struct ArtistDetailImageView: View {
     private var presentedImage: some View {
         switch presentation {
         case .inset:
-            imageContent
+            roundedImage
                 .aspectRatio(Layout.insetAspectRatio, contentMode: .fit)
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: Layout.insetCornerRadius,
-                        style: .continuous
-                    )
-                )
-                .overlay {
-                    RoundedRectangle(
-                        cornerRadius: Layout.insetCornerRadius,
-                        style: .continuous
-                    )
-                    .stroke(theme.imageBorder, lineWidth: 0.5)
-                }
-                .frame(maxWidth: 480)
+                .frame(maxWidth: verticalSizeClass == .compact ? 220 : 480)
                 .frame(maxWidth: .infinity)
                 .padding(
                     .horizontal,
                     dynamicTypeSize.isAccessibilitySize ? 16 : 24
                 )
+        case .column:
+            roundedImage
+                .aspectRatio(Layout.insetAspectRatio, contentMode: .fit)
         case .edgeToEdgeParallax:
             parallaxImage
         }
+    }
+
+    private var roundedImage: some View {
+        imageContent
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: Layout.insetCornerRadius,
+                    style: .continuous
+                )
+            )
+            .overlay {
+                RoundedRectangle(
+                    cornerRadius: Layout.insetCornerRadius,
+                    style: .continuous
+                )
+                .stroke(theme.imageBorder, lineWidth: 0.5)
+            }
     }
 
     private var parallaxImage: some View {
