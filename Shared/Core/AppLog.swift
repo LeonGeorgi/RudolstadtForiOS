@@ -8,6 +8,7 @@ enum AppLog {
     static let data = Logger(subsystem: subsystem, category: "data")
     static let news = Logger(subsystem: subsystem, category: "news")
     static let sync = Logger(subsystem: subsystem, category: "sync")
+    static let watchSync = Logger(subsystem: subsystem, category: "watch-sync")
     static let commerce = Logger(subsystem: subsystem, category: "commerce")
     static let performance = Logger(subsystem: subsystem, category: "performance")
 }

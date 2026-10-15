@@ -3,6 +3,7 @@ import Combine
 
 enum FestivalProfileStoreChange: Hashable {
     case recommendationInputs
+    case watchSnapshotInputs
 }
 
 struct FestivalArtistPreference: Codable, Hashable, Identifiable, Sendable {

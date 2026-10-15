@@ -59,6 +59,7 @@ final class FestivalProfileStore: ObservableObject {
     private let now: () -> Date
     private var listeners: [FestivalProfileStoreChange: [() -> Void]] = [:]
     private var syncStoreObservation: AnyCancellable?
+    private var watchSyncStoreObservation: AnyCancellable?
     private var cache: FestivalProfileCache
     private var pendingPersistTask: Task<Void, Never>?
     private var pendingOwnerSendTask: Task<Void, Never>?
@@ -138,6 +139,7 @@ final class FestivalProfileStore: ObservableObject {
 
     deinit {
         syncStoreObservation?.cancel()
+        watchSyncStoreObservation?.cancel()
         pendingPersistTask?.cancel()
         pendingOwnerSendTask?.cancel()
     }
@@ -154,6 +156,17 @@ final class FestivalProfileStore: ObservableObject {
     private func observeSyncStore() {
         syncStoreObservation = syncStore.objectWillChange.sink { [weak self] _ in
             self?.objectWillChange.send()
+        }
+        watchSyncStoreObservation = Publishers.CombineLatest3(
+            syncStore.$acceptedFriendProfiles,
+            syncStore.$iCloudStatus,
+            syncStore.$lastSuccessfulRefreshDate
+        )
+        .dropFirst()
+        .sink { [weak self] _ in
+            self?.listeners[.watchSnapshotInputs]?.forEach { listener in
+                listener()
+            }
         }
     }
 
@@ -522,7 +535,6 @@ final class FestivalProfileStore: ObservableObject {
         )
         applyCurrentProfile(cache.currentProfile)
         persistCache()
-        notifyRecommendationInputsChangedIfNeeded(old: oldProfile, new: cache.currentProfile)
 
 #if os(iOS)
         guard cloudKitEnabled, cache.migrationVersion >= Constants.migrationVersion else {
@@ -534,6 +546,8 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     private func applyCurrentProfile(_ profile: CachedOwnerFestivalProfile) {
+        let previousSavedEvents = savedEvents
+        let previousRatings = ratings
         let updatedBadgeName = profile.badgeName ?? ""
         if badgeName != updatedBadgeName {
             badgeName = updatedBadgeName
@@ -585,6 +599,15 @@ final class FestivalProfileStore: ObservableObject {
         if syncStore.shareState != updatedShareState {
             syncStore.shareState = updatedShareState
         }
+
+        if previousSavedEvents != savedEvents || previousRatings != ratings {
+            listeners[.recommendationInputs]?.forEach { listener in
+                listener()
+            }
+            listeners[.watchSnapshotInputs]?.forEach { listener in
+                listener()
+            }
+        }
     }
 
     private func persistCache(immediately: Bool = false) {
@@ -603,21 +626,6 @@ final class FestivalProfileStore: ObservableObject {
 
     func flushPendingPersistence() async {
         await pendingPersistTask?.value
-    }
-
-    private func notifyRecommendationInputsChangedIfNeeded(
-        old: CachedOwnerFestivalProfile,
-        new: CachedOwnerFestivalProfile
-    ) {
-        guard
-            old.savedEventIDs != new.savedEventIDs
-                || old.artistPreferences != new.artistPreferences
-        else {
-            return
-        }
-        listeners[.recommendationInputs]?.forEach { listener in
-            listener()
-        }
     }
 
     private func cacheCurrentShare(_ share: CKShare) {

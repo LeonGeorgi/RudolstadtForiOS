@@ -59,6 +59,8 @@ struct FestivalDataStoreTests {
         }
         #expect(festivalData.artists.isEmpty)
         #expect(festivalData.events.isEmpty)
+        #expect(store.festivalDataProvenance?.source == .remote)
+        #expect(store.festivalDataProvenance?.dataUpdatedAt != nil)
     }
 
     @Test
@@ -85,6 +87,8 @@ struct FestivalDataStoreTests {
             Issue.record("Expected connection failure owner")
         }
         #expect(cache.bundledFestivalLoadCallCount == 0)
+        #expect(store.festivalDataProvenance?.source == .staleCache)
+        #expect(store.festivalDataProvenance?.refreshCheckedAt != nil)
     }
 
     @Test
@@ -147,6 +151,7 @@ struct FestivalDataStoreTests {
             Issue.record("Expected bundled-backup fallback source")
         }
         #expect(cache.bundledFestivalLoadCallCount == 1)
+        #expect(store.festivalDataProvenance?.source == .bundledBackup)
     }
 
     @Test
@@ -218,6 +223,11 @@ struct FestivalDataStoreTests {
         await store.loadOrRefreshFestivalData()
 
         #expect(store.festivalDataLastDownloadDate == modificationDate)
+        #expect(store.festivalDataProvenance == FestivalDataProvenance(
+            source: .cache,
+            dataUpdatedAt: modificationDate,
+            refreshCheckedAt: nil
+        ))
     }
 
     @Test

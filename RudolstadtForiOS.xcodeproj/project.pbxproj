@@ -288,6 +288,32 @@
 		F40000042FE20001004F9471 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = F40000012FE20001004F9471 /* YouTubePlayerKit */; };
 		F40000062FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40000052FE20001004F9471 /* ArtistYouTubeVideoView.swift */; };
 		F40000072FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40000052FE20001004F9471 /* ArtistYouTubeVideoView.swift */; };
+		B14400202FE50001004F9471 /* WatchSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400012FE50001004F9471 /* WatchSnapshot.swift */; };
+		B14400212FE50001004F9471 /* WatchSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400012FE50001004F9471 /* WatchSnapshot.swift */; };
+		B14400222FE50001004F9471 /* WatchSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400012FE50001004F9471 /* WatchSnapshot.swift */; };
+		B14400232FE50001004F9471 /* FestivalConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400042FE50001004F9471 /* FestivalConfiguration.swift */; };
+		B14400242FE50001004F9471 /* FestivalConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400042FE50001004F9471 /* FestivalConfiguration.swift */; };
+		B14400252FE50001004F9471 /* FestivalConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400042FE50001004F9471 /* FestivalConfiguration.swift */; };
+		B14400262FE50001004F9471 /* FestivalConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400042FE50001004F9471 /* FestivalConfiguration.swift */; };
+		B14400272FE50001004F9471 /* WatchSnapshotBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400022FE50001004F9471 /* WatchSnapshotBuilder.swift */; };
+		B14400282FE50001004F9471 /* WatchSnapshotCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400032FE50001004F9471 /* WatchSnapshotCoordinator.swift */; };
+		B14400292FE50001004F9471 /* RudolstadtWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400052FE50001004F9471 /* RudolstadtWatchApp.swift */; };
+		B144002A2FE50001004F9471 /* WatchSnapshotReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400062FE50001004F9471 /* WatchSnapshotReceiver.swift */; };
+		B144002B2FE50001004F9471 /* WatchRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400072FE50001004F9471 /* WatchRootView.swift */; };
+		B144002C2FE50001004F9471 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000002FE00001004F9471 /* AppLog.swift */; };
+		B144002D2FE50001004F9471 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B14400092FE50001004F9471 /* Assets.xcassets */; };
+		B144002E2FE50001004F9471 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B144000A2FE50001004F9471 /* Localizable.xcstrings */; };
+		B144002F2FE50001004F9471 /* RudolstadtWatchWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144000B2FE50001004F9471 /* RudolstadtWatchWidget.swift */; };
+		B14400302FE50001004F9471 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000002FE00001004F9471 /* AppLog.swift */; };
+		B14400312FE50001004F9471 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B144000A2FE50001004F9471 /* Localizable.xcstrings */; };
+		B14400322FE50001004F9471 /* WatchSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144000E2FE50001004F9471 /* WatchSnapshotTests.swift */; };
+		B14400332FE50001004F9471 /* Rudolstadt Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B144000F2FE50001004F9471 /* Rudolstadt Watch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B14400342FE50001004F9471 /* Rudolstadt Watch Widget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B14400102FE50001004F9471 /* Rudolstadt Watch Widget.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B14400812FE50001004F9471 /* WatchSnapshotImportPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400802FE50001004F9471 /* WatchSnapshotImportPipeline.swift */; };
+		B14400822FE50001004F9471 /* WatchSnapshotImportPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14400802FE50001004F9471 /* WatchSnapshotImportPipeline.swift */; };
+		B14300102FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14300012FE60001004F9471 /* WatchNextEventTimeline.swift */; };
+		B14300112FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14300012FE60001004F9471 /* WatchNextEventTimeline.swift */; };
+		B14300122FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14300012FE60001004F9471 /* WatchNextEventTimeline.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -312,7 +338,46 @@
 			remoteGlobalIDString = 3551CC4728043624004F9471;
 			remoteInfo = "RudolstadtForiOS (iOS)";
 		};
+		B14400402FE50001004F9471 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3551CC3C28043622004F9471 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B14400602FE50001004F9471;
+			remoteInfo = "Rudolstadt Watch";
+		};
+		B14400422FE50001004F9471 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3551CC3C28043622004F9471 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B14400612FE50001004F9471;
+			remoteInfo = "Rudolstadt Watch Widget";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B14400532FE50001004F9471 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B14400342FE50001004F9471 /* Rudolstadt Watch Widget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B14400572FE50001004F9471 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				B14400332FE50001004F9471 /* Rudolstadt Watch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
@@ -481,9 +546,42 @@
 		F50000032FE40001004F9471 /* SchedulePlanning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePlanning.swift; sourceTree = "<group>"; };
 		F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageWalkingDistanceProvider.swift; sourceTree = "<group>"; };
 		F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalSchedulePlanningTests.swift; sourceTree = "<group>"; };
+		B14400012FE50001004F9471 /* WatchSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshot.swift; sourceTree = "<group>"; };
+		B14400022FE50001004F9471 /* WatchSnapshotBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshotBuilder.swift; sourceTree = "<group>"; };
+		B14400032FE50001004F9471 /* WatchSnapshotCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshotCoordinator.swift; sourceTree = "<group>"; };
+		B14400042FE50001004F9471 /* FestivalConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalConfiguration.swift; sourceTree = "<group>"; };
+		B14400052FE50001004F9471 /* RudolstadtWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtWatchApp.swift; sourceTree = "<group>"; };
+		B14400062FE50001004F9471 /* WatchSnapshotReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshotReceiver.swift; sourceTree = "<group>"; };
+		B14400072FE50001004F9471 /* WatchRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRootView.swift; sourceTree = "<group>"; };
+		B14400082FE50001004F9471 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
+		B14400092FE50001004F9471 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B144000A2FE50001004F9471 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		B144000B2FE50001004F9471 /* RudolstadtWatchWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtWatchWidget.swift; sourceTree = "<group>"; };
+		B144000C2FE50001004F9471 /* WatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchWidget.entitlements; sourceTree = "<group>"; };
+		B144000D2FE50001004F9471 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B144000E2FE50001004F9471 /* WatchSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshotTests.swift; sourceTree = "<group>"; };
+		B144000F2FE50001004F9471 /* Rudolstadt Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rudolstadt Watch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B14400102FE50001004F9471 /* Rudolstadt Watch Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Rudolstadt Watch Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B14400802FE50001004F9471 /* WatchSnapshotImportPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshotImportPipeline.swift; sourceTree = "<group>"; };
+		B14300012FE60001004F9471 /* WatchNextEventTimeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNextEventTimeline.swift; sourceTree = "<group>"; };
+		B14300022FE60001004F9471 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B14400512FE50001004F9471 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B14400552FE50001004F9471 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3551CC4528043624004F9471 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -762,6 +860,8 @@
 				350573422856442B008932A9 /* RudolstadtForiOS--iOS--Info.plist */,
 				C10000072FD00001004F9471 /* iOS/iOS.entitlements */,
 				3551CC4028043622004F9471 /* Shared */,
+				B14400122FE50001004F9471 /* Watch */,
+				B14400132FE50001004F9471 /* Watch Widget */,
 				3551CC4F28043624004F9471 /* macOS */,
 				3551CC5828043624004F9471 /* Tests iOS */,
 				3551CC6428043624004F9471 /* Tests macOS */,
@@ -781,6 +881,7 @@
 				3551CC4328043624004F9471 /* Assets.xcassets */,
 				35D0A4882A07372A004C506D /* Colors.xcassets */,
 				356A65C22BE805900006761D /* Core */,
+				B14400112FE50001004F9471 /* Watch */,
 				32A1149A358407B10CC2C734 /* Screens */,
 				32A1139B0A5731511CC06981 /* SharedUI */,
 				32A11D64F476FFB4DA9968D7 /* en.lproj */,
@@ -797,6 +898,8 @@
 				3551CC5528043624004F9471 /* Tests iOS.xctest */,
 				3551CC6128043624004F9471 /* Tests macOS.xctest */,
 				A10000042F990001004F9471 /* Unit Tests.xctest */,
+				B144000F2FE50001004F9471 /* Rudolstadt Watch.app */,
+				B14400102FE50001004F9471 /* Rudolstadt Watch Widget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -844,6 +947,7 @@
 				A10000282FA10001004F9471 /* TextFormatting.swift */,
 				F50000002FE40001004F9471 /* StageTransferEstimator.swift */,
 				F50000032FE40001004F9471 /* SchedulePlanning.swift */,
+				B14400042FE50001004F9471 /* FestivalConfiguration.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -899,8 +1003,45 @@
 			children = (
 				F10000052F990001004F9471 /* DataLoaderCacheMetadataTests.swift */,
 				F100000A2F990001004F9471 /* FestivalProfileStoreTests.swift */,
+				B144000E2FE50001004F9471 /* WatchSnapshotTests.swift */,
 			);
 			path = Persistence;
+			sourceTree = "<group>";
+		};
+		B14400112FE50001004F9471 /* Watch */ = {
+			isa = PBXGroup;
+			children = (
+				B14400012FE50001004F9471 /* WatchSnapshot.swift */,
+				B14300012FE60001004F9471 /* WatchNextEventTimeline.swift */,
+				B14400022FE50001004F9471 /* WatchSnapshotBuilder.swift */,
+				B14400032FE50001004F9471 /* WatchSnapshotCoordinator.swift */,
+				B14400802FE50001004F9471 /* WatchSnapshotImportPipeline.swift */,
+			);
+			path = Watch;
+			sourceTree = "<group>";
+		};
+		B14400122FE50001004F9471 /* Watch */ = {
+			isa = PBXGroup;
+			children = (
+				B14400052FE50001004F9471 /* RudolstadtWatchApp.swift */,
+				B14400062FE50001004F9471 /* WatchSnapshotReceiver.swift */,
+				B14400072FE50001004F9471 /* WatchRootView.swift */,
+				B14300022FE60001004F9471 /* Info.plist */,
+				B14400082FE50001004F9471 /* Watch.entitlements */,
+				B14400092FE50001004F9471 /* Assets.xcassets */,
+				B144000A2FE50001004F9471 /* Localizable.xcstrings */,
+			);
+			path = Watch;
+			sourceTree = "<group>";
+		};
+		B14400132FE50001004F9471 /* Watch Widget */ = {
+			isa = PBXGroup;
+			children = (
+				B144000B2FE50001004F9471 /* RudolstadtWatchWidget.swift */,
+				B144000C2FE50001004F9471 /* WatchWidget.entitlements */,
+				B144000D2FE50001004F9471 /* Info.plist */,
+			);
+			path = "Watch Widget";
 			sourceTree = "<group>";
 		};
 		F10000142F990001004F9471 /* AppState */ = {
@@ -1056,10 +1197,12 @@
 				3551CC4428043624004F9471 /* Sources */,
 				3551CC4528043624004F9471 /* Frameworks */,
 				3551CC4628043624004F9471 /* Resources */,
+				B14400572FE50001004F9471 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B14400412FE50001004F9471 /* PBXTargetDependency */,
 			);
 			name = "RudolstadtForiOS (iOS)";
 			packageProductDependencies = (
@@ -1148,6 +1291,42 @@
 			productReference = A10000042F990001004F9471 /* Unit Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		B14400602FE50001004F9471 /* Rudolstadt Watch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B14400702FE50001004F9471 /* Build configuration list for PBXNativeTarget "Rudolstadt Watch" */;
+			buildPhases = (
+				B14400502FE50001004F9471 /* Sources */,
+				B14400512FE50001004F9471 /* Frameworks */,
+				B14400522FE50001004F9471 /* Resources */,
+				B14400532FE50001004F9471 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B14400432FE50001004F9471 /* PBXTargetDependency */,
+			);
+			name = "Rudolstadt Watch";
+			productName = "Rudolstadt Watch";
+			productReference = B144000F2FE50001004F9471 /* Rudolstadt Watch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B14400612FE50001004F9471 /* Rudolstadt Watch Widget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B14400732FE50001004F9471 /* Build configuration list for PBXNativeTarget "Rudolstadt Watch Widget" */;
+			buildPhases = (
+				B14400542FE50001004F9471 /* Sources */,
+				B14400552FE50001004F9471 /* Frameworks */,
+				B14400562FE50001004F9471 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Rudolstadt Watch Widget";
+			productName = "Rudolstadt Watch Widget";
+			productReference = B14400102FE50001004F9471 /* Rudolstadt Watch Widget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1176,6 +1355,12 @@
 						CreatedOnToolsVersion = 13.3;
 						TestTargetID = 3551CC4728043624004F9471;
 					};
+					B14400602FE50001004F9471 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					B14400612FE50001004F9471 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 				};
 			};
 			buildConfigurationList = 3551CC3F28043622004F9471 /* Build configuration list for PBXProject "RudolstadtForiOS" */;
@@ -1202,11 +1387,30 @@
 				3551CC5428043624004F9471 /* Tests iOS */,
 				3551CC6028043624004F9471 /* Tests macOS */,
 				A10000092F990001004F9471 /* Unit Tests */,
+				B14400602FE50001004F9471 /* Rudolstadt Watch */,
+				B14400612FE50001004F9471 /* Rudolstadt Watch Widget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B14400522FE50001004F9471 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B144002D2FE50001004F9471 /* Assets.xcassets in Resources */,
+				B144002E2FE50001004F9471 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B14400562FE50001004F9471 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B14400312FE50001004F9471 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3551CC4628043624004F9471 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1270,10 +1474,43 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B14400502FE50001004F9471 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B14400292FE50001004F9471 /* RudolstadtWatchApp.swift in Sources */,
+				B144002A2FE50001004F9471 /* WatchSnapshotReceiver.swift in Sources */,
+				B144002B2FE50001004F9471 /* WatchRootView.swift in Sources */,
+				B14400212FE50001004F9471 /* WatchSnapshot.swift in Sources */,
+				B14300112FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */,
+				B14400822FE50001004F9471 /* WatchSnapshotImportPipeline.swift in Sources */,
+				B14400252FE50001004F9471 /* FestivalConfiguration.swift in Sources */,
+				B144002C2FE50001004F9471 /* AppLog.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B14400542FE50001004F9471 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B144002F2FE50001004F9471 /* RudolstadtWatchWidget.swift in Sources */,
+				B14400222FE50001004F9471 /* WatchSnapshot.swift in Sources */,
+				B14300122FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */,
+				B14400262FE50001004F9471 /* FestivalConfiguration.swift in Sources */,
+				B14400302FE50001004F9471 /* AppLog.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3551CC4428043624004F9471 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B14400202FE50001004F9471 /* WatchSnapshot.swift in Sources */,
+				B14300102FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */,
+				B14400272FE50001004F9471 /* WatchSnapshotBuilder.swift in Sources */,
+				B14400282FE50001004F9471 /* WatchSnapshotCoordinator.swift in Sources */,
+				B14400812FE50001004F9471 /* WatchSnapshotImportPipeline.swift in Sources */,
+				B14400232FE50001004F9471 /* FestivalConfiguration.swift in Sources */,
 				F40000062FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */,
 				F30000112FDD0001004F9471 /* AppleMusicPreviewService.swift in Sources */,
 				F30000122FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift in Sources */,
@@ -1399,6 +1636,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B14400242FE50001004F9471 /* FestivalConfiguration.swift in Sources */,
 				F40000072FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */,
 				F30000142FDD0001004F9471 /* AppleMusicPreviewService.swift in Sources */,
 				F30000152FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift in Sources */,
@@ -1531,6 +1769,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B14400322FE50001004F9471 /* WatchSnapshotTests.swift in Sources */,
 				F30000132FDD0001004F9471 /* AppleMusicPreviewServiceTests.swift in Sources */,
 				F10001012F990001004F9471 /* NotificationPermissionPresentationTests.swift in Sources */,
 				F10001022F990001004F9471 /* DataConverterTests.swift in Sources */,
@@ -1571,6 +1810,16 @@
 			target = 3551CC4728043624004F9471 /* RudolstadtForiOS (iOS) */;
 			targetProxy = A10000052F990001004F9471 /* PBXContainerItemProxy */;
 		};
+		B14400412FE50001004F9471 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B14400602FE50001004F9471 /* Rudolstadt Watch */;
+			targetProxy = B14400402FE50001004F9471 /* PBXContainerItemProxy */;
+		};
+		B14400432FE50001004F9471 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B14400612FE50001004F9471 /* Rudolstadt Watch Widget */;
+			targetProxy = B14400422FE50001004F9471 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1609,6 +1858,130 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		B14400712FE50001004F9471 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Watch/Watch.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RJYK9W2A39;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Watch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2026.3;
+				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS.watchkitapp;
+				PRODUCT_NAME = "Rudolstadt Watch";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		B14400722FE50001004F9471 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Watch/Watch.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RJYK9W2A39;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Watch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2026.3;
+				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS.watchkitapp;
+				PRODUCT_NAME = "Rudolstadt Watch";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+		B14400742FE50001004F9471 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "Watch Widget/WatchWidget.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RJYK9W2A39;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Watch Widget/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 2026.3;
+				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS.watchkitapp.widget;
+				PRODUCT_NAME = "Rudolstadt Watch Widget";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		B14400752FE50001004F9471 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "Watch Widget/WatchWidget.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RJYK9W2A39;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Watch Widget/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 2026.3;
+				PRODUCT_BUNDLE_IDENTIFIER = de.leongeorgi.RudolstadtForiOS.watchkitapp.widget;
+				PRODUCT_NAME = "Rudolstadt Watch Widget";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
 		3551CC6F28043624004F9471 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1817,6 +2190,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ATSApplicationFontsPath = "PatrickHand-Regular.ttf";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1845,6 +2219,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ATSApplicationFontsPath = "PatrickHand-Regular.ttf";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2037,6 +2412,24 @@
 			buildConfigurations = (
 				A100000B2F990001004F9471 /* Debug */,
 				A100000C2F990001004F9471 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B14400702FE50001004F9471 /* Build configuration list for PBXNativeTarget "Rudolstadt Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B14400712FE50001004F9471 /* Debug */,
+				B14400722FE50001004F9471 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B14400732FE50001004F9471 /* Build configuration list for PBXNativeTarget "Rudolstadt Watch Widget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B14400742FE50001004F9471 /* Debug */,
+				B14400752FE50001004F9471 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

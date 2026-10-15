@@ -20,6 +20,20 @@ struct FestivalData {
     let events: [Event]
 }
 
+enum FestivalDataSource: Equatable {
+    case remote
+    case cache
+    case staleCache
+    case bundledBackup
+    case screenshot
+}
+
+struct FestivalDataProvenance: Equatable {
+    let source: FestivalDataSource
+    let dataUpdatedAt: Date?
+    let refreshCheckedAt: Date?
+}
+
 private struct FestivalDataEnvironmentKey: EnvironmentKey {
     static let defaultValue: FestivalData? = nil
 }

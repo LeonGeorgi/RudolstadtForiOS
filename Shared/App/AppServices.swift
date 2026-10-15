@@ -7,6 +7,9 @@ final class AppServices {
     let festivalProfileStore: FestivalProfileStore
     let iapManager: IAPManager
     let newsRefresher: NewsRefresher
+#if os(iOS)
+    let watchSnapshotCoordinator: WatchSnapshotCoordinator?
+#endif
 
     init() {
         let userSettings = UserSettings()
@@ -47,6 +50,14 @@ final class AppServices {
         self.dataStore = dataStore
         self.iapManager = IAPManager()
         self.newsRefresher = NewsRefresher(newsService: newsService)
+#if os(iOS)
+        self.watchSnapshotCoordinator = WatchSnapshotTransportRuntime.isEnabled
+            ? WatchSnapshotCoordinator(
+                dataStore: dataStore,
+                profileStore: festivalProfileStore
+            )
+            : nil
+#endif
 
         festivalProfileStore.onChange(of: .recommendationInputs) {
             dataStore.scheduleRecommendationRefresh()

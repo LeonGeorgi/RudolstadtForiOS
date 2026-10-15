@@ -11,20 +11,32 @@ extension StringProtocol {
 @MainActor
 final class DataStore: ObservableObject {
 
-    @Published var festivalData: LoadingEntity<FestivalData> = .loading
+    @Published var festivalData: LoadingEntity<FestivalData> = .loading {
+        didSet { onWatchSnapshotInputsChange?() }
+    }
     @Published var news: LoadingEntity<[NewsItem]> = .loading
-    @Published var recommendedEventIDs: LoadingEntity<[Int]> = .loading
-    @Published var estimatedEventDurationsByEventID: [Int: Int]? = nil
+    @Published var recommendedEventIDs: LoadingEntity<[Int]> = .loading {
+        didSet { onWatchSnapshotInputsChange?() }
+    }
+    @Published var estimatedEventDurationsByEventID: [Int: Int]? = nil {
+        didSet { onWatchSnapshotInputsChange?() }
+    }
+    @Published var recommendationsGeneratedAt: Date? = nil {
+        didSet { onWatchSnapshotInputsChange?() }
+    }
     @Published var artistLinks: [String: ArtistLinks]? = nil
     @Published var browseTaxonomy: [BrowseTaxonomyEntry] = []
     @Published var festivalDataLastDownloadDate: Date?
     @Published var isUsingBundledFestivalDataBackup = false
     @Published var festivalDataFallbackStatus: FestivalDataFallbackStatus?
+    @Published var festivalDataProvenance: FestivalDataProvenance? = nil {
+        didSet { onWatchSnapshotInputsChange?() }
+    }
     
     var extraData: ExtraDataCollection? = nil
     private var browseTaxonomyByID: [String: BrowseTaxonomyEntry] = [:]
 
-    nonisolated static let year = 2026
+    nonisolated static let year = FestivalConfiguration.year
 
     private let festivalDataCache: any FestivalDataCaching
     private let bundledNewsLoader: any BundledNewsLoading
@@ -32,6 +44,8 @@ final class DataStore: ObservableObject {
     let newsService: NewsService
     let recommendationService: RecommendationProviding
     let festivalProfileStore: FestivalProfileStore
+
+    var onWatchSnapshotInputsChange: (() -> Void)?
 
     private var pendingRecommendationRefreshTask: Task<Void, Never>?
     private var recommendationRefreshGeneration = 0
@@ -115,6 +129,7 @@ final class DataStore: ObservableObject {
         guard case .success(let loadedFestivalData) = festivalData else {
             estimatedEventDurationsByEventID = nil
             recommendedEventIDs = .loading
+            recommendationsGeneratedAt = nil
             return
         }
 
@@ -124,6 +139,7 @@ final class DataStore: ObservableObject {
         recommendationRefreshGeneration = generation
 
         recommendedEventIDs = .loading
+        recommendationsGeneratedAt = nil
         let snapshot = await buildRecommendationSnapshot(
             festivalData: loadedFestivalData,
             savedEventIds: savedEventIds,
@@ -135,6 +151,7 @@ final class DataStore: ObservableObject {
         }
         estimatedEventDurationsByEventID = snapshot.estimatedEventDurations
         recommendedEventIDs = .success(snapshot.recommendedEventIds)
+        recommendationsGeneratedAt = now
         AppLog.data.debug(
             "Updated recommendations with \(snapshot.recommendedEventIds.count) events"
         )
@@ -171,12 +188,17 @@ final class DataStore: ObservableObject {
         guard generation == festivalDataRefreshGeneration else {
             return
         }
+        refreshFestivalDataDownloadMetadata()
         switch resultFromCache {
         case .loaded(let cachedData):
+            festivalDataProvenance = FestivalDataProvenance(
+                source: .cache,
+                dataUpdatedAt: festivalDataLastDownloadDate,
+                refreshCheckedAt: nil
+            )
             festivalData = .success(cachedData)
             isUsingBundledFestivalDataBackup = false
             festivalDataFallbackStatus = nil
-            refreshFestivalDataDownloadMetadata()
             AppLog.data.info(
                 "Loaded festival data from cache with \(cachedData.artists.count) artists and \(cachedData.events.count) events"
             )
@@ -315,6 +337,11 @@ final class DataStore: ObservableObject {
         generation: Int
     ) async {
         if case .stale(let loadedData) = resultFromCache {
+            festivalDataProvenance = FestivalDataProvenance(
+                source: .staleCache,
+                dataUpdatedAt: festivalDataLastDownloadDate,
+                refreshCheckedAt: nil
+            )
             festivalData = .success(loadedData)
         }
         do {
@@ -336,6 +363,12 @@ final class DataStore: ObservableObject {
             )
             AppLog.data.info(
                 "Downloaded festival data with \(entities.artists.count) artists, \(entities.events.count) events, and \(entities.stages.count) stages"
+            )
+            let refreshDate = Date.now
+            festivalDataProvenance = FestivalDataProvenance(
+                source: .remote,
+                dataUpdatedAt: refreshDate,
+                refreshCheckedAt: refreshDate
             )
             festivalData = .success(entities)
             isUsingBundledFestivalDataBackup = false
@@ -362,6 +395,11 @@ final class DataStore: ObservableObject {
         error: Error
     ) {
         if case .stale(let loadedData) = resultFromCache {
+            festivalDataProvenance = FestivalDataProvenance(
+                source: .staleCache,
+                dataUpdatedAt: festivalDataLastDownloadDate,
+                refreshCheckedAt: .now
+            )
             festivalData = .success(loadedData)
             isUsingBundledFestivalDataBackup = false
             festivalDataFallbackStatus = FestivalDataFallbackStatus(
@@ -380,12 +418,20 @@ final class DataStore: ObservableObject {
         } else if loadBundledFestivalDataBackup(after: error) {
             AppLog.data.info("Using bundled festival data backup after refresh failure")
         } else {
+            festivalDataProvenance = nil
             festivalData = .failure(failureReasonForDownloadFailure(error))
             AppLog.data.error("Festival data refresh failed and no cached data was available")
         }
     }
 
     private func updateCurrentFestivalDataFallbackStatusAfterFailedRefresh(_ error: Error) {
+        if let provenance = festivalDataProvenance {
+            festivalDataProvenance = FestivalDataProvenance(
+                source: provenance.source,
+                dataUpdatedAt: provenance.dataUpdatedAt,
+                refreshCheckedAt: .now
+            )
+        }
         guard isUsingBundledFestivalDataBackup else {
             return
         }
@@ -404,6 +450,11 @@ final class DataStore: ObservableObject {
 
         switch result {
         case .loaded(let backupData), .stale(let backupData):
+            festivalDataProvenance = FestivalDataProvenance(
+                source: .bundledBackup,
+                dataUpdatedAt: nil,
+                refreshCheckedAt: .now
+            )
             festivalData = .success(backupData)
             isUsingBundledFestivalDataBackup = true
             festivalDataFallbackStatus = FestivalDataFallbackStatus(
@@ -542,6 +593,11 @@ final class DataStore: ObservableObject {
 
         switch cachedResult {
         case .loaded(let cachedData):
+            festivalDataProvenance = FestivalDataProvenance(
+                source: .cache,
+                dataUpdatedAt: festivalDataLastDownloadDate,
+                refreshCheckedAt: nil
+            )
             festivalData = .success(cachedData)
             isUsingBundledFestivalDataBackup = false
             festivalDataFallbackStatus = nil
@@ -549,6 +605,11 @@ final class DataStore: ObservableObject {
                 "Loaded festival data from cache with \(cachedData.artists.count) artists and \(cachedData.events.count) events"
             )
         case .stale(let cachedData):
+            festivalDataProvenance = FestivalDataProvenance(
+                source: .staleCache,
+                dataUpdatedAt: festivalDataLastDownloadDate,
+                refreshCheckedAt: nil
+            )
             festivalData = .success(cachedData)
             isUsingBundledFestivalDataBackup = false
             festivalDataFallbackStatus = nil
@@ -578,10 +639,16 @@ final class DataStore: ObservableObject {
             extraData: resolvedExtraData
         ) {
         case .loaded(let data), .stale(let data):
+            festivalDataProvenance = FestivalDataProvenance(
+                source: .screenshot,
+                dataUpdatedAt: ScreenshotRuntime.referenceDate,
+                refreshCheckedAt: ScreenshotRuntime.referenceDate
+            )
             festivalData = .success(data)
             isUsingBundledFestivalDataBackup = false
             festivalDataFallbackStatus = nil
         case .notFound, .unparsable:
+            festivalDataProvenance = nil
             festivalData = .failure(.couldNotLoadFromFile)
         }
 

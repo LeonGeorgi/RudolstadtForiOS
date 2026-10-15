@@ -12,14 +12,22 @@ struct FestivalProfileStoreTests {
     func recommendationInputChangeFiresForSavedEventsAndRatings() {
         let profileStore = TestFixtures.festivalProfileStore()
         var callbackCount = 0
+        var watchCallbackCount = 0
         profileStore.onChange(of: .recommendationInputs) {
             callbackCount += 1
+        }
+        profileStore.onChange(of: .watchSnapshotInputs) {
+            watchCallbackCount += 1
         }
 
         profileStore.toggleSavedEvent(Event.example)
         profileStore.setArtistRating(for: Artist.example, rating: 2)
+        profileStore.syncStore.acceptedFriendProfiles = [
+            TestFixtures.sharedFestivalProfile(savedEventIDs: [Event.example.id])
+        ]
 
         #expect(callbackCount == 2)
+        #expect(watchCallbackCount == 3)
     }
 
     @Test
