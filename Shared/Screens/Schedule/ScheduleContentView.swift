@@ -42,7 +42,6 @@ struct ScheduleContentView: View {
                 Group {
                     if effectiveDisplayMode == .timeline {
                         ScheduleTimelineView(events: todaysEvents)
-                            .scheduleTimelineNavigationBackground()
                     } else {
                         ScheduleListView(events: todaysEvents)
                     }
@@ -52,18 +51,6 @@ struct ScheduleContentView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-    }
-}
-
-private extension View {
-    @ViewBuilder
-    func scheduleTimelineNavigationBackground() -> some View {
-        #if os(iOS)
-        toolbarBackground(Color(.systemBackground), for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-        #else
-        self
-        #endif
     }
 }
 

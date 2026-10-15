@@ -331,7 +331,6 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
             content
                 .disabled(zoomGestureSession != nil)
         }
-        .scheduleTimelineTopScrollEdgeHidden()
         .scrollPosition($scrollPosition)
         .onScrollGeometryChange(
             for: ScheduleTimelineScrollMetrics.self
@@ -504,19 +503,6 @@ private struct ScheduleTimelineScrollView<Content: View>: View {
     }
     #endif
 }
-
-#if os(iOS)
-private extension View {
-    @ViewBuilder
-    func scheduleTimelineTopScrollEdgeHidden() -> some View {
-        if #available(iOS 26.0, *) {
-            scrollEdgeEffectHidden(true, for: .top)
-        } else {
-            self
-        }
-    }
-}
-#endif
 
 #if os(iOS)
 private struct ScheduleTimelineZoomGestureSession {
