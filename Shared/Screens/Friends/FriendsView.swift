@@ -3,13 +3,13 @@ import CloudKit
 import SwiftUI
 
 private enum ShareSheetPresentation: Identifiable {
-    case inviteLink(URL)
+    case inviteLink
     case manage(CKShare)
 
     var id: String {
         switch self {
-        case .inviteLink(let url):
-            return url.absoluteString
+        case .inviteLink:
+            return "inviteLink"
         case .manage(let share):
             return share.recordID.recordName
         }
@@ -24,10 +24,10 @@ struct FriendsView: View {
     @State private var shareSheetPresentation: ShareSheetPresentation?
     @State private var isShowingMyQRCode = false
     @State private var isShowingFriendScanner = false
+    @State private var isShowingProfileEditor = false
     @State private var shareErrorMessage: String?
     @State private var badgeNameDraft = ""
     @State private var badgeColorHexDraft = FestivalProfileBadge.defaultColorHex
-    @State private var isShowingBadgeColorPicker = false
     @State private var isCheckingICloud = false
     @FocusState private var isBadgeNameFieldFocused: Bool
 
@@ -42,13 +42,6 @@ struct FriendsView: View {
 
     private var followedByCount: Int {
         profileSync.acceptedShareParticipantCount
-    }
-
-    private var draftBadge: FestivalProfileBadge {
-        .ownerBadge(
-            rawName: badgeNameDraft,
-            rawColorHex: badgeColorHexDraft
-        )
     }
 
     private var friendRecommendations: [FriendArtistRecommendation] {
@@ -80,30 +73,39 @@ struct FriendsView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 28) {
-                if !isSetupComplete {
+        List {
+            if !isSetupComplete {
+                Section {
                     setupIntroduction
+                        .listRowBackground(Color.clear)
                 }
                 profileBadgeSection
-                if !isSetupComplete {
-                    iCloudSetupSection
-                } else {
-                    connectionSection
-                    togetherSections
-                    followingSection
-                    followedBySection
+                iCloudSetupSection
+            } else {
+                Section {
+                    profileSummary
+                } footer: {
+                    Text("friends.privacy.summary")
+                }
+                togetherSections
+                followingSection
+                followedBySection
+            }
+        }
+        .font(.body)
+        .listStyle(.insetGrouped)
+        .navigationTitle("more.friends.title")
+        .toolbar {
+            if isSetupComplete {
+                ToolbarItem(placement: .topBarTrailing) {
+                    connectionMenu
                 }
             }
-            .padding(.horizontal, contentHorizontalPadding)
-            .padding(.vertical, 20)
         }
-        .background(Color(.systemGroupedBackground))
-        .navigationTitle("more.friends.title")
         .sheet(item: $shareSheetPresentation, onDismiss: refreshShareParticipants) { presentation in
             switch presentation {
-            case .inviteLink(let url):
-                InviteLinkShareSheetView(url: url)
+            case .inviteLink:
+                InviteLinkShareSheetView(profile: profile)
             case .manage(let share):
                 CloudSharingControllerView(share: share)
             }
@@ -113,6 +115,9 @@ struct FriendsView: View {
         }
         .sheet(isPresented: $isShowingFriendScanner) {
             FriendProfileQRScannerSheetView(profile: profile)
+        }
+        .sheet(isPresented: $isShowingProfileEditor, onDismiss: syncBadgeDraftsFromProfile) {
+            ProfileBadgeEditorSheet(profile: profile)
         }
         .alert("friends.share_unavailable.title", isPresented: Binding(
             get: { shareErrorMessage != nil },
@@ -133,13 +138,13 @@ struct FriendsView: View {
             refreshShareParticipants()
         }
         .onChange(of: profile.badgeName) { _, _ in
-            guard !isBadgeNameFieldFocused else {
+            guard !isShowingProfileEditor, !isBadgeNameFieldFocused else {
                 return
             }
             syncBadgeDraftsFromProfile()
         }
         .onChange(of: profile.badgeColorHex) { _, _ in
-            guard !isBadgeNameFieldFocused else {
+            guard !isShowingProfileEditor, !isBadgeNameFieldFocused else {
                 return
             }
             syncBadgeDraftsFromProfile()
@@ -169,47 +174,63 @@ struct FriendsView: View {
     }
 
     private var profileBadgeSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            FriendsSectionTitle(
-                isSetupComplete ? "friends.badge.section" : "friends.setup.badge.section"
-            )
-
+        Section {
             profileBadgeEditor
-                .padding(14)
-                .background(Color(.secondarySystemGroupedBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-
-            if !isSetupComplete, isBadgeConfigured {
+            if isBadgeConfigured {
                 Label("friends.setup.badge.ready", systemImage: "checkmark.circle.fill")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.green)
             }
-
+        } header: {
+            Text("friends.setup.badge.section")
+        } footer: {
             Text("friends.badge.footer")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
         }
-        .accessibilityElement(children: .contain)
+    }
+
+    private var profileSummary: some View {
+        Button {
+            syncBadgeDraftsFromProfile()
+            isShowingProfileEditor = true
+        } label: {
+            HStack(spacing: 12) {
+                FestivalProfileBadgeAvatar(badge: profile.ownerBadge, diameter: 42)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(profile.ownerBadge.displayName)
+                        .font(.headline)
+                    Text("friends.badge.section")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Text("friends.badge.edit")
+                    .foregroundStyle(.tint)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     private var profileBadgeEditor: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 12) {
-                badgeColorMenu
-
-                TextField("friends.badge.name.placeholder", text: $badgeNameDraft)
-                    .textInputAutocapitalization(.words)
-                    .autocorrectionDisabled()
-                    .focused($isBadgeNameFieldFocused)
-            }
-
+            badgeFields
             if !isSaveBadgeDisabled {
                 HStack {
                     Spacer()
                     saveChangesButton
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.small)
                 }
             }
         }
+    }
+
+    private var badgeFields: some View {
+        ProfileBadgeFields(
+            name: $badgeNameDraft,
+            colorHex: $badgeColorHexDraft,
+            isNameFocused: $isBadgeNameFieldFocused
+        )
     }
 
     private var isShareActionDisabled: Bool {
@@ -231,40 +252,20 @@ struct FriendsView: View {
             && FestivalProfileBadge.resolvedColorHex(badgeColorHexDraft) == profile.badgeColorHex
     }
 
-    private var badgeColorMenu: some View {
-        Button {
-            isShowingBadgeColorPicker = true
-        } label: {
-            FestivalProfileBadgeAvatar(badge: draftBadge, diameter: 42)
-        }
-        .buttonStyle(.plain)
-        .popover(isPresented: $isShowingBadgeColorPicker) {
-            BadgeColorPickerPopover(
-                selectedColorHex: $badgeColorHexDraft,
-                onSelect: {
-                    isShowingBadgeColorPicker = false
-                }
-            )
-            .presentationCompactAdaptation(.popover)
-        }
-    }
-
     private var saveChangesButton: some View {
         Button("friends.badge.save") {
             profile.updateBadge(
                 name: badgeNameDraft,
                 colorHex: badgeColorHexDraft
             )
+            isBadgeNameFieldFocused = false
+            isShowingProfileEditor = false
             syncBadgeDraftsFromProfile()
         }
-        .buttonStyle(.borderedProminent)
-        .controlSize(.small)
     }
 
     private var iCloudSetupSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            FriendsSectionTitle("friends.setup.icloud.section")
-
+        Section {
             HStack(alignment: .top, spacing: 12) {
                 iCloudStatusIcon
                     .frame(width: 24, height: 24)
@@ -291,11 +292,9 @@ struct FriendsView: View {
 
                 Spacer(minLength: 0)
             }
-            .padding(14)
-            .background(Color(.secondarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+        } header: {
+            Text("friends.setup.icloud.section")
         }
-        .accessibilityElement(children: .contain)
     }
 
     @ViewBuilder
@@ -335,91 +334,39 @@ struct FriendsView: View {
         return true
     }
 
-    private var connectionSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            FriendsSectionTitle("friends.actions.section")
-
-            VStack(spacing: 0) {
-                connectionButton(
-                    title: "friends.show_my_qr_code",
-                    systemImage: "qrcode"
-                ) {
-                    isShowingMyQRCode = true
-                }
-
-                Divider()
-
-                connectionButton(
-                    title: "friends.share_invite_link",
-                    systemImage: "square.and.arrow.up"
-                ) {
-                    handleShareButtonTapped()
-                }
-
-                Divider()
-
-                connectionButton(
-                    title: "friends.add_new",
-                    systemImage: "qrcode.viewfinder"
-                ) {
-                    isShowingFriendScanner = true
-                }
+    private var connectionMenu: some View {
+        Menu {
+            Button {
+                isShowingFriendScanner = true
+            } label: {
+                Label("friends.scan_qr", systemImage: "qrcode.viewfinder")
             }
-            .background(Color(.secondarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-
-            if profileSync.isPreparingShare {
-                ProgressView("friends.setup.connect.preparing")
-                    .font(.footnote)
+            Button {
+                isShowingMyQRCode = true
+            } label: {
+                Label("friends.show_my_qr_code", systemImage: "qrcode")
             }
-
-            Text("friends.privacy.body")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
+            Button {
+                shareSheetPresentation = .inviteLink
+            } label: {
+                Label("friends.share_invite_link", systemImage: "square.and.arrow.up")
+            }
+        } label: {
+            Label("friends.add_new", systemImage: "plus")
         }
-        .accessibilityElement(children: .contain)
-    }
-
-    private func connectionButton(
-        title: LocalizedStringKey,
-        systemImage: String,
-        action: @escaping () -> Void
-    ) -> some View {
-        Button(action: action) {
-            HStack(spacing: 12) {
-                Image(systemName: systemImage)
-                    .frame(width: 24)
-                    .foregroundStyle(Color.rudolstadt)
-                Text(title)
-                    .font(.subheadline.weight(.semibold))
-                Spacer(minLength: 8)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
-            .padding(14)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
         .disabled(isShareActionDisabled)
     }
 
     @ViewBuilder
     private var togetherSections: some View {
-        if friendProfiles.isEmpty {
-            VStack(alignment: .leading, spacing: 10) {
-                FriendsSectionTitle("friends.together.section")
-
-                Text("friends.together.no_friends")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+        if !friendProfiles.isEmpty {
+            Section {
+                friendRecommendationsSection
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(14)
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                    .navigationLinkIndicatorVisibility(.hidden)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
             }
-        } else {
-            friendRecommendationsSection
         }
     }
 
@@ -451,13 +398,7 @@ struct FriendsView: View {
             }
 
             if friendRecommendations.isEmpty {
-                Text("friends.together.empty")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(14)
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                friendsEmptyMessage("friends.together.empty")
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack(alignment: .top, spacing: recommendationTileSpacing) {
@@ -494,9 +435,7 @@ struct FriendsView: View {
 
     @ViewBuilder
     private var followingSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            FriendsSubsectionTitle("friends.following.section")
-
+        Section {
             if friendProfiles.isEmpty {
                 friendsEmptyMessage("friends.following.empty")
             } else {
@@ -504,57 +443,37 @@ struct FriendsView: View {
                     NavigationLink(
                         value: AppNavigationRoute.sharedFestivalProfile(profile: sharedProfile)
                     ) {
-                        HStack(spacing: 8) {
-                            FriendProfileListRow(
-                                profile: sharedProfile,
-                                subtitle: friendProfileSubtitle(sharedProfile)
-                            )
-                            Spacer(minLength: 8)
-                            Image(systemName: "chevron.right")
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(.tertiary)
-                        }
-                        .padding(14)
-                        .background(Color(.secondarySystemGroupedBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                        FriendProfileListRow(
+                            profile: sharedProfile,
+                            subtitle: friendProfileSubtitle(sharedProfile)
+                        )
                     }
-                    .buttonStyle(.plain)
                 }
+            }
+        } header: {
+            Text("friends.following.section")
+        } footer: {
+            if friendProfiles.isEmpty {
+                Text("friends.together.no_friends")
             }
         }
     }
 
     @ViewBuilder
     private var followedBySection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            FriendsSubsectionTitle("friends.followed_by.section")
-
-            VStack(alignment: .leading, spacing: 10) {
-                Text(followedByCountText)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                if profileSync.shareState == .shared {
-                    Button {
-                        handleManageShareButtonTapped()
-                    } label: {
-                        HStack(spacing: 8) {
-                            Label("friends.followed_by.details", systemImage: "person.2")
-                                .font(.subheadline.weight(.semibold))
-                            Spacer(minLength: 8)
-                            Image(systemName: "chevron.right")
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(.tertiary)
-                        }
-                    }
-                    .buttonStyle(.plain)
-                    .disabled(profileSync.isPreparingShare)
+        Section {
+            Text(followedByCountText)
+                .foregroundStyle(.secondary)
+            if profileSync.shareState == .shared {
+                Button {
+                    handleManageShareButtonTapped()
+                } label: {
+                    Label("friends.followed_by.details", systemImage: "person.2")
                 }
+                .disabled(profileSync.isPreparingShare)
             }
-            .padding(14)
-            .background(Color(.secondarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+        } header: {
+            Text("friends.followed_by.section")
         }
     }
 
@@ -571,9 +490,6 @@ struct FriendsView: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(14)
-            .background(Color(.secondarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
     }
 
     private func friendProfileSubtitle(_ profile: SharedFestivalProfile) -> String {
@@ -648,17 +564,6 @@ struct FriendsView: View {
         return friendsLocalizedString(localizationKey)
     }
 
-    private func handleShareButtonTapped() {
-        Task {
-            do {
-                let inviteURL = try await profile.prepareOneTimeShareURL()
-                shareSheetPresentation = .inviteLink(inviteURL)
-            } catch {
-                shareErrorMessage = error.localizedDescription
-            }
-        }
-    }
-
     private func handleManageShareButtonTapped() {
         if let cachedShare = profile.cachedShare() {
             shareSheetPresentation = .manage(cachedShare)
@@ -681,32 +586,86 @@ struct FriendsView: View {
 
 }
 
-private struct FriendsSectionTitle: View {
-    let title: LocalizedStringKey
+private struct ProfileBadgeEditorSheet: View {
+    @ObservedObject var profile: FestivalProfileStore
+    @Environment(\.dismiss) private var dismiss
+    @State private var name: String
+    @State private var colorHex: String
+    @FocusState private var isNameFocused: Bool
 
-    init(_ title: LocalizedStringKey) {
-        self.title = title
+    init(profile: FestivalProfileStore) {
+        self.profile = profile
+        _name = State(initialValue: profile.badgeName)
+        _colorHex = State(initialValue: profile.badgeColorHex)
+    }
+
+    private var isSaveDisabled: Bool {
+        guard let normalizedName = FestivalProfileBadge.normalizedName(name) else {
+            return true
+        }
+        return normalizedName == profile.badgeName
+            && FestivalProfileBadge.resolvedColorHex(colorHex) == profile.badgeColorHex
     }
 
     var body: some View {
-        Text(title)
-            .font(.footnote.weight(.semibold))
-            .foregroundStyle(.secondary)
-            .textCase(.uppercase)
+        NavigationStack {
+            Form {
+                Section {
+                    ProfileBadgeFields(
+                        name: $name,
+                        colorHex: $colorHex,
+                        isNameFocused: $isNameFocused
+                    )
+                } footer: {
+                    Text("friends.badge.footer")
+                }
+            }
+            .navigationTitle("friends.badge.edit.title")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("friends.cancel", role: .cancel) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("friends.badge.save") {
+                        profile.updateBadge(name: name, colorHex: colorHex)
+                        dismiss()
+                    }
+                    .disabled(isSaveDisabled)
+                }
+            }
+        }
     }
 }
 
-private struct FriendsSubsectionTitle: View {
-    let title: LocalizedStringKey
-
-    init(_ title: LocalizedStringKey) {
-        self.title = title
-    }
+private struct ProfileBadgeFields: View {
+    @Binding var name: String
+    @Binding var colorHex: String
+    var isNameFocused: FocusState<Bool>.Binding
+    @State private var isShowingColorPicker = false
 
     var body: some View {
-        Text(title)
-            .font(.subheadline.weight(.semibold))
-            .foregroundStyle(.primary)
+        HStack(spacing: 12) {
+            Button {
+                isShowingColorPicker = true
+            } label: {
+                FestivalProfileBadgeAvatar(
+                    badge: .ownerBadge(rawName: name, rawColorHex: colorHex),
+                    diameter: 42
+                )
+            }
+            .buttonStyle(.plain)
+            .popover(isPresented: $isShowingColorPicker) {
+                BadgeColorPickerPopover(selectedColorHex: $colorHex) {
+                    isShowingColorPicker = false
+                }
+                .presentationCompactAdaptation(.popover)
+            }
+            TextField("friends.badge.name.placeholder", text: $name)
+                .textInputAutocapitalization(.words)
+                .autocorrectionDisabled()
+                .focused(isNameFocused)
+        }
     }
 }
 

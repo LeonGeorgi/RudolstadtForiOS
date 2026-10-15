@@ -40,6 +40,10 @@ struct MyProfileQRCodeSheetView: View {
                         ProgressView("friends.qr.preparing_invite")
                             .frame(maxWidth: .infinity, minHeight: 280)
                     }
+                    Text("friends.privacy.body")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(24)

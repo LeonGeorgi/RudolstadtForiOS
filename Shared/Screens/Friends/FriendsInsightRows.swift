@@ -61,8 +61,7 @@ struct FriendArtistRecommendationRow: View {
                 VStack(alignment: .leading, spacing: 5) {
                     ForEach(recommendation.contributions) { contribution in
                         FriendArtistRecommendationContributionRow(
-                            contribution: contribution,
-                            showsFriendBadge: false
+                            contribution: contribution
                         )
                     }
                 }
@@ -78,18 +77,15 @@ struct FriendArtistRecommendationRow: View {
         VStack(alignment: .leading, spacing: 2) {
             if let genreText {
                 Text(genreText)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
             }
 
             if let countryAndFlags {
                 Text(countryAndFlags)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
             }
         }
+        .font(.caption)
+        .foregroundStyle(.secondary)
+        .lineLimit(1)
     }
 
     private var genreText: String? {
@@ -219,20 +215,11 @@ struct FriendArtistRecommendationTile: View {
 private struct FriendArtistRecommendationContributionRow: View {
     let contribution: FriendArtistRecommendation.Contribution
     var compact = false
-    var showsFriendBadge = false
 
     @EnvironmentObject private var settings: UserSettings
 
     var body: some View {
         HStack(alignment: .center, spacing: 6) {
-            if showsFriendBadge {
-                FestivalProfileBadgeAvatar(
-                    badge: contribution.badge,
-                    diameter: 20,
-                    fontScale: 0.42
-                )
-            }
-
             contributionIcon
                 .frame(width: compact ? 14 : 18)
 

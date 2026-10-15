@@ -213,6 +213,10 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "sync.festival_data.status.connection_problem" = "Kein Internet";
 "sync.festival_data.status.update_failed" = "Download fehlgeschlagen";
 "friends.badge.section" = "Mein Badge";
+"friends.badge.edit" = "Bearbeiten";
+"friends.badge.edit.title" = "Profil bearbeiten";
+"friends.cancel" = "Abbrechen";
+"friends.invite.title" = "Freunde einladen";
 "friends.badge.name.placeholder" = "Dein Name";
 "friends.badge.footer" = "Freunde sehen diesen Namen und diese Farbe in deinem geteilten Profil-Badge. Tippe auf das Badge, um die Farbe zu ändern.";
 "friends.badge.save" = "Speichern";
@@ -269,6 +273,7 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "friends.followed_by.count.other" = "%lld Personen folgen dir";
 "friends.followed_by.details" = "Details anzeigen";
 "friends.privacy.section" = "Privatsphäre";
+"friends.privacy.summary" = "Du teilst deinen Plan und deine Künstlerbewertungen.";
 "friends.privacy.body" = "Gespeicherte Veranstaltungen und Künstlerbewertungen können mit eingeladenen Freunden geteilt werden. Künstlernotizen bleiben privat und werden nur zwischen deinen eigenen Geräten synchronisiert.";
 "friends.share_unavailable.title" = "Teilen nicht verfügbar";
 "friends.alert.ok" = "OK";

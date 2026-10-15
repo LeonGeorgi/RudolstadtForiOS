@@ -213,6 +213,10 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "sync.festival_data.status.connection_problem" = "No internet";
 "sync.festival_data.status.update_failed" = "Download failed";
 "friends.badge.section" = "My Badge";
+"friends.badge.edit" = "Edit";
+"friends.badge.edit.title" = "Edit profile";
+"friends.cancel" = "Cancel";
+"friends.invite.title" = "Invite friends";
 "friends.badge.name.placeholder" = "Your name";
 "friends.badge.footer" = "Friends will see this name and color in your shared profile badge. Tap the badge to change its color.";
 "friends.badge.save" = "Save";
@@ -269,6 +273,7 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "friends.followed_by.count.other" = "%lld people follow you";
 "friends.followed_by.details" = "Show details";
 "friends.privacy.section" = "Privacy";
+"friends.privacy.summary" = "You share your schedule and artist ratings.";
 "friends.privacy.body" = "Saved events and artist ratings can be shared with invited friends. Artist notes stay private to you and sync only across your own devices.";
 "friends.share_unavailable.title" = "Share Unavailable";
 "friends.alert.ok" = "OK";
