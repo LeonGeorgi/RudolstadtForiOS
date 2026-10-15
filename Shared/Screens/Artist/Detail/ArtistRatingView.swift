@@ -1,20 +1,5 @@
 import SwiftUI
 
-enum ArtistRatingCoordinateSpace {
-    static let name = "artist-rating-viewport"
-}
-
-private struct ArtistRatingViewportHeightKey: EnvironmentKey {
-    static let defaultValue: CGFloat = 0
-}
-
-extension EnvironmentValues {
-    var artistRatingViewportHeight: CGFloat {
-        get { self[ArtistRatingViewportHeightKey.self] }
-        set { self[ArtistRatingViewportHeightKey.self] = newValue }
-    }
-}
-
 private enum ArtistRatingOptions {
     static let defaultAlternativeIcon = "hand.thumbsdown.fill"
 
@@ -81,28 +66,15 @@ struct ArtistRatingPopoverButton: View {
         static let buttonSize: CGFloat = 50
         static let iconSize: CGFloat = 24
         static let friendRatingsVerticalOffset: CGFloat = -30
-        static let minimumCompactPopoverSpace: CGFloat = 300
-        static let minimumRegularPopoverSpace: CGFloat = 390
-    }
-
-    private enum PresentationLayout: Equatable {
-        case sheet
-        case compactPopover
-        case regularPopover
     }
 
     let artist: Artist
     let currentTipID: String?
 
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @Environment(\.artistRatingViewportHeight) private var viewportHeight
-    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @EnvironmentObject private var settings: UserSettings
     @EnvironmentObject private var profile: FestivalProfileStore
     @EnvironmentObject private var friends: FriendProfilesStore
-    @State private var isShowingRatingPopover = false
-    @State private var isShowingRatingSheet = false
-    @State private var presentationLayout = PresentationLayout.sheet
+    @State private var isShowingRatingPalette = false
 
     private var rating: Int {
         profile.rating(for: artist.id)
@@ -123,11 +95,7 @@ struct ArtistRatingPopoverButton: View {
 
     var body: some View {
         Button {
-            if usesSheetPresentation {
-                isShowingRatingSheet = true
-            } else {
-                isShowingRatingPopover = true
-            }
+            isShowingRatingPalette = true
         } label: {
             triggerIcon
                 .frame(
@@ -158,66 +126,12 @@ struct ArtistRatingPopoverButton: View {
             currentTipID: currentTipID,
             arrowEdge: .bottom
         )
-        .onGeometryChange(for: PresentationLayout.self) { proxy in
-            presentationLayout(
-                triggerMaxY: proxy.frame(
-                    in: .named(ArtistRatingCoordinateSpace.name)
-                ).maxY
-            )
-        } action: { newLayout in
-            presentationLayout = newLayout
-        }
-        .popover(
-            isPresented: $isShowingRatingPopover,
-            arrowEdge: .top
-        ) {
-            ArtistRatingPalette(
-                artist: artist,
-                forcesCompactLayout: usesCompactPopoverLayout
-            )
+        .popover(isPresented: $isShowingRatingPalette) {
+            ArtistRatingPalette(artist: artist)
+                #if os(iOS)
                 .presentationCompactAdaptation(.popover)
+                #endif
         }
-        .sheet(isPresented: $isShowingRatingSheet) {
-            ArtistRatingPalette(
-                artist: artist,
-                forcesCompactLayout: verticalSizeClass == .compact
-            )
-                .frame(
-                    maxWidth: .infinity,
-                    maxHeight: .infinity,
-                    alignment: .top
-                )
-                .padding(.top, 12)
-                .presentationDetents([.large])
-        }
-    }
-
-    private var usesSheetPresentation: Bool {
-        presentationLayout == .sheet
-    }
-
-    private var usesCompactPopoverLayout: Bool {
-        presentationLayout == .compactPopover
-    }
-
-    private func presentationLayout(
-        triggerMaxY: CGFloat
-    ) -> PresentationLayout {
-        guard !dynamicTypeSize.isAccessibilitySize,
-              verticalSizeClass != .compact,
-              viewportHeight > 0
-        else {
-            return .sheet
-        }
-
-        let availableSpaceBelow = max(viewportHeight - triggerMaxY, 0)
-        if availableSpaceBelow < Layout.minimumCompactPopoverSpace {
-            return .sheet
-        }
-        if availableSpaceBelow < Layout.minimumRegularPopoverSpace {
-            return .compactPopover
-        }
-        return .regularPopover
     }
 
     private var triggerBackgroundColor: Color {
@@ -283,7 +197,6 @@ private struct ArtistRatingPalette: View {
     }
 
     let artist: Artist
-    let forcesCompactLayout: Bool
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -378,10 +291,7 @@ private struct ArtistRatingPalette: View {
 
     @ViewBuilder
     var body: some View {
-        if
-            forcesCompactLayout
-                || verticalSizeClass == .compact
-        {
+        if verticalSizeClass == .compact {
             paletteContent(compact: true)
         } else {
             paletteContent(compact: false)

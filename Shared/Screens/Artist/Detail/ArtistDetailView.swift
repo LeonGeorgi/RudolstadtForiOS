@@ -37,7 +37,6 @@ struct ArtistDetailView: View {
     @State private var noteDraft = ArtistNoteDraft(noteText: nil)
     @State private var presentedBrowserURL: PresentedBrowserURL?
     @State private var isArtistTitleVisible = true
-    @State private var artistRatingViewportHeight: CGFloat = 0
     @StateObject private var appleMusicPreviewPlayer = AppleMusicPreviewPlayer()
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.artistDetailScreen
@@ -343,12 +342,7 @@ struct ArtistDetailView: View {
 
     var body: some View {
         detailScrollView
-            .coordinateSpace(name: ArtistRatingCoordinateSpace.name)
             .environment(\.artistDetailTheme, artistTheme)
-            .environment(
-                \.artistRatingViewportHeight,
-                artistRatingViewportHeight
-            )
             .accessibilityIdentifier(
                 "artist-detail-\(artist.id)-theme-ready"
             )
@@ -394,11 +388,6 @@ struct ArtistDetailView: View {
             .sheet(item: $presentedBrowserURL) { destination in
                 InAppSafariView(url: destination.url)
                     .ignoresSafeArea()
-            }
-            .onGeometryChange(for: CGFloat.self) { proxy in
-                proxy.size.height
-            } action: { newHeight in
-                artistRatingViewportHeight = newHeight
             }
             .onChange(of: scenePhase) { newPhase in
                 if newPhase != .active {
