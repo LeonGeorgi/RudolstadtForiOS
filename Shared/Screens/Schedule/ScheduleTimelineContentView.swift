@@ -24,8 +24,6 @@ private extension Color {
 struct ScheduleTimelineContentView: View {
     // Preserve identity without making this parent observe offset changes.
     @State private var scrollState = ScheduleTimelineScrollState()
-    @State private var currentTime: Date = Date()
-    @State private var currentTimeUpdateTask: Task<Void, Never>?
     @State private var heightPerHour = ScheduleTimelineZoom.defaultHeightPerHour
     @State private var columnWidth = ScheduleTimelineZoom.defaultColumnWidth
 
@@ -104,18 +102,20 @@ struct ScheduleTimelineContentView: View {
                             )
                         }
                         .overlay(alignment: .topLeading) {
-                            ScheduleTimelineTimeColumn(
-                                timeIntervals: timeIntervals,
-                                scrollState: scrollState,
-                                width: timeColumnBoundaryWidth,
-                                timeWidth: timeWidth,
-                                topPadding: stageHeaderHeight
-                                    + firstEventPadding,
-                                heightPerHour: heightPerHour,
-                                currentTime: currentTimeLinePosition() == nil
-                                    ? nil
-                                    : currentTime
-                            )
+                            TimelineView(.everyMinute) { context in
+                                ScheduleTimelineTimeColumn(
+                                    timeIntervals: timeIntervals,
+                                    scrollState: scrollState,
+                                    width: timeColumnBoundaryWidth,
+                                    timeWidth: timeWidth,
+                                    topPadding: stageHeaderHeight
+                                        + firstEventPadding,
+                                    heightPerHour: heightPerHour,
+                                    currentTime: currentTimeLinePosition(at: context.date) == nil
+                                        ? nil
+                                        : context.date
+                                )
+                            }
                             .allowsHitTesting(false)
                         }
                         .overlay(alignment: .topLeading) {
@@ -127,15 +127,18 @@ struct ScheduleTimelineContentView: View {
                             .allowsHitTesting(false)
                         }
                         .overlay(alignment: .topLeading) {
-                            if let position = currentTimeIndicatorPosition() {
-                                ScheduleTimelineCurrentTimeLine(
-                                    currentTime: currentTime,
-                                    scrollState: scrollState,
-                                    width: geo.size.width,
-                                    timeWidth: timeWidth,
-                                    heightPerHour: heightPerHour,
-                                    verticalPosition: position
-                                )
+                            TimelineView(.everyMinute) { context in
+                                if let position = currentTimeLinePosition(at: context.date) {
+                                    ScheduleTimelineCurrentTimeLine(
+                                        currentTime: context.date,
+                                        scrollState: scrollState,
+                                        width: geo.size.width,
+                                        timeWidth: timeWidth,
+                                        heightPerHour: heightPerHour,
+                                        verticalPosition: position + stageHeaderHeight
+                                            + firstEventPadding
+                                    )
+                                }
                             }
                         }
                         .overlay(alignment: .topLeading) {
@@ -188,25 +191,10 @@ struct ScheduleTimelineContentView: View {
 
                 }
             }
-            .onAppear {
-                startUpdatingCurrentTime()
-            }
-            .onDisappear {
-                currentTimeUpdateTask?.cancel()
-                currentTimeUpdateTask = nil
-            }
         }
     }
 
-    private func currentTimeIndicatorPosition() -> CGFloat? {
-        let timelineTop = stageHeaderHeight + firstEventPadding
-        return currentTimeLinePosition().map {
-            $0 + timelineTop
-        }
-    }
-
-    func currentTimeLinePosition() -> CGFloat? {
-
+    private func currentTimeLinePosition(at currentTime: Date) -> CGFloat? {
         guard let firstTimeInterval = timeIntervals.first else { return nil }
         guard let lastTimeInterval = timeIntervals.last else { return nil }
 
@@ -220,37 +208,6 @@ struct ScheduleTimelineContentView: View {
             / 3600
         return CGFloat(elapsedHours) * heightPerHour
     }
-
-    func startUpdatingCurrentTime() {
-        guard currentTimeUpdateTask == nil else { return }
-
-        currentTimeUpdateTask = Task {
-            while !Task.isCancelled {
-                let calendar = Calendar.current
-                let components = calendar.dateComponents(
-                    [.year, .month, .day, .hour, .minute],
-                    from: Date().addingTimeInterval(60)
-                )
-
-                guard let nextMinute = calendar.date(from: components) else {
-                    return
-                }
-
-                let interval = nextMinute.timeIntervalSince(Date())
-                let sleepNanoseconds = UInt64(max(interval, 1) * 1_000_000_000)
-
-                try? await Task.sleep(nanoseconds: sleepNanoseconds)
-                if Task.isCancelled {
-                    return
-                }
-
-                await MainActor.run {
-                    currentTime = Date()
-                }
-            }
-        }
-    }
-
 }
 
 #if os(iOS)
