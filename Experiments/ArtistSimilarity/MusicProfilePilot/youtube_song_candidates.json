@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "checked_date": "2026-10-09",
+  "purpose": "Representative recording candidates for the 22 usable artists in the music-profile pilot.",
+  "selection_policy": "Prefer an individual song from an artist, label or presenter channel that fits the festival project. Representativeness is provisional pending listening. Never silently substitute another ensemble or historic vocalist.",
+  "downloads_performed": true,
+  "download_report": "youtube_audio_downloads.json",
+  "audio_embeddings_computed": true,
+  "summary": {
+    "pilot_artists": 22,
+    "artists_with_direct_candidates": 21,
+    "artists_with_only_related_project": 1,
+    "recordings": 25
+  },
+  "related_project_evidence": [
+    "https://nordfolkfestival.de/workshops-2/",
+    "https://www.pabameto.com/"
+  ],
+  "excluded_recordings": [
+    {
+      "url": "https://www.youtube.com/watch?v=4MuMc6txw3Q",
+      "reason": "Video is private."
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=tzPMzOVJDOU",
+      "reason": "Band introduction with excerpts rather than individual song."
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=GIn-wuik2Gc",
+      "reason": "Full 1h44 concert rather than individual song."
+    }
+  ],
+  "recordings": [
+    {
+      "artist_id": 287,
+      "artist": "Trio Talan",
+      "title": "Laya Laya",
+      "url": "https://www.youtube.com/watch?v=JXp9ajTKLEI",
+      "channel": "Trio Talan",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Kurdisches Wiegenlied; ergänzt die Jazz-Seite der zweiten Aufnahme.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 287,
+      "artist": "Trio Talan",
+      "title": "Audrey (B. Laurance)",
+      "url": "https://www.youtube.com/watch?v=bKHLxL8fKiY",
+      "channel": "Trio Talan",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Bearbeitung eines Stücks von Jazzpianist Bill Laurance; Künstler beschreibt Verbindung verschiedener musikalischer Traditionen.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 226,
+      "artist": "Balafenn",
+      "title": "Scotch Cap (Chapelloise), live Leipzig 2025",
+      "url": "https://www.youtube.com/watch?v=bjSP3cycrYs",
+      "channel": "BALAFENN - Balfolk on Wings",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Einzelner Balfolk-Tanz aus dem Repertoire; Künstlerarrangement nach Playford.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 293,
+      "artist": "Zwei Stimmen",
+      "title": "Nassam Alayna Al Hawa (Fairuz Cover), live",
+      "url": "https://www.youtube.com/watch?v=7PmmhXZQ8hs",
+      "channel": "Nancy Reichel",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Arabische Repertoire-Seite, aufgenommen beim Kultürchen 2025.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 293,
+      "artist": "Zwei Stimmen",
+      "title": "Sehnsucht nach Silberfarn, live",
+      "url": "https://www.youtube.com/watch?v=E1Z0y__YYlo",
+      "channel": "Nancy Reichel",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Eigenes deutschsprachiges Stück von Marlene Wallnisch; ergänzt die arabische Aufnahme.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 187,
+      "artist": "Legiana Collective",
+      "title": "Lu Rusciu de lu Mare",
+      "url": "https://www.youtube.com/watch?v=0KuQojTLXnk",
+      "channel": "Legiana Collective",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Künstlerbeschreibung nennt Tarantella aus Apulien und Wechsel zwischen langsamer Ballade und schnellem Tanz.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 252,
+      "artist": "How to folk?",
+      "title": "Fravil – Festivals Schottisch",
+      "url": "https://www.youtube.com/watch?v=uBlOOJLuK9o",
+      "channel": "Pabameto",
+      "status": "related_project_only",
+      "include_in_artist_embedding_pilot": false,
+      "selection_reason": "Nur verwandtes Projekt als Hörreferenz: Marie Eberle und Pay Bandik Nonn spielen Fravil. Identität mit dem vierköpfigen Festival-Ensemble nicht bestätigt.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 285,
+      "artist": "Tribubu",
+      "title": "On My Way",
+      "url": "https://www.youtube.com/watch?v=Ug-uJzte5Uc",
+      "channel": "Tribubu World Music",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Offizielles Video; Titel und Beschreibung nennen Afro-Folk-Pop mit Balafon, Cajón und Gitarre.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 283,
+      "artist": "Jan-Philipp Tödte & Talkin’ Music",
+      "title": "Silent Thoughts About A Strange Life",
+      "url": "https://www.youtube.com/watch?v=a-ugyBplgxg",
+      "channel": "TalkinMusicDe",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Solo-Konzertaufnahme mit gleichzeitig gespielter Gitarre, Kalimba, Udu und Perkussion; passt zum Multiinstrumental-Projekt.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 255,
+      "artist": "just4now",
+      "title": "The longer the waiting, the sweeter the kiss",
+      "url": "https://www.youtube.com/watch?v=DCd7n7fmPfc",
+      "channel": "just4now",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Einzelner Song auf dem von der Bandwebsite verlinkten YouTube-Kanal, auch direkt in der Bandgalerie eingebettet.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 295,
+      "artist": "Eabhal",
+      "title": "Faca Sibh Màiri",
+      "url": "https://www.youtube.com/watch?v=rrubNVvHuDs",
+      "channel": "Eabhal Music",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Traditioneller gälischer Song; Beschreibung nennt Studioaufnahme nach neuer Besetzung.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 271,
+      "artist": "Hania Nafali",
+      "title": "Carnavalito (José Luis Merlin), live Bansin",
+      "url": "https://www.youtube.com/watch?v=aTpH3xccETA",
+      "channel": "Hania Nafali",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Einzelnes Stück aus dem klassischen Gitarrenrepertoire; Soloprojekt statt Pop-Duo.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 276,
+      "artist": "D.Şahin",
+      "title": "Shine",
+      "url": "https://www.youtube.com/watch?v=8gbGS74jtk0",
+      "channel": "D.$AHIN",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Offizieller Künstlerkanal D.$AHIN, Dilek Sahin; Identität über Künstlerinterview bestätigt.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 190,
+      "artist": "Derya Yildirim und Grup Şimşek",
+      "title": "Cool Hand – Live at Diamond Mine",
+      "url": "https://www.youtube.com/watch?v=r5fIYQ0GDPA",
+      "channel": "Big Crown Records / Derya Yıldırım & Grup Şimşek",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Liveaufnahme des aktuellen Gruppenprojekts beim Label.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 184,
+      "artist": "Hotel Rimini",
+      "title": "Déjà vu",
+      "url": "https://www.youtube.com/watch?v=JuD1GWXAaH4",
+      "channel": "Hotel Rimini",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Einzelner Song auf dem Bandkanal, bereits vom Festival verlinkt.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 218,
+      "artist": "Florian Paul & Die Kapelle der letzten Hoffnung",
+      "title": "wie planeten",
+      "url": "https://www.youtube.com/watch?v=xpI1ePybcfI",
+      "channel": "Florian Paul & Die Kapelle der letzten Hoffnung",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Offizielles Video des gesamten Bandprojekts.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 230,
+      "artist": "BlauViolett",
+      "title": "Ich lass alles los",
+      "url": "https://www.youtube.com/watch?v=T18GQNt3Huw",
+      "channel": "BlauViolett",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Einzelner Song auf dem Bandkanal statt der vom Festival verlinkten Vorstellung mit Auftrittsausschnitten.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 306,
+      "artist": "Wowakin",
+      "title": "Tamtadyna",
+      "url": "https://www.youtube.com/watch?v=d23Bwdteouw",
+      "channel": "Wowakin",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Offizielles Video zum Album Latem (2024), vom Festival verlinkt.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 316,
+      "artist": "Kapela Janiszewskich",
+      "title": "Viertur",
+      "url": "https://www.youtube.com/watch?v=64SpW6fcXjM",
+      "channel": "Mały Kolberg",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Pommerns Tanzrepertoire; Beschreibung dokumentiert Herkunft der Melodie.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 245,
+      "artist": "The Green Apple Sea",
+      "title": "Floaters",
+      "url": "https://www.youtube.com/watch?v=fyl07Gp7gLw",
+      "channel": "kundfrecords",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Offizielles Musikvideo, direkt von der Labelseite zum Album Directions verlinkt; einzelner Song statt Konzertmitschnitt.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 247,
+      "artist": "Heated Land",
+      "title": "Paperchasin’",
+      "url": "https://www.youtube.com/watch?v=-TYjZ0Fk7yg",
+      "channel": "HEATED LAND",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Live-Outdoor-Session des Bandkanals, vom Festival verlinkt; ältere Aufnahme.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 196,
+      "artist": "The Congos & Culture",
+      "title": "The Congos – Fisherman",
+      "url": "https://www.youtube.com/watch?v=mFTxmDy74LI",
+      "channel": "The Congos – Thema",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Von VP Records bereitgestellte Aufnahme; bildet The Congos ab, keine gemeinsame Festival-Aufnahme.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 196,
+      "artist": "The Congos & Culture",
+      "title": "Culture feat. Kenyatta Hill – Two Sevens Clash, live Rototom 2019",
+      "url": "https://www.youtube.com/watch?v=iLpkq2oRjWw",
+      "channel": "ROTOTOM SUNSPLASH",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Offizieller Veranstalterkanal; Kenyatta Hill statt historischer Aufnahme mit Joseph Hill. Zweite Hälfte des gemeinsamen Festival-Acts.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 181,
+      "artist": "M. Lalitha & M. Nandini",
+      "title": "Manavyalakincara",
+      "url": "https://www.youtube.com/watch?v=036rcqtBKh4",
+      "channel": "T-Series Classical",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Einzelnes Stück des karnatischen Violin-Duos vom Labelkanal.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    },
+    {
+      "artist_id": 201,
+      "artist": "Antti Paalanen",
+      "title": "Alavilla mailla",
+      "url": "https://www.youtube.com/watch?v=N166xik6AH4",
+      "channel": "Antti Paalanen",
+      "status": "candidate",
+      "include_in_artist_embedding_pilot": true,
+      "selection_reason": "Einzelner Song des Künstlerkanals, vom Festival verlinkt.",
+      "verification": "YouTube video page title/channel/description checked; selection is not yet listening-validated",
+      "listened": false
+    }
+  ],
+  "audio_embedding_results": "AudioEmbeddingGemma/results.json"
+}

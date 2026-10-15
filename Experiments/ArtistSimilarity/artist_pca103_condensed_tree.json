@@ -1,0 +1,1908 @@
+{
+  "dimensions": 103,
+  "source_analysis": "Experiments/ArtistSimilarity/artist_pca_analysis.json",
+  "source_analysis_sha256": "e78434da0bce53e4ead15b6251cde3fa90acdc68d98c4ae9cd64b67e5a18d8b5",
+  "source_embeddings_sha256": "bea61b19d3f8b77aab19a931ede0cfaccf8545f9c0d58709730043b3bf23a1f3",
+  "clustering_parameters": {
+    "algorithm": "brute",
+    "allow_single_cluster": false,
+    "alpha": 1.0,
+    "cluster_selection_epsilon": 0.0,
+    "cluster_selection_method": "eom",
+    "copy": true,
+    "leaf_size": 40,
+    "max_cluster_size": null,
+    "metric": "precomputed",
+    "metric_params": null,
+    "min_cluster_size": 2,
+    "min_samples": 2,
+    "n_jobs": null,
+    "store_centers": null
+  },
+  "implementation": "sklearn HDBSCAN tree rendered using hdbscan.plots.CondensedTree.plot",
+  "plot_runtime": {
+    "hdbscan": "0.8.44",
+    "matplotlib": "3.11.2"
+  },
+  "cluster_count": 33,
+  "noise_count": 65,
+  "groups": [
+    {
+      "cluster_id": 0,
+      "tree_node": 154,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 292,
+          "name": "Z.O.F.F."
+        },
+        {
+          "artist_id": 298,
+          "name": "Phønix & Embla"
+        }
+      ]
+    },
+    {
+      "cluster_id": 1,
+      "tree_node": 156,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 125,
+          "name": "Aquabella"
+        },
+        {
+          "artist_id": 198,
+          "name": "Dota Kehr"
+        }
+      ]
+    },
+    {
+      "cluster_id": 2,
+      "tree_node": 158,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 205,
+          "name": "Sturle Dagsland"
+        },
+        {
+          "artist_id": 217,
+          "name": "La Vespa Cougourdon Ourchestra"
+        }
+      ]
+    },
+    {
+      "cluster_id": 3,
+      "tree_node": 160,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 120,
+          "name": "Songposium"
+        },
+        {
+          "artist_id": 167,
+          "name": "Kinderfest"
+        },
+        {
+          "artist_id": 288,
+          "name": "Von Bergamon"
+        }
+      ]
+    },
+    {
+      "cluster_id": 4,
+      "tree_node": 162,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 223,
+          "name": "Adaya"
+        },
+        {
+          "artist_id": 289,
+          "name": "Norika Wacker"
+        }
+      ]
+    },
+    {
+      "cluster_id": 5,
+      "tree_node": 164,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 67,
+          "name": "Mandolinenorchester \"Wanderlust\""
+        },
+        {
+          "artist_id": 309,
+          "name": "Frank Bettenhausen"
+        }
+      ]
+    },
+    {
+      "cluster_id": 6,
+      "tree_node": 166,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 226,
+          "name": "Balafenn"
+        },
+        {
+          "artist_id": 255,
+          "name": "just4now"
+        },
+        {
+          "artist_id": 302,
+          "name": "Clare Sands"
+        }
+      ]
+    },
+    {
+      "cluster_id": 7,
+      "tree_node": 168,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 229,
+          "name": "Robert Carl Blank"
+        },
+        {
+          "artist_id": 236,
+          "name": "Emily Davis Duo"
+        }
+      ]
+    },
+    {
+      "cluster_id": 8,
+      "tree_node": 170,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 181,
+          "name": "M. Lalitha & M. Nandini"
+        },
+        {
+          "artist_id": 301,
+          "name": "Muslim Shaggan"
+        },
+        {
+          "artist_id": 310,
+          "name": "Rastak"
+        }
+      ]
+    },
+    {
+      "cluster_id": 9,
+      "tree_node": 172,
+      "size": 4,
+      "members": [
+        {
+          "artist_id": 194,
+          "name": "5/8erl in Ehr’n"
+        },
+        {
+          "artist_id": 210,
+          "name": "Der Nino aus Wien"
+        },
+        {
+          "artist_id": 257,
+          "name": "Karwendel"
+        },
+        {
+          "artist_id": 318,
+          "name": "Christoph Lambertz & David Saam"
+        }
+      ]
+    },
+    {
+      "cluster_id": 10,
+      "tree_node": 175,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 23,
+          "name": "Profolk-Session"
+        },
+        {
+          "artist_id": 160,
+          "name": "NIWIKK-Kollektiv & Gäste"
+        }
+      ]
+    },
+    {
+      "cluster_id": 11,
+      "tree_node": 177,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 182,
+          "name": "Tanzhausgeiger"
+        },
+        {
+          "artist_id": 220,
+          "name": "Winkeltanz"
+        }
+      ]
+    },
+    {
+      "cluster_id": 12,
+      "tree_node": 178,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 206,
+          "name": "Whirligig"
+        },
+        {
+          "artist_id": 290,
+          "name": "XALOC"
+        }
+      ]
+    },
+    {
+      "cluster_id": 13,
+      "tree_node": 179,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 144,
+          "name": "Thüringer Folkloretanzensemble"
+        },
+        {
+          "artist_id": 319,
+          "name": "Schnedderädäng"
+        },
+        {
+          "artist_id": 320,
+          "name": "Simon Mayer"
+        }
+      ]
+    },
+    {
+      "cluster_id": 14,
+      "tree_node": 182,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 272,
+          "name": "Nomadenpuls"
+        },
+        {
+          "artist_id": 280,
+          "name": "Tante Maro"
+        }
+      ]
+    },
+    {
+      "cluster_id": 15,
+      "tree_node": 184,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 191,
+          "name": "Nana Benz du Togo"
+        },
+        {
+          "artist_id": 195,
+          "name": "Freshlyground"
+        },
+        {
+          "artist_id": 214,
+          "name": "Throes + The Shine"
+        }
+      ]
+    },
+    {
+      "cluster_id": 16,
+      "tree_node": 188,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 228,
+          "name": "between the trees and me"
+        },
+        {
+          "artist_id": 249,
+          "name": "Helmet Duty"
+        },
+        {
+          "artist_id": 275,
+          "name": "Riders Connection"
+        }
+      ]
+    },
+    {
+      "cluster_id": 17,
+      "tree_node": 190,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 294,
+          "name": "Duga"
+        },
+        {
+          "artist_id": 305,
+          "name": "Mwsog"
+        }
+      ]
+    },
+    {
+      "cluster_id": 18,
+      "tree_node": 194,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 230,
+          "name": "BlauViolett"
+        },
+        {
+          "artist_id": 243,
+          "name": "Suzie Fleur"
+        }
+      ]
+    },
+    {
+      "cluster_id": 19,
+      "tree_node": 195,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 260,
+          "name": "Knaute und Konsorten"
+        },
+        {
+          "artist_id": 284,
+          "name": "Totally Cantoj Bassman"
+        }
+      ]
+    },
+    {
+      "cluster_id": 20,
+      "tree_node": 197,
+      "size": 7,
+      "members": [
+        {
+          "artist_id": 188,
+          "name": "Sara Curruchich"
+        },
+        {
+          "artist_id": 222,
+          "name": "A Birchola"
+        },
+        {
+          "artist_id": 234,
+          "name": "Colheita Musi"
+        },
+        {
+          "artist_id": 241,
+          "name": "Emersound"
+        },
+        {
+          "artist_id": 263,
+          "name": "L.O.B.A."
+        },
+        {
+          "artist_id": 268,
+          "name": "Camila Morgenstern"
+        },
+        {
+          "artist_id": 285,
+          "name": "Tribubu"
+        }
+      ]
+    },
+    {
+      "cluster_id": 21,
+      "tree_node": 199,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 286,
+          "name": "Trio Khan"
+        },
+        {
+          "artist_id": 293,
+          "name": "Zwei Stimmen"
+        }
+      ]
+    },
+    {
+      "cluster_id": 22,
+      "tree_node": 200,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 190,
+          "name": "Derya Yildirim und Grup Şimşek"
+        },
+        {
+          "artist_id": 271,
+          "name": "Hania Nafali"
+        },
+        {
+          "artist_id": 276,
+          "name": "D.Şahin"
+        }
+      ]
+    },
+    {
+      "cluster_id": 23,
+      "tree_node": 202,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 175,
+          "name": "RIAN"
+        },
+        {
+          "artist_id": 183,
+          "name": "Raquel Martins"
+        },
+        {
+          "artist_id": 200,
+          "name": "Blumengarten"
+        }
+      ]
+    },
+    {
+      "cluster_id": 24,
+      "tree_node": 203,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 246,
+          "name": "Heart’n’Beat"
+        },
+        {
+          "artist_id": 283,
+          "name": "Jan-Philipp Tödte & Talkin’ Music"
+        }
+      ]
+    },
+    {
+      "cluster_id": 25,
+      "tree_node": 204,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 240,
+          "name": "Duo Gletschergliss"
+        },
+        {
+          "artist_id": 265,
+          "name": "Mahall Trio"
+        },
+        {
+          "artist_id": 287,
+          "name": "Trio Talan"
+        }
+      ]
+    },
+    {
+      "cluster_id": 26,
+      "tree_node": 208,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 184,
+          "name": "Hotel Rimini"
+        },
+        {
+          "artist_id": 218,
+          "name": "Florian Paul & Die Kapelle der letzten Hoffnung"
+        }
+      ]
+    },
+    {
+      "cluster_id": 27,
+      "tree_node": 210,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 178,
+          "name": "Agnes Palmisano"
+        },
+        {
+          "artist_id": 219,
+          "name": "Aba Trio"
+        }
+      ]
+    },
+    {
+      "cluster_id": 28,
+      "tree_node": 211,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 176,
+          "name": "Duo Ruut"
+        },
+        {
+          "artist_id": 202,
+          "name": "Dis is Marketa"
+        },
+        {
+          "artist_id": 313,
+          "name": "Päivi Hirvonen"
+        }
+      ]
+    },
+    {
+      "cluster_id": 29,
+      "tree_node": 212,
+      "size": 5,
+      "members": [
+        {
+          "artist_id": 225,
+          "name": "Antoní"
+        },
+        {
+          "artist_id": 245,
+          "name": "The Green Apple Sea"
+        },
+        {
+          "artist_id": 247,
+          "name": "Heated Land"
+        },
+        {
+          "artist_id": 269,
+          "name": "Marla Moya"
+        },
+        {
+          "artist_id": 274,
+          "name": "Partiprivati"
+        }
+      ]
+    },
+    {
+      "cluster_id": 30,
+      "tree_node": 214,
+      "size": 3,
+      "members": [
+        {
+          "artist_id": 211,
+          "name": "BasBariTenori"
+        },
+        {
+          "artist_id": 213,
+          "name": "AltBadSeer Musi"
+        },
+        {
+          "artist_id": 314,
+          "name": "Tamburica Cindrof"
+        }
+      ]
+    },
+    {
+      "cluster_id": 31,
+      "tree_node": 215,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 187,
+          "name": "Legiana Collective"
+        },
+        {
+          "artist_id": 207,
+          "name": "Zgarda"
+        }
+      ]
+    },
+    {
+      "cluster_id": 32,
+      "tree_node": 216,
+      "size": 2,
+      "members": [
+        {
+          "artist_id": 306,
+          "name": "Wowakin"
+        },
+        {
+          "artist_id": 316,
+          "name": "Kapela Janiszewskich"
+        }
+      ]
+    }
+  ],
+  "tree": [
+    {
+      "parent": 152,
+      "child": 87,
+      "lambda_val": 1.2061190580008376,
+      "child_size": 1
+    },
+    {
+      "parent": 152,
+      "child": 146,
+      "lambda_val": 1.2863174389894032,
+      "child_size": 1
+    },
+    {
+      "parent": 152,
+      "child": 8,
+      "lambda_val": 1.3070008655146912,
+      "child_size": 1
+    },
+    {
+      "parent": 152,
+      "child": 10,
+      "lambda_val": 1.3203375619074527,
+      "child_size": 1
+    },
+    {
+      "parent": 152,
+      "child": 150,
+      "lambda_val": 1.3300387859059961,
+      "child_size": 1
+    },
+    {
+      "parent": 152,
+      "child": 66,
+      "lambda_val": 1.3580346177402,
+      "child_size": 1
+    },
+    {
+      "parent": 152,
+      "child": 102,
+      "lambda_val": 1.3630945752142523,
+      "child_size": 1
+    },
+    {
+      "parent": 152,
+      "child": 153,
+      "lambda_val": 1.3703131556117518,
+      "child_size": 143
+    },
+    {
+      "parent": 152,
+      "child": 154,
+      "lambda_val": 1.3703131556117518,
+      "child_size": 2
+    },
+    {
+      "parent": 153,
+      "child": 93,
+      "lambda_val": 1.3722812717076533,
+      "child_size": 1
+    },
+    {
+      "parent": 154,
+      "child": 123,
+      "lambda_val": 1.4538111202996737,
+      "child_size": 1
+    },
+    {
+      "parent": 154,
+      "child": 129,
+      "lambda_val": 1.4538111202996737,
+      "child_size": 1
+    },
+    {
+      "parent": 153,
+      "child": 37,
+      "lambda_val": 1.391109615062768,
+      "child_size": 1
+    },
+    {
+      "parent": 153,
+      "child": 136,
+      "lambda_val": 1.4015412149876108,
+      "child_size": 1
+    },
+    {
+      "parent": 153,
+      "child": 155,
+      "lambda_val": 1.4253251208585682,
+      "child_size": 138
+    },
+    {
+      "parent": 153,
+      "child": 156,
+      "lambda_val": 1.4253251208585682,
+      "child_size": 2
+    },
+    {
+      "parent": 155,
+      "child": 86,
+      "lambda_val": 1.4332915252062213,
+      "child_size": 1
+    },
+    {
+      "parent": 156,
+      "child": 3,
+      "lambda_val": 1.6128511574758384,
+      "child_size": 1
+    },
+    {
+      "parent": 156,
+      "child": 34,
+      "lambda_val": 1.6128511574758384,
+      "child_size": 1
+    },
+    {
+      "parent": 155,
+      "child": 40,
+      "lambda_val": 1.4394688969247944,
+      "child_size": 1
+    },
+    {
+      "parent": 155,
+      "child": 25,
+      "lambda_val": 1.4418445527924084,
+      "child_size": 1
+    },
+    {
+      "parent": 155,
+      "child": 105,
+      "lambda_val": 1.4432140740902715,
+      "child_size": 1
+    },
+    {
+      "parent": 155,
+      "child": 127,
+      "lambda_val": 1.4435193277677774,
+      "child_size": 1
+    },
+    {
+      "parent": 155,
+      "child": 85,
+      "lambda_val": 1.4505200130354476,
+      "child_size": 1
+    },
+    {
+      "parent": 155,
+      "child": 62,
+      "lambda_val": 1.4518103395500868,
+      "child_size": 1
+    },
+    {
+      "parent": 155,
+      "child": 70,
+      "lambda_val": 1.4519878807357414,
+      "child_size": 1
+    },
+    {
+      "parent": 155,
+      "child": 157,
+      "lambda_val": 1.4532634765093033,
+      "child_size": 128
+    },
+    {
+      "parent": 155,
+      "child": 158,
+      "lambda_val": 1.4532634765093033,
+      "child_size": 2
+    },
+    {
+      "parent": 157,
+      "child": 159,
+      "lambda_val": 1.45553889041953,
+      "child_size": 125
+    },
+    {
+      "parent": 157,
+      "child": 160,
+      "lambda_val": 1.45553889041953,
+      "child_size": 3
+    },
+    {
+      "parent": 158,
+      "child": 52,
+      "lambda_val": 1.6445558012887045,
+      "child_size": 1
+    },
+    {
+      "parent": 158,
+      "child": 41,
+      "lambda_val": 1.6445558012887045,
+      "child_size": 1
+    },
+    {
+      "parent": 159,
+      "child": 68,
+      "lambda_val": 1.4559128464027447,
+      "child_size": 1
+    },
+    {
+      "parent": 160,
+      "child": 119,
+      "lambda_val": 1.465234688647995,
+      "child_size": 1
+    },
+    {
+      "parent": 159,
+      "child": 110,
+      "lambda_val": 1.4654498340291913,
+      "child_size": 1
+    },
+    {
+      "parent": 160,
+      "child": 2,
+      "lambda_val": 1.5711279363684447,
+      "child_size": 1
+    },
+    {
+      "parent": 160,
+      "child": 9,
+      "lambda_val": 1.5711279363684447,
+      "child_size": 1
+    },
+    {
+      "parent": 159,
+      "child": 96,
+      "lambda_val": 1.4765179724407647,
+      "child_size": 1
+    },
+    {
+      "parent": 159,
+      "child": 161,
+      "lambda_val": 1.478606952843776,
+      "child_size": 120
+    },
+    {
+      "parent": 159,
+      "child": 162,
+      "lambda_val": 1.478606952843776,
+      "child_size": 2
+    },
+    {
+      "parent": 161,
+      "child": 72,
+      "lambda_val": 1.481404694583094,
+      "child_size": 1
+    },
+    {
+      "parent": 162,
+      "child": 120,
+      "lambda_val": 1.7142327665342305,
+      "child_size": 1
+    },
+    {
+      "parent": 162,
+      "child": 58,
+      "lambda_val": 1.7142327665342305,
+      "child_size": 1
+    },
+    {
+      "parent": 161,
+      "child": 163,
+      "lambda_val": 1.4854993346380556,
+      "child_size": 117
+    },
+    {
+      "parent": 161,
+      "child": 164,
+      "lambda_val": 1.4854993346380556,
+      "child_size": 2
+    },
+    {
+      "parent": 163,
+      "child": 99,
+      "lambda_val": 1.4860909617694587,
+      "child_size": 1
+    },
+    {
+      "parent": 164,
+      "child": 1,
+      "lambda_val": 1.5292305360066203,
+      "child_size": 1
+    },
+    {
+      "parent": 164,
+      "child": 138,
+      "lambda_val": 1.5292305360066203,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 32,
+      "lambda_val": 1.4888040078442668,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 98,
+      "lambda_val": 1.4894899334036633,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 6,
+      "lambda_val": 1.490539744832024,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 151,
+      "lambda_val": 1.4919137529798425,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 83,
+      "lambda_val": 1.5021187410821721,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 77,
+      "lambda_val": 1.5037932418014213,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 15,
+      "lambda_val": 1.5076640579345184,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 94,
+      "lambda_val": 1.5130503652106841,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 4,
+      "lambda_val": 1.5130930761506607,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 35,
+      "lambda_val": 1.513355678846808,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 16,
+      "lambda_val": 1.5200584220364226,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 126,
+      "lambda_val": 1.523237241452599,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 91,
+      "lambda_val": 1.5384648149167715,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 47,
+      "lambda_val": 1.540045990760809,
+      "child_size": 1
+    },
+    {
+      "parent": 163,
+      "child": 165,
+      "lambda_val": 1.5448663844889996,
+      "child_size": 99
+    },
+    {
+      "parent": 163,
+      "child": 166,
+      "lambda_val": 1.5448663844889996,
+      "child_size": 3
+    },
+    {
+      "parent": 165,
+      "child": 22,
+      "lambda_val": 1.546639297043995,
+      "child_size": 1
+    },
+    {
+      "parent": 166,
+      "child": 131,
+      "lambda_val": 1.9067736828564965,
+      "child_size": 1
+    },
+    {
+      "parent": 165,
+      "child": 167,
+      "lambda_val": 1.5470740732149122,
+      "child_size": 96
+    },
+    {
+      "parent": 165,
+      "child": 168,
+      "lambda_val": 1.5470740732149122,
+      "child_size": 2
+    },
+    {
+      "parent": 166,
+      "child": 61,
+      "lambda_val": 2.3153820045034204,
+      "child_size": 1
+    },
+    {
+      "parent": 166,
+      "child": 88,
+      "lambda_val": 2.3153820045034204,
+      "child_size": 1
+    },
+    {
+      "parent": 167,
+      "child": 169,
+      "lambda_val": 1.5487920072828658,
+      "child_size": 93
+    },
+    {
+      "parent": 167,
+      "child": 170,
+      "lambda_val": 1.5487920072828658,
+      "child_size": 3
+    },
+    {
+      "parent": 168,
+      "child": 64,
+      "lambda_val": 2.054199617693994,
+      "child_size": 1
+    },
+    {
+      "parent": 168,
+      "child": 71,
+      "lambda_val": 2.054199617693994,
+      "child_size": 1
+    },
+    {
+      "parent": 169,
+      "child": 111,
+      "lambda_val": 1.5490121199692224,
+      "child_size": 1
+    },
+    {
+      "parent": 170,
+      "child": 139,
+      "lambda_val": 1.7745401988294907,
+      "child_size": 1
+    },
+    {
+      "parent": 169,
+      "child": 79,
+      "lambda_val": 1.5517666500686025,
+      "child_size": 1
+    },
+    {
+      "parent": 170,
+      "child": 17,
+      "lambda_val": 2.006347994046724,
+      "child_size": 1
+    },
+    {
+      "parent": 170,
+      "child": 130,
+      "lambda_val": 2.006347994046724,
+      "child_size": 1
+    },
+    {
+      "parent": 169,
+      "child": 141,
+      "lambda_val": 1.5580816116065535,
+      "child_size": 1
+    },
+    {
+      "parent": 169,
+      "child": 171,
+      "lambda_val": 1.5587770497197317,
+      "child_size": 86
+    },
+    {
+      "parent": 169,
+      "child": 172,
+      "lambda_val": 1.5587770497197317,
+      "child_size": 4
+    },
+    {
+      "parent": 171,
+      "child": 173,
+      "lambda_val": 1.5610281940723376,
+      "child_size": 82
+    },
+    {
+      "parent": 171,
+      "child": 174,
+      "lambda_val": 1.5610281940723376,
+      "child_size": 4
+    },
+    {
+      "parent": 172,
+      "child": 90,
+      "lambda_val": 1.5876397546847294,
+      "child_size": 1
+    },
+    {
+      "parent": 173,
+      "child": 175,
+      "lambda_val": 1.5622400127267726,
+      "child_size": 2
+    },
+    {
+      "parent": 173,
+      "child": 176,
+      "lambda_val": 1.5622400127267726,
+      "child_size": 80
+    },
+    {
+      "parent": 174,
+      "child": 177,
+      "lambda_val": 1.5820732513175841,
+      "child_size": 2
+    },
+    {
+      "parent": 174,
+      "child": 178,
+      "lambda_val": 1.5820732513175841,
+      "child_size": 2
+    },
+    {
+      "parent": 172,
+      "child": 147,
+      "lambda_val": 1.6466234959442168,
+      "child_size": 1
+    },
+    {
+      "parent": 175,
+      "child": 0,
+      "lambda_val": 1.6387751393208585,
+      "child_size": 1
+    },
+    {
+      "parent": 175,
+      "child": 7,
+      "lambda_val": 1.6387751393208585,
+      "child_size": 1
+    },
+    {
+      "parent": 176,
+      "child": 51,
+      "lambda_val": 1.5636073868931524,
+      "child_size": 1
+    },
+    {
+      "parent": 177,
+      "child": 55,
+      "lambda_val": 1.6810947973532853,
+      "child_size": 1
+    },
+    {
+      "parent": 177,
+      "child": 18,
+      "lambda_val": 1.6810947973532853,
+      "child_size": 1
+    },
+    {
+      "parent": 178,
+      "child": 42,
+      "lambda_val": 1.6158120880286295,
+      "child_size": 1
+    },
+    {
+      "parent": 178,
+      "child": 121,
+      "lambda_val": 1.6158120880286295,
+      "child_size": 1
+    },
+    {
+      "parent": 172,
+      "child": 45,
+      "lambda_val": 1.7684596439000362,
+      "child_size": 1
+    },
+    {
+      "parent": 172,
+      "child": 30,
+      "lambda_val": 1.7684596439000362,
+      "child_size": 1
+    },
+    {
+      "parent": 176,
+      "child": 74,
+      "lambda_val": 1.5639917445745846,
+      "child_size": 1
+    },
+    {
+      "parent": 176,
+      "child": 179,
+      "lambda_val": 1.5645586005321523,
+      "child_size": 3
+    },
+    {
+      "parent": 176,
+      "child": 180,
+      "lambda_val": 1.5645586005321523,
+      "child_size": 75
+    },
+    {
+      "parent": 179,
+      "child": 148,
+      "lambda_val": 2.058335565208711,
+      "child_size": 1
+    },
+    {
+      "parent": 180,
+      "child": 113,
+      "lambda_val": 1.5677636200794747,
+      "child_size": 1
+    },
+    {
+      "parent": 179,
+      "child": 5,
+      "lambda_val": 2.942260555315699,
+      "child_size": 1
+    },
+    {
+      "parent": 179,
+      "child": 149,
+      "lambda_val": 2.942260555315699,
+      "child_size": 1
+    },
+    {
+      "parent": 180,
+      "child": 39,
+      "lambda_val": 1.5681236415852609,
+      "child_size": 1
+    },
+    {
+      "parent": 180,
+      "child": 181,
+      "lambda_val": 1.5699431089921956,
+      "child_size": 71
+    },
+    {
+      "parent": 180,
+      "child": 182,
+      "lambda_val": 1.5699431089921956,
+      "child_size": 2
+    },
+    {
+      "parent": 181,
+      "child": 183,
+      "lambda_val": 1.5726180685059554,
+      "child_size": 68
+    },
+    {
+      "parent": 181,
+      "child": 184,
+      "lambda_val": 1.5726180685059554,
+      "child_size": 3
+    },
+    {
+      "parent": 182,
+      "child": 112,
+      "lambda_val": 1.916381280896445,
+      "child_size": 1
+    },
+    {
+      "parent": 182,
+      "child": 104,
+      "lambda_val": 1.916381280896445,
+      "child_size": 1
+    },
+    {
+      "parent": 183,
+      "child": 59,
+      "lambda_val": 1.5770598054168277,
+      "child_size": 1
+    },
+    {
+      "parent": 184,
+      "child": 49,
+      "lambda_val": 1.736999828778562,
+      "child_size": 1
+    },
+    {
+      "parent": 183,
+      "child": 50,
+      "lambda_val": 1.5824600223014824,
+      "child_size": 1
+    },
+    {
+      "parent": 184,
+      "child": 27,
+      "lambda_val": 1.9490019690632059,
+      "child_size": 1
+    },
+    {
+      "parent": 184,
+      "child": 31,
+      "lambda_val": 1.9490019690632059,
+      "child_size": 1
+    },
+    {
+      "parent": 183,
+      "child": 13,
+      "lambda_val": 1.586454239545127,
+      "child_size": 1
+    },
+    {
+      "parent": 183,
+      "child": 185,
+      "lambda_val": 1.5866612088748762,
+      "child_size": 28
+    },
+    {
+      "parent": 183,
+      "child": 186,
+      "lambda_val": 1.5866612088748762,
+      "child_size": 37
+    },
+    {
+      "parent": 185,
+      "child": 187,
+      "lambda_val": 1.5957647279761609,
+      "child_size": 25
+    },
+    {
+      "parent": 185,
+      "child": 188,
+      "lambda_val": 1.5957647279761609,
+      "child_size": 3
+    },
+    {
+      "parent": 186,
+      "child": 189,
+      "lambda_val": 1.587399184846252,
+      "child_size": 35
+    },
+    {
+      "parent": 186,
+      "child": 190,
+      "lambda_val": 1.587399184846252,
+      "child_size": 2
+    },
+    {
+      "parent": 187,
+      "child": 191,
+      "lambda_val": 1.597009918027911,
+      "child_size": 16
+    },
+    {
+      "parent": 187,
+      "child": 192,
+      "lambda_val": 1.597009918027911,
+      "child_size": 9
+    },
+    {
+      "parent": 188,
+      "child": 84,
+      "lambda_val": 1.7679556407387638,
+      "child_size": 1
+    },
+    {
+      "parent": 189,
+      "child": 193,
+      "lambda_val": 1.597668857544266,
+      "child_size": 33
+    },
+    {
+      "parent": 189,
+      "child": 194,
+      "lambda_val": 1.597668857544266,
+      "child_size": 2
+    },
+    {
+      "parent": 190,
+      "child": 134,
+      "lambda_val": 1.6121365282378908,
+      "child_size": 1
+    },
+    {
+      "parent": 190,
+      "child": 125,
+      "lambda_val": 1.6121365282378908,
+      "child_size": 1
+    },
+    {
+      "parent": 191,
+      "child": 137,
+      "lambda_val": 1.5989671181605247,
+      "child_size": 1
+    },
+    {
+      "parent": 192,
+      "child": 73,
+      "lambda_val": 1.6395313135332663,
+      "child_size": 1
+    },
+    {
+      "parent": 188,
+      "child": 107,
+      "lambda_val": 2.1453320804125258,
+      "child_size": 1
+    },
+    {
+      "parent": 188,
+      "child": 63,
+      "lambda_val": 2.1453320804125258,
+      "child_size": 1
+    },
+    {
+      "parent": 193,
+      "child": 44,
+      "lambda_val": 1.6215776119412622,
+      "child_size": 1
+    },
+    {
+      "parent": 194,
+      "child": 65,
+      "lambda_val": 1.6531450964501466,
+      "child_size": 1
+    },
+    {
+      "parent": 194,
+      "child": 78,
+      "lambda_val": 1.6531450964501466,
+      "child_size": 1
+    },
+    {
+      "parent": 191,
+      "child": 122,
+      "lambda_val": 1.6222290048367265,
+      "child_size": 1
+    },
+    {
+      "parent": 192,
+      "child": 195,
+      "lambda_val": 1.6713303513692823,
+      "child_size": 2
+    },
+    {
+      "parent": 192,
+      "child": 196,
+      "lambda_val": 1.6713303513692823,
+      "child_size": 6
+    },
+    {
+      "parent": 193,
+      "child": 21,
+      "lambda_val": 1.6254881663778502,
+      "child_size": 1
+    },
+    {
+      "parent": 191,
+      "child": 197,
+      "lambda_val": 1.627817432893282,
+      "child_size": 7
+    },
+    {
+      "parent": 191,
+      "child": 198,
+      "lambda_val": 1.627817432893282,
+      "child_size": 7
+    },
+    {
+      "parent": 195,
+      "child": 92,
+      "lambda_val": 1.8590835306637592,
+      "child_size": 1
+    },
+    {
+      "parent": 195,
+      "child": 115,
+      "lambda_val": 1.8590835306637592,
+      "child_size": 1
+    },
+    {
+      "parent": 196,
+      "child": 89,
+      "lambda_val": 1.8053203195340692,
+      "child_size": 1
+    },
+    {
+      "parent": 193,
+      "child": 56,
+      "lambda_val": 1.634540901660848,
+      "child_size": 1
+    },
+    {
+      "parent": 197,
+      "child": 100,
+      "lambda_val": 1.6508202746753613,
+      "child_size": 1
+    },
+    {
+      "parent": 198,
+      "child": 67,
+      "lambda_val": 1.6386198134189591,
+      "child_size": 1
+    },
+    {
+      "parent": 196,
+      "child": 199,
+      "lambda_val": 1.820138649844877,
+      "child_size": 2
+    },
+    {
+      "parent": 196,
+      "child": 200,
+      "lambda_val": 1.820138649844877,
+      "child_size": 3
+    },
+    {
+      "parent": 193,
+      "child": 201,
+      "lambda_val": 1.6440529918050453,
+      "child_size": 27
+    },
+    {
+      "parent": 193,
+      "child": 202,
+      "lambda_val": 1.6440529918050453,
+      "child_size": 3
+    },
+    {
+      "parent": 197,
+      "child": 95,
+      "lambda_val": 1.7127742048622556,
+      "child_size": 1
+    },
+    {
+      "parent": 198,
+      "child": 109,
+      "lambda_val": 1.6471788032516066,
+      "child_size": 1
+    },
+    {
+      "parent": 199,
+      "child": 117,
+      "lambda_val": 2.5173521896139857,
+      "child_size": 1
+    },
+    {
+      "parent": 199,
+      "child": 124,
+      "lambda_val": 2.5173521896139857,
+      "child_size": 1
+    },
+    {
+      "parent": 200,
+      "child": 103,
+      "lambda_val": 1.8340930877537207,
+      "child_size": 1
+    },
+    {
+      "parent": 201,
+      "child": 28,
+      "lambda_val": 1.6474531669382109,
+      "child_size": 1
+    },
+    {
+      "parent": 202,
+      "child": 11,
+      "lambda_val": 1.7071516070197914,
+      "child_size": 1
+    },
+    {
+      "parent": 197,
+      "child": 24,
+      "lambda_val": 1.7273049475161155,
+      "child_size": 1
+    },
+    {
+      "parent": 198,
+      "child": 203,
+      "lambda_val": 1.7010874406375804,
+      "child_size": 2
+    },
+    {
+      "parent": 198,
+      "child": 204,
+      "lambda_val": 1.7010874406375804,
+      "child_size": 3
+    },
+    {
+      "parent": 200,
+      "child": 108,
+      "lambda_val": 2.228551307146614,
+      "child_size": 1
+    },
+    {
+      "parent": 200,
+      "child": 26,
+      "lambda_val": 2.228551307146614,
+      "child_size": 1
+    },
+    {
+      "parent": 201,
+      "child": 144,
+      "lambda_val": 1.6492868837323706,
+      "child_size": 1
+    },
+    {
+      "parent": 202,
+      "child": 36,
+      "lambda_val": 1.7993374519099303,
+      "child_size": 1
+    },
+    {
+      "parent": 202,
+      "child": 19,
+      "lambda_val": 1.7993374519099303,
+      "child_size": 1
+    },
+    {
+      "parent": 197,
+      "child": 57,
+      "lambda_val": 1.8667965562735325,
+      "child_size": 1
+    },
+    {
+      "parent": 203,
+      "child": 114,
+      "lambda_val": 1.7738839294406161,
+      "child_size": 1
+    },
+    {
+      "parent": 203,
+      "child": 81,
+      "lambda_val": 1.7738839294406161,
+      "child_size": 1
+    },
+    {
+      "parent": 204,
+      "child": 75,
+      "lambda_val": 1.894090580772473,
+      "child_size": 1
+    },
+    {
+      "parent": 201,
+      "child": 140,
+      "lambda_val": 1.6835529308489465,
+      "child_size": 1
+    },
+    {
+      "parent": 197,
+      "child": 116,
+      "lambda_val": 1.906762032038568,
+      "child_size": 1
+    },
+    {
+      "parent": 204,
+      "child": 118,
+      "lambda_val": 3.2051572442186034,
+      "child_size": 1
+    },
+    {
+      "parent": 204,
+      "child": 97,
+      "lambda_val": 3.2051572442186034,
+      "child_size": 1
+    },
+    {
+      "parent": 201,
+      "child": 33,
+      "lambda_val": 1.6851673196881551,
+      "child_size": 1
+    },
+    {
+      "parent": 197,
+      "child": 76,
+      "lambda_val": 2.3600026764351645,
+      "child_size": 1
+    },
+    {
+      "parent": 197,
+      "child": 69,
+      "lambda_val": 2.3600026764351645,
+      "child_size": 1
+    },
+    {
+      "parent": 201,
+      "child": 132,
+      "lambda_val": 1.6928049330021535,
+      "child_size": 1
+    },
+    {
+      "parent": 201,
+      "child": 205,
+      "lambda_val": 1.713890358887655,
+      "child_size": 12
+    },
+    {
+      "parent": 201,
+      "child": 206,
+      "lambda_val": 1.713890358887655,
+      "child_size": 10
+    },
+    {
+      "parent": 205,
+      "child": 29,
+      "lambda_val": 1.714297979627153,
+      "child_size": 1
+    },
+    {
+      "parent": 206,
+      "child": 207,
+      "lambda_val": 1.7172186873099409,
+      "child_size": 8
+    },
+    {
+      "parent": 206,
+      "child": 208,
+      "lambda_val": 1.7172186873099409,
+      "child_size": 2
+    },
+    {
+      "parent": 205,
+      "child": 209,
+      "lambda_val": 1.760773341089041,
+      "child_size": 9
+    },
+    {
+      "parent": 205,
+      "child": 210,
+      "lambda_val": 1.760773341089041,
+      "child_size": 2
+    },
+    {
+      "parent": 207,
+      "child": 211,
+      "lambda_val": 1.7698204881539652,
+      "child_size": 3
+    },
+    {
+      "parent": 207,
+      "child": 212,
+      "lambda_val": 1.7698204881539652,
+      "child_size": 5
+    },
+    {
+      "parent": 208,
+      "child": 20,
+      "lambda_val": 1.717301243521205,
+      "child_size": 1
+    },
+    {
+      "parent": 208,
+      "child": 53,
+      "lambda_val": 1.717301243521205,
+      "child_size": 1
+    },
+    {
+      "parent": 209,
+      "child": 213,
+      "lambda_val": 1.7752113020956066,
+      "child_size": 6
+    },
+    {
+      "parent": 209,
+      "child": 214,
+      "lambda_val": 1.7752113020956066,
+      "child_size": 3
+    },
+    {
+      "parent": 210,
+      "child": 14,
+      "lambda_val": 2.047514030165998,
+      "child_size": 1
+    },
+    {
+      "parent": 210,
+      "child": 54,
+      "lambda_val": 2.047514030165998,
+      "child_size": 1
+    },
+    {
+      "parent": 211,
+      "child": 142,
+      "lambda_val": 1.7853834469794756,
+      "child_size": 1
+    },
+    {
+      "parent": 212,
+      "child": 82,
+      "lambda_val": 1.7752062164372444,
+      "child_size": 1
+    },
+    {
+      "parent": 213,
+      "child": 128,
+      "lambda_val": 1.783056483816973,
+      "child_size": 1
+    },
+    {
+      "parent": 214,
+      "child": 46,
+      "lambda_val": 2.0973161780549567,
+      "child_size": 1
+    },
+    {
+      "parent": 211,
+      "child": 38,
+      "lambda_val": 1.8022159008187966,
+      "child_size": 1
+    },
+    {
+      "parent": 211,
+      "child": 12,
+      "lambda_val": 1.8022159008187966,
+      "child_size": 1
+    },
+    {
+      "parent": 212,
+      "child": 106,
+      "lambda_val": 1.7999628230918336,
+      "child_size": 1
+    },
+    {
+      "parent": 213,
+      "child": 133,
+      "lambda_val": 1.8471810648695128,
+      "child_size": 1
+    },
+    {
+      "parent": 214,
+      "child": 143,
+      "lambda_val": 2.1290169183115686,
+      "child_size": 1
+    },
+    {
+      "parent": 214,
+      "child": 48,
+      "lambda_val": 2.1290169183115686,
+      "child_size": 1
+    },
+    {
+      "parent": 212,
+      "child": 80,
+      "lambda_val": 2.0232667739471983,
+      "child_size": 1
+    },
+    {
+      "parent": 213,
+      "child": 215,
+      "lambda_val": 1.861934203163423,
+      "child_size": 2
+    },
+    {
+      "parent": 213,
+      "child": 216,
+      "lambda_val": 1.861934203163423,
+      "child_size": 2
+    },
+    {
+      "parent": 212,
+      "child": 101,
+      "lambda_val": 2.2585341067518945,
+      "child_size": 1
+    },
+    {
+      "parent": 212,
+      "child": 60,
+      "lambda_val": 2.2585341067518945,
+      "child_size": 1
+    },
+    {
+      "parent": 215,
+      "child": 43,
+      "lambda_val": 2.189351517699144,
+      "child_size": 1
+    },
+    {
+      "parent": 215,
+      "child": 23,
+      "lambda_val": 2.189351517699144,
+      "child_size": 1
+    },
+    {
+      "parent": 216,
+      "child": 135,
+      "lambda_val": 2.0884538919156768,
+      "child_size": 1
+    },
+    {
+      "parent": 216,
+      "child": 145,
+      "lambda_val": 2.0884538919156768,
+      "child_size": 1
+    }
+  ]
+}

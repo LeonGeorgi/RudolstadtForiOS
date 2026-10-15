@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "model": {
+    "id": "google/embeddinggemma-2",
+    "revision": "914f7f89142e33e77833254d9c9b90c3cef7303b",
+    "active_modalities": [
+      "audio"
+    ]
+  },
+  "dimensions": 768,
+  "device": "cpu",
+  "dtype": "float32",
+  "prompt": "",
+  "sample_rate": 16000,
+  "channels": 1,
+  "window_seconds": 10,
+  "windows_per_recording": 6,
+  "window_centers": "Uniformly spaced from 10% to 90% of recording duration",
+  "aggregation": "Normalize window vectors; normalize song mean; normalize equally weighted song mean per artist",
+  "source_hashes": {
+    "download_manifest": "0c8367768e6e0cd144eebf088fe7b1dc7dfce4f2796a8157b57ba9e9b02b9d63",
+    "text_results": "3f7cb103a1eaeda5a0640b907cf6df2cd6500b1792243a5b7a55ab61ef57cd1f",
+    "text_embeddings": "d2ec59372bb9d67cbd6d5bfcb28880c02f5fbf1617dc9b43f1438d482aad08c4"
+  },
+  "model_config_sha256": "b8f1e9931b57fbc054acdb445c41765d55b0074c58d145fa82839941ad1b5bb3",
+  "artist_ids": [
+    181,
+    184,
+    187,
+    190,
+    196,
+    201,
+    218,
+    226,
+    230,
+    245,
+    247,
+    255,
+    271,
+    276,
+    283,
+    285,
+    287,
+    293,
+    295,
+    306,
+    316
+  ],
+  "recording_count": 24,
+  "excluded": [
+    "audio/related_project/252_uBlOOJLuK9o.mp3"
+  ],
+  "evaluation": "Frozen 15 prior description-based judgments; recompute all methods on the same 21 artists"
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "researched_on": "2026-10-08",
+  "description_language": "de",
+  "description_policy": "German paraphrases of the linked online artist descriptions, focusing on musical style rather than awards or chart positions. These are source-based descriptions prepared for this experiment, not verbatim downloads or audio analyses.",
+  "artists": [
+    {
+      "id": "billie-eilish",
+      "name": "Billie Eilish",
+      "description": "Billie Eilish ist eine US-amerikanische Singer-Songwriterin. Ihre Musik verbindet atmosphärischen Indie-Electro-Pop, Bedroom-Pop und dunklen Alternative-Pop mit Einflüssen aus Trap und Alternative- beziehungsweise Indie-Rock. Charakteristisch ist ihr leiser, oft flüsternder und ätherischer Soprangesang. Die Songs entstehen in Zusammenarbeit mit ihrem Bruder Finneas und verbinden elektronische Produktion mit persönlichen, introspektiven Texten. Auch schwierige und tabuisierte Themen werden angesprochen. Ihr Stil bewegt sich zwischen zurückgenommenen, melancholischen Liedern und stärker elektronisch geprägtem Pop; ihre Musik lässt sich nicht auf ein einzelnes Genre reduzieren.",
+      "sources": [
+        {"title": "AllMusic: Billie Eilish biography and styles", "url": "https://www.allmusic.com/artist/billie-eilish-mn0003475903/biography"},
+        {"title": "Wikipedia: Billie Eilish, Musikstil", "url": "https://de.wikipedia.org/wiki/Billie_Eilish#Musikstil"}
+      ]
+    },
+    {
+      "id": "the-weeknd",
+      "name": "The Weeknd",
+      "description": "The Weeknd ist der kanadische Sänger, Songwriter und Produzent Abel Tesfaye. Seine Musik verbindet Alternative-R&B mit Pop, elektronischen Klängen und Indie-Einflüssen. Frühe Aufnahmen sind dunkel und atmosphärisch, mit langsamen Tempi, tiefen Bässen und nachhallenden Klangflächen; dazu kommen Elemente von Dream-Pop, Post-Punk und Trip-Hop. Spätere Veröffentlichungen greifen stärker auf Electro-Pop, New Wave, Dance-Pop und Synth-Pop zurück und zeigen Einflüsse der 1980er-Jahre. Sein heller Tenor und häufig eingesetzter Falsettgesang prägen die Melodien. Die Texte behandeln unter anderem Beziehungen, Verletzlichkeit, Entfremdung, Partys und emotionale Einsamkeit.",
+      "sources": [
+        {"title": "Wikipedia: The Weeknd, Artistry", "url": "https://en.wikipedia.org/wiki/The_Weeknd#Artistry"}
+      ]
+    },
+    {
+      "id": "mine",
+      "name": "Mine",
+      "description": "Mine, mit bürgerlichem Namen Jasmin Stocker, ist eine deutsche Sängerin, Songwriterin und Produzentin mit einer Ausbildung in Jazzgesang. Ihre deutschsprachigen Songs verbinden Pop mit Hip-Hop, Folk, Elektro und Jazz. Sie singt mit klarer, präsenter Stimme über persönliche Erfahrungen und Beziehungen und verwendet dabei Metaphern und Lautmalerei. In ihren Arrangements schichtet sie Rhythmen und Melodien, arbeitet mit Loops und Samples und entwickelt experimentelle Klangflächen. Neben gewöhnlichen Bandinstrumenten setzt sie auch Autoharp und Omnichord ein. Ihre Musik funktioniert in kleiner Bandbesetzung ebenso wie in selbst arrangierten Orchesterfassungen.",
+      "sources": [
+        {"title": "Goethe-Institut: Mine, Band des Monats", "url": "https://www.goethe.de/ins/fr/de/m/kul/art/ban/21481908.html"},
+        {"title": "radioeins: Interview und Liveset mit Mine", "url": "https://www.radioeins.de/programm/sendungen/mofr1921/interviews/mine.html"}
+      ]
+    },
+    {
+      "id": "michael-jackson",
+      "name": "Michael Jackson",
+      "description": "Michael Jackson war ein US-amerikanischer Sänger, Songwriter, Produzent und Tänzer. Seine Musik verbindet Pop und zeitgenössischen R&B mit Soul, Motown, Funk, Disco und Rock. Er begann als Sänger der Jackson 5 und entwickelte anschließend einen eigenen, stark von seiner ausdrucksvollen Soulstimme geprägten Stil. Seine Soloaufnahmen verbinden tanzbare Disco- und Funkmusik mit Popmelodien und R&B; spätere Veröffentlichungen enthalten auch New Jack Swing, eine Verbindung von R&B und Hip-Hop. In Zusammenarbeit mit Quincy Jones entstanden genreübergreifende Alben, die R&B-, Rock- und Poppublikum gleichermaßen ansprechen. Gesang, Rhythmus und Tanz sind eng miteinander verbunden.",
+      "sources": [
+        {"title": "AllMusic: Michael Jackson biography and styles", "url": "https://www.allmusic.com/artist/michael-jackson-mn0000467203"},
+        {"title": "Wikipedia: Michael Jackson", "url": "https://de.wikipedia.org/wiki/Michael_Jackson"}
+      ]
+    },
+    {
+      "id": "bruno-mars",
+      "name": "Bruno Mars",
+      "description": "Bruno Mars ist ein US-amerikanischer Sänger, Songwriter, Produzent und Multiinstrumentalist. Seine eingängige Popmusik verbindet R&B und Soul mit Funk und Hip-Hop sowie Einflüssen aus frühem Rock'n'Roll, New Wave und Reggae. Er greift ältere Musikstile auf und überführt sie in zeitgenössische Popproduktionen. Besonders deutlich sind Funk, Pop der 1980er-Jahre und New Jack Swing auf seinem Album 24K Magic; auch die Zusammenarbeit Uptown Funk mit Mark Ronson steht für diese rhythmisch geprägte Seite. Sein Gesang ist leicht und soulgeprägt. Neben seiner Studiotätigkeit ist er für seine charismatische Bühnenpräsenz bekannt.",
+      "sources": [
+        {"title": "AllMusic: Bruno Mars biography and styles", "url": "https://www.allmusic.com/artist/bruno-mars-mn0001032082"},
+        {"title": "Wikipedia: Bruno Mars, Artistry", "url": "https://en.wikipedia.org/wiki/Bruno_Mars#Artistry"}
+      ]
+    },
+    {
+      "id": "tom-odell",
+      "name": "Tom Odell",
+      "description": "Tom Odell ist ein britischer Singer-Songwriter und Pianist. Seine Musik liegt zwischen Alternative-Pop, Indie-Rock und Singer-Songwriter-Pop. Im Zentrum stehen klaviergeführte Songs mit ausgeprägtem Gespür für Melodie und Atmosphäre. Er singt über Liebeskummer und innere Konflikte; seine Musik wird als emotional, unmittelbar und häufig leise beschrieben. Sein Stil hat Vergleiche mit Leonard Cohen und Jeff Buckley hervorgerufen. Neben intimen, zurückgenommenen Klavierarrangements enthält sein Werk auch dunklere, elektronisch geprägte Popproduktionen. Andere Aufnahmen setzen erneut auf reduzierte Instrumentierung, einfühlsames Songwriting und eine filmische Atmosphäre.",
+      "sources": [
+        {"title": "AllMusic: Tom Odell biography and styles", "url": "https://www.allmusic.com/artist/tom-odell-mn0003016870"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "source": "Shared/Resources/FestivalBackup/2026_rudolstadt_data.json",
+  "extraction": "Manual assistant extraction, frozen before profile score inspection; no external artist knowledge or audio",
+  "selection": "Purposive sample: high-degree hubs, previously reviewed similar and different pairs, stylistically distant controls, two entries without sufficient musical evidence",
+  "policy": "Only explicitly described current musical style/tradition, instrumentation, vocals, rhythm and sound. Omit artist name, residence, biography, career achievements, contacts, audience promises, generic emotional praise and lyric themes. Never infer instruments from past study. Unknown facets are omitted, not imputed. Evidence must occur verbatim in whitespace-normalized source description.",
+  "artists": [
+    {"artist_id":287,"name":"Trio Talan","status":"usable","facts":[
+      {"facet":"style","text":"Persische und kurdische Musiktraditionen mit italienischem Barock und Jazzeinflüssen.","evidence":"Das Trio verbindet persische und kurdische Musiktraditionen mit italienischem Barock und Jazzeinflüssen"},
+      {"facet":"sound","text":"Fließendes Klangbild.","evidence":"zu einem fließenden Klangbild"}
+    ]},
+    {"artist_id":226,"name":"Balafenn","status":"usable","facts":[
+      {"facet":"style","text":"Irish Folk, Alte Musik und Mittelalter-Musik; west- und nordeuropäische Musik für Balfolk.","evidence":"Mit Wurzeln im Irish Folk, in der Alten Musik sowie der Mittelalter-Szene kredenzt das Quintett aus Leipzig eine Melange aus Elementen west- und nordeuropäischer Musik - perfekt für alle, die Balfolk lieben."}
+    ]},
+    {"artist_id":293,"name":"Zwei Stimmen","status":"usable","facts":[
+      {"facet":"instrumentation","text":"Oud-Melodien.","evidence":"den Melodien der Oud"},
+      {"facet":"rhythm","text":"Orientalische Rhythmen.","evidence":"orientalischen Rhythmen"}
+    ]},
+    {"artist_id":187,"name":"Legiana Collective","status":"usable","facts":[
+      {"facet":"style","text":"Tarantella und Seemannslieder.","evidence":"Ob Tarantella oder Seemannslied"},
+      {"facet":"style","text":"Moderne Folk-Band.","evidence":"Bei dieser modernen Folk-Band"},
+      {"facet":"vocals","text":"Mehrstimmiger Gesang, vielsprachige Texte.","evidence":"vielsprachige Texte ebenso. Mit mehrstimmigen Gesängen"},
+      {"facet":"instrumentation","text":"Akustische Instrumente.","evidence":"einer reichen Palette akustischer Instrumente"},
+      {"facet":"arrangement","text":"Alte Lieder und neue eigene Stücke.","evidence":"verbindet das Ensemble alte Lieder und neue, eigene Stücke."}
+    ]},
+    {"artist_id":252,"name":"How to folk?","status":"usable","facts":[
+      {"facet":"style","text":"Balfolk-Tanzmusik; moderner Sound zwischen Schweden, Schottland, Deutschland und Frankreich.","evidence":"Klanglich suchen die Vier einen modernen Sound zwischen Schweden, Schottland, Deutschland, Frankreich."},
+      {"facet":"rhythm","text":"Balfolk-Tänze.","evidence":"mit Balfolk-Tänzen"}
+    ]},
+    {"artist_id":285,"name":"Tribubu","status":"usable","facts":[
+      {"facet":"style","text":"Rumba-Afro-Folk-Fusion.","evidence":"eine innovative Rumba-Afro-Folk-Fusion"}
+    ]},
+    {"artist_id":283,"name":"Jan-Philipp Tödte & Talkin’ Music","status":"usable","facts":[
+      {"facet":"style","text":"Worldbeat, Jazz, Rock und Pop.","evidence":"Eine Symbiose aus Worldbeat, Jazz, Rock und Pop"},
+      {"facet":"instrumentation","text":"Gitarre, Handpans, Tongue-Drums, Kalimba und Fuß-Perkussion.","evidence":"mit der Gitarre zu erdigen und tanzbaren Grooves auf Handpans, Tongue-Drums, Kalimba und Fuß-Perkussion"},
+      {"facet":"rhythm","text":"Erdige und tanzbare Grooves.","evidence":"erdigen und tanzbaren Grooves"},
+      {"facet":"sound","text":"Einprägsame Melodien.","evidence":"einprägsame Melodien"}
+    ]},
+    {"artist_id":255,"name":"just4now","status":"usable","facts":[
+      {"facet":"style","text":"Irish Folk, irische Traditionals, Trinklieder und Balladen.","evidence":"Irish Folk and more. Fetzige Trinklieder, stimmungsvolle Balladen, mystische Klänge und bekannte irische Traditionals"}
+    ]},
+    {"artist_id":295,"name":"Eabhal","status":"usable","facts":[
+      {"facet":"style","text":"Musik der Insel South Uist in den Äußeren Hebriden.","evidence":"Die Musiker fanden sich, als sie alle auf South Uist wohnten, der zweitgrößten Insel der Äußeren Hebriden. Die dortige Musik prägt bis heute den Sound der Band"},
+      {"facet":"vocals","text":"Lieder in Gälisch und Englisch.","evidence":"Liedern in Gälisch und Englisch"},
+      {"facet":"arrangement","text":"Lieder wechseln sich mit energiegeladenen Instrumentalstücken ab.","evidence":"die sich mit energiegeladenen Instrumentals abwechseln"}
+    ]},
+    {"artist_id":271,"name":"Hania Nafali","status":"usable","facts":[
+      {"facet":"style","text":"Klassische Gitarrenmusik.","evidence":"Die klassische Gitarristin"}
+    ]},
+    {"artist_id":276,"name":"D.Şahin","status":"usable","facts":[
+      {"facet":"style","text":"Rhythm'n'Blues und Indie-Pop.","evidence":"einen musikalischen Zwitter aus erdigem Rhythm'n'Blues und Indie-Pop"},
+      {"facet":"vocals","text":"Soulige Stimme.","evidence":"mit ihrer souligen Stimme"}
+    ]},
+    {"artist_id":190,"name":"Derya Yildirim und Grup Şimşek","status":"usable","facts":[
+      {"facet":"style","text":"Türkisches Liedgut mit psychedelischem Songwriting, Soul und Pop.","evidence":"durchweht das Songwriting von Derya Yildirim und Grup Şimşek ein psychedelischer Vibe und auch Soul und Pop verbinden sich mit türkischem Liedgut"},
+      {"facet":"instrumentation","text":"Bağlama als zentrales Instrument.","evidence":"bleibt die Bağlama für Derya bis heute ihr Kompass"}
+    ]},
+    {"artist_id":184,"name":"Hotel Rimini","status":"usable","facts":[
+      {"facet":"style","text":"Chansonpop, Indie und Jazz.","evidence":"ihre Stücke zwischen Chansonpop, Indie und Jazz"},
+      {"facet":"instrumentation","text":"Sanfte Streicher, Drums und Gitarre.","evidence":"Sanfte Streicher harmonieren hier wunderbar mit Drums und Gitarre"},
+      {"facet":"vocals","text":"Deutsche Texte.","evidence":"Poesie der deutschen Texte"},
+      {"facet":"sound","text":"Warmer, eleganter Sound.","evidence":"einen warmen, eleganten Sound"}
+    ]},
+    {"artist_id":218,"name":"Florian Paul & Die Kapelle der letzten Hoffnung","status":"usable","facts":[
+      {"facet":"style","text":"Songwriting mit Pop und Jazz.","evidence":"neben Pop und Jazz auch etwas Cineastisches in seinem Songwriting"},
+      {"facet":"sound","text":"Cineastisches Songwriting.","evidence":"etwas Cineastisches in seinem Songwriting"}
+    ]},
+    {"artist_id":230,"name":"BlauViolett","status":"usable","facts":[
+      {"facet":"style","text":"Lieder zwischen Chanson, Jazz und Pop.","evidence":"Lieder zwischen Chanson, Jazz und Pop"},
+      {"facet":"vocals","text":"Zwei Frauen singen.","evidence":"Zwei Frauen aus unterschiedlichen Generationen singen"}
+    ]},
+    {"artist_id":306,"name":"Wowakin","status":"usable","facts":[
+      {"facet":"style","text":"Traditionelle Musik aus Mazowsze in Polen: Mazurkas, Obereks, Polkas, Kuyaviaks, Lieder und Wiegenlieder.","evidence":"Es spielt hauptsächlich Musik aus der Region Mazowsze im Herzen Polens: Mazurkas, Obereks, Polkas, Kuyaviaks, Lieder und Wiegenlieder."},
+      {"facet":"rhythm","text":"Instrumentalstücke und Tänze mit Swing und großer Intensität.","evidence":"Die instrumentalen Stücke und Tänze werden mit Swing und der großen Intensität gespielt"},
+      {"facet":"sound","text":"Lieder mit dem Geist experimentellen Kabaretts.","evidence":"Liedern über Ableben, Verlust und Sehnsucht der Jugend, die jedoch den Geist von experimentellem Kabarett atmen"}
+    ]},
+    {"artist_id":316,"name":"Kapela Janiszewskich","status":"usable","facts":[
+      {"facet":"style","text":"Regionale Tanzmusiktraditionen aus Pommern, Polen und Europa: Polkas, Kujawiaks, Mazureks und Polonaisen.","evidence":"von den regionalen Tanzmusiktraditionen in ganz Polen und Europa"},
+      {"facet":"instrumentation","text":"Violine, Akkordeon, Trommel Baraban und Kalisz-Bass.","evidence":"Mit Instrumenten wie Violine und Akkordeon, der Trommel Baraban oder dem archaischen Kalisz-Bass"},
+      {"facet":"rhythm","text":"Flotte Polkas, Kujawiaks, Mazureks und Polonaisen.","evidence":"spielen sie flotte Polkas, bewegende Kujawiaks, magische Mazureks und natürlich Polonaisen."}
+    ]},
+    {"artist_id":245,"name":"The Green Apple Sea","status":"usable","facts":[
+      {"facet":"style","text":"Indie-Folk-Popsongs mit Country- und Americana-Einflüssen.","evidence":"ihre perlenden Indie-Folk-Popsongs mit Einflüssen von Country und Americana"}
+    ]},
+    {"artist_id":247,"name":"Heated Land","status":"usable","facts":[
+      {"facet":"style","text":"Americana-Songs.","evidence":"Americana-getränkte Songs"}
+    ]},
+    {"artist_id":196,"name":"The Congos & Culture","status":"usable","facts":[
+      {"facet":"style","text":"Roots Reggae.","evidence":"zwei Fixsterne des Roots Reggae"},
+      {"facet":"rhythm","text":"Ultraentspannter Groove.","evidence":"ultraentspannter Groove"},
+      {"facet":"vocals","text":"Falsettstimme im Kontrast zu Bariton.","evidence":"die Falsettstimme von Cedric Myton im Kontrast zu Derrick „Watty“ Burnetts Bariton"}
+    ]},
+    {"artist_id":181,"name":"M. Lalitha & M. Nandini","status":"usable","facts":[
+      {"facet":"style","text":"Südindische karnatische und westliche Klassik mit Weltmusik.","evidence":"auf der Geige südindische und westliche Klassik kombiniert und mit Weltmusik zusammenbringt. Südindische Klassik, das bedeutet karnatische Musik"},
+      {"facet":"instrumentation","text":"Geige.","evidence":"auf der Geige"},
+      {"facet":"sound","text":"Melodiöse und rhythmische Variationen.","evidence":"für die viele melodiöse und rhythmische Variationen charakteristisch sind"},
+      {"facet":"arrangement","text":"Kompositionen vom 6. und 7. Jahrhundert bis zu zeitgenössischen Stücken.","evidence":"Sie spielen Kompositionen aus dem 6. und 7. Jahrhundert bis hin zu zeitgenössischen Stücken."}
+    ]},
+    {"artist_id":201,"name":"Antti Paalanen","status":"usable","facts":[
+      {"facet":"style","text":"Nordische Traditionen, Tanz, Trance und Techno.","evidence":"hypnotischen Sog aus Tanz, Trance, Tradition und Techno"},
+      {"facet":"instrumentation","text":"Diatonisches Akkordeon.","evidence":"neue Musik für das diatonische Akkordeon"},
+      {"facet":"vocals","text":"Mongolisch beeinflusster Kehlgesang.","evidence":"mongolisch beeinflusste Kehlgesangstechniken"},
+      {"facet":"sound","text":"Pulsierender, hypnotischer Sound.","evidence":"einen pulsierenden Sound"}
+    ]},
+    {"artist_id":289,"name":"Norika Wacker","status":"insufficient_musical_evidence","reason":"Clowning and storytelling description mentions love of music but no specific musical style or sound.","facts":[]},
+    {"artist_id":323,"name":"Meditativer Tanz","status":"missing_description","reason":"No bundled German or English description.","facts":[]}
+  ]
+}

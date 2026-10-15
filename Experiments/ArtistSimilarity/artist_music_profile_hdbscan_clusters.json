@@ -1,0 +1,851 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-08T07:22:07.913311+00:00",
+  "artist_count": 152,
+  "cluster_count": 2,
+  "noise_count": 134,
+  "distance_method": "Weighted Euclidean distance between relative musical anchor affinity profiles",
+  "formula": "r[a,g,k] = cosine(artist[a], anchor[g,k]) - mean_k cosine(artist[a], anchor[g,k]); d(a,b) = sqrt(sum_g w[g] * mean_k (r[a,g,k] - r[b,g,k])**2)",
+  "parameters": {
+    "algorithm": "brute",
+    "allow_single_cluster": false,
+    "alpha": 1.0,
+    "cluster_selection_epsilon": 0.0,
+    "cluster_selection_method": "eom",
+    "copy": true,
+    "leaf_size": 40,
+    "max_cluster_size": null,
+    "metric": "precomputed",
+    "metric_params": null,
+    "min_cluster_size": 5,
+    "min_samples": null,
+    "n_jobs": null,
+    "store_centers": null
+  },
+  "profile_dimensions": 54,
+  "groups": [
+    {
+      "id": "style",
+      "weight": 0.5
+    },
+    {
+      "id": "instrumentation",
+      "weight": 0.2
+    },
+    {
+      "id": "vocals",
+      "weight": 0.15
+    },
+    {
+      "id": "rhythm",
+      "weight": 0.15
+    }
+  ],
+  "limitations": [
+    "Musical affinities are model-derived scores, not genre probabilities.",
+    "The profile remains based on complete description embeddings; biography and writing style can still influence it.",
+    "Missing musical information cannot be recovered reliably from the embedding.",
+    "This distance has not been validated against listener judgments; clusters are exploratory."
+  ],
+  "source": "Experiments/ArtistSimilarity/artist_music_profile_distances.json",
+  "source_sha256": "2de61661c94f8155df7ffbc0b3741cd69795cfd5f82b3cf319c22bb84228b8e0",
+  "clusters": [
+    {
+      "cluster_id": 0,
+      "size": 9,
+      "members": [
+        {
+          "id": "festival:125",
+          "name": "Aquabella",
+          "cluster_id": 0,
+          "membership_strength": 1.0
+        },
+        {
+          "id": "festival:126",
+          "name": "Ralf Gehler / Vivien Zeller",
+          "cluster_id": 0,
+          "membership_strength": 1.0
+        },
+        {
+          "id": "festival:144",
+          "name": "Thüringer Folkloretanzensemble",
+          "cluster_id": 0,
+          "membership_strength": 1.0
+        },
+        {
+          "id": "festival:213",
+          "name": "AltBadSeer Musi",
+          "cluster_id": 0,
+          "membership_strength": 1.0
+        },
+        {
+          "id": "festival:252",
+          "name": "How to folk?",
+          "cluster_id": 0,
+          "membership_strength": 1.0
+        },
+        {
+          "id": "festival:255",
+          "name": "just4now",
+          "cluster_id": 0,
+          "membership_strength": 0.9870203484024443
+        },
+        {
+          "id": "festival:279",
+          "name": "The String Company",
+          "cluster_id": 0,
+          "membership_strength": 0.9834697615143098
+        },
+        {
+          "id": "festival:297",
+          "name": "Bille",
+          "cluster_id": 0,
+          "membership_strength": 0.9870203484024443
+        },
+        {
+          "id": "festival:314",
+          "name": "Tamburica Cindrof",
+          "cluster_id": 0,
+          "membership_strength": 1.0
+        }
+      ]
+    },
+    {
+      "cluster_id": 1,
+      "size": 9,
+      "members": [
+        {
+          "id": "festival:155",
+          "name": "Film: We all bleed red",
+          "cluster_id": 1,
+          "membership_strength": 1.0
+        },
+        {
+          "id": "festival:187",
+          "name": "Legiana Collective",
+          "cluster_id": 1,
+          "membership_strength": 0.9780798101860013
+        },
+        {
+          "id": "festival:198",
+          "name": "Dota Kehr",
+          "cluster_id": 1,
+          "membership_strength": 0.9853131437443754
+        },
+        {
+          "id": "festival:211",
+          "name": "BasBariTenori",
+          "cluster_id": 1,
+          "membership_strength": 0.978884388060519
+        },
+        {
+          "id": "festival:215",
+          "name": "Frohe Zukunft",
+          "cluster_id": 1,
+          "membership_strength": 1.0
+        },
+        {
+          "id": "festival:233",
+          "name": "Bongo Banga Band",
+          "cluster_id": 1,
+          "membership_strength": 1.0
+        },
+        {
+          "id": "festival:244",
+          "name": "Friendsbranntwein",
+          "cluster_id": 1,
+          "membership_strength": 1.0
+        },
+        {
+          "id": "festival:290",
+          "name": "XALOC",
+          "cluster_id": 1,
+          "membership_strength": 0.978884388060519
+        },
+        {
+          "id": "festival:302",
+          "name": "Clare Sands",
+          "cluster_id": 1,
+          "membership_strength": 1.0
+        }
+      ]
+    }
+  ],
+  "noise": [
+    {
+      "id": "festival:23",
+      "name": "Profolk-Session",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:67",
+      "name": "Mandolinenorchester \"Wanderlust\"",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:120",
+      "name": "Songposium",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:160",
+      "name": "NIWIKK-Kollektiv & Gäste",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:164",
+      "name": "Skizzen aus Österreich",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:167",
+      "name": "Kinderfest",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:172",
+      "name": "Abschlussveranstaltung",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:175",
+      "name": "RIAN",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:176",
+      "name": "Duo Ruut",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:177",
+      "name": "Brustmann - Schäfer - Horn",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:178",
+      "name": "Agnes Palmisano",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:179",
+      "name": "Blowzabella",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:180",
+      "name": "Nifty’s",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:181",
+      "name": "M. Lalitha & M. Nandini",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:182",
+      "name": "Tanzhausgeiger",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:183",
+      "name": "Raquel Martins",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:184",
+      "name": "Hotel Rimini",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:185",
+      "name": "Joce Reyome",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:186",
+      "name": "Kathryn Tickell & The Darkening",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:188",
+      "name": "Sara Curruchich",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:189",
+      "name": "Idemo",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:190",
+      "name": "Derya Yildirim und Grup Şimşek",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:191",
+      "name": "Nana Benz du Togo",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:192",
+      "name": "Ramsch & Rosen",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:193",
+      "name": "Baba Yaga",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:194",
+      "name": "5/8erl in Ehr’n",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:195",
+      "name": "Freshlyground",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:196",
+      "name": "The Congos & Culture",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:197",
+      "name": "Tenores di Orosei",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:199",
+      "name": "Kitty, Daisy & Lewis",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:200",
+      "name": "Blumengarten",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:201",
+      "name": "Antti Paalanen",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:202",
+      "name": "Dis is Marketa",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:203",
+      "name": "Jugendfolkorchester",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:204",
+      "name": "Shkoon",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:205",
+      "name": "Sturle Dagsland",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:206",
+      "name": "Whirligig",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:207",
+      "name": "Zgarda",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:208",
+      "name": "Vandoliers",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:210",
+      "name": "Der Nino aus Wien",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:212",
+      "name": "A Schwoazzes Gebiss",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:214",
+      "name": "Throes + The Shine",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:216",
+      "name": "La Niña",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:217",
+      "name": "La Vespa Cougourdon Ourchestra",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:218",
+      "name": "Florian Paul & Die Kapelle der letzten Hoffnung",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:219",
+      "name": "Aba Trio",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:220",
+      "name": "Winkeltanz",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:221",
+      "name": "Manu Delago & Thüringer Symphoniker",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:222",
+      "name": "A Birchola",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:223",
+      "name": "Adaya",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:224",
+      "name": "amarynda",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:225",
+      "name": "Antoní",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:226",
+      "name": "Balafenn",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:227",
+      "name": "Beppu Punk Cats",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:228",
+      "name": "between the trees and me",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:229",
+      "name": "Robert Carl Blank",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:230",
+      "name": "BlauViolett",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:231",
+      "name": "Blechlawine",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:232",
+      "name": "Alex Boldin",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:234",
+      "name": "Colheita Musi",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:235",
+      "name": "Cosmonautix",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:236",
+      "name": "Emily Davis Duo",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:237",
+      "name": "Deguy",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:238",
+      "name": "Dr. Or",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:239",
+      "name": "Duckworth & Duprez",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:240",
+      "name": "Duo Gletschergliss",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:241",
+      "name": "Emersound",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:242",
+      "name": "Estación 39",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:243",
+      "name": "Suzie Fleur",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:245",
+      "name": "The Green Apple Sea",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:246",
+      "name": "Heart’n’Beat",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:247",
+      "name": "Heated Land",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:248",
+      "name": "Heide lauscht",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:249",
+      "name": "Helmet Duty",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:250",
+      "name": "Honahlei",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:254",
+      "name": "Ilar",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:256",
+      "name": "KaLeMeTe",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:257",
+      "name": "Karwendel",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:258",
+      "name": "Klar & Herrlich",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:260",
+      "name": "Knaute und Konsorten",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:261",
+      "name": "Krauka",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:262",
+      "name": "LimoAllein",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:263",
+      "name": "L.O.B.A.",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:264",
+      "name": "Lüü-Türr",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:265",
+      "name": "Mahall Trio",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:266",
+      "name": "Makatumbe",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:267",
+      "name": "J+R Unplugged Music Duo",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:268",
+      "name": "Camila Morgenstern",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:269",
+      "name": "Marla Moya",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:270",
+      "name": "Mukkefuk-Orkestra",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:271",
+      "name": "Hania Nafali",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:272",
+      "name": "Nomadenpuls",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:273",
+      "name": "Ossternhagen & Band",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:274",
+      "name": "Partiprivati",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:275",
+      "name": "Riders Connection",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:276",
+      "name": "D.Şahin",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:277",
+      "name": "Skupa",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:278",
+      "name": "Stereo Naked",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:280",
+      "name": "Tante Maro",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:281",
+      "name": "Tau Ensemble",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:283",
+      "name": "Jan-Philipp Tödte & Talkin’ Music",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:284",
+      "name": "Totally Cantoj Bassman",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:285",
+      "name": "Tribubu",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:286",
+      "name": "Trio Khan",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:287",
+      "name": "Trio Talan",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:288",
+      "name": "Von Bergamon",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:289",
+      "name": "Norika Wacker",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:291",
+      "name": "Zababa",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:292",
+      "name": "Z.O.F.F.",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:293",
+      "name": "Zwei Stimmen",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:294",
+      "name": "Duga",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:295",
+      "name": "Eabhal",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:296",
+      "name": "Tolstoys",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:298",
+      "name": "Phønix & Embla",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:301",
+      "name": "Muslim Shaggan",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:303",
+      "name": "Bulgarka Junior Quartet",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:304",
+      "name": "miniBaroši",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:305",
+      "name": "Mwsog",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:306",
+      "name": "Wowakin",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:307",
+      "name": "La Talvera",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:308",
+      "name": "Basaseachi Ballet Folclórico",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:309",
+      "name": "Frank Bettenhausen",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:310",
+      "name": "Rastak",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:311",
+      "name": "BandAdriatica",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:312",
+      "name": "Bentu",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:313",
+      "name": "Päivi Hirvonen",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:315",
+      "name": "die knoedel",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:316",
+      "name": "Kapela Janiszewskich",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:317",
+      "name": "Katokye",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:318",
+      "name": "Christoph Lambertz & David Saam",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:319",
+      "name": "Schnedderädäng",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:320",
+      "name": "Simon Mayer",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:321",
+      "name": "Ingeborg Freytag",
+      "cluster_id": -1
+    },
+    {
+      "id": "festival:324",
+      "name": "Taizé Gesänge",
+      "cluster_id": -1
+    }
+  ],
+  "qualitative_review": {
+    "accepted_as_musical_distance": false,
+    "reason": "The non-musical documentary entry Film: We all bleed red is assigned to a cluster with several folk artists. Mathematical distance checks passed, but this is a concrete counterexample to reliable musical interpretation.",
+    "evaluation_scope": "Exploratory spot checks, not a listener-labeled benchmark."
+  }
+}

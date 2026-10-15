@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "source": "Shared/Resources/FestivalBackup/2026_rudolstadt_data.json",
+  "extraction": "Manual German music-only extraction by the assistant before viewing facet experiment scores; no audio or external artist knowledge.",
+  "artists": [
+    {"artist_id":183,"name":"Raquel Martins","status":"usable","facts":[
+      {"facet":"style","text":"Brasilianische Bossa Nova, Indie, Funk und Jazz.","evidence":"In ihre Songs fließen brasilianische Bossa Nova und Indie ein, elektronische und akustische Einflüsse, mal klingt sie funky, mal jazzig"},
+      {"facet":"sound","text":"Elektronische und akustische Einflüsse.","evidence":"elektronische und akustische Einflüsse"}
+    ]},
+    {"artist_id":237,"name":"Deguy","status":"usable","facts":[
+      {"facet":"style","text":"Indie-Soul.","evidence":"Indie-Soul"},
+      {"facet":"instrumentation","text":"Gitarren, Keys, Mundharmonika und Looper.","evidence":"Mit Gitarren, Keys, Mundharmonika und Looper"},
+      {"facet":"vocals","text":"Gesungene Lieder.","evidence":"singt er Lieder"}
+    ]},
+    {"artist_id":229,"name":"Robert Carl Blank","status":"usable","facts":[
+      {"facet":"style","text":"Folk, Americana, Soul und Blues.","evidence":"in den Gewässern von Folk, Americana, Soul und Blues"},
+      {"facet":"sound","text":"Sanft melancholisch bis treibend stürmisch.","evidence":"Mal sanft melancholisch, mal treibend stürmisch"}
+    ]},
+    {"artist_id":236,"name":"Emily Davis Duo","status":"usable","facts":[
+      {"facet":"style","text":"Country-Folk und Gothic-Blues.","evidence":"Exzentrischer Country-Folk trifft Gothic-Blues"}
+    ]},
+    {"artist_id":185,"name":"Joce Reyome","status":"usable","facts":[
+      {"facet":"style","text":"Klassische Blues-Wurzeln, Soul und Americana.","evidence":"Ihre Musik schöpft aus klassischen Blues-Wurzeln, lässt aber genug Raum für Soul, Americana"},
+      {"facet":"vocals","text":"Warme und raue Stimme.","evidence":"eine Stimme, die warm und rau zugleich ist"},
+      {"facet":"sound","text":"Zeitgemäßer Sound.","evidence":"einen zeitgemäßen Sound"}
+    ]},
+    {"artist_id":267,"name":"J+R Unplugged Music Duo","status":"usable","facts":[
+      {"facet":"style","text":"Blues, Rock und Country; unplugged.","evidence":"im Duo spielen sie Blues’n’Rock und Country Music – unplugged"}
+    ]},
+    {"artist_id":186,"name":"Kathryn Tickell & The Darkening","status":"usable","facts":[
+      {"facet":"style","text":"Britischer Folk mit Traditionen aus Northumbria und modernen elektronischen Elementen.","evidence":"Kathryn Tickell prägt den britischen Folk seit Jahrzehnten."},
+      {"facet":"instrumentation","text":"Northumbrian smallpipes, Fiddle und Synthesizer.","evidence":"Pipes und Fiddle treffen auf Synthesizer"},
+      {"facet":"vocals","text":"Gesang.","evidence":"Die Sängerin und Komponistin"},
+      {"facet":"rhythm","text":"Moderne Beats und wilde, atemlose Rhythmen.","evidence":"moderne Beats, balladenhafte Motive auf wilde, atemlose Rhythmen"},
+      {"facet":"arrangement","text":"Balladenhafte Motive.","evidence":"balladenhafte Motive"}
+    ]},
+    {"artist_id":313,"name":"Päivi Hirvonen","status":"usable","facts":[
+      {"facet":"style","text":"Traditionelle Musik mit modernen Pop-Elementen.","evidence":"Päivi Hirvonen verbindet Traditionelles mit cineastischen Klangwelten und modernen Pop-Elementen."},
+      {"facet":"sound","text":"Cineastische Klangwelten.","evidence":"cineastischen Klangwelten"},
+      {"facet":"arrangement","text":"Nachdenkliche Balladen und poppige Ohrwürmer.","evidence":"nachdenklichen Balladen, rhythmische Tornados neben poppigen Ohrwürmern"},
+      {"facet":"rhythm","text":"Rhythmische Tornados.","evidence":"rhythmische Tornados"}
+    ]},
+    {"artist_id":176,"name":"Duo Ruut","status":"usable","facts":[
+      {"facet":"style","text":"Runo-Gesang mit Ambient-Klängen und jungem Songwriting.","evidence":"Duo Ruut verbinden warme Ambient-Klänge mit komplexen Rhythmen, junges Songwriting mit den jahrhundertealten Wurzeln des Runo-Gesangs"},
+      {"facet":"instrumentation","text":"Vierhändiges Spiel auf estnischer Zither Kannel.","evidence":"ihr vierhändiges Spiel auf einer estnischen Zither (Kannel)"},
+      {"facet":"vocals","text":"Zwei Stimmen; Runo-Gesang.","evidence":"Ihre Stimmen und ihr vierhändiges Spiel"},
+      {"facet":"rhythm","text":"Komplexe Rhythmen.","evidence":"komplexen Rhythmen"},
+      {"facet":"sound","text":"Minimalistischer, hypnotischer Sound.","evidence":"Ein hypnotischer Sound"}
+    ]},
+    {"artist_id":204,"name":"Shkoon","status":"usable","facts":[
+      {"facet":"style","text":"Traditionelle arabische Melodien, Deep House, Dub, Downbeat und Hip-Hop-Einflüsse.","evidence":"traditionellen arabischen Melodien verflochten mit Deep House, Dub, Downbeat und Hip-Hop-Einflüssen"},
+      {"facet":"sound","text":"Atmosphärischer und tanzbarer Sound.","evidence":"atmosphärischen und tanzbaren Sounds"}
+    ]},
+    {"artist_id":213,"name":"AltBadSeer Musi","status":"usable","facts":[
+      {"facet":"style","text":"Steirische Musik und Steirer- und Landlertänze aus dem Ausseerland.","evidence":"Die Steirer- und Landlertänze"},
+      {"facet":"vocals","text":"Gesang zu Tänzen.","evidence":"zu denen gesungen und gepascht wird"},
+      {"facet":"rhythm","text":"Paschen: rhythmisches Klatschen.","evidence":"das heißt rhythmisch geklatscht"}
+    ]},
+    {"artist_id":301,"name":"Muslim Shaggan","status":"usable","facts":[
+      {"facet":"style","text":"Klassischer Khayal-Gesang.","evidence":"seiner Virtuosität im Khayal-Genre"},
+      {"facet":"vocals","text":"Klassischer Gesang mit hoher Improvisationsfreiheit; technisch anspruchsvoll.","evidence":"den wichtigsten Stil des klassischen Gesangs, der sich durch romantische Texte und hohe Improvisationsfreiheit auszeichnet"},
+      {"facet":"arrangement","text":"Musikalische Experimente auf traditioneller Grundlage.","evidence":"seine musikalischen Experimente basieren auf traditionellem Wissen"}
+    ]}
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "description": "Hand-designed musical anchors for an exploratory distance function. These are not artist labels or ground truth.",
+  "weight_policy": "Initial explicit hypothesis: style 50%, instrumentation 20%, vocals 15%, rhythm 15%; not calibrated against human judgments.",
+  "groups": [
+    {
+      "id": "style",
+      "weight": 0.5,
+      "anchors": [
+        {
+          "id": "folk",
+          "description": "Akustische Folk-Musik, traditionelle Lieder und Melodien, moderne Bearbeitungen musikalischer Überlieferungen."
+        },
+        {
+          "id": "celtic-nordic",
+          "description": "Keltischer und nordischer Folk mit Tanzmelodien, Fiddle, Bordunklängen und traditionellen Liedern."
+        },
+        {
+          "id": "balkan",
+          "description": "Balkanmusik und osteuropäische Volksmusik mit virtuosen Melodien, ungeraden Rhythmen und lebhafter Tanzmusik."
+        },
+        {
+          "id": "klezmer",
+          "description": "Klezmer-Musik mit jüdischen Melodien, ausdrucksstarker Klarinette, Geige, Tanzmusik und Improvisation."
+        },
+        {
+          "id": "arabic",
+          "description": "Arabische Musik mit Maqam-Melodien, Oud, Gesang, ornamentierten Melodielinien und orientalischer Percussion."
+        },
+        {
+          "id": "persian-kurdish",
+          "description": "Persische und kurdische Musiktraditionen mit modalen Melodien, improvisiertem Gesang und traditionellen Instrumenten."
+        },
+        {
+          "id": "west-african",
+          "description": "Westafrikanische Musik mit verzahnten Rhythmen, Call-and-Response-Gesang, Kora, Balafon und Percussion."
+        },
+        {
+          "id": "indian-classical",
+          "description": "Indische klassische Musik mit Ragas, melodischer Improvisation, Geige oder Sitar und komplexen Tala-Rhythmen."
+        },
+        {
+          "id": "latin-brazilian",
+          "description": "Lateinamerikanische und brasilianische Musik mit Samba, Cumbia, rhythmischem Gesang, Gitarren und Percussion."
+        },
+        {
+          "id": "reggae",
+          "description": "Reggae und Dub mit Offbeat-Gitarre, tiefem Bass, entspannten Rhythmen und repetitiven Grooves."
+        },
+        {
+          "id": "jazz",
+          "description": "Jazz mit Improvisation, differenzierten Harmonien, Swing-Rhythmen und instrumentalem Zusammenspiel."
+        },
+        {
+          "id": "experimental",
+          "description": "Experimentelle Musik, freie Improvisation, ungewöhnliche Klänge, Geräusche und offene musikalische Formen."
+        },
+        {
+          "id": "classical",
+          "description": "Klassische Musik und Barockmusik mit komponierten Instrumentalwerken, Streichern und orchestralen Arrangements."
+        },
+        {
+          "id": "pop",
+          "description": "Popmusik mit eingängigen Melodien, klaren Strophen und Refrains, Gesang und ausgearbeiteter Studioproduktion."
+        },
+        {
+          "id": "indie-rock",
+          "description": "Indie-Rock mit Gitarren, Bass, Schlagzeug, persönlichen Texten und melodischen Bandsongs."
+        },
+        {
+          "id": "punk-grunge",
+          "description": "Punk und Grunge mit verzerrten Gitarren, rauem Gesang, energischem Schlagzeug und starken Lautstärkekontrasten."
+        },
+        {
+          "id": "blues",
+          "description": "Blues mit Gitarrenriffs, ausdrucksstarkem Gesang, wiederkehrenden harmonischen Mustern und erdigem Groove."
+        },
+        {
+          "id": "soul-rnb",
+          "description": "Soul und R&B mit gefühlvollem Gesang, rhythmischen Basslinien, Gospel-Einflüssen und geschmeidigen Grooves."
+        },
+        {
+          "id": "hip-hop",
+          "description": "Hip-Hop mit Rap, gesampelten oder elektronischen Beats, rhythmischem Sprechgesang und Bass."
+        },
+        {
+          "id": "electronic-dance",
+          "description": "Elektronische Tanzmusik mit Synthesizern, programmierten Beats, Techno- und House-Rhythmen."
+        },
+        {
+          "id": "electro-swing",
+          "description": "Electro-Swing verbindet Jazz- und Swing-Samples mit elektronischen Beats und tanzbaren Rhythmen."
+        },
+        {
+          "id": "psychedelic-folk",
+          "description": "Psychedelischer Folk und Rock mit atmosphärischen Klangflächen, hypnotischen Wiederholungen und traditionellen Einflüssen."
+        }
+      ]
+    },
+    {
+      "id": "instrumentation",
+      "weight": 0.2,
+      "anchors": [
+        {
+          "id": "acoustic-guitar",
+          "description": "Instrumentierung mit akustischer Gitarre, Zupfen und Anschlagen von Saiten, natürlichem Klang."
+        },
+        {
+          "id": "electric-guitar",
+          "description": "Instrumentierung mit elektrischer Gitarre, Verstärkung, verzerrten Riffs und Gitarrenbandklang."
+        },
+        {
+          "id": "bowed-strings",
+          "description": "Instrumentierung mit Geige, Fiddle, Bratsche, Cello oder gestrichenen traditionellen Saiteninstrumenten."
+        },
+        {
+          "id": "plucked-strings",
+          "description": "Instrumentierung mit Mandoline, Bouzouki, Harfe, Kora oder anderen gezupften Saiteninstrumenten."
+        },
+        {
+          "id": "oud-zither",
+          "description": "Instrumentierung mit Oud, Saz, persischen Lauten, Zither oder asiatischen Saiteninstrumenten."
+        },
+        {
+          "id": "accordion",
+          "description": "Instrumentierung mit Akkordeon, diatonischer Harmonika, Konzertina und frei schwingenden Zungen."
+        },
+        {
+          "id": "woodwind",
+          "description": "Instrumentierung mit Klarinette, Flöte, Saxofon und anderen Holzblasinstrumenten."
+        },
+        {
+          "id": "brass",
+          "description": "Instrumentierung mit Trompete, Posaune, Tuba und weiteren Blechblasinstrumenten."
+        },
+        {
+          "id": "bagpipe",
+          "description": "Instrumentierung mit Dudelsack, Bordun und durchdringenden Bläsermelodien."
+        },
+        {
+          "id": "piano",
+          "description": "Instrumentierung mit Klavier, Tasteninstrumenten und melodisch-harmonischer Klavierbegleitung."
+        },
+        {
+          "id": "percussion",
+          "description": "Instrumentierung mit Handtrommeln, Djembe, Rahmentrommel, Shakern und akustischer Percussion."
+        },
+        {
+          "id": "drum-kit",
+          "description": "Instrumentierung mit Schlagzeug, Bassdrum, Snare, Hi-Hat und Becken."
+        },
+        {
+          "id": "handpan-kalimba",
+          "description": "Instrumentierung mit Handpan, Tongue-Drum, Kalimba und melodischen Schlaginstrumenten."
+        },
+        {
+          "id": "synth-samples",
+          "description": "Instrumentierung mit Synthesizern, elektronischen Klängen, Samples, Loops und programmierten Beats."
+        }
+      ]
+    },
+    {
+      "id": "vocals",
+      "weight": 0.15,
+      "anchors": [
+        {
+          "id": "instrumental",
+          "description": "Instrumentale Musik ohne Gesang; die Melodie wird ausschließlich von Instrumenten gespielt."
+        },
+        {
+          "id": "solo-singing",
+          "description": "Einzelne Singstimme mit instrumentaler Begleitung, solistischer melodischer Gesang."
+        },
+        {
+          "id": "duet",
+          "description": "Zwei Singstimmen im Duett, miteinander verflochtene Gesangslinien und vokales Zusammenspiel."
+        },
+        {
+          "id": "polyphonic",
+          "description": "Mehrstimmiger Gesang, Chor, vokale Harmonien und gemeinsames Singen mehrerer Stimmen."
+        },
+        {
+          "id": "rap",
+          "description": "Rhythmischer Sprechgesang und Rap mit präzisem Flow und gesprochenen Texten."
+        },
+        {
+          "id": "soft-falsetto",
+          "description": "Leiser, weicher, flüsternder oder heller Falsettgesang mit intimer Ausdrucksweise."
+        },
+        {
+          "id": "rough-screaming",
+          "description": "Rauer, verzerrter Gesang mit Schreien, Shouts, Screams oder Growls."
+        },
+        {
+          "id": "throat-singing",
+          "description": "Kehlgesang und Obertongesang mit tiefen resonanten Klängen und besonderen Stimmtechniken."
+        }
+      ]
+    },
+    {
+      "id": "rhythm",
+      "weight": 0.15,
+      "anchors": [
+        {
+          "id": "slow",
+          "description": "Langsamer, ruhiger Rhythmus, zurückgenommene Bewegung und sanfter Puls."
+        },
+        {
+          "id": "swing",
+          "description": "Swingender Rhythmus mit federnden, ungleichmäßig geteilten Schlägen und Jazz-Groove."
+        },
+        {
+          "id": "waltz",
+          "description": "Walzerrhythmus und Dreiertakt, kreisende Bewegung mit drei Schlägen je Takt."
+        },
+        {
+          "id": "polka-dance",
+          "description": "Lebhafte Polka und traditionelle Tanzrhythmen mit gleichmäßigem, energischem Puls."
+        },
+        {
+          "id": "latin-syncopated",
+          "description": "Synkopierte lateinamerikanische Rhythmen, Samba, Cumbia und verzahnte Percussion-Grooves."
+        },
+        {
+          "id": "reggae-offbeat",
+          "description": "Entspannter Offbeat-Rhythmus mit Betonungen zwischen den Schlägen und Reggae-Groove."
+        },
+        {
+          "id": "hip-hop-beat",
+          "description": "Hip-Hop-Rhythmus mit wiederkehrendem Drum-Loop, kräftiger Snare und zurückgelehntem Beat."
+        },
+        {
+          "id": "electronic-pulse",
+          "description": "Elektronisch programmierter Tanzrhythmus mit regelmäßigem Puls, Bassdrum und repetitiven Beats."
+        },
+        {
+          "id": "odd-metre",
+          "description": "Ungerade Taktarten, wechselnde Metren, komplexe Akzente und asymmetrische Rhythmusmuster."
+        },
+        {
+          "id": "free-rhythm",
+          "description": "Freier Rhythmus ohne gleichmäßigen Beat, improvisierte Zeitgestaltung und offene musikalische Bewegung."
+        }
+      ]
+    }
+  ]
+}

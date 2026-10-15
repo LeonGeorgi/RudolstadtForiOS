@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reviewer": "assistant",
+  "basis": "Additional description-based review of high-scoring pairs after inspecting the new scores",
+  "limitations": "Score-informed qualitative audit; not independent validation or a representative sample",
+  "pairs": [
+    {"artists": ["Mahall Trio", "Trio Talan"], "judgment": "similar", "reason": "Cross-cultural acoustic ensembles based on Middle Eastern traditions, with contemporary arrangements"},
+    {"artists": ["Mahall Trio", "Trio Khan"], "judgment": "similar", "reason": "Ensemble fusion involving Middle Eastern musical traditions"},
+    {"artists": ["Mahall Trio", "Zwei Stimmen"], "judgment": "similar", "reason": "Middle Eastern traditional melodies and singing in cross-cultural ensembles"},
+    {"artists": ["Antoní", "Marla Moya"], "judgment": "similar", "reason": "Indie-folk-oriented songwriting"},
+    {"artists": ["Nomadenpuls", "Tante Maro"], "judgment": "similar", "reason": "Danceable European folk repertoire with Balkan influences"},
+    {"artists": ["Colheita Musi", "Emersound"], "judgment": "similar", "reason": "Contemporary music rooted in Brazilian musical traditions"},
+    {"artists": ["Hania Nafali", "D.Şahin"], "judgment": "different", "reason": "Classical guitar concerts versus soul/indie-pop songs; high score is a stylistic false positive"},
+    {"artists": ["Balafenn", "Trio Talan"], "judgment": "different", "reason": "Irish/Western European dance folk versus Persian/Kurdish traditions and jazz; shared folk vocabulary is too broad"},
+    {"artists": ["Balafenn", "Zwei Stimmen"], "judgment": "different", "reason": "Irish/Western European dance folk versus German-Arabic songs with oud and oriental rhythms"},
+    {"artists": ["Shkoon", "Mahall Trio"], "judgment": "uncertain", "reason": "Arabic traditional material overlaps, but electronic deep-house/dub and an acoustic ensemble differ strongly"},
+    {"artists": ["Heide lauscht", "Mahall Trio"], "judgment": "uncertain", "reason": "Broad traditional cross-cultural repertoire, but insufficient evidence for close stylistic similarity"},
+    {"artists": ["Camila Morgenstern", "Tante Maro"], "judgment": "uncertain", "reason": "Both acoustic folk-derived music, but Spanish/Latin American and European/Balkan focuses differ"},
+    {"artists": ["How to folk?", "Makatumbe"], "judgment": "uncertain", "reason": "Shared contemporary dance-folk framing, but Makatumbe's stylistic description is very broad"},
+    {"artists": ["Heart’n’Beat", "Jan-Philipp Tödte & Talkin’ Music"], "judgment": "uncertain", "reason": "Percussion, grooves and world-music framing overlap, but descriptions are too general for a confident judgment"},
+    {"artists": ["Riders Connection", "Jan-Philipp Tödte & Talkin’ Music"], "judgment": "uncertain", "reason": "Acoustic grooves overlap, but reggae/soul/folk-blues and worldbeat/jazz/rock/pop need listening-based comparison"},
+    {"artists": ["Nifty’s", "Tau Ensemble"], "judgment": "uncertain", "reason": "Both combine traditional influences and jazz/experimentation, but klezmer/metal/surf and Turkish/Arabic traditions differ"}
+  ]
+}

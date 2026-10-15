@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "language": "de",
+  "methods": ["whole_profile", "style_only", "weighted_facets"],
+  "weights": {"style":0.7,"instrumentation":0.1,"vocals":0.1,"rhythm":0.1},
+  "weighted_rule": "Require explicitly known style for both artists. Weighted mean over facets documented for both artists, re-normalizing only their predefined weights. Missing facets remain absent and have no similarity score. Record shared-facet weight as evidence coverage, not a probability. Sound and arrangement remain in the whole-profile control only.",
+  "evaluation": "Ranks use a common candidate set with known style for all three methods. Pilot cohort uses only original artists; validation cohort ranks new queries against original plus new artists. No threshold, forced production recommendations or degree-based correction. Frozen protocol, profiles and labels before viewing new facet scores; no post-score tuning.",
+  "validation_basis": "Assistant judgments of described musical overlap, made before profile/facet scores for the additional artists. Purposive sample, not blinded, not a random sample, not a listening test. Some pairs had prior judgments in the existing review, but no pilot-profile scores.",
+  "pilot_diagnostics": [
+    {"artist_ids":[226,287],"judgment":"different","reason":"Irish/Western European dance folk versus Persian/Kurdish traditions with baroque and jazz."},
+    {"artist_ids":[226,181],"judgment":"different","reason":"Irish/Western European dance folk versus Carnatic/Western classical violin."}
+  ],
+  "validation_pairs": [
+    {"artist_ids":[183,237],"judgment":"similar","reason":"Indie songwriting with soul/funk-related influences; secondary influences differ."},
+    {"artist_ids":[229,236],"judgment":"similar","reason":"Folk/country/Americana songwriting with blues influences."},
+    {"artist_ids":[185,267],"judgment":"similar","reason":"Blues roots with Americana or country; acoustic/rock details differ."},
+    {"artist_ids":[186,295],"judgment":"similar","reason":"Related British traditional music with songs and instrumental tunes."},
+    {"artist_ids":[176,313],"judgment":"similar","reason":"Tradition-based contemporary songwriting and atmospheric/cinematic textures; not enough evidence to assert an identical regional tradition."},
+    {"artist_ids":[229,245],"judgment":"similar","reason":"Folk/Americana-oriented songs."},
+    {"artist_ids":[185,229],"judgment":"similar","reason":"Explicit blues, soul and Americana overlap."},
+    {"artist_ids":[236,247],"judgment":"similar","reason":"Country-folk/Blues versus Americana songwriting; plausible broader stylistic overlap."},
+    {"artist_ids":[204,213],"judgment":"different","reason":"Arabic deep-house/dub versus regional Alpine dance music and singing."},
+    {"artist_ids":[301,196],"judgment":"different","reason":"Classical Khayal singing versus roots reggae."},
+    {"artist_ids":[301,271],"judgment":"different","reason":"Classical improvised Khayal vocals versus classical guitar; shared word classical is insufficient."},
+    {"artist_ids":[301,306],"judgment":"different","reason":"Khayal singing versus Polish traditional dance music."},
+    {"artist_ids":[176,271],"judgment":"different","reason":"Runo singing, zither and ambient songwriting versus classical guitar."},
+    {"artist_ids":[186,185],"judgment":"different","reason":"Northumbrian folk with pipes/fiddle versus blues/soul/Americana."},
+    {"artist_ids":[183,213],"judgment":"different","reason":"Bossa-nova/indie/funk/jazz versus Alpine regional dance music."},
+    {"artist_ids":[185,201],"judgment":"different","reason":"Blues/soul singing versus Nordic accordion, throat singing, trance and techno."},
+    {"artist_ids":[236,271],"judgment":"different","reason":"Country-folk/gothic-blues versus classical guitar."},
+    {"artist_ids":[236,196],"judgment":"different","reason":"Country-folk/gothic-blues versus roots reggae."},
+    {"artist_ids":[204,255],"judgment":"different","reason":"Arabic deep-house/dub versus Irish folk songs."},
+    {"artist_ids":[213,276],"judgment":"different","reason":"Alpine regional dance music versus R&B/indie-pop."},
+    {"artist_ids":[204,190],"judgment":"uncertain","reason":"Both tradition/contemporary blends but Arabic electronic dance and Anatolian psychedelic soul/pop differ; no clear near-match judgment."},
+    {"artist_ids":[301,181],"judgment":"uncertain","reason":"Related broad classical South Asian context but different traditions and vocals versus violin."}
+  ]
+}
