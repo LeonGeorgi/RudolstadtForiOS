@@ -90,33 +90,32 @@ struct ScheduleEventCell: View {
 
     private var standardEventInformation: some View {
         VStack(alignment: .leading, spacing: 2) {
-            HStack(spacing: 0) {
-                HStack(spacing: 6) {
-                    Text(event.timeAsString)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .monospacedDigit()
+            HStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 6) {
+                        Text(event.timeAsString)
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .monospacedDigit()
 
-                    if let tag = event.tag {
-                        Text(tag.localizedName.uppercased())
-                            .font(.caption2)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
+                        if let tag = event.tag {
+                            Text(tag.localizedName.uppercased())
+                                .font(.caption2)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                        }
                     }
+
+                    Text(event.artist.formattedName)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
                 }
-                .fixedSize(horizontal: true, vertical: false)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-                Spacer(minLength: standardAccessoryReservation)
-            }
-
-            HStack(spacing: 0) {
-                Text(event.artist.formattedName)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .lineLimit(1)
-
-                Spacer(minLength: standardAccessoryReservation)
+                eventAccessories
+                    .fixedSize()
             }
 
             Text(event.stage.localizedName)
@@ -126,32 +125,6 @@ struct ScheduleEventCell: View {
                 .allowsTightening(true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .overlay(alignment: .trailing) {
-            eventAccessories
-        }
-    }
-
-    private var standardAccessoryReservation: CGFloat {
-        var width: CGFloat = 14
-
-        if !friendProfilesWhoSavedEvent.isEmpty {
-            let friendWidth: CGFloat
-            switch friendProfilesWhoSavedEvent.count {
-            case 1:
-                friendWidth = 24
-            case 2:
-                friendWidth = 30
-            default:
-                friendWidth = 48
-            }
-            width += 6 + friendWidth
-        }
-
-        if artistRating != 0 {
-            width += 6 + 21
-        }
-
-        return width + 4
     }
 
     @ViewBuilder
@@ -192,7 +165,6 @@ struct ScheduleEventCell: View {
                     symbolAlignment: .trailing,
                     onToggle: onToggleSaved
                 )
-                .padding(.leading, -28)
             }
         }
     }
