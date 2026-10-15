@@ -14,17 +14,14 @@ struct SaveEventButton: View {
     let onToggle: () -> Void
 
     var body: some View {
-        Button(action: {
-            onToggle()
-        }) {
-            if isSaved {
-                Text("event.remove")
-            } else {
-                Text("event.save")
+        Button(action: onToggle) {
+            Label {
+                Text(LocalizedStringKey(isSaved ? "event.remove" : "event.save"))
+            } icon: {
+                Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
+                    .contentTransition(.symbolEffect(.replace))
+                    .animation(.default, value: isSaved)
             }
-            Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
-                .contentTransition(.symbolEffect(.replace))
-                .animation(.default, value: isSaved)
         }
     }
 }

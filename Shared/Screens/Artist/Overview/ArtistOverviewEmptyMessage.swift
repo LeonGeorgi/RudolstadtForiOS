@@ -8,13 +8,10 @@ struct ArtistOverviewEmptyMessage: View {
     }
 
     var body: some View {
-        VStack {
-            Spacer()
-            Text(emptyMessageKey)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
-                .padding(.horizontal, 24)
-            Spacer()
-        }
+        Text(emptyMessageKey)
+            .multilineTextAlignment(.center)
+            .foregroundStyle(.secondary)
+            .padding(.horizontal, 24)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

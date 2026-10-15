@@ -19,16 +19,11 @@ struct ScheduleListView: View {
     var body: some View {
         Group {
             if events.isEmpty {
-                VStack {
-                    Spacer()
-
-                    Text("schedule.empty.description")
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 20)
-
-                    Spacer()
-                }
+                Text("schedule.empty.description")
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 20)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 List(events) { event in
                     NavigationLink(

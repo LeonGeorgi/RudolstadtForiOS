@@ -8,11 +8,8 @@ struct ArtistCell: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            ZStack(alignment: .bottomTrailing) {
-                ArtistImageView(artist: artist, fullImage: false)
-                    .frame(width: 60, height: 52.5)
-                
-            }
+            ArtistImageView(artist: artist, fullImage: false)
+                .frame(width: 60, height: 52.5)
             HStack(alignment: .center, spacing: 4) {
                 Text(artist.formattedName)
                     .lineLimit(2)

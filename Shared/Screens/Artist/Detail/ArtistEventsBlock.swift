@@ -60,9 +60,7 @@ struct ArtistEventsBlock: View {
     }
     
     var body: some View {
-        if artistEvents.isEmpty {
-            EmptyView()
-        } else {
+        if !artistEvents.isEmpty {
             eventsContent
         }
     }

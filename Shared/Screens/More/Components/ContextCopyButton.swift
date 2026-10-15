@@ -12,13 +12,10 @@ struct ContextCopyButton: View {
     let label: LocalizedStringKey
 
     var body: some View {
-        HStack {
-            Button(action: {
-                UIPasteboard.general.string = textToCopy
-            }) {
-                Text(label)
-                Image(systemName: "doc.on.doc")
-            }
+        Button {
+            UIPasteboard.general.string = textToCopy
+        } label: {
+            Label(label, systemImage: "doc.on.doc")
         }
     }
 }

@@ -23,17 +23,12 @@ struct NewsItemCell: View {
                     Text(newsItem.formattedShortDescription)
                         .font(.headline)
                         .lineLimit(2)
-                    if !newsItem.formattedLongDescription.isEmpty {
-                        Text(newsItem.formattedLongDescription)
-                            .lineLimit(2)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    } else {
-                        Text(newsItem.formattedContent)
-                            .lineLimit(2)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
+                    Text(newsItem.formattedLongDescription.isEmpty
+                         ? newsItem.formattedContent
+                         : newsItem.formattedLongDescription)
+                        .lineLimit(2)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                     Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
                         .font(.caption)
                         .foregroundColor(.secondary)

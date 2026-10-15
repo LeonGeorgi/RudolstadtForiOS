@@ -17,7 +17,8 @@ struct NewsListView: View {
     }
 
     var body: some View {
-        renderContent()
+        content
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
@@ -81,42 +82,24 @@ struct NewsListView: View {
     }
 
     @ViewBuilder
-    func renderContent() -> some View {
+    private var content: some View {
         if case .success(let news) = dataStore.news {
             if news.isEmpty {
-                VStack {
-                    Spacer()
-                    VStack {
-                        Text("news.empty")
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.gray)
-                            .padding(.bottom)
-                    }
+                Text("news.empty")
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gray)
+                    .padding(.bottom)
                     .padding()
-                    Spacer()
-                }
             } else {
                 newsList(news)
             }
         } else if case .loading = dataStore.news {
-            VStack {
-                Spacer()
-                ProgressView()
-                Spacer()
-            }
+            ProgressView()
         } else if case .failure(let reason) = dataStore.news {
-            VStack {
-                Spacer()
-                Text(reason.rawValue)
-                Spacer()
-            }
+            Text(reason.rawValue)
         } else {
-            VStack {
-                Spacer()
-                Text("news.error")
-                    .foregroundColor(.red)
-                Spacer()
-            }
+            Text("news.error")
+                .foregroundColor(.red)
         }
     }
 

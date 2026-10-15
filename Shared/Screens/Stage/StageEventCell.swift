@@ -25,32 +25,30 @@ struct StageEventCell: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                HStack(alignment: .center, spacing: 12) {
-                    ArtistImageView(artist: event.artist, fullImage: false)
-                        .frame(width: imageWidth, height: imageHeight)
-                        .clipShape(
-                            RoundedRectangle(
-                                cornerRadius: 14,
-                                style: .continuous
-                            )
+            HStack(alignment: .center, spacing: 12) {
+                ArtistImageView(artist: event.artist, fullImage: false)
+                    .frame(width: imageWidth, height: imageHeight)
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: 14,
+                            style: .continuous
                         )
-                    VStack(alignment: .leading, spacing: 2) {
-                        if event.tag != nil {
-                            Text(event.tag!.localizedName.uppercased())
-                                .font(.system(size: 11))
-                                .fontWeight(.semibold)
-                                .foregroundColor(.accentColor)
-                                .lineLimit(1)
-                        }
-                        Text(event.artist.formattedName)
-                            .font(.subheadline)
+                    )
+                VStack(alignment: .leading, spacing: 2) {
+                    if let tag = event.tag {
+                        Text(tag.localizedName.uppercased())
+                            .font(.system(size: 11))
                             .fontWeight(.semibold)
+                            .foregroundColor(.accentColor)
                             .lineLimit(1)
-                        Text(event.timeAsString)
-                            .lineLimit(1)
-                            .font(.subheadline)
                     }
+                    Text(event.artist.formattedName)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+                    Text(event.timeAsString)
+                        .lineLimit(1)
+                        .font(.subheadline)
                 }
             }
             Spacer()

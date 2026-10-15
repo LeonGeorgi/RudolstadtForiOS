@@ -32,15 +32,14 @@ struct SyncStatusView: View {
                 Button {
                     checkFestivalData()
                 } label: {
-                    Label {
-                        Text(LocalizedStringKey(
+                    Label(
+                        LocalizedStringKey(
                             isCheckingFestivalData
                                 ? "sync.festival_data.checking"
                                 : "sync.festival_data.check_updates"
-                        ))
-                    } icon: {
-                        Image(systemName: "arrow.triangle.2.circlepath")
-                    }
+                        ),
+                        systemImage: "arrow.triangle.2.circlepath"
+                    )
                 }
                 .disabled(isCheckingFestivalData)
             } header: {

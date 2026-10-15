@@ -231,17 +231,13 @@ private struct CountryArtistLayoutPicker: View {
 
     var body: some View {
         Menu {
-            ForEach(CountryArtistLayout.allCases) { option in
-                Button {
-                    layout = option
-                } label: {
-                    if layout == option {
-                        Label(option.title, systemImage: "checkmark")
-                    } else {
-                        Label(option.title, systemImage: option.systemImage)
-                    }
+            Picker("artists.view.layout", selection: $layout) {
+                ForEach(CountryArtistLayout.allCases) { option in
+                    Label(option.title, systemImage: option.systemImage)
+                        .tag(option)
                 }
             }
+            .pickerStyle(.inline)
         } label: {
             Label(layout.title, systemImage: layout.systemImage)
         }

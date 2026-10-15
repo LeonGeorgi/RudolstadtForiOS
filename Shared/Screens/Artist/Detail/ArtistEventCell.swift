@@ -55,8 +55,6 @@ struct ArtistEventCell: View {
                         artist: artist,
                         highlightedEventId: event.id
                     )
-                } else {
-                    EmptyView()
                 }
             }
             .contextMenu {
@@ -74,8 +72,7 @@ struct ArtistEventCell: View {
                             selectedCollisionArtist = intersectingEvent.artist
                         }
                     } label: {
-                        Text(intersectingEvent.artist.formattedName)
-                        Image(systemName: "exclamationmark.circle")
+                        Label(intersectingEvent.artist.formattedName, systemImage: "exclamationmark.circle")
                     }
                 }
                 SaveEventButton(event: event, isSaved: isSaved, onToggle: onToggleSaved)
@@ -173,12 +170,7 @@ struct ArtistEventCell: View {
     @ViewBuilder
     private var trailingAccessories: some View {
         if !friendProfilesWhoSavedEvent.isEmpty {
-            FriendSavedEventBadges(
-                eventID: event.id,
-                profiles: friendProfilesWhoSavedEvent,
-                style: .plainInline
-            )
-            .frame(minWidth: 24, minHeight: 24, alignment: .center)
+            inlineFriendBadges
         }
 
         EventSavedIcon(event: event, isSaved: isSaved, onToggle: onToggleSaved)

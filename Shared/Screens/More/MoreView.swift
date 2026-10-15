@@ -1,10 +1,6 @@
-import StoreKit
 import SwiftUI
-import WebKit
 
 struct MoreView: View {
-
-    @EnvironmentObject var iapManager: IAPManager
 
     var body: some View {
         List {

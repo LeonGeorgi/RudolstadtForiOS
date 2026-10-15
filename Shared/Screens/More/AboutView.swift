@@ -21,83 +21,62 @@ struct AboutView: View {
     let email = "rudolstadt@leongeorgi.de"
 
     var emailUrl: URL? {
-        URL(string: "mailto:\(email)?subject=Feedback%20Festival-App")!
+        URL(string: "mailto:\(email)?subject=Feedback%20Festival-App")
     }
 
     var body: some View {
         List {
             Section {
                 Text("about.app.content")
-                Button(action: {
-                    if let url = officialWebsiteUrl {
-                        UIApplication.shared.open(url)
-                    }
-                }) {
-                    Text("about.official_website.title")
-                }.disabled(officialWebsiteUrl == nil)
-                    .contextMenu {
-                        ContextCopyButton(
-                            textToCopy: officialWebsiteUrlString,
-                            label: "copy.link.title"
-                        )
-                    }
+                if let officialWebsiteUrl {
+                    Link("about.official_website.title", destination: officialWebsiteUrl)
+                        .contextMenu {
+                            ContextCopyButton(
+                                textToCopy: officialWebsiteUrlString,
+                                label: "copy.link.title"
+                            )
+                        }
+                }
 
-                Button(action: {
-                    if let url = officialAppUrl {
-                        UIApplication.shared.open(url)
-                    }
-
-                }) {
-                    Text("about.official_app.title")
-                }.disabled(officialAppUrl == nil)
-                    .contextMenu {
-                        ContextCopyButton(
-                            textToCopy:
-                                "https://apps.apple.com/de/app/rudolstadt-festival/id534902145",
-                            label: "copy.link.title"
-                        )
-                    }
+                if let officialAppUrl {
+                    Link("about.official_app.title", destination: officialAppUrl)
+                        .contextMenu {
+                            ContextCopyButton(
+                                textToCopy:
+                                    "https://apps.apple.com/de/app/rudolstadt-festival/id534902145",
+                                label: "copy.link.title"
+                            )
+                        }
+                }
             }
             Section(header: Text("about.developer.header")) {
                 Text("about.developer.content")
-                NavigationLink(value: AppNavigationRoute.donation) {
-                    Text("about.donate.title")
-                }
-                .foregroundColor(.accentColor)
+                NavigationLink("about.donate.title", value: AppNavigationRoute.donation)
+                    .foregroundColor(.accentColor)
 
-                Button(action: {
-                    if let url = githubUrl {
-                        UIApplication.shared.open(url)
-                    }
-                }) {
-                    Text("about.github.title")
-                }.disabled(githubUrl == nil)
-                    .contextMenu {
-                        ContextCopyButton(
-                            textToCopy: "https://github.com/LeonGeorgi",
-                            label: "copy.link.title"
-                        )
-                    }
-                Button {
-                    if let url = emailUrl {
-                        UIApplication.shared.open(url)
-                    }
-                } label: {
-                    Text("email.send.title")
-                }.disabled(emailUrl == nil)
-                    .contextMenu {
-                        ContextCopyButton(
-                            textToCopy: email,
-                            label: "copy.email.title"
-                        )
-                    }
+                if let githubUrl {
+                    Link("about.github.title", destination: githubUrl)
+                        .contextMenu {
+                            ContextCopyButton(
+                                textToCopy: "https://github.com/LeonGeorgi",
+                                label: "copy.link.title"
+                            )
+                        }
+                }
+                if let emailUrl {
+                    Link("email.send.title", destination: emailUrl)
+                        .contextMenu {
+                            ContextCopyButton(
+                                textToCopy: email,
+                                label: "copy.email.title"
+                            )
+                        }
+                }
             }
             Section(header: Text("about.licenses.header")) {
                 Text("about.licenses.content")
 
-                NavigationLink(destination: LicensesView()) {
-                    Text("about.licenses.title")
-                }
+                NavigationLink("about.licenses.title", destination: LicensesView())
             }
         }.listStyle(.insetGrouped)
             .font(.body)

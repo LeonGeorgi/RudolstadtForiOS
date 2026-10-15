@@ -27,15 +27,6 @@ struct SettingsView: View {
         )
     }
 
-    var showAISummaries: Binding<Bool> {
-        Binding(
-            get: { settings.aiSummaryEnabled },
-            set: { newValue in
-                settings.aiSummaryEnabled = newValue
-            }
-        )
-    }
-
     var body: some View {
         List {
             Section {
@@ -51,7 +42,7 @@ struct SettingsView: View {
                 Text("settings.notifications.footer")
             }
 
-            Toggle(isOn: showAISummaries) {
+            Toggle(isOn: $settings.aiSummaryEnabled) {
                 Label("settings.show_ai_summaries", systemImage: "sparkles")
             }
             Toggle(isOn: useFlames) {
@@ -60,9 +51,7 @@ struct SettingsView: View {
                     .animation(.default, value: settings.likeIcon)
             }
             if let url = URL(string: UIApplication.openSettingsURLString) {
-                Button {
-                    UIApplication.shared.open(url)
-                } label: {
+                Link(destination: url) {
                     Label("settings.language", systemImage: "globe")
                 }
             }

@@ -52,21 +52,17 @@ struct ZoomableRemoteImageViewer: View {
         Button {
             dismiss()
         } label: {
-            ZStack {
-                Color.clear
-                    .frame(width: 56, height: 56)
-
-                Image(systemName: "xmark")
-                    .font(.headline.weight(.semibold))
-                    .foregroundStyle(.white)
-                    .frame(width: 22, height: 22)
-                    .frame(width: 44, height: 44)
+            Image(systemName: "xmark")
+                .font(.headline.weight(.semibold))
+                .foregroundStyle(.white)
+                .frame(width: 22, height: 22)
+                .frame(width: 44, height: 44)
 #if os(iOS)
-                    .modifier(LiquidGlassCloseButtonStyle())
+                .modifier(LiquidGlassCloseButtonStyle())
 #else
-                    .background(.black.opacity(0.55), in: Circle())
+                .background(.black.opacity(0.55), in: Circle())
 #endif
-            }
+                .padding(6)
         }
         .contentShape(Rectangle())
         .buttonStyle(.plain)
