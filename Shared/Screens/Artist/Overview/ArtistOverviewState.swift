@@ -25,8 +25,6 @@ enum ArtistGridDensity: Int, CaseIterable {
 
 @MainActor
 final class ArtistOverviewState: ObservableObject {
-    @Published var selectedPresentationMode: ArtistPresentationMode = .grid
-    @Published var selectedGridDensity: ArtistGridDensity = .comfortable
     @Published var selectedArtistType: ShownArtistTypes? = nil
     @Published var selectedBrowseGenreID: String? = nil
     @Published var searchText = ""

@@ -29,37 +29,37 @@ private enum ArtistLayoutOption: CaseIterable, Hashable {
 }
 
 struct ArtistPresentationMenu: View {
-    @ObservedObject var state: ArtistOverviewState
+    @EnvironmentObject private var settings: UserSettings
     let currentTipID: String?
 
     private var systemImageName: String {
-        switch state.selectedPresentationMode {
+        switch settings.artistPresentationMode {
         case .list:
             return ArtistPresentationMode.list.systemImageName
         case .grid:
-            return state.selectedGridDensity.systemImageName
+            return settings.artistGridDensity.systemImageName
         }
     }
 
     private var selection: Binding<ArtistLayoutOption> {
         Binding {
-            switch state.selectedPresentationMode {
+            switch settings.artistPresentationMode {
             case .list:
                 return .list
             case .grid:
-                return state.selectedGridDensity == .comfortable
+                return settings.artistGridDensity == .comfortable
                     ? .comfortableGrid : .compactGrid
             }
         } set: { option in
             switch option {
             case .list:
-                state.selectedPresentationMode = .list
+                settings.artistPresentationMode = .list
             case .comfortableGrid:
-                state.selectedGridDensity = .comfortable
-                state.selectedPresentationMode = .grid
+                settings.artistGridDensity = .comfortable
+                settings.artistPresentationMode = .grid
             case .compactGrid:
-                state.selectedGridDensity = .compact
-                state.selectedPresentationMode = .grid
+                settings.artistGridDensity = .compact
+                settings.artistPresentationMode = .grid
             }
         }
     }
@@ -131,7 +131,6 @@ struct ArtistListToolbar: ToolbarContent {
         
         ToolbarItem(placement: .topBarTrailing) {
             ArtistPresentationMenu(
-                state: state,
                 currentTipID: currentTipID
             )
         }

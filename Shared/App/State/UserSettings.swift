@@ -104,10 +104,28 @@ final class UserPreferencesStore: ObservableObject {
     @UserDefault(key: "view/artist/viewtype/v2", defaultValue: 1)
     var artistViewType: Int
 
+    var artistPresentationMode: ArtistPresentationMode {
+        get {
+            ArtistPresentationMode(rawValue: artistViewType) ?? .grid
+        }
+        set {
+            artistViewType = newValue.rawValue
+        }
+    }
+
     // 2 - Comfortable grid
     // 3 - Compact grid
     @UserDefault(key: "view/artist/grid-columns/v1", defaultValue: 2)
     var artistGridColumnCount: Int
+
+    var artistGridDensity: ArtistGridDensity {
+        get {
+            ArtistGridDensity(rawValue: artistGridColumnCount) ?? .comfortable
+        }
+        set {
+            artistGridColumnCount = newValue.rawValue
+        }
+    }
 
     // 0 - All
     // 1 - Favorites

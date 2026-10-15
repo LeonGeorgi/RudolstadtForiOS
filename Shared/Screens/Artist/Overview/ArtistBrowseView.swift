@@ -3,6 +3,7 @@ import SwiftUI
 struct ArtistBrowseView: View {
     let artists: [Artist]
     @ObservedObject var state: ArtistOverviewState
+    @EnvironmentObject private var settings: UserSettings
     let currentTipID: String?
     let emptyMessageKey: LocalizedStringKey
     let browseGenreOptions: [BrowseTaxonomyEntry]
@@ -13,10 +14,10 @@ struct ArtistBrowseView: View {
 
     var body: some View {
         Group {
-            if state.selectedPresentationMode == .grid {
+            if settings.artistPresentationMode == .grid {
                 ArtistOverviewGridView(
                     artists: artists,
-                    gridDensity: state.selectedGridDensity,
+                    gridDensity: settings.artistGridDensity,
                     emptyMessageKey: emptyMessageKey,
                     imageTransitionNamespace: imageTransitionNamespace,
                     showsWorldMapCallout: state.searchText.isEmpty,

@@ -17,9 +17,7 @@ struct ArtistCountryListRouteView: View {
     private var gridColumns: [GridItem] {
         ArtistGridLayout.columns(
             for: dynamicTypeSize,
-            density: ArtistGridDensity(
-                rawValue: settings.artistGridColumnCount
-            ) ?? .comfortable
+            density: settings.artistGridDensity
         )
     }
 
