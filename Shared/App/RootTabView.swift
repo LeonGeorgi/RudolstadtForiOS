@@ -276,26 +276,22 @@ struct RootTabView: View {
     @ViewBuilder
     private var tabViewWithNewsAccessory: some View {
         if #available(iOS 26.1, *) {
-            if shouldShowNewsAccessory {
-                appTabView
-                    .tabBarMinimizeBehavior(.onScrollDown)
-                    .tabViewBottomAccessory(isEnabled: true) {
-                        UnreadNewsAccessory(
-                            unreadCount: unreadNewsCount,
-                            content: unreadNewsAccessoryContent,
-                            foregroundColorScheme: newsAccessoryColorScheme,
-                            openNews: presentNewsSheet
-                        )
-                    }
-            } else {
-                appTabView
-                    .tabBarMinimizeBehavior(.never)
-            }
+            appTabView
+                .tabBarMinimizeBehavior(shouldShowNewsAccessory ? .onScrollDown : .never)
+                .tabViewBottomAccessory(isEnabled: shouldShowNewsAccessory) {
+                    UnreadNewsAccessory(
+                        unreadCount: unreadNewsCount,
+                        content: unreadNewsAccessoryContent,
+                        foregroundColorScheme: newsAccessoryColorScheme,
+                        openNews: presentNewsSheet
+                    )
+                }
         } else if #available(iOS 26.0, *) {
-            if shouldShowNewsAccessory {
-                appTabView
-                    .tabBarMinimizeBehavior(.onScrollDown)
-                    .tabViewBottomAccessory {
+            appTabView
+                .tabBarMinimizeBehavior(shouldShowNewsAccessory ? .onScrollDown : .never)
+                .tabViewBottomAccessory {
+                    // Keep the tab hierarchy stable; only the accessory content changes.
+                    if shouldShowNewsAccessory {
                         UnreadNewsAccessory(
                             unreadCount: unreadNewsCount,
                             content: unreadNewsAccessoryContent,
@@ -303,10 +299,7 @@ struct RootTabView: View {
                             openNews: presentNewsSheet
                         )
                     }
-            } else {
-                appTabView
-                    .tabBarMinimizeBehavior(.never)
-            }
+                }
         } else {
             appTabView
         }
