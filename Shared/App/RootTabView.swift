@@ -13,6 +13,9 @@ private enum AppTab: Int, Hashable {
 struct RootTabView: View {
     private static let notificationPromptDelay: Duration = .seconds(5)
 
+    @Binding var pendingArtistLink: ArtistShareLink?
+
+    @Environment(\.festivalData) private var festivalData
     @EnvironmentObject var dataStore: DataStore
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var festivalProfileStore: FestivalProfileStore
@@ -35,6 +38,7 @@ struct RootTabView: View {
     @State private var retainsNewsAccessoryForPresentedSheet = false
     @State private var isArtistWorldMapVisible = false
     @State private var isShowingNotificationPrompt = false
+    @State private var isShowingArtistLinkUnavailable = false
 
     private var isScreenshotMode: Bool {
         ScreenshotRuntime.isEnabled
@@ -79,6 +83,27 @@ struct RootTabView: View {
         Task {
             await dataStore.refreshNewsIfNecessary()
         }
+    }
+
+    private func openArtistLink(_ link: ArtistShareLink) {
+        pendingArtistLink = nil
+        isShowingNewsSheet = false
+        isShowingNotificationPrompt = false
+
+        guard link.year == DataStore.year,
+              festivalData.artists.contains(where: { $0.id == link.artistID })
+        else {
+            isShowingArtistLinkUnavailable = true
+            return
+        }
+
+        selectedTab = .artists
+        artistsPath = NavigationPath()
+        artistsPath.append(AppNavigationRoute.artist(
+            id: link.artistID,
+            highlightedEventId: nil,
+            transitionSourceID: nil
+        ))
     }
 
     private func presentNewsSheet() {
@@ -361,6 +386,19 @@ struct RootTabView: View {
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
+        .alert(
+            "artist.share.unavailable.title",
+            isPresented: $isShowingArtistLinkUnavailable
+        ) {
+            Button("artist.share.unavailable.ok", role: .cancel) {}
+        } message: {
+            Text("artist.share.unavailable.message")
+        }
+        .onChange(of: pendingArtistLink, initial: true) { _, link in
+            if let link {
+                openArtistLink(link)
+            }
+        }
         .onChange(
             of: newsNotificationNavigation.requestedNewsItemID,
             initial: true
@@ -599,7 +637,7 @@ private struct NotificationPermissionPromptView: View {
 struct RootTabView_Previews: PreviewProvider {
     @MainActor
     static var previews: some View {
-        RootTabView()
+        RootTabView(pendingArtistLink: .constant(nil))
             .previewMockEnvironment(suiteName: "RootTabViewPreview")
     }
 }

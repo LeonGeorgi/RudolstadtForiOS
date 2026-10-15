@@ -96,12 +96,13 @@ enum TestFixtures {
     static func artist(
         id: Int,
         name: String? = nil,
+        hiddenFromArtistList: Bool = false,
         descriptionGerman: String? = nil,
         descriptionEnglish: String? = nil
     ) -> Artist {
         Artist(
             id: id,
-            hiddenFromArtistList: false,
+            hiddenFromArtistList: hiddenFromArtistList,
             artistType: .stage,
             someNumber: 0,
             name: name ?? "Artist \(id)",

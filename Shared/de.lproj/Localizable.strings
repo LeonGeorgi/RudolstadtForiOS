@@ -26,6 +26,11 @@
 "artist.note.placeholder" = "Notiz zu diesem Künstler schreiben…";
 "artist.note.save" = "Speichern";
 "artist.note.cancel" = "Abbrechen";
+"artist.share" = "Künstler teilen";
+"artist.share.unavailable.title" = "Künstler nicht verfügbar";
+"artist.share.unavailable.message" = "Dieser Künstler wurde im geladenen Programm nicht gefunden oder der Link gehört zu einem anderen Festivaljahr.";
+"artist.share.unavailable.ok" = "OK";
+
 "artist.note.cancel.alert.title" = "Willst du das Bearbeiten wirklich abbrechen?";
 "artist.note.cancel.alert.message" = "Deine Änderungen werden nicht gespeichert.";
 "artist.note.cancel.alert.yes" = "Ja";
@@ -44,6 +49,7 @@
 "artist.events" = "VERANSTALTUNGEN";
 "artist.links" = "LINKS";
 "artist.description" = "BESCHREIBUNG";
+"artist.similar-artists" = "Ähnliche Künstler";
 "artist.rating.explanation.content" = "Gedrückt halten für mehr Optionen";
 "artist.rating.set.1" = "Künstler mit einem Herz bewerten";
 "artist.rating.set.2" = "Künstler mit zwei Herzen bewerten";

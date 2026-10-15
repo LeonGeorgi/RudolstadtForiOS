@@ -1,13 +1,9 @@
 import SwiftUI
-import Combine
 #if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
-
-private enum ArtistNoteFocusTarget: Hashable {
-    case keyboardKeeper
-    case editor
-}
 
 struct ArtistDetailView: View {
     private enum Layout {
@@ -28,8 +24,6 @@ struct ArtistDetailView: View {
     let highlightedEventId: Int?
     let navigate: ((AppNavigationRoute) -> Void)?
 
-    @Environment(\.accessibilityReduceMotion)
-    private var accessibilityReduceMotion
     @Environment(\.colorScheme) private var systemColorScheme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
@@ -38,18 +32,9 @@ struct ArtistDetailView: View {
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @EnvironmentObject var profile: FestivalProfileStore
 
-    @State private var isShowingCenteredNote = false
-    @State private var isShowingLiveNoteEditor = false
-    @State private var isNotePreviewHidden = false
-    @State var isEditAlertShown: Bool = false
+    @State private var isShowingNoteEditor = false
+    @State private var isEditAlertShown = false
     @State private var noteDraft = ArtistNoteDraft(noteText: nil)
-    @State private var noteMoveProgress: CGFloat = 0
-    @State private var notePreviewFrame: CGRect = .zero
-    @State private var notePreviewUnrotatedSize: CGSize = .zero
-    @State private var centeredNoteKeyboardTop: CGFloat?
-    @State private var centeredNoteSafeAreaTop: CGFloat?
-    @State private var centeredNoteDestinationFrame: CGRect?
-    @State private var isWaitingForKeyboardTarget = false
     @State private var presentedBrowserURL: PresentedBrowserURL?
     @State private var isArtistTitleVisible = true
     @State private var artistRatingViewportHeight: CGFloat = 0
@@ -57,7 +42,6 @@ struct ArtistDetailView: View {
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.artistDetailScreen
     )
-    @FocusState private var noteFocusTarget: ArtistNoteFocusTarget?
 
     init(
         artist: Artist,
@@ -104,210 +88,28 @@ struct ArtistDetailView: View {
         usesEdgeToEdgeHero && isArtistTitleVisible ? .hidden : .automatic
     }
 
-    private func presentCenteredNote() {
-        guard !isShowingCenteredNote, !notePreviewFrame.isEmpty else {
-            return
-        }
-
+    private func presentNoteEditor() {
         noteDraft = ArtistNoteDraft(noteText: artistNote)
-
-        var transaction = Transaction()
-        transaction.disablesAnimations = true
-        withTransaction(transaction) {
-            noteMoveProgress = 0
-            centeredNoteKeyboardTop = nil
-            centeredNoteSafeAreaTop = nil
-            centeredNoteDestinationFrame = nil
-            isWaitingForKeyboardTarget = true
-            isShowingLiveNoteEditor = false
-            isEditAlertShown = false
-            isNotePreviewHidden = true
-            isShowingCenteredNote = true
-        }
-
-        Task { @MainActor in
-            await Task.yield()
-            guard isShowingCenteredNote else {
-                return
-            }
-            noteFocusTarget = .keyboardKeeper
-        }
-    }
-
-    private func dismissCenteredNote() {
-        isWaitingForKeyboardTarget = false
-        if isShowingLiveNoteEditor {
-            guard noteFocusTarget != .keyboardKeeper else {
-                return
-            }
-
-            var transaction = Transaction()
-            transaction.disablesAnimations = true
-            withTransaction(transaction) {
-                noteFocusTarget = .keyboardKeeper
-            }
-
-            Task { @MainActor in
-                await Task.yield()
-                guard
-                    isShowingCenteredNote,
-                    noteFocusTarget == .keyboardKeeper
-                else {
-                    return
-                }
-
-                var transaction = Transaction()
-                transaction.disablesAnimations = true
-                withTransaction(transaction) {
-                    isShowingLiveNoteEditor = false
-                }
-                beginCenteredNoteDismissalAnimation()
-            }
-            return
-        }
-
-        beginCenteredNoteDismissalAnimation()
-    }
-
-    private func beginCenteredNoteDismissalAnimation() {
-        withAnimation(
-            noteMoveAnimation,
-            completionCriteria: .removed
-        ) {
-            noteMoveProgress = 0
-        } completion: {
-            var transaction = Transaction()
-            transaction.disablesAnimations = true
-            withTransaction(transaction) {
-                noteFocusTarget = nil
-                isShowingCenteredNote = false
-                isNotePreviewHidden = false
-            }
-        }
+        isEditAlertShown = false
+        isShowingNoteEditor = true
     }
 
     private func requestNoteEditorDismissal() {
         if noteDraft.hasChanges {
             isEditAlertShown = true
         } else {
-            dismissCenteredNote()
+            isShowingNoteEditor = false
         }
     }
 
     private func saveNote() {
         profile.setArtistNote(for: artist, note: noteDraft.text)
-        dismissCenteredNote()
+        isShowingNoteEditor = false
     }
 
     private func discardNoteChanges() {
         isEditAlertShown = false
-        noteDraft = ArtistNoteDraft(noteText: artistNote)
-        dismissCenteredNote()
-    }
-
-    private var noteDiscardAlert: Alert {
-        Alert(
-            title: Text("artist.note.cancel.alert.title"),
-            message: Text("artist.note.cancel.alert.message"),
-            primaryButton: .destructive(
-                Text("artist.note.cancel.alert.yes"),
-                action: discardNoteChanges
-            ),
-            secondaryButton: .cancel(
-                Text("artist.note.cancel.alert.no")
-            ) {
-                isEditAlertShown = false
-            }
-        )
-    }
-
-    private func notePreviewFrameChanged(
-        _ geometry: ArtistNotePreviewGeometry
-    ) {
-        guard !geometry.frame.isEmpty, !isShowingCenteredNote else {
-            return
-        }
-        notePreviewFrame = geometry.frame
-        notePreviewUnrotatedSize = geometry.unrotatedSize
-    }
-
-    private func keyboardWillChangeFrame(_ notification: Notification) {
-        guard
-            isWaitingForKeyboardTarget,
-            let keyboardFrame = notification.userInfo?[
-                UIResponder.keyboardFrameEndUserInfoKey
-            ] as? CGRect,
-            let window = activeWindow
-        else {
-            return
-        }
-
-        let safeAreaTop = window.frame.minY + window.safeAreaInsets.top
-        let keyboardTop = min(
-            max(keyboardFrame.minY, safeAreaTop),
-            window.frame.maxY
-        )
-        let destinationFrame = ArtistNoteEditorLayout.paperFrame(
-            in: window.frame,
-            safeAreaInsets: EdgeInsets(
-                top: window.safeAreaInsets.top,
-                leading: window.safeAreaInsets.left,
-                bottom: window.safeAreaInsets.bottom,
-                trailing: window.safeAreaInsets.right
-            ),
-            keyboardTop: keyboardTop
-        )
-
-        centeredNoteKeyboardTop = keyboardTop
-        centeredNoteSafeAreaTop = safeAreaTop
-        centeredNoteDestinationFrame = destinationFrame
-        startCenteredNoteMovement()
-    }
-
-    private var activeWindow: UIWindow? {
-        let foregroundScenes = UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .filter { $0.activationState == .foregroundActive }
-        return foregroundScenes
-            .flatMap { $0.windows }
-            .first(where: \.isKeyWindow)
-    }
-
-    private func startCenteredNoteMovement() {
-        isWaitingForKeyboardTarget = false
-        withAnimation(
-            noteMoveAnimation,
-            completionCriteria: .removed
-        ) {
-            noteMoveProgress = 1
-        } completion: {
-            handOffToLiveNoteEditor()
-        }
-    }
-
-    private func handOffToLiveNoteEditor() {
-        guard isShowingCenteredNote, noteMoveProgress == 1 else {
-            return
-        }
-
-        var transaction = Transaction()
-        transaction.disablesAnimations = true
-        withTransaction(transaction) {
-            isShowingLiveNoteEditor = true
-            noteFocusTarget = .editor
-        }
-    }
-
-    private var noteMoveAnimation: Animation? {
-        accessibilityReduceMotion
-            ? nil
-            : .easeOut(duration: 0.24)
-    }
-
-    private var centeredNoteFoldSize: CGFloat {
-        noteDraft.text.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        ).isEmpty ? 10 : 17
+        isShowingNoteEditor = false
     }
 
     private var artistTheme: ArtistDetailTheme {
@@ -347,7 +149,7 @@ struct ArtistDetailView: View {
                     ? primarySectionSpacing
                     : Layout.edgeToEdgeIntroTopSpacing,
                 onEditNote: {
-                    presentCenteredNote()
+                    presentNoteEditor()
                 }
             )
 
@@ -385,11 +187,22 @@ struct ArtistDetailView: View {
     }
 
     private var supportingContent: some View {
-        VStack(spacing: 0) {
+        let similarArtists = ArtistSimilarityCatalog.bundled.similarArtists(
+            to: artist,
+            among: festivalData.artists,
+            festivalYear: DataStore.year
+        )
+
+        return VStack(spacing: 0) {
             ArtistDescriptionBlock(
                 description: artist.formattedDescription
             )
             .padding(.top, dynamicTypeSize.isAccessibilitySize ? 28 : 24)
+
+            if !similarArtists.isEmpty {
+                ArtistSimilarArtistsBlock(artists: similarArtists)
+                    .padding(.top, primarySectionSpacing)
+            }
         }
         .padding(.bottom, dynamicTypeSize.isAccessibilitySize ? 24 : 20)
     }
@@ -507,20 +320,31 @@ struct ArtistDetailView: View {
         )
     }
 
+    @ViewBuilder
+    private func shareButton(url: URL) -> some View {
+        if #available(macOS 13.0, *) {
+            ShareLink(item: url, subject: Text(artist.formattedName)) {
+                Label("artist.share", systemImage: "square.and.arrow.up")
+            }
+        } else {
+            #if os(macOS)
+            Menu {
+                ForEach(NSSharingService.sharingServices(forItems: [url]), id: \.self) { service in
+                    Button(service.title) {
+                        service.perform(withItems: [url])
+                    }
+                }
+            } label: {
+                Label("artist.share", systemImage: "square.and.arrow.up")
+            }
+            #endif
+        }
+    }
+
     var body: some View {
         detailScrollView
-            .allowsHitTesting(!isShowingCenteredNote)
-            .accessibilityHidden(isShowingCenteredNote)
             .coordinateSpace(name: ArtistRatingCoordinateSpace.name)
             .environment(\.artistDetailTheme, artistTheme)
-            .environment(
-                \.artistNotePreviewFrameHandler,
-                notePreviewFrameChanged
-            )
-            .environment(
-                \.isArtistNotePreviewHidden,
-                isNotePreviewHidden
-            )
             .environment(
                 \.artistRatingViewportHeight,
                 artistRatingViewportHeight
@@ -536,220 +360,35 @@ struct ArtistDetailView: View {
                 for: .navigationBar
             )
             .toolbarColorScheme(nil, for: .navigationBar)
-            .overlay {
-                if isShowingCenteredNote {
-                    GeometryReader { proxy in
-                        let overlayOrigin = proxy.frame(in: .global).origin
-                        let sourceCenter = CGPoint(
-                            x: notePreviewFrame.midX - overlayOrigin.x,
-                            y: notePreviewFrame.midY - overlayOrigin.y
-                        )
-                        let fallbackDestinationFrame =
-                            ArtistNoteEditorLayout.paperFrame(
-                                in: proxy.frame(in: .global),
-                                safeAreaInsets: proxy.safeAreaInsets,
-                                keyboardTop: centeredNoteKeyboardTop
-                            )
-                        let safeAreaTop = centeredNoteSafeAreaTop
-                            ?? (
-                                overlayOrigin.y
-                                    + proxy.safeAreaInsets.top
-                            )
-                        let destinationGlobalFrame =
-                            centeredNoteDestinationFrame
-                                ?? fallbackDestinationFrame
-                        let destinationTop = max(
-                            destinationGlobalFrame.minY,
-                            overlayOrigin.y
-                                + ArtistNoteEditorLayout.topPadding
-                        )
-                        let visibleDestinationGlobalFrame = CGRect(
-                            x: destinationGlobalFrame.minX,
-                            y: destinationTop,
-                            width: destinationGlobalFrame.width,
-                            height: max(
-                                destinationGlobalFrame.maxY
-                                    - destinationTop,
-                                0
-                            )
-                        )
-                        let destinationFrame =
-                            visibleDestinationGlobalFrame.offsetBy(
-                                dx: -overlayOrigin.x,
-                                dy: -overlayOrigin.y
-                            )
-                        let destinationCenter = CGPoint(
-                            x: destinationFrame.midX,
-                            y: destinationFrame.midY
-                        )
-                        let textReflowProgress =
-                            ArtistNoteMotionGeometry.textReflowProgress(
-                                for: noteMoveProgress
-                            )
-                        let currentPaperHeight =
-                            ArtistNoteMotionGeometry.interpolate(
-                                from: notePreviewUnrotatedSize.height,
-                                to: destinationFrame.height,
-                                progress: noteMoveProgress
-                            )
-                        let currentPaperWidth =
-                            ArtistNoteMotionGeometry.interpolate(
-                                from: notePreviewUnrotatedSize.width,
-                                to: destinationFrame.width,
-                                progress: noteMoveProgress
-                            )
-                        let currentCurveCenter =
-                            ArtistNoteMotionGeometry.point(
-                                progress: noteMoveProgress,
-                                start: sourceCenter,
-                                end: destinationCenter,
-                                minimumY: safeAreaTop
-                                    - overlayOrigin.y
-                                    + notePreviewUnrotatedSize.height / 2
-                            )
-                        let currentPaperCenter = CGPoint(
-                            x: currentCurveCenter.x,
-                            y: max(
-                                currentCurveCenter.y,
-                                safeAreaTop
-                                    - overlayOrigin.y
-                                    + currentPaperHeight / 2
-                            )
-                        )
-                        let editorTextScale = min(
-                            currentPaperWidth
-                                / max(destinationFrame.width, 1),
-                            currentPaperHeight
-                                / max(destinationFrame.height, 1)
-                        )
-                        let currentPaperRotation =
-                            ArtistNoteMotionGeometry.interpolate(
-                                from:
-                                    ArtistNoteMotionGeometry
-                                        .previewRotation,
-                                to: 0,
-                                progress: noteMoveProgress
-                            )
-                        Color.black
-                            .opacity(
-                                (
-                                    systemColorScheme == .dark
-                                        ? 0.50
-                                        : 0.36
-                                ) * noteMoveProgress
-                            )
-                            .ignoresSafeArea()
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                if isShowingLiveNoteEditor {
-                                    requestNoteEditorDismissal()
-                                } else {
-                                    dismissCenteredNote()
-                                }
-                            }
-
-                        ArtistNoteGrowingPaper(
-                            progress: noteMoveProgress,
-                            start: sourceCenter,
-                            end: destinationCenter,
-                            sourceSize: notePreviewUnrotatedSize,
-                            destinationSize: destinationFrame.size,
-                            sourceFoldSize: centeredNoteFoldSize,
-                            safeAreaTop: safeAreaTop - overlayOrigin.y
-                        )
-
-                        ArtistNoteEditorSurface(
-                            noteText: $noteDraft.text,
-                            focusTarget: $noteFocusTarget,
-                            onCancel: requestNoteEditorDismissal,
-                            onSave: saveNote
-                        )
-                        .frame(
-                            width: destinationFrame.width,
-                            height: destinationFrame.height
-                        )
-                        .position(destinationCenter)
-                        .opacity(isShowingLiveNoteEditor ? 1 : 0)
-                        .allowsHitTesting(isShowingLiveNoteEditor)
-                        .accessibilityHidden(!isShowingLiveNoteEditor)
-                        .alert(isPresented: $isEditAlertShown) {
-                            noteDiscardAlert
-                        }
-
-                        if !isShowingLiveNoteEditor {
-                            ArtistNoteBlock(
-                                note: noteDraft.text,
-                                showsPaper: false,
-                                onEdit: {}
-                            )
-                            .environment(
-                                \.isArtistNotePreviewHidden,
-                                false
-                            )
-                            .environment(
-                                \.artistNotePreviewFrameHandler,
-                                { _ in }
-                            )
-                            .position(sourceCenter)
-                            .modifier(
-                                ArtistNoteCurveMotion(
-                                    progress: noteMoveProgress,
-                                    start: sourceCenter,
-                                    end: destinationCenter,
-                                    sourceHeight:
-                                        notePreviewUnrotatedSize.height,
-                                    destinationHeight:
-                                        destinationFrame.height,
-                                    safeAreaTop:
-                                        safeAreaTop - overlayOrigin.y
-                                )
-                            )
-                            .rotationEffect(
-                                .degrees(
-                                    -ArtistNoteMotionGeometry
-                                        .previewRotation
-                                        * Double(noteMoveProgress)
-                                )
-                            )
-                            .scaleEffect(
-                                ArtistNoteMotionGeometry
-                                    .scaledPreviewTextScale(
-                                        for: noteMoveProgress
-                                    )
-                            )
-                            .opacity(1 - textReflowProgress)
-
-                            ArtistNoteEditorTextLayer(
-                                noteText: noteDraft.text
-                            )
-                            .frame(
-                                width: destinationFrame.width,
-                                height: destinationFrame.height
-                            )
-                            .scaleEffect(editorTextScale)
-                            .rotationEffect(
-                                .degrees(Double(currentPaperRotation))
-                            )
-                            .position(currentPaperCenter)
-                            .opacity(textReflowProgress)
-                            .allowsHitTesting(false)
-                            .accessibilityHidden(true)
-                        }
-
-                        TextEditor(text: $noteDraft.text)
-                            .focused(
-                                $noteFocusTarget,
-                                equals: .keyboardKeeper
-                            )
-                            .scrollContentBackground(.hidden)
-                            .frame(width: 1, height: 1)
-                            .opacity(0.01)
-                            .position(destinationCenter)
-                            .allowsHitTesting(false)
-                            .accessibilityHidden(true)
+            .toolbar {
+                if let url = ArtistShareLink(year: DataStore.year, artistID: artist.id).url {
+                    ToolbarItem(placement: .primaryAction) {
+                        shareButton(url: url)
+                            .accessibilityIdentifier("artist-share")
                     }
-                    .accessibilityAction(.escape, dismissCenteredNote)
-                    .ignoresSafeArea(.keyboard)
+                }
+            }
+            .sheet(isPresented: $isShowingNoteEditor) {
+                ArtistNoteEditorView(
+                    noteText: $noteDraft.text,
+                    onCancel: requestNoteEditorDismissal,
+                    onSave: saveNote
+                )
+                .interactiveDismissDisabled(noteDraft.hasChanges)
+                .alert(isPresented: $isEditAlertShown) {
+                    Alert(
+                        title: Text("artist.note.cancel.alert.title"),
+                        message: Text("artist.note.cancel.alert.message"),
+                        primaryButton: .destructive(
+                            Text("artist.note.cancel.alert.yes"),
+                            action: discardNoteChanges
+                        ),
+                        secondaryButton: .cancel(
+                            Text("artist.note.cancel.alert.no")
+                        ) {
+                            isEditAlertShown = false
+                        }
+                    )
                 }
             }
             .sheet(item: $presentedBrowserURL) { destination in
@@ -766,90 +405,9 @@ struct ArtistDetailView: View {
                     appleMusicPreviewPlayer.pause()
                 }
             }
-            .onReceive(
-                NotificationCenter.default.publisher(
-                    for: UIResponder.keyboardWillChangeFrameNotification
-                ),
-                perform: keyboardWillChangeFrame
-            )
             .onDisappear {
                 appleMusicPreviewPlayer.stop()
             }
-    }
-}
-
-private enum ArtistNoteEditorLayout {
-    static let maximumWidth: CGFloat = 680
-    static let horizontalPadding: CGFloat = 16
-    static let topPadding: CGFloat = 12
-    static let bottomPadding: CGFloat = 16
-
-    static func paperFrame(
-        in presentationFrame: CGRect,
-        safeAreaInsets: EdgeInsets,
-        keyboardTop: CGFloat?
-    ) -> CGRect {
-        let availableWidth = max(
-            presentationFrame.width - 2 * horizontalPadding,
-            0
-        )
-        let width = min(availableWidth, maximumWidth)
-        let top = presentationFrame.minY
-            + safeAreaInsets.top
-            + topPadding
-        let presentationBottom = presentationFrame.maxY
-            - safeAreaInsets.bottom
-        let keyboardBoundary = min(
-            max(keyboardTop ?? presentationBottom, top),
-            presentationBottom
-        )
-        let bottom = max(keyboardBoundary - bottomPadding, top)
-
-        return CGRect(
-            x: presentationFrame.midX - width / 2,
-            y: top,
-            width: width,
-            height: bottom - top
-        )
-    }
-}
-
-private struct ArtistNoteCurveMotion: GeometryEffect {
-    var progress: CGFloat
-    let start: CGPoint
-    let end: CGPoint
-    let sourceHeight: CGFloat
-    let destinationHeight: CGFloat
-    let safeAreaTop: CGFloat
-
-    var animatableData: CGFloat {
-        get { progress }
-        set { progress = newValue }
-    }
-
-    func effectValue(size _: CGSize) -> ProjectionTransform {
-        let height = ArtistNoteMotionGeometry.interpolate(
-            from: sourceHeight,
-            to: destinationHeight,
-            progress: progress
-        )
-        let curvePoint = ArtistNoteMotionGeometry.point(
-            progress: progress,
-            start: start,
-            end: end,
-            minimumY: safeAreaTop + sourceHeight / 2
-        )
-        let point = CGPoint(
-            x: curvePoint.x,
-            y: max(curvePoint.y, safeAreaTop + height / 2)
-        )
-
-        return ProjectionTransform(
-            CGAffineTransform(
-                translationX: point.x - start.x,
-                y: point.y - start.y
-            )
-        )
     }
 }
 
@@ -888,98 +446,37 @@ private var confirmationButtonRole: ButtonRole? {
     }
 }
 
-private enum ArtistNoteEditorContentLayout {
-    static let foldSize: CGFloat = 34
-    static let toolbarHeight: CGFloat = 52
+private struct ArtistNoteEditorView: View {
+    @Binding var noteText: String
+    let onCancel: () -> Void
+    let onSave: () -> Void
 
-    static var noteFont: Font {
+    @Environment(\.colorScheme) private var colorScheme
+    @FocusState private var isEditorFocused: Bool
+
+    private var noteFont: Font {
         .custom(
-            "Noteworthy-Light",
+            "PatrickHand-Regular",
             size: 20,
             relativeTo: .body
         )
     }
-}
-
-private struct ArtistNoteEditorTextLayer: View {
-    let noteText: String
 
     var body: some View {
-        VStack(spacing: 0) {
-            Color.clear
-                .frame(height: ArtistNoteEditorContentLayout.toolbarHeight)
-
+        NavigationStack {
             ZStack(alignment: .topLeading) {
-                TextEditor(text: .constant(noteText))
-                    .font(ArtistNoteEditorContentLayout.noteFont)
-                    .scrollContentBackground(.hidden)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 8)
-                    .padding(
-                        .bottom,
-                        ArtistNoteEditorContentLayout.foldSize * 0.6
-                    )
+                sheetBackground
 
-                if noteText.isEmpty {
-                    Text("artist.note.placeholder")
-                        .font(ArtistNoteEditorContentLayout.noteFont)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 16)
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .clipped()
-    }
-}
-
-private struct ArtistNoteEditorSurface: View {
-    @Binding var noteText: String
-    let focusTarget: FocusState<ArtistNoteFocusTarget?>.Binding
-    let onCancel: () -> Void
-    let onSave: () -> Void
-
-    var body: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 8) {
-                editorButton(
-                    systemImage: "xmark",
-                    accessibilityLabel: "artist.note.cancel",
-                    role: .cancel,
-                    action: onCancel
-                )
-
-                Text("artist.edit-note.headline")
-                    .font(.headline)
-                    .lineLimit(1)
-                    .frame(maxWidth: .infinity)
-
-                editorButton(
-                    systemImage: "checkmark",
-                    accessibilityLabel: "artist.note.save",
-                    role: confirmationButtonRole,
-                    action: saveEditing
-                )
-            }
-            .padding(.horizontal, 8)
-            .padding(.top, 8)
-
-            ZStack(alignment: .topLeading) {
                 TextEditor(text: $noteText)
-                    .font(ArtistNoteEditorContentLayout.noteFont)
+                    .font(noteFont)
                     .scrollContentBackground(.hidden)
-                    .focused(focusTarget, equals: .editor)
+                    .focused($isEditorFocused)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 8)
-                    .padding(
-                        .bottom,
-                        ArtistNoteEditorContentLayout.foldSize * 0.6
-                    )
 
                 if noteText.isEmpty {
                     Text("artist.note.placeholder")
-                        .font(ArtistNoteEditorContentLayout.noteFont)
+                        .font(noteFont)
                         .foregroundStyle(.secondary)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 16)
@@ -987,28 +484,50 @@ private struct ArtistNoteEditorSurface: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationTitle("artist.edit-note.headline")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(role: .cancel, action: onCancel) {
+                        Image(systemName: "xmark")
+                    }
+                    .accessibilityLabel(Text("artist.note.cancel"))
+                }
+
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(
+                        role: confirmationButtonRole,
+                        action: saveEditing
+                    ) {
+                        Image(systemName: "checkmark")
+                    }
+                    .accessibilityLabel(Text("artist.note.save"))
+                }
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .clipped()
+        .task {
+            isEditorFocused = true
+        }
     }
 
-    private func editorButton(
-        systemImage: String,
-        accessibilityLabel: LocalizedStringKey,
-        role: ButtonRole?,
-        action: @escaping () -> Void
-    ) -> some View {
-        Button(role: role, action: action) {
-            Image(systemName: systemImage)
-                .font(.body.weight(.semibold))
-                .frame(width: 44, height: 44)
-                .contentShape(Rectangle())
+    private var sheetBackground: some View {
+        ZStack {
+            if colorScheme == .dark {
+                Color(red: 0.31, green: 0.28, blue: 0.16)
+            } else {
+                Color(red: 1.00, green: 0.96, blue: 0.72)
+            }
+
+            Image(decorative: "artist-note-paper-texture")
+                .resizable(resizingMode: .tile)
+                .blendMode(.multiply)
+                .opacity(colorScheme == .dark ? 0.30 : 0.52)
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(Text(accessibilityLabel))
+        .ignoresSafeArea()
     }
 
     private func saveEditing() {
+        isEditorFocused = false
         onSave()
     }
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A71000022FF30001004F9471 /* ArtistShareLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000012FF30001004F9471 /* ArtistShareLink.swift */; };
+		A71000032FF30001004F9471 /* ArtistShareLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000012FF30001004F9471 /* ArtistShareLink.swift */; };
+		A71000052FF30001004F9471 /* ArtistShareLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000042FF30001004F9471 /* ArtistShareLinkTests.swift */; };
 		32A11008167D61F884FC47D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A112FBB6E762F9793E8E60 /* Localizable.strings */; };
 		32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */; };
 		32A11109B3E2EF29D23B96E8 /* ArtistImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1157496D310116DCD5206 /* ArtistImageView.swift */; };
@@ -224,6 +227,8 @@
 		F50000082FE40001004F9471 /* StageWalkingDistanceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */; };
 		F500000A2FE40001004F9471 /* FestivalSchedulePlanningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */; };
 		F500000B2FE40001004F9471 /* stage_walk_distances.json in Resources */ = {isa = PBXBuildFile; fileRef = 353596FB2F9324F800723570 /* stage_walk_distances.json */; };
+		F60000022FF10001004F9471 /* PatrickHand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */; };
+		F60000032FF10001004F9471 /* PatrickHand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */; };
 		C20000042FE00001004F9471 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000032FE00001004F9471 /* AppServices.swift */; };
 		C20000052FE00001004F9471 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000032FE00001004F9471 /* AppServices.swift */; };
 		C20000072FE00001004F9471 /* FestivalDataGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000062FE00001004F9471 /* FestivalDataGate.swift */; };
@@ -314,6 +319,13 @@
 		B14300102FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14300012FE60001004F9471 /* WatchNextEventTimeline.swift */; };
 		B14300112FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14300012FE60001004F9471 /* WatchNextEventTimeline.swift */; };
 		B14300122FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14300012FE60001004F9471 /* WatchNextEventTimeline.swift */; };
+		A70000022FF20001004F9471 /* ArtistSimilarityCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70000012FF20001004F9471 /* ArtistSimilarityCatalog.swift */; };
+		A70000032FF20001004F9471 /* ArtistSimilarityCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70000012FF20001004F9471 /* ArtistSimilarityCatalog.swift */; };
+		A70000052FF20001004F9471 /* ArtistSimilarArtistsBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70000042FF20001004F9471 /* ArtistSimilarArtistsBlock.swift */; };
+		A70000062FF20001004F9471 /* ArtistSimilarArtistsBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70000042FF20001004F9471 /* ArtistSimilarArtistsBlock.swift */; };
+		A70000082FF20001004F9471 /* 2026_artist_similarities.json in Resources */ = {isa = PBXBuildFile; fileRef = A70000072FF20001004F9471 /* 2026_artist_similarities.json */; };
+		A70000092FF20001004F9471 /* 2026_artist_similarities.json in Resources */ = {isa = PBXBuildFile; fileRef = A70000072FF20001004F9471 /* 2026_artist_similarities.json */; };
+		A700000B2FF20001004F9471 /* ArtistSimilarityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -380,6 +392,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A71000012FF30001004F9471 /* ArtistShareLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistShareLink.swift; sourceTree = "<group>"; };
+		A71000042FF30001004F9471 /* ArtistShareLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistShareLinkTests.swift; sourceTree = "<group>"; };
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
 		32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistRatingSymbol.swift; sourceTree = "<group>"; };
 		32A11302171E3C741D1E762D /* LocationListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationListView.swift; sourceTree = "<group>"; };
@@ -546,6 +560,7 @@
 		F50000032FE40001004F9471 /* SchedulePlanning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePlanning.swift; sourceTree = "<group>"; };
 		F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageWalkingDistanceProvider.swift; sourceTree = "<group>"; };
 		F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalSchedulePlanningTests.swift; sourceTree = "<group>"; };
+		F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "PatrickHand-Regular.ttf"; sourceTree = "<group>"; };
 		B14400012FE50001004F9471 /* WatchSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshot.swift; sourceTree = "<group>"; };
 		B14400022FE50001004F9471 /* WatchSnapshotBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshotBuilder.swift; sourceTree = "<group>"; };
 		B14400032FE50001004F9471 /* WatchSnapshotCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshotCoordinator.swift; sourceTree = "<group>"; };
@@ -565,6 +580,10 @@
 		B14400802FE50001004F9471 /* WatchSnapshotImportPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSnapshotImportPipeline.swift; sourceTree = "<group>"; };
 		B14300012FE60001004F9471 /* WatchNextEventTimeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNextEventTimeline.swift; sourceTree = "<group>"; };
 		B14300022FE60001004F9471 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A70000012FF20001004F9471 /* ArtistSimilarityCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistSimilarityCatalog.swift; sourceTree = "<group>"; };
+		A70000042FF20001004F9471 /* ArtistSimilarArtistsBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistSimilarArtistsBlock.swift; sourceTree = "<group>"; };
+		A70000072FF20001004F9471 /* 2026_artist_similarities.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2026_artist_similarities.json; sourceTree = "<group>"; };
+		A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistSimilarityTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -697,6 +716,7 @@
 				E200000C2FE10001004F9471 /* ArtistDetailIntroView.swift */,
 				E200000F2FE10001004F9471 /* ArtistBrowseGenresBlock.swift */,
 				E200000E2FE10001004F9471 /* ArtistDescriptionBlock.swift */,
+				A70000042FF20001004F9471 /* ArtistSimilarArtistsBlock.swift */,
 				35143AC02F8E7094006DA6B7 /* ArtistDetailHeaderView.swift */,
 				35143AC32F8E71AE006DA6B7 /* ArtistDetailSections.swift */,
 				32A11EB2094A0029C6472DB7 /* ArtistEventCell.swift */,
@@ -813,6 +833,7 @@
 				32A113E8EF0720699AAD91D0 /* DataLoader.swift */,
 				354B96762BE798D100F58179 /* ArtistLinks.swift */,
 				F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */,
+				A70000012FF20001004F9471 /* ArtistSimilarityCatalog.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -829,8 +850,10 @@
 		354B966B2BE78CDD00F58179 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */,
 				A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */,
 				353596FB2F9324F800723570 /* stage_walk_distances.json */,
+				A70000072FF20001004F9471 /* 2026_artist_similarities.json */,
 				353596F72F922C0B00723570 /* browse_taxonomy.json */,
 				356F08922E0A9382004F27E6 /* extra_data.json */,
 				A10000112F9A1001004F9471 /* world_countries.geojson */,
@@ -941,6 +964,7 @@
 		356A65C22BE805900006761D /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				A71000012FF30001004F9471 /* ArtistShareLink.swift */,
 				C20000002FE00001004F9471 /* AppLog.swift */,
 				35D0A48B2A073AFF004C506D /* ColorExtensions.swift */,
 				32A1194705F0DC9D18C2B09B /* FestivalDateUtilities.swift */,
@@ -969,9 +993,11 @@
 		F10000102F990001004F9471 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				A71000042FF30001004F9471 /* ArtistShareLinkTests.swift */,
 				F100000E2F990001004F9471 /* FestivalDateUtilitiesTests.swift */,
 				F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */,
 				F10000062F990001004F9471 /* RecommendationServiceTests.swift */,
+				A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */,
 				F10000072F990001004F9471 /* SchedulePresenterTests.swift */,
 				F10000182F990001004F9471 /* ScheduleTimelineZoomTests.swift */,
 				F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */,
@@ -1415,8 +1441,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F60000022FF10001004F9471 /* PatrickHand-Regular.ttf in Resources */,
 				A1B2C3D42F9A0001004F9471 /* Rudolstadt.icon in Resources */,
 				353596FC2F9324F800723570 /* stage_walk_distances.json in Resources */,
+				A70000082FF20001004F9471 /* 2026_artist_similarities.json in Resources */,
 				35D0A4892A07372A004C506D /* Colors.xcassets in Resources */,
 				3551CC6D28043624004F9471 /* Assets.xcassets in Resources */,
 				35CF484D285B830600D13B6F /* InfoPlist.strings in Resources */,
@@ -1437,8 +1465,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F60000032FF10001004F9471 /* PatrickHand-Regular.ttf in Resources */,
 				A1B2C3D52F9A0001004F9471 /* Rudolstadt.icon in Resources */,
 				F500000B2FE40001004F9471 /* stage_walk_distances.json in Resources */,
+				A70000092FF20001004F9471 /* 2026_artist_similarities.json in Resources */,
 				3551CC6E28043624004F9471 /* Assets.xcassets in Resources */,
 				35D0A48A2A07372A004C506D /* Colors.xcassets in Resources */,
 				32A11008167D61F884FC47D3 /* Localizable.strings in Resources */,
@@ -1525,6 +1555,7 @@
 				F50000012FE40001004F9471 /* StageTransferEstimator.swift in Sources */,
 				F50000042FE40001004F9471 /* SchedulePlanning.swift in Sources */,
 				F50000072FE40001004F9471 /* StageWalkingDistanceProvider.swift in Sources */,
+				A70000022FF20001004F9471 /* ArtistSimilarityCatalog.swift in Sources */,
 				3551CC6928043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
 				C200000A2FE00001004F9471 /* CloudKitShareAppDelegate.swift in Sources */,
 				C20000072FE00001004F9471 /* FestivalDataGate.swift in Sources */,
@@ -1554,6 +1585,7 @@
 				354B96772BE798D100F58179 /* ArtistLinks.swift in Sources */,
 				32A1116B6BA8D17499860263 /* SaveEventButton.swift in Sources */,
 				32A118A07CA6F813F4380570 /* FestivalDateUtilities.swift in Sources */,
+				A71000022FF30001004F9471 /* ArtistShareLink.swift in Sources */,
 				D10000012FD10001004F9471 /* EventTimeBadge.swift in Sources */,
 				D10000132FD10001004F9471 /* FriendSavedEventBadges.swift in Sources */,
 				A10000292FA10001004F9471 /* TextFormatting.swift in Sources */,
@@ -1583,6 +1615,7 @@
 				E20000052FE10001004F9471 /* ArtistDetailIntroView.swift in Sources */,
 				E20000072FE10001004F9471 /* ArtistNoteBlock.swift in Sources */,
 				E20000092FE10001004F9471 /* ArtistDescriptionBlock.swift in Sources */,
+				A70000062FF20001004F9471 /* ArtistSimilarArtistsBlock.swift in Sources */,
 				E200000B2FE10001004F9471 /* ArtistBrowseGenresBlock.swift in Sources */,
 				32A116961BFEAF82D52B6574 /* MoreView.swift in Sources */,
 				C10000032FD00001004F9471 /* SyncStatusView.swift in Sources */,
@@ -1649,6 +1682,7 @@
 				F50000022FE40001004F9471 /* StageTransferEstimator.swift in Sources */,
 				F50000052FE40001004F9471 /* SchedulePlanning.swift in Sources */,
 				F50000082FE40001004F9471 /* StageWalkingDistanceProvider.swift in Sources */,
+				A70000032FF20001004F9471 /* ArtistSimilarityCatalog.swift in Sources */,
 				C200000B2FE00001004F9471 /* CloudKitShareAppDelegate.swift in Sources */,
 				C20000082FE00001004F9471 /* FestivalDataGate.swift in Sources */,
 				32A11EB5EC53FC5A4C48B3D8 /* NewsItemDetailView.swift in Sources */,
@@ -1657,6 +1691,7 @@
 				E20000042FE10001004F9471 /* ArtistDetailIntroView.swift in Sources */,
 				E20000062FE10001004F9471 /* ArtistNoteBlock.swift in Sources */,
 				E20000082FE10001004F9471 /* ArtistDescriptionBlock.swift in Sources */,
+				A70000052FF20001004F9471 /* ArtistSimilarArtistsBlock.swift in Sources */,
 				E200000A2FE10001004F9471 /* ArtistBrowseGenresBlock.swift in Sources */,
 				350573352854F73C008932A9 /* AboutView.swift in Sources */,
 				3505739B2FB00000008932A9 /* LicensesView.swift in Sources */,
@@ -1680,6 +1715,7 @@
 				35879AE82E11CA680041FFD3 /* SettingsView.swift in Sources */,
 				32A1190D2BC1583EA5BCD4F4 /* SaveEventButton.swift in Sources */,
 				32A111D06B3F187ED5308393 /* FestivalDateUtilities.swift in Sources */,
+				A71000032FF30001004F9471 /* ArtistShareLink.swift in Sources */,
 				D10000022FD10001004F9471 /* EventTimeBadge.swift in Sources */,
 				D10000142FD10001004F9471 /* FriendSavedEventBadges.swift in Sources */,
 				A100002C2FA10001004F9471 /* TextFormatting.swift in Sources */,
@@ -1769,6 +1805,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A71000052FF30001004F9471 /* ArtistShareLinkTests.swift in Sources */,
 				B14400322FE50001004F9471 /* WatchSnapshotTests.swift in Sources */,
 				F30000132FDD0001004F9471 /* AppleMusicPreviewServiceTests.swift in Sources */,
 				F10001012F990001004F9471 /* NotificationPermissionPresentationTests.swift in Sources */,
@@ -1777,6 +1814,7 @@
 				F10001042F990001004F9471 /* NewsServiceTests.swift in Sources */,
 				F10001052F990001004F9471 /* DataLoaderCacheMetadataTests.swift in Sources */,
 				F10001062F990001004F9471 /* RecommendationServiceTests.swift in Sources */,
+				A700000B2FF20001004F9471 /* ArtistSimilarityTests.swift in Sources */,
 				F10001072F990001004F9471 /* SchedulePresenterTests.swift in Sources */,
 				F10001112F990001004F9471 /* ScheduleTimelineZoomTests.swift in Sources */,
 				F10001082F990001004F9471 /* RecommendationDataStoreTests.swift in Sources */,

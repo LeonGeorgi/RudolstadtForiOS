@@ -26,15 +26,38 @@ struct RudolstadtForiOSApp: App {
 
     var body: some Scene {
         WindowGroup {
-            FestivalDataGate {
-                RootTabView()
-            }
+            FestivalRootView()
             .appEnvironment(services)
             .preferredColorScheme(ScreenshotAppearance.colorScheme)
         }
         .backgroundTask(.appRefresh("updateNews")) {
             AppLog.news.info("Background news refresh task started")
             await services.newsRefresher.handle()
+        }
+    }
+}
+
+private struct FestivalRootView: View {
+    // Keep incoming links while the data gate is loading or showing a retry.
+    @State private var pendingArtistLink: ArtistShareLink?
+
+    var body: some View {
+        FestivalDataGate {
+            RootTabView(pendingArtistLink: $pendingArtistLink)
+        }
+        .onOpenURL { url in
+            receiveArtistLink(url)
+        }
+        .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
+            if let url = activity.webpageURL {
+                receiveArtistLink(url)
+            }
+        }
+    }
+
+    private func receiveArtistLink(_ url: URL) {
+        if let link = ArtistShareLink(url: url) {
+            pendingArtistLink = link
         }
     }
 }
