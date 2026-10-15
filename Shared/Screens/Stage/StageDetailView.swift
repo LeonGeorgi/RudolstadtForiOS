@@ -204,13 +204,23 @@ struct StageDetailView: View {
         .padding(.horizontal, 16)
     }
 
-    @ViewBuilder
     private var topMapHero: some View {
-        if usesEdgeToEdgeHero {
-            edgeToEdgeMapHero
-        } else {
-            insetMapPreview
+        Button {
+            isShowingInteractiveMap = true
+        } label: {
+            if usesEdgeToEdgeHero {
+                edgeToEdgeMapHero
+            } else {
+                insetMapPreview
+            }
         }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("stage.map"))
+        .appPopoverTip(
+            DiscoverabilityTips.stageMapPreview,
+            currentTipID: tipSequencer.currentTipID,
+            arrowEdge: .bottom
+        )
     }
 
     private var edgeToEdgeMapHero: some View {
@@ -258,16 +268,6 @@ struct StageDetailView: View {
             .padding(.bottom, 20)
         }
         .contentShape(Rectangle())
-        .onTapGesture {
-            isShowingInteractiveMap = true
-        }
-        .appPopoverTip(
-            DiscoverabilityTips.stageMapPreview,
-            currentTipID: tipSequencer.currentTipID,
-            arrowEdge: .bottom
-        )
-        .accessibilityAddTraits(.isButton)
-        .accessibilityLabel(Text("stage.map"))
     }
 
     private var insetMapPreview: some View {
@@ -281,25 +281,8 @@ struct StageDetailView: View {
                     .stroke(mapPreviewStrokeColor, lineWidth: 0.5)
             )
             .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
+            .contentShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .padding(.horizontal, 56)
-            .overlay {
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(Color.clear)
-                    .padding(.horizontal, 56)
-                    .contentShape(
-                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    )
-                    .onTapGesture {
-                        isShowingInteractiveMap = true
-                    }
-            }
-            .appPopoverTip(
-                DiscoverabilityTips.stageMapPreview,
-                currentTipID: tipSequencer.currentTipID,
-                arrowEdge: .bottom
-            )
-            .accessibilityAddTraits(.isButton)
-            .accessibilityLabel(Text("stage.map"))
     }
 
     private var mapPreviewStrokeColor: Color {
