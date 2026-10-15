@@ -50,6 +50,7 @@ final class FestivalProfileStore: ObservableObject {
     @Published private(set) var badgeName: String = ""
     @Published private(set) var badgeColorHex: String = FestivalProfileBadge.defaultColorHex
     let syncStore = FestivalProfileSyncStore()
+    let friendProfilesStore = FriendProfilesStore()
     private var savedEventIDSet = Set<Int>()
     @Published private var artistIconsByID: [String: String] = [:]
 
@@ -58,7 +59,6 @@ final class FestivalProfileStore: ObservableObject {
     private let waitBeforePersisting: @Sendable () async -> Void
     private let now: () -> Date
     private var listeners: [FestivalProfileStoreChange: [() -> Void]] = [:]
-    private var syncStoreObservation: AnyCancellable?
     private var watchSyncStoreObservation: AnyCancellable?
     private var cache: FestivalProfileCache
     private var pendingPersistTask: Task<Void, Never>?
@@ -138,7 +138,6 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     deinit {
-        syncStoreObservation?.cancel()
         watchSyncStoreObservation?.cancel()
         pendingPersistTask?.cancel()
         pendingOwnerSendTask?.cancel()
@@ -154,13 +153,10 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     private func observeSyncStore() {
-        syncStoreObservation = syncStore.objectWillChange.sink { [weak self] _ in
-            self?.objectWillChange.send()
-        }
         watchSyncStoreObservation = Publishers.CombineLatest3(
-            syncStore.$acceptedFriendProfiles,
-            syncStore.$iCloudStatus,
-            syncStore.$lastSuccessfulRefreshDate
+            friendProfilesStore.$profiles.removeDuplicates(),
+            syncStore.$iCloudStatus.removeDuplicates(),
+            syncStore.$lastSuccessfulRefreshDate.removeDuplicates()
         )
         .dropFirst()
         .sink { [weak self] _ in
@@ -182,40 +178,6 @@ final class FestivalProfileStore: ObservableObject {
         savedEventIDSet.contains(eventID)
     }
 
-    func friendProfilesSavingEvent(_ eventID: Int) -> [SharedFestivalProfile] {
-        acceptedFriendProfiles
-            .filter { $0.savedEventIDs.contains(eventID) }
-            .sorted { lhs, rhs in
-                lhs.id.localizedStandardCompare(rhs.id) == .orderedAscending
-            }
-    }
-
-    func friendArtistRatingSummary(for artistID: Int) -> FriendArtistRatingSummary? {
-        let entries = acceptedFriendProfiles
-            .sorted { lhs, rhs in
-                lhs.id.localizedStandardCompare(rhs.id) == .orderedAscending
-            }
-            .compactMap { sharedProfile -> FriendArtistRatingSummary.Entry? in
-                guard let preference = sharedProfile.artistPreferences.first(where: { preference in
-                    preference.artistID == artistID && preference.rating != 0
-                }) else {
-                    return nil
-                }
-
-                return FriendArtistRatingSummary.Entry(
-                    profileID: sharedProfile.id,
-                    badge: sharedProfile.badge,
-                    preference: preference
-                )
-            }
-
-        guard !entries.isEmpty else {
-            return nil
-        }
-
-        return FriendArtistRatingSummary(entries: entries)
-    }
-
     func rating(for artistID: Int) -> Int {
         ratings[String(artistID)] ?? 0
     }
@@ -225,7 +187,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     var acceptedFriendProfiles: [SharedFestivalProfile] {
-        syncStore.acceptedFriendProfiles
+        friendProfilesStore.profiles
     }
 
     var iCloudStatus: FestivalProfileICloudStatus {
@@ -686,8 +648,8 @@ final class FestivalProfileStore: ObservableObject {
             .sorted { lhs, rhs in
                 lhs.title.localizedCaseInsensitiveCompare(rhs.title) == .orderedAscending
             }
-        if syncStore.acceptedFriendProfiles != updatedProfiles {
-            syncStore.acceptedFriendProfiles = updatedProfiles
+        if friendProfilesStore.profiles != updatedProfiles {
+            friendProfilesStore.updateProfiles(updatedProfiles)
             AppLog.sync.info(
                 "Accepted shared profiles updated to \(updatedProfiles.count) profiles"
             )

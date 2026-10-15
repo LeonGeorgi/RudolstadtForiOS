@@ -33,6 +33,7 @@ struct ArtistOverviewGridView: View {
     let showWorldMap: () -> Void
 
     @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var friends: FriendProfilesStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private var gridColumns: [GridItem] {
@@ -72,7 +73,7 @@ struct ArtistOverviewGridView: View {
                                     imageTransitionNamespace: imageTransitionNamespace,
                                     artistRating: profile.rating(for: artist.id),
                                     artistIconName: profile.iconName(forArtistID: artist.id),
-                                    friendRatingSummary: profile.friendArtistRatingSummary(for: artist.id)
+                                    friendRatingSummary: friends.friendArtistRatingSummary(for: artist.id)
                                 )
                             }
                             .buttonStyle(.plain)

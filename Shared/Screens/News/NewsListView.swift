@@ -5,7 +5,7 @@ struct NewsListView: View {
     private let allowsPullToRefresh: Bool
 
     @EnvironmentObject var settings: UserSettings
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var newsStore: NewsStore
     @State var refreshButtonDisabled: Bool = false
     @State private var isShowingMarkAllReadConfirmation = false
     @StateObject private var tipSequencer = TipSequencer(
@@ -25,7 +25,7 @@ struct NewsListView: View {
                         Button {
                             refreshButtonDisabled = true
                             Task {
-                                await dataStore
+                                await newsStore
                                     .refreshNewsIfNecessary()
                                 refreshButtonDisabled = false
                             }
@@ -71,7 +71,7 @@ struct NewsListView: View {
     }
 
     private var unreadNewsItems: [NewsItem] {
-        guard case .success(let news) = dataStore.news else {
+        guard case .success(let news) = newsStore.news else {
             return []
         }
 
@@ -83,7 +83,7 @@ struct NewsListView: View {
 
     @ViewBuilder
     private var content: some View {
-        if case .success(let news) = dataStore.news {
+        if case .success(let news) = newsStore.news {
             if news.isEmpty {
                 Text("news.empty")
                     .multilineTextAlignment(.center)
@@ -93,9 +93,9 @@ struct NewsListView: View {
             } else {
                 newsList(news)
             }
-        } else if case .loading = dataStore.news {
+        } else if case .loading = newsStore.news {
             ProgressView()
-        } else if case .failure(let reason) = dataStore.news {
+        } else if case .failure(let reason) = newsStore.news {
             Text(reason.rawValue)
         } else {
             Text("news.error")
@@ -108,7 +108,7 @@ struct NewsListView: View {
         if allowsPullToRefresh {
             newsListContent(news)
                 .refreshable {
-                    await dataStore.refreshNewsIfNecessary()
+                    await newsStore.refreshNewsIfNecessary()
                 }
         } else {
             newsListContent(news)
@@ -151,6 +151,6 @@ struct NewsListView: View {
 struct NewsListView_Previews: PreviewProvider {
     static var previews: some View {
         NewsListView()
-            .environmentObject(UserSettings())
+            .previewMockEnvironment(suiteName: "NewsListViewPreview")
     }
 }

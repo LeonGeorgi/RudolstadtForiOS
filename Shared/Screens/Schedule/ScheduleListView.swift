@@ -14,6 +14,7 @@ struct ScheduleListView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject var profile: FestivalProfileStore
+    @EnvironmentObject private var friends: FriendProfilesStore
     @EnvironmentObject private var settings: UserSettings
 
     var body: some View {
@@ -38,6 +39,7 @@ struct ScheduleListView: View {
                             contextPreviewState: EventContextPreviewState(
                                 event: event,
                                 profile: profile,
+                                friends: friends,
                                 settings: settings
                             ),
                             onToggleSaved: { profile.toggleSavedEvent(event) }
@@ -72,8 +74,6 @@ struct ScheduleListView: View {
 struct ScheduleListView_Previews: PreviewProvider {
     static var previews: some View {
         ScheduleListView(events: [Event.example])
-            .environmentObject(DataStore())
-            .environmentObject(FestivalProfileStore(cloudKitEnabled: false))
-            .environmentObject(UserSettings())
+            .previewMockEnvironment(suiteName: "ScheduleListViewPreview")
     }
 }

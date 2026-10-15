@@ -9,6 +9,7 @@ struct ArtistCountryListRouteView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject private var settings: UserSettings
     @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var friends: FriendProfilesStore
     @StateObject private var overlayLoader = GeoJSONCountryOverlayLoader.detailPreviewShared
     @Namespace private var localImageTransitionNamespace
     @State private var layout: CountryArtistLayout = .grid
@@ -81,7 +82,7 @@ struct ArtistCountryListRouteView: View {
                                     imageTransitionNamespace: resolvedImageTransitionNamespace,
                                     artistRating: profile.rating(for: artist.id),
                                     artistIconName: profile.iconName(forArtistID: artist.id),
-                                    friendRatingSummary: profile.friendArtistRatingSummary(for: artist.id)
+                                    friendRatingSummary: friends.friendArtistRatingSummary(for: artist.id)
                                 )
                             }
                             .buttonStyle(.plain)
@@ -106,7 +107,7 @@ struct ArtistCountryListRouteView: View {
                                         artist: artist,
                                         artistRating: profile.rating(for: artist.id),
                                         artistIconName: profile.iconName(forArtistID: artist.id),
-                                        friendRatingSummary: profile.friendArtistRatingSummary(for: artist.id)
+                                        friendRatingSummary: friends.friendArtistRatingSummary(for: artist.id)
                                     )
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 10)

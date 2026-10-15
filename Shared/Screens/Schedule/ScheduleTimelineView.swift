@@ -10,7 +10,7 @@ enum EventOrGap {
 
 struct ScheduleTimelineView: View {
     let events: [Event]
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var recommendations: RecommendationStore
     @State private var isShowingEndTimeInformation = false
 
     var eventDays: [Int] {
@@ -48,10 +48,10 @@ struct ScheduleTimelineView: View {
             // This keeps layout deterministic and prevents duplicate start slots
             // from pushing later events down in this stacked timeline model.
             let e1End = e1.endDate(
-                durationInMinutes: dataStore.estimatedEventDurationsByEventID?[e1.id] ?? 60
+                durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[e1.id] ?? 60
             )
             let e2End = e2.endDate(
-                durationInMinutes: dataStore.estimatedEventDurationsByEventID?[e2.id] ?? 60
+                durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[e2.id] ?? 60
             )
             if e1End != e2End {
                 return e1End > e2End
@@ -76,7 +76,7 @@ struct ScheduleTimelineView: View {
             }
             result.append(.event(event))
             let eventEnd = event.endDate(
-                durationInMinutes: dataStore.estimatedEventDurationsByEventID?[event.id]
+                durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[event.id]
                     ?? 60
             )
             // Keep timeline monotonic even with bad/overlapping source data.
@@ -99,11 +99,11 @@ struct ScheduleTimelineView: View {
     private var lastEventEndTime: Date {
         let lastEvent = events.max { e1, e2 in
             e1.endDate(
-                durationInMinutes: dataStore.estimatedEventDurationsByEventID?[e1.id]
+                durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[e1.id]
                     ?? 60
             )
                 < e2.endDate(
-                    durationInMinutes: dataStore.estimatedEventDurationsByEventID?[e2.id]
+                    durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[e2.id]
                         ?? 60
                 )
         }
@@ -111,7 +111,7 @@ struct ScheduleTimelineView: View {
             return Date()
         }
         let lastEventEndDate = lastEvent.endDate(
-            durationInMinutes: dataStore.estimatedEventDurationsByEventID?[lastEvent.id]
+            durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[lastEvent.id]
                 ?? 60
         )
         return lastEventEndDate
@@ -121,7 +121,7 @@ struct ScheduleTimelineView: View {
         ScheduleTimelineContentView(
             timeIntervals: timeIntervalList,
             stages: stageList,
-            estimatedEventDurations: dataStore.estimatedEventDurationsByEventID,
+            estimatedEventDurations: recommendations.state.estimatedEventDurationsByEventID,
             onShowEndTimeInformation: {
                 isShowingEndTimeInformation = true
             }

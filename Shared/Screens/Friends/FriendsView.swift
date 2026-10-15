@@ -17,8 +17,8 @@ private enum ShareSheetPresentation: Identifiable {
 }
 
 struct FriendsView: View {
-    @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var friends: FriendProfilesStore
     @EnvironmentObject private var profileSync: FestivalProfileSyncStore
 
     @State private var shareSheetPresentation: ShareSheetPresentation?
@@ -31,30 +31,12 @@ struct FriendsView: View {
     @State private var isCheckingICloud = false
     @FocusState private var isBadgeNameFieldFocused: Bool
 
-    private let contentHorizontalPadding: CGFloat = 16
-    private let recommendationTileSpacing: CGFloat = 12
-    private let recommendationShelfVerticalPadding: CGFloat = 10
-    private let recommendationTileWidthRatio = 0.6
-
     private var friendProfiles: [SharedFestivalProfile] {
-        sortedFriendProfiles(profileSync.acceptedFriendProfiles)
+        sortedFriendProfiles(friends.profiles)
     }
 
     private var followedByCount: Int {
         profileSync.acceptedShareParticipantCount
-    }
-
-    private var friendRecommendations: [FriendArtistRecommendation] {
-        friendArtistRecommendations(
-            friendProfiles: friendProfiles,
-            artists: festivalData.artists,
-            events: festivalData.events,
-            excludedArtistIDs: friendRecommendationExcludedArtistIDs(
-                savedEventIDs: profile.savedEvents,
-                ratings: profile.ratings,
-                events: festivalData.events
-            )
-        )
     }
 
     private var isBadgeConfigured: Bool {
@@ -361,74 +343,11 @@ struct FriendsView: View {
     private var togetherSections: some View {
         if !friendProfiles.isEmpty {
             Section {
-                friendRecommendationsSection
+                FriendsRecommendationsSection()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .navigationLinkIndicatorVisibility(.hidden)
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private var friendRecommendationsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .center) {
-                Label("friends.recommendations.title", systemImage: "sparkles")
-                    .font(.headline)
-
-                Spacer()
-
-                if !friendRecommendations.isEmpty {
-                    NavigationLink(
-                        value: AppNavigationRoute.friendsTogether(kind: .recommendations)
-                    ) {
-                        Image(systemName: "chevron.right")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                            .frame(width: 28, height: 28)
-                            .background(
-                                Color(.secondarySystemGroupedBackground),
-                                in: Circle()
-                            )
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("friends.recommendations.more")
-                }
-            }
-
-            if friendRecommendations.isEmpty {
-                friendsEmptyMessage("friends.together.empty")
-            } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(alignment: .top, spacing: recommendationTileSpacing) {
-                        ForEach(friendRecommendations) { recommendation in
-                            NavigationLink(
-                                value: AppNavigationRoute.artist(
-                                    id: recommendation.artist.id,
-                                    highlightedEventId: recommendation.highlightedEventID,
-                                    transitionSourceID: nil
-                                )
-                            ) {
-                                FriendArtistRecommendationTile(recommendation: recommendation)
-                                    .containerRelativeFrame(.horizontal) { length, _ in
-                                        length * recommendationTileWidthRatio
-                                    }
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                    .padding(.vertical, recommendationShelfVerticalPadding)
-                    .scrollTargetLayout()
-                }
-                .contentMargins(
-                    .horizontal,
-                    contentHorizontalPadding,
-                    for: .scrollContent
-                )
-                .scrollTargetBehavior(.viewAligned)
-                .scrollClipDisabled()
-                .padding(.horizontal, -contentHorizontalPadding)
             }
         }
     }
@@ -584,6 +503,97 @@ struct FriendsView: View {
         }
     }
 
+}
+
+private struct FriendsRecommendationsSection: View {
+    @Environment(\.festivalData) private var festivalData
+    @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var friends: FriendProfilesStore
+
+    private let contentHorizontalPadding: CGFloat = 16
+    private let recommendationTileSpacing: CGFloat = 12
+    private let recommendationShelfVerticalPadding: CGFloat = 10
+    private let recommendationTileWidthRatio = 0.6
+
+    private var friendRecommendations: [FriendArtistRecommendation] {
+        friendArtistRecommendations(
+            friendProfiles: sortedFriendProfiles(friends.profiles),
+            artists: festivalData.artists,
+            events: festivalData.events,
+            excludedArtistIDs: friendRecommendationExcludedArtistIDs(
+                savedEventIDs: profile.savedEvents,
+                ratings: profile.ratings,
+                events: festivalData.events
+            )
+        )
+    }
+
+    var body: some View {
+        let recommendations = friendRecommendations
+
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .center) {
+                Label("friends.recommendations.title", systemImage: "sparkles")
+                    .font(.headline)
+
+                Spacer()
+
+                if !recommendations.isEmpty {
+                    NavigationLink(
+                        value: AppNavigationRoute.friendsTogether(kind: .recommendations)
+                    ) {
+                        Image(systemName: "chevron.right")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .frame(width: 28, height: 28)
+                            .background(
+                                Color(.secondarySystemGroupedBackground),
+                                in: Circle()
+                            )
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("friends.recommendations.more")
+                }
+            }
+
+            if recommendations.isEmpty {
+                Text("friends.together.empty")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHStack(alignment: .top, spacing: recommendationTileSpacing) {
+                        ForEach(recommendations) { recommendation in
+                            NavigationLink(
+                                value: AppNavigationRoute.artist(
+                                    id: recommendation.artist.id,
+                                    highlightedEventId: recommendation.highlightedEventID,
+                                    transitionSourceID: nil
+                                )
+                            ) {
+                                FriendArtistRecommendationTile(recommendation: recommendation)
+                                    .containerRelativeFrame(.horizontal) { length, _ in
+                                        length * recommendationTileWidthRatio
+                                    }
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(.vertical, recommendationShelfVerticalPadding)
+                    .scrollTargetLayout()
+                }
+                .contentMargins(
+                    .horizontal,
+                    contentHorizontalPadding,
+                    for: .scrollContent
+                )
+                .scrollTargetBehavior(.viewAligned)
+                .scrollClipDisabled()
+                .padding(.horizontal, -contentHorizontalPadding)
+            }
+        }
+    }
 }
 
 private struct ProfileBadgeEditorSheet: View {

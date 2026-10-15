@@ -28,7 +28,6 @@ struct AppNavigationDestination: View {
     var imageTransitionNamespace: Namespace.ID? = nil
 
     @Environment(\.festivalData) private var festivalData
-    @EnvironmentObject var dataStore: DataStore
 
     var body: some View {
         switch route {
@@ -52,7 +51,7 @@ struct AppNavigationDestination: View {
         case .newsList:
             NewsListView()
         case .news(let id):
-            newsDestination(id: id)
+            NewsNavigationDestination(id: id, navigate: navigate)
         case .about:
             AboutView()
         case .parkAndRide:
@@ -117,10 +116,16 @@ struct AppNavigationDestination: View {
             Text("locations.empty")
         }
     }
+}
 
-    @ViewBuilder
-    private func newsDestination(id: Int) -> some View {
-        switch dataStore.news {
+private struct NewsNavigationDestination: View {
+    let id: Int
+    let navigate: ((AppNavigationRoute) -> Void)?
+
+    @EnvironmentObject private var newsStore: NewsStore
+
+    var body: some View {
+        switch newsStore.news {
         case .success(let news):
             if let newsItem = news.first(where: { $0.id == id }) {
                 NewsItemDetailView(

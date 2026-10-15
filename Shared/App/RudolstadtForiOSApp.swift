@@ -26,7 +26,7 @@ struct RudolstadtForiOSApp: App {
 
     var body: some Scene {
         WindowGroup {
-            FestivalRootView()
+            FestivalRootView(refreshOnForeground: services.refreshOnForeground)
             .appEnvironment(services)
             .preferredColorScheme(ScreenshotAppearance.colorScheme)
         }
@@ -38,12 +38,17 @@ struct RudolstadtForiOSApp: App {
 }
 
 private struct FestivalRootView: View {
+    let refreshOnForeground: () async -> Void
+
     // Keep incoming links while the data gate is loading or showing a retry.
     @State private var pendingArtistLink: ArtistShareLink?
 
     var body: some View {
         FestivalDataGate {
-            RootTabView(pendingArtistLink: $pendingArtistLink)
+            RootTabView(
+                pendingArtistLink: $pendingArtistLink,
+                refreshOnForeground: refreshOnForeground
+            )
         }
         .onOpenURL { url in
             receiveArtistLink(url)

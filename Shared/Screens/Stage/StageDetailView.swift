@@ -34,6 +34,7 @@ struct StageDetailView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var friends: FriendProfilesStore
     @EnvironmentObject private var settings: UserSettings
 
     @State private var isStageTitleVisible = true
@@ -395,6 +396,7 @@ struct StageDetailView: View {
                 contextPreviewState: EventContextPreviewState(
                     event: event,
                     profile: profile,
+                    friends: friends,
                     settings: settings
                 ),
                 onToggleSaved: { profile.toggleSavedEvent(event) }

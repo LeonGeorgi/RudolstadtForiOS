@@ -147,7 +147,6 @@ enum FestivalProfileShareState: Equatable, Sendable {
 
 @MainActor
 final class FestivalProfileSyncStore: ObservableObject {
-    @Published var acceptedFriendProfiles: [SharedFestivalProfile] = []
     @Published var acceptedShareParticipantCount = 0
     @Published var iCloudStatus: FestivalProfileICloudStatus = .checking
     @Published var syncState: FestivalProfileSyncState = .idle

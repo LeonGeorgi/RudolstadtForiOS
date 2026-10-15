@@ -16,7 +16,8 @@ struct ArtistEventsBlock: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
-    @EnvironmentObject private var dataStore: DataStore
+    @EnvironmentObject private var friends: FriendProfilesStore
+    @EnvironmentObject private var recommendations: RecommendationStore
     @EnvironmentObject private var settings: UserSettings
 
     private var timeBadgeSize: CGFloat {
@@ -29,7 +30,7 @@ struct ArtistEventsBlock: View {
         _ artistEvents: [Event]
     ) -> [Int: [Event]] {
         let savedEventIDs = Set(profile.savedEvents)
-        let estimatedEventDurations = dataStore.estimatedEventDurationsByEventID ?? [:]
+        let estimatedEventDurations = recommendations.state.estimatedEventDurationsByEventID ?? [:]
         
         let savedEvents = festivalData.events.filter { savedEventIDs.contains($0.id) }
         let transitionEvaluator = ScheduleTransitionEvaluator(
@@ -86,6 +87,7 @@ struct ArtistEventsBlock: View {
                             contextPreviewState: EventContextPreviewState(
                                 event: event,
                                 profile: profile,
+                                friends: friends,
                                 settings: settings
                             ),
                             showsTrailingAccessories: false,

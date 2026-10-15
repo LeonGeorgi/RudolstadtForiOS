@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import Testing
 @testable import Rudolstadt
@@ -263,12 +264,43 @@ struct FestivalDataStoreTests {
             loadInitialData: true
         )
 
-        guard case .success(let news) = store.news else {
+        guard case .success(let news) = store.newsStore.news else {
             Issue.record("Expected cached news during initialization")
             return
         }
         #expect(news.map(\.id) == [21])
         #expect(newsAPI.fetchCallCount == 0)
+    }
+
+    @Test
+    func refreshingNewsDoesNotPublishFestivalOrRecommendationChanges() async {
+        let store = makeStore(
+            fetcher: FestivalDataFetcherStub(data: TestFixtures.apiFestivalData()),
+            cache: FestivalDataCacheStub(),
+            newsAPI: NewsAPIStub(newsToReturn: [TestFixtures.apiNewsItem(id: 52, language: "en")])
+        )
+        var festivalChanges = 0
+        var recommendationChanges = 0
+        var publishedNewsIDs: [[Int]] = []
+        let festivalObservation = store.objectWillChange.sink { festivalChanges += 1 }
+        let recommendationObservation = store.recommendationStore.objectWillChange
+            .sink { recommendationChanges += 1 }
+        let newsObservation = store.newsStore.$news.dropFirst().sink { state in
+            if case .success(let items) = state {
+                publishedNewsIDs.append(items.map(\.id))
+            }
+        }
+        defer {
+            festivalObservation.cancel()
+            recommendationObservation.cancel()
+            newsObservation.cancel()
+        }
+
+        await store.newsStore.refreshNewsIfNecessary()
+
+        #expect(publishedNewsIDs == [[52]])
+        #expect(festivalChanges == 0)
+        #expect(recommendationChanges == 0)
     }
 
     private func makeStore(

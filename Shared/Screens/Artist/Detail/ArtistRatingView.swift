@@ -99,6 +99,7 @@ struct ArtistRatingPopoverButton: View {
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @EnvironmentObject private var settings: UserSettings
     @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var friends: FriendProfilesStore
     @State private var isShowingRatingPopover = false
     @State private var isShowingRatingSheet = false
     @State private var presentationLayout = PresentationLayout.sheet
@@ -117,7 +118,7 @@ struct ArtistRatingPopoverButton: View {
     }
 
     private var friendRatingSummary: FriendArtistRatingSummary? {
-        profile.friendArtistRatingSummary(for: artist.id)
+        friends.friendArtistRatingSummary(for: artist.id)
     }
 
     var body: some View {

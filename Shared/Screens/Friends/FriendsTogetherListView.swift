@@ -6,10 +6,10 @@ struct FriendsTogetherListView: View {
 
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
-    @EnvironmentObject private var profileSync: FestivalProfileSyncStore
+    @EnvironmentObject private var friends: FriendProfilesStore
 
     private var friendProfiles: [SharedFestivalProfile] {
-        sortedFriendProfiles(profileSync.acceptedFriendProfiles)
+        sortedFriendProfiles(friends.profiles)
     }
 
     private var friendRecommendations: [FriendArtistRecommendation] {

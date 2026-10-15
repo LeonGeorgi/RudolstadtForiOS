@@ -13,12 +13,13 @@ struct EventContextPreviewState {
     init(
         event: Event,
         profile: FestivalProfileStore,
+        friends: FriendProfilesStore,
         settings: UserSettings
     ) {
         isSaved = profile.isEventSaved(event.id)
         artistRating = profile.rating(for: event.artist.id)
         artistIconName = profile.iconName(forArtistID: event.artist.id)
-        friendProfilesWhoSavedEvent = profile.friendProfilesSavingEvent(event.id)
+        friendProfilesWhoSavedEvent = friends.friendProfilesSavingEvent(event.id)
         artistNote = profile.noteText(for: event.artist)
         isArtistSummaryEnabled = settings.aiSummaryEnabled
         likeIconName = settings.likeIcon

@@ -195,7 +195,13 @@ enum PreviewMockData {
             userSettings: settings
         )
         dataStore.festivalData = .success(festivalData)
-        dataStore.estimatedEventDurationsByEventID = estimatedEventDurations
+        dataStore.recommendationStore.update(
+            RecommendationSnapshot(
+                recommendedEventIds: [],
+                estimatedEventDurations: estimatedEventDurations
+            ),
+            generatedAt: ScreenshotRuntime.referenceDate
+        )
 
         return PreviewAppEnvironment(
             settings: settings,
@@ -264,7 +270,7 @@ enum PreviewMockData {
             profile.toggleSavedEvent(event)
         }
 
-        profile.syncStore.acceptedFriendProfiles = seed?.friendProfiles ?? []
+        profile.friendProfilesStore.updateProfiles(seed?.friendProfiles ?? [])
         return profile
     }
 
@@ -341,6 +347,9 @@ extension View {
             .environmentObject(environment.settings)
             .environmentObject(environment.profile)
             .environmentObject(environment.profile.syncStore)
+            .environmentObject(environment.profile.friendProfilesStore)
+            .environmentObject(environment.dataStore.newsStore)
+            .environmentObject(environment.dataStore.recommendationStore)
             .environment(\.festivalData, environment.festivalData)
     }
 

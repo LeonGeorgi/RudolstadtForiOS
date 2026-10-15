@@ -14,11 +14,11 @@ struct RootTabView: View {
     private static let notificationPromptDelay: Duration = .seconds(5)
 
     @Binding var pendingArtistLink: ArtistShareLink?
+    var refreshOnForeground: () async -> Void = {}
 
     @Environment(\.festivalData) private var festivalData
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var newsStore: NewsStore
     @EnvironmentObject var userSettings: UserSettings
-    @EnvironmentObject var festivalProfileStore: FestivalProfileStore
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) private var appColorScheme
 
@@ -81,7 +81,7 @@ struct RootTabView: View {
         newsNotificationNavigation.clearRequestedNewsItem(id: id)
 
         Task {
-            await dataStore.refreshNewsIfNecessary()
+            await newsStore.refreshNewsIfNecessary()
         }
     }
 
@@ -113,7 +113,7 @@ struct RootTabView: View {
     }
 
     private var unreadNewsItems: [NewsItem] {
-        if case .success(let news) = dataStore.news {
+        if case .success(let news) = newsStore.news {
             return news.filter { item in
                 item.isInCurrentLanguage
                 && !userSettings.readNews.contains(item.id)
@@ -404,11 +404,7 @@ struct RootTabView: View {
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 Task {
-                    async let cloudRefresh: Void =
-                        festivalProfileStore.refreshFromCloud(reason: "foreground")
-                    async let appRefresh: Void =
-                        dataStore.refreshOnAppActive()
-                    _ = await (cloudRefresh, appRefresh)
+                    await refreshOnForeground()
                 }
             } else if newPhase == .inactive {
                 UNUserNotificationCenter.current().setBadgeCount(unreadNewsCount)

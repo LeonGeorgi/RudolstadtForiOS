@@ -326,6 +326,12 @@
 		A70000082FF20001004F9471 /* 2026_artist_similarities.json in Resources */ = {isa = PBXBuildFile; fileRef = A70000072FF20001004F9471 /* 2026_artist_similarities.json */; };
 		A70000092FF20001004F9471 /* 2026_artist_similarities.json in Resources */ = {isa = PBXBuildFile; fileRef = A70000072FF20001004F9471 /* 2026_artist_similarities.json */; };
 		A700000B2FF20001004F9471 /* ArtistSimilarityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */; };
+		D71000012FF40001004F9471 /* FriendProfilesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70000012FF40001004F9471 /* FriendProfilesStore.swift */; };
+		D72000012FF40001004F9471 /* FriendProfilesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70000012FF40001004F9471 /* FriendProfilesStore.swift */; };
+		D71000022FF40001004F9471 /* NewsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70000022FF40001004F9471 /* NewsStore.swift */; };
+		D72000022FF40001004F9471 /* NewsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70000022FF40001004F9471 /* NewsStore.swift */; };
+		D71000032FF40001004F9471 /* RecommendationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70000032FF40001004F9471 /* RecommendationStore.swift */; };
+		D72000032FF40001004F9471 /* RecommendationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70000032FF40001004F9471 /* RecommendationStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -584,6 +590,9 @@
 		A70000042FF20001004F9471 /* ArtistSimilarArtistsBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistSimilarArtistsBlock.swift; sourceTree = "<group>"; };
 		A70000072FF20001004F9471 /* 2026_artist_similarities.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2026_artist_similarities.json; sourceTree = "<group>"; };
 		A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistSimilarityTests.swift; sourceTree = "<group>"; };
+		D70000012FF40001004F9471 /* FriendProfilesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfilesStore.swift; sourceTree = "<group>"; };
+		D70000022FF40001004F9471 /* NewsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStore.swift; sourceTree = "<group>"; };
+		D70000032FF40001004F9471 /* RecommendationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1134,6 +1143,9 @@
 				32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */,
 				C10000052FD00001004F9471 /* FestivalProfileStore.swift */,
 				C10000112FD00001004F9471 /* FestivalProfileModels.swift */,
+				D70000032FF40001004F9471 /* RecommendationStore.swift */,
+				D70000022FF40001004F9471 /* NewsStore.swift */,
+				D70000012FF40001004F9471 /* FriendProfilesStore.swift */,
 				C10000122FD00001004F9471 /* FestivalProfileStore+Helpers.swift */,
 				C10000132FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift */,
 				C30000052FF00001004F9471 /* FestivalProfileLogic.swift */,
@@ -1569,6 +1581,9 @@
 				32A11BA62FC30F92BA9668FA /* UserSettings.swift in Sources */,
 				C10000012FD00001004F9471 /* FestivalProfileStore.swift in Sources */,
 				C10000092FD00001004F9471 /* FestivalProfileModels.swift in Sources */,
+				D72000032FF40001004F9471 /* RecommendationStore.swift in Sources */,
+				D72000022FF40001004F9471 /* NewsStore.swift in Sources */,
+				D72000012FF40001004F9471 /* FriendProfilesStore.swift in Sources */,
 				C100000B2FD00001004F9471 /* FestivalProfileStore+Helpers.swift in Sources */,
 				C100000D2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */,
 				C30000022FF00001004F9471 /* FestivalProfileLogic.swift in Sources */,
@@ -1702,6 +1717,9 @@
 				32A112281C396A44DF12BBB1 /* UserSettings.swift in Sources */,
 				C10000022FD00001004F9471 /* FestivalProfileStore.swift in Sources */,
 				C10000082FD00001004F9471 /* FestivalProfileModels.swift in Sources */,
+				D71000032FF40001004F9471 /* RecommendationStore.swift in Sources */,
+				D71000022FF40001004F9471 /* NewsStore.swift in Sources */,
+				D71000012FF40001004F9471 /* FriendProfilesStore.swift in Sources */,
 				C100000A2FD00001004F9471 /* FestivalProfileStore+Helpers.swift in Sources */,
 				C100000C2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */,
 				C30000012FF00001004F9471 /* FestivalProfileLogic.swift in Sources */,

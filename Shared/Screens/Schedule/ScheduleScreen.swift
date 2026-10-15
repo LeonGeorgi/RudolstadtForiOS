@@ -4,7 +4,7 @@ struct ScheduleScreen: View {
     
     @Environment(\.festivalData) private var festivalData
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var recommendations: RecommendationStore
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var profile: FestivalProfileStore
     
@@ -16,7 +16,7 @@ struct ScheduleScreen: View {
     private var presenter: SchedulePresenter {
         SchedulePresenter(
             festivalData: festivalData,
-            recommendationState: dataStore.recommendedEventIDs,
+            recommendationState: recommendations.state.recommendedEventIDs,
             scheduleFilterType: settings.getScheduleFilterType(
                 settings.scheduleFilterType
             ),

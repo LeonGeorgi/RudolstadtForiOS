@@ -14,16 +14,8 @@ final class DataStore: ObservableObject {
     @Published var festivalData: LoadingEntity<FestivalData> = .loading {
         didSet { onWatchSnapshotInputsChange?() }
     }
-    @Published var news: LoadingEntity<[NewsItem]> = .loading
-    @Published var recommendedEventIDs: LoadingEntity<[Int]> = .loading {
-        didSet { onWatchSnapshotInputsChange?() }
-    }
-    @Published var estimatedEventDurationsByEventID: [Int: Int]? = nil {
-        didSet { onWatchSnapshotInputsChange?() }
-    }
-    @Published var recommendationsGeneratedAt: Date? = nil {
-        didSet { onWatchSnapshotInputsChange?() }
-    }
+    let newsStore: NewsStore
+    let recommendationStore = RecommendationStore()
     @Published var artistLinks: [String: ArtistLinks]? = nil
     @Published var browseTaxonomy: [BrowseTaxonomyEntry] = []
     @Published var festivalDataLastDownloadDate: Date?
@@ -39,9 +31,7 @@ final class DataStore: ObservableObject {
     nonisolated static let year = FestivalConfiguration.year
 
     private let festivalDataCache: any FestivalDataCaching
-    private let bundledNewsLoader: any BundledNewsLoading
     private let festivalDataFetcher: any FestivalDataFetching
-    let newsService: NewsService
     let recommendationService: RecommendationProviding
     let festivalProfileStore: FestivalProfileStore
 
@@ -78,11 +68,12 @@ final class DataStore: ObservableObject {
             resolvedBundledNewsLoader = bundledNewsLoader ?? defaultDataLoader
         }
         self.festivalDataCache = resolvedFestivalDataCache
-        self.bundledNewsLoader = resolvedBundledNewsLoader
         self.festivalDataFetcher = festivalDataFetcher ?? APIClient()
         self.festivalProfileStore = resolvedFestivalProfileStore
-        self.newsService =
-            newsService ?? NewsService(userSettings: resolvedUserSettings)
+        self.newsStore = NewsStore(
+            service: newsService ?? NewsService(userSettings: resolvedUserSettings),
+            bundledNewsLoader: resolvedBundledNewsLoader
+        )
         self.recommendationService = recommendationService ?? RecommendationService()
 
         guard loadInitialData else {
@@ -96,7 +87,7 @@ final class DataStore: ObservableObject {
 
         refreshFestivalDataDownloadMetadata()
         loadCachedFestivalDataIfAvailable()
-        loadCachedNewsIfAvailable()
+        newsStore.loadCachedNewsIfAvailable()
     }
 
     private static func makeDefaultDataLoader() -> DataLoader {
@@ -127,9 +118,7 @@ final class DataStore: ObservableObject {
 
     func refreshRecommendations(now: Date = .now) async {
         guard case .success(let loadedFestivalData) = festivalData else {
-            estimatedEventDurationsByEventID = nil
-            recommendedEventIDs = .loading
-            recommendationsGeneratedAt = nil
+            recommendationStore.reset()
             return
         }
 
@@ -138,8 +127,7 @@ final class DataStore: ObservableObject {
         let generation = recommendationRefreshGeneration + 1
         recommendationRefreshGeneration = generation
 
-        recommendedEventIDs = .loading
-        recommendationsGeneratedAt = nil
+        recommendationStore.beginRefresh()
         let snapshot = await buildRecommendationSnapshot(
             festivalData: loadedFestivalData,
             savedEventIds: savedEventIds,
@@ -149,9 +137,7 @@ final class DataStore: ObservableObject {
         guard generation == recommendationRefreshGeneration else {
             return
         }
-        estimatedEventDurationsByEventID = snapshot.estimatedEventDurations
-        recommendedEventIDs = .success(snapshot.recommendedEventIds)
-        recommendationsGeneratedAt = now
+        recommendationStore.update(snapshot, generatedAt: now)
         AppLog.data.debug(
             "Updated recommendations with \(snapshot.recommendedEventIds.count) events"
         )
@@ -291,7 +277,7 @@ final class DataStore: ObservableObject {
         AppLog.app.info("Refreshing app state after becoming active")
         await loadOrRefreshFestivalDataIfNeeded()
         await loadArtistLinksIfNeeded()
-        await refreshNewsIfNecessary()
+        await newsStore.refreshNewsIfNecessary()
         await refreshRecommendations()
         AppLog.app.info("Finished refreshing app state")
     }
@@ -327,7 +313,7 @@ final class DataStore: ObservableObject {
             guard let self else {
                 return
             }
-            await self.refreshNewsIfNecessary()
+            await self.newsStore.refreshNewsIfNecessary()
         }
     }
 
@@ -513,15 +499,6 @@ final class DataStore: ObservableObject {
         return FestivalDataDownloadFailure(owner: .unknown)
     }
 
-    func refreshNewsIfNecessary() async {
-        guard !ScreenshotRuntime.isEnabled else {
-            return
-        }
-
-        let result = await newsService.refreshNewsIfNecessary()
-        news = LoadingEntity(from: result)
-    }
-
     private func buildRecommendationSnapshot(
         festivalData: FestivalData,
         savedEventIds: [Int],
@@ -623,14 +600,6 @@ final class DataStore: ObservableObject {
         }
     }
 
-    private func loadCachedNewsIfAvailable() {
-        guard let cachedNews = newsService.loadCachedNews() else {
-            return
-        }
-
-        news = .success(cachedNews)
-    }
-
     private func loadBundledScreenshotData() {
         loadExtraData()
         let resolvedExtraData = extraData ?? ExtraDataCollection.empty()
@@ -652,12 +621,7 @@ final class DataStore: ObservableObject {
             festivalData = .failure(.couldNotLoadFromFile)
         }
 
-        switch bundledNewsLoader.loadBundledNewsBackup() {
-        case .loaded(let items), .stale(let items):
-            news = .success(items)
-        case .notFound, .unparsable:
-            news = .failure(.couldNotLoadFromFile)
-        }
+        newsStore.loadBundledScreenshotData()
 
         AppLog.data.info("Loaded deterministic bundled data for screenshots")
     }

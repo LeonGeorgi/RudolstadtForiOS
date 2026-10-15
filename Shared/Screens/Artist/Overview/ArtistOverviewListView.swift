@@ -7,6 +7,7 @@ struct ArtistOverviewListView: View {
     let showWorldMap: () -> Void
 
     @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var friends: FriendProfilesStore
 
     var body: some View {
         List {
@@ -39,7 +40,7 @@ struct ArtistOverviewListView: View {
                             artist: artist,
                             artistRating: profile.rating(for: artist.id),
                             artistIconName: profile.iconName(forArtistID: artist.id),
-                            friendRatingSummary: profile.friendArtistRatingSummary(for: artist.id)
+                            friendRatingSummary: friends.friendArtistRatingSummary(for: artist.id)
                         )
                     }
                     .accessibilityIdentifier("artist-\(artist.id)")

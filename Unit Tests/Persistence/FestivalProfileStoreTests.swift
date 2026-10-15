@@ -9,6 +9,75 @@ import CloudKit
 @MainActor
 struct FestivalProfileStoreTests {
     @Test
+    func syncStatusChangesDoNotPublishProfileOrFriendData() {
+        let store = TestFixtures.festivalProfileStore()
+        var profileChanges = 0
+        var friendChanges = 0
+        var watchChanges = 0
+        let profileObservation = store.objectWillChange.sink { profileChanges += 1 }
+        let friendObservation = store.friendProfilesStore.$profiles
+            .dropFirst()
+            .sink { _ in friendChanges += 1 }
+        defer {
+            profileObservation.cancel()
+            friendObservation.cancel()
+        }
+        store.onChange(of: .watchSnapshotInputs) { watchChanges += 1 }
+
+        store.syncStore.syncState = .syncing
+        store.syncStore.syncState = .idle
+        store.syncStore.iCloudStatus = .available
+        store.syncStore.iCloudStatus = .available
+        let refreshDate = TestFixtures.date(dayInJuly: 3, hour: 12, minute: 0)
+        store.syncStore.lastSuccessfulRefreshDate = refreshDate
+        store.syncStore.lastSuccessfulRefreshDate = refreshDate
+
+        #expect(profileChanges == 0)
+        #expect(friendChanges == 0)
+        #expect(watchChanges == 2)
+    }
+
+    @Test
+    func friendUpdatesPublishChangedProfilesWithoutPublishingOwnerChanges() {
+        let store = TestFixtures.festivalProfileStore()
+        var ownerChanges = 0
+        var publishedProfiles: [[SharedFestivalProfile]] = []
+        var watchChanges = 0
+        let ownerObservation = store.objectWillChange.sink { ownerChanges += 1 }
+        let friendObservation = store.friendProfilesStore.$profiles
+            .dropFirst()
+            .sink { publishedProfiles.append($0) }
+        defer {
+            ownerObservation.cancel()
+            friendObservation.cancel()
+        }
+        store.onChange(of: .watchSnapshotInputs) { watchChanges += 1 }
+        let friend = TestFixtures.sharedFestivalProfile(
+            savedEventIDs: [Event.example.id],
+            artistPreferences: [
+                FestivalArtistPreference(artistID: Artist.example.id, rating: 3)
+            ]
+        )
+
+        store.friendProfilesStore.updateProfiles([friend])
+        store.friendProfilesStore.updateProfiles([friend])
+
+        #expect(publishedProfiles == [[friend]])
+        #expect(ownerChanges == 0)
+        #expect(watchChanges == 1)
+        #expect(store.friendProfilesStore.friendProfilesSavingEvent(Event.example.id) == [friend])
+        #expect(
+            store.friendProfilesStore.friendArtistRatingSummary(for: Artist.example.id)?
+                .entries.first?.preference.rating == 3
+        )
+
+        store.friendProfilesStore.updateProfiles([])
+        #expect(publishedProfiles == [[friend], []])
+        #expect(store.friendProfilesStore.friendProfilesSavingEvent(Event.example.id).isEmpty)
+        #expect(store.friendProfilesStore.friendArtistRatingSummary(for: Artist.example.id) == nil)
+    }
+
+    @Test
     func recommendationInputChangeFiresForSavedEventsAndRatings() {
         let profileStore = TestFixtures.festivalProfileStore()
         var callbackCount = 0
@@ -22,9 +91,9 @@ struct FestivalProfileStoreTests {
 
         profileStore.toggleSavedEvent(Event.example)
         profileStore.setArtistRating(for: Artist.example, rating: 2)
-        profileStore.syncStore.acceptedFriendProfiles = [
+        profileStore.friendProfilesStore.updateProfiles([
             TestFixtures.sharedFestivalProfile(savedEventIDs: [Event.example.id])
-        ]
+        ])
 
         #expect(callbackCount == 2)
         #expect(watchCallbackCount == 3)

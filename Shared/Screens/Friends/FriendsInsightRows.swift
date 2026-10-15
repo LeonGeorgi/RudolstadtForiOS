@@ -319,7 +319,7 @@ struct FriendEventSuggestionRow_Previews: PreviewProvider {
                 event: event,
                 profiles: friendProfilesSavingEvent(
                     event,
-                    from: environment.profile.syncStore.acceptedFriendProfiles
+                    from: environment.profile.friendProfilesStore.profiles
                 )
             )
         }
@@ -329,7 +329,7 @@ struct FriendEventSuggestionRow_Previews: PreviewProvider {
 
     private static func previewEvent(from environment: PreviewAppEnvironment) -> Event {
         let friendSavedEventIDs = Set(
-            environment.profile.syncStore.acceptedFriendProfiles.flatMap(\.savedEventIDs)
+            environment.profile.friendProfilesStore.profiles.flatMap(\.savedEventIDs)
         )
         return environment.festivalData.events.first { event in
             friendSavedEventIDs.contains(event.id)

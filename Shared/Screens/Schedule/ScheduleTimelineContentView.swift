@@ -533,6 +533,7 @@ private struct ScheduleTimelineScrollOffsetPreferenceKey: PreferenceKey {
 
 private struct ScheduleTimelineEventCanvas: View {
     @EnvironmentObject private var profile: FestivalProfileStore
+    @EnvironmentObject private var friends: FriendProfilesStore
     @EnvironmentObject private var settings: UserSettings
 
     let stages: [(Stage, [EventOrGap])]
@@ -587,6 +588,7 @@ private struct ScheduleTimelineEventCanvas: View {
                     contextPreviewState: EventContextPreviewState(
                         event: event,
                         profile: profile,
+                        friends: friends,
                         settings: settings
                     ),
                     onToggleSaved: { profile.toggleSavedEvent(event) }
@@ -1062,7 +1064,7 @@ struct ScheduleTimelineContentView_Previews: PreviewProvider {
         let events = ScheduleTimelineContentViewPreviewData.events(
             from: environment
         )
-        let estimatedEventDurations = environment.dataStore.estimatedEventDurationsByEventID
+        let estimatedEventDurations = environment.dataStore.recommendationStore.state.estimatedEventDurationsByEventID
 
         NavigationStack {
             ScheduleTimelineContentView(

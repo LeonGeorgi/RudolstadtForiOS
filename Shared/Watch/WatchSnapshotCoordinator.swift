@@ -1,4 +1,5 @@
 #if os(iOS)
+import Combine
 import Foundation
 import WatchConnectivity
 
@@ -29,6 +30,7 @@ final class WatchSnapshotCoordinator {
     private let builder = WatchSnapshotBuilder()
     private let codec = WatchSnapshotCodec()
     private var pendingPublishTask: Task<Void, Never>?
+    private var recommendationObservation: AnyCancellable?
 
     init(
         dataStore: DataStore,
@@ -49,6 +51,11 @@ final class WatchSnapshotCoordinator {
         profileStore.onChange(of: .watchSnapshotInputs) { [weak self] in
             self?.schedulePublish()
         }
+        recommendationObservation = dataStore.recommendationStore.$state
+            .dropFirst()
+            .sink { [weak self] _ in
+                self?.schedulePublish()
+            }
         sender.start()
         schedulePublish()
     }
@@ -112,13 +119,13 @@ final class WatchSnapshotCoordinator {
                 festivalDataUpdatedAt: provenance.dataUpdatedAt,
                 refreshCheckedAt: provenance.refreshCheckedAt,
                 profileCloudRefreshedAt: profileStore.syncStore.lastSuccessfulRefreshDate,
-                recommendationsGeneratedAt: dataStore.recommendationsGeneratedAt
+                recommendationsGeneratedAt: dataStore.recommendationStore.state.generatedAt
             ),
             events: festivalData.events,
             savedEventIDs: Set(profileStore.savedEvents),
             ratingsByArtistID: profileStore.ratings,
             estimatedDurationsByEventID:
-                dataStore.estimatedEventDurationsByEventID ?? [:],
+                dataStore.recommendationStore.state.estimatedEventDurationsByEventID ?? [:],
             recommendations: recommendations,
             friends: friends,
             friendProfiles: profileStore.acceptedFriendProfiles,
@@ -144,11 +151,11 @@ final class WatchSnapshotCoordinator {
     }
 
     private func makeRecommendationSnapshot() -> WatchRecommendationSnapshot {
-        switch dataStore.recommendedEventIDs {
+        switch dataStore.recommendationStore.state.recommendedEventIDs {
         case .success(let eventIDs):
             return WatchRecommendationSnapshot(
                 state: .available,
-                generatedAt: dataStore.recommendationsGeneratedAt,
+                generatedAt: dataStore.recommendationStore.state.generatedAt,
                 orderedEventIDs: eventIDs
             )
         case .loading:

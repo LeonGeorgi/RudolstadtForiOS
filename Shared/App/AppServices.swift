@@ -59,13 +59,20 @@ final class AppServices {
             : nil
 #endif
 
-        festivalProfileStore.onChange(of: .recommendationInputs) {
-            dataStore.scheduleRecommendationRefresh()
+        festivalProfileStore.onChange(of: .recommendationInputs) { [weak dataStore] in
+            dataStore?.scheduleRecommendationRefresh()
         }
 
 #if os(iOS)
         CloudKitShareAcceptanceController.shared.profileStore = festivalProfileStore
 #endif
+    }
+
+    func refreshOnForeground() async {
+        async let cloudRefresh: Void =
+            festivalProfileStore.refreshFromCloud(reason: "foreground")
+        async let appRefresh: Void = dataStore.refreshOnAppActive()
+        _ = await (cloudRefresh, appRefresh)
     }
 }
 
@@ -197,7 +204,7 @@ enum ScreenshotRuntime {
             }
         }
 
-        profile.syncStore.acceptedFriendProfiles = [
+        profile.friendProfilesStore.updateProfiles([
             SharedFestivalProfile(
                 id: "screenshot-friend-aya",
                 title: "Aya's Festival",
@@ -222,7 +229,7 @@ enum ScreenshotRuntime {
                 ),
                 artistPreferences: []
             )
-        ]
+        ])
     }
 }
 
@@ -233,6 +240,9 @@ extension View {
             .environmentObject(services.userSettings)
             .environmentObject(services.festivalProfileStore)
             .environmentObject(services.festivalProfileStore.syncStore)
+            .environmentObject(services.festivalProfileStore.friendProfilesStore)
+            .environmentObject(services.dataStore.newsStore)
+            .environmentObject(services.dataStore.recommendationStore)
             .environmentObject(services.iapManager)
     }
 }
