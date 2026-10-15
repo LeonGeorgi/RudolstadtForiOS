@@ -6,3 +6,15 @@ AppStoreScreenshots/
 xcuserdata/
 *.xcuserstate
 /[0-9][0-9]-*.png
+
+# Python runtime artifacts
+__pycache__/
+*.py[cod]
+
+# Generated Xcode Cloud metadata
+/RudolstadtForiOS.xcodeproj/xcshareddata/xcodecloud/
+
+# Local experiment progress and personal listening-history analyses
+/Experiments/ArtistSimilarity/ImageSimilarity/progress.json
+/Experiments/ArtistSimilarity/apple_music_replay_artists.json
+/Experiments/ArtistSimilarity/replay_*.json
