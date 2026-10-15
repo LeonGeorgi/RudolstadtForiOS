@@ -3,30 +3,28 @@ import SwiftUI
 
 struct FestivalDataGate<Content: View>: View {
     @EnvironmentObject private var dataStore: DataStore
+    @State private var loadAttempt = 0
 
     let content: () -> Content
 
     var body: some View {
-        switch dataStore.festivalData {
-        case .loading:
-            FestivalDataLoadingView()
-                .task {
-                    await dataStore.loadFestivalContentForAppLaunch()
+        Group {
+            switch dataStore.festivalData {
+            case .loading:
+                FestivalDataLoadingView()
+            case .failure(let reason):
+                FestivalDataUnavailableView(
+                    reason: reason
+                ) {
+                    loadAttempt += 1
                 }
-        case .failure(let reason):
-            FestivalDataUnavailableView(
-                reason: reason
-            ) {
-                Task {
-                    await dataStore.loadOrRefreshFestivalData()
-                }
+            case .success(let festivalData):
+                content()
+                    .environment(\.festivalData, festivalData)
             }
-        case .success(let festivalData):
-            content()
-                .environment(\.festivalData, festivalData)
-                .task {
-                    await dataStore.loadFestivalContentForAppLaunch()
-                }
+        }
+        .task(id: loadAttempt) {
+            await dataStore.loadFestivalContentForAppLaunch()
         }
     }
 }
