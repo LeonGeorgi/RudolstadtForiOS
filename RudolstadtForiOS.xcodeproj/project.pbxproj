@@ -332,6 +332,7 @@
 		D72000022FF40001004F9471 /* NewsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70000022FF40001004F9471 /* NewsStore.swift */; };
 		D71000032FF40001004F9471 /* RecommendationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70000032FF40001004F9471 /* RecommendationStore.swift */; };
 		D72000032FF40001004F9471 /* RecommendationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70000032FF40001004F9471 /* RecommendationStore.swift */; };
+		D80000022FF50001004F9471 /* ArtistOverviewOrderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80000012FF50001004F9471 /* ArtistOverviewOrderingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -593,6 +594,7 @@
 		D70000012FF40001004F9471 /* FriendProfilesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfilesStore.swift; sourceTree = "<group>"; };
 		D70000022FF40001004F9471 /* NewsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStore.swift; sourceTree = "<group>"; };
 		D70000032FF40001004F9471 /* RecommendationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationStore.swift; sourceTree = "<group>"; };
+		D80000012FF50001004F9471 /* ArtistOverviewOrderingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistOverviewOrderingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1007,6 +1009,7 @@
 				F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */,
 				F10000062F990001004F9471 /* RecommendationServiceTests.swift */,
 				A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */,
+				D80000012FF50001004F9471 /* ArtistOverviewOrderingTests.swift */,
 				F10000072F990001004F9471 /* SchedulePresenterTests.swift */,
 				F10000182F990001004F9471 /* ScheduleTimelineZoomTests.swift */,
 				F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */,
@@ -1833,6 +1836,7 @@
 				F10001052F990001004F9471 /* DataLoaderCacheMetadataTests.swift in Sources */,
 				F10001062F990001004F9471 /* RecommendationServiceTests.swift in Sources */,
 				A700000B2FF20001004F9471 /* ArtistSimilarityTests.swift in Sources */,
+				D80000022FF50001004F9471 /* ArtistOverviewOrderingTests.swift in Sources */,
 				F10001072F990001004F9471 /* SchedulePresenterTests.swift in Sources */,
 				F10001112F990001004F9471 /* ScheduleTimelineZoomTests.swift in Sources */,
 				F10001082F990001004F9471 /* RecommendationDataStoreTests.swift in Sources */,

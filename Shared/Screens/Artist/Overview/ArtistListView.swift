@@ -53,7 +53,8 @@ struct ArtistListView: View {
     }
 
     private func filteredArtists(from data: FestivalData) -> [Artist] {
-        data.artists.filter { artist in
+        let hasBrowseGenres = !dataStore.browseTaxonomy.isEmpty
+        return data.artists.filter { artist in
             let artistTypeMatches: Bool
             if let selectedArtistType = overviewState.selectedArtistType {
                 artistTypeMatches =
@@ -63,7 +64,7 @@ struct ArtistListView: View {
                 artistTypeMatches = true
             }
 
-            if browseGenreOptions.isEmpty {
+            if !hasBrowseGenres {
                 return !artist.hiddenFromArtistList && artistTypeMatches
             }
 
@@ -83,29 +84,13 @@ struct ArtistListView: View {
         }
     }
 
-    private func artistsToShow(from artists: [Artist]) -> [Artist] {
-        if overviewState.favoriteArtistsOnly {
-            let artistsWithRatings = artists.map { artist in
-                (artist: artist, rating: profile.ratings[String(artist.id)])
-            }
-            let filteredArtists = artistsWithRatings.filter { item in
-                item.rating != nil && item.rating! > 0
-            }
-            let sortedArtists = filteredArtists.sorted { first, second in
-                first.rating! > second.rating!
-            }
-            return sortedArtists.map(\.artist)
-        } else {
-            return artists
-        }
-    }
-
     var body: some View {
-        let artists = artistsToShow(
-            from: filteredArtists(from: festivalData)
-        ).withApplied(searchTerm: overviewState.searchText) { artist in
-            artist.name
-        }
+        let artists = artistsForOverview(
+            filteredArtists(from: festivalData),
+            favoritesOnly: overviewState.favoriteArtistsOnly,
+            ratings: profile.ratings,
+            searchTerm: overviewState.searchText
+        )
 
         ArtistBrowseView(
             artists: artists,
@@ -143,7 +128,7 @@ struct ArtistListView: View {
         }
         .onChange(of: dataStore.browseTaxonomy, initial: false) { _, _ in
             overviewState.syncBrowseGenreSelection(
-                with: browseGenreOptions
+                with: dataStore.browseTaxonomy
             )
         }
     }

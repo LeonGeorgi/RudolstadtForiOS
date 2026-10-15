@@ -11,17 +11,11 @@ struct ArtistBrowseView: View {
     let imageTransitionNamespace: Namespace.ID
     let navigate: (AppNavigationRoute) -> Void
 
-    private var sortedArtists: [Artist] {
-        artists.sorted { first, second in
-            normalizedArtistName(first.name) < normalizedArtistName(second.name)
-        }
-    }
-
     var body: some View {
         Group {
             if state.selectedPresentationMode == .grid {
                 ArtistOverviewGridView(
-                    artists: sortedArtists,
+                    artists: artists,
                     gridDensity: state.selectedGridDensity,
                     emptyMessageKey: emptyMessageKey,
                     imageTransitionNamespace: imageTransitionNamespace,
@@ -30,7 +24,7 @@ struct ArtistBrowseView: View {
                 )
             } else {
                 ArtistOverviewListView(
-                    artists: sortedArtists,
+                    artists: artists,
                     emptyMessageKey: emptyMessageKey,
                     showsWorldMapCallout: state.searchText.isEmpty,
                     showWorldMap: showWorldMap
@@ -76,7 +70,11 @@ private struct ArtistBrowseViewPreview: View {
     var body: some View {
         NavigationStack {
             ArtistBrowseView(
-                artists: previewArtists,
+                artists: artistsForOverview(
+                    previewArtists,
+                    favoritesOnly: false,
+                    ratings: [:]
+                ),
                 state: state,
                 currentTipID: nil,
                 emptyMessageKey: "artists.none-found",
