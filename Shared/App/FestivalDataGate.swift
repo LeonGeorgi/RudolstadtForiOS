@@ -21,6 +21,16 @@ struct FestivalDataGate<Content: View>: View {
             case .success(let festivalData):
                 content()
                     .environment(\.festivalData, festivalData)
+                    .safeAreaInset(edge: .bottom, spacing: 0) {
+                        if festivalData.omittedRecordCount > 0 {
+                            Label("data.import.incomplete", systemImage: "exclamationmark.triangle")
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                                .padding()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(.background)
+                        }
+                    }
             }
         }
         .task(id: loadAttempt) {

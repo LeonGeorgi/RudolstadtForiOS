@@ -89,6 +89,14 @@ struct WatchPlanOverlapSnapshot: Codable, Equatable, Sendable {
     let overlapMinutes: Int
 }
 
+struct WatchUnplacedEventSnapshot: Codable, Equatable, Identifiable, Sendable {
+    let id: Int
+    let artistName: String
+    let stageNameGerman: String
+    let stageNameEnglish: String
+    let knownDay: Date?
+}
+
 struct WatchFestivalSnapshot: Codable, Equatable, Sendable {
     let events: [WatchEventSnapshot]
     let missingSavedEventCount: Int?
@@ -96,6 +104,8 @@ struct WatchFestivalSnapshot: Codable, Equatable, Sendable {
     let friends: WatchFriendSnapshot
     let planTransitions: [WatchPlanTransitionSnapshot]
     let planOverlaps: [WatchPlanOverlapSnapshot]
+    let unplacedSavedEvents: [WatchUnplacedEventSnapshot]?
+    let hasIncompleteProgram: Bool?
 
     init(
         events: [WatchEventSnapshot],
@@ -103,7 +113,9 @@ struct WatchFestivalSnapshot: Codable, Equatable, Sendable {
         recommendations: WatchRecommendationSnapshot,
         friends: WatchFriendSnapshot,
         planTransitions: [WatchPlanTransitionSnapshot],
-        planOverlaps: [WatchPlanOverlapSnapshot]
+        planOverlaps: [WatchPlanOverlapSnapshot],
+        unplacedSavedEvents: [WatchUnplacedEventSnapshot]? = nil,
+        hasIncompleteProgram: Bool? = nil
     ) {
         self.events = events
         self.missingSavedEventCount = missingSavedEventCount
@@ -111,6 +123,8 @@ struct WatchFestivalSnapshot: Codable, Equatable, Sendable {
         self.friends = friends
         self.planTransitions = planTransitions
         self.planOverlaps = planOverlaps
+        self.unplacedSavedEvents = unplacedSavedEvents
+        self.hasIncompleteProgram = hasIncompleteProgram
     }
 }
 
@@ -310,6 +324,28 @@ struct WatchSnapshotValidator: Sendable {
             }
             guard event.startDate < event.endDate else {
                 return .invalidEventDates(event.id)
+            }
+        }
+
+        if let unplaced = payload.unplacedSavedEvents, !unplaced.isEmpty {
+            guard payload.hasIncompleteProgram == true,
+                (payload.missingSavedEventCount ?? 0) >= unplaced.count
+            else {
+                return .invalidPlanContract
+            }
+        }
+        var unplacedIDs = Set<Int>()
+        for event in payload.unplacedSavedEvents ?? [] {
+            guard event.id > 0, !eventIDs.contains(event.id), unplacedIDs.insert(event.id).inserted
+            else {
+                return .duplicateEventID(event.id)
+            }
+            if let day = event.knownDay {
+                var calendar = Calendar(identifier: .gregorian)
+                calendar.timeZone = FestivalConfiguration.timeZone
+                guard calendar.component(.year, from: day) == expectedFestivalYear else {
+                    return .invalidEventDates(event.id)
+                }
             }
         }
 

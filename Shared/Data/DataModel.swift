@@ -65,9 +65,25 @@ struct Artist: Identifiable {
     let thumbImageUrlString: String
     let fullImageUrlString: String
     let ai: AIArtistData?
+    var isMetadataAvailable = true
+
+    func displayName(locale: Locale = .current) -> String {
+        isMetadataAvailable
+            ? name
+            : (locale.appLanguageCodeIdentifier == "de"
+                ? "Künstler unbekannt" : "Artist unknown")
+    }
+
+    static func missing(id: Int) -> Artist {
+        Artist(
+            id: id, hiddenFromArtistList: true, artistType: .other, someNumber: 0,
+            name: "", countries: "", countryCodes: [], url: nil, facebookID: nil,
+            youtubeID: nil, instagram: nil, descriptionGerman: nil, descriptionEnglish: nil,
+            thumbImageUrlString: "", fullImageUrlString: "", ai: nil, isMetadataAvailable: false)
+    }
 
     var formattedName: String {
-        formatString(name)
+        formatString(displayName())
     }
 
     var formattedDescription: String? {
@@ -272,43 +288,102 @@ struct Area: Identifiable, Hashable {
 
 struct Event: Identifiable {
     let id: Int
-    let dayInJuly: Int
-    let timeAsString: String
+    let startDate: Date?
+    // A known calendar day is distinct from a known instant.
+    let knownDate: Date?
     let stage: Stage
     let artist: Artist
-    let tag: Tag?
+    let tags: [Tag]
 
-    var festivalHour: Int {
-        festivalHour(calendar: .current)
+    var tag: Tag? { tags.first }
+
+    init(
+        id: Int, startDate: Date?, knownDate: Date?, stage: Stage, artist: Artist,
+        tag: Tag? = nil, tags: [Tag]? = nil
+    ) {
+        self.id = id
+        self.startDate = startDate
+        self.knownDate =
+            startDate.map { FestivalDateUtilities.festivalCalendar.startOfDay(for: $0) }
+            ?? knownDate
+        self.stage = stage
+        self.artist = artist
+        self.tags = tags ?? tag.map { [$0] } ?? []
     }
 
-    func festivalHour(calendar: Calendar) -> Int {
-        let hour = calendar.component(.hour, from: date(calendar: calendar))
-        if hour < 5 {
-            return hour + 24
-        } else {
-            return hour
+    init(id: Int, dayInJuly: Int, timeAsString: String, stage: Stage, artist: Artist, tag: Tag?) {
+        let day = String(format: "%02d.07.%04d", dayInJuly, FestivalConfiguration.year)
+        let knownDate = FestivalDateUtilities.festivalDate(day, format: "dd.MM.yyyy")
+        let parts = timeAsString.split(separator: ":").map {
+            $0.trimmingCharacters(in: .whitespaces)
         }
+        let time: String
+        if parts.count == 2, let hour = Int(parts[0]), let minute = Int(parts[1]) {
+            time = String(format: "%02d:%02d", hour, minute)
+        } else {
+            time = ""
+        }
+        self.init(
+            id: id,
+            startDate: FestivalDateUtilities.festivalDate(
+                day + " " + time, format: "dd.MM.yyyy HH:mm"
+            ), knownDate: knownDate, stage: stage, artist: artist, tag: tag)
+    }
+
+    var hasCompleteMetadata: Bool {
+        startDate != nil && artist.isMetadataAvailable && stage.isMetadataAvailable
+            && stage.hasLocation
+            && stage.stageType != .unknown
+    }
+
+    var dayInJuly: Int {
+        knownDate.map { FestivalDateUtilities.festivalCalendar.component(.day, from: $0) } ?? 0
+    }
+
+    var timeAsString: String {
+        if let startDate {
+            return FestivalDateUtilities.format(
+                startDate, pattern: "HH:mm", locale: Locale(identifier: "en_US_POSIX"))
+        }
+        return NSLocalizedString(
+            knownDate == nil ? "event.date.unknown" : "event.time.unknown", comment: "")
+    }
+
+    var festivalHour: Int { festivalHour(calendar: FestivalDateUtilities.festivalCalendar) }
+    func festivalHour(calendar: Calendar) -> Int {
+        guard let startDate else { return 0 }
+        let hour = FestivalDateUtilities.festivalCalendar.component(.hour, from: startDate)
+        return hour < 5 ? hour + 24 : hour
     }
 
     var startTimeInMinutes: Int {
-        startTimeInMinutes(calendar: .current)
+        startTimeInMinutes(calendar: FestivalDateUtilities.festivalCalendar)
     }
-
     func startTimeInMinutes(calendar: Calendar) -> Int {
-        let minutes = calendar.component(.minute, from: date(calendar: calendar))
-        return festivalHour(calendar: calendar) * 60 + minutes
+        guard let startDate else { return 0 }
+        return festivalHour * 60
+            + FestivalDateUtilities.festivalCalendar.component(.minute, from: startDate)
     }
 
-    var festivalDay: Int {
-        festivalDay(calendar: .current)
-    }
-
+    // Zero means that no festival day is known; it must not become a day tab.
+    var festivalDay: Int { festivalDay(calendar: FestivalDateUtilities.festivalCalendar) }
     func festivalDay(calendar: Calendar) -> Int {
-        if festivalHour(calendar: calendar) >= 24 {
-            return dayInJuly - 1
-        } else {
-            return dayInJuly
+        guard knownDate != nil else { return 0 }
+        return startDate != nil && festivalHour >= 24 ? dayInJuly - 1 : dayInJuly
+    }
+
+    static func precedes(_ first: Event, _ second: Event) -> Bool {
+        switch (first.startDate, second.startDate) {
+        case let (a?, b?) where a != b: return a < b
+        case (_?, nil): return true
+        case (nil, _?): return false
+        default:
+            switch (first.knownDate, second.knownDate) {
+            case let (a?, b?) where a != b: return a < b
+            case (_?, nil): return true
+            case (nil, _?): return false
+            default: return first.id < second.id
+            }
         }
     }
 
@@ -384,78 +459,31 @@ struct Event: Identifiable {
         }
     }
 
-    var date: Date {
-        date(calendar: .current)
+    var date: Date? { startDate }
+    func date(calendar: Calendar) -> Date? { startDate }
+
+    func endDate(durationInMinutes: Int, calendar: Calendar = .current) -> Date? {
+        startDate?.addingTimeInterval(Double(max(0, durationInMinutes)) * 60)
     }
 
-    func date(calendar: Calendar) -> Date {
-        var dateComponents = DateComponents()
-        dateComponents.year = DataStore.year
-        dateComponents.month = 7
-        dateComponents.day = dayInJuly
-        //dateComponents.timeZone = TimeZone(abbreviation: "CEST")
-        let splittedTime = timeAsString.split(separator: ":")
-        dateComponents.hour = Int(splittedTime[0])
-        dateComponents.minute = Int(splittedTime[1])
-
-        guard let date = calendar.date(from: dateComponents) else {
-            preconditionFailure("Could not create event date")
-        }
-        return date
+    var festivalDate: Date? { festivalDate(calendar: FestivalDateUtilities.festivalCalendar) }
+    func festivalDate(calendar: Calendar) -> Date? {
+        guard let knownDate else { return nil }
+        return FestivalDateUtilities.festivalCalendar.date(
+            byAdding: .day,
+            value: startDate != nil && festivalHour >= 24 ? -1 : 0, to: knownDate)
     }
 
-    func endDate(
-        durationInMinutes: Int,
-        calendar: Calendar = .current
-    ) -> Date {
-        date(calendar: calendar).addingTimeInterval(
-            Double(durationInMinutes) * 60
-        )
-    }
-
-    var festivalDate: Date {
-        festivalDate(calendar: .current)
-    }
-
-    func festivalDate(calendar: Calendar) -> Date {
-        var dateComponents = DateComponents()
-        dateComponents.year = DataStore.year
-        dateComponents.month = 7
-        dateComponents.day = festivalDay(calendar: calendar)
-        //dateComponents.timeZone = TimeZone(abbreviation: "CEST")
-
-        guard let date = calendar.date(from: dateComponents) else {
-            preconditionFailure("Could not create festival date")
-        }
-        return date
-    }
-
-    var weekDay: String {
-        weekDay(calendar: .current, locale: .current)
-    }
-
+    var weekDay: String { weekDay(calendar: .current, locale: .current) }
     func weekDay(calendar: Calendar, locale: Locale) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.calendar = calendar
-        dateFormatter.locale = locale
-        dateFormatter.timeZone = calendar.timeZone
-        dateFormatter.dateFormat = "EEEE"
-        return dateFormatter.string(from: date(calendar: calendar))
-
+        guard let knownDate else { return NSLocalizedString("event.date.unknown", comment: "") }
+        return FestivalDateUtilities.format(knownDate, pattern: "EEEE", locale: locale)
     }
 
-    var shortWeekDay: String {
-        shortWeekDay(calendar: .current, locale: .current)
-    }
-
+    var shortWeekDay: String { shortWeekDay(calendar: .current, locale: .current) }
     func shortWeekDay(calendar: Calendar, locale: Locale) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.calendar = calendar
-        dateFormatter.locale = locale
-        dateFormatter.timeZone = calendar.timeZone
-        dateFormatter.dateFormat = "EE"
-        return dateFormatter.string(from: date(calendar: calendar))
-
+        guard let knownDate else { return NSLocalizedString("event.date.unknown", comment: "") }
+        return FestivalDateUtilities.format(knownDate, pattern: "EE", locale: locale)
     }
 
     static let example = Event(
@@ -482,9 +510,7 @@ struct NewsItem: Identifiable {
     }
 
     func isInLanguage(_ locale: Locale) -> Bool {
-        let appIsInGerman = locale.appLanguageCodeIdentifier == "de"
-        let languageIsGerman = languageCode == "de"
-        return appIsInGerman == languageIsGerman
+        languageCode == (locale.appLanguageCodeIdentifier == "de" ? "de" : "en")
     }
 
     var formattedShortDescription: String {
@@ -556,6 +582,22 @@ struct Stage: Identifiable, Hashable {
     let longitude: Double
     let area: Area
     let stageType: StageType
+    var isMetadataAvailable = true
+
+    var hasLocation: Bool {
+        isMetadataAvailable && latitude.isFinite && longitude.isFinite
+            && (-90...90).contains(latitude) && (-180...180).contains(longitude)
+            && (latitude != 0 || longitude != 0) // The festival API uses 0,0 for missing locations.
+    }
+
+    static func missing(id: Int) -> Stage {
+        Stage(
+            id: id, germanName: "Bühne unbekannt", englishName: "Stage unknown",
+            germanDescription: nil, englishDescription: nil, stageNumber: nil,
+            latitude: .nan, longitude: .nan,
+            area: Area(id: 0, germanName: "Bereich unbekannt", englishName: "Area unknown"),
+            stageType: .unknown, isMetadataAvailable: false)
+    }
 
     var localizedName: String {
         localizedName(locale: .current)

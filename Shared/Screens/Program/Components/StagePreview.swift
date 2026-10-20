@@ -4,7 +4,13 @@ struct StagePreview: View {
     let stage: Stage
 
     var body: some View {
-        StageMapView(stage: stage)
+        Group {
+            if stage.hasLocation {
+                StageMapView(stage: stage)
+            } else {
+                Label("stage.location.unknown", systemImage: "mappin.slash").padding()
+            }
+        }
     }
 }
 

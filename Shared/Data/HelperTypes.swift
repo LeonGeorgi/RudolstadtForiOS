@@ -18,6 +18,7 @@ struct FestivalData {
     let areas: [Area]
     let stages: [Stage]
     let events: [Event]
+    var omittedRecordCount = 0
 }
 
 enum FestivalDataSource: Equatable {

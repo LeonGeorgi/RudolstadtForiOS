@@ -1,0 +1,70 @@
+{
+  "fill": {
+    "automatic-gradient": "srgb:0.35500,0.11800,0.37000,1.00000"
+  },
+  "groups": [
+    {
+      "name": "03 Originalschriftzug",
+      "lighting": "combined",
+      "specular": false,
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0
+      },
+      "layers": [
+        {
+          "name": "03 Originalschriftzug",
+          "glass": false,
+          "image-name": "03-Layer.svg"
+        }
+      ]
+    },
+    {
+      "name": "02 Vorderseite",
+      "lighting": "combined",
+      "specular": true,
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.15
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.18
+      },
+      "layers": [
+        {
+          "name": "02 Vorderseite",
+          "glass": true,
+          "image-name": "02-Layer.svg"
+        }
+      ]
+    },
+    {
+      "name": "01 Bandschlaufe",
+      "lighting": "combined",
+      "specular": true,
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.15
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.18
+      },
+      "layers": [
+        {
+          "name": "01 Bandschlaufe",
+          "glass": true,
+          "image-name": "01-Layer.svg"
+        }
+      ]
+    }
+  ],
+  "supported-platforms": {
+    "squares": "shared"
+  }
+}

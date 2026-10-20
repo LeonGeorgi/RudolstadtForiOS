@@ -294,13 +294,13 @@ struct FestivalProfileStoreTests {
             to: newProfile
         )
 
-        #expect(changes == [
-            .save(.profile),
+        #expect(Set(changes) == Set([
+            FestivalProfileSyncChange.save(.profile),
             .save(.savedEvent(eventID: 4)),
             .delete(.savedEvent(eventID: 1)),
             .save(.artistPreference(artistID: 2)),
             .delete(.artistNote(artistID: 3))
-        ])
+        ]))
     }
 
 #if os(iOS)
@@ -328,7 +328,13 @@ struct FestivalProfileStoreTests {
         #expect(recordID.recordName == "SavedEvent-2026-42")
         #expect(
             FestivalProfileCloudRecordMapper.payload(from: record)
-                == .savedEvent(eventID: 42)
+                == .change(FestivalProfileChange(
+                    value: .savedEvent(eventID: 42, isSaved: true),
+                    version: FestivalProfileChangeVersion(
+                        modifiedAt: .distantPast,
+                        changeID: FestivalProfileRecordValue.savedEvent(eventID: 42, isSaved: true).legacyChangeID
+                    )
+                ))
         )
         #expect(
             FestivalProfileSyncConflictPolicy.action(for: .serverRecordChanged)
@@ -502,5 +508,355 @@ struct FestivalProfilePersistenceTests {
                 forKey: FestivalProfileStore.Constants.legacyCacheKey
             ) == legacyData
         )
+    }
+}
+
+@MainActor
+struct FestivalProfileConflictTests {
+    private let editDate = Date(timeIntervalSince1970: 1_800_000_000)
+    private let artist = Artist.example
+    private let event = Event.example
+
+    private func change(_ value: FestivalProfileRecordValue, seconds: Double, id: String = "remote") -> FestivalProfileChange {
+        FestivalProfileChange(value: value, version: FestivalProfileChangeVersion(
+            modifiedAt: editDate.addingTimeInterval(seconds), changeID: id
+        ))
+    }
+
+    private func values(note: String, rating: Int, saved: Bool) -> [FestivalProfileRecordValue] {
+        [
+            .artistNote(FestivalArtistNote(artistID: artist.id, noteText: note)),
+            .artistPreference(FestivalArtistPreference(artistID: artist.id, rating: rating, iconName: nil)),
+            .savedEvent(eventID: event.id, isSaved: saved)
+        ]
+    }
+
+    @Test
+    func userEditTimeWinsIndependentlyOfDeliveryOrderAndEntity() {
+        let store = FestivalProfileStore(
+            userDefaults: TestFixtures.isolatedUserDefaults(), cloudKitEnabled: false, now: { editDate }
+        )
+        store.setArtistNote(for: artist, note: "Local")
+        store.setArtistRating(for: artist, rating: 3)
+        store.toggleSavedEvent(event)
+
+        for value in values(note: "Older", rating: 1, saved: false) {
+            #expect(store.mergeRemoteChange(change(value, seconds: -10)))
+            #expect(store.pendingProfileRecords.contains(value.record))
+        }
+        #expect(store.noteText(for: artist) == "Local")
+        #expect(store.rating(for: artist.id) == 3)
+        #expect(store.isEventSaved(event.id))
+
+        // A newer note does not alter the independently edited rating or event.
+        store.mergeRemoteChange(change(values(note: "Newer", rating: 1, saved: false)[0], seconds: 10))
+        #expect(store.noteText(for: artist) == "Newer")
+        #expect(store.rating(for: artist.id) == 3)
+        #expect(store.isEventSaved(event.id))
+
+        for value in values(note: "Newer", rating: 1, saved: false) {
+            #expect(!store.mergeRemoteChange(change(value, seconds: 10)))
+        }
+        #expect(store.rating(for: artist.id) == 1)
+        #expect(!store.isEventSaved(event.id))
+        #expect(store.pendingProfileRecords.isEmpty)
+    }
+
+    @Test
+    func deletionsAndPendingChangesSurviveRestartAndPreventResurrection() async throws {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        var clock = editDate
+        let store = FestivalProfileStore(
+            userDefaults: defaults, cloudKitEnabled: false, now: { clock }, waitBeforePersisting: {}
+        )
+        store.setArtistNote(for: artist, note: "Saved")
+        store.setArtistRating(for: artist, rating: 3)
+        store.toggleSavedEvent(event)
+        clock = editDate.addingTimeInterval(20)
+        store.setArtistNote(for: artist, note: "")
+        store.setArtistRating(for: artist, rating: 0)
+        store.toggleSavedEvent(event)
+        await store.flushPendingPersistence()
+
+        let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
+        let cache = try #require(persistence.loadCache())
+        #expect(cache.currentProfile.syncRecords.count == 3)
+        #expect(FestivalProfileSyncPlanner.fullUpload(for: cache.currentProfile).count == 4)
+        for value in values(note: "", rating: 0, saved: false) {
+            let deletion = try #require(cache.currentProfile.change(for: value.record))
+            #expect(deletion.value.isDeleted)
+            #expect(deletion.version.modifiedAt == clock)
+        }
+
+        let reloaded = FestivalProfileStore(userDefaults: defaults, cloudKitEnabled: false)
+        #expect(reloaded.pendingProfileRecords.count == 3)
+        for value in values(note: "Old saved value", rating: 3, saved: true) {
+            #expect(reloaded.mergeRemoteChange(change(value, seconds: 10)))
+        }
+        #expect(reloaded.noteText(for: artist) == nil)
+        #expect(reloaded.rating(for: artist.id) == 0)
+        #expect(!reloaded.isEventSaved(event.id))
+
+        for value in values(note: "Saved again", rating: 2, saved: true) {
+            reloaded.mergeRemoteChange(change(value, seconds: 30))
+        }
+        #expect(reloaded.noteText(for: artist) == "Saved again")
+        #expect(reloaded.rating(for: artist.id) == 2)
+        #expect(reloaded.isEventSaved(event.id))
+    }
+
+    @Test
+    func duplicateDeliveryAndEqualTimesConvergeOnBothDevices() {
+        let first = TestFixtures.festivalProfileStore()
+        let second = TestFixtures.festivalProfileStore()
+        let a = change(values(note: "A", rating: 1, saved: true)[0], seconds: 0, id: "a")
+        let b = change(values(note: "B", rating: 1, saved: true)[0], seconds: 0, id: "b")
+        [a, b, b, a].forEach { first.mergeRemoteChange($0) }
+        [b, a, a, b].forEach { second.mergeRemoteChange($0) }
+        #expect(first.noteText(for: artist) == "B")
+        #expect(second.noteText(for: artist) == "B")
+        // The latest server echo confirms the winning version.
+        first.mergeRemoteChange(b)
+        #expect(first.pendingProfileRecords.isEmpty)
+    }
+
+    @Test
+    func anOlderUploadAcknowledgementDoesNotClearANewerLocalEdit() async throws {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
+        var clock = editDate
+        let store = FestivalProfileStore(
+            userDefaults: defaults, cloudKitEnabled: false, now: { clock }, waitBeforePersisting: {}
+        )
+        let record = FestivalProfileSyncRecord.artistPreference(artistID: artist.id)
+        store.setArtistRating(for: artist, rating: 1)
+        await store.flushPendingPersistence()
+        let first = try #require(persistence.loadCache()?.currentProfile.change(for: record))
+        clock = editDate.addingTimeInterval(10)
+        store.setArtistRating(for: artist, rating: 3)
+        store.acknowledgeUploadedChange(first)
+        #expect(store.pendingProfileRecords.contains(record))
+        #expect(store.rating(for: artist.id) == 3)
+        await store.flushPendingPersistence()
+        let latest = try #require(persistence.loadCache()?.currentProfile.change(for: record))
+        store.acknowledgeUploadedChange(latest)
+        #expect(!store.pendingProfileRecords.contains(record))
+    }
+
+    @Test
+    func unchangedValuesDoNotCreateNewVersionsOrPendingWork() async throws {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
+        let store = FestivalProfileStore(
+            userDefaults: defaults, cloudKitEnabled: false, now: { editDate }, waitBeforePersisting: {}
+        )
+        let incoming = change(values(note: "Unchanged", rating: 2, saved: false)[0], seconds: -10)
+        store.mergeRemoteChange(incoming)
+        store.setArtistNote(for: artist, note: "  Unchanged  ")
+        store.setArtistRating(for: artist, rating: 0)
+        await store.flushPendingPersistence()
+        #expect(store.pendingProfileRecords.isEmpty)
+        #expect(persistence.loadCache()?.currentProfile.change(for: incoming.value.record) == incoming)
+    }
+
+    @Test
+    func partialUploadFailureRetainsRetryIntentAcrossRestart() async throws {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
+        let store = FestivalProfileStore(
+            userDefaults: defaults, cloudKitEnabled: false, now: { editDate }, waitBeforePersisting: {}
+        )
+        store.setArtistRating(for: artist, rating: 3)
+        store.setArtistNote(for: artist, note: "Keep for retry")
+        await store.flushPendingPersistence()
+        let ratingRecord = FestivalProfileSyncRecord.artistPreference(artistID: artist.id)
+        let noteRecord = FestivalProfileSyncRecord.artistNote(artistID: artist.id)
+        let uploaded = try #require(persistence.loadCache()?.currentProfile.change(for: ratingRecord))
+        store.recordUploadFailure(for: noteRecord, message: "Network unavailable")
+        store.acknowledgeUploadedChange(uploaded)
+        #expect(store.syncStore.shouldWarnBeforeEditing)
+        #expect(store.pendingProfileRecords == [noteRecord])
+        #expect(store.noteText(for: artist) == "Keep for retry")
+        await store.flushPendingPersistence()
+        let reloaded = FestivalProfileStore(userDefaults: defaults, cloudKitEnabled: false)
+        #expect(reloaded.pendingProfileRecords == [noteRecord])
+        #expect(reloaded.noteText(for: artist) == "Keep for retry")
+    }
+
+    @Test
+    func successiveActionsWithinTheSameClockTickKeepTheirOrder() async throws {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
+        let store = FestivalProfileStore(
+            userDefaults: defaults, cloudKitEnabled: false, now: { editDate }, waitBeforePersisting: {}
+        )
+        store.toggleSavedEvent(event)
+        await store.flushPendingPersistence()
+        let first = try #require(persistence.loadCache()?.currentProfile.change(for: .savedEvent(eventID: event.id)))
+        store.toggleSavedEvent(event)
+        #expect(store.mergeRemoteChange(first))
+        #expect(!store.isEventSaved(event.id))
+    }
+
+    @Test
+    func legacyCachesRemainReadableWithoutFabricatingCurrentEditDates() async throws {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        let original = TestFixtures.festivalProfileCache(currentProfile: TestFixtures.cachedOwnerFestivalProfile(
+            savedEventIDs: [event.id],
+            artistPreferences: [FestivalArtistPreference(artistID: artist.id, rating: 3, iconName: nil)],
+            artistNotes: [FestivalArtistNote(artistID: artist.id, noteText: "Before update")]
+        ))
+        var json = try #require(JSONSerialization.jsonObject(with: JSONEncoder().encode(original)) as? [String: Any])
+        var profile = try #require(json["currentProfile"] as? [String: Any])
+        profile.removeValue(forKey: "changeVersions")
+        json["currentProfile"] = profile
+        json.removeValue(forKey: "pendingProfileRecords")
+        defaults.set(try JSONSerialization.data(withJSONObject: json), forKey: FestivalProfileStore.Constants.cacheKey(for: DataStore.year))
+        let store = FestivalProfileStore(userDefaults: defaults, cloudKitEnabled: false, now: { editDate })
+        #expect(store.savedEvents == [event.id])
+        #expect(store.rating(for: artist.id) == 3)
+        #expect(store.noteText(for: artist) == "Before update")
+        #expect(store.pendingProfileRecords.isEmpty)
+        // An old server record still supersedes undated legacy text; migration did not date it "now".
+        store.mergeRemoteChange(change(values(note: "Historical remote", rating: 2, saved: false)[0], seconds: -100))
+        #expect(store.noteText(for: artist) == "Historical remote")
+    }
+
+    @Test
+    func legacyPhysicalDeletionRemovesLegacyValuesButCannotEraseDatedLocalEdits() {
+        let store = TestFixtures.festivalProfileStore()
+        let value = values(note: "Legacy", rating: 1, saved: false)[0]
+        store.mergeRemoteChange(FestivalProfileChange(value: value, version: FestivalProfileChangeVersion(
+            modifiedAt: .distantPast, changeID: value.legacyChangeID
+        )))
+        #expect(!store.mergeLegacyDeletion(for: value.record))
+        #expect(store.noteText(for: artist) == nil)
+        store.setArtistNote(for: artist, note: "Explicit new edit")
+        #expect(store.mergeLegacyDeletion(for: value.record))
+        #expect(store.noteText(for: artist) == "Explicit new edit")
+    }
+
+#if os(iOS)
+    @Test
+    func cloudKitRoundTripsDeletionsAndKeepsUserDatesStableAcrossRetries() throws {
+        let zone = CKRecordZone.ID(zoneName: "TestZone", ownerName: CKCurrentUserDefaultName)
+        let root = CKRecord.ID(recordName: "Root", zoneID: zone)
+        let types = [
+            FestivalProfileStore.Constants.artistNoteRecordType,
+            FestivalProfileStore.Constants.artistPreferenceRecordType,
+            FestivalProfileStore.Constants.savedEventRecordType
+        ]
+        for (value, type) in zip(values(note: "", rating: 0, saved: false), types) {
+            var profile = value.applying(to: TestFixtures.cachedOwnerFestivalProfile())
+            let expected = change(value, seconds: 0, id: "deletion")
+            profile.changeVersions = [value.record.key: expected.version]
+            let record = CKRecord(recordType: type, recordID: FestivalProfileCloudRecordMapper.recordID(
+                for: value.record, profileZoneID: zone, notesZoneID: zone
+            ))
+            for retryTime in [editDate.addingTimeInterval(100), editDate.addingTimeInterval(500)] {
+                _ = try #require(FestivalProfileCloudRecordMapper.populate(
+                    record, for: value.record, from: profile, updatedAt: retryTime, profileRootRecordID: root
+                ))
+                #expect(record["isDeleted"] as? Bool == true)
+                #expect(record["updatedAt"] as? Date == editDate)
+                #expect(FestivalProfileCloudRecordMapper.payload(from: record) == .change(expected))
+            }
+        }
+    }
+
+    @Test
+    func legacyWriterTimestampIsOnlyAHistoricalFallback() throws {
+        let record = CKRecord(recordType: FestivalProfileStore.Constants.artistNoteRecordType)
+        record["artistID"] = artist.id as CKRecordValue
+        record["noteText"] = "Legacy writer" as CKRecordValue
+        record["updatedAt"] = editDate as CKRecordValue
+        guard case .change(let legacy) = FestivalProfileCloudRecordMapper.payload(from: record) else {
+            Issue.record("Expected a legacy note change")
+            return
+        }
+        #expect(legacy.version.modifiedAt == editDate)
+        #expect(legacy.version.isLegacy)
+        // An older client can modify a record that already has the new fields.
+        record["userModifiedAt"] = editDate.addingTimeInterval(-10) as CKRecordValue
+        record["changeID"] = "previous-edit" as CKRecordValue
+        record["isDeleted"] = true as CKRecordValue
+        #expect(FestivalProfileCloudRecordMapper.payload(from: record) == .change(legacy))
+    }
+
+    @Test
+    func subMillisecondTransportRoundingDoesNotLeaveAnUploadPending() async throws {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
+        let store = FestivalProfileStore(
+            userDefaults: defaults, cloudKitEnabled: false,
+            now: { editDate.addingTimeInterval(0.123456) }, waitBeforePersisting: {}
+        )
+        store.setArtistNote(for: artist, note: "Fractional edit time")
+        await store.flushPendingPersistence()
+        let profile = try #require(persistence.loadCache()?.currentProfile)
+        let zone = CKRecordZone.ID(zoneName: "TestZone", ownerName: CKCurrentUserDefaultName)
+        let record = CKRecord(recordType: FestivalProfileStore.Constants.artistNoteRecordType)
+        _ = try #require(FestivalProfileCloudRecordMapper.populate(
+            record, for: .artistNote(artistID: artist.id), from: profile, updatedAt: editDate,
+            profileRootRecordID: CKRecord.ID(recordName: "Root", zoneID: zone)
+        ))
+        let date = try #require(record["userModifiedAt"] as? Date)
+        let transportedDate = Date(timeIntervalSince1970: (date.timeIntervalSince1970 * 1_000).rounded() / 1_000)
+        record["userModifiedAt"] = transportedDate as CKRecordValue
+        record["updatedAt"] = transportedDate as CKRecordValue
+        guard case .change(let echoed) = FestivalProfileCloudRecordMapper.payload(from: record) else {
+            Issue.record("Expected an echoed note")
+            return
+        }
+        store.acknowledgeUploadedChange(echoed)
+        #expect(store.pendingProfileRecords.isEmpty)
+    }
+#endif
+}
+
+@MainActor
+struct ArtistNoteEditingTests {
+    @Test
+    func pristineDraftAdoptsRemoteTextAndUpdatesItsBaseline() {
+        var draft = ArtistNoteDraft(noteText: "Old")
+        draft.receiveSavedNote("New")
+        #expect(draft.text == "New")
+        #expect(!draft.hasChanges)
+        draft.text = "Edited"
+        draft.receiveSavedNote("Another remote edit")
+        #expect(draft.text == "Edited")
+        #expect(draft.hasChanges)
+    }
+
+    @Test
+    func returningToOriginalTextIsUnchangedAndCanAdoptRemoteDeletion() {
+        var draft = ArtistNoteDraft(noteText: "Original")
+        draft.text = "Changed"
+        draft.text = " Original \n"
+        #expect(!draft.hasChanges)
+        draft.receiveSavedNote(nil)
+        #expect(draft.text.isEmpty)
+        #expect(!draft.hasChanges)
+        draft.text = "New draft"
+        #expect(draft.hasChanges)
+    }
+
+    @Test
+    func syncWarningSurvivesPendingWorkAndDisappearsOnlyAfterRecovery() {
+        let sync = FestivalProfileSyncStore()
+        sync.iCloudStatus = .available
+        #expect(!sync.shouldWarnBeforeEditing)
+        sync.recordFailure("Offline")
+        #expect(sync.shouldWarnBeforeEditing)
+        sync.syncState = .syncing
+        #expect(sync.shouldWarnBeforeEditing)
+        sync.syncState = .idle
+        #expect(sync.shouldWarnBeforeEditing)
+        sync.confirmSuccess()
+        #expect(!sync.shouldWarnBeforeEditing)
+        sync.iCloudStatus = .unavailable("Signed out")
+        #expect(sync.shouldWarnBeforeEditing)
+        sync.confirmSuccess()
+        #expect(sync.shouldWarnBeforeEditing)
     }
 }

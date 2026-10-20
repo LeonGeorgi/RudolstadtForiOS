@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title description">
+  <title id="title">Der Musikant — Festivalvogel Variante 1</title>
+  <desc id="description">Ein kompakter cremefarbener Vogel mit schiefer Federkrone und langem kupferorangefarbenem Schnabel spielt ein großes Akkordeon. Breite Formen und wenige Details auf Violett.</desc>
+  <g id="background" fill="#492B55"><path d="M0 0H1024V1024H0Z"/></g>
+  <g id="artwork">
+    <g id="feet" fill="#F5E7CE">
+      <path d="m392 654 61 9-19 99 30 20q23 17 9 33-9 9-25 3l-63-26q-13-7-10-26Z"/>
+      <path d="m552 656 50-8 31 101 56 16q24 7 19 27-4 15-24 14l-82-9q-14-2-19-18Z"/>
+    </g>
+    <g id="body" fill="#F5E7CE">
+      <path d="M348 375Q412 343 492 367 556 386 586 458L629 579Q644 635 600 679 543 729 462 703L372 652 255 677 291 623 229 621 302 552Q286 426 348 375Z"/>
+    </g>
+    <g id="head">
+      <path fill="#F5E7CE" d="M348 404Q302 377 307 320 310 282 341 257L321 206 385 234 423 182 448 241Q510 232 552 278 581 312 565 357 553 402 501 417L463 451Z"/>
+      <path fill="#EAA16A" d="M550 303Q635 282 728 316 771 332 794 357 708 347 650 377L560 363Z"/>
+      <path fill="#492B55" d="M573 340Q664 316 751 341 676 337 635 355L575 359Z"/>
+      <path fill="#492B55" d="M488 282Q503 273 515 286 525 299 513 311 501 321 488 309 479 296 488 282Z"/>
+      <path fill="#492B55" d="M455 345Q474 361 499 354 489 377 467 373 453 367 455 345Z"/>
+    </g>
+    <g id="accordion" transform="rotate(-6 490 567)">
+      <path fill="#F5E7CE" d="m379 466 218 7-3 197-215-10Z"/>
+      <g fill="#492B55">
+        <path d="m408 469 23 1-1 192-23-1Z"/>
+        <path d="m455 471 23 1-1 193-23-1Z"/>
+        <path d="m502 472 23 1-1 194-23-1Z"/>
+        <path d="m549 474 23 1-1 194-23-1Z"/>
+      </g>
+      <path fill="#EAA16A" d="m322 450 68 7-1 215-63-8q-15-3-14-20l-3-176q-1-19 13-18Z"/>
+      <path fill="#EAA16A" d="m584 457 70 7q15 2 14 21l-7 178q-1 18-17 16l-63-8Z"/>
+      <g fill="#492B55">
+        <path d="m334 484 31 2-1 34-31-2Z"/>
+        <path d="m333 541 31 2-1 34-31-2Z"/>
+        <path d="m332 598 31 2-1 34-31-2Z"/>
+        <circle cx="626" cy="512" r="13"/>
+        <circle cx="624" cy="565" r="13"/>
+        <circle cx="622" cy="618" r="13"/>
+      </g>
+    </g>
+    <g id="wings" fill="#F5E7CE">
+      <path d="M330 413Q264 437 266 493 268 526 317 546L347 557 358 522 319 500Q304 491 312 475L354 447Z"/>
+      <path d="M537 415Q596 410 626 459L667 524 634 548 599 500Q580 475 549 475Z"/>
+    </g>
+  </g>
+</svg>

@@ -107,6 +107,7 @@ struct StageMapView: UIViewRepresentable {
     }
 
     static func openInMaps(stage: Stage) {
+        guard stage.hasLocation else { return }
 
         let center = CLLocationCoordinate2D(
             latitude: 50.719877,

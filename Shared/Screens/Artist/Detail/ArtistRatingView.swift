@@ -110,6 +110,7 @@ struct ArtistRatingPopoverButton: View {
         }
         .buttonStyle(.plain)
         .buttonBorderShape(.circle)
+        .disabled(!artist.isMetadataAvailable)
         .accessibilityLabel(Text("artist.rating.menu"))
         .accessibilityValue(Text(triggerAccessibilityValue))
         .overlay(alignment: .topTrailing) {

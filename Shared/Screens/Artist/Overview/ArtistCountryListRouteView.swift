@@ -4,6 +4,7 @@ import SwiftUI
 struct ArtistCountryListRouteView: View {
     let countryCode: String
     let imageTransitionNamespace: Namespace.ID?
+    var showsCountryPreview = true
 
     @Environment(\.festivalData) private var festivalData
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -12,7 +13,7 @@ struct ArtistCountryListRouteView: View {
     @EnvironmentObject private var friends: FriendProfilesStore
     @StateObject private var overlayLoader = GeoJSONCountryOverlayLoader.detailPreviewShared
     @Namespace private var localImageTransitionNamespace
-    @State private var layout: CountryArtistLayout = .grid
+    @State private var layout: ArtistPresentationMode = .grid
 
     private var gridColumns: [GridItem] {
         ArtistGridLayout.columns(
@@ -29,17 +30,6 @@ struct ArtistCountryListRouteView: View {
         localizedCountryName(forRegionCode: countryCode)
     }
 
-    private var flagText: String {
-        emojiFlag(forRegionCode: countryCode) ?? ""
-    }
-
-    private var compactCountText: String {
-        if Locale.current.language.languageCode?.identifier == "de" {
-            return "\(countryArtists.count) Künstler"
-        }
-        return "\(countryArtists.count) artists"
-    }
-
     private var countryArtists: [Artist] {
         festivalData.artists
             .filter { artist in
@@ -47,99 +37,42 @@ struct ArtistCountryListRouteView: View {
                     && artist.countryCodes.contains(countryCode)
             }
             .sorted { first, second in
-                normalizeArtistName(first.name) < normalizeArtistName(second.name)
+                normalizedArtistName(first.name) < normalizedArtistName(second.name)
             }
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 22) {
-                countryHeader
+        let artists = countryArtists
 
-                if countryArtists.isEmpty {
-                    Text("artists.none-found")
+        let countText = String(
+            format: NSLocalizedString(
+                artists.count == 1
+                    ? "artists.map.accessibility.artist_count.one"
+                    : "artists.map.accessibility.artist_count.other",
+                comment: ""
+            ),
+            locale: Locale.current,
+            artists.count
+        )
+
+        Group {
+            if #available(iOS 26.0, macOS 11.0, *) {
+                countryContent(artists)
+                    .navigationSubtitle(countText)
+            } else {
+                VStack(spacing: 0) {
+                    Text(countText)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 32)
-                } else if layout == .grid {
-                    LazyVGrid(
-                        columns: gridColumns,
-                        spacing: ArtistGridLayout.rowSpacing
-                    ) {
-                        ForEach(countryArtists) { artist in
-                            NavigationLink(
-                                value: AppNavigationRoute.artist(
-                                    id: artist.id,
-                                    highlightedEventId: nil,
-                                    transitionSourceID: artist.id
-                                )
-                            ) {
-                                ArtistGridCell(
-                                    artist: artist,
-                                    imageTransitionNamespace: resolvedImageTransitionNamespace,
-                                    artistRating: profile.rating(for: artist.id),
-                                    artistIconName: profile.iconName(forArtistID: artist.id),
-                                    friendRatingSummary: friends.friendArtistRatingSummary(for: artist.id)
-                                )
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                    .padding(.horizontal, ArtistGridLayout.horizontalPadding)
-                    .padding(.bottom, 24)
-                } else {
-                    VStack(alignment: .leading, spacing: 10) {
-                        countrySectionHeader("artists.title")
-
-                        LazyVStack(spacing: 0) {
-                            ForEach(countryArtists) { artist in
-                                NavigationLink(
-                                    value: AppNavigationRoute.artist(
-                                        id: artist.id,
-                                        highlightedEventId: nil,
-                                        transitionSourceID: nil
-                                    )
-                                ) {
-                                    CountryArtistListRow(
-                                        artist: artist,
-                                        artistRating: profile.rating(for: artist.id),
-                                        artistIconName: profile.iconName(forArtistID: artist.id),
-                                        friendRatingSummary: friends.friendArtistRatingSummary(for: artist.id)
-                                    )
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 10)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .contentShape(Rectangle())
-                                }
-                                .buttonStyle(.plain)
-
-                                if artist.id != countryArtists.last?.id {
-                                    Divider()
-                                        .padding(.leading, 96)
-                                }
-                            }
-                        }
-                        .background(
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .fill(.thinMaterial)
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .stroke(Color.primary.opacity(0.08), lineWidth: 0.8)
-                        )
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 24)
+                        .padding(.vertical, 8)
+                    countryContent(artists)
                 }
             }
-            .padding(.top, 16)
         }
-        .background(Color.primary.opacity(0.02))
         .task {
-            overlayLoader.loadIfNeeded()
+            if showsCountryPreview { overlayLoader.loadIfNeeded() }
         }
-        .navigationTitle(navigationTitleText)
+        .navigationTitle("\(emojiFlag(forRegionCode: countryCode) ?? "") \(navigationTitleText)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -148,136 +81,105 @@ struct ArtistCountryListRouteView: View {
         }
     }
 
-    private var countryHeader: some View {
-        VStack(spacing: 16) {
+    private func countryContent(_ artists: [Artist]) -> some View {
+        Group {
+            if artists.isEmpty {
+                Text("artists.none-found")
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if layout == .grid {
+                ScrollView {
+                    VStack(spacing: 16) {
+                        countryPreview
+
+                        LazyVGrid(
+                            columns: gridColumns,
+                            spacing: ArtistGridLayout.rowSpacing
+                        ) {
+                            ForEach(artists) { artist in
+                                NavigationLink(
+                                    value: AppNavigationRoute.artist(
+                                        id: artist.id,
+                                        highlightedEventId: nil,
+                                        transitionSourceID: artist.id
+                                    )
+                                ) {
+                                    ArtistGridCell(
+                                        artist: artist,
+                                        imageTransitionNamespace: resolvedImageTransitionNamespace,
+                                        artistRating: profile.rating(for: artist.id),
+                                        artistIconName: profile.iconName(forArtistID: artist.id),
+                                        friendRatingSummary: friends.friendArtistRatingSummary(for: artist.id)
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityIdentifier("country-artist-\(artist.id)")
+                            }
+                        }
+                    }
+                    .padding(.horizontal, ArtistGridLayout.horizontalPadding)
+                    .padding(.top, 12)
+                    .padding(.bottom, 24)
+                }
+            } else {
+                List {
+                    if showsCountryPreview {
+                        countryPreview
+                            .listRowSeparator(.hidden)
+                    }
+
+                    ForEach(artists) { artist in
+                        NavigationLink(
+                            value: AppNavigationRoute.artist(
+                                id: artist.id,
+                                highlightedEventId: nil,
+                                transitionSourceID: nil
+                            )
+                        ) {
+                            ArtistCell(
+                                artist: artist,
+                                artistRating: profile.rating(for: artist.id),
+                                artistIconName: profile.iconName(forArtistID: artist.id),
+                                friendRatingSummary: friends.friendArtistRatingSummary(for: artist.id)
+                            )
+                        }
+                        .accessibilityIdentifier("country-artist-\(artist.id)")
+                    }
+                }
+                .listStyle(.plain)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var countryPreview: some View {
+        if showsCountryPreview {
             CountryBorderPreview(
                 countryCode: countryCode,
                 loadedMap: overlayLoader.loadedMap
             )
             .frame(width: 240, height: 180)
             .frame(maxWidth: .infinity)
-
-            VStack(spacing: 10) {
-                if !flagText.isEmpty {
-                    HStack(spacing: 10) {
-                        Text(flagText)
-                            .font(.system(size: 34))
-
-                        Text(navigationTitleText)
-                            .font(.title3.weight(.bold))
-                            .foregroundStyle(.primary)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                    }
-                }
-
-                countryMetaChip(text: compactCountText, systemImage: "person.2.fill")
-            }
-            .frame(maxWidth: .infinity, alignment: .center)
-        }
-        .padding(.vertical, 12)
-        .padding(.horizontal, 16)
-    }
-
-    private func countryMetaChip(text: String, systemImage: String) -> some View {
-        Label(text, systemImage: systemImage)
-            .font(.caption.weight(.semibold))
-            .foregroundStyle(.primary)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 8)
-            .background(.regularMaterial, in: Capsule())
-            .overlay(
-                Capsule()
-                    .strokeBorder(Color.white.opacity(0.35), lineWidth: 0.8)
-            )
-    }
-
-    private func countrySectionHeader(_ titleKey: LocalizedStringKey) -> some View {
-        Text(titleKey)
-            .font(.subheadline.weight(.semibold))
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, 2)
-    }
-}
-
-private enum CountryArtistLayout: Int, CaseIterable, Identifiable {
-    case grid
-    case list
-
-    var id: Int { rawValue }
-
-    var title: String {
-        switch self {
-        case .grid:
-            return "Grid"
-        case .list:
-            return "List"
-        }
-    }
-
-    var systemImage: String {
-        switch self {
-        case .grid:
-            return "square.grid.2x2"
-        case .list:
-            return "list.bullet"
         }
     }
 }
 
 private struct CountryArtistLayoutPicker: View {
-    @Binding var layout: CountryArtistLayout
+    @Binding var layout: ArtistPresentationMode
 
     var body: some View {
         Menu {
             Picker("artists.view.layout", selection: $layout) {
-                ForEach(CountryArtistLayout.allCases) { option in
-                    Label(option.title, systemImage: option.systemImage)
+                ForEach([ArtistPresentationMode.grid, .list], id: \.self) { option in
+                    Label(option.localizedTitle, systemImage: option.systemImageName)
                         .tag(option)
                 }
             }
             .pickerStyle(.inline)
         } label: {
-            Label(layout.title, systemImage: layout.systemImage)
+            Label(layout.localizedTitle, systemImage: layout.systemImageName)
         }
         .labelStyle(.iconOnly)
-    }
-}
-
-private struct CountryArtistListRow: View {
-    let artist: Artist
-    let artistRating: Int
-    let artistIconName: String?
-    let friendRatingSummary: FriendArtistRatingSummary?
-
-    var body: some View {
-        HStack(spacing: 12) {
-            ArtistImageView(artist: artist, fullImage: false)
-                .frame(width: 64, height: 56)
-                .clipShape(
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                )
-
-            Text(artist.formattedName)
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.primary)
-                .lineLimit(2)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            if let friendRatingSummary {
-                FriendArtistRatingsBubble(
-                    summary: friendRatingSummary,
-                    style: .plainInline
-                )
-                .frame(minHeight: 24, alignment: .center)
-            }
-
-            ArtistRatingListSlot(
-                rating: artistRating,
-                iconName: artistIconName,
-                reservesSpace: friendRatingSummary != nil
-            )
-        }
     }
 }
 
@@ -308,15 +210,6 @@ private struct CountryBorderPreview: View {
             }
         }
     }
-}
-
-private func normalizeArtistName(_ name: String) -> String {
-    name.folding(
-        options: [
-            .diacriticInsensitive, .caseInsensitive, .widthInsensitive,
-        ],
-        locale: Locale.current
-    )
 }
 
 private func countryPreviewPath(

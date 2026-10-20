@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title description">
+  <title id="title">Festivalvogel — Rudolstadt Icon-Entwurf</title>
+  <desc id="description">Ein eigenwilliger cremefarbener Vogel mit langem orangefarbenem Schnabel spielt Akkordeon. Tanzende Beine und eine unregelmäßige Federkrone auf tiefviolettem Grund.</desc>
+  <g id="background">
+    <path fill="#492B55" d="M0 0H1024V1024H0Z"/>
+  </g>
+  <g id="artwork">
+    <g id="dancing-legs" fill="#F5E7CE">
+      <path d="M421 637 469 656 428 738 385 807 319 817Q294 819 293 801 291 788 310 780L351 761 382 704Z"/>
+      <path d="M551 645 588 635 633 725 695 749Q718 761 709 779 702 791 683 786L603 767Q591 764 585 751Z"/>
+    </g>
+    <g id="body" fill="#F5E7CE">
+      <path d="M366 362Q441 340 509 367 549 386 563 451L594 565Q611 628 563 670 516 706 453 680L374 634 282 661 309 592 255 596 320 533Q321 419 366 362Z"/>
+    </g>
+    <g id="head">
+      <path fill="#F5E7CE" d="M349 391Q303 361 311 309 312 277 339 252L316 207 379 229 410 184 443 239Q505 230 540 268 570 299 553 344 540 382 493 397L456 432Z"/>
+      <path fill="#EAA16A" d="M538 291Q623 283 721 329 746 341 756 359 668 352 621 372L548 350Z"/>
+      <path fill="#492B55" d="M558 335Q643 320 722 340 649 336 605 351L559 353Z"/>
+      <path fill="#492B55" d="M476 279Q490 270 502 281 512 293 501 305 490 314 478 305 468 295 476 279Z"/>
+      <path fill="#492B55" d="M437 333Q455 350 480 347 469 365 449 361 433 357 437 333Z"/>
+    </g>
+    <g id="accordion" transform="rotate(-9 507 550)">
+      <path fill="#F5E7CE" d="M405 466 593 470 593 650 405 642Z"/>
+      <g fill="#492B55">
+        <path d="m432 469 16 1-3 175-17-1Z"/>
+        <path d="m471 470 16 1-2 177-17-1Z"/>
+        <path d="m511 471 16 1-1 178-17-1Z"/>
+        <path d="m551 472 16 1 1 179-17-1Z"/>
+      </g>
+      <path fill="#EAA16A" d="M354 455Q354 442 369 442L419 449 418 655 368 648Q353 646 354 630Z"/>
+      <path fill="#EAA16A" d="M581 457 643 464Q655 466 655 481L648 654Q647 666 634 664L583 657Z"/>
+      <g fill="#492B55">
+        <path d="M375 482h24v30h-24Z"/>
+        <path d="M375 535h24v30h-24Z"/>
+        <path d="M375 588h24v30h-24Z"/>
+        <path d="M611 496q10-5 15 5 4 10-6 14-10 2-12-8-1-7 3-11Z"/>
+        <path d="M609 541q10-5 15 5 4 10-6 14-10 2-12-8-1-7 3-11Z"/>
+        <path d="M607 586q10-5 15 5 4 10-6 14-10 2-12-8-1-7 3-11Z"/>
+      </g>
+    </g>
+    <g id="wings">
+      <path fill="#F5E7CE" d="M346 408Q284 435 288 491 291 518 331 538L378 561 392 530 351 504Q330 488 344 466L374 442Z"/>
+      <path fill="#F5E7CE" d="M529 407Q588 408 618 446L657 505 628 529 590 485Q572 466 550 465Z"/>
+      <path fill="#492B55" d="m329 482 34 22-9 15-32-22Z"/>
+    </g>
+  </g>
+</svg>

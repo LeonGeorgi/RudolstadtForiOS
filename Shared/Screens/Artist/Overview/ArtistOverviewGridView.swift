@@ -47,6 +47,13 @@ struct ArtistOverviewGridView: View {
         ScrollView {
             VStack(spacing: 0) {
                 if showsWorldMapCallout {
+                    NavigationLink(value: AppNavigationRoute.programDiscovery(tagID: nil)) {
+                        Label("program.discovery.title", systemImage: "compass")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+
                     ArtistWorldMapCalloutCard(action: showWorldMap)
                         .padding(.horizontal, 16)
                         .padding(.bottom, 6)

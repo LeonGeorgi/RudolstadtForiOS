@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="870" viewBox="0 0 1200 870" role="img" aria-labelledby="title"><title id="title">Festivalvogel: fließende Konturen und reduzierte Form</title><defs><clipPath id="mask"><rect width="1024" height="1024" rx="230" /></clipPath><g id="bird0"><g id="v0-background" fill="#492B55"><path d="M0 0H1024V1024H0Z" /></g>
+  <g id="v0-artwork">
+    <g id="v0-feet" fill="none" stroke="#EAA16A" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m424 693-18 67 23 37-49 13m49-13 27 22m-27-22-3 27" />
+      <path d="m568 683 28 57 48-19 25-35m-25 35 38-2m-38 2 24 22" />
+    </g>
+    <g id="v0-body" fill="#F5E7CE">
+      <path d="M326 463C318 421 332 385 356 359 326 331 324 296 342 265 355 242 377 224 406 220 374 210 350 196 338 175 370 173 396 183 420 200 407 179 401 161 403 143 430 152 448 171 460 195 460 177 465 163 476 151 489 174 489 198 482 218 523 224 552 250 553 286 553 322 533 346 507 363 488 376 486 397 501 413 537 420 574 440 599 476 628 521 635 587 616 644 598 702 552 737 490 741 428 744 374 715 348 667 318 683 280 687 246 678 269 666 286 650 297 631 256 633 214 620 187 597 240 599 281 581 306 551 299 521 306 484 326 463Z" />
+    </g>
+    <g id="v0-beak" fill="#EAA16A">
+      <path d="M541 270C584 249 637 250 687 275 646 278 613 291 588 307L546 303Z" />
+      <path d="m546 319 43 1 52-21C619 332 590 345 550 337Z" />
+    </g>
+    <g id="v0-eye" fill="none" stroke="#492B55" stroke-width="17" stroke-linecap="round">
+      <path d="M477 277q15-19 30-4" />
+    </g>
+    <g id="v0-far-wing" fill="#F5E7CE">
+      <path d="M488 420C553 375 645 390 697 441L705 475 670 505 645 478C603 448 559 455 529 474Z" />
+    </g>
+    <g id="v0-instrument-and-wings" transform="rotate(-12 529 570)">
+      <g id="v0-accordion">
+        <g id="v0-bellows">
+          <path fill="#492B55" d="M391 457 425 439 459 457 493 439 527 457 561 439 595 457 629 439 663 457V675L629 693 595 675 561 693 527 675 493 693 459 675 425 693 391 675Z" />
+          <g fill="#F5E7CE">
+            <path d="m405 466 20-11 17 9v212l-17 1-20-10Z" />
+            <path d="m473 466 20-11 17 9v212l-17 1-20-10Z" />
+            <path d="m541 466 20-11 17 9v212l-17 1-20-10Z" />
+            <path d="m609 466 20-11 17 9v212l-17 1-20-10Z" />
+          </g>
+          <g fill="#EAA16A">
+            <path d="m448 470 11 6v184l-11 7Z" />
+            <path d="m516 470 11 6v184l-11 7Z" />
+            <path d="m584 470 11 6v184l-11 7Z" />
+            <path d="m652 470 11 6v184l-11 7Z" />
+          </g>
+        </g>
+        <g id="v0-end-boards" fill="#EAA16A" stroke="#492B55" stroke-width="12" stroke-linejoin="round">
+          <path d="M334 444h60v244h-60q-16 0-16-16V460q0-16 16-16Z" />
+          <path d="M662 444h59q16 0 16 16v212q0 16-16 16h-59Z" />
+        </g>
+        <g id="v0-keys" fill="#F5E7CE">
+          <path d="M339 547h33v30h-33Z" />
+          <path d="M339 588h33v30h-33Z" />
+          <path d="M339 629h33v30h-33Z" />
+        </g>
+        <g id="v0-buttons" fill="#492B55">
+          <circle cx="700" cy="563" r="10" />
+          <circle cx="700" cy="606" r="10" />
+          <circle cx="700" cy="649" r="10" />
+        </g>
+      </g>
+      <g id="v0-wings" fill="#F5E7CE" stroke="#492B55" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M354 411C310 418 289 454 304 491 317 521 345 539 380 544L371 525 392 527 380 506 401 507C385 489 368 476 347 469" />
+        <path d="M677 431C709 439 726 465 723 494L708 485 710 508 692 495 689 516C669 499 661 476 663 453" />
+      </g>
+    </g>
+  </g>
+</g><g id="bird1"><g id="v1-background" fill="#492B55"><path d="M0 0H1024V1024H0Z" /></g>
+  <g id="v1-artwork" transform="translate(-18 -18) scale(1.1)">
+    <g id="v1-body" fill="#F5E7CE">
+      <path d="M450 215C540 185 610 235 610 320C610 380 570 426 570 466C570 506 617 532 641 575C660 612 642 655 612 679C575 704 540 718 500 714C410 706 261 708 185 650C250 631 285 582 300 522C315 462 292 419 316 356C340 293 377 240 450 215Z" />
+    </g>
+    <g id="v1-beak" fill="#EAA16A">
+      <path d="M600 300C648 284 709 298 755 340C693 340 647 358 602 374C610 349 610 324 600 300Z" />
+    </g>
+    <g id="v1-eye" fill="#492B55"><circle cx="544" cy="304" r="19" /></g>
+    <g id="v1-accordion" transform="rotate(-12 570 593)">
+      <path id="v1-instrument-silhouette" fill="#492B55" d="M365 464H439L472 445 511 464 550 445 589 464 628 445 667 464H757Q779 464 779 486V699Q779 721 757 721H667L628 740 589 721 550 740 511 721 472 740 439 721H365Q343 721 343 699V486Q343 464 365 464Z" />
+      <g id="v1-ends" fill="#EAA16A">
+        <path d="M369 480H423V705H369Q359 705 359 695V490Q359 480 369 480Z" />
+        <path d="M684 480H753Q763 480 763 490V695Q763 705 753 705H684Z" />
+      </g>
+      <g id="v1-bellows" fill="#F5E7CE">
+        <path d="m450 483 22-12 20 10v222l-20 11-22-12Z" />
+        <path d="m528 483 22-12 20 10v222l-20 11-22-12Z" />
+        <path d="m606 483 22-12 20 10v222l-20 11-22-12Z" />
+      </g>
+      <g id="v1-buttons" fill="#492B55"><circle cx="724" cy="553" r="13" /><circle cx="724" cy="633" r="13" /></g>
+    </g>
+    <g id="v1-wing" fill="#F5E7CE">
+      <path stroke="#492B55" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" d="M390 441C344 449 319 478 322 514C326 558 365 586 431 588C402 564 389 545 388 524" />
+    </g>
+  </g>
+</g></defs><rect width="1200" height="870" fill="#F1EEE7" /><text x="64" y="56" fill="#492B55" font-family="Helvetica, Arial, sans-serif" font-size="20">FESTIVALVOGEL / VON DER FIGUR ZUM ZEICHEN</text><text x="64" y="111" fill="#492B55" font-family="Helvetica, Arial, sans-serif" font-size="26">Bisher</text><g transform="translate(64 140) scale(0.484375)"><g clip-path="url(#mask)"><use href="#bird0" /></g></g><g transform="translate(64 685) scale(0.09375)"><g clip-path="url(#mask)"><use href="#bird0" /></g></g><text x="64" y="815" fill="#492B55" font-family="Helvetica, Arial, sans-serif" font-size="16">96 px</text><g transform="translate(224 717) scale(0.0625)"><g clip-path="url(#mask)"><use href="#bird0" /></g></g><text x="224" y="815" fill="#492B55" font-family="Helvetica, Arial, sans-serif" font-size="16">64 px</text><g transform="translate(352 741) scale(0.0390625)"><g clip-path="url(#mask)"><use href="#bird0" /></g></g><text x="352" y="815" fill="#492B55" font-family="Helvetica, Arial, sans-serif" font-size="16">40 px</text><text x="640" y="111" fill="#492B55" font-family="Helvetica, Arial, sans-serif" font-size="26">Reduziert &amp; fließender</text><g transform="translate(640 140) scale(0.484375)"><g clip-path="url(#mask)"><use href="#bird1" /></g></g><g transform="translate(640 685) scale(0.09375)"><g clip-path="url(#mask)"><use href="#bird1" /></g></g><text x="640" y="815" fill="#492B55" font-family="Helvetica, Arial, sans-serif" font-size="16">96 px</text><g transform="translate(800 717) scale(0.0625)"><g clip-path="url(#mask)"><use href="#bird1" /></g></g><text x="800" y="815" fill="#492B55" font-family="Helvetica, Arial, sans-serif" font-size="16">64 px</text><g transform="translate(928 741) scale(0.0390625)"><g clip-path="url(#mask)"><use href="#bird1" /></g></g><text x="928" y="815" fill="#492B55" font-family="Helvetica, Arial, sans-serif" font-size="16">40 px</text></svg>

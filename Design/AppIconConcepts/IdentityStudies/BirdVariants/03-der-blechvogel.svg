@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title description">
+  <title id="title">Der Blechvogel — Festivalvogel Variante 3</title>
+  <desc id="description">Ein cremefarbener Vogel mit geschlossenen Augen spielt ein übergroßes kupferorangefarbenes Blasinstrument. Eine breite Schallöffnung, geschwungene Rohrschleife und angehobener Fuß bilden die Silhouette auf Violett.</desc>
+  <g id="background" fill="#492B55"><path d="M0 0H1024V1024H0Z"/></g>
+  <g id="artwork">
+    <g id="legs" fill="#F5E7CE">
+      <path d="m371 641 47 14-19 124 47 17q23 10 16 28-4 13-24 11l-77-12q-15-2-13-22Z"/>
+      <path d="m481 642 40-13 63 102 53-27 37 22-88 51q-18 10-28-7Z"/>
+      <path d="m626 713 30-29q13-13 27-2l39 29q18 15 7 30-9 12-27 3l-40-20-19 12Z"/>
+    </g>
+    <g id="body" fill="#F5E7CE">
+      <path d="M338 378Q394 349 450 382 480 402 491 451L533 567Q557 624 516 665 472 706 408 680L329 638 220 665 254 613 200 610 284 549Q277 429 338 378Z"/>
+    </g>
+    <g id="head">
+      <path fill="#F5E7CE" d="M332 398Q288 371 297 316 304 280 333 256L311 205 374 229 411 181 438 241Q488 232 527 268 560 300 545 342 533 382 487 402L442 440Z"/>
+      <path fill="#EAA16A" d="M531 300Q583 296 636 330L603 356 541 350Z"/>
+      <path fill="none" stroke="#492B55" stroke-width="19" stroke-linecap="round" d="M466 292q18-21 39-1"/>
+      <path fill="#492B55" d="M441 341Q462 351 481 343 469 361 451 358Z"/>
+    </g>
+    <g id="horn">
+      <path fill="none" stroke="#EAA16A" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" d="M697 391 699 495Q701 555 638 558L577 559Q531 559 531 515L532 453Q532 418 568 418L627 418"/>
+      <path fill="#EAA16A" d="m600 326 53 1q42 1 74-20l82-56 16 220-91-51q-32-20-74-22l-58-1Z"/>
+      <path fill="#492B55" d="M799 285Q811 359 806 431 774 401 769 359 765 315 799 285Z"/>
+      <path fill="#492B55" d="m597 318 17 2 3 86-17-1Z"/>
+      <g fill="#EAA16A">
+        <path d="m631 388 25 1-1 67-25-1Z"/>
+        <path d="m676 390 25 2-1 61-25-2Z"/>
+      </g>
+    </g>
+    <g id="wings" fill="#F5E7CE">
+      <path d="M327 416Q290 443 309 478 326 509 373 497L472 464 462 432 365 454Q346 454 354 434Z"/>
+      <path d="M449 408Q496 407 530 436L579 473 555 503 505 476Q480 463 456 468Z"/>
+    </g>
+  </g>
+</svg>

@@ -1,4 +1,83 @@
 import Foundation
+import CryptoKit
+
+struct FestivalProfileChangeVersion: Codable, Equatable, Comparable, Sendable {
+    let modifiedAt: Date
+    let changeID: String
+
+    init(modifiedAt: Date, changeID: String) {
+        // Use a transport-stable precision for persisted and CloudKit dates.
+        self.modifiedAt = Date(timeIntervalSince1970:
+            (modifiedAt.timeIntervalSince1970 * 1_000).rounded() / 1_000
+        )
+        self.changeID = changeID
+    }
+
+    var isLegacy: Bool { changeID.hasPrefix("legacy:") }
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        if lhs.modifiedAt != rhs.modifiedAt {
+            return lhs.modifiedAt < rhs.modifiedAt
+        }
+        return lhs.changeID < rhs.changeID
+    }
+}
+
+enum FestivalProfileRecordValue: Equatable, Sendable {
+    case savedEvent(eventID: Int, isSaved: Bool)
+    case artistPreference(FestivalArtistPreference)
+    case artistNote(FestivalArtistNote)
+
+    var record: FestivalProfileSyncRecord {
+        switch self {
+        case .savedEvent(let id, _): return .savedEvent(eventID: id)
+        case .artistPreference(let preference): return .artistPreference(artistID: preference.artistID)
+        case .artistNote(let note): return .artistNote(artistID: note.artistID)
+        }
+    }
+
+    var isDeleted: Bool {
+        switch self {
+        case .savedEvent(_, let isSaved): return !isSaved
+        case .artistPreference(let preference): return preference.rating == 0
+        case .artistNote(let note): return note.noteText.isEmpty
+        }
+    }
+
+    // Stable ordering for old values with equal or missing historical dates.
+    var legacyChangeID: String {
+        let content: String
+        switch self {
+        case .savedEvent(_, let isSaved): content = "event:\(isSaved)"
+        case .artistPreference(let preference):
+            content = "rating:\(preference.rating):\(preference.iconName ?? "")"
+        case .artistNote(let note): content = "note:\(note.noteText)"
+        }
+        return "legacy:" + SHA256.hash(data: Data(content.utf8))
+            .map { String(format: "%02x", $0) }.joined()
+    }
+
+    func applying(to profile: CachedOwnerFestivalProfile) -> CachedOwnerFestivalProfile {
+        var profile = profile
+        switch self {
+        case .savedEvent(let eventID, let isSaved):
+            profile.savedEventIDs.removeAll { $0 == eventID }
+            if isSaved { profile.savedEventIDs.append(eventID) }
+        case .artistPreference(let preference):
+            profile.artistPreferences.removeAll { $0.artistID == preference.artistID }
+            if !isDeleted { profile.artistPreferences.append(preference) }
+        case .artistNote(let note):
+            profile.artistNotes.removeAll { $0.artistID == note.artistID }
+            if !isDeleted { profile.artistNotes.append(note) }
+        }
+        return FestivalProfileReducer.normalized(profile)
+    }
+}
+
+struct FestivalProfileChange: Equatable, Sendable {
+    let value: FestivalProfileRecordValue
+    let version: FestivalProfileChangeVersion
+}
 
 enum FestivalProfileMutation: Equatable, Sendable {
     case toggleSavedEvent(eventID: Int)
@@ -6,6 +85,16 @@ enum FestivalProfileMutation: Equatable, Sendable {
     case setArtistRating(artistID: Int, rating: Int)
     case setArtistIcon(artistID: Int, iconName: String)
     case setArtistNote(artistID: Int, noteText: String)
+
+    var record: FestivalProfileSyncRecord {
+        switch self {
+        case .toggleSavedEvent(let id): return .savedEvent(eventID: id)
+        case .updateBadge: return .profile
+        case .setArtistRating(let id, _), .setArtistIcon(let id, _):
+            return .artistPreference(artistID: id)
+        case .setArtistNote(let id, _): return .artistNote(artistID: id)
+        }
+    }
 }
 
 enum FestivalProfileReducer {
@@ -117,14 +206,68 @@ enum FestivalProfileReducer {
     }
 }
 
-enum FestivalProfileSyncRecord: Equatable, Hashable, Sendable {
+enum FestivalProfileSyncRecord: Codable, Equatable, Hashable, Sendable {
     case profile
     case savedEvent(eventID: Int)
     case artistPreference(artistID: Int)
     case artistNote(artistID: Int)
+
+    var key: String {
+        switch self {
+        case .profile: return "profile"
+        case .savedEvent(let id): return "event:\(id)"
+        case .artistPreference(let id): return "rating:\(id)"
+        case .artistNote(let id): return "note:\(id)"
+        }
+    }
+
+    init?(key: String) {
+        let parts = key.split(separator: ":")
+        guard parts.count == 2, let id = Int(parts[1]) else { return nil }
+        switch parts[0] {
+        case "event": self = .savedEvent(eventID: id)
+        case "rating": self = .artistPreference(artistID: id)
+        case "note": self = .artistNote(artistID: id)
+        default: return nil
+        }
+    }
+
+    func value(in profile: CachedOwnerFestivalProfile) -> FestivalProfileRecordValue? {
+        switch self {
+        case .profile: return nil
+        case .savedEvent(let id):
+            return .savedEvent(eventID: id, isSaved: profile.savedEventIDs.contains(id))
+        case .artistPreference(let id):
+            return .artistPreference(profile.artistPreferences.first { $0.artistID == id }
+                ?? FestivalArtistPreference(artistID: id, rating: 0, iconName: nil))
+        case .artistNote(let id):
+            return .artistNote(profile.artistNotes.first { $0.artistID == id }
+                ?? FestivalArtistNote(artistID: id, noteText: ""))
+        }
+    }
 }
 
-enum FestivalProfileSyncChange: Equatable, Sendable {
+extension CachedOwnerFestivalProfile {
+    var syncRecords: Set<FestivalProfileSyncRecord> {
+        Set(savedEventIDs.map { .savedEvent(eventID: $0) }
+            + artistPreferences.map { .artistPreference(artistID: $0.artistID) }
+            + artistNotes.map { .artistNote(artistID: $0.artistID) }
+            + (changeVersions ?? [:]).keys.compactMap(FestivalProfileSyncRecord.init(key:)))
+    }
+
+    func change(for record: FestivalProfileSyncRecord) -> FestivalProfileChange? {
+        guard let value = record.value(in: self),
+              !value.isDeleted || changeVersions?[record.key] != nil else { return nil }
+        return FestivalProfileChange(
+            value: value,
+            version: changeVersions?[record.key] ?? FestivalProfileChangeVersion(
+                modifiedAt: .distantPast, changeID: value.legacyChangeID
+            )
+        )
+    }
+}
+
+enum FestivalProfileSyncChange: Equatable, Hashable, Sendable {
     case save(FestivalProfileSyncRecord)
     case delete(FestivalProfileSyncRecord)
 }
@@ -135,60 +278,16 @@ enum FestivalProfileSyncPlanner {
         to newProfile: CachedOwnerFestivalProfile
     ) -> [FestivalProfileSyncChange] {
         var changes: [FestivalProfileSyncChange] = [.save(.profile)]
-
-        let oldSavedEventIDs = Set(oldProfile.savedEventIDs)
-        let newSavedEventIDs = Set(newProfile.savedEventIDs)
-        changes += newSavedEventIDs.subtracting(oldSavedEventIDs)
-            .sorted()
-            .map { .save(.savedEvent(eventID: $0)) }
-        changes += oldSavedEventIDs.subtracting(newSavedEventIDs)
-            .sorted()
-            .map { .delete(.savedEvent(eventID: $0)) }
-
-        let oldPreferences = Dictionary(
-            uniqueKeysWithValues: oldProfile.artistPreferences.map { ($0.artistID, $0) }
-        )
-        let newPreferences = Dictionary(
-            uniqueKeysWithValues: newProfile.artistPreferences.map { ($0.artistID, $0) }
-        )
-        changes += newPreferences
-            .filter { oldPreferences[$0.key] != $0.value }
-            .keys
-            .sorted()
-            .map { .save(.artistPreference(artistID: $0)) }
-        changes += Set(oldPreferences.keys).subtracting(newPreferences.keys)
-            .sorted()
-            .map { .delete(.artistPreference(artistID: $0)) }
-
-        let oldNotes = Dictionary(
-            uniqueKeysWithValues: oldProfile.artistNotes.map { ($0.artistID, $0) }
-        )
-        let newNotes = Dictionary(
-            uniqueKeysWithValues: newProfile.artistNotes.map { ($0.artistID, $0) }
-        )
-        changes += newNotes
-            .filter { oldNotes[$0.key] != $0.value }
-            .keys
-            .sorted()
-            .map { .save(.artistNote(artistID: $0)) }
-        changes += Set(oldNotes.keys).subtracting(newNotes.keys)
-            .sorted()
-            .map { .delete(.artistNote(artistID: $0)) }
-
+        for record in oldProfile.syncRecords.union(newProfile.syncRecords).sorted(by: { $0.key < $1.key }) {
+            guard oldProfile.change(for: record) != newProfile.change(for: record) else { continue }
+            changes.append(newProfile.change(for: record) == nil ? .delete(record) : .save(record))
+        }
         return changes
     }
 
     static func fullUpload(
         for profile: CachedOwnerFestivalProfile
     ) -> [FestivalProfileSyncChange] {
-        var changes: [FestivalProfileSyncChange] = [.save(.profile)]
-        changes += profile.savedEventIDs.sorted().map { .save(.savedEvent(eventID: $0)) }
-        changes += profile.artistPreferences
-            .sorted { $0.artistID < $1.artistID }
-            .map { .save(.artistPreference(artistID: $0.artistID)) }
-        changes += profile.artistNotes
-            .sorted { $0.artistID < $1.artistID }
-            .map { .save(.artistNote(artistID: $0.artistID)) }
-        return changes
+        [.save(.profile)] + profile.syncRecords.sorted { $0.key < $1.key }.map { .save($0) }
     }
 }

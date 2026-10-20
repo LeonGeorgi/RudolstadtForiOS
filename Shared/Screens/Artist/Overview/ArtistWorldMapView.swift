@@ -33,31 +33,15 @@ enum ArtistPresentationMode: Int, CaseIterable {
     }
 }
 
-struct ArtistCountryGroup: Identifiable {
-    let code: String
-    let artists: [Artist]
-
-    var id: String {
-        code
-    }
-
-    var localizedName: String {
-        localizedCountryName(forRegionCode: code)
-    }
-
-    var englishName: String {
-        englishCountryName(forRegionCode: code)
-    }
-
-    var count: Int {
-        artists.count
-    }
-}
-
 struct ArtistWorldMapView: View {
-    let groups: [ArtistCountryGroup]
-    @Binding var selectedCountryCode: String?
-    let navigate: (AppNavigationRoute) -> Void
+    let artistCountsByCountryCode: [String: Int]
+
+    private struct SelectedCountry: Identifiable {
+        let id: String
+    }
+
+    @State private var selectedCountry: SelectedCountry?
+    @State private var sheetDetent: PresentationDetent = .medium
     @StateObject private var overlayLoader = GeoJSONCountryOverlayLoader.worldMapShared
 
     static func preloadResources() {
@@ -67,7 +51,7 @@ struct ArtistWorldMapView: View {
 
     var body: some View {
         Group {
-            if groups.isEmpty {
+            if artistCountsByCountryCode.isEmpty {
                 VStack {
                     Spacer()
                     Text("artists.map.empty")
@@ -79,11 +63,12 @@ struct ArtistWorldMapView: View {
             } else {
                 ZStack {
                     ArtistWorldMapSwiftUIMap(
-                        groups: groups,
+                        artistCountsByCountryCode: artistCountsByCountryCode,
                         loadedMap: overlayLoader.loadedMap,
-                        selectedCountryCode: selectedCountryCode
+                        selectedCountryCode: selectedCountry?.id
                     ) { countryCode in
-                        navigate(.artistCountry(code: countryCode))
+                        if selectedCountry == nil { sheetDetent = .medium }
+                        selectedCountry = SelectedCountry(id: countryCode)
                     }
                     .ignoresSafeArea()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -99,6 +84,18 @@ struct ArtistWorldMapView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .accessibilityIdentifier("artist-world-map")
+        .sheet(item: $selectedCountry) { country in
+            ArtistMapCountrySheet(countryCode: country.id)
+                .id(country.id)
+                .presentationDetents([.medium, .large], selection: $sheetDetent)
+                .presentationDragIndicator(.visible)
+                .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+        }
+        .onChange(of: artistCountsByCountryCode) { _, counts in
+            if let selectedCountry, counts[selectedCountry.id] == nil {
+                self.selectedCountry = nil
+            }
+        }
         .task {
             overlayLoader.loadIfNeeded()
         }
@@ -134,8 +131,38 @@ struct ArtistWorldMapView: View {
     }
 }
 
+private struct ArtistMapCountrySheet: View {
+    let countryCode: String
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var path = NavigationPath()
+    @Namespace private var imageTransitionNamespace
+
+    var body: some View {
+        NavigationStack(path: $path) {
+            ArtistCountryListRouteView(
+                countryCode: countryCode,
+                imageTransitionNamespace: imageTransitionNamespace,
+                showsCountryPreview: false
+            )
+            .navigationDestination(for: AppNavigationRoute.self) { route in
+                AppNavigationDestination(
+                    route: route,
+                    navigate: { path.append($0) },
+                    imageTransitionNamespace: imageTransitionNamespace
+                )
+            }
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("common.done") { dismiss() }
+                }
+            }
+        }
+    }
+}
+
 private struct ArtistWorldMapSwiftUIMap: View {
-    let groups: [ArtistCountryGroup]
+    let artistCountsByCountryCode: [String: Int]
     let loadedMap: LoadedWorldCountryMap?
     let selectedCountryCode: String?
     let onCountrySelected: (String) -> Void
@@ -154,18 +181,6 @@ private struct ArtistWorldMapSwiftUIMap: View {
         )
     )
 
-    private var groupsByCountryCode: [String: ArtistCountryGroup] {
-        Dictionary(uniqueKeysWithValues: groups.map { ($0.code, $0) })
-    }
-
-    private var style: ArtistWorldMapStyle {
-        ArtistWorldMapStyle(
-            colorScheme: colorScheme,
-            maximumArtistCount: max(1, groups.map(\.count).max() ?? 1),
-            selectedCountryCode: selectedCountryCode
-        )
-    }
-
     private var cameraBounds: MapCameraBounds {
         MapCameraBounds(
             minimumDistance: worldMapMinimumZoomDistance,
@@ -173,87 +188,93 @@ private struct ArtistWorldMapSwiftUIMap: View {
         )
     }
 
-    private var accessibilityGroups: [ArtistCountryGroup] {
-        groups.sorted {
-            $0.localizedName.localizedCaseInsensitiveCompare(
-                $1.localizedName
+    private var accessibilityCountryCodes: [String] {
+        artistCountsByCountryCode.keys.sorted {
+            localizedCountryName(forRegionCode: $0).localizedCaseInsensitiveCompare(
+                localizedCountryName(forRegionCode: $1)
             ) == .orderedAscending
         }
     }
 
     var body: some View {
-        MapReader { proxy in
-            Map(
-                position: $cameraPosition,
-                bounds: cameraBounds,
-                interactionModes: [.pan, .zoom, .pitch],
-                scope: mapScope
-            ) {
-                if let loadedMap {
-                    ForEach(loadedMap.overlays, id: \.self) { overlay in
-                        let appearance = appearance(for: overlay)
-                        MapPolygon(overlay)
-                            .foregroundStyle(appearance.fillColor)
-                            .stroke(appearance.strokeColor, lineWidth: appearance.lineWidth)
+        let style = ArtistWorldMapStyle(
+            colorScheme: colorScheme,
+            maximumArtistCount: artistCountsByCountryCode.values.max() ?? 1
+        )
+
+        GeometryReader { geometry in
+            MapReader { proxy in
+                Map(
+                    position: $cameraPosition,
+                    bounds: cameraBounds,
+                    interactionModes: [.pan, .zoom, .pitch],
+                    scope: mapScope
+                ) {
+                    if let loadedMap {
+                        ForEach(loadedMap.overlays, id: \.self) { overlay in
+                            let count = loadedMap.overlayMetadataByID[ObjectIdentifier(overlay)]
+                                .flatMap { artistCountsByCountryCode[$0.code] } ?? 0
+                            let appearance = style.appearance(forArtistCount: count)
+                            let isSelected = loadedMap.overlayMetadataByID[ObjectIdentifier(overlay)]?.code
+                                == selectedCountryCode
+                            MapPolygon(overlay)
+                                .foregroundStyle(appearance.fillColor)
+                                .stroke(
+                                    isSelected ? Color.primary : appearance.strokeColor,
+                                    lineWidth: isSelected ? 1.8 : appearance.lineWidth
+                                )
+                        }
                     }
                 }
-            }
-            .mapStyle(
-                .hybrid(
-                    elevation: .realistic,
-                    pointsOfInterest: .excludingAll,
-                    showsTraffic: false
+                .mapStyle(
+                    .hybrid(
+                        elevation: .realistic,
+                        pointsOfInterest: .excludingAll,
+                        showsTraffic: false
+                    )
                 )
-            )
-            .mapControls {
-                MapScaleView()
-            }
-            .mapScope(mapScope)
-            .simultaneousGesture(
-                SpatialTapGesture().onEnded { value in
-                    selectCountry(at: value.location, using: proxy)
+                .mapControls {
+                    MapScaleView()
                 }
-            )
+                .mapScope(mapScope)
+                .safeAreaPadding(.bottom, selectedCountryCode == nil ? 0 : geometry.size.height / 2)
+                .onChange(of: selectedCountryCode) { _, code in
+                    guard let code, let rect = loadedMap?.focusRect(for: code) else { return }
+                    withAnimation { cameraPosition = .rect(rect) }
+                }
+                .simultaneousGesture(
+                    SpatialTapGesture().onEnded { value in
+                        selectCountry(at: value.location, using: proxy)
+                    }
+                )
+            }
         }
         .accessibilityRepresentation {
             VStack {
-                ForEach(accessibilityGroups) { group in
+                ForEach(accessibilityCountryCodes, id: \.self) { code in
                     Button {
-                        onCountrySelected(group.code)
+                        onCountrySelected(code)
                     } label: {
-                        Text(accessibilityLabel(for: group))
+                        Text(accessibilityLabel(for: code))
                     }
-                    .accessibilityAddTraits(
-                        group.code == selectedCountryCode ? .isSelected : []
-                    )
+                    .accessibilityAddTraits(code == selectedCountryCode ? .isSelected : [])
                 }
             }
+            .disabled(loadedMap == nil)
         }
     }
 
-    private func accessibilityLabel(for group: ArtistCountryGroup) -> String {
-        let countKey = group.count == 1
+    private func accessibilityLabel(for code: String) -> String {
+        let artistCount = artistCountsByCountryCode[code] ?? 0
+        let countKey = artistCount == 1
             ? "artists.map.accessibility.artist_count.one"
             : "artists.map.accessibility.artist_count.other"
         let count = String(
             format: NSLocalizedString(countKey, comment: ""),
             locale: Locale.current,
-            group.count
+            artistCount
         )
-        return "\(group.localizedName), \(count)"
-    }
-
-    private func appearance(for overlay: MKPolygon) -> WorldMapOverlayAppearance {
-        let overlayID = ObjectIdentifier(overlay)
-        let count = loadedMap?.overlayMetadataByID[ObjectIdentifier(overlay)].flatMap {
-            groupsByCountryCode[$0.code]?.count
-        } ?? 0
-        let isSelected = loadedMap?.overlayMetadataByID[overlayID]?.code
-            == selectedCountryCode
-        return style.appearance(
-            forArtistCount: count,
-            isSelected: isSelected
-        )
+        return "\(localizedCountryName(forRegionCode: code)), \(count)"
     }
 
     private func selectCountry(at point: CGPoint, using proxy: MapProxy) {
@@ -271,7 +292,7 @@ private struct ArtistWorldMapSwiftUIMap: View {
             let overlayID = ObjectIdentifier(overlay)
             guard
                 let metadata = loadedMap.overlayMetadataByID[overlayID],
-                groupsByCountryCode[metadata.code] != nil,
+                artistCountsByCountryCode[metadata.code] != nil,
                 let path = loadedMap.hitPathsByOverlayID[overlayID]
             else {
                 continue
@@ -289,18 +310,6 @@ private struct ArtistWorldMapSwiftUIMap: View {
 private struct ArtistWorldMapStyle {
     let colorScheme: ColorScheme
     let maximumArtistCount: Int
-    let selectedCountryCode: String?
-
-    var colorSchemeHash: Int {
-        switch colorScheme {
-        case .light:
-            return 0
-        case .dark:
-            return 1
-        @unknown default:
-            return 2
-        }
-    }
 
     var strokeColor: PlatformColor {
         PlatformColor(
@@ -329,40 +338,9 @@ private struct ArtistWorldMapStyle {
         )
     }
 
-    private var selectedStrokeColor: PlatformColor {
-        PlatformColor(
-            white: colorScheme == .dark ? 0.98 : 0.14,
-            alpha: 1
-        )
-    }
-
-    private var selectedFillBlendColor: PlatformColor {
-        PlatformColor(
-            red: colorScheme == .dark ? 0.98 : 0.90,
-            green: colorScheme == .dark ? 0.88 : 0.72,
-            blue: colorScheme == .dark ? 1.0 : 0.94,
-            alpha: 1
-        )
-    }
-
-    func appearance(
-        forArtistCount count: Int,
-        isSelected: Bool
-    ) -> WorldMapOverlayAppearance {
-        let baseFillColor = baseFillColor(forArtistCount: count)
-        if isSelected {
-            return WorldMapOverlayAppearance(
-                fillPlatformColor: baseFillColor.mixed(
-                    with: selectedFillBlendColor,
-                    amount: 0.35
-                ).withAlphaComponent(0.96),
-                strokePlatformColor: selectedStrokeColor,
-                lineWidth: 1.8
-            )
-        }
-
-        return WorldMapOverlayAppearance(
-            fillPlatformColor: baseFillColor,
+    func appearance(forArtistCount count: Int) -> WorldMapOverlayAppearance {
+        WorldMapOverlayAppearance(
+            fillPlatformColor: baseFillColor(forArtistCount: count),
             strokePlatformColor: strokeColor,
             lineWidth: 0.75
         )
@@ -405,6 +383,19 @@ struct LoadedWorldCountryMap: @unchecked Sendable {
     let overlays: [MKPolygon]
     let overlayMetadataByID: [ObjectIdentifier: CountryOverlayMetadata]
     let hitPathsByOverlayID: [ObjectIdentifier: CGPath]
+
+    func focusRect(for countryCode: String) -> MKMapRect? {
+        let polygons = overlays.filter { overlayMetadataByID[ObjectIdentifier($0)]?.code == countryCode }
+        // Focus the main landmass rather than spanning distant overseas territories.
+        func area(of polygon: MKPolygon) -> Double {
+            let rect = polygon.boundingMapRect
+            let metersPerPoint = MKMetersPerMapPointAtLatitude(polygon.coordinate.latitude)
+            return rect.width * rect.height * metersPerPoint * metersPerPoint
+        }
+        guard let polygon = polygons.max(by: { area(of: $0) < area(of: $1) }) else { return nil }
+        let rect = polygon.boundingMapRect
+        return rect.insetBy(dx: -rect.width * 0.2, dy: -rect.height * 0.2)
+    }
 }
 
 @MainActor
@@ -460,7 +451,7 @@ final class GeoJSONCountryOverlayLoader: ObservableObject {
     }
 }
 
-private enum WorldCountryOverlayStore {
+enum WorldCountryOverlayStore {
 
     static func buildLoadedMap(resourceNames: [String]) throws -> LoadedWorldCountryMap {
         guard let url = geoJSONURL(resourceNames: resourceNames) else {
@@ -479,8 +470,7 @@ private enum WorldCountryOverlayStore {
                 continue
             }
 
-            let metadata = metadata(for: feature)
-            guard let code = metadata.code, code != "ATA" else {
+            guard let code = countryCode(for: feature), code != "ATA" else {
                 continue
             }
 
@@ -560,16 +550,13 @@ private enum WorldCountryOverlayStore {
         path.closeSubpath()
     }
 
-    private static func metadata(for feature: MKGeoJSONFeature) -> (
-        code: String?,
-        name: String?
-    ) {
+    private static func countryCode(for feature: MKGeoJSONFeature) -> String? {
         guard
             let properties = feature.properties,
             let rawObject = try? JSONSerialization.jsonObject(with: properties),
             let json = rawObject as? [String: Any]
         else {
-            return (nil, nil)
+            return nil
         }
 
         let codeCandidates = [
@@ -579,18 +566,10 @@ private enum WorldCountryOverlayStore {
             "WB_A3",
             "BRK_A3",
         ]
-        let nameCandidates = [
-            "NAME_EN",
-            "ADMIN",
-            "NAME_LONG",
-            "SOVEREIGNT",
-            "NAME",
-        ]
-
-        return (
-            firstStringValue(in: json, keys: codeCandidates),
-            firstStringValue(in: json, keys: nameCandidates)
-        )
+        guard let code = firstStringValue(in: json, keys: codeCandidates) else {
+            return nil
+        }
+        return parseArtistCountryCodes(code).first ?? code
     }
 
     private static func firstStringValue(
@@ -655,54 +634,5 @@ private extension Color {
         #elseif os(macOS)
         self.init(nsColor: platformColor)
         #endif
-    }
-}
-
-private extension View {
-    func glassPanel(cornerRadius: CGFloat) -> some View {
-        modifier(WorldMapGlassPanelModifier(cornerRadius: cornerRadius))
-    }
-}
-
-private struct WorldMapGlassPanelModifier: ViewModifier {
-    let cornerRadius: CGFloat
-
-    func body(content: Content) -> some View {
-        if #available(iOS 26.0, macOS 26.0, *) {
-            content
-                .glassEffect(
-                    .regular.tint(Color.white.opacity(0.02)),
-                    in: .rect(cornerRadius: cornerRadius)
-                )
-        } else {
-            content
-                .background(
-                    .ultraThinMaterial,
-                    in: RoundedRectangle(
-                        cornerRadius: cornerRadius,
-                        style: .continuous
-                    )
-                )
-                .overlay {
-                    RoundedRectangle(
-                        cornerRadius: cornerRadius,
-                        style: .continuous
-                    )
-                    .strokeBorder(Color.white.opacity(0.16), lineWidth: 0.8)
-                }
-                .shadow(color: .black.opacity(0.18), radius: 18, y: 8)
-        }
-    }
-}
-
-private struct WorldMapActionButtonStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        if #available(iOS 26.0, macOS 26.0, *) {
-            content.buttonStyle(.glassProminent)
-        } else {
-            content
-                .buttonStyle(.borderedProminent)
-                .tint(.rudolstadt)
-        }
     }
 }

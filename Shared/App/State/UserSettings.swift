@@ -67,6 +67,9 @@ final class UserPreferencesStore: ObservableObject {
     @UserDefault(key: "\(DataStore.year)/oldNews", defaultValue: [])
     var oldNews: [Int]
 
+    @UserDefault(key: "\(DataStore.year)/newsBaselineInitialized", defaultValue: false)
+    var newsBaselineInitialized: Bool
+
     @UserDefault(key: "notifications/newsPrompt/v1", defaultValue: 0)
     private var notificationPromptStateRawValue: Int
 

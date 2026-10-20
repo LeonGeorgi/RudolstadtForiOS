@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title description">
+  <title id="title">Laternenklang — Rudolstadt Icon-Entwurf</title>
+  <desc id="description">Eine asymmetrische Papierlaterne mit cremefarbenen und kupferorangefarbenen Faltflächen, einem violetten Gerüst und einer frei gezeichneten Aufhängung auf tiefviolettem Grund.</desc>
+  <g id="background">
+    <path fill="#492B55" d="M0 0H1024V1024H0Z"/>
+  </g>
+  <g id="artwork">
+    <g id="suspension">
+      <path fill="none" stroke="#F5E7CE" stroke-width="26" stroke-linecap="round" d="M574 151Q562 194 570 240"/>
+      <path fill="#EAA16A" d="m555 136 33 5-5 34-32-6Z"/>
+    </g>
+    <g id="paper">
+      <path fill="#F5E7CE" d="m281 323 289-83 177 127-40 291-233 114-209-130Z"/>
+      <path fill="#EAA16A" d="m570 240 177 127-40 291-233 114 57-284Z"/>
+      <path fill="#F5E7CE" d="m570 240 177 127-216 121Z"/>
+    </g>
+    <g id="frame" fill="none" stroke="#492B55" stroke-width="21" stroke-linejoin="round" stroke-linecap="round">
+      <path d="m281 323 289-83 177 127-40 291-233 114-209-130Z"/>
+      <path d="m281 323 250 165 216-121"/>
+      <path d="m570 240-39 248-57 284"/>
+      <path d="m281 323 193 449"/>
+      <path d="m531 488 176 170"/>
+    </g>
+    <g id="tassel" fill="#EAA16A">
+      <path d="m464 770 25-11-6 59 36 40-29 11-24-32-18 43-24-16 31-51Z"/>
+    </g>
+  </g>
+</svg>

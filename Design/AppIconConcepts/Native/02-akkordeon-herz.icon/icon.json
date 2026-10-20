@@ -1,0 +1,101 @@
+{
+  "fill" : {
+    "automatic-gradient" : "srgb:0.35500,0.10500,0.39100,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "glass" : true,
+          "image-name" : "03-01-Knoepfe.svg",
+          "name" : "Knoepfe",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "name" : "03 Knoepfe",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.22
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.050000000000000003
+      }
+    },
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "glass" : true,
+          "image-name" : "02-02-Festivalquadrate.svg",
+          "name" : "Festivalquadrate",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "blend-mode" : "normal",
+          "glass" : true,
+          "image-name" : "02-01-Enden.svg",
+          "name" : "Enden",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "name" : "02 Instrument",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.22
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.12
+      }
+    },
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "glass" : true,
+          "image-name" : "01-01-Balg.svg",
+          "name" : "Balg",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "name" : "01 Faltenbalg",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.22
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.080000000000000002
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : "shared"
+  }
+}

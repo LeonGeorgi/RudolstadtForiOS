@@ -461,7 +461,7 @@ struct RecommendationServiceTests {
             #expect(recommendedEvents.count == snapshot.recommendedEventIds.count)
             #expect(Set(recommendedEvents.map(\.artist.id)).count == recommendedEvents.count)
             #expect(recommendedEvents.allSatisfy { event in
-                event.date(calendar: TestFixtures.festivalCalendar) >= now
+                    event.startDate.map { $0 >= now } ?? false
             })
             for firstIndex in recommendedEvents.indices {
                 for secondIndex in recommendedEvents.indices where secondIndex > firstIndex {

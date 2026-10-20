@@ -37,7 +37,9 @@ func friendArtistRecommendations(
     let artistsByID = Dictionary(uniqueKeysWithValues: artists.map { artist in
         (artist.id, artist)
     })
-    let eventsByArtistID = Dictionary(grouping: events, by: { event in
+        let eventsByArtistID = Dictionary(
+            grouping: events.filter(\.hasCompleteMetadata),
+            by: { event in
         event.artist.id
     })
 
@@ -99,7 +101,9 @@ func friendArtistRecommendations(
     }
 
     return contributionsByArtistID.compactMap { artistID, contributions in
-        guard let artist = artistsByID[artistID], !contributions.isEmpty else {
+            guard let artist = artistsByID[artistID], artist.isMetadataAvailable,
+                !contributions.isEmpty
+            else {
             return nil
         }
         let sortedContributions = contributions.sorted(by: compareFriendContributions)

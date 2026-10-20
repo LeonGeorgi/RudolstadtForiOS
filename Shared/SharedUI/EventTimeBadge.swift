@@ -6,7 +6,7 @@ struct EventTimeBadge: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text(event.shortWeekDay.uppercased())
+            Text(event.knownDate == nil ? "?" : event.shortWeekDay.uppercased())
                 .font(.caption2.weight(.bold))
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
@@ -14,7 +14,13 @@ struct EventTimeBadge: View {
                 .padding(.vertical, 4)
                 .background(.tint.opacity(0.18))
 
-            Text(event.timeAsString)
+            Group {
+                if event.startDate == nil {
+                    Image(systemName: "clock.badge.questionmark")
+                } else {
+                    Text(event.timeAsString)
+                }
+            }
                 .font(.system(.subheadline, design: .monospaced).weight(.bold))
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)

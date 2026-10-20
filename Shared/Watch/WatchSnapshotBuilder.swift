@@ -14,6 +14,7 @@ struct WatchSnapshotBuildInput {
     let friends: WatchFriendSnapshot
     let friendProfiles: [SharedFestivalProfile]
     let transitionEvaluator: ScheduleTransitionEvaluator
+    var omittedRecordCount = 0
 }
 
 enum WatchSnapshotBuildDiagnostic: Equatable {
@@ -45,20 +46,18 @@ struct WatchSnapshotBuilder {
 
     func build(_ input: WatchSnapshotBuildInput) -> WatchSnapshotBuildResult {
         var diagnostics = [WatchSnapshotBuildDiagnostic]()
-        let calendar = input.transitionEvaluator.calendar
         let sortedEvents = input.events.compactMap { event -> DatedEvent? in
             guard let startDate = validatedStartDate(
                 for: event,
-                festivalYear: input.festivalYear,
-                calendar: calendar
+                    festivalYear: input.festivalYear
             ) else {
                 diagnostics.append(.invalidEventDate(event.id))
                 return nil
             }
             return DatedEvent(
-                event: normalizedEvent(event, startDate: startDate, calendar: calendar),
+                event: event,
                 startDate: startDate,
-                festivalDay: festivalDay(for: event, startDate: startDate, calendar: calendar)
+                festivalDay: event.festivalDay
             )
         }.sorted { first, second in
             if first.startDate != second.startDate {
@@ -86,7 +85,7 @@ struct WatchSnapshotBuilder {
 
         let recommendations = normalizedRecommendations(
             input.recommendations,
-            knownEventIDs: knownEventIDs,
+            knownEventIDs: Set(events.filter(\.hasCompleteMetadata).map(\.id)),
             diagnostics: &diagnostics
         )
         let recommendationRanks = recommendations.orderedEventIDs.enumerated().reduce(
@@ -162,7 +161,19 @@ struct WatchSnapshotBuilder {
                 recommendations: recommendations,
                 friends: input.friends,
                 planTransitions: planFacts.transitions,
-                planOverlaps: planFacts.overlaps
+                planOverlaps: planFacts.overlaps,
+                unplacedSavedEvents: input.events.filter {
+                    $0.startDate == nil && input.savedEventIDs.contains($0.id)
+                }.sorted { $0.id < $1.id }.map {
+                    WatchUnplacedEventSnapshot(
+                        id: $0.id, artistName: $0.artist.name,
+                        stageNameGerman: $0.stage.germanName,
+                        stageNameEnglish: $0.stage.englishName,
+                        knownDay: $0.knownDate)
+                },
+                hasIncompleteProgram: input.omittedRecordCount > 0
+                    || datedEvents.count != input.events.count
+                    || input.events.contains { !$0.hasCompleteMetadata }
             )
         )
         return WatchSnapshotBuildResult(
@@ -173,70 +184,12 @@ struct WatchSnapshotBuilder {
 
     private func validatedStartDate(
         for event: Event,
-        festivalYear: Int,
-        calendar: Calendar
+        festivalYear: Int
     ) -> Date? {
-        let timeParts = event.timeAsString.split(separator: ":")
-        guard timeParts.count >= 2,
-              let hour = Int(timeParts[0].trimmingCharacters(in: .whitespaces)),
-              let minute = Int(timeParts[1].trimmingCharacters(in: .whitespaces)),
-              (0...23).contains(hour),
-              (0...59).contains(minute)
-        else {
-            return nil
-        }
-
-        let components = DateComponents(
-            year: festivalYear,
-            month: 7,
-            day: event.dayInJuly,
-            hour: hour,
-            minute: minute
-        )
-        guard let date = calendar.date(from: components) else {
-            return nil
-        }
-        let resolvedComponents = calendar.dateComponents(
-            [.year, .month, .day, .hour, .minute],
-            from: date
-        )
-        guard resolvedComponents.year == festivalYear,
-              resolvedComponents.month == 7,
-              resolvedComponents.day == event.dayInJuly,
-              resolvedComponents.hour == hour,
-              resolvedComponents.minute == minute
-        else {
-            return nil
-        }
-        return date
-    }
-
-    private func festivalDay(
-        for event: Event,
-        startDate: Date,
-        calendar: Calendar
-    ) -> Int {
-        calendar.component(.hour, from: startDate) < 5
-            ? event.dayInJuly - 1
-            : event.dayInJuly
-    }
-
-    private func normalizedEvent(
-        _ event: Event,
-        startDate: Date,
-        calendar: Calendar
-    ) -> Event {
-        let components = calendar.dateComponents([.hour, .minute], from: startDate)
-        let hour = components.hour ?? 0
-        let minute = components.minute ?? 0
-        return Event(
-            id: event.id,
-            dayInJuly: event.dayInJuly,
-            timeAsString: String(format: "%02d:%02d", hour, minute),
-            stage: event.stage,
-            artist: event.artist,
-            tag: event.tag
-        )
+        guard let start = event.startDate,
+            FestivalDateUtilities.festivalCalendar.component(.year, from: start) == festivalYear
+        else { return nil }
+        return start
     }
 
     private func normalizedRecommendations(
@@ -302,12 +255,7 @@ struct WatchSnapshotBuilder {
             let dayEvents = (eventsByFestivalDay[festivalDay] ?? []).sorted {
                 first,
                 second in
-                let firstDate = first.date(calendar: evaluator.calendar)
-                let secondDate = second.date(calendar: evaluator.calendar)
-                if firstDate != secondDate {
-                    return firstDate < secondDate
-                }
-                return first.id < second.id
+                Event.precedes(first, second)
             }
 
             let eventGroups = overlappingEventGroups(
@@ -378,7 +326,7 @@ struct WatchSnapshotBuilder {
         var currentGroupEnd: Date?
 
         for event in events {
-            let startDate = event.date(calendar: calendar)
+            guard let startDate = event.startDate else { continue }
             let endDate = startDate.addingTimeInterval(
                 TimeInterval(
                     durationsByEventID[event.id] ?? defaultDurationMinutes

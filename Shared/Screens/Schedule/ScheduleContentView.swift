@@ -10,6 +10,9 @@ import SwiftUI
 
 struct ScheduleContentView: View {
 
+    @State private var isShowingUnplacedEvents = false
+    @State private var unplacedNavigationPath = [AppNavigationRoute]()
+
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     let events: [Event]
@@ -17,10 +20,8 @@ struct ScheduleContentView: View {
     @Binding var selectedDay: Int
     let currentTipID: String?
 
-    var todaysEvents: [Event] {
-        events.filter { event in
-            event.festivalDay == selectedDay
-        }
+    private var sections: ScheduleEventSections {
+        ScheduleEventSections(events: events, selectedDay: selectedDay)
     }
 
     private var effectiveDisplayMode: ScheduleDisplayMode {
@@ -36,14 +37,30 @@ struct ScheduleContentView: View {
             )
             .padding(.top, 8)
 
+            if !sections.unplaced.isEmpty {
+                Button {
+                    unplacedNavigationPath.removeAll()
+                    isShowingUnplacedEvents = true
+                } label: {
+                    HStack {
+                        Label("event.time.unplaced", systemImage: "calendar.badge.questionmark")
+                        Spacer()
+                        Text(String(sections.unplaced.count)).monospacedDigit()
+                        Image(systemName: "chevron.right")
+                    }
+                    .padding()
+                }
+                .accessibilityIdentifier("schedule-unplaced-events")
+            }
+
             ZStack {
                 Color(.systemBackground)
 
                 Group {
                     if effectiveDisplayMode == .timeline {
-                        ScheduleTimelineView(events: todaysEvents)
+                        ScheduleTimelineView(events: sections.scheduled)
                     } else {
-                        ScheduleListView(events: todaysEvents)
+                        ScheduleListView(events: sections.scheduled)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -51,6 +68,21 @@ struct ScheduleContentView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .sheet(isPresented: $isShowingUnplacedEvents) {
+            NavigationStack(path: $unplacedNavigationPath) {
+                ScheduleListView(events: sections.unplaced)
+                    .navigationTitle("event.time.unplaced")
+                    .navigationDestination(for: AppNavigationRoute.self) { route in
+                        AppNavigationDestination(
+                            route: route, navigate: { unplacedNavigationPath.append($0) })
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("common.done") { isShowingUnplacedEvents = false }
+                        }
+                    }
+            }
+        }
     }
 }
 

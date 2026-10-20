@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title description">
+  <title id="title">Der Tänzer — Festivalvogel Variante 2</title>
+  <desc id="description">Ein schlanker Vogel lehnt sich mit erhobenem Schnabel zurück und zieht seine kupferorangefarbene Ziehharmonika weit auseinander. Ein Bein steht, das andere schwingt im Tanz nach rechts.</desc>
+  <g id="background" fill="#492B55"><path d="M0 0H1024V1024H0Z"/></g>
+  <g id="artwork">
+    <g id="dancing-legs" fill="#F5E7CE">
+      <path d="m415 632 47 25-54 89-38 70-84 21q-24 5-29-12-5-14 16-25l52-28 36-71Z"/>
+      <path d="m491 642 43-17 60 84 76-36 40 24-111 66q-15 8-26-6Z"/>
+      <path d="m660 681 32-32q13-13 25-3l43 33q19 15 7 30-9 12-29 1l-37-17-20 13Z"/>
+    </g>
+    <g id="body" fill="#F5E7CE">
+      <path d="M363 372Q415 353 453 392L492 449 536 558Q557 613 518 651 483 687 432 669L357 623 248 648 278 603 216 595 306 543Q286 462 326 407Z"/>
+    </g>
+    <g id="head" transform="rotate(-15 404 313)">
+      <path fill="#F5E7CE" d="M342 373Q301 343 310 298 314 264 345 243L322 197 379 218 416 170 441 228Q491 222 523 254 555 286 539 329 526 364 482 376L444 411Z"/>
+      <path fill="#EAA16A" d="M527 272Q616 263 710 296L773 324Q675 312 620 347L536 328Z"/>
+      <path fill="#492B55" d="M550 308Q636 287 721 310 650 303 602 328L551 328Z"/>
+      <path fill="none" stroke="#492B55" stroke-width="18" stroke-linecap="round" d="M466 277q17-19 35-3"/>
+      <path fill="#492B55" d="M440 324Q456 339 480 333 470 351 451 347 439 341 440 324Z"/>
+    </g>
+    <g id="accordion" transform="rotate(-19 523 526)">
+      <path fill="#F5E7CE" d="m376 454 290 8-2 174-285-12Z"/>
+      <g fill="#492B55">
+        <path d="m409 455 19 1-2 170-19-1Z"/>
+        <path d="m454 456 19 1-2 171-19-1Z"/>
+        <path d="m499 458 19 1-2 171-19-1Z"/>
+        <path d="m544 459 19 1-2 172-19-1Z"/>
+        <path d="m589 460 19 1-2 173-19-1Z"/>
+        <path d="m634 461 19 1-2 173-19-1Z"/>
+      </g>
+      <path fill="#EAA16A" d="m328 441 61 9-3 187-57-8q-12-2-13-15l-2-156q0-18 14-17Z"/>
+      <path fill="#EAA16A" d="m652 449 59 8q15 1 14 17l-6 163q0 14-14 12l-57-9Z"/>
+      <g fill="#492B55">
+        <path d="m338 477 27 2v29l-27-2Z"/>
+        <path d="m338 526 27 2v29l-27-2Z"/>
+        <path d="m338 575 27 2v29l-27-2Z"/>
+        <circle cx="688" cy="497" r="11"/>
+        <circle cx="686" cy="547" r="11"/>
+        <circle cx="684" cy="597" r="11"/>
+      </g>
+    </g>
+    <g id="wings" fill="#F5E7CE">
+      <path d="M333 411Q270 419 269 476 270 509 311 529L351 547 367 518 329 494Q312 482 324 465L361 443Z"/>
+      <path d="M445 409Q506 378 558 396L651 425 638 461 552 443Q517 434 487 455Z"/>
+    </g>
+  </g>
+</svg>

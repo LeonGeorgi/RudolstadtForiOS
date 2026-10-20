@@ -26,6 +26,7 @@ struct StageDetailView: View {
 
     let stage: Stage
     let highlightedEventId: Int?
+    var showsMap = true
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.colorScheme) private var colorScheme
@@ -63,7 +64,7 @@ struct StageDetailView: View {
     }
 
     private var usesEdgeToEdgeHero: Bool {
-        isPhone
+        showsMap && stage.hasLocation && isPhone
             && horizontalSizeClass == .compact
             && verticalSizeClass == .regular
             && !dynamicTypeSize.isAccessibilitySize
@@ -86,8 +87,12 @@ struct StageDetailView: View {
 
         return ScrollView {
             VStack(spacing: 0) {
-                topMapHero
-                    .padding(.top, usesEdgeToEdgeHero ? 0 : 16)
+                if showsMap && stage.hasLocation {
+                    topMapHero.padding(.top, usesEdgeToEdgeHero ? 0 : 16)
+                } else if !stage.hasLocation {
+                    Label("stage.location.unknown", systemImage: "mappin.slash")
+                        .foregroundStyle(.secondary).padding()
+                }
 
                 stageHeader(showsInlineIdentity: !usesEdgeToEdgeHero)
                     .padding(.horizontal, 16)
@@ -338,6 +343,7 @@ struct StageDetailView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("stage-nearby-\(stageDistance.stage.id)")
     }
 
     private func calculateNearbyStages(_ entities: FestivalData) -> [StageDistance] {

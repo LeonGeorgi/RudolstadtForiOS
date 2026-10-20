@@ -91,6 +91,7 @@ struct ArtistDetailView: View {
     }
 
     private func presentNoteEditor() {
+        guard artist.isMetadataAvailable else { return }
         noteDraft = ArtistNoteDraft(noteText: artistNote)
         isEditAlertShown = false
         isShowingNoteEditor = true
@@ -105,7 +106,9 @@ struct ArtistDetailView: View {
     }
 
     private func saveNote() {
-        profile.setArtistNote(for: artist, note: noteDraft.text)
+        if noteDraft.hasChanges {
+            profile.setArtistNote(for: artist, note: noteDraft.text)
+        }
         isShowingNoteEditor = false
     }
 
@@ -154,6 +157,7 @@ struct ArtistDetailView: View {
                     presentNoteEditor()
                 }
             )
+            .disabled(!artist.isMetadataAvailable)
 
             ArtistDetailLinksView(
                 artist: artist,
@@ -429,6 +433,11 @@ struct ArtistDetailView: View {
                     )
                 }
             }
+            .onReceive(profile.$artistNotes) { notes in
+                if isShowingNoteEditor {
+                    noteDraft.receiveSavedNote(notes[String(artist.id)])
+                }
+            }
             .sheet(item: $presentedBrowserURL) { destination in
                 InAppSafariView(url: destination.url)
                     .ignoresSafeArea()
@@ -458,7 +467,7 @@ private struct ArtistDetailTopScrollEdgeEffectModifier: ViewModifier {
 }
 
 struct ArtistNoteDraft: Equatable {
-    let originalText: String
+    private(set) var originalText: String
     var text: String
 
     init(noteText: String?) {
@@ -467,7 +476,13 @@ struct ArtistNoteDraft: Equatable {
     }
 
     var hasChanges: Bool {
-        text != originalText
+        text.trimmingCharacters(in: .whitespacesAndNewlines)
+            != originalText.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    mutating func receiveSavedNote(_ note: String?) {
+        guard !hasChanges else { return }
+        self = ArtistNoteDraft(noteText: note)
     }
 }
 
@@ -484,6 +499,8 @@ private struct ArtistNoteEditorView: View {
     let onCancel: () -> Void
     let onSave: () -> Void
 
+    @EnvironmentObject private var profileSync: FestivalProfileSyncStore
+
     @Environment(\.colorScheme) private var colorScheme
     @FocusState private var isEditorFocused: Bool
 
@@ -497,25 +514,37 @@ private struct ArtistNoteEditorView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .topLeading) {
-                sheetBackground
+            VStack(spacing: 0) {
+                if profileSync.shouldWarnBeforeEditing {
+                    Label("artist.note.sync-warning", systemImage: "exclamationmark.icloud")
+                        .font(.callout)
+                        .foregroundStyle(.primary)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .background(.background)
+                        .accessibilityIdentifier("artist-note-sync-warning")
+                }
 
-                TextEditor(text: $noteText)
-                    .font(noteFont)
-                    .scrollContentBackground(.hidden)
-                    .focused($isEditorFocused)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 8)
-
-                if noteText.isEmpty {
-                    Text("artist.note.placeholder")
+                ZStack(alignment: .topLeading) {
+                    TextEditor(text: $noteText)
                         .font(noteFont)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 16)
-                        .allowsHitTesting(false)
+                        .scrollContentBackground(.hidden)
+                        .focused($isEditorFocused)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 8)
+
+                    if noteText.isEmpty {
+                        Text("artist.note.placeholder")
+                            .font(noteFont)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 16)
+                            .allowsHitTesting(false)
+                    }
                 }
             }
+            .background { sheetBackground }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationTitle("artist.edit-note.headline")
             .navigationBarTitleDisplayMode(.inline)

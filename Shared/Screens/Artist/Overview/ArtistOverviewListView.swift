@@ -12,6 +12,10 @@ struct ArtistOverviewListView: View {
     var body: some View {
         List {
             if showsWorldMapCallout {
+                NavigationLink(value: AppNavigationRoute.programDiscovery(tagID: nil)) {
+                    Label("program.discovery.title", systemImage: "compass")
+                }
+
                 ArtistWorldMapCalloutCard(action: showWorldMap)
                     .listRowInsets(
                         .init(top: 0, leading: 16, bottom: 4, trailing: 16)

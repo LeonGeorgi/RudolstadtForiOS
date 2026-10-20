@@ -131,3 +131,20 @@ an iOS screen. The canonical App Store capture workflow and its options live in
   only when semantic tooling cannot complete the task.
 - Check `git status --short` before handing off. Screenshot work should leave the
   production worktree unchanged.
+
+## Agent skills
+
+### Issue tracker
+
+Engineering skills use GitHub Issues in `LeonGeorgi/RudolstadtForiOS`.
+Read `docs/agents/issue-tracker.md` before tracker operations.
+
+### Triage labels
+
+Use the five canonical triage labels. Read `docs/agents/triage-labels.md`
+before triaging; triage readiness does not grant implementation approval.
+
+### Domain docs
+
+Use a single-context layout. Read `docs/agents/domain.md` before
+exploring the domain.

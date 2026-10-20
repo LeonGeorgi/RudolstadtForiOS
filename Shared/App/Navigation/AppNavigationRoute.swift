@@ -5,6 +5,7 @@ enum FriendsTogetherListKind: Hashable {
 }
 
 enum AppNavigationRoute: Hashable {
+    case programDiscovery(tagID: Int?)
     case artistWorldMap
     case artistCountry(code: String)
     case artist(id: Int, highlightedEventId: Int?, transitionSourceID: Int?)
@@ -31,6 +32,8 @@ struct AppNavigationDestination: View {
 
     var body: some View {
         switch route {
+        case .programDiscovery(let tagID):
+            ProgramDiscoveryView(tagID: tagID)
         case .artistWorldMap:
             artistWorldMapDestination()
         case .artistCountry(let code):
@@ -77,8 +80,7 @@ struct AppNavigationDestination: View {
             artists: festivalData.artists.filter { artist in
                 !artist.hiddenFromArtistList
             },
-            navigationTitleKey: "artists.title",
-            navigate: navigate ?? { _ in }
+            navigationTitleKey: "artists.title"
         )
     }
 
@@ -123,22 +125,25 @@ private struct NewsNavigationDestination: View {
     let navigate: ((AppNavigationRoute) -> Void)?
 
     @EnvironmentObject private var newsStore: NewsStore
+    @State private var hasRefreshed = false
 
     var body: some View {
-        switch newsStore.news {
-        case .success(let news):
-            if let newsItem = news.first(where: { $0.id == id }) {
-                NewsItemDetailView(
-                    newsItem: newsItem,
-                    navigate: navigate
-                )
-            } else {
-                Text("news.empty")
-            }
+        content.task(id: id) {
+            hasRefreshed = false
+            await newsStore.refreshNewsIfNecessary()
+            if !Task.isCancelled { hasRefreshed = true }
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch newsStore.notificationDestination(id: id, hasRefreshed: hasRefreshed) {
+        case .item(let item):
+            NewsItemDetailView(newsItem: item, navigate: navigate)
         case .loading:
             ProgressView()
-        case .failure(let reason):
-            Text(reason.rawValue)
+        case .list:
+            NewsListView(openingNotice: "news.notification.unavailable")
         }
     }
 }

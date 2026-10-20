@@ -168,6 +168,32 @@ private struct WatchPlanView: View {
                 case .plan(let plan):
                     dayPlanContent(plan)
                 }
+                if let events = state.snapshot?.payload.unplacedSavedEvents, !events.isEmpty {
+                    Text("watch.plan.unplaced").font(.headline)
+                    ForEach(events) { event in
+                        VStack(alignment: .leading, spacing: 4) {
+                            if event.artistName.isEmpty {
+                                Text("watch.artist.unknown")
+                            } else {
+                                Text(event.artistName)
+                            }
+                            Text(
+                                Locale.current.language.languageCode?.identifier == "de"
+                                    ? event.stageNameGerman : event.stageNameEnglish
+                            )
+                            .font(.caption)
+                            if let day = event.knownDay {
+                                Text(day, format: .dateTime.weekday(.wide).day().month()).font(
+                                    .caption)
+                                Text("watch.time.unknown").font(.caption)
+                            } else {
+                                Text("watch.date.unknown").font(.caption)
+                            }
+                        }
+                        .foregroundStyle(.secondary)
+                    }
+                }
+
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -175,6 +201,10 @@ private struct WatchPlanView: View {
 
     @ViewBuilder
     private var dataWarnings: some View {
+        if state.snapshot?.payload.hasIncompleteProgram == true {
+            WatchDataWarning(
+                title: "watch.program.incomplete", systemImage: "calendar.badge.exclamationmark")
+        }
         if projection.isStale {
             WatchDataWarning(
                 title: "watch.stale",

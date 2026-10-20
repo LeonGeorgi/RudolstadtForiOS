@@ -60,9 +60,8 @@ final class RecommendationService: RecommendationProviding {
     }
 
     func estimateEventDurations(events: [Event]) -> [Int: Int] {
-        let reversedEvents = events.sorted { e1, e2 in
-            e1.date(calendar: calendar) > e2.date(calendar: calendar)
-        }
+        let reversedEvents = events.filter { $0.startDate != nil && $0.stage.isMetadataAvailable }
+            .sorted { Event.precedes($1, $0) }
         let reversedEventsByStage = Dictionary(grouping: reversedEvents) { event in
             event.stage.id
         }
@@ -72,11 +71,11 @@ final class RecommendationService: RecommendationProviding {
             var subsequentEvent: Event? = nil
             for currentEvent in reversedEventsForStage {
                 var length = 60
-                if let subsequentEvent {
+                if let subsequentEvent, let nextStart = subsequentEvent.startDate,
+                    let currentStart = currentEvent.startDate
+                {
                     let minutesUntilNextEvent =
-                        subsequentEvent.date(calendar: calendar).timeIntervalSince(
-                            currentEvent.date(calendar: calendar)
-                        ) / 60
+                        nextStart.timeIntervalSince(currentStart) / 60
                     var estimatedLength = length
                     let minutesUntilNextEventRoundedDown =
                         floor(minutesUntilNextEvent / 30.0) * 30
@@ -110,6 +109,22 @@ final class RecommendationService: RecommendationProviding {
 
         return eventDurations
     }
+}
+
+struct ScheduleEventSections {
+    let scheduled: [Event]
+    let unknownTime: [Event]
+    let unknownDate: [Event]
+
+    init(events: [Event], selectedDay: Int) {
+        scheduled = events.filter { $0.startDate != nil && $0.festivalDay == selectedDay }
+        unknownTime = events.filter {
+            $0.startDate == nil && $0.knownDate != nil && $0.festivalDay == selectedDay
+        }
+        unknownDate = events.filter { $0.knownDate == nil }
+    }
+
+    var unplaced: [Event] { (unknownTime + unknownDate).sorted(by: Event.precedes) }
 }
 
 struct SchedulePresenter {
@@ -177,7 +192,7 @@ struct SchedulePresenter {
         Set(events.lazy.map { event in
             event.festivalDay(calendar: calendar)
         }).sorted(by: <).filter { day in
-            if DataStore.year == 2023 && day < 6 {
+            if day <= 0 || (DataStore.year == 2023 && day < 6) {
                 return false
             } else {
                 return true
@@ -196,7 +211,7 @@ final class ScheduleRecommendationGenerator {
         calendar: Calendar = .current,
         transitionEvaluator: ScheduleTransitionEvaluator
     ) {
-        self.allEvents = allEvents
+        self.allEvents = allEvents.filter(\.hasCompleteMetadata)
         self.savedEventIds = Set(savedEventIds)
         var normalizedRatings = [Int: Int]()
         for (idAsString, rating) in artistRatings {
@@ -318,7 +333,7 @@ final class ScheduleRecommendationGenerator {
     }
 
     private func isEventInFuture(event: Event) -> Bool {
-        event.date(calendar: calendar) >= now
+        event.startDate.map { $0 >= now } ?? false
     }
 
     private func userIsInterestedInArtist(artist: Artist) -> Bool {

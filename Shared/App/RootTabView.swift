@@ -79,10 +79,6 @@ struct RootTabView: View {
         morePath = NavigationPath()
         morePath.append(AppNavigationRoute.news(id: id))
         newsNotificationNavigation.clearRequestedNewsItem(id: id)
-
-        Task {
-            await newsStore.refreshNewsIfNecessary()
-        }
     }
 
     private func openArtistLink(_ link: ArtistShareLink) {

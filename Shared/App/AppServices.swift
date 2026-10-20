@@ -138,7 +138,7 @@ enum ScreenshotRuntime {
                     if firstDayPriority != secondDayPriority {
                         return firstDayPriority < secondDayPriority
                     }
-                    return first.date < second.date
+                    return Event.precedes(first, second)
                 }
         }
 
@@ -199,7 +199,7 @@ enum ScreenshotRuntime {
             artistNames.compactMap { artistName in
                 festivalData.events
                     .filter { $0.artist.name == artistName }
-                    .min { $0.date < $1.date }?
+                    .min(by: Event.precedes)?
                     .id
             }
         }

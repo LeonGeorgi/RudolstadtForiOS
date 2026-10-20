@@ -131,7 +131,8 @@ final class WatchSnapshotCoordinator {
             friendProfiles: profileStore.acceptedFriendProfiles,
             transitionEvaluator: ScheduleTransitionEvaluator(
                 transferEstimator: estimator
-            )
+            ),
+            omittedRecordCount: festivalData.omittedRecordCount
         ))
 
         do {

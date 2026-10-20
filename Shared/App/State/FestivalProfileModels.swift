@@ -153,6 +153,23 @@ final class FestivalProfileSyncStore: ObservableObject {
     @Published var shareState: FestivalProfileShareState = .notShared
     @Published var isPreparingShare = false
     @Published var lastSuccessfulRefreshDate: Date?
+    @Published private(set) var lastSyncError: String?
+
+    var shouldWarnBeforeEditing: Bool {
+        if case .unavailable = iCloudStatus { return true }
+        if case .error = syncState { return true }
+        return lastSyncError != nil
+    }
+
+    func recordFailure(_ message: String) {
+        lastSyncError = message
+        syncState = .error(message)
+    }
+
+    func confirmSuccess() {
+        lastSyncError = nil
+        syncState = .idle
+    }
 }
 
 extension FestivalProfileShareState {
@@ -214,6 +231,8 @@ struct CachedOwnerFestivalProfile: Codable, Equatable, Sendable {
     var savedEventRecordSystemFieldsByName: [String: Data]
     var artistPreferenceRecordSystemFieldsByName: [String: Data]
     var artistNoteRecordSystemFieldsByName: [String: Data]
+    // Optional so caches written before change tracking remain decodable.
+    var changeVersions: [String: FestivalProfileChangeVersion]? = nil
 }
 
 struct CachedSharedFestivalProfile: Codable, Equatable, Sendable {
@@ -234,6 +253,8 @@ struct FestivalProfileCache: Codable, Equatable, Sendable {
     var lastSuccessfulRefreshDate: Date?
     var privateStateSerializationData: Data?
     var sharedStateSerializationData: Data?
+    // Persist with the values, rather than relying on a later CKSyncEngine state event.
+    var pendingProfileRecords: Set<FestivalProfileSyncRecord>? = nil
 }
 
 protocol FestivalProfilePersisting: Sendable {

@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import Rudolstadt
 
 struct DataLoaderCacheMetadataTests {
@@ -98,5 +99,62 @@ struct DataLoaderCacheMetadataTests {
             withIntermediateDirectories: true
         )
         return url
+    }
+}
+
+struct NewsDiskCacheTests {
+    @Test
+    func atomicWriteReplacesValidCacheAndUnreadableCacheIsExplicit() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(
+            UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let loader = DataLoader(cacheURL: directory)
+        #expect(
+            loader.storeAPINewsToFile(
+                news: [TestFixtures.apiNewsItem(id: 1, language: "en")], fileName: "news.json"))
+        #expect(
+            loader.storeAPINewsToFile(
+                news: [TestFixtures.apiNewsItem(id: 2, language: "de")], fileName: "news.json"))
+        switch loader.loadNewsFromFile() {
+        case .loaded(let items), .stale(let items): #expect(items.map(\.id) == [2])
+        default: Issue.record("Expected the replacement cache")
+        }
+        try Data("invalid JSON".utf8).write(to: loader.cacheFileURL(for: "news.json"))
+        guard case .unparsable = loader.loadNewsFromFile() else {
+            Issue.record("Corrupt cache must not look like an empty success")
+            return
+        }
+    }
+
+    @Test
+    func failedAtomicWriteReportsFailureAndPreservesPreviousCache() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(
+            UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o700], ofItemAtPath: directory.path)
+            try? FileManager.default.removeItem(at: directory)
+        }
+        let loader = DataLoader(cacheURL: directory)
+        #expect(
+            loader.storeAPINewsToFile(
+                news: [TestFixtures.apiNewsItem(id: 1, language: "en")], fileName: "news.json"))
+        let original = try Data(contentsOf: loader.cacheFileURL(for: "news.json"))
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o500], ofItemAtPath: directory.path)
+        #expect(
+            !loader.storeAPINewsToFile(
+                news: [TestFixtures.apiNewsItem(id: 2, language: "en")], fileName: "news.json"))
+        #expect(try Data(contentsOf: loader.cacheFileURL(for: "news.json")) == original)
+    }
+
+    @Test
+    func absentMetadataDoesNotSuppressRefresh() {
+        let loader = DataLoader(
+            cacheURL: FileManager.default.temporaryDirectory.appendingPathComponent(
+                UUID().uuidString))
+        #expect(loader.isFileOlderThan(fileName: "news.json", date: Date()))
     }
 }

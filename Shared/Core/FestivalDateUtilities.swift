@@ -8,10 +8,49 @@ enum FestivalDateUtilities {
         return timeZone
     }()
 
+    static var festivalCalendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.locale = Locale(identifier: "en_US_POSIX")
+        calendar.timeZone = festivalTimeZone
+        return calendar
+    }
+
+    static func parse(_ value: String, format: String, timeZone: TimeZone? = nil) -> Date? {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.timeZone = timeZone ?? festivalTimeZone
+        formatter.dateFormat = format
+        formatter.isLenient = false
+        guard let date = formatter.date(from: value), formatter.string(from: date) == value else {
+            return nil
+        }
+        return date
+    }
+
+    static func festivalDate(_ value: String, format: String) -> Date? {
+        guard let date = parse(value, format: format),
+            festivalCalendar.component(.year, from: date) == FestivalConfiguration.year
+        else {
+            return nil
+        }
+        return date
+    }
+
+    static func format(_ date: Date, pattern: String, locale: Locale = .current) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = locale
+        formatter.calendar = festivalCalendar
+        formatter.timeZone = festivalTimeZone
+        formatter.dateFormat = pattern
+        return formatter.string(from: date)
+    }
+
     static func calendarInFestivalTimeZone(
         basedOn calendar: Calendar = .current
     ) -> Calendar {
-        var festivalCalendar = calendar
+        var festivalCalendar = Self.festivalCalendar
+        festivalCalendar.locale = calendar.locale
         festivalCalendar.timeZone = festivalTimeZone
         return festivalCalendar
     }
@@ -48,7 +87,8 @@ enum FestivalDateUtilities {
         calendar: Calendar,
         locale: Locale
     ) -> String {
-        let festivalCalendar = calendarInFestivalTimeZone(basedOn: calendar)
+        guard day > 0 else { return NSLocalizedString("event.date.unknown", comment: "") }
+        let festivalCalendar = Self.festivalCalendar
 
         let dateComponents = DateComponents(
             calendar: festivalCalendar,

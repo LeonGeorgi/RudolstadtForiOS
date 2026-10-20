@@ -5,7 +5,6 @@
 //  Created by Leon Georgi on 13.06.22.
 //
 
-import MapKit
 import SwiftUI
 
 struct MapOverview: View {
@@ -16,28 +15,13 @@ struct MapOverview: View {
         DiscoverabilityTipSequences.locationsScreen
     )
 
-    var annotationItems: [MapLocation] {
-        festivalData.stages.filter { stage in
-            stage.stageNumber != nil
-        }.map { stage in
-            MapLocation(
-                stage: stage,
-                coordinate: CLLocationCoordinate2D(
-                    latitude: stage.latitude,
-                    longitude: stage.longitude
-                )
-            )
-        }
-    }
-
     var body: some View {
         VStack {
             if settings.mapType == 0 {
                 MapView(
-                    locations: annotationItems,
+                    stages: festivalData.stages,
                     currentTipID: tipSequencer.currentTipID
                 )
-                .equatable()
             } else {
                 LocationListView()
             }
@@ -64,12 +48,6 @@ struct MapOverview: View {
             for: .navigationBar
         )
     }
-}
-
-struct MapLocation: Identifiable {
-    let id = UUID()
-    let stage: Stage
-    let coordinate: CLLocationCoordinate2D
 }
 
 struct MapOverview_Previews: PreviewProvider {

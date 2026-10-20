@@ -71,6 +71,16 @@ struct ScheduleTransitionEvaluator: Sendable {
             secondDurationMinutes: secondDurationMinutes
         )
 
+        guard let firstStart = orderedEvents.first.event.startDate,
+            let secondStart = orderedEvents.second.event.startDate
+        else {
+            return ScheduleTransitionAssessment(
+                firstEventID: firstEvent.id,
+                secondEventID: secondEvent.id, timeOverlapMinutes: 0,
+                availableTransferMinutes: nil, transfer: nil, projectedLatenessMinutes: nil,
+                status: .unknown)
+        }
+
         guard orderedEvents.first.event.festivalDay(calendar: calendar)
                 == orderedEvents.second.event.festivalDay(calendar: calendar)
         else {
@@ -85,8 +95,6 @@ struct ScheduleTransitionEvaluator: Sendable {
             )
         }
 
-        let firstStart = orderedEvents.first.event.date(calendar: calendar)
-        let secondStart = orderedEvents.second.event.date(calendar: calendar)
         let firstEnd = firstStart.addingTimeInterval(
             TimeInterval(max(0, orderedEvents.first.durationMinutes)) * 60
         )
@@ -174,8 +182,9 @@ struct ScheduleTransitionEvaluator: Sendable {
         _ secondEvent: Event,
         durationMinutes secondDurationMinutes: Int
     ) -> Bool {
-        let firstDate = firstEvent.date(calendar: calendar)
-        let secondDate = secondEvent.date(calendar: calendar)
+        guard let firstDate = firstEvent.startDate, let secondDate = secondEvent.startDate else {
+            return Event.precedes(firstEvent, secondEvent)
+        }
         if firstDate != secondDate {
             return firstDate < secondDate
         }
@@ -268,7 +277,7 @@ struct WatchScheduleProjector: Sendable {
         }
 
         let planEvents = events.filter { event in
-            savedEventIDs.contains(event.id)
+            event.startDate != nil && savedEventIDs.contains(event.id)
                 && event.festivalDay(calendar: calendar) == currentFestivalDay
         }
         .sorted { first, second in
@@ -279,7 +288,7 @@ struct WatchScheduleProjector: Sendable {
                 calendar: calendar
             )
         }
-        let projections = planEvents.map { event in
+        let projections = planEvents.compactMap { event in
             makeEventProjection(
                 event: event,
                 durationMinutes: duration(
@@ -293,10 +302,8 @@ struct WatchScheduleProjector: Sendable {
             event.endDate(
                 durationInMinutes: duration(
                     for: event,
-                    durationsByEventID: estimatedDurationsByEventID
-                ),
-                calendar: calendar
-            ) > now
+                    durationsByEventID: estimatedDurationsByEventID)
+            ).map { $0 > now } ?? false
         }
         let transitions = zip(activePlanEvents, activePlanEvents.dropFirst()).map {
             firstEvent,
@@ -379,8 +386,9 @@ struct WatchScheduleProjector: Sendable {
         durationsByEventID: [Int: Int],
         calendar: Calendar
     ) -> Bool {
-        let firstDate = firstEvent.date(calendar: calendar)
-        let secondDate = secondEvent.date(calendar: calendar)
+        guard let firstDate = firstEvent.startDate, let secondDate = secondEvent.startDate else {
+            return Event.precedes(firstEvent, secondEvent)
+        }
         if firstDate != secondDate {
             return firstDate < secondDate
         }
@@ -399,9 +407,7 @@ struct WatchScheduleProjector: Sendable {
             ),
             calendar: calendar
         )
-        if firstEnd != secondEnd {
-            return firstEnd < secondEnd
-        }
+        if let firstEnd, let secondEnd, firstEnd != secondEnd { return firstEnd < secondEnd }
         return firstEvent.id < secondEvent.id
     }
 
@@ -409,19 +415,19 @@ struct WatchScheduleProjector: Sendable {
         event: Event,
         durationMinutes: Int,
         calendar: Calendar
-    ) -> WatchScheduleEventProjection {
-        WatchScheduleEventProjection(
+    ) -> WatchScheduleEventProjection? {
+        guard let start = event.startDate,
+            let end = event.endDate(durationInMinutes: durationMinutes)
+        else { return nil }
+        return WatchScheduleEventProjection(
             id: event.id,
             artistID: event.artist.id,
             artistName: event.artist.name,
             stageID: event.stage.id,
             stageNameGerman: event.stage.germanName,
             stageNameEnglish: event.stage.englishName,
-            startDate: event.date(calendar: calendar),
-            endDate: event.endDate(
-                durationInMinutes: durationMinutes,
-                calendar: calendar
-            )
+            startDate: start,
+            endDate: end
         )
     }
 }

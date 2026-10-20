@@ -1,0 +1,38 @@
+{
+  "purpose": "Visual drafts only; not installed as the production app icon.",
+  "generator": "Built-in image_gen tool",
+  "referenceSources": [
+    {
+      "file": "References/festival-logo.png",
+      "url": "https://www.rudolstadt-festival.de/files/theme/img/logo.png",
+      "role": "Official wordmark and square-dot arc"
+    },
+    {
+      "file": "References/festival-website-artwork.jpg",
+      "url": "https://www.rudolstadt-festival.de/assets/images/e/bg-links-a5s755jygn5t5ka.jpg",
+      "role": "Official purple/copper website artwork"
+    },
+    {
+      "file": "References/festival-2026-poster.png",
+      "url": "https://www.rudolstadt.de/fileadmin/_processed_/6/7/csm_Ru-Fe26_84c778ae7f.png",
+      "role": "Official 2026 poster reproduced by the City of Rudolstadt"
+    }
+  ],
+  "concepts": [
+    {
+      "slug": "01-r-im-tanzkreis",
+      "prompt": "Use case: logo-brand. Create ONE polished square app icon concept for an independent fan-made Rudolstadt Festival companion app. The user explicitly wants an instantly recognizable connection to this specific festival, yet a distinct fan identity. Inputs are visual REFERENCES, not edit targets: image 1 official logo, image 2 official purple website graphic, image 3 official 2026 festival poster. Extract concrete identity cues: narrow tall gently irregular lowercase lettering; warm copper orange, aubergine purple and cream; the curved procession of separated tilted square dots. Use at most two of those as supporting cues and make a new dominant symbol. Flat print-like vector-friendly design with crisp silhouettes and restrained hand-cut character, very high legibility at 48px. Full-bleed square artwork, no rounded-corner outer frame (the operating system supplies its mask), no page, no captions, no mockup, no drop shadow outside the artwork, no tiny text, no dates, no 3D bevel, no fake glass effects, no generic music-note or headphones icon. Leave safe margin around the dominant symbol. This is a concept image, not a finished vector asset. CONCEPT 1 — dancing lowercase r. A large single cream lowercase r is the hero on a deep aubergine background. Design its tall narrow rounded stem and short softly rounded shoulder in the recognizable typographic spirit of the official lettering, but redraw it as an original compact, bold, slightly rising monogram. Not an uppercase R. Around the right side of the r, five or six generous copper-orange separated rotated square tiles form an asymmetric open dancing arc, recalling the festival's square-dot motif. One tile is gently displaced as a playful personal accent. Avoid making a near-copy of the full official logo; no other words. Think an instantly memorable independent companion emblem, strong graphic balance, lots of clean negative space. Only aubergine, cream, copper-orange.",
+      "file": "01-r-im-tanzkreis.png"
+    },
+    {
+      "slug": "02-akkordeon-herz",
+      "prompt": "Use case: logo-brand. Create ONE polished square app icon concept for an independent fan-made Rudolstadt Festival companion app. The user explicitly wants an instantly recognizable connection to this specific festival, yet a distinct fan identity. Inputs are visual REFERENCES, not edit targets: image 1 official logo, image 2 official purple website graphic, image 3 official 2026 festival poster. Extract concrete identity cues: narrow tall gently irregular lowercase lettering; warm copper orange, aubergine purple and cream; the curved procession of separated tilted square dots. Use at most two of those as supporting cues and make a new dominant symbol. Flat print-like vector-friendly design with crisp silhouettes and restrained hand-cut character, very high legibility at 48px. Full-bleed square artwork, no rounded-corner outer frame (the operating system supplies its mask), no page, no captions, no mockup, no drop shadow outside the artwork, no tiny text, no dates, no 3D bevel, no fake glass effects, no generic music-note or headphones icon. Leave safe margin around the dominant symbol. This is a concept image, not a finished vector asset. CONCEPT 2 — accordion heart. Create a distinctive friendly folk-music emblem: an accordion whose broad pleated bellows form a subtle heart-shaped silhouette, with two simplified contrasting endboards. No person, no face, no hands. Refer closely to the accordion and warm hand-drawn folk-poster visual vocabulary in image 3, but invent an original very simplified illustration: red-copper endboards, warm cream bellows with only four broad dark-purple pleats, a few chunky button dots, generous confident contours. Place this emblem large on a deep aubergine field; include only three chunky tilted copper square tiles dancing above it, a restrained nod to the official square-dot arc. The heart-shaped accordion represents the fan's love for the festival. It must read as a single iconic instrument shape rather than a collage, remain clear at small size. No lettering.",
+      "file": "02-akkordeon-herz.png"
+    },
+    {
+      "slug": "03-mein-programm",
+      "prompt": "Use case: logo-brand. Create ONE polished square app icon concept for an independent fan-made Rudolstadt Festival companion app. The user explicitly wants an instantly recognizable connection to this specific festival, yet a distinct fan identity. Inputs are visual REFERENCES, not edit targets: image 1 official logo, image 2 official purple website graphic, image 3 official 2026 festival poster. Extract concrete identity cues: narrow tall gently irregular lowercase lettering; warm copper orange, aubergine purple and cream; the curved procession of separated tilted square dots. Use at most two of those as supporting cues and make a new dominant symbol. Flat print-like vector-friendly design with crisp silhouettes and restrained hand-cut character, very high legibility at 48px. Full-bleed square artwork, no rounded-corner outer frame (the operating system supplies its mask), no page, no captions, no mockup, no drop shadow outside the artwork, no tiny text, no dates, no 3D bevel, no fake glass effects, no generic music-note or headphones icon. Leave safe margin around the dominant symbol. This is a concept image, not a finished vector asset. CONCEPT 3 — my festival programme. A single chunky cream folded programme sheet, slightly tilted and with an asymmetric fold, sits large on an aubergine field. It has a wide copper-orange bookmark tab ending in a clear V cut on its upper-right edge, making it personal. On its front, the only text is exactly 'rudo' above 'stadt', in very tall narrow rounded lowercase cream-on-aubergine lettering on a broad purple printed panel, directly inspired by the official lettering. The lettering must be large and dominate the programme, not small body text. Include a tiny simple programme treatment of only TWO broad copper lines on the lower cream portion, no microscopic schedule rows. A short open arc of four rotated copper square tiles peeks from behind the left side of the sheet, recalling the official festival mark. The silhouette must read first as a personal festival programme and bookmark, then as the Rudolstadt name. No 'FESTIVAL', no dates, no 'official', no slogans. This is the concept with the strongest explicit name recognition, while the programme shape and bookmark supply a distinctive companion identity.",
+      "file": "03-mein-programm.png"
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1050" viewBox="0 0 1560 1050" role="img" aria-labelledby="title description">
+  <title id="title">Drei Festivalvögel — SVG-Varianten</title>
+  <desc id="description">Drei Vogel-Entwürfe mit gleichem Farbsystem bei 416, 96, 60 und 40 Pixeln. Die runden Ecken dienen der Vorschau, sie simulieren keine native iOS-Icon-Maske.</desc>
+  <defs>
+    <clipPath id="rounded-preview">
+      <rect width="1024" height="1024" rx="230" />
+    </clipPath>
+    <g id="variant-0">
+      <g id="v0-background" fill="#492B55">
+        <path d="M0 0H1024V1024H0Z" />
+      </g>
+      <g id="v0-artwork">
+        <g id="v0-feet" fill="#F5E7CE">
+          <path d="m392 654 61 9-19 99 30 20q23 17 9 33-9 9-25 3l-63-26q-13-7-10-26Z" />
+          <path d="m552 656 50-8 31 101 56 16q24 7 19 27-4 15-24 14l-82-9q-14-2-19-18Z" />
+        </g>
+        <g id="v0-body" fill="#F5E7CE">
+          <path d="M348 375Q412 343 492 367 556 386 586 458L629 579Q644 635 600 679 543 729 462 703L372 652 255 677 291 623 229 621 302 552Q286 426 348 375Z" />
+        </g>
+        <g id="v0-head">
+          <path fill="#F5E7CE" d="M348 404Q302 377 307 320 310 282 341 257L321 206 385 234 423 182 448 241Q510 232 552 278 581 312 565 357 553 402 501 417L463 451Z" />
+          <path fill="#EAA16A" d="M550 303Q635 282 728 316 771 332 794 357 708 347 650 377L560 363Z" />
+          <path fill="#492B55" d="M573 340Q664 316 751 341 676 337 635 355L575 359Z" />
+          <path fill="#492B55" d="M488 282Q503 273 515 286 525 299 513 311 501 321 488 309 479 296 488 282Z" />
+          <path fill="#492B55" d="M455 345Q474 361 499 354 489 377 467 373 453 367 455 345Z" />
+        </g>
+        <g id="v0-accordion" transform="rotate(-6 490 567)">
+          <path fill="#F5E7CE" d="m379 466 218 7-3 197-215-10Z" />
+          <g fill="#492B55">
+            <path d="m408 469 23 1-1 192-23-1Z" />
+            <path d="m455 471 23 1-1 193-23-1Z" />
+            <path d="m502 472 23 1-1 194-23-1Z" />
+            <path d="m549 474 23 1-1 194-23-1Z" />
+          </g>
+          <path fill="#EAA16A" d="m322 450 68 7-1 215-63-8q-15-3-14-20l-3-176q-1-19 13-18Z" />
+          <path fill="#EAA16A" d="m584 457 70 7q15 2 14 21l-7 178q-1 18-17 16l-63-8Z" />
+          <g fill="#492B55">
+            <path d="m334 484 31 2-1 34-31-2Z" />
+            <path d="m333 541 31 2-1 34-31-2Z" />
+            <path d="m332 598 31 2-1 34-31-2Z" />
+            <circle cx="626" cy="512" r="13" />
+            <circle cx="624" cy="565" r="13" />
+            <circle cx="622" cy="618" r="13" />
+          </g>
+        </g>
+        <g id="v0-wings" fill="#F5E7CE">
+          <path d="M330 413Q264 437 266 493 268 526 317 546L347 557 358 522 319 500Q304 491 312 475L354 447Z" />
+          <path d="M537 415Q596 410 626 459L667 524 634 548 599 500Q580 475 549 475Z" />
+        </g>
+      </g>
+    </g>
+    <g id="variant-1">
+      <g id="v1-background" fill="#492B55">
+        <path d="M0 0H1024V1024H0Z" />
+      </g>
+      <g id="v1-artwork">
+        <g id="v1-dancing-legs" fill="#F5E7CE">
+          <path d="m415 632 47 25-54 89-38 70-84 21q-24 5-29-12-5-14 16-25l52-28 36-71Z" />
+          <path d="m491 642 43-17 60 84 76-36 40 24-111 66q-15 8-26-6Z" />
+          <path d="m660 681 32-32q13-13 25-3l43 33q19 15 7 30-9 12-29 1l-37-17-20 13Z" />
+        </g>
+        <g id="v1-body" fill="#F5E7CE">
+          <path d="M363 372Q415 353 453 392L492 449 536 558Q557 613 518 651 483 687 432 669L357 623 248 648 278 603 216 595 306 543Q286 462 326 407Z" />
+        </g>
+        <g id="v1-head" transform="rotate(-15 404 313)">
+          <path fill="#F5E7CE" d="M342 373Q301 343 310 298 314 264 345 243L322 197 379 218 416 170 441 228Q491 222 523 254 555 286 539 329 526 364 482 376L444 411Z" />
+          <path fill="#EAA16A" d="M527 272Q616 263 710 296L773 324Q675 312 620 347L536 328Z" />
+          <path fill="#492B55" d="M550 308Q636 287 721 310 650 303 602 328L551 328Z" />
+          <path fill="none" stroke="#492B55" stroke-width="18" stroke-linecap="round" d="M466 277q17-19 35-3" />
+          <path fill="#492B55" d="M440 324Q456 339 480 333 470 351 451 347 439 341 440 324Z" />
+        </g>
+        <g id="v1-accordion" transform="rotate(-19 523 526)">
+          <path fill="#F5E7CE" d="m376 454 290 8-2 174-285-12Z" />
+          <g fill="#492B55">
+            <path d="m409 455 19 1-2 170-19-1Z" />
+            <path d="m454 456 19 1-2 171-19-1Z" />
+            <path d="m499 458 19 1-2 171-19-1Z" />
+            <path d="m544 459 19 1-2 172-19-1Z" />
+            <path d="m589 460 19 1-2 173-19-1Z" />
+            <path d="m634 461 19 1-2 173-19-1Z" />
+          </g>
+          <path fill="#EAA16A" d="m328 441 61 9-3 187-57-8q-12-2-13-15l-2-156q0-18 14-17Z" />
+          <path fill="#EAA16A" d="m652 449 59 8q15 1 14 17l-6 163q0 14-14 12l-57-9Z" />
+          <g fill="#492B55">
+            <path d="m338 477 27 2v29l-27-2Z" />
+            <path d="m338 526 27 2v29l-27-2Z" />
+            <path d="m338 575 27 2v29l-27-2Z" />
+            <circle cx="688" cy="497" r="11" />
+            <circle cx="686" cy="547" r="11" />
+            <circle cx="684" cy="597" r="11" />
+          </g>
+        </g>
+        <g id="v1-wings" fill="#F5E7CE">
+          <path d="M333 411Q270 419 269 476 270 509 311 529L351 547 367 518 329 494Q312 482 324 465L361 443Z" />
+          <path d="M445 409Q506 378 558 396L651 425 638 461 552 443Q517 434 487 455Z" />
+        </g>
+      </g>
+    </g>
+    <g id="variant-2">
+      <g id="v2-background" fill="#492B55">
+        <path d="M0 0H1024V1024H0Z" />
+      </g>
+      <g id="v2-artwork">
+        <g id="v2-legs" fill="#F5E7CE">
+          <path d="m371 641 47 14-19 124 47 17q23 10 16 28-4 13-24 11l-77-12q-15-2-13-22Z" />
+          <path d="m481 642 40-13 63 102 53-27 37 22-88 51q-18 10-28-7Z" />
+          <path d="m626 713 30-29q13-13 27-2l39 29q18 15 7 30-9 12-27 3l-40-20-19 12Z" />
+        </g>
+        <g id="v2-body" fill="#F5E7CE">
+          <path d="M338 378Q394 349 450 382 480 402 491 451L533 567Q557 624 516 665 472 706 408 680L329 638 220 665 254 613 200 610 284 549Q277 429 338 378Z" />
+        </g>
+        <g id="v2-head">
+          <path fill="#F5E7CE" d="M332 398Q288 371 297 316 304 280 333 256L311 205 374 229 411 181 438 241Q488 232 527 268 560 300 545 342 533 382 487 402L442 440Z" />
+          <path fill="#EAA16A" d="M531 300Q583 296 636 330L603 356 541 350Z" />
+          <path fill="none" stroke="#492B55" stroke-width="19" stroke-linecap="round" d="M466 292q18-21 39-1" />
+          <path fill="#492B55" d="M441 341Q462 351 481 343 469 361 451 358Z" />
+        </g>
+        <g id="v2-horn">
+          <path fill="none" stroke="#EAA16A" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" d="M697 391 699 495Q701 555 638 558L577 559Q531 559 531 515L532 453Q532 418 568 418L627 418" />
+          <path fill="#EAA16A" d="m600 326 53 1q42 1 74-20l82-56 16 220-91-51q-32-20-74-22l-58-1Z" />
+          <path fill="#492B55" d="M799 285Q811 359 806 431 774 401 769 359 765 315 799 285Z" />
+          <path fill="#492B55" d="m597 318 17 2 3 86-17-1Z" />
+          <g fill="#EAA16A">
+            <path d="m631 388 25 1-1 67-25-1Z" />
+            <path d="m676 390 25 2-1 61-25-2Z" />
+          </g>
+        </g>
+        <g id="v2-wings" fill="#F5E7CE">
+          <path d="M327 416Q290 443 309 478 326 509 373 497L472 464 462 432 365 454Q346 454 354 434Z" />
+          <path d="M449 408Q496 407 530 436L579 473 555 503 505 476Q480 463 456 468Z" />
+        </g>
+      </g>
+    </g>
+  </defs>
+  <path fill="#F1EEE7" d="M0 0H1560V1050H0Z" />
+  <text x="80" y="69" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="500">RUDOLSTADT / FESTIVALVOGEL</text>
+  <text x="76" y="135" fill="#30243C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="55" font-weight="500">Drei Vögel. Ein Festival.</text>
+  <text x="80" y="177" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400">Violett, Creme und Kupferorange · drei eigenständige SVG-Varianten</text>
+  <path stroke="#D8D1D5" d="M80 202H1480" />
+  <text x="80" y="232" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="500">01</text>
+  <g transform="translate(80 252) scale(0.40625)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-0" />
+    </g>
+  </g>
+  <text x="80" y="722" fill="#30243C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="32" font-weight="500">Der Musikant</text>
+  <text x="80" y="760" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400">Kompakt · großes Akkordeon · offener Blick</text>
+  <g transform="translate(80 820.0) scale(0.09375)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-0" />
+    </g>
+  </g>
+  <text x="80" y="949" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400">96 px</text>
+  <g transform="translate(236 838.0) scale(0.05859375)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-0" />
+    </g>
+  </g>
+  <text x="236" y="949" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400">60 px</text>
+  <g transform="translate(360 848.0) scale(0.0390625)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-0" />
+    </g>
+  </g>
+  <text x="360" y="949" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400">40 px</text>
+  <text x="572" y="232" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="500">02</text>
+  <g transform="translate(572 252) scale(0.40625)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-1" />
+    </g>
+  </g>
+  <text x="572" y="722" fill="#30243C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="32" font-weight="500">Der Tänzer</text>
+  <text x="572" y="760" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400">Langer Balg · schräger Takt · Tanzschritt</text>
+  <g transform="translate(572 820.0) scale(0.09375)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-1" />
+    </g>
+  </g>
+  <text x="572" y="949" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400">96 px</text>
+  <g transform="translate(728 838.0) scale(0.05859375)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-1" />
+    </g>
+  </g>
+  <text x="728" y="949" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400">60 px</text>
+  <g transform="translate(852 848.0) scale(0.0390625)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-1" />
+    </g>
+  </g>
+  <text x="852" y="949" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400">40 px</text>
+  <text x="1064" y="232" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="500">03</text>
+  <g transform="translate(1064 252) scale(0.40625)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-2" />
+    </g>
+  </g>
+  <text x="1064" y="722" fill="#30243C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="32" font-weight="500">Der Blechvogel</text>
+  <text x="1064" y="760" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400">Großes Horn · geschlossene Augen · Schwung</text>
+  <g transform="translate(1064 820.0) scale(0.09375)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-2" />
+    </g>
+  </g>
+  <text x="1064" y="949" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400">96 px</text>
+  <g transform="translate(1220 838.0) scale(0.05859375)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-2" />
+    </g>
+  </g>
+  <text x="1220" y="949" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400">60 px</text>
+  <g transform="translate(1344 848.0) scale(0.0390625)">
+    <g clip-path="url(#rounded-preview)">
+      <use href="#variant-2" />
+    </g>
+  </g>
+  <text x="1344" y="949" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400">40 px</text>
+  <path stroke="#D8D1D5" d="M80 985H1480" />
+  <text x="80" y="1020" fill="#776D7C" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400">1024 × 1024 · reine Vektorformen · Rundungen nur in dieser Vorschau</text>
+</svg>

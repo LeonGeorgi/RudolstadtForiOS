@@ -121,6 +121,13 @@ struct ArtistEventCell: View {
         VStack(alignment: .leading, spacing: 3) {
             eventMetadataHeader
 
+            if event.startDate == nil {
+                Text(event.timeAsString)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
             Text(event.stage.localizedName)
                 .font(.body.weight(.semibold))
                 .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)

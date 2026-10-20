@@ -478,3 +478,29 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "tip.news.read_state.message" = "Wische eine Nachricht, um ihren Gelesen-Status schnell zu ändern.";
 "tip.stage.map_preview.title" = "Große Bühnenkarte öffnen";
 "tip.stage.map_preview.message" = "Tippe auf diese Vorschau, um die interaktive Karte der Bühne zu öffnen.";
+
+// Incomplete festival data
+"event.time.unknown" = "Zeit unbekannt";
+"event.date.unknown" = "Termin unbekannt";
+"event.time.unplaced" = "Events ohne bekannte Zeit";
+"stage.location.unknown" = "Bühnenort noch nicht verfügbar";
+"data.import.incomplete" = "Einige Programmdaten konnten nicht übernommen werden. Das Programm ist unvollständig.";
+"common.done" = "Fertig";
+
+"news.refresh.failed" = "Die News konnten nicht aktualisiert werden. Zu sehen ist der zuletzt verfügbare Stand.";
+"news.storage.failed" = "Die News sind aktuell, konnten aber nicht für die Offline-Nutzung gespeichert werden.";
+"news.notification.unavailable" = "Diese Meldung ist nicht mehr verfügbar. Hier findest du die verfügbaren News.";
+"news.refresh.bundle" = "Die News konnten nicht geladen werden. Zu sehen ist der mitgelieferte Stand der App, der veraltet sein kann.";
+"artist.note.sync-warning" = "Synchronisierung derzeit nicht möglich. Diese Notiz enthält möglicherweise nicht die neuesten Änderungen deiner anderen Geräte.";
+
+// Festival map
+"map.numbers.title" = "Bühne finden";
+"map.numbers.empty" = "Keine nummerierten Orte verfügbar.";
+"map.location.unavailable" = "Noch keine Standortangabe";
+
+"program.discovery.title" = "Programm entdecken";
+"program.discovery.dance-along" = "Mitmachtanz";
+"program.discovery.empty" = "Im geladenen Programm sind noch keine passenden Veranstaltungen vorhanden.";
+"program.discovery.country.intro" = "Entdecke die Konzerte und weiteren Veranstaltungen zum Länderschwerpunkt des Festivals.";
+"program.discovery.ebu.intro" = "Europäische Rundfunkanstalten bringen ausgewählte Musikerinnen und Musiker nach Rudolstadt. Ihre Konzerte bilden das EBU Folk Festival innerhalb des Festivals.";
+"program.discovery.ruth.intro" = "Die RUTH ist der deutsche Weltmusikpreis. Hier findest du die dazugehörigen Veranstaltungen beim Festival.";

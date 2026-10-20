@@ -62,3 +62,37 @@ struct APIClientTests {
         }
     }
 }
+
+extension APIClientTests {
+    @Test
+    func festivalFetchRetainsIdentifiableEventsAndReportsSkippedRecords() async throws {
+        let http = HTTPClientStub { url in
+            let json =
+                url.lastPathComponent == "events"
+                ? #"[{"id":41},{"id":"bad"},null,{"id":42,"artist":8}]"# : "[]"
+            return HTTPResponse(data: Data(json.utf8), statusCode: 200)
+        }
+        let api = try await APIClient(httpClient: http).fetchFestivalData()
+        #expect(api.events.map(\.id) == [41, 42])
+        #expect(api.omittedRecordCount == 2)
+        let cached = try JSONDecoder().decode(
+            APIRudolstadtData.self, from: JSONEncoder().encode(api))
+        #expect(cached.omittedRecordCount == 2)
+    }
+
+    @Test(arguments: ["{broken", #"{"events":[]}"#])
+    func structuralErrorsStillFailTheFestivalFetch(json: String) async {
+        let http = HTTPClientStub { url in
+            HTTPResponse(
+                data: Data((url.lastPathComponent == "events" ? json : "[]").utf8), statusCode: 200)
+        }
+        do {
+            _ = try await APIClient(httpClient: http).fetchFestivalData()
+            Issue.record("Expected an invalid event response to fail for the existing fallback")
+        } catch APIClientError.decoding(let endpoint, _, _) {
+            #expect(endpoint == .events)
+        } catch {
+            Issue.record("Unexpected error: \(error)")
+        }
+    }
+}

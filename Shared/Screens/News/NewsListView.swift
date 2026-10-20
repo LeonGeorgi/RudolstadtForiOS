@@ -3,6 +3,7 @@ import SwiftUI
 struct NewsListView: View {
 
     private let allowsPullToRefresh: Bool
+    private let openingNotice: LocalizedStringKey?
 
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var newsStore: NewsStore
@@ -12,62 +13,79 @@ struct NewsListView: View {
         DiscoverabilityTipSequences.newsScreen
     )
 
-    init(allowsPullToRefresh: Bool = true) {
+    init(allowsPullToRefresh: Bool = true, openingNotice: LocalizedStringKey? = nil) {
         self.allowsPullToRefresh = allowsPullToRefresh
+        self.openingNotice = openingNotice
     }
 
     var body: some View {
-        content
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        Button {
-                            refreshButtonDisabled = true
-                            Task {
-                                await newsStore
-                                    .refreshNewsIfNecessary()
-                                refreshButtonDisabled = false
-                            }
-                        } label: {
-                            Label(
-                                "news.refresh.title",
-                                systemImage: "arrow.clockwise"
-                            )
+        VStack(spacing: 0) {
+            if let openingNotice {
+                noticeText(openingNotice)
+            }
+            if let notice = newsStore.notice {
+                noticeText(LocalizedStringKey(notice.rawValue))
+            }
+            content
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    Button {
+                        refreshButtonDisabled = true
+                        Task {
+                            await newsStore
+                                .refreshNewsIfNecessary()
+                            refreshButtonDisabled = false
                         }
-                        .disabled(refreshButtonDisabled)
-                        .accessibilityIdentifier("news-refresh")
-
-                        Button {
-                            isShowingMarkAllReadConfirmation = true
-                        } label: {
-                            Label(
-                                "news.mark_all_read.action",
-                                systemImage: "checkmark.circle"
-                            )
-                        }
-                        .disabled(unreadNewsItems.isEmpty)
-                        .accessibilityIdentifier("news-mark-all-read")
                     } label: {
-                        Image(systemName: "ellipsis")
+                        Label(
+                            "news.refresh.title",
+                            systemImage: "arrow.clockwise"
+                        )
                     }
-                    .accessibilityLabel("news.actions.title")
-                    .accessibilityIdentifier("news-actions-menu")
+                    .disabled(refreshButtonDisabled)
+                    .accessibilityIdentifier("news-refresh")
+
+                    Button {
+                        isShowingMarkAllReadConfirmation = true
+                    } label: {
+                        Label(
+                            "news.mark_all_read.action",
+                            systemImage: "checkmark.circle"
+                        )
+                    }
+                    .disabled(unreadNewsItems.isEmpty)
+                    .accessibilityIdentifier("news-mark-all-read")
+                } label: {
+                    Image(systemName: "ellipsis")
                 }
+                .accessibilityLabel("news.actions.title")
+                .accessibilityIdentifier("news-actions-menu")
             }
-            .navigationTitle("news.long")
-            .confirmationDialog(
-                "news.mark_all_read.title",
-                isPresented: $isShowingMarkAllReadConfirmation,
-                titleVisibility: .visible
-            ) {
-                Button("news.mark_all_read.action") {
-                    settings.markNewsAsRead(unreadNewsItems)
-                }
-                Button("news.mark_all_read.cancel", role: .cancel) {}
-            } message: {
-                Text("news.mark_all_read.message")
+        }
+        .navigationTitle("news.long")
+        .confirmationDialog(
+            "news.mark_all_read.title",
+            isPresented: $isShowingMarkAllReadConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("news.mark_all_read.action") {
+                settings.markNewsAsRead(unreadNewsItems)
             }
+            Button("news.mark_all_read.cancel", role: .cancel) {}
+        } message: {
+            Text("news.mark_all_read.message")
+        }
+    }
+
+    private func noticeText(_ key: LocalizedStringKey) -> some View {
+        Text(key)
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
     }
 
     private var unreadNewsItems: [NewsItem] {
@@ -84,7 +102,7 @@ struct NewsListView: View {
     @ViewBuilder
     private var content: some View {
         if case .success(let news) = newsStore.news {
-            if news.isEmpty {
+            if news.filter({ $0.isInCurrentLanguage }).isEmpty {
                 Text("news.empty")
                     .multilineTextAlignment(.center)
                     .foregroundColor(.gray)
@@ -95,8 +113,8 @@ struct NewsListView: View {
             }
         } else if case .loading = newsStore.news {
             ProgressView()
-        } else if case .failure(let reason) = newsStore.news {
-            Text(reason.rawValue)
+        } else if case .failure = newsStore.news {
+            Text("news.error")
         } else {
             Text("news.error")
                 .foregroundColor(.red)

@@ -5,46 +5,57 @@ func convertAPIRudolstadtDataToEntities(
     apiData: APIRudolstadtData,
     extraData: ExtraDataCollection
 ) -> FestivalData {
-    let tags = apiData.tags.map(convertAPITagToTag)
-    let artists = apiData.artists.map { APIArtist in
+    let areaRecords = uniqueRecords(apiData.areas, id: \.id)
+    let artistRecords = uniqueRecords(apiData.artists, id: \.id)
+    let stageRecords = uniqueRecords(apiData.stages, id: \.id)
+    let tagRecords = uniqueRecords(apiData.tags, id: \.id)
+    let eventRecords = uniqueRecords(apiData.events, id: \.id)
+    let tags = tagRecords.values.map(convertAPITagToTag)
+    var artists = artistRecords.values.map {
         convertAPIArtistToArtist(
-            apiArtist: APIArtist,
-            extraData: extraData,
-            tags: apiData.tags,
-            events: apiData.events
-        )
-    }.sorted { a1, a2 in
-        normalize(string: a1.name) < normalize(string: a2.name)
+            apiArtist: $0, extraData: extraData,
+            tags: tagRecords.values, events: eventRecords.values)
     }
-    let areas = apiData.areas.map(convertAPIAreaToArea)
-    let stages = apiData.stages.compactMap {
+    let areas = areaRecords.values.map(convertAPIAreaToArea)
+    var stages = stageRecords.values.compactMap {
         convertAPIStageToStage(apiStage: $0, areas: areas)
-    }.sorted { s1, s2 in
-        guard let s1StageNumber = s1.stageNumber else {
-            return false
-        }
-        guard let s2StageNumber = s2.stageNumber else {
-            return true
-        }
-        return s1StageNumber < s2StageNumber
     }
-    let events = apiData.events.compactMap {
-        convertAPIEventToEvent(
-            apiEvent: $0,
-            stages: stages,
-            artists: artists,
-            tags: tags
-        )
-    }.sorted { ev1, ev2 in
-        ev1.date < ev2.date
+    var artistIDs = Set(artists.map(\.id))
+    var stageIDs = Set(stages.map(\.id))
+    for event in eventRecords.values {
+        let artistID = event.artist > 0 ? event.artist : -event.id
+        let stageID = event.stage > 0 ? event.stage : -event.id
+        if artistIDs.insert(artistID).inserted { artists.append(.missing(id: artistID)) }
+        if stageIDs.insert(stageID).inserted { stages.append(.missing(id: stageID)) }
     }
-
+    artists.sort {
+        let a = normalize(string: $0.name, locale: Locale(identifier: "en_US_POSIX"))
+        let b = normalize(string: $1.name, locale: Locale(identifier: "en_US_POSIX"))
+        return a == b ? $0.id < $1.id : a < b
+    }
+    stages.sort {
+        switch ($0.stageNumber, $1.stageNumber) {
+        case let (a?, b?) where a != b: return a < b
+        case (_?, nil): return true
+        case (nil, _?): return false
+        default: return $0.id < $1.id
+        }
+    }
+    let events = eventRecords.values.compactMap {
+        convertAPIEventToEvent(apiEvent: $0, stages: stages, artists: artists, tags: tags)
+    }.sorted(by: Event.precedes)
     return FestivalData(
-        artists: artists,
-        areas: areas,
-        stages: stages,
-        events: events
-    )
+        artists: artists, areas: areas, stages: stages, events: events,
+        omittedRecordCount: apiData.omittedRecordCount + areaRecords.omitted + artistRecords.omitted
+            + stageRecords.omitted + tagRecords.omitted + eventRecords.omitted)
+}
+
+private func uniqueRecords<Value>(_ values: [Value], id: KeyPath<Value, Int>)
+    -> (values: [Value], omitted: Int)
+{
+    let counts = Dictionary(grouping: values, by: { $0[keyPath: id] }).mapValues(\.count)
+    let unique = values.filter { $0[keyPath: id] > 0 && counts[$0[keyPath: id]] == 1 }
+    return (unique, values.count - unique.count)
 }
 
 func convertAPIArtistCategoryToArtistType(
@@ -74,6 +85,9 @@ func convertAPIArtistToArtist(
     tags: [APITag],
     events: [APIEvent]
 ) -> Artist {
+    guard !apiArtist.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        return .missing(id: apiArtist.id)
+    }
     let eventsForArtist = events.filter { event in
         event.artist == apiArtist.id
     }
@@ -151,27 +165,28 @@ func convertAPIEventToEvent(
     artists: [Artist],
     tags: [Tag]
 ) -> Event? {
-    guard let dayInJuly = apiEvent.getDayInJuly() else {
-        return nil
-    }
-    guard let stage = stages.first(where: { $0.id == apiEvent.stage }) else {
-        return nil
-    }
-    guard let artist = artists.first(where: { $0.id == apiEvent.artist })
-    else {
-        return nil
-    }
-    let tags = apiEvent.tags.compactMap { tagId in
-        tags.first(where: { $0.id == tagId })
-    }
+    guard apiEvent.id > 0 else { return nil }
+    let stageID = apiEvent.stage > 0 ? apiEvent.stage : -apiEvent.id
+    let artistID = apiEvent.artist > 0 ? apiEvent.artist : -apiEvent.id
+    let stage = stages.first { $0.id == stageID } ?? .missing(id: stageID)
+    let artist = artists.first { $0.id == artistID } ?? .missing(id: artistID)
+    let parsedStart = apiEvent.start.getDate()
+    let calendar = FestivalDateUtilities.festivalCalendar
+    let wrongYear =
+        parsedStart.map { calendar.component(.year, from: $0) != FestivalConfiguration.year }
+        ?? false
+    let legacyDay =
+        wrongYear ? nil : FestivalDateUtilities.festivalDate(apiEvent.day, format: "dd.MM.yyyy")
+    let start =
+        wrongYear
+        ? nil
+        : parsedStart
+            ?? FestivalDateUtilities.festivalDate(
+                apiEvent.day + " " + apiEvent.time, format: "dd.MM.yyyy HH:mm")
     return Event(
-        id: apiEvent.id,
-        dayInJuly: dayInJuly,
-        timeAsString: apiEvent.time,
-        stage: stage,
-        artist: artist,
-        tag: tags.first,  // TODO: Handle multiple tags
-    )
+        id: apiEvent.id, startDate: start, knownDate: legacyDay,
+        stage: stage, artist: artist,
+        tags: apiEvent.tags.compactMap { id in tags.first { $0.id == id } })
 }
 
 func convertAPIStageCategoryToStageType(apiCategory: APIStageCategory)
@@ -184,10 +199,15 @@ func convertAPIStageCategoryToStageType(apiCategory: APIStageCategory)
         return .festivalTicket
     case .information:
         return .other
+    case .unknown:
+        return .unknown
     }
 }
 
 func convertAPIStageToStage(apiStage: APIStage, areas: [Area]) -> Stage? {
+    guard !apiStage.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        return .missing(id: apiStage.id)
+    }
     let area = areas.first(where: { $0.id == apiStage.area })
         ?? fallbackArea(forMissingID: apiStage.area)
     let stageType = convertAPIStageCategoryToStageType(
@@ -200,8 +220,8 @@ func convertAPIStageToStage(apiStage: APIStage, areas: [Area]) -> Stage? {
         germanDescription: apiStage.description?.decodingHTMLCharacterReferences(),
         englishDescription: apiStage.descriptionEN?.decodingHTMLCharacterReferences(),
         stageNumber: apiStage.mapNumber,
-        latitude: apiStage.lat,
-        longitude: apiStage.lon,
+        latitude: apiStage.lat ?? .nan,
+        longitude: apiStage.lon ?? .nan,
         area: area,
         stageType: stageType,
     )

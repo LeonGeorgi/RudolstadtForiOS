@@ -9,55 +9,71 @@ enum FestivalProfileCloudRecordPayload: Equatable, Sendable {
         badgeName: String?,
         badgeColorHex: String
     )
-    case savedEvent(eventID: Int)
-    case artistPreference(FestivalArtistPreference)
-    case artistNote(FestivalArtistNote)
+    case change(FestivalProfileChange)
 }
 
 enum FestivalProfileCloudRecordMapper {
+    private typealias Constants = FestivalProfileStore.Constants
+
     static func payload(from record: CKRecord) -> FestivalProfileCloudRecordPayload? {
+        let legacyDate = (record["updatedAt"] as? Date) ?? record.modificationDate ?? .distantPast
+        let userDate = record["userModifiedAt"] as? Date
+        // An old writer may update a record without knowing the new fields.
+        let hasUserVersion = userDate.map { $0 >= legacyDate } ?? false
+        let isDeleted = hasUserVersion && (record["isDeleted"] as? Bool == true)
+        let value: FestivalProfileRecordValue
         switch record.recordType {
-        case FestivalProfileStore.Constants.profileRecordType:
+        case Constants.profileRecordType:
             return .profile(
                 festivalYear: (record["festivalYear"] as? Int) ?? DataStore.year,
                 title: (record["profileName"] as? String)
-                    ?? FestivalProfileStore.Constants.profileName,
+                    ?? Constants.profileName,
                 badgeName: FestivalProfileBadge.normalizedName(record["badgeName"] as? String),
                 badgeColorHex: FestivalProfileBadge.resolvedColorHex(
                     record["badgeColorHex"] as? String
                 )
             )
-        case FestivalProfileStore.Constants.savedEventRecordType:
-            return .savedEvent(
+        case Constants.savedEventRecordType:
+            value = .savedEvent(
                 eventID: (record["eventID"] as? Int)
-                    ?? numericID(from: record.recordID.recordName)
+                    ?? numericID(from: record.recordID.recordName),
+                isSaved: !isDeleted
             )
-        case FestivalProfileStore.Constants.artistPreferenceRecordType:
-            return .artistPreference(
+        case Constants.artistPreferenceRecordType:
+            value = .artistPreference(
                 FestivalArtistPreference(
                     artistID: (record["artistID"] as? Int)
                         ?? numericID(from: record.recordID.recordName),
-                    rating: (record["rating"] as? Int) ?? 0,
-                    iconName: record["iconName"] as? String
+                    rating: isDeleted ? 0 : (record["rating"] as? Int) ?? 0,
+                    iconName: isDeleted ? nil : record["iconName"] as? String
                 )
             )
-        case FestivalProfileStore.Constants.artistNoteRecordType:
-            return .artistNote(
+        case Constants.artistNoteRecordType:
+            value = .artistNote(
                 FestivalArtistNote(
                     artistID: (record["artistID"] as? Int)
                         ?? numericID(from: record.recordID.recordName),
-                    noteText: (record["noteText"] as? String) ?? ""
+                    noteText: isDeleted ? "" : (record["noteText"] as? String) ?? ""
                 )
             )
         default:
             return nil
         }
+        return .change(FestivalProfileChange(
+            value: value,
+            version: FestivalProfileChangeVersion(
+                modifiedAt: hasUserVersion ? (userDate ?? legacyDate) : legacyDate,
+                changeID: hasUserVersion
+                    ? (record["changeID"] as? String) ?? value.legacyChangeID
+                    : value.legacyChangeID
+            )
+        ))
     }
 
     static func recordID(
         for record: FestivalProfileSyncRecord,
-        profileZoneID: CKRecordZone.ID,
-        notesZoneID: CKRecordZone.ID,
+        profileZoneID: CKRecordZone.ID = FestivalProfileCloudRecordMapper.profileZoneID,
+        notesZoneID: CKRecordZone.ID = FestivalProfileCloudRecordMapper.notesZoneID,
         festivalYear: Int = DataStore.year
     ) -> CKRecord.ID {
         switch record {
@@ -91,12 +107,21 @@ enum FestivalProfileCloudRecordMapper {
         updatedAt: Date,
         profileRootRecordID: CKRecord.ID
     ) -> CKRecord? {
+        let change = profile.change(for: syncRecord)
+        if syncRecord != .profile, change == nil { return nil }
+        if let change {
+            record["userModifiedAt"] = change.version.modifiedAt as CKRecordValue
+            record["changeID"] = change.version.changeID as CKRecordValue
+            record["isDeleted"] = change.value.isDeleted as CKRecordValue
+            // Keep legacy readers' timestamp meaningful; retries never advance it.
+            record["updatedAt"] = change.version.modifiedAt as CKRecordValue
+        }
         switch syncRecord {
         case .profile:
             record["festivalYear"] = DataStore.year as CKRecordValue
-            record["schemaVersion"] = FestivalProfileStore.Constants.schemaVersion as CKRecordValue
+            record["schemaVersion"] = Constants.schemaVersion as CKRecordValue
             record["updatedAt"] = updatedAt as CKRecordValue
-            record["profileName"] = FestivalProfileStore.Constants.profileName as CKRecordValue
+            record["profileName"] = Constants.profileName as CKRecordValue
             record["badgeName"] = FestivalProfileBadge.normalizedName(profile.badgeName)
                 as CKRecordValue?
             record["badgeColorHex"] = FestivalProfileBadge.resolvedColorHex(
@@ -104,37 +129,27 @@ enum FestivalProfileCloudRecordMapper {
             ) as CKRecordValue
 
         case .savedEvent(let eventID):
-            guard profile.savedEventIDs.contains(eventID) else {
-                return nil
-            }
             record["festivalYear"] = DataStore.year as CKRecordValue
             record["eventID"] = eventID as CKRecordValue
-            record["updatedAt"] = updatedAt as CKRecordValue
             record.setParent(profileRootRecordID)
 
         case .artistPreference(let artistID):
-            guard let preference = profile.artistPreferences.first(where: {
+            let preference = profile.artistPreferences.first(where: {
                 $0.artistID == artistID
-            }) else {
-                return nil
-            }
+            })
             record["festivalYear"] = DataStore.year as CKRecordValue
             record["artistID"] = artistID as CKRecordValue
-            record["rating"] = preference.rating as CKRecordValue
-            record["iconName"] = preference.iconName as CKRecordValue?
-            record["updatedAt"] = updatedAt as CKRecordValue
+            record["rating"] = (preference?.rating ?? 0) as CKRecordValue
+            record["iconName"] = preference?.iconName as CKRecordValue?
             record.setParent(profileRootRecordID)
 
         case .artistNote(let artistID):
-            guard let note = profile.artistNotes.first(where: {
+            let note = profile.artistNotes.first(where: {
                 $0.artistID == artistID
-            }) else {
-                return nil
-            }
+            })
             record["festivalYear"] = DataStore.year as CKRecordValue
             record["artistID"] = artistID as CKRecordValue
-            record["noteText"] = note.noteText as CKRecordValue
-            record["updatedAt"] = updatedAt as CKRecordValue
+            record["noteText"] = (note?.noteText ?? "") as CKRecordValue
         }
 
         return record
@@ -155,6 +170,147 @@ enum FestivalProfileCloudRecordMapper {
             return .artistNote(artistID: numericID(from: recordName))
         }
         return nil
+    }
+
+    static func restoreChangeVersions(in profile: inout CachedOwnerFestivalProfile) {
+        for record in profile.syncRecords {
+            guard profile.changeVersions?[record.key] == nil,
+                  let value = record.value(in: profile) else { continue }
+            let fields = cachedRecordInfo(for: record, in: profile).systemFields
+            let historicalDate = fields.flatMap { restoreSystemFieldsRecord(from: $0)?.modificationDate }
+            profile.changeVersions = profile.changeVersions ?? [:]
+            profile.changeVersions?[record.key] = FestivalProfileChangeVersion(
+                modifiedAt: historicalDate ?? .distantPast, changeID: value.legacyChangeID
+            )
+        }
+    }
+
+    static func recordToUpload(
+        for syncRecord: FestivalProfileSyncRecord,
+        from profile: CachedOwnerFestivalProfile,
+        updatedAt: Date
+    ) -> CKRecord? {
+        let info = cachedRecordInfo(for: syncRecord, in: profile)
+        let record = restoreRecord(
+            from: info.systemFields, recordType: info.type, recordID: recordID(for: syncRecord)
+        )
+        return populate(
+            record, for: syncRecord, from: profile, updatedAt: updatedAt,
+            profileRootRecordID: recordID(for: .profile)
+        )
+    }
+
+    private static func cachedRecordInfo(
+        for record: FestivalProfileSyncRecord,
+        in profile: CachedOwnerFestivalProfile
+    ) -> (type: String, systemFields: Data?) {
+        let name = recordID(for: record).recordName
+        switch record {
+        case .profile:
+            return (Constants.profileRecordType, profile.rootRecordSystemFieldsData)
+        case .savedEvent:
+            return (Constants.savedEventRecordType, profile.savedEventRecordSystemFieldsByName[name])
+        case .artistPreference:
+            return (Constants.artistPreferenceRecordType, profile.artistPreferenceRecordSystemFieldsByName[name])
+        case .artistNote:
+            return (Constants.artistNoteRecordType, profile.artistNoteRecordSystemFieldsByName[name])
+        }
+    }
+
+    static func updateSystemFields(from record: CKRecord, in profile: inout CachedOwnerFestivalProfile) {
+        switch record.recordType {
+        case Constants.profileRecordType:
+            profile.rootRecordSystemFieldsData = encodeSystemFields(for: record)
+            profile.shareRecordName = record.share?.recordID.recordName
+        case Constants.savedEventRecordType:
+            profile.savedEventRecordSystemFieldsByName[record.recordID.recordName] = encodeSystemFields(for: record)
+        case Constants.artistPreferenceRecordType:
+            profile.artistPreferenceRecordSystemFieldsByName[record.recordID.recordName] = encodeSystemFields(for: record)
+        case Constants.artistNoteRecordType:
+            profile.artistNoteRecordSystemFieldsByName[record.recordID.recordName] = encodeSystemFields(for: record)
+        default:
+            break
+        }
+    }
+
+    static func clearSystemFields(for recordID: CKRecord.ID, in profile: inout CachedOwnerFestivalProfile) {
+        switch recordID.zoneID {
+        case profileZoneID:
+            if recordID == self.recordID(for: .profile) {
+                profile.rootRecordSystemFieldsData = nil
+            } else {
+                profile.savedEventRecordSystemFieldsByName.removeValue(forKey: recordID.recordName)
+                profile.artistPreferenceRecordSystemFieldsByName.removeValue(forKey: recordID.recordName)
+            }
+        case notesZoneID:
+            profile.artistNoteRecordSystemFieldsByName.removeValue(forKey: recordID.recordName)
+        default:
+            break
+        }
+    }
+
+    static func mergeSharedRecord(_ record: CKRecord, into profiles: inout [CachedSharedFestivalProfile]) {
+        guard let payload = payload(from: record) else {
+            return
+        }
+        let sharedProfileID = sharedProfileID(for: record.recordID.zoneID)
+        var sharedProfile = profiles.first(where: { $0.id == sharedProfileID })
+            ?? CachedSharedFestivalProfile(
+                id: sharedProfileID,
+                title: Constants.profileName,
+                ownerName: record.recordID.zoneID.ownerName == CKCurrentUserDefaultName ? nil : record.recordID.zoneID.ownerName,
+                badgeName: nil,
+                badgeColorHex: FestivalProfileBadge.defaultColorHex,
+                festivalYear: DataStore.year,
+                savedEventIDs: [],
+                artistPreferences: []
+            )
+
+        switch payload {
+        case .profile(let festivalYear, let title, let badgeName, let badgeColorHex):
+            sharedProfile.title = title
+            sharedProfile.badgeName = badgeName
+            sharedProfile.badgeColorHex = badgeColorHex
+            sharedProfile.festivalYear = festivalYear
+        case .change(let change):
+            switch change.value {
+            case .savedEvent(let eventID, let isSaved):
+                sharedProfile.savedEventIDs.removeAll { $0 == eventID }
+                if isSaved { sharedProfile.savedEventIDs.append(eventID) }
+                sharedProfile.savedEventIDs.sort()
+            case .artistPreference(let preference):
+                sharedProfile.artistPreferences.removeAll { $0.artistID == preference.artistID }
+                if !change.value.isDeleted { sharedProfile.artistPreferences.append(preference) }
+                sharedProfile.artistPreferences.sort { $0.artistID < $1.artistID }
+            case .artistNote: break
+            }
+        }
+
+        profiles.removeAll { $0.id == sharedProfileID }
+        profiles.append(sharedProfile)
+    }
+
+    static func removeSharedRecord(_ recordID: CKRecord.ID, from profiles: inout [CachedSharedFestivalProfile]) {
+        let profileID = sharedProfileID(for: recordID.zoneID)
+        guard var profile = profiles.first(where: { $0.id == profileID }) else { return }
+        if recordID == self.recordID(for: .profile, profileZoneID: recordID.zoneID) {
+            profiles.removeAll { $0.id == profileID }
+            return
+        }
+        switch syncRecord(for: recordID) {
+        case .savedEvent(let eventID):
+            profile.savedEventIDs.removeAll { $0 == eventID }
+        case .artistPreference(let artistID):
+            profile.artistPreferences.removeAll { $0.artistID == artistID }
+        default:
+            break
+        }
+        profiles.removeAll { $0.id == profileID }
+        profiles.append(profile)
+    }
+
+    static func sharedProfileID(for zoneID: CKRecordZone.ID) -> String {
+        "\(zoneID.ownerName)|\(zoneID.zoneName)"
     }
 
     private static func numericID(from recordName: String) -> Int {
@@ -189,6 +345,78 @@ enum FestivalProfileSyncConflictPolicy {
         default:
             return .fail
         }
+    }
+}
+
+// System-field and engine-state coding is shared by sync and sharing.
+extension FestivalProfileCloudRecordMapper {
+    static var profileZoneID: CKRecordZone.ID {
+        CKRecordZone.ID(
+            zoneName: Constants.profileZoneName,
+            ownerName: CKCurrentUserDefaultName
+        )
+    }
+
+    static var notesZoneID: CKRecordZone.ID {
+        CKRecordZone.ID(
+            zoneName: Constants.notesZoneName,
+            ownerName: CKCurrentUserDefaultName
+        )
+    }
+
+    static func encodeStateSerialization(
+        _ serialization: CKSyncEngine.State.Serialization
+    ) -> Data? {
+        try? JSONEncoder().encode(serialization)
+    }
+
+    static func decodeStateSerialization(
+        from data: Data?
+    ) -> CKSyncEngine.State.Serialization? {
+        guard let data else {
+            return nil
+        }
+        return try? JSONDecoder().decode(CKSyncEngine.State.Serialization.self, from: data)
+    }
+
+    static func encodeSystemFields(for record: CKRecord) -> Data? {
+        let archiver = NSKeyedArchiver(requiringSecureCoding: true)
+        record.encodeSystemFields(with: archiver)
+        archiver.finishEncoding()
+        return archiver.encodedData
+    }
+
+    static func restoreRecord(
+        from systemFieldsData: Data?,
+        recordType: String,
+        recordID: CKRecord.ID
+    ) -> CKRecord {
+        guard let systemFieldsData else {
+            return CKRecord(recordType: recordType, recordID: recordID)
+        }
+
+        if let restoredRecord = restoreSystemFieldsRecord(from: systemFieldsData) {
+            return restoredRecord
+        }
+
+        return CKRecord(recordType: recordType, recordID: recordID)
+    }
+
+    static func restoreSystemFieldsRecord(from systemFieldsData: Data) -> CKRecord? {
+        guard
+            let unarchiver = try? NSKeyedUnarchiver(forReadingFrom: systemFieldsData)
+        else {
+            return nil
+        }
+
+        unarchiver.requiresSecureCoding = true
+        if let record = CKRecord(coder: unarchiver) {
+            unarchiver.finishDecoding()
+            return record
+        }
+
+        unarchiver.finishDecoding()
+        return nil
     }
 }
 #endif

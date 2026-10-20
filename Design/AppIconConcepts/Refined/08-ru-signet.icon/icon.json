@@ -1,0 +1,37 @@
+{
+  "fill" : {
+    "automatic-gradient" : "srgb:0.28500,0.09000,0.33500,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "glass" : true,
+          "image-name" : "Originalschriftzug.svg",
+          "name" : "Originalschriftzug",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting" : "combined",
+      "name" : "08 · ru Signet",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.10000000000000001
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.14999999999999999
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : "shared"
+  }
+}

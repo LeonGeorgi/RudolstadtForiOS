@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title description">
+  <title id="title">Akkordeonvogel – zweite Überarbeitung</title>
+  <desc id="description">Ein kompakter, tanzender Festivalvogel mit geschwungenem Federschopf und geschlossenem Auge spielt ein Akkordeon mit vier breiten Falten. Creme und Kupferorange auf Violett.</desc>
+  <g id="background" fill="#492B55"><path d="M0 0H1024V1024H0Z"/></g>
+  <g id="artwork">
+    <g id="feet" fill="none" stroke="#EAA16A" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m424 693-18 67 23 37-49 13m49-13 27 22m-27-22-3 27"/>
+      <path d="m568 683 28 57 48-19 25-35m-25 35 38-2m-38 2 24 22"/>
+    </g>
+    <g id="body" fill="#F5E7CE">
+      <path d="M326 463C318 421 332 385 356 359 326 331 324 296 342 265 355 242 377 224 406 220 374 210 350 196 338 175 370 173 396 183 420 200 407 179 401 161 403 143 430 152 448 171 460 195 460 177 465 163 476 151 489 174 489 198 482 218 523 224 552 250 553 286 553 322 533 346 507 363 488 376 486 397 501 413 537 420 574 440 599 476 628 521 635 587 616 644 598 702 552 737 490 741 428 744 374 715 348 667 318 683 280 687 246 678 269 666 286 650 297 631 256 633 214 620 187 597 240 599 281 581 306 551 299 521 306 484 326 463Z"/>
+    </g>
+    <g id="beak" fill="#EAA16A">
+      <path d="M541 270C584 249 637 250 687 275 646 278 613 291 588 307L546 303Z"/>
+      <path d="m546 319 43 1 52-21C619 332 590 345 550 337Z"/>
+    </g>
+    <g id="eye" fill="none" stroke="#492B55" stroke-width="17" stroke-linecap="round">
+      <path d="M477 277q15-19 30-4"/>
+    </g>
+    <g id="far-wing" fill="#F5E7CE">
+      <path d="M488 420C553 375 645 390 697 441L705 475 670 505 645 478C603 448 559 455 529 474Z"/>
+    </g>
+    <g id="instrument-and-wings" transform="rotate(-12 529 570)">
+      <g id="accordion">
+        <g id="bellows">
+          <path fill="#492B55" d="M391 457 425 439 459 457 493 439 527 457 561 439 595 457 629 439 663 457V675L629 693 595 675 561 693 527 675 493 693 459 675 425 693 391 675Z"/>
+          <g fill="#F5E7CE">
+            <path d="m405 466 20-11 17 9v212l-17 1-20-10Z"/>
+            <path d="m473 466 20-11 17 9v212l-17 1-20-10Z"/>
+            <path d="m541 466 20-11 17 9v212l-17 1-20-10Z"/>
+            <path d="m609 466 20-11 17 9v212l-17 1-20-10Z"/>
+          </g>
+          <g fill="#EAA16A">
+            <path d="m448 470 11 6v184l-11 7Z"/>
+            <path d="m516 470 11 6v184l-11 7Z"/>
+            <path d="m584 470 11 6v184l-11 7Z"/>
+            <path d="m652 470 11 6v184l-11 7Z"/>
+          </g>
+        </g>
+        <g id="end-boards" fill="#EAA16A" stroke="#492B55" stroke-width="12" stroke-linejoin="round">
+          <path d="M334 444h60v244h-60q-16 0-16-16V460q0-16 16-16Z"/>
+          <path d="M662 444h59q16 0 16 16v212q0 16-16 16h-59Z"/>
+        </g>
+        <g id="keys" fill="#F5E7CE">
+          <path d="M339 547h33v30h-33Z"/>
+          <path d="M339 588h33v30h-33Z"/>
+          <path d="M339 629h33v30h-33Z"/>
+        </g>
+        <g id="buttons" fill="#492B55">
+          <circle cx="700" cy="563" r="10"/>
+          <circle cx="700" cy="606" r="10"/>
+          <circle cx="700" cy="649" r="10"/>
+        </g>
+      </g>
+      <g id="wings" fill="#F5E7CE" stroke="#492B55" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M354 411C310 418 289 454 304 491 317 521 345 539 380 544L371 525 392 527 380 506 401 507C385 489 368 476 347 469"/>
+        <path d="M677 431C709 439 726 465 723 494L708 485 710 508 692 495 689 516C669 499 661 476 663 453"/>
+      </g>
+    </g>
+  </g>
+</svg>

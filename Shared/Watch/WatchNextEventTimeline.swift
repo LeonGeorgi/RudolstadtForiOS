@@ -200,6 +200,9 @@ struct WatchNextEventTimelineProjector: Sendable {
         snapshot: WatchSnapshotEnvelope,
         at date: Date
     ) -> WatchNextEventContent {
+        guard snapshot.payload.unplacedSavedEvents?.isEmpty != false,
+            snapshot.payload.hasIncompleteProgram != true
+        else { return .planUnavailable }
         let allEvents = snapshot.payload.events
         guard !allEvents.isEmpty else {
             return .programUnavailable
@@ -444,7 +447,8 @@ struct WatchDayPlanProjector: Sendable {
             return .programUnavailable
         }
         if allEvents.allSatisfy({ $0.endDate <= date }) {
-            return .festivalEnded
+            return snapshot.payload.hasIncompleteProgram == true
+                ? .programUnavailable : .festivalEnded
         }
 
         let savedEvents = allEvents

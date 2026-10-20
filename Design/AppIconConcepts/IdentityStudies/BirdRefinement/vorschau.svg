@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="780" viewBox="0 0 1100 780">
+<defs><g id="bird"><g xmlns="http://www.w3.org/2000/svg" id="background"><path fill="#492B55" d="M0 0H1024V1024H0Z" /></g>
+  <g xmlns="http://www.w3.org/2000/svg" id="artwork">
+    <g id="legs" fill="none" stroke="#EAA16A" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m418 687-13 65 16 42-44 20m44-20 29 21m-29-21-4 29" />
+      <path d="m549 683 22 62 50 14 36-22m-36 22 35 9m-35-9 13 27" />
+    </g>
+    <g id="body" fill="#F5E7CE">
+      <path d="M333 448C324 411 339 374 358 344 320 321 315 282 332 250 343 227 361 216 384 210 356 203 332 188 317 167 351 167 379 179 401 195 387 174 380 151 384 133 412 146 429 168 436 193 439 174 450 160 465 152 471 171 469 189 462 202 491 201 524 218 537 248 553 282 539 318 510 337 479 358 479 388 502 412 534 442 569 460 586 501 613 566 611 649 569 693 531 734 459 743 405 715 364 694 342 662 328 630 300 649 262 655 227 648 252 630 275 608 291 584 256 590 222 583 201 569 251 556 285 529 303 494Z" />
+    </g>
+    <g id="beak" fill="#EAA16A">
+      <path d="M528 252C569 235 615 238 659 257 631 258 602 267 580 285L536 285Z" />
+      <path d="m536 298 42-1 48-17C609 309 580 327 543 321Z" />
+    </g>
+    <g id="eye" fill="#492B55">
+      <path d="M473 244C486 238 496 244 496 256 496 268 486 274 477 268 470 264 468 252 473 244Z" />
+    </g>
+    <g id="far-wing" fill="#F5E7CE">
+      <path d="M486 402C541 379 607 400 650 443L698 487 665 526 620 478C591 450 551 448 517 454Z" />
+    </g>
+    <g id="accordion" transform="rotate(-9 522 565)" stroke="#492B55" stroke-linejoin="round">
+      <g id="bellows" stroke-width="7">
+        <path fill="#EAA16A" d="m389 470 25-13 25 13 25-13 25 13 25-13 25 13 25-13 25 13 25-13 25 13v196l-25 13-25-13-25 13-25-13-25 13-25-13-25 13-25-13-25 13-25-13Z" />
+        <g fill="#F5E7CE">
+          <path d="m414 457 25 13v196l-25 13Z" />
+          <path d="m464 457 25 13v196l-25 13Z" />
+          <path d="m514 457 25 13v196l-25 13Z" />
+          <path d="m564 457 25 13v196l-25 13Z" />
+          <path d="m614 457 25 13v196l-25 13Z" />
+        </g>
+      </g>
+      <g id="end-boards" fill="#EAA16A" stroke-width="10">
+        <path d="M339 453h51v224h-51q-15 0-15-15V468q0-15 15-15Z" />
+        <path d="M639 451h53q15 0 15 15v198q0 15-15 15h-53Z" />
+      </g>
+      <g id="keys" fill="#F5E7CE" stroke-width="4">
+        <path d="M344 490h30v155h-30Z" />
+        <path d="M344 521h30m-30 31h30m-30 31h30m-30 31h30" />
+      </g>
+      <g id="buttons" fill="#492B55" stroke="none">
+        <circle cx="675" cy="552" r="7" /><circle cx="675" cy="582" r="7" /><circle cx="675" cy="612" r="7" /><circle cx="675" cy="642" r="7" />
+      </g>
+    </g>
+    <g id="wing-tips" fill="#F5E7CE" stroke="#492B55" stroke-width="9" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M353 424C310 440 289 470 298 507 306 540 337 560 373 569L365 548 387 551 376 529 396 532C383 516 368 502 350 490" />
+      <path d="M646 438c23 8 43 28 49 49l-15-6 7 23-19-9 1 20c-21-12-37-33-43-55" />
+    </g>
+  </g>
+</g><clipPath id="mask"><rect width="1024" height="1024" rx="230"/></clipPath></defs>
+<rect width="1100" height="780" fill="#F1EEE7"/>
+<g font-family="Helvetica, Arial, sans-serif" fill="#492B55"><text x="64" y="60" font-size="18" letter-spacing="2">AKKORDEONVOGEL / FIGURENSTUDIE 04</text>
+<text x="728" y="140" font-size="22">In kleiner Größe</text>
+<text x="728" y="326" font-size="16">128 px</text><text x="728" y="466" font-size="16">64 px</text><text x="728" y="582" font-size="16">40 px</text>
+<text x="64" y="732" font-size="17">Ein Ausdruck · gefiederte Flügel · Vogelfüße · gefalteter Balg</text></g>
+<g transform="translate(64 108) scale(0.578125)"><g clip-path="url(#mask)"><use href="#bird"/></g></g><g transform="translate(728 164) scale(0.125)"><g clip-path="url(#mask)"><use href="#bird"/></g></g><g transform="translate(728 370) scale(0.0625)"><g clip-path="url(#mask)"><use href="#bird"/></g></g><g transform="translate(728 510) scale(0.0390625)"><g clip-path="url(#mask)"><use href="#bird"/></g></g></svg>

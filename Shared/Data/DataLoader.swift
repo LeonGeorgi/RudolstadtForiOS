@@ -139,13 +139,14 @@ final class DataLoader: @unchecked Sendable {
         encoder.outputFormatting = .prettyPrinted
         do {
             let jsonData = try encoder.encode(news)
-            try jsonData.write(to: dataFile)
+            try jsonData.write(to: dataFile, options: .atomic)
+            return true
         } catch {
             AppLog.news.error(
                 "Failed to cache news in \(dataFile.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)"
             )
         }
-        return FileManager.default.fileExists(atPath: dataFile.path)
+        return false
     }
 
     func readAPIRudolstadtDataFromFile(fileName: String) -> (
@@ -203,7 +204,7 @@ final class DataLoader: @unchecked Sendable {
 
     func isFileOlderThan(fileName: String, date: Date?) -> Bool {
         guard let modificationDate = modificationDate(for: fileName) else {
-            return false
+            return true
         }
 
         if let someTimeAgo = date {

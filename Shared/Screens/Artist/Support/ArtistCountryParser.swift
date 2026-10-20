@@ -113,6 +113,8 @@ private let alpha3CodeAliases: [String: String] = [
     "DEN": "DNK",
     "SAF": "ZAF",
     "JAP": "JPN",
+    "LAT": "LVA",
+    "KOS": "XKX",
     "XKX": "XKX",
 ]
 private let isoA2ToA3: [String: String] = [
@@ -721,18 +723,6 @@ func localizedCountryName(
         return manualCountryDisplayNamesDE[uppercasedCode]
             ?? manualCountryDisplayNamesEN[uppercasedCode]
             ?? uppercasedCode
-    }
-    return manualCountryDisplayNamesEN[uppercasedCode] ?? uppercasedCode
-}
-
-func englishCountryName(forRegionCode code: String) -> String {
-    let uppercasedCode = code.uppercased()
-    if let alpha2Code = isoA3ToA2[uppercasedCode],
-        let localized = Locale(identifier: "en_US").localizedString(
-            forRegionCode: alpha2Code
-        )
-    {
-        return localized
     }
     return manualCountryDisplayNamesEN[uppercasedCode] ?? uppercasedCode
 }

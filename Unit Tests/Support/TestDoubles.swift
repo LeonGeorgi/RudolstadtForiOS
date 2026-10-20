@@ -182,6 +182,8 @@ actor ControlledFestivalDataFetcher: FestivalDataFetching {
 final class NewsAPIStub: NewsFetching {
     var newsToReturn: [APINewsItem]
     var fetchCallCount = 0
+    var error: Error?
+    var fetchHandler: (() async throws -> [APINewsItem])?
 
     init(newsToReturn: [APINewsItem] = []) {
         self.newsToReturn = newsToReturn
@@ -189,12 +191,17 @@ final class NewsAPIStub: NewsFetching {
 
     func fetchNews() async throws -> [APINewsItem] {
         fetchCallCount += 1
+        if let fetchHandler { return try await fetchHandler() }
+        if let error { throw error }
         return newsToReturn
     }
 }
 
 final class NewsCacheStub: NewsCaching {
-    let loadResult: FileLoadingResult<[NewsItem]>
+    var loadResult: FileLoadingResult<[NewsItem]>
+    var bundledResult: FileLoadingResult<[NewsItem]> = .notFound
+    var storeSucceeds = true
+    var storeCallCount = 0
     var storedNewsIds: [Int] = []
     var isFileOlderThanReturnValue = true
     var requestedOlderThanDate: Date?
@@ -208,12 +215,13 @@ final class NewsCacheStub: NewsCaching {
     }
 
     func loadBundledNewsBackup() -> FileLoadingResult<[NewsItem]> {
-        .notFound
+        bundledResult
     }
 
     func storeAPINewsToFile(news: [APINewsItem], fileName: String) -> Bool {
+        storeCallCount += 1
         storedNewsIds = news.map(\.id)
-        return true
+        return storeSucceeds
     }
 
     func isFileOlderThan(fileName: String, date: Date?) -> Bool {
@@ -224,8 +232,14 @@ final class NewsCacheStub: NewsCaching {
 
 final class NewsNotifierStub: NewsNotifying {
     var notifiedItemIds: [Int] = []
+    var attemptedItemIds: [Int] = []
+    var failingIDs: Set<Int> = []
+    var notifyHandler: ((NewsItem) async throws -> Void)?
 
     func notifyUser(of item: NewsItem) async throws {
+        attemptedItemIds.append(item.id)
+        if let notifyHandler { try await notifyHandler(item) }
+        if failingIDs.contains(item.id) { throw URLError(.unknown) }
         notifiedItemIds.append(item.id)
     }
 }

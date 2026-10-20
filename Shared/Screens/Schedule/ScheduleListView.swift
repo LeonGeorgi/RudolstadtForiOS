@@ -26,44 +26,66 @@ struct ScheduleListView: View {
                     .padding(.horizontal, 20)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                List(events) { event in
-                    NavigationLink(
-                        value: AppNavigationRoute.artist(
-                            id: event.artist.id,
-                            highlightedEventId: event.id,
-                            transitionSourceID: nil
-                        )
-                    ) {
-                        ScheduleEventCell(
-                            event: event,
-                            contextPreviewState: EventContextPreviewState(
-                                event: event,
-                                profile: profile,
-                                friends: friends,
-                                settings: settings
-                            ),
-                            onToggleSaved: { profile.toggleSavedEvent(event) }
-                        )
+                List {
+                    let dated = events.filter { $0.knownDate != nil }
+                    let undated = events.filter { $0.knownDate == nil }
+                    if !dated.isEmpty {
+                        Section {
+                            ForEach(dated) { event in eventRow(event) }
+                        } header: {
+                            if dated.allSatisfy({ $0.startDate == nil }) {
+                                Text("event.time.unknown")
+                                if let day = dated.first?.knownDate {
+                                    Text(FestivalDateUtilities.format(day, pattern: "EEEE, dd.MM."))
+                                }
+                            }
+                        }
                     }
-                    .listRowInsets(
-                        .init(
-                            top: dynamicTypeSize.isAccessibilitySize ? 12 : 6,
-                            leading: 16,
-                            bottom: dynamicTypeSize.isAccessibilitySize ? 12 : 6,
-                            trailing: 16
-                        )
-                    )
-                    .listRowBackground(
-                        profile.isEventSaved(event.id)
-                            ? savedEventBackground
-                            : Color.clear
-                    )
+                    if !undated.isEmpty {
+                        Section("event.date.unknown") {
+                            ForEach(undated) { event in eventRow(event) }
+                        }
+                    }
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
             }
         }
+    }
+
+    private func eventRow(_ event: Event) -> some View {
+        NavigationLink(
+            value: AppNavigationRoute.artist(
+                id: event.artist.id,
+                highlightedEventId: event.id,
+                transitionSourceID: nil
+            )
+        ) {
+            ScheduleEventCell(
+                event: event,
+                contextPreviewState: EventContextPreviewState(
+                    event: event,
+                    profile: profile,
+                    friends: friends,
+                    settings: settings
+                ),
+                onToggleSaved: { profile.toggleSavedEvent(event) }
+            )
+        }
+        .listRowInsets(
+            .init(
+                top: dynamicTypeSize.isAccessibilitySize ? 12 : 6,
+                leading: 16,
+                bottom: dynamicTypeSize.isAccessibilitySize ? 12 : 6,
+                trailing: 16
+            )
+        )
+        .listRowBackground(
+            profile.isEventSaved(event.id)
+                ? savedEventBackground
+                : Color.clear
+        )
     }
 
     private var savedEventBackground: Color {

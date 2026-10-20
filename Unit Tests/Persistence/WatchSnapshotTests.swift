@@ -378,6 +378,8 @@ struct WatchSnapshotTests {
         #expect(result.envelope.payload.recommendations.orderedEventIDs == [validEvent.id])
         #expect(result.envelope.payload.events.first?.friendSaveCount == 0)
         #expect(result.envelope.payload.missingSavedEventCount == 2)
+        #expect(result.envelope.payload.unplacedSavedEvents?.map(\.id) == [invalidEvent.id])
+        #expect(result.envelope.payload.unplacedSavedEvents?.first?.knownDay != nil)
         #expect(result.diagnostics.contains(.invalidEventDate(invalidEvent.id)))
         #expect(result.diagnostics.contains(.duplicateEventID(validEvent.id)))
         #expect(result.diagnostics.contains(.missingSavedEventID(invalidEvent.id)))

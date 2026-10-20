@@ -272,7 +272,8 @@ struct StageTransferEstimator: Sendable {
     }
 
     func estimate(from firstStage: Stage, to secondStage: Stage) -> StageTransferEstimate? {
-        estimate(
+        guard firstStage.hasLocation, secondStage.hasLocation else { return nil }
+        return estimate(
             from: StageTransferLocation(stage: firstStage),
             to: StageTransferLocation(stage: secondStage)
         )

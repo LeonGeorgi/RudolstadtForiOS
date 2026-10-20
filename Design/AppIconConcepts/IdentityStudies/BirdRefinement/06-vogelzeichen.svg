@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title description">
+  <title id="title">Festivalvogel – reduzierte Zeichenstudie</title>
+  <desc id="description">Eine fließende cremefarbene Vogelsilhouette mit großem kupferfarbenem Schnabel und einem einzelnen Auge. Ein geschwungener Flügel umfasst ein auf drei breite Falten reduziertes Akkordeon. Violetter Hintergrund.</desc>
+  <g id="background" fill="#492B55"><path d="M0 0H1024V1024H0Z"/></g>
+  <g id="artwork" transform="translate(-18 -18) scale(1.1)">
+    <g id="body" fill="#F5E7CE">
+      <path d="M450 215C540 185 610 235 610 320C610 380 570 426 570 466C570 506 617 532 641 575C660 612 642 655 612 679C575 704 540 718 500 714C410 706 261 708 185 650C250 631 285 582 300 522C315 462 292 419 316 356C340 293 377 240 450 215Z"/>
+    </g>
+    <g id="beak" fill="#EAA16A">
+      <path d="M600 300C648 284 709 298 755 340C693 340 647 358 602 374C610 349 610 324 600 300Z"/>
+    </g>
+    <g id="eye" fill="#492B55"><circle cx="544" cy="304" r="19"/></g>
+    <g id="accordion" transform="rotate(-12 570 593)">
+      <path id="instrument-silhouette" fill="#492B55" d="M365 464H439L472 445 511 464 550 445 589 464 628 445 667 464H757Q779 464 779 486V699Q779 721 757 721H667L628 740 589 721 550 740 511 721 472 740 439 721H365Q343 721 343 699V486Q343 464 365 464Z"/>
+      <g id="ends" fill="#EAA16A">
+        <path d="M369 480H423V705H369Q359 705 359 695V490Q359 480 369 480Z"/>
+        <path d="M684 480H753Q763 480 763 490V695Q763 705 753 705H684Z"/>
+      </g>
+      <g id="bellows" fill="#F5E7CE">
+        <path d="m450 483 22-12 20 10v222l-20 11-22-12Z"/>
+        <path d="m528 483 22-12 20 10v222l-20 11-22-12Z"/>
+        <path d="m606 483 22-12 20 10v222l-20 11-22-12Z"/>
+      </g>
+      <g id="buttons" fill="#492B55"><circle cx="724" cy="553" r="13"/><circle cx="724" cy="633" r="13"/></g>
+    </g>
+    <g id="wing" fill="#F5E7CE">
+      <path stroke="#492B55" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" d="M390 441C344 449 319 478 322 514C326 558 365 586 431 588C402 564 389 545 388 524"/>
+    </g>
+  </g>
+</svg>

@@ -40,9 +40,10 @@ struct ScheduleTimelineView: View {
 
     private func generateEventGapList(ev: [Event]) -> [EventOrGap] {
         let sortedEvents = ev.sorted { e1, e2 in
-            if e1.date != e2.date {
-                return e1.date < e2.date
+            guard let firstDate = e1.startDate, let secondDate = e2.startDate else {
+                return Event.precedes(e1, e2)
             }
+            if firstDate != secondDate { return firstDate < secondDate }
 
             // If two events start at the same time, place the longer one first.
             // This keeps layout deterministic and prevents duplicate start slots
@@ -53,25 +54,24 @@ struct ScheduleTimelineView: View {
             let e2End = e2.endDate(
                 durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[e2.id] ?? 60
             )
-            if e1End != e2End {
-                return e1End > e2End
-            }
+            if let e1End, let e2End, e1End != e2End { return e1End > e2End }
 
             return e1.id < e2.id
         }
         var lastTime = firstEventTime
         var result: [EventOrGap] = []
         for event: Event in sortedEvents {
+            guard let startDate = event.startDate else { continue }
             // If source data overlaps on the same stage, ignore entries that begin
             // inside an already occupied block. This avoids cascading drift for all
             // following events in the column.
-            if event.date < lastTime {
+            if startDate < lastTime {
                 continue
             }
 
-            if lastTime < event.date {
+            if lastTime < startDate {
                 result.append(
-                    .gap(Gap(duration: event.date.timeIntervalSince(lastTime)))
+                    .gap(Gap(duration: startDate.timeIntervalSince(lastTime)))
                 )
             }
             result.append(.event(event))
@@ -80,41 +80,20 @@ struct ScheduleTimelineView: View {
                     ?? 60
             )
             // Keep timeline monotonic even with bad/overlapping source data.
-            if eventEnd > lastTime {
-                lastTime = eventEnd
-            }
+            if let eventEnd, eventEnd > lastTime { lastTime = eventEnd }
         }
         return result
 
     }
 
-    private var firstEventTime: Date {
-        let firstEvent =
-            events.min { e1, e2 in
-                e1.date < e2.date
-            }?.date ?? Date()
-        return firstEvent
-    }
+    private var firstEventTime: Date { events.compactMap(\.startDate).min() ?? .distantPast }
 
     private var lastEventEndTime: Date {
-        let lastEvent = events.max { e1, e2 in
-            e1.endDate(
-                durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[e1.id]
-                    ?? 60
-            )
-                < e2.endDate(
-                    durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[e2.id]
-                        ?? 60
-                )
-        }
-        guard let lastEvent = lastEvent else {
-            return Date()
-        }
-        let lastEventEndDate = lastEvent.endDate(
-            durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[lastEvent.id]
-                ?? 60
-        )
-        return lastEventEndDate
+        events.compactMap {
+            $0.endDate(
+                durationInMinutes:
+                    recommendations.state.estimatedEventDurationsByEventID?[$0.id] ?? 60)
+        }.max() ?? firstEventTime
     }
 
     var body: some View {
@@ -134,7 +113,7 @@ struct ScheduleTimelineView: View {
     }
 
     func generateHalfHourlyDates(startDate: Date, endDate: Date) -> [Date] {
-        let calendar = Calendar.current
+        let calendar = FestivalDateUtilities.festivalCalendar
 
         // Runde das Startdatum auf die nächste halbe oder ganze Stunde ab
         let startComponents = calendar.dateComponents(

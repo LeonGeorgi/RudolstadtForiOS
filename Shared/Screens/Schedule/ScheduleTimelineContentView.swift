@@ -686,11 +686,13 @@ private struct ScheduleTimelineStageHeaders: View {
                     }
                     .buttonStyle(.plain)
                     .contextMenu {
-                        Button {
-                            StageMapView.openInMaps(stage: stage)
-                        } label: {
-                            Text("schedule.context.open_in_maps")
-                            Image(systemName: "map")
+                        if stage.hasLocation {
+                            Button {
+                                StageMapView.openInMaps(stage: stage)
+                            } label: {
+                                Text("schedule.context.open_in_maps")
+                                Image(systemName: "map")
+                            }
                         }
                     } preview: {
                         StagePreview(stage: stage)
@@ -884,6 +886,8 @@ private struct ScheduleTimelineCurrentTimeLine: View {
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateFormat = "HH:mm"
+    formatter.calendar = FestivalDateUtilities.festivalCalendar
+    formatter.timeZone = FestivalConfiguration.timeZone
     return formatter
 }()
 
@@ -902,23 +906,13 @@ private enum ScheduleTimelineContentViewPreviewData {
         events: [Event],
         estimatedEventDurations: [Int: Int]?
     ) -> [Date] {
-        guard let firstEventDate = events.map(\.date).min() else {
-            return []
-        }
-        guard let lastEvent = events.max(by: { first, second in
-            first.endDate(
-                durationInMinutes: estimatedEventDurations?[first.id] ?? 60
-            )
-                < second.endDate(
-                    durationInMinutes: estimatedEventDurations?[second.id] ?? 60
-                )
-        }) else {
-            return []
-        }
-
-        let lastEventEndDate = lastEvent.endDate(
-            durationInMinutes: estimatedEventDurations?[lastEvent.id] ?? 60
-        )
+            guard let firstEventDate = events.compactMap(\.startDate).min(),
+                let lastEventEndDate = events.compactMap({
+                    $0.endDate(
+                        durationInMinutes:
+                            estimatedEventDurations?[$0.id] ?? 60)
+                }).max()
+            else { return [] }
         return halfHourlyDates(
             startDate: firstEventDate,
             endDate: lastEventEndDate
@@ -937,7 +931,7 @@ private enum ScheduleTimelineContentViewPreviewData {
                 stage,
                 eventGapList(
                     events: events,
-                    firstEventTime: events.map(\.date).min() ?? Date(),
+                        firstEventTime: events.compactMap(\.startDate).min() ?? Date(),
                     estimatedEventDurations: estimatedEventDurations
                 )
             )
@@ -952,20 +946,19 @@ private enum ScheduleTimelineContentViewPreviewData {
         firstEventTime: Date,
         estimatedEventDurations: [Int: Int]?
     ) -> [EventOrGap] {
-        let sortedEvents = events.sorted { first, second in
-            first.date < second.date
-        }
+            let sortedEvents = events.sorted(by: Event.precedes)
         var lastTime = firstEventTime
         var result: [EventOrGap] = []
 
         for event in sortedEvents {
-            if event.date < lastTime {
+                guard let startDate = event.startDate else { continue }
+                if startDate < lastTime {
                 continue
             }
 
-            if lastTime < event.date {
+                if lastTime < startDate {
                 result.append(
-                    .gap(Gap(duration: event.date.timeIntervalSince(lastTime)))
+                        .gap(Gap(duration: startDate.timeIntervalSince(lastTime)))
                 )
             }
 
@@ -973,9 +966,7 @@ private enum ScheduleTimelineContentViewPreviewData {
             let eventEnd = event.endDate(
                 durationInMinutes: estimatedEventDurations?[event.id] ?? 60
             )
-            if eventEnd > lastTime {
-                lastTime = eventEnd
-            }
+                if let eventEnd, eventEnd > lastTime { lastTime = eventEnd }
         }
 
         return result
@@ -985,7 +976,7 @@ private enum ScheduleTimelineContentViewPreviewData {
         startDate: Date,
         endDate: Date
     ) -> [Date] {
-        let calendar = Calendar.current
+            let calendar = FestivalDateUtilities.festivalCalendar
         let startComponents = calendar.dateComponents(
             [.year, .month, .day, .hour, .minute],
             from: startDate

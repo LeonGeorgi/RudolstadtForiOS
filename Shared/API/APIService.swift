@@ -106,18 +106,20 @@ struct APIClient: FestivalDataFetching, Sendable {
     }
 
     func fetchFestivalData() async throws -> APIRudolstadtData {
-        async let areas: [APIArea] = fetch([APIArea].self, from: .areas)
-        async let artists: [APIArtist] = fetch([APIArtist].self, from: .artists)
-        async let events: [APIEvent] = fetch([APIEvent].self, from: .events)
-        async let stages: [APIStage] = fetch([APIStage].self, from: .stages)
-        async let tags: [APITag] = fetch([APITag].self, from: .tags)
+        async let areas = fetch(APIRecords<APIArea>.self, from: .areas)
+        async let artists = fetch(APIRecords<APIArtist>.self, from: .artists)
+        async let events = fetch(APIRecords<APIEvent>.self, from: .events)
+        async let stages = fetch(APIRecords<APIStage>.self, from: .stages)
+        async let tags = fetch(APIRecords<APITag>.self, from: .tags)
 
         return try await APIRudolstadtData(
-            areas: areas,
-            artists: artists,
-            events: events,
-            stages: stages,
-            tags: tags
+            areas: areas.values,
+            artists: artists.values,
+            events: events.values,
+            stages: stages.values,
+            tags: tags.values,
+            omittedRecordCount: areas.omittedCount + artists.omittedCount
+                + events.omittedCount + stages.omittedCount + tags.omittedCount
         )
     }
     

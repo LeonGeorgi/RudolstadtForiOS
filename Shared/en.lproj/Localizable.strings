@@ -479,3 +479,29 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "tip.news.read_state.message" = "Swipe a news item to quickly toggle its read state.";
 "tip.stage.map_preview.title" = "Open the full stage map";
 "tip.stage.map_preview.message" = "Tap this preview to open an interactive map for the stage.";
+
+// Incomplete festival data
+"event.time.unknown" = "Time unknown";
+"event.date.unknown" = "Date and time unknown";
+"event.time.unplaced" = "Events without a known time";
+"stage.location.unknown" = "Stage location not yet available";
+"data.import.incomplete" = "Some programme records could not be imported. The programme is incomplete.";
+"common.done" = "Done";
+
+"news.refresh.failed" = "News could not be refreshed. The last available version is shown.";
+"news.storage.failed" = "News is up to date, but could not be saved for offline use.";
+"news.notification.unavailable" = "This item is no longer available. Here are the available news items.";
+"news.refresh.bundle" = "News could not be loaded. The backup included with the app is shown and may be out of date.";
+"artist.note.sync-warning" = "Synchronization is currently unavailable. This note may not include the latest changes from your other devices.";
+
+// Festival map
+"map.numbers.title" = "Find a stage";
+"map.numbers.empty" = "No numbered places available.";
+"map.location.unavailable" = "Location not available yet";
+
+"program.discovery.title" = "Explore the program";
+"program.discovery.dance-along" = "Join-in dance";
+"program.discovery.empty" = "There are no matching events in the loaded program yet.";
+"program.discovery.country.intro" = "Explore the concerts and other events celebrating the festival's country focus.";
+"program.discovery.ebu.intro" = "European broadcasters bring selected musicians to Rudolstadt. Their concerts form the EBU Folk Festival within the festival.";
+"program.discovery.ruth.intro" = "RUTH is the German World Music Award. Find the related festival events here.";
