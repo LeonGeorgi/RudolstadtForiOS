@@ -1,5 +1,34 @@
 # Rudolstadt for iOS
-This is an unofficial client for the so called "Rudolstadt-Festival" written in Swift with SwiftUI.
+
+An independently developed, unofficial Rudolstadt Festival app, built with Swift
+and SwiftUI and published on the App Store since June 2022. It helps visitors
+discover artists and plan their festival across overlapping concerts and venues.
+The app supports iPhone and iPad, in German and English.
+
+[Download on the App Store](https://apps.apple.com/us/app/rudolstadt-festival-unoff/id1629927812)
+| [Project background and my contribution](https://leongeorgi.de/projects/rudolstadt-festival-app)
+
+## Product decisions and maintenance
+
+- **Artist interest and attendance are separate.** Rating an artist expresses a
+  preference; saving a concert makes it part of the visitor's plan.
+- **Recommendations respect the visit.** Schedule suggestions consider artist
+  preferences, overlapping concerts and walking time between venues.
+- **Published and maintained.** The app includes a custom timetable, maps and
+  CloudKit sharing. The June 2026 release added friend features and an artist
+  world map. The App Store history records shipped versions; repository work
+  may include changes that have not yet been released.
+
+## Code and tests
+
+The app combines SwiftUI screens with festival-data conversion, recommendation
+logic and CloudKit-backed sharing. Examples of the automated checks are the
+[recommendation service tests](Unit%20Tests/Domain/RecommendationServiceTests.swift)
+and [data conversion tests](Unit%20Tests/Parsing/DataConverterTests.swift).
+The [fast-test workflow](.github/workflows/ios-fast-tests.yml) and
+[screenshot workflow](.github/workflows/ios-screenshot-tests.yml) document the
+corresponding automation. For run results, see the individual workflow runs.
+
 
 ## Screenshots
 
