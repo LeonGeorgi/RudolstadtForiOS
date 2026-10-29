@@ -1,0 +1,2 @@
+# Python >= 3.10; offline festival import and PDF tests.
+pypdf==6.10.0

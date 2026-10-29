@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rudolstadt</string>
+    <string name="artists_title">Artists</string>
+    <string name="program_source">Rudolstadt %1$d · Bundled program</string>
+    <string name="artists_loading">Loading artists…</string>
+    <string name="artists_error">The bundled artist list could not be loaded.</string>
+    <string name="artists_empty">No artists available.</string>
+    <string name="retry">Try again</string>
+    <plurals name="artist_count">
+        <item quantity="one">%1$d artist</item>
+        <item quantity="other">%1$d artists</item>
+    </plurals>
+</resources>

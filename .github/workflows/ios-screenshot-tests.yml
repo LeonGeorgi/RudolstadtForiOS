@@ -1,0 +1,299 @@
+name: App Store Screenshots
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-app:
+    runs-on: macos-26
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Java for Kotlin/Native
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build screenshot app
+        env:
+          DERIVED_DATA_PATH: ${{ runner.temp }}/AppStoreScreenshotDerivedData
+        run: |
+          set -o pipefail
+          started_at="$(date +%s)"
+          xcodebuild build \
+            -quiet \
+            -project "iosApp/RudolstadtForiOS.xcodeproj" \
+            -scheme "RudolstadtForiOS (iOS)" \
+            -configuration Debug \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            2>&1 | tee "${{ runner.temp }}/app-store-screenshot-build.log"
+          echo "Build completed in $(( $(date +%s) - started_at ))s"
+
+      - name: Package app
+        run: |
+          tar -cf "${{ runner.temp }}/Rudolstadt.app.tar" \
+            -C "${{ runner.temp }}/AppStoreScreenshotDerivedData/Build/Products/Debug-iphonesimulator" \
+            Rudolstadt.app
+
+      - name: Upload app
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-store-screenshot-app-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/Rudolstadt.app.tar
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload build diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-store-screenshot-build-diagnostics-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/app-store-screenshot-build.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  capture-screenshots:
+    needs: build-app
+    runs-on: macos-26
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        device_family: [iphone, ipad]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Download app
+        uses: actions/download-artifact@v5
+        with:
+          name: app-store-screenshot-app-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/PrebuiltApp
+
+      - name: Extract app
+        run: tar -xf "${{ runner.temp }}/PrebuiltApp/Rudolstadt.app.tar" -C "${{ runner.temp }}/PrebuiltApp"
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Maestro
+        env:
+          MAESTRO_VERSION: "2.6.1"
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+          "$HOME/.maestro/bin/maestro" --version
+
+      - name: Select iOS 26 ${{ matrix.device_family }} simulator
+        id: simulator
+        env:
+          DEVICE_FAMILY: ${{ matrix.device_family }}
+        run: |
+          started_at="$(date +%s)"
+          DEVICE_ID="$({
+            xcrun simctl list devices available --json | \
+              ruby -rjson -e '
+                family = ENV.fetch("DEVICE_FAMILY")
+                preferred_names = if family == "iphone"
+                  ["iPhone 17 Pro", "iPhone 17", "iPhone 17e"]
+                else
+                  [
+                    "iPad Pro 13-inch (M5)",
+                    "iPad Pro 13-inch (M4)",
+                    "iPad Air 13-inch (M3)",
+                    "iPad Air 13-inch (M2)",
+                    "iPad Pro (12.9-inch) (6th generation)"
+                  ]
+                end
+                devices = JSON.parse(STDIN.read).fetch("devices")
+                candidates = devices.flat_map do |runtime, runtime_devices|
+                  next [] unless runtime.include?("iOS-26")
+                  runtime_devices.select do |device|
+                    next false unless device["isAvailable"]
+                    name = device.fetch("name")
+                    if family == "iphone"
+                      name.start_with?("iPhone")
+                    else
+                      name.start_with?("iPad") &&
+                        (name.include?("13-inch") || name.include?("12.9-inch"))
+                    end
+                  end
+                end
+                abort("No suitable iOS 26 #{family} simulator found") if candidates.empty?
+                selected = candidates.min_by do |device|
+                  preferred_names.index(device.fetch("name")) || preferred_names.length
+                end
+                puts selected.fetch("udid")
+              '
+          })"
+          echo "device-id=$DEVICE_ID" >> "$GITHUB_OUTPUT"
+          echo "Simulator selection completed in $(( $(date +%s) - started_at ))s"
+          xcrun simctl list devices available
+
+      - name: Capture ${{ matrix.device_family }} screenshots
+        env:
+          DEVICE_ID: ${{ steps.simulator.outputs.device-id }}
+          LOCALES: "de en"
+          PREBUILT_APP_PATH: ${{ runner.temp }}/PrebuiltApp/Rudolstadt.app
+          OUTPUT_ROOT: ${{ runner.temp }}/AppStoreScreenshots
+          DIAGNOSTICS_ROOT: ${{ runner.temp }}/AppStoreScreenshotDiagnostics
+          MAESTRO_CLI_NO_ANALYTICS: "1"
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: "300000"
+        run: |
+          set -o pipefail
+          scripts/ios/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
+
+      - name: Check for ${{ matrix.device_family }} capture diagnostics
+        id: capture_diagnostics
+        if: always()
+        env:
+          DIAGNOSTICS_ROOT: ${{ runner.temp }}/AppStoreScreenshotDiagnostics
+        run: |
+          if [ -d "$DIAGNOSTICS_ROOT" ] && [ -n "$(find "$DIAGNOSTICS_ROOT" -type f -print -quit)" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload ${{ matrix.device_family }} screenshots
+        id: upload_screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-store-screenshots-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/AppStoreScreenshots
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload ${{ matrix.device_family }} diagnostics
+        if: always() && (failure() || steps.capture_diagnostics.outputs.available == 'true')
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-store-screenshot-diagnostics-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log
+            ${{ runner.temp }}/AppStoreScreenshotDiagnostics
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Add workflow summary
+        if: always()
+        env:
+          SCREENSHOT_ARTIFACT_URL: ${{ steps.upload_screenshots.outputs.artifact-url }}
+        run: |
+          {
+            echo "## App Store Screenshots (${{ matrix.device_family }}, de + en)"
+            echo
+            echo "- Result: ${{ job.status }}"
+            echo "- Screenshots: ${SCREENSHOT_ARTIFACT_URL:-not uploaded}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  publish-screenshots:
+    if: github.ref == 'refs/heads/master'
+    needs: capture-screenshots
+    runs-on: macos-26
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Download iphone screenshots
+        uses: actions/download-artifact@v5
+        with:
+          name: app-store-screenshots-iphone-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/screenshots/iphone
+
+      - name: Download ipad screenshots
+        uses: actions/download-artifact@v5
+        with:
+          name: app-store-screenshots-ipad-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/screenshots/ipad
+
+      - name: Prepare stable screenshot paths
+        env:
+          SOURCE_ROOT: ${{ runner.temp }}/screenshots
+          PAGES_ROOT: ${{ runner.temp }}/pages
+        run: |
+          set -euo pipefail
+          screenshots=(
+            01-schedule.png
+            02-artists.png
+            03-locations.png
+            04-artist-detail.png
+            05-friends.png
+            06-artist-world-map.png
+            07-schedule-dark.png
+          )
+
+          for device_family in iphone ipad; do
+            if [ "$device_family" = iphone ]; then
+              thumbnail_width=360
+            else
+              thumbnail_width=480
+            fi
+
+            for locale in de en; do
+              source_directory="$SOURCE_ROOT/$device_family/$locale"
+              destination_directory="$PAGES_ROOT/screenshots/$device_family/$locale"
+              thumbnail_directory="$PAGES_ROOT/thumbnails/$device_family/$locale"
+              mkdir -p "$destination_directory" "$thumbnail_directory"
+
+              for screenshot in "${screenshots[@]}"; do
+                source_path="$(find "$source_directory" -type f -name "$screenshot" -print -quit)"
+                if [ -z "$source_path" ]; then
+                  echo "Missing $device_family/$locale/$screenshot" >&2
+                  exit 1
+                fi
+                cp "$source_path" "$destination_directory/$screenshot"
+                sips \
+                  --resampleWidth "$thumbnail_width" \
+                  "$source_path" \
+                  --out "$thumbnail_directory/$screenshot" \
+                  >/dev/null
+              done
+            done
+          done
+
+          cp .github/app-store-screenshot-gallery/index.html "$PAGES_ROOT/index.html"
+          (
+            cd "$PAGES_ROOT"
+            zip -q -r "$RUNNER_TEMP/app-store-screenshots.zip" screenshots
+          )
+          mv "$RUNNER_TEMP/app-store-screenshots.zip" "$PAGES_ROOT/app-store-screenshots.zip"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/pages
+
+      - name: Deploy screenshots to Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

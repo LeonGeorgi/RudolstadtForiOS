@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Rudolstadt App Store Screenshots</title>
+  <style>
+    :root {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color-scheme: light dark;
+    }
+
+    body {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      background: Canvas;
+      color: CanvasText;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 56px;
+    }
+
+    h1, h2, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -0.04em;
+    }
+
+    header p {
+      margin-bottom: 0;
+      color: GrayText;
+    }
+
+    .download {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: #8f258f;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    section + section {
+      margin-top: 56px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 28px 20px;
+      align-items: start;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    figure a {
+      display: block;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid color-mix(in srgb, CanvasText 12%, transparent);
+    }
+
+    figcaption {
+      margin-top: 10px;
+      color: GrayText;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>App Store Screenshots</h1>
+      <p>Latest successful capture · German and English · iPhone and iPad</p>
+    </div>
+    <a class="download" href="app-store-screenshots.zip" download>Download all originals</a>
+  </header>
+
+  <main id="galleries"></main>
+
+  <script>
+    const screenshots = [
+      ["01-schedule.png", "Schedule"],
+      ["02-artists.png", "Artists"],
+      ["03-locations.png", "Locations"],
+      ["04-artist-detail.png", "Artist details"],
+      ["05-friends.png", "Friends' recommendations"],
+      ["06-artist-world-map.png", "Artist world map"],
+      ["07-schedule-dark.png", "Schedule in Dark Mode"]
+    ];
+
+    const galleries = [
+      ["iphone", "de", "iPhone · Deutsch"],
+      ["iphone", "en", "iPhone · English"],
+      ["ipad", "de", "iPad · Deutsch"],
+      ["ipad", "en", "iPad · English"]
+    ];
+
+    const root = document.querySelector("#galleries");
+
+    for (const [device, locale, title] of galleries) {
+      const section = document.createElement("section");
+      const heading = document.createElement("h2");
+      const gallery = document.createElement("div");
+      heading.textContent = title;
+      gallery.className = "gallery";
+
+      for (const [filename, label] of screenshots) {
+        const path = `screenshots/${device}/${locale}/${filename}`;
+        const figure = document.createElement("figure");
+        figure.innerHTML = `
+          <a href="${path}">
+            <img src="${path}" loading="lazy" alt="${label} · ${title}">
+          </a>
+          <figcaption>${label}</figcaption>
+        `;
+        gallery.append(figure);
+      }
+
+      section.append(heading, gallery);
+      root.append(section);
+    }
+  </script>
+</body>
+</html>

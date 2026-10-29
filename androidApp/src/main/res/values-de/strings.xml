@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rudolstadt</string>
+    <string name="artists_title">Künstler</string>
+    <string name="program_source">Rudolstadt %1$d · Mitgeliefertes Programm</string>
+    <string name="artists_loading">Künstler werden geladen…</string>
+    <string name="artists_error">Die mitgelieferte Künstlerliste konnte nicht geladen werden.</string>
+    <string name="artists_empty">Keine Künstler vorhanden.</string>
+    <string name="retry">Erneut versuchen</string>
+    <plurals name="artist_count">
+        <item quantity="one">%1$d Künstler</item>
+        <item quantity="other">%1$d Künstler</item>
+    </plurals>
+</resources>

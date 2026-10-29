@@ -1,0 +1,564 @@
+"schedule.recommendations.enable" = "Suggest. on";
+"schedule.recommendations.disable" = "Suggest. off";
+
+"news.short" = "News";
+"news.long" = "News";
+"news.refresh.title" = "Refresh";
+"news.actions.title" = "News Actions";
+"news.featured_artists" = "Featured artists";
+"news.unread.count.one" = "%lld unread item";
+"news.unread.count.other" = "%lld unread items";
+"news.unread.accessibility" = "News, %@";
+"news.unread.open" = "Opens News";
+"news.mark_all_read.title" = "Mark all news as read?";
+"news.mark_all_read.message" = "The unread news indicator will be removed.";
+"news.mark_all_read.action" = "Mark All as Read";
+"news.mark_all_read.cancel" = "Cancel";
+"notifications.prompt.title" = "Stay up to date at the festival";
+"notifications.prompt.message" = "Get important program changes and the latest festival news.";
+"notifications.prompt.activate" = "Enable notifications";
+"notifications.prompt.later" = "Later";
+
+"artist.notes.headline" = "NOTES";
+"artist.add-note.button" = "Add notes";
+"artist.edit-note.button" = "Edit notes";
+"artist.edit-note.headline" = "Edit notes";
+"artist.note.placeholder" = "Write a note about this artist…";
+"artist.note.save" = "Save";
+"artist.note.cancel" = "Cancel";
+"artist.share" = "Share artist";
+"artist.share.unavailable.title" = "Artist unavailable";
+"artist.share.unavailable.message" = "This artist was not found in the loaded program, or the link belongs to a different festival year.";
+"artist.share.unavailable.ok" = "OK";
+
+"artist.note.cancel.alert.title" = "Do you really want to cancel editing?";
+"artist.note.cancel.alert.message" = "Your changes will be lost.";
+"artist.note.cancel.alert.yes" = "Yes";
+"artist.note.cancel.alert.no" = "No";
+"artist.website" = "Website";
+"artist.video" = "VIDEO";
+"youtube.video.load" = "Load YouTube video";
+"youtube.video.loading" = "Loading YouTube video";
+"youtube.video.unavailable" = "This video could not be played here.";
+"youtube.video.open_youtube" = "Open on YouTube";
+"artist.preview.loading" = "Loading Apple Music preview";
+"artist.preview.play.format" = "Play 30-second preview “%@”";
+"artist.preview.pause.format" = "Pause preview “%@”";
+"artist.preview.progress.format" = "%1$lld of %2$lld seconds";
+"artist.preview.attribution" = "Provided courtesy of Apple Music";
+"artist.events" = "EVENTS";
+"artist.links" = "LINKS";
+"artist.description" = "DESCRIPTION";
+"artist.similar-artists" = "Similar artists";
+"artist.rating.explanation.content" = "Long press for more options";
+"artist.rating.set.1" = "Rate artist with one heart";
+"artist.rating.set.2" = "Rate artist with two hearts";
+"artist.rating.set.3" = "Rate artist with three hearts";
+"artist.rating.set.flame.1" = "Rate artist with one flame";
+"artist.rating.set.flame.2" = "Rate artist with two flames";
+"artist.rating.set.flame.3" = "Rate artist with three flames";
+"artist.rating.current.0" = "Not rated";
+"artist.rating.current.1" = "Currently one heart";
+"artist.rating.current.2" = "Currently two hearts";
+"artist.rating.current.3" = "Currently three hearts";
+"artist.rating.current.flame.1" = "Currently one flame";
+"artist.rating.current.flame.2" = "Currently two flames";
+"artist.rating.current.flame.3" = "Currently three flames";
+"artist.rating.current.other" = "Currently using another rating";
+"artist.rating.menu" = "Rate artist";
+"artist.rating.reset" = "Reset artist rating";
+"artist.rating.icon_picker" = "Choose another rating";
+"artist.rating.icon_picker.selected" = "Other rating: %@";
+"artist.image.open" = "View image of %@ full screen";
+"artist.friend_ratings.accessibility.format" = "Friend ratings: %@";
+"artist.friend_rating.hearts.one" = "%1$@ gave %2$lld heart";
+"artist.friend_rating.hearts.other" = "%1$@ gave %2$lld hearts";
+"artist.friend_rating.marker" = "%1$@: %2$@";
+"artist.friend_ratings.remaining.one" = "%lld more friend rating";
+"artist.friend_ratings.remaining.other" = "%lld more friend ratings";
+"event.saved.add" = "Save event";
+"event.saved.remove" = "Remove event from saved events";
+"event.saved.value.saved" = "Saved";
+"event.saved.value.not_saved" = "Not saved";
+"event.saved-by-friends" = "Saved by friends";
+"artist.rating.explanation.extra" = "🥱 - no interest
+🤔 - undecided
+🙂 - slight interest
+😊 - great interest
+😍 - very great interest
+You can find artists you are interested in under \"Favorites\" in the artist list. Your rating can also be used to suggest when you can attend concerts by the artist. Ratings sync through iCloud across your devices and can be visible to invited friends when you share your festival profile.";
+"artist.ai.header" = "AI summary";
+"artist.ai.footer" = "May contain inaccuracies.";
+"artist.ai.info.ok" = "OK";
+"artist.icon.hand.thumbsdown.fill" = "Dislike";
+"artist.icon.questionmark.circle.fill" = "Undecided";
+"artist.icon.exclamationmark.triangle.fill" = "Doesn't fit";
+"artist.icon.clock.arrow.trianglehead.counterclockwise.rotate.90" = "Check again later";
+"artist.icon.zzz" = "Not my thing";
+"artist.icon.moon.zzz.fill" = "Too late for me";
+"artist.icon.other" = "Other marker";
+
+"event.map" = "MAP";
+"event.save" = "Save";
+"event.save.alert.message" = "The event will be added to your schedule.";
+"Save \"<%@>\" at <%@> <%@>?" = "Save \"%1$@\" at %2$@ %3$@?";
+"event.remove" = "Remove";
+"event.remove.alert.title" = "Remove \"%1$@\" at %2$@ %3$@ ?";
+"event.remove.alert.message" = "The event will be removed from your schedule.";
+
+"stage.events" = "EVENTS";
+"stage.events.loading" = "Loading events…";
+"stage.map" = "MAP";
+"stage.nearby" = "NEARBY LOCATIONS";
+
+"artists.title" = "Artists";
+"artists.none-found" = "There are no artists that match the filter settings you have chosen.";
+"artists.saved.empty" = "You have not saved any artists yet. Mark your interest on the artist page to save the artist here.";
+"artists.all.button" = "All artists";
+"artists.favorites.button" = "Favorites";
+"artists.view.world_map" = "World map";
+"artists.view.layout" = "View";
+"artists.grid.comfortable" = "Two columns";
+"artists.grid.compact" = "Three columns";
+"artists.map.instructions" = "Tap a country to see the artists coming from there.";
+"artists.map.empty" = "No country data is available for the current artist selection.";
+"artists.map.selected_count" = "%1$lld artists from %2$@";
+"artists.map.legend" = "Darker countries mean more artists.";
+"artists.map.show_artists" = "Show artists";
+"artists.map.accessibility.artist_count.one" = "%lld artist";
+"artists.map.accessibility.artist_count.other" = "%lld artists";
+
+"artisttypes.all" = "Select all";
+
+"locations.title" = "Locations";
+"locations.close" = "Close";
+"locations.empty" = "No locations found";
+
+"rated_artists.title" = "Favorites";
+"program_by_time.title" = "Program";
+"program_by_time.short_title" = "Program";
+"program_by_stage.title" = "Program by stage";
+"program_by_stage.short_title" = "Program";
+"program.title" = "Program";
+"program.days.loading" = "Loading days…";
+
+"schedule.day.pull" = "Keep pulling to switch";
+"schedule.day.release" = "Release to switch";
+"schedule.title" = "Schedule";
+"schedule.day.picker" = "Day";
+"settings.schedule.day_selection" = "Day selector";
+"settings.schedule.day_selection.toolbar" = "Toolbar menu";
+"settings.schedule.day_selection.tabs" = "Tabs";
+"schedule.empty.description" = "There are no concerts available on this day for the filter settings you have chosen.";
+
+"schedule.type.saved" = "Saved";
+"schedule.type.optimal" = "Optimal";
+"schedule.type.interesting" = "Favorites";
+"schedule.type.all" = "All";
+"schedule.list.button" = "List";
+"schedule.timeline.button" = "Timeline";
+"schedule.context.open_in_maps" = "Open in Maps";
+
+"schedule.endtimes.warning" = "Warning: The end times of the concerts are automatically estimated and might differ from those in the official schedule.";
+"schedule.endtimes.notice" = "End times are estimated";
+"schedule.endtimes.notice.hint" = "Shows more information about estimated end times.";
+
+"filter.button" = "Filter";
+"filter.clear" = "Clear filters";
+"filter.done" = "Done";
+"filter.no_events_available" = "No events available for the current filter settings.";
+"filter.artists.title" = "Filter artists";
+"filter.artisttypes.title" = "Artist type";
+"filter.genres.title" = "Genre";
+"filter.genres.all" = "All genres";
+
+"recommendations.hide_saved" = "Hide saved";
+"recommendations.show_saved" = "Show saved";
+"recommendations.all" = "All";
+"recommendations.smart" = "Best";
+
+"search.short" = "Search";
+"search.title" = "Search";
+"search.artists" = "Artists";
+"search.locations" = "Locations";
+"search.events" = "Events";
+"search.news" = "News";
+"search.prompt" = "Artists, Stages, Events and more";
+
+"more.title" = "More";
+"more.sync.title" = "Data & Sync";
+"more.friends.title" = "Friends";
+"sync.section.title" = "Sync";
+"sync.row.icloud" = "iCloud";
+"sync.row.sync" = "Sync";
+"sync.row.last_successful_sync" = "Last Sync";
+"sync.refresh.button" = "Refresh";
+"sync.section.footer" = "Sync keeps your saved events, artist ratings, and notes up to date across your devices.";
+"sync.account.checking" = "Checking…";
+"sync.account.available" = "Available";
+"sync.status.up_to_date" = "Up to date";
+"sync.status.syncing" = "Syncing…";
+"sync.last_successful.not_yet" = "Not yet";
+"sync.festival_data.section.title" = "Festival Data";
+"sync.festival_data.row.program" = "Program";
+"sync.festival_data.row.last_update" = "Last Update";
+"sync.festival_data.row.status" = "Status";
+"sync.festival_data.checking" = "Checking…";
+"sync.festival_data.check_updates" = "Check for Updates";
+"sync.festival_data.footer" = "Festival data contains the program, artists, stages, and maps. The app checks for updates automatically.";
+"sync.festival_data.program.summary.format" = "%lld artists, %lld events, %lld stages";
+"sync.festival_data.program.loading" = "Loading…";
+"sync.festival_data.program.unavailable" = "Unavailable";
+"sync.festival_data.last_update.backup" = "Included data";
+"sync.festival_data.last_update.not_yet" = "Not yet";
+"sync.festival_data.status.no_local_data" = "Not loaded yet";
+"sync.festival_data.status.downloaded" = "Downloaded successfully";
+"sync.festival_data.status.festival_problem" = "Up-to-date data unavailable";
+"sync.festival_data.status.app_problem" = "Please update the app";
+"sync.festival_data.status.connection_problem" = "No internet";
+"sync.festival_data.status.update_failed" = "Download failed";
+"friends.badge.section" = "My Badge";
+"friends.badge.edit" = "Edit";
+"friends.badge.edit.title" = "Edit profile";
+"friends.cancel" = "Cancel";
+"friends.invite.title" = "Invite friends";
+"friends.badge.name.placeholder" = "Your name";
+"friends.badge.footer" = "Friends will see this name and color in your shared profile badge. Tap the badge to change its color.";
+"friends.badge.save" = "Save";
+"friends.setup.title" = "Set Up Friends";
+"friends.setup.next.badge" = "First choose your name and badge color.";
+"friends.setup.next.icloud_checking" = "Next, your iCloud availability is being checked.";
+"friends.setup.next.icloud_unavailable" = "Next, make iCloud available to connect with friends.";
+"friends.setup.badge.section" = "1. Choose Your Badge";
+"friends.setup.badge.ready" = "Badge is ready";
+"friends.setup.icloud.section" = "2. Check iCloud";
+"friends.setup.icloud.checking" = "Checking";
+"friends.setup.icloud.ready" = "Ready";
+"friends.setup.icloud.unavailable" = "Unavailable";
+"friends.setup.icloud.retry" = "Check Again";
+"friends.setup.icloud.reason.unknown" = "Your iCloud status could not be determined.";
+"friends.setup.icloud.reason.no_account" = "Sign in to iCloud in Settings to sync your festival profile.";
+"friends.setup.icloud.reason.restricted" = "iCloud sync is restricted on this device.";
+"friends.setup.icloud.reason.temporary" = "iCloud is temporarily unavailable. Try again later.";
+"friends.setup.icloud.reason.unavailable" = "iCloud is currently unavailable. Try again later.";
+"friends.setup.icloud.reason.disabled" = "iCloud sync is disabled for this app.";
+"friends.setup.connect.preparing" = "Preparing invitation…";
+"friends.actions.section" = "Connect";
+"friends.scan_qr" = "Scan QR";
+"friends.show_my_qr_code" = "Show My QR";
+"friends.share_invite_link" = "Share Link";
+"friends.together.section" = "Together";
+"friends.together.no_friends" = "Add a friend to see recommendations from friend plans and ratings here.";
+"friends.together.empty" = "No saved concerts or friend ratings yet.";
+"friends.recommendations.title" = "Friend recommendations";
+"friends.recommendations.detail.one" = "%lld artist from friend plans and ratings";
+"friends.recommendations.detail.other" = "%lld artists from friend plans and ratings";
+"friends.recommendations.score" = "Score %lld";
+"friends.recommendations.more" = "Show more";
+"friends.recommendations.reason.saved_event" = "%1$@ wants to go on %2$@ at %3$@ at %4$@";
+"friends.recommendations.reason.saved_event.compact" = "%1$@ wants to go %2$@ (%3$@)";
+"friends.recommendations.reason.rating.one" = "%1$@ gave %2$lld heart";
+"friends.recommendations.reason.rating.other" = "%1$@ gave %2$lld hearts";
+"friends.together.friend_picks.title" = "Friend picks";
+"friends.together.friend_picks.detail.one" = "%lld event saved by friends";
+"friends.together.friend_picks.detail.other" = "%lld events saved by friends";
+"friends.together.friend_pick.context" = "Friend pick";
+"friends.together.friend_likes.title" = "Liked by friends";
+"friends.together.friend_likes.detail.one" = "%lld artist rated by friends";
+"friends.together.friend_likes.detail.other" = "%lld artists rated by friends";
+"friends.together.friend_liked.context" = "Liked by friends";
+"friends.together.see_all" = "See all";
+"friends.add_new" = "Add New Friend";
+"friends.empty" = "No shared profiles yet.";
+"friends.following.section" = "Following";
+"friends.following.empty" = "You are not following any shared profiles yet.";
+"friends.following.add_hint" = "You can also follow a shared profile link.";
+"friends.followed_by.section" = "Followed by";
+"friends.followed_by.count.one" = "%lld person follows you";
+"friends.followed_by.count.other" = "%lld people follow you";
+"friends.followed_by.details" = "Show details";
+"friends.privacy.section" = "Privacy";
+"friends.privacy.summary" = "You share your schedule and artist ratings.";
+"friends.privacy.body" = "Saved events and artist ratings can be shared with invited friends. Artist notes stay private to you and sync only across your own devices.";
+"friends.share_unavailable.title" = "Share Unavailable";
+"friends.alert.ok" = "OK";
+"friends.share_invite_link.accessibility" = "Share Invite Link";
+"friends.show_my_qr_code.accessibility" = "Show My QR Code";
+"friends.count.saved_event.one" = "%lld saved event";
+"friends.count.saved_event.other" = "%lld saved events";
+"friends.count.rated_artist.one" = "%lld rated artist";
+"friends.count.rated_artist.other" = "%lld rated artists";
+"friends.profile.subtitle.format" = "%1$@ • %2$@";
+"friends.cloud_share.title" = "Rudolstadt Festival Picks";
+"friends.detail.subtitle" = "Shared festival profile";
+"friends.detail.saved_events.section" = "Saved Events";
+"friends.detail.saved_events.empty" = "No saved events in this shared profile.";
+"friends.detail.day_header.format" = "%1$@, July %2$lld";
+"friends.detail.saved_with_you" = "Also in your plan";
+"friends.detail.artist_ratings.section" = "Artist Ratings";
+"friends.detail.artist_ratings.empty" = "No artist ratings in this shared profile.";
+"friends.qr.my.description" = "Ask your friend to scan this code in Rudolstadt or with the Camera app. The code creates a private, read-only profile connection for one person.";
+"friends.qr.generate_new_code" = "Generate New Code";
+"friends.qr.unavailable.title" = "QR Code Unavailable";
+"friends.try_again" = "Try Again";
+"friends.qr.preparing_invite" = "Preparing your private invite…";
+"friends.qr.my.title" = "My QR Code";
+"friends.done" = "Done";
+"friends.qr.render_failed" = "The invite link was created, but the QR image couldn't be rendered.";
+"friends.scanner.adding_profile" = "Adding friend's profile…";
+"friends.scanner.instructions" = "Point the camera at your friend's festival QR code. They need to show their code once, and you scan once to become friends.";
+"friends.scanner.requesting_camera" = "Requesting camera access…";
+"friends.scanner.camera_access_needed.title" = "Camera Access Needed";
+"friends.scanner.camera_access_needed.description" = "Allow camera access to scan a friend's QR code.";
+"friends.open_settings" = "Open Settings";
+"friends.scanner.unavailable.title" = "Scanner Unavailable";
+"friends.scanner.unavailable.description" = "This device can't start the QR scanner right now.";
+"friends.scanner.title" = "Scan Friend QR";
+"friends.scanner.scan_failed.title" = "Scan Failed";
+"friends.scanner.invalid_invite" = "That QR code is not a valid Rudolstadt profile invite.";
+"friends.scanner.error.no_camera" = "This device doesn't have a usable camera for QR scanning.";
+"friends.scanner.error.camera_connection" = "The camera couldn't be connected for QR scanning.";
+"friends.scanner.error.start_failed" = "The QR scanner couldn't start on this device.";
+"general.title" = "About the festival";
+"general.content" = "Roots, folk and world music between tradition and avant-garde, dancefloor-feeling and cosy garden concerts – all this offers „one of the finest music festivals on the planet“ (fRoots Great Britain)
+
+For its 34th edition, the festival welcomes Austria as the special guest country. Alongside Viennese songs, Austropop, Alpine traditions and contemporary folk sounds, the program once again includes cinema, exhibitions, the RUTH award, children’s dances and street music.";
+"general.extra.title" = "Please note!";
+"general.extra.content" = "Tickets for the Rudolstadt Festival are only available in advance. The same applies to the combination tickets with overnight stay at one of the campsites, as well as the parking tickets. At the box office you only get day tickets for the festival area downtown.";
+"bus.title" = "Bus";
+
+"park_and_ride.title" = "Park and Ride";
+"park_and_ride.navi.title" = "Addresses for the sat nav";
+"park_and_ride.shuttle.title" = "Shuttle details";
+"park_and_ride.click_hint" = "Click an entry to open it in Maps.";
+
+"park_and_ride.navi.description" = "Please simply enter 'Rudolstadt' as your navigation destination. From the town entrance, follow the signs to the location of your choice.";
+
+"park_and_ride.parking.raiffeisenstraße.title" = "P+R Raiffeisenstraße";
+"park_and_ride.parking.raiffeisenstraße.description" = "coming from A4/B88";
+"park_and_ride.parking.erich-correns-ring.title" = "P+R Erich-Correns-Ring (RU-Volkstedt-West)";
+"park_and_ride.parking.erich-correns-ring.description" = "from A9/B281 or B85/88 coming from the south";
+
+"about.title" = "About the app";
+"about.official_app.title" = "Official app";
+"about.official_website.title" = "Official website";
+"about.donate.title" = "Donate to the developer";
+"about.github.title" = "Open GitHub";
+
+"about.app.content" = "This app is not the official app of the Rudolstadt Festival. It was developed unpaid as a hobby project, hoping to provide a more convenient user experience than the official app.
+
+The app is up-to-date for the 2026 festival.
+
+The app does not include third-party analytics, advertising SDKs, or tracking. Your festival profile data is stored on your device and can sync through Apple's iCloud service across your devices. If you choose to share your profile, invited friends can see your shared badge, saved events, and artist ratings. Artist notes stay private to you.";
+"about.developer.header" = "About the developer";
+"about.developer.content" = "Hi, I'm Leon.
+When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. I have now completed my master's degree in computer science and went to Japan with a DAAD scholarship. That means I cannot be at the festival this year, but I still hope the app helps you have a good time in Rudolstadt.
+
+I built this app in my spare time because I wanted a more convenient way to use the festival program. Originally I just wanted to use it myself, but because I was happy with the result, I decided to publish it. Have fun with it!";
+"about.licenses.header" = "Open source";
+"about.licenses.content" = "This app uses third-party libraries and data sources. Their license notices are listed here.";
+"about.licenses.title" = "Open source licenses";
+"licenses.data_sources.title" = "Data sources";
+"licenses.library_sources.title" = "Libraries";
+"licenses.public_domain.title" = "Public domain";
+"licenses.repository.title" = "Project page";
+"licenses.license_text.title" = "License text";
+"licenses.notice.title" = "Notice";
+"licenses.navigation_title" = "Licenses";
+
+"copy.link.title" = "Copy link";
+"copy.email.title" = "Copy email address";
+"email.send.title" = "Send an email";
+
+"list.title" = "List";
+"grid.title" = "Grid";
+"map.title" = "Map";
+"map.loading" = "Loading map…";
+
+"events.empty" = "No events found";
+"events.loading" = "Loading events…";
+"events.intersecting.loading" = "Loading events…";
+"event.intersecting.with" = "at the same time as \"%@\"";
+
+"saved.concerts.title" = "Concerts";
+"saved.artists.title" = "Artists";
+
+"data.loading" = "Loading festival program…";
+"data.loading.title" = "Loading festival program";
+"data.loading.description" = "The app is downloading the latest artists, stages, and schedule. This only appears when no saved data is available yet.";
+"data.loading.progress" = "Loading festival program";
+"data.unavailable.title" = "Festival data is unavailable right now";
+"data.unavailable.description" = "The app could not load the program data right now. Please try again later.";
+"data.unavailable.no_connection.title" = "Internet connection required";
+"data.unavailable.no_connection.description" = "The app needs an internet connection once to load artists, stages, and the schedule. After that, the data is available offline.";
+"data.unavailable.server_error.title" = "Festival data is unavailable right now";
+"data.unavailable.server_error.description" = "The official program data cannot be reached right now. This is not a problem with the app. You can try again later or open the festival website.";
+"data.unavailable.retry" = "Try Again";
+"data.unavailable.open_festival_website" = "Open Festival Website";
+"data.unavailable.reason.no_connection" = "There is no internet connection.";
+"data.unavailable.reason.api_not_responding" = "The app could not load the program data right now.";
+"data.unavailable.reason.festival_server_error" = "The official program data cannot be reached right now.";
+"data.unavailable.reason.could_not_load_file" = "The saved festival data could not be opened.";
+"recommendations.loading" = "Recommendations are loading…";
+
+"map.warning.stage-numbers" = "Warning: The stage numbers might differ from those in the printed map.";
+
+"ticket.type.other" = "Service";
+"ticket.type.day-and-festival" = "City center ticket";
+"ticket.type.festival" = "Season ticket";
+
+"donations.title" = "Donate";
+"donations.hero.title" = "Support the app";
+"donations.description" = "I develop this app in my free time. If it helps you during the festival, you can support its continued development.";
+"donations.hero.note" = "Completely optional. The app stays fully usable without a donation.";
+"donations.hero.ticket-note" = "1% of a festival ticket";
+"donations.options.description.ticket" = "Where possible, the page shows how a contribution roughly relates to the price of a festival ticket.";
+"donations.options.description.generic" = "Contributions are optional and help support the maintenance and future development of the app.";
+"donations.loading" = "Loading donation options…";
+"donation.button.percentage" = "%.0f%% of a festival ticket";
+"donation.card.caption.200" = "Water after the dance tent";
+"donation.card.caption.500" = "Coffee at the Bauernhäuser";
+"donation.card.caption.1000" = "Dinner in the Heinepark";
+"donation.card.caption.2000" = "A CD from your favorite concert";
+"donation.card.caption.5000" = "Provisions for the whole weekend";
+"donation.card.caption.default" = "Thank you.";
+"donations.disclaimer.title" = "Note";
+"donations.disclaimer" = "Donations go directly to me as the developer of this app, not to the festival organizer.";
+
+"settings.title" = "Settings";
+"settings.language" = "Change language";
+"settings.notifications" = "Notifications";
+"settings.notifications.footer" = "Keeps you informed about important program changes and the latest festival news.";
+"settings.notifications.on" = "On";
+"settings.notifications.off" = "Off";
+"settings.notifications.activate" = "Enable";
+"settings.notifications.open" = "Open";
+"settings.show_ai_summaries" = "Show AI summaries";
+"settings.use_flames" = "Use flames instead of hearts";
+"settings.clear_cache.button" = "Clear cached data";
+"settings.clear_cache.title" = "Clear cached data?";
+"settings.clear_cache.cancel" = "Cancel";
+"settings.clear_cache.confirm" = "Clear";
+"settings.clear_cache.message" = "Only temporary cached data will be removed. Your ratings and saved events will not change.";
+"settings.clear_cache.done_title" = "Cache cleared";
+"settings.clear_cache.done_message" = "Cached data was removed. Your ratings and saved events are unchanged.";
+"settings.clear_cache.ok" = "OK";
+"settings.delete_festival_data.button" = "Delete downloaded festival data";
+"settings.delete_festival_data.title" = "Delete downloaded festival data?";
+"settings.delete_festival_data.cancel" = "Cancel";
+"settings.delete_festival_data.confirm" = "Delete";
+"settings.delete_festival_data.message" = "The saved program file will be removed from this device. The app will keep using the currently loaded data until it is restarted or refreshed.";
+"settings.delete_festival_data.done_title" = "Festival data deleted";
+"settings.delete_festival_data.done_message" = "The downloaded program file was removed. Restart the app with network unavailable to test the no-data screen.";
+"settings.delete_festival_data.failed_title" = "Could not delete festival data";
+"settings.delete_festival_data.failed_message" = "The downloaded program file could not be removed.";
+"settings.delete_festival_data.ok" = "OK";
+
+"artists.map.loading" = "Loading world map…";
+"artists.map.show_flat" = "Show flat map";
+"artists.map.show_globe" = "Show globe";
+"artists.map.loading.subtitle" = "Preparing country outlines in the background.";
+"artists.map.loading.failed" = "The world map could not be prepared right now.";
+
+"tip.artist.view_mode.title" = "Change the artist view";
+"tip.artist.view_mode.message" = "Switch between list and grid here, or open the world map with the globe button.";
+"tip.artist.filters.title" = "Narrow the artist list";
+"tip.artist.filters.message" = "Use filters to focus on artist types or browse genres.";
+"tip.artist.favorites.title" = "Show your favorites";
+"tip.artist.favorites.message" = "Switch to your rated artists here.";
+"tip.schedule.view_mode.title" = "Switch schedule layouts";
+"tip.schedule.view_mode.message" = "Change between the timeline and list view here.";
+"tip.schedule.filters.title" = "Tune the schedule";
+"tip.schedule.filters.message" = "Filter to saved events, interesting acts, or the Optimal plan.";
+"tip.events.quick_actions.title" = "Long-press for quick actions";
+"tip.events.quick_actions.message" = "Long-press an event to save it or open extra actions.";
+"tip.locations.view_mode.title" = "Locations as a list";
+"tip.locations.view_mode.message" = "Open the location list over the map here. Select a location to see it on the map and view its details.";
+"tip.map.legend.title" = "These chips are filters";
+"tip.map.legend.message" = "Tap a chip to hide or show stages of that type on the map.";
+"tip.map.recenter.title" = "Jump back to the festival area";
+"tip.map.recenter.message" = "Use this button anytime you want to recenter the map.";
+"tip.artist.rating.title" = "Rate artists here";
+"tip.artist.rating.message" = "Your ratings help you build favorites and recommendations.";
+"tip.artist.notes.title" = "Keep a note for this artist";
+"tip.artist.notes.message" = "Tap the small note to save your own note about this artist.";
+"tip.news.read_state.title" = "Swipe to mark read or unread";
+"tip.news.read_state.message" = "Swipe a news item to quickly toggle its read state.";
+"tip.stage.map_preview.title" = "Open the full stage map";
+"tip.stage.map_preview.message" = "Tap this preview to open an interactive map for the stage.";
+
+// Incomplete festival data
+"event.time.unknown" = "Time unknown";
+"event.date.unknown" = "Date and time unknown";
+"event.time.unplaced" = "Events without a known time";
+"stage.location.unknown" = "Stage location not yet available";
+"data.import.incomplete" = "Some programme records could not be imported. The programme is incomplete.";
+"common.done" = "Done";
+
+"news.refresh.failed" = "News could not be refreshed. The last available version is shown.";
+"news.storage.failed" = "News is up to date, but could not be saved for offline use.";
+"news.notification.unavailable" = "This item is no longer available. Here are the available news items.";
+"news.refresh.bundle" = "News could not be loaded. The backup included with the app is shown and may be out of date.";
+"artist.note.sync-warning" = "Synchronization is currently unavailable. This note may not include the latest changes from your other devices.";
+
+// Festival map
+"map.numbers.title" = "Find a stage";
+"map.numbers.empty" = "No numbered places available.";
+"map.location.unavailable" = "Location not available yet";
+
+"program.discovery.title" = "Explore the program";
+"program.discovery.empty" = "There are no matching events in the loaded program yet.";
+"program.discovery.event-count.one" = "1 event";
+"program.discovery.event-count.other" = "%lld events";
+"program.event.related" = "Artist and venue";
+
+"settings.festival_year" = "Festival year";
+"settings.festival_year.archive_footer" = "Earlier editions are read-only. Saved events, ratings and notes from the selected year are shown.";
+"settings.festival_year.current_footer" = "Current festival program with your personal schedule. Earlier editions are available as an archive.";
+"archive.close" = "Done";
+
+
+"archive.selected %@" = "Archive %@";
+"archive.personal_data_unavailable" = "Shared profiles are unavailable in the archive.";
+"archive.additional_data_unavailable" = "News and travel information have not been archived for this year.";
+
+// Experimental festival integration
+"settings.festival" = "Festival";
+"settings.festival.experimental_footer" = "Experimental integration using the saved schedule for 20–21 June 2026. Ratings, notes and saved events are stored separately on this device. No live updates, sharing or automatic schedule optimization. One inconsistent event was omitted.";
+"festival.experimental.selected %@" = "Test: %@";
+"festival.experimental.additional_data_unavailable" = "News and travel information are not included for this festival.";
+"festival.experimental.sharing_unavailable" = "Shared plans and iCloud sharing are unavailable for this experimental integration. Your ratings, notes and saved events stay on this device.";
+"festival.locations_unavailable" = "Map locations are unavailable for these stages.";
+
+// Official festival site plans
+"site_plan.title" = "Site plan";
+"site_plan.official_source" = "Official festival site plan";
+"site_plan.show_location" = "Show on site plan";
+"site_plan.unavailable" = "The site plan could not be opened.";
+"site_plan.category.stage" = "Stages";
+"site_plan.category.entrance" = "Entrances";
+"site_plan.category.food" = "Food and drinks";
+"site_plan.category.parking" = "Parking";
+"site_plan.category.toilets" = "Toilets and baby changing";
+"site_plan.category.firstAid" = "First aid";
+"site_plan.category.service" = "Services and other facilities";
+"site_plan.category.activity" = "Activities and entertainment";
+
+"site_plan.coordinates_approximate" = "Approximate positions derived from the site plan.";
+"site_plan.coordinate_source" = "Positions: © OpenStreetMap contributors";
+"site_plan.show_geographic_location" = "Open in Maps";
+
+"map.legend" = "Legend";
+
+"map.recenter" = "Recenter map";
+
+"map.user_location" = "Your location";
+
+"map.zoom_in" = "Zoom in";
+
+"map.zoom_out" = "Zoom out";
+
+"festival.map.unavailable" = "The map is currently unavailable.";
+
+"stage.location_info" = "Location information";
+"stage.location.approximate" = "Approximate position";
