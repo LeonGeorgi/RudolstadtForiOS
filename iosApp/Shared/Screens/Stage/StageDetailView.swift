@@ -122,7 +122,7 @@ private struct StageDetailContent: View {
                     sheetHeader
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
-                } else {
+                } else if !usesEdgeToEdgeHero || hasLocationInfo || stage.locationIsApproximate {
                     stageHeader(showsInlineIdentity: !usesEdgeToEdgeHero)
                         .padding(.horizontal, 16)
                         .padding(.top, usesEdgeToEdgeHero ? 16 : 20)
@@ -228,13 +228,14 @@ private struct StageDetailContent: View {
                 }
             }
 
-            VStack(spacing: 4) {
+            VStack(alignment: .leading, spacing: 10) {
                 if let description = stage.localizedDescription,
                     !description.isEmpty
                 {
                     Text(description)
-                        .font(.headline)
-                        .multilineTextAlignment(.center)
+                        .font(.body)
+                        .foregroundStyle(.primary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
 
                 if stage.locationIsApproximate {
@@ -246,10 +247,13 @@ private struct StageDetailContent: View {
                 ForEach(
                     festivalData.features.placeDetails.value?.details(for: stage.id)?.links ?? []
                 ) { link in
-                    Link(link.title.resolved(), destination: link.destination).font(.subheadline)
+                    Link(link.title.resolved(), destination: link.destination)
+                        .font(.subheadline)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
-            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .multilineTextAlignment(.leading)
         }
         .frame(maxWidth: .infinity)
     }
@@ -325,15 +329,18 @@ private struct StageDetailContent: View {
     }
 
     private var locationInfo: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             if let description = stage.localizedDescription, !description.isEmpty {
                 Text(description)
-                    .font(.subheadline)
+                    .font(.body)
+                    .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
             }
             ForEach(festivalData.features.placeDetails.value?.details(for: stage.id)?.links ?? []) {
                 link in
-                Link(link.title.resolved(), destination: link.destination).font(.subheadline)
+                Link(link.title.resolved(), destination: link.destination)
+                    .font(.subheadline)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -467,6 +474,7 @@ private struct StageDetailContent: View {
             Text("stage.nearby")
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.secondary)
+                .accessibilityAddTraits(.isHeader)
 
             VStack(spacing: 0) {
                 ForEach(Array(nearbyStageDistances.enumerated()), id: \.element.id) {
@@ -475,13 +483,12 @@ private struct StageDetailContent: View {
 
                     if index < nearbyStageDistances.count - 1 {
                         Divider()
-                            .padding(.leading, 40)
+                            .padding(.leading, 42)
                     }
                 }
             }
         }
         .padding(16)
-        .background(Color(.secondarySystemBackground))
     }
 
     private func nearbyStageRow(_ stageDistance: StageDistance) -> some View {
@@ -491,16 +498,17 @@ private struct StageDetailContent: View {
                 highlightedEventId: nil
             )
         ) {
-            HStack(spacing: 12) {
+            HStack(alignment: dynamicTypeSize.isAccessibilitySize ? .top : .center, spacing: 12) {
                 StageNumber(stage: stageDistance.stage, size: 30)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(stageDistance.stage.localizedName)
-                        .lineLimit(1)
-                    Text(stageDistance.distanceAndWalkTimeText)
+                        .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)
+                    Text(stageDistance.walkTimeAndDistanceText)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+                .fixedSize(horizontal: false, vertical: true)
 
                 Spacer()
 
@@ -510,6 +518,7 @@ private struct StageDetailContent: View {
             }
             .padding(.vertical, 10)
             .contentShape(Rectangle())
+            .accessibilityElement(children: .combine)
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier("stage-nearby-\(stageDistance.stage.id)")
@@ -533,11 +542,7 @@ private struct StageDetailContent: View {
     private func eventRow(_ event: Event) -> some View {
         let shouldBeHighlighted = highlightedEventId == event.id
         return navigationLink(
-            route: AppNavigationRoute.artist(
-                id: event.artist.id,
-                highlightedEventId: event.id,
-                transitionSourceID: nil
-            )
+            route: festivalData.eventDestination(event, alwaysShowDetails: settings.alwaysShowEventDetails)
         ) {
             StageEventCell(
                 event: event,
@@ -574,7 +579,7 @@ private struct StageDistance: Identifiable {
         stage.id
     }
 
-    var distanceAndWalkTimeText: String {
+    var walkTimeAndDistanceText: String {
         let distanceString = StageDetailContent.distanceFormatter.string(
             from: Measurement(
                 value: transfer.distanceInMeters,
@@ -585,9 +590,7 @@ private struct StageDistance: Identifiable {
         let timeString =
             StageDetailContent.walkTimeFormatter.string(from: estimatedSeconds)
             ?? "\(transfer.walkingMinutes) min"
-        let distancePrefix = transfer.source.isEstimated ? "≈" : ""
-        let timePrefix = transfer.source.isEstimated ? "≈" : "~"
-        return "\(distancePrefix)\(distanceString) • \(timePrefix)\(timeString)"
+        return "\(timeString) · \(distanceString)"
     }
 }
 

@@ -146,6 +146,9 @@ final class UserPreferencesStore: ObservableObject {
     @UserDefault(key: "view/schedule/viewtype", defaultValue: 0)
     var scheduleViewType: Int
 
+    @UserDefault(key: "view/event/always-show-details/v1", defaultValue: false)
+    var alwaysShowEventDetails: Bool
+
     var scheduleDisplayMode: ScheduleDisplayMode {
         get {
             ScheduleDisplayMode(rawValue: scheduleViewType) ?? .timeline

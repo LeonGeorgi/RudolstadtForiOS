@@ -83,13 +83,14 @@ struct FestivalNewsListView: View {
 
 struct FestivalNewsDetailView: View {
     let id: String
+    var navigate: ((AppNavigationRoute) -> Void)? = nil
     @EnvironmentObject private var newsStore: NewsStore
     @EnvironmentObject private var settings: UserSettings
     var body: some View {
         Group {
             if newsStore.usesLegacyPresentation, newsStore.state.phase == .ready,
                let legacyID = Int(id), let item = newsStore.state.items.first(where: { $0.id == legacyID && $0.isInCurrentLanguage }) {
-                NewsItemDetailView(newsItem: item)
+                NewsItemDetailView(newsItem: item, navigate: navigate)
             } else if let snapshot = newsStore.snapshot, let item = snapshot.items.first(where: { $0.id == id }) {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {

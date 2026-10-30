@@ -106,24 +106,15 @@ struct ArtistRatingPopoverButton: View {
                     .accessibilityValue(Text(triggerAccessibilityValue))
             }
         } else {
-            Button {
-                isShowingRatingPalette = true
-            } label: {
-                triggerIcon
-                    .frame(
-                        width: Layout.buttonSize,
-                        height: Layout.buttonSize
-                    )
-                    .contentShape(Circle())
-                    .background(triggerBackgroundColor, in: Circle())
-                    .foregroundStyle(.white)
-                    .accessibilityElement(children: .ignore)
+            #if os(iOS)
+            VStack(alignment: .trailing, spacing: 12) {
+                if let friendRatingSummary {
+                    FriendArtistRatingsButton(summary: friendRatingSummary)
+                }
+                ratingButton
             }
-            .buttonStyle(.plain)
-            .buttonBorderShape(.circle)
-            .disabled(!artist.isMetadataAvailable)
-            .accessibilityLabel(Text("artist.rating.menu"))
-            .accessibilityValue(Text(triggerAccessibilityValue))
+            #else
+            ratingButton
             .overlay(alignment: .topTrailing) {
                 if let friendRatingSummary {
                     FriendArtistRatingsBubble(
@@ -140,17 +131,36 @@ struct ArtistRatingPopoverButton: View {
                     ? -Layout.friendRatingsVerticalOffset
                     : 0
             )
-            .appPopoverTip(
-                DiscoverabilityTips.artistRating,
-                currentTipID: currentTipID,
-                arrowEdge: .bottom
-            )
-            .popover(isPresented: $isShowingRatingPalette) {
-                ArtistRatingPalette(artist: artist)
-                    #if os(iOS)
-                    .presentationCompactAdaptation(.popover)
-                    #endif
-            }
+            #endif
+        }
+    }
+
+    private var ratingButton: some View {
+        Button {
+            isShowingRatingPalette = true
+        } label: {
+            triggerIcon
+                .frame(width: Layout.buttonSize, height: Layout.buttonSize)
+                .contentShape(Circle())
+                .background(triggerBackgroundColor, in: Circle())
+                .foregroundStyle(.white)
+                .accessibilityElement(children: .ignore)
+        }
+        .buttonStyle(.plain)
+        .buttonBorderShape(.circle)
+        .disabled(!artist.isMetadataAvailable)
+        .accessibilityLabel(Text("artist.rating.menu"))
+        .accessibilityValue(Text(triggerAccessibilityValue))
+        .appPopoverTip(
+            DiscoverabilityTips.artistRating,
+            currentTipID: currentTipID,
+            arrowEdge: .bottom
+        )
+        .popover(isPresented: $isShowingRatingPalette) {
+            ArtistRatingPalette(artist: artist)
+                #if os(iOS)
+                .presentationCompactAdaptation(.popover)
+                #endif
         }
     }
 

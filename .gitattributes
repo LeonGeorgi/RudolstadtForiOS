@@ -6,3 +6,4 @@ gradlew text eol=lf
 
 # PDFs may contain readable streams but must remain byte-for-byte unchanged.
 *.pdf binary
+design/Rudolstadt.sketch filter=lfs diff=lfs merge=lfs -text

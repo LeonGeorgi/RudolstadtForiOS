@@ -1,0 +1,367 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="840" viewBox="0 0 1800 840">
+  <defs>
+    <clipPath id="circle">
+      <circle cx="54" cy="54" r="36" />
+    </clipPath>
+    <clipPath id="rounded">
+      <rect x="18" y="18" width="72" height="72" rx="21.6" />
+    </clipPath>
+    <mask id="h3a-tastatur-r-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="108" height="108" style="mask-type:luminance">
+      <g transform="translate(54 54) scale(0.8470276) translate(-53.00000 -53.37500)">
+        <g>
+          <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#FFFFFF" />
+          <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFFFFF" />
+          <g>
+            <path d="M25,79 V35 Q25,32 28,31 L36,29 Q46,27 46,39 V44 Q46,51 39,54 L47,74 L39,76 L32,58 V77Z M32,39 V49 L36,48 Q40,47 40,42 Q40,37 36,38Z" fill="#FFFFFF" fill-rule="evenodd" />
+            <path d="M26,44 L31,43 M26,64 L31,63" fill="none" stroke="#000000" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+          <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#000000" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="75.5" cy="40" r="1.8" fill="#000000" />
+          <circle cx="75.5" cy="50" r="1.8" fill="#000000" />
+          <circle cx="75.5" cy="60" r="1.8" fill="#000000" />
+        </g>
+      </g>
+    </mask>
+    <mask id="h3b-tastenschnitt-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="108" height="108" style="mask-type:luminance">
+      <g transform="translate(54 54) scale(0.8569497) translate(-53.00000 -54.00000)">
+        <g>
+          <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#FFFFFF" />
+          <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFFFFF" />
+          <g>
+            <path d="M25,37 Q25,34 28,33 L40,30 Q44,29 44,33 V74 Q44,77 41,78 L29,80 Q25,81 25,77Z" fill="#FFFFFF" />
+            <path d="M29,70 V40 L34,39 Q40,38 40,46 V49 Q40,53 36,55 L41,68 L36,69 L33,58 V69Z M33,44 V51 L35,50 Q36.5,50 36.5,47 Q36.5,43 35,44Z" fill="#000000" fill-rule="evenodd" />
+          </g>
+          <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#000000" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="75.5" cy="40" r="1.8" fill="#000000" />
+          <circle cx="75.5" cy="50" r="1.8" fill="#000000" />
+          <circle cx="75.5" cy="60" r="1.8" fill="#000000" />
+        </g>
+      </g>
+    </mask>
+    <mask id="h4a-sauber-geoeffnet-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="108" height="108" style="mask-type:luminance">
+      <g transform="translate(54 54) scale(0.8551930) translate(-53.50000 -53.12500)">
+        <g>
+          <path d="M34.18277,36.07598 L40.61476,32.74879 L47.04676,34.42160 L53.47875,31.09441 L59.91075,32.76723 L66.34275,29.44004 L72.77474,31.11285 L63.58171,67.98409 L60.53357,71.22267 L57.48544,69.46124 L54.43730,72.69982 L51.38916,70.93840 L48.34103,74.17698 L45.29289,72.41556 Z" fill="#FFFFFF" />
+          <g transform="translate(34 56) rotate(-17)">
+            <path d="M6,-22 H-3 Q-6,-22 -6,-19 V19 Q-6,22 -3,22 H6Z" fill="#FFFFFF" />
+            <path d="M0,-12 V-8 M0,-2 V2 M0,8 V12" fill="none" stroke="#000000" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+          <g transform="translate(74 51) rotate(14)">
+            <path d="M-6,-22 H3 Q6,-22 6,-19 V19 Q6,22 3,22 H-6Z" fill="#FFFFFF" />
+            <circle cx="0" cy="-11" r="1.8" fill="#000000" />
+            <circle cx="0" cy="0" r="1.8" fill="#000000" />
+            <circle cx="0" cy="11" r="1.8" fill="#000000" />
+          </g>
+          <path d="M47.63717,39.38662 L50.79875,65.97338" fill="none" stroke="#000000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M59.58099,37.75634 L57.81520,64.47213" fill="none" stroke="#000000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      </g>
+    </mask>
+  </defs>
+  <rect width="1800" height="840" fill="#F4F1F5" />
+  <text x="70" y="68" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#786B7D">Rudolstadt / Android · H3 und H4</text>
+  <text x="68" y="132" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="46" font-weight="600" fill="#2D2432">Tasten, Buchstaben und saubere Falten</text>
+  <text x="70" y="177" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="400" fill="#786B7D">Zwei Ansätze für das R · die geöffnete Form mit neu aufgebauter Geometrie</text>
+  <text x="70" y="264" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="29" font-weight="600" fill="#2D2432">H3a  R als Klaviatur</text>
+  <text x="70" y="303" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D">Die Tastenseite bildet ein großes R.</text>
+  <g transform="translate(13.5 278.5) scale(3.4722222222222223)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h3a-tastatur-r-mask)">
+        <g transform="translate(54 54) scale(0.8470276) translate(-53.00000 -53.37500)">
+          <g>
+            <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#F1B779" />
+            <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFF5E9" />
+            <g>
+              <path d="M25,79 V35 Q25,32 28,31 L36,29 Q46,27 46,39 V44 Q46,51 39,54 L47,74 L39,76 L32,58 V77Z M32,39 V49 L36,48 Q40,47 40,42 Q40,37 36,38Z" fill="#FFF5E9" fill-rule="evenodd" />
+              <path d="M26,44 L31,43 M26,64 L31,63" fill="none" stroke="#782C74" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#782C74" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="75.5" cy="40" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="50" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="60" r="1.8" fill="#782C74" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(371.5 317.5) scale(1.3055555555555556)">
+    <g clip-path="url(#rounded)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h3a-tastatur-r-mask)">
+        <g transform="translate(54 54) scale(0.8470276) translate(-53.00000 -53.37500)">
+          <g>
+            <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#F1B779" />
+            <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFF5E9" />
+            <g>
+              <path d="M25,79 V35 Q25,32 28,31 L36,29 Q46,27 46,39 V44 Q46,51 39,54 L47,74 L39,76 L32,58 V77Z M32,39 V49 L36,48 Q40,47 40,42 Q40,37 36,38Z" fill="#FFF5E9" fill-rule="evenodd" />
+              <path d="M26,44 L31,43 M26,64 L31,63" fill="none" stroke="#782C74" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#782C74" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="75.5" cy="40" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="50" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="60" r="1.8" fill="#782C74" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(371.5 454.5) scale(1.3055555555555556)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#DED0EA" />
+      <rect width="108" height="108" fill="#4E3462" mask="url(#h3a-tastatur-r-mask)" />
+    </g>
+  </g>
+  <text x="395" y="455" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D">Form</text>
+  <text x="395" y="592" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D">Systemfarbe</text>
+  <g transform="translate(64.0 613.0) scale(0.6666666666666666)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h3a-tastatur-r-mask)">
+        <g transform="translate(54 54) scale(0.8470276) translate(-53.00000 -53.37500)">
+          <g>
+            <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#F1B779" />
+            <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFF5E9" />
+            <g>
+              <path d="M25,79 V35 Q25,32 28,31 L36,29 Q46,27 46,39 V44 Q46,51 39,54 L47,74 L39,76 L32,58 V77Z M32,39 V49 L36,48 Q40,47 40,42 Q40,37 36,38Z" fill="#FFF5E9" fill-rule="evenodd" />
+              <path d="M26,44 L31,43 M26,64 L31,63" fill="none" stroke="#782C74" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#782C74" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="75.5" cy="40" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="50" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="60" r="1.8" fill="#782C74" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="140" y="656" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">48 px</text>
+  <g transform="translate(231.0 599.0) scale(0.8888888888888888)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h3a-tastatur-r-mask)">
+        <g transform="translate(54 54) scale(0.8470276) translate(-53.00000 -53.37500)">
+          <g>
+            <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#F1B779" />
+            <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFF5E9" />
+            <g>
+              <path d="M25,79 V35 Q25,32 28,31 L36,29 Q46,27 46,39 V44 Q46,51 39,54 L47,74 L39,76 L32,58 V77Z M32,39 V49 L36,48 Q40,47 40,42 Q40,37 36,38Z" fill="#FFF5E9" fill-rule="evenodd" />
+              <path d="M26,44 L31,43 M26,64 L31,63" fill="none" stroke="#782C74" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#782C74" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="75.5" cy="40" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="50" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="60" r="1.8" fill="#782C74" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="327" y="656" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">64 px</text>
+  <text x="644" y="264" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="29" font-weight="600" fill="#2D2432">H3b  R im Tastenschnitt</text>
+  <text x="644" y="303" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D">Das R steckt in den dunklen Tasten.</text>
+  <g transform="translate(587.5 278.5) scale(3.4722222222222223)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h3b-tastenschnitt-mask)">
+        <g transform="translate(54 54) scale(0.8569497) translate(-53.00000 -54.00000)">
+          <g>
+            <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#F1B779" />
+            <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFF5E9" />
+            <g>
+              <path d="M25,37 Q25,34 28,33 L40,30 Q44,29 44,33 V74 Q44,77 41,78 L29,80 Q25,81 25,77Z" fill="#FFF5E9" />
+              <path d="M29,70 V40 L34,39 Q40,38 40,46 V49 Q40,53 36,55 L41,68 L36,69 L33,58 V69Z M33,44 V51 L35,50 Q36.5,50 36.5,47 Q36.5,43 35,44Z" fill="#782C74" fill-rule="evenodd" />
+            </g>
+            <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#782C74" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="75.5" cy="40" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="50" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="60" r="1.8" fill="#782C74" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(945.5 317.5) scale(1.3055555555555556)">
+    <g clip-path="url(#rounded)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h3b-tastenschnitt-mask)">
+        <g transform="translate(54 54) scale(0.8569497) translate(-53.00000 -54.00000)">
+          <g>
+            <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#F1B779" />
+            <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFF5E9" />
+            <g>
+              <path d="M25,37 Q25,34 28,33 L40,30 Q44,29 44,33 V74 Q44,77 41,78 L29,80 Q25,81 25,77Z" fill="#FFF5E9" />
+              <path d="M29,70 V40 L34,39 Q40,38 40,46 V49 Q40,53 36,55 L41,68 L36,69 L33,58 V69Z M33,44 V51 L35,50 Q36.5,50 36.5,47 Q36.5,43 35,44Z" fill="#782C74" fill-rule="evenodd" />
+            </g>
+            <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#782C74" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="75.5" cy="40" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="50" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="60" r="1.8" fill="#782C74" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(945.5 454.5) scale(1.3055555555555556)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#DED0EA" />
+      <rect width="108" height="108" fill="#4E3462" mask="url(#h3b-tastenschnitt-mask)" />
+    </g>
+  </g>
+  <text x="969" y="455" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D">Form</text>
+  <text x="969" y="592" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D">Systemfarbe</text>
+  <g transform="translate(638.0 613.0) scale(0.6666666666666666)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h3b-tastenschnitt-mask)">
+        <g transform="translate(54 54) scale(0.8569497) translate(-53.00000 -54.00000)">
+          <g>
+            <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#F1B779" />
+            <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFF5E9" />
+            <g>
+              <path d="M25,37 Q25,34 28,33 L40,30 Q44,29 44,33 V74 Q44,77 41,78 L29,80 Q25,81 25,77Z" fill="#FFF5E9" />
+              <path d="M29,70 V40 L34,39 Q40,38 40,46 V49 Q40,53 36,55 L41,68 L36,69 L33,58 V69Z M33,44 V51 L35,50 Q36.5,50 36.5,47 Q36.5,43 35,44Z" fill="#782C74" fill-rule="evenodd" />
+            </g>
+            <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#782C74" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="75.5" cy="40" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="50" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="60" r="1.8" fill="#782C74" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="714" y="656" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">48 px</text>
+  <g transform="translate(805.0 599.0) scale(0.8888888888888888)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h3b-tastenschnitt-mask)">
+        <g transform="translate(54 54) scale(0.8569497) translate(-53.00000 -54.00000)">
+          <g>
+            <path d="M45,37 L50,34 L56,37 L62,33 L68,35 V70 L62,74 L56,71 L50,75 L45,72Z" fill="#F1B779" />
+            <path d="M70,33 Q70,30 73,29 L78,28 Q81,27 81,31 V67 Q81,70 78,71 L73,72 Q70,73 70,69Z" fill="#FFF5E9" />
+            <g>
+              <path d="M25,37 Q25,34 28,33 L40,30 Q44,29 44,33 V74 Q44,77 41,78 L29,80 Q25,81 25,77Z" fill="#FFF5E9" />
+              <path d="M29,70 V40 L34,39 Q40,38 40,46 V49 Q40,53 36,55 L41,68 L36,69 L33,58 V69Z M33,44 V51 L35,50 Q36.5,50 36.5,47 Q36.5,43 35,44Z" fill="#782C74" fill-rule="evenodd" />
+            </g>
+            <path d="M51,41 V67 M62,39 V65" fill="none" stroke="#782C74" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="75.5" cy="40" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="50" r="1.8" fill="#782C74" />
+            <circle cx="75.5" cy="60" r="1.8" fill="#782C74" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="901" y="656" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">64 px</text>
+  <text x="1218" y="264" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="29" font-weight="600" fill="#2D2432">H4a  Geöffnet, überarbeitet</text>
+  <text x="1218" y="303" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D">Gemeinsame Anschlüsse, gleichmäßige Details.</text>
+  <g transform="translate(1161.5 278.5) scale(3.4722222222222223)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h4a-sauber-geoeffnet-mask)">
+        <g transform="translate(54 54) scale(0.8551930) translate(-53.50000 -53.12500)">
+          <g>
+            <path d="M34.18277,36.07598 L40.61476,32.74879 L47.04676,34.42160 L53.47875,31.09441 L59.91075,32.76723 L66.34275,29.44004 L72.77474,31.11285 L63.58171,67.98409 L60.53357,71.22267 L57.48544,69.46124 L54.43730,72.69982 L51.38916,70.93840 L48.34103,74.17698 L45.29289,72.41556 Z" fill="#F1B779" />
+            <g transform="translate(34 56) rotate(-17)">
+              <path d="M6,-22 H-3 Q-6,-22 -6,-19 V19 Q-6,22 -3,22 H6Z" fill="#FFF5E9" />
+              <path d="M0,-12 V-8 M0,-2 V2 M0,8 V12" fill="none" stroke="#782C74" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <g transform="translate(74 51) rotate(14)">
+              <path d="M-6,-22 H3 Q6,-22 6,-19 V19 Q6,22 3,22 H-6Z" fill="#FFF5E9" />
+              <circle cx="0" cy="-11" r="1.8" fill="#782C74" />
+              <circle cx="0" cy="0" r="1.8" fill="#782C74" />
+              <circle cx="0" cy="11" r="1.8" fill="#782C74" />
+            </g>
+            <path d="M47.63717,39.38662 L50.79875,65.97338" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M59.58099,37.75634 L57.81520,64.47213" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(1519.5 317.5) scale(1.3055555555555556)">
+    <g clip-path="url(#rounded)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h4a-sauber-geoeffnet-mask)">
+        <g transform="translate(54 54) scale(0.8551930) translate(-53.50000 -53.12500)">
+          <g>
+            <path d="M34.18277,36.07598 L40.61476,32.74879 L47.04676,34.42160 L53.47875,31.09441 L59.91075,32.76723 L66.34275,29.44004 L72.77474,31.11285 L63.58171,67.98409 L60.53357,71.22267 L57.48544,69.46124 L54.43730,72.69982 L51.38916,70.93840 L48.34103,74.17698 L45.29289,72.41556 Z" fill="#F1B779" />
+            <g transform="translate(34 56) rotate(-17)">
+              <path d="M6,-22 H-3 Q-6,-22 -6,-19 V19 Q-6,22 -3,22 H6Z" fill="#FFF5E9" />
+              <path d="M0,-12 V-8 M0,-2 V2 M0,8 V12" fill="none" stroke="#782C74" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <g transform="translate(74 51) rotate(14)">
+              <path d="M-6,-22 H3 Q6,-22 6,-19 V19 Q6,22 3,22 H-6Z" fill="#FFF5E9" />
+              <circle cx="0" cy="-11" r="1.8" fill="#782C74" />
+              <circle cx="0" cy="0" r="1.8" fill="#782C74" />
+              <circle cx="0" cy="11" r="1.8" fill="#782C74" />
+            </g>
+            <path d="M47.63717,39.38662 L50.79875,65.97338" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M59.58099,37.75634 L57.81520,64.47213" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(1519.5 454.5) scale(1.3055555555555556)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#DED0EA" />
+      <rect width="108" height="108" fill="#4E3462" mask="url(#h4a-sauber-geoeffnet-mask)" />
+    </g>
+  </g>
+  <text x="1543" y="455" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D">Form</text>
+  <text x="1543" y="592" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D">Systemfarbe</text>
+  <g transform="translate(1212.0 613.0) scale(0.6666666666666666)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h4a-sauber-geoeffnet-mask)">
+        <g transform="translate(54 54) scale(0.8551930) translate(-53.50000 -53.12500)">
+          <g>
+            <path d="M34.18277,36.07598 L40.61476,32.74879 L47.04676,34.42160 L53.47875,31.09441 L59.91075,32.76723 L66.34275,29.44004 L72.77474,31.11285 L63.58171,67.98409 L60.53357,71.22267 L57.48544,69.46124 L54.43730,72.69982 L51.38916,70.93840 L48.34103,74.17698 L45.29289,72.41556 Z" fill="#F1B779" />
+            <g transform="translate(34 56) rotate(-17)">
+              <path d="M6,-22 H-3 Q-6,-22 -6,-19 V19 Q-6,22 -3,22 H6Z" fill="#FFF5E9" />
+              <path d="M0,-12 V-8 M0,-2 V2 M0,8 V12" fill="none" stroke="#782C74" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <g transform="translate(74 51) rotate(14)">
+              <path d="M-6,-22 H3 Q6,-22 6,-19 V19 Q6,22 3,22 H-6Z" fill="#FFF5E9" />
+              <circle cx="0" cy="-11" r="1.8" fill="#782C74" />
+              <circle cx="0" cy="0" r="1.8" fill="#782C74" />
+              <circle cx="0" cy="11" r="1.8" fill="#782C74" />
+            </g>
+            <path d="M47.63717,39.38662 L50.79875,65.97338" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M59.58099,37.75634 L57.81520,64.47213" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="1288" y="656" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">48 px</text>
+  <g transform="translate(1379.0 599.0) scale(0.8888888888888888)">
+    <g clip-path="url(#circle)">
+      <rect width="108" height="108" fill="#782C74" />
+      <g mask="url(#h4a-sauber-geoeffnet-mask)">
+        <g transform="translate(54 54) scale(0.8551930) translate(-53.50000 -53.12500)">
+          <g>
+            <path d="M34.18277,36.07598 L40.61476,32.74879 L47.04676,34.42160 L53.47875,31.09441 L59.91075,32.76723 L66.34275,29.44004 L72.77474,31.11285 L63.58171,67.98409 L60.53357,71.22267 L57.48544,69.46124 L54.43730,72.69982 L51.38916,70.93840 L48.34103,74.17698 L45.29289,72.41556 Z" fill="#F1B779" />
+            <g transform="translate(34 56) rotate(-17)">
+              <path d="M6,-22 H-3 Q-6,-22 -6,-19 V19 Q-6,22 -3,22 H6Z" fill="#FFF5E9" />
+              <path d="M0,-12 V-8 M0,-2 V2 M0,8 V12" fill="none" stroke="#782C74" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <g transform="translate(74 51) rotate(14)">
+              <path d="M-6,-22 H3 Q6,-22 6,-19 V19 Q6,22 3,22 H-6Z" fill="#FFF5E9" />
+              <circle cx="0" cy="-11" r="1.8" fill="#782C74" />
+              <circle cx="0" cy="0" r="1.8" fill="#782C74" />
+              <circle cx="0" cy="11" r="1.8" fill="#782C74" />
+            </g>
+            <path d="M47.63717,39.38662 L50.79875,65.97338" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M59.58099,37.75634 L57.81520,64.47213" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="1475" y="656" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">64 px</text>
+  <text x="70" y="800" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#786B7D">Editierbare Vektorentwürfe · Außenformen und Systemfarben sind simuliert.</text>
+</svg>

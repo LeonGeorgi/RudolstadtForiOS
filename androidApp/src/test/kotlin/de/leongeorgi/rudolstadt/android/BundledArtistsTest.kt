@@ -8,7 +8,12 @@ import org.junit.Test
 class BundledArtistsTest {
     @Test
     fun loadsRealSharedResourcesAndKeepsVisibleArtists() {
-        val artists = BundledArtists.load()
+        val artists =
+            de.leongeorgi.rudolstadt.android.data
+                .FestivalContentLoader()
+                .bundled(de.leongeorgi.rudolstadt.android.data.Edition.current)
+                .index
+                .matching(false, emptyMap(), "", emptyMap())
         assertTrue("Expected the actual festival lineup", artists.size > 100)
         assertTrue(artists.any { it.name == "A Birchola" })
         assertFalse(

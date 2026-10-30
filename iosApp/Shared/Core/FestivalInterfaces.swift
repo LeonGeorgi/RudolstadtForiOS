@@ -148,7 +148,7 @@ struct FestivalFeatures: Sendable {
     let information: FeatureAvailability<any FestivalInformationProviding>
     let artistDetails: FeatureAvailability<any ArtistDetailsProviding>
     let placeDetails: FeatureAvailability<any FestivalPlaceDetailsProviding>
-    let eventDetails: FeatureAvailability<any FestivalEventDetailsProviding>
+    let eventDetails: FeatureAvailability<EventDetailsFeature>
     let admission: FeatureAvailability<any FestivalAdmissionProviding>
     let summaries: FeatureAvailability<any ArtistSummariesProviding>
     let groupings: FeatureAvailability<any ArtistGroupingsProviding>
@@ -163,7 +163,7 @@ struct FestivalFeatures: Sendable {
         information: FeatureAvailability<any FestivalInformationProviding> = .unsupported,
         artistDetails: FeatureAvailability<any ArtistDetailsProviding> = .unsupported,
         placeDetails: FeatureAvailability<any FestivalPlaceDetailsProviding> = .unsupported,
-        eventDetails: FeatureAvailability<any FestivalEventDetailsProviding> = .unsupported,
+        eventDetails: FeatureAvailability<EventDetailsFeature> = .unsupported,
         admission: FeatureAvailability<any FestivalAdmissionProviding> = .unsupported,
         summaries: FeatureAvailability<any ArtistSummariesProviding> = .unsupported,
         groupings: FeatureAvailability<any ArtistGroupingsProviding> = .unsupported,
@@ -256,11 +256,6 @@ protocol ArtistDetailsProviding: Sendable {
 
 protocol FestivalPlaceDetailsProviding: Sendable {
     func details(for placeID: FestivalPlaceID) -> FestivalPlaceDetails?
-}
-
-protocol FestivalEventDetailsProviding: Sendable {
-    var tags: [Tag] { get }
-    func details(for eventID: Event.ID) -> FestivalEventDetails?
 }
 
 protocol FestivalAdmissionProviding: Sendable {
@@ -638,7 +633,6 @@ extension ProgramMetadata: @unchecked @retroactive Sendable {
 }
 
 typealias FestivalPlaceDetails = ProgramPlaceInformation
-typealias FestivalEventDetails = ProgramEventInformation
 typealias FestivalAdmission = ProgramAdmission
 extension ProgramPlaceInformation: @unchecked @retroactive Sendable {
     convenience init(description: FestivalContent?, links: [FestivalLink]) {
@@ -646,22 +640,8 @@ extension ProgramPlaceInformation: @unchecked @retroactive Sendable {
     }
     var links: [FestivalLink] { programLinks.compactMap(\.native) }
 }
-extension ProgramEventInformation: @unchecked @retroactive Sendable {
-    convenience init(
-        description: FestivalContent?, tags: [Tag], links: [FestivalLink],
-        informationFields: [FestivalInformationField] = []
-    ) {
-        self.init(
-            content: description, tags: tags, programLinks: links.map(\.core),
-            informationFields: informationFields)
-    }
-    var links: [FestivalLink] { programLinks.compactMap(\.native) }
-    var editorialContent: FestivalEditorialContent? {
-        let value = ProgramEditorialContent(
-            article: content, fields: informationFields, links: programLinks)
-        return value.hasContent ? value : nil
-    }
-}
+extension EventDetailsFeature: @unchecked @retroactive Sendable {}
+extension EventDetailContent: @unchecked @retroactive Sendable {}
 extension ProgramAdmission: @unchecked @retroactive Sendable {
     convenience init(categoryIDs: Set<String>, note: LocalizedText?) {
         self.init(categoryIDs: categoryIDs, notes: note?.core)

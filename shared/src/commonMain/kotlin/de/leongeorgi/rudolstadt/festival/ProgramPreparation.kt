@@ -22,7 +22,6 @@ data class PlaceMetadata(
 data class EventMetadata(
     val eventID: Long,
     val tags: List<ProgramTag>?,
-    val editorialContent: ProgramEditorialContent? = null,
 )
 
 data class ProgramGroup(val groupID: String, val titles: Map<String, String>)
@@ -130,9 +129,6 @@ object ProgramPreparation {
                         artist = artistsByID.getValue(original.artist.artistID),
                         stage = placesByID[original.stage.placeKey] ?: original.stage,
                         tags = eventOverrides[original.eventID]?.tags ?: original.tags,
-                        editorialContent =
-                            eventOverrides[original.eventID]?.editorialContent
-                                ?: original.editorialContent,
                         assignedDay = original.assignedDay?.date?.id?.let { daysByID[it] },
                         zoneID = zone,
                     )
@@ -140,7 +136,6 @@ object ProgramPreparation {
                     value.artist === original.artist &&
                         value.stage === original.stage &&
                         value.tags === original.tags &&
-                        value.editorialContent == original.editorialContent &&
                         value.assignedDay == original.assignedDay &&
                         value.zoneID == original.zoneID
                 )
@@ -353,12 +348,13 @@ object ProgramPreparation {
     }
 
     fun valid(program: FestivalProgram, days: List<ProgramDay>): Boolean =
-        ProgramValidation.valid(
-            program.events.map { it.planningEvent(it.eventDuration?.minutes, true, false) },
-            program.artists.map { it.artistID },
-            program.places.map { it.placeKey },
-            days.map { it.id },
-        ) &&
+        program.eventDetails?.validFor(program.events.map { it.eventID }.toSet()) != false &&
+            ProgramValidation.valid(
+                program.events.map { it.planningEvent(it.eventDuration?.minutes, true, false) },
+                program.artists.map { it.artistID },
+                program.places.map { it.placeKey },
+                days.map { it.id },
+            ) &&
             days.all { day ->
                 day.start.isFinite() &&
                     day.end.isFinite() &&

@@ -3,7 +3,8 @@
 Eigenständiges Projekt für native Apple- und Android-Apps mit gemeinsamem Kotlin-Kern.
 Der vollständige Apple-Code liegt in diesem Projekt; ein benachbarter Checkout von
 `RudolstadtForiOS` wird weder zum Bauen noch zur Laufzeit benötigt.
-Die Android-App zeigt zunächst die Künstlerliste aus dem mitgelieferten Programm.
+Die Android-App bietet Programm, Künstler, Karten, Nachrichten und lokale persönliche Daten
+mit Jetpack Compose und Material 3. CloudKit und Freunde bleiben auf Apple.
 Sie lässt sich ohne Android Studio auf einem lokalen Emulator ausführen.
 
 ## Aufbau
@@ -11,7 +12,7 @@ Sie lässt sich ohne Android Studio auf einem lokalen Emulator ausführen.
 ```text
 RudolstadtKMP/
 ├── shared/        Gemeinsames Kotlin-Modul und Festivaldaten
-├── androidApp/    Native Android-Künstlerliste mit Jetpack Compose
+├── androidApp/    Native Android-App mit Jetpack Compose
 ├── iosApp/        Xcode-Projekt, nativer Apple-Code und Apple-Tests
 ├── scripts/
 │   ├── data/      Datenimporte und Musiklink-Suche
@@ -228,7 +229,8 @@ xcodebuild test -project RudolstadtForiOS.xcodeproj -scheme 'Unit Tests' \
 
 ## Android entwickeln
 
-`androidApp` enthält eine erste native Künstlerliste mit Jetpack Compose. Sie liest
+`androidApp` enthält die native Material-3-Oberfläche für Programm, Künstler, Karten,
+Nachrichten, Archive und lokale persönliche Daten. Sie liest
 das mitgelieferte Programm über `shared` und funktioniert offline. Auf dem
 eingerichteten Mac startet dieser Befehl Build, Emulator und App:
 

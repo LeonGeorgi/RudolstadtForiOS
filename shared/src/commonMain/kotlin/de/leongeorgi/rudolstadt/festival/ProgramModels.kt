@@ -3,6 +3,9 @@ package de.leongeorgi.rudolstadt.festival
 import de.leongeorgi.rudolstadt.discovery.CountryParser
 import de.leongeorgi.rudolstadt.planning.PlaceLocation
 import kotlinx.datetime.atStartOfDayIn
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /** Immutable program objects shared directly with native views. No platform UI state lives here. */
@@ -39,6 +42,20 @@ data class ProgramEditorialContent(
             article?.texts?.values?.any { it.isNotBlank() } == true ||
                 fields.any { it.hasContent } ||
                 links.any { it.destination.isNotBlank() }
+}
+
+/** Event-specific content can only be supplied by opting into the festival feature. */
+@Serializable data class EventDetailContent(val eventID: Long, val content: ProgramEditorialContent)
+
+/** Presence enables concert detail pages for the festival, even without additional content. */
+@Serializable
+data class EventDetailsFeature(val contents: List<EventDetailContent> = emptyList()) {
+    fun details(id: Long): ProgramEditorialContent? =
+        contents.firstOrNull { it.eventID == id }?.content
+
+    fun validFor(eventIDs: Set<Long>): Boolean =
+        contents.map { it.eventID }.distinct().size == contents.size &&
+            contents.all { it.eventID in eventIDs }
 }
 
 @Serializable
@@ -172,8 +189,11 @@ data class ProgramOccurrence(
     val eventDuration: EventDuration? = null,
     val assignedDay: OccurrenceDay? = null,
     val zoneID: String = "Europe/Berlin",
-    val editorialContent: ProgramEditorialContent? = null,
 ) {
+    /** Explicit festival timing for display; estimates remain available for planning. */
+    val confirmedDuration: EventDuration?
+        get() = eventDuration?.takeUnless { it.isEstimated }
+
     val festivalDayNumber
         get() =
             FestivalDays.day(
@@ -276,6 +296,7 @@ data class FestivalProgram(
     val omittedRecordCount: Int,
     val year: Int,
     val sitePlan: SitePlan? = null,
+    val eventDetails: EventDetailsFeature? = null,
 )
 
 data class ProgramResult(val program: FestivalProgram?, val error: String?)
@@ -444,6 +465,7 @@ class ProgramModels(private val fold: (String) -> String) {
  * Normalized on-disk graph: events refer to catalog objects instead of serializing them repeatedly.
  */
 @Serializable
+@OptIn(ExperimentalSerializationApi::class)
 internal data class CachedOccurrence(
     val id: Long,
     val artist: Long,
@@ -454,7 +476,9 @@ internal data class CachedOccurrence(
     val duration: EventDuration?,
     val day: OccurrenceDay?,
     val zone: String,
-    val editorialContent: ProgramEditorialContent? = null,
+    @SerialName("editorialContent")
+    @EncodeDefault(EncodeDefault.Mode.NEVER)
+    val legacyEditorialContent: ProgramEditorialContent? = null,
 )
 
 @Serializable
@@ -467,8 +491,29 @@ internal data class CachedFestivalProgram(
     val omittedRecordCount: Int,
     val year: Int,
     val sitePlan: SitePlan?,
+    val eventDetails: EventDetailsFeature? = null,
+    val formatVersion: Int = 1,
 ) {
     fun program(): FestivalProgram {
+        require(formatVersion in 1..2) { "Unsupported program cache version" }
+        require(
+            (formatVersion == 1 && eventDetails == null) ||
+                events.all { it.legacyEditorialContent == null }
+        ) {
+            "Event content must be supplied through the event-details feature"
+        }
+        val details =
+            if (formatVersion == 1 && eventDetails == null)
+                events
+                    .mapNotNull { event ->
+                        event.legacyEditorialContent?.let { EventDetailContent(event.id, it) }
+                    }
+                    .takeIf { it.isNotEmpty() }
+                    ?.let(::EventDetailsFeature)
+            else eventDetails
+        require(details?.validFor(events.map { it.id }.toSet()) != false) {
+            "Invalid event-details references"
+        }
         val artistsByID = artists.associateBy { it.artistID }
         val placesByID = places.associateBy { it.placeKey }
         val tagsByID = tags.associateBy { it.tagID }
@@ -493,18 +538,23 @@ internal data class CachedFestivalProgram(
                     event.duration,
                     event.day,
                     event.zone,
-                    event.editorialContent,
                 )
             },
             omittedRecordCount,
             year,
             sitePlan,
+            details,
         )
     }
 
     companion object {
-        fun from(program: FestivalProgram): CachedFestivalProgram =
-            CachedFestivalProgram(
+        fun from(program: FestivalProgram): CachedFestivalProgram {
+            require(
+                program.eventDetails?.validFor(program.events.map { it.eventID }.toSet()) != false
+            ) {
+                "Invalid event-details references"
+            }
+            return CachedFestivalProgram(
                 program.artists,
                 program.areas,
                 program.places,
@@ -520,12 +570,14 @@ internal data class CachedFestivalProgram(
                         event.eventDuration,
                         event.assignedDay,
                         event.zoneID,
-                        event.editorialContent,
                     )
                 },
                 program.omittedRecordCount,
                 program.year,
                 program.sitePlan,
+                program.eventDetails,
+                2,
             )
+        }
     }
 }

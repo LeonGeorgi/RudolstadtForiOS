@@ -6,6 +6,7 @@ struct SharedFestivalProfileDetailView: View {
 
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var currentProfile: FestivalProfileStore
+    @EnvironmentObject private var settings: UserSettings
 
     private var savedEvents: [Event] {
         let savedEventIDs = Set(profile.saved.map(\.intValue))
@@ -68,11 +69,7 @@ struct SharedFestivalProfileDetailView: View {
                     Section(savedEventDayTitle(for: group.day)) {
                         ForEach(group.events) { event in
                             NavigationLink(
-                                value: AppNavigationRoute.artist(
-                                    id: event.artist.id,
-                                    highlightedEventId: event.id,
-                                    transitionSourceID: nil
-                                )
+                                value: festivalData.eventDestination(event, alwaysShowDetails: settings.alwaysShowEventDetails)
                             ) {
                                 SharedProfileSavedEventRow(
                                     event: event,

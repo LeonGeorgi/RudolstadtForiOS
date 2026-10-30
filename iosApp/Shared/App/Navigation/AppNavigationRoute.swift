@@ -22,12 +22,22 @@ enum AppNavigationRoute: Hashable {
     case friendsTogether(kind: FriendsTogetherListKind)
 }
 
+extension FestivalData {
+    func eventDestination(
+        _ event: Event, fallback: AppNavigationRoute? = nil, alwaysShowDetails: Bool = false
+    ) -> AppNavigationRoute {
+        if features.eventDetails.isSupported || alwaysShowDetails { return .festival(.event(event.id)) }
+        return fallback ?? .artist(id: event.artist.id, highlightedEventId: event.id, transitionSourceID: nil)
+    }
+}
+
 struct AppNavigationDestination: View {
     let route: AppNavigationRoute
     var navigate: ((AppNavigationRoute) -> Void)? = nil
     var imageTransitionNamespace: Namespace.ID? = nil
 
     @Environment(\.festivalData) private var festivalData
+    @EnvironmentObject private var settings: UserSettings
 
     var body: some View {
         switch route {
@@ -78,11 +88,10 @@ struct AppNavigationDestination: View {
         case .artist(let id): artistDestination(id: id, highlightedEventId: nil, transitionSourceID: nil)
         case .event(let id):
             if let event = festivalData.events.first(where: { $0.id == id }) {
-                if let content = festivalData.features.eventDetails.value?
-                    .details(for: id)?.editorialContent ?? event.editorialContent,
-                    content.hasContent
-                {
-                    ProgramEventDetailView(event: event, editorialContent: content)
+                if festivalData.features.eventDetails.isSupported || settings.alwaysShowEventDetails {
+                    ProgramEventDetailView(
+                        event: event,
+                        editorialContent: festivalData.features.eventDetails.value?.details(id: Int64(id)))
                 } else {
                     artistDestination(id: event.artist.id, highlightedEventId: id, transitionSourceID: nil)
                 }
@@ -92,7 +101,7 @@ struct AppNavigationDestination: View {
         case .information(let id):
             if let page = festivalData.features.information.value?.page(for: id) { FestivalInformationView(page: page) }
             else { Text("site_plan.unavailable") }
-        case .news(let id): FestivalNewsDetailView(id: id)
+        case .news(let id): FestivalNewsDetailView(id: id, navigate: navigate)
         }
     }
 

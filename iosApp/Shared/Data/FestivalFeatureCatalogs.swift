@@ -3,7 +3,6 @@ import RudolstadtCore
 
 typealias FestivalArtistCatalog = ProgramArtistCatalog
 typealias FestivalPlaceCatalog = ProgramPlaceCatalog
-typealias FestivalEventCatalog = ProgramEventCatalog
 typealias FestivalSimilarityProvider = ProgramSimilarityCatalog
 typealias FestivalDistanceCatalog = ProgramDistanceCatalog
 
@@ -37,12 +36,6 @@ extension ProgramPlaceCatalog: FestivalPlaceDetailsProviding, FestivalAreasProvi
         admission(id: placeID.coreID)
     }
     func admission(for eventID: Int) -> FestivalAdmission? { eventAdmission(id: Int64(eventID)) }
-}
-extension ProgramEventCatalog: FestivalEventDetailsProviding, @unchecked @retroactive Sendable {
-    convenience init(events: [Int: Event], tags: [Tag]) {
-        self.init(events: Array(events.values), tags: tags)
-    }
-    func details(for eventID: Int) -> FestivalEventDetails? { details(id: Int64(eventID)) }
 }
 extension ProgramSimilarityCatalog: ArtistSimilaritiesProviding, @unchecked @retroactive Sendable {
     convenience init(values: [Int: [Int]]) {

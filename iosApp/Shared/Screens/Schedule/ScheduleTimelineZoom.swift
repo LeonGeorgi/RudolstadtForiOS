@@ -18,6 +18,29 @@ enum ScheduleTimelineZoom {
     static let minimumScaleReferenceDistance: CGFloat = 44
 }
 
+enum ScheduleTimelineZoomPreset: String, CaseIterable {
+    case overview
+    case standard
+    case detail
+
+    var scale: CGFloat {
+        switch self {
+        case .overview: 0.7
+        case .standard: 1
+        case .detail: 2
+        }
+    }
+
+    var heightPerHour: CGFloat { ScheduleTimelineZoom.defaultHeightPerHour * scale }
+    var columnWidth: CGFloat { ScheduleTimelineZoom.defaultColumnWidth * scale }
+    var titleKey: String { "schedule.zoom.\(rawValue)" }
+
+    func matches(heightPerHour: CGFloat, columnWidth: CGFloat) -> Bool {
+        abs(self.heightPerHour - heightPerHour) < ScheduleTimelineZoom.minimumHeightChange
+            && abs(self.columnWidth - columnWidth) < ScheduleTimelineZoom.minimumColumnWidthChange
+    }
+}
+
 struct ScheduleTimelineZoomMagnification: Equatable {
     let horizontal: CGFloat
     let vertical: CGFloat

@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ScheduleScreen: View {
 
+    private let isPersonalPlan: Bool
+
     @Environment(\.festivalEdition) private var edition
     @Environment(\.festivalData) private var festivalData
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -11,12 +13,22 @@ struct ScheduleScreen: View {
     @EnvironmentObject var profile: FestivalProfileStore
 
     @State private var selectedDay: String?
+    @State private var personalPlanFilter: ScheduleFilter = .saved
     @EnvironmentObject private var dataStore: DataStore
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.scheduleScreen
     )
 
+    init(isPersonalPlan: Bool = false, selectedDay: String? = nil) {
+        self.isPersonalPlan = isPersonalPlan
+        self._selectedDay = State(initialValue: selectedDay)
+    }
+
     private var selectedFilter: ScheduleFilter {
+        if isPersonalPlan {
+            return personalPlanFilter == .optimal && !dataStore.automaticPlanning.isSupported
+                ? .saved : personalPlanFilter
+        }
         let filter = settings.scheduleFilter(for: dataStore.metadata.identity)
         return filter == .optimal && !dataStore.automaticPlanning.isSupported ? .all : filter
     }
@@ -35,7 +47,7 @@ struct ScheduleScreen: View {
         Picker("schedule.day.picker", selection: $selectedDay) {
             ForEach(days) { day in
                 Text(
-                    settings.scheduleDaySelectionStyle == .tabs
+                    isPersonalPlan || settings.scheduleDaySelectionStyle == .tabs
                         ? day.label(calendar: dataStore.metadata.calendar, locale: locale)
                         : dayLabel(day)
                 )
@@ -73,14 +85,15 @@ struct ScheduleScreen: View {
             case .success(let events):
                 ScheduleContentView(
                     events: events,
-                    displayMode: settings.scheduleDisplayMode,
+                    displayMode: isPersonalPlan ? .list : settings.scheduleDisplayMode,
                     selectedDay: $selectedDay,
-                    currentTipID: tipSequencer.currentTipID
+                    currentTipID: isPersonalPlan ? nil : tipSequencer.currentTipID,
+                    showsPlanTransitions: isPersonalPlan
                 )
             }
         }
         .safeAreaInset(edge: .top, spacing: 0) {
-            if settings.scheduleDaySelectionStyle == .tabs, !days.isEmpty {
+            if isPersonalPlan || settings.scheduleDaySelectionStyle == .tabs, !days.isEmpty {
                 dayPicker
                     .pickerStyle(.segmented)
                     .labelsHidden()
@@ -89,17 +102,29 @@ struct ScheduleScreen: View {
                     .background(.bar)
             }
         }
-        .accessibilityIdentifier("schedule-screen")
+        .accessibilityIdentifier(isPersonalPlan ? "schedule-personal-plan-screen" : "schedule-screen")
         .onAppear {
             ensureSelectedDay()
         }
         .onChange(of: days.map(\.id), initial: false) { _, _ in
             ensureSelectedDay()
         }
-        .navigationTitle(scheduleTitle)
+        .navigationTitle(isPersonalPlan ? Text("schedule.plan.title") : scheduleTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if settings.scheduleDaySelectionStyle == .toolbarMenu, !days.isEmpty {
+            if !isPersonalPlan {
+                ToolbarItem(placement: .topBarLeading) {
+                    NavigationLink {
+                        ScheduleScreen(isPersonalPlan: true, selectedDay: selectedDay)
+                    } label: {
+                        Label("schedule.plan.title", systemImage: "calendar.badge.checkmark")
+                    }
+                    .labelStyle(.iconOnly)
+                    .accessibilityIdentifier("schedule-personal-plan")
+                }
+            }
+
+            if !isPersonalPlan, settings.scheduleDaySelectionStyle == .toolbarMenu, !days.isEmpty {
                 if #available(iOS 16.0, macOS 13.0, *) {
                     ToolbarTitleMenu {
                         dayPicker
@@ -113,7 +138,7 @@ struct ScheduleScreen: View {
                 }
             }
 
-            if !dynamicTypeSize.isAccessibilitySize {
+            if !isPersonalPlan && !dynamicTypeSize.isAccessibilitySize {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         settings.toggleScheduleDisplayMode()
@@ -152,7 +177,11 @@ struct ScheduleScreen: View {
                                 selectedFilter
                             },
                             set: { (type: ScheduleFilter) in
-                                settings.setScheduleFilter(type, for: dataStore.metadata.identity)
+                                if isPersonalPlan {
+                                    personalPlanFilter = type
+                                } else {
+                                    settings.setScheduleFilter(type, for: dataStore.metadata.identity)
+                                }
                             }
                         )
                     ) {
@@ -162,10 +191,12 @@ struct ScheduleScreen: View {
                             Text("schedule.type.optimal")
                                 .tag(ScheduleFilter.optimal)
                         }
-                        Text("schedule.type.interesting")
-                            .tag(ScheduleFilter.interesting)
-                        Text("schedule.type.all")
-                            .tag(ScheduleFilter.all)
+                        if !isPersonalPlan {
+                            Text("schedule.type.interesting")
+                                .tag(ScheduleFilter.interesting)
+                            Text("schedule.type.all")
+                                .tag(ScheduleFilter.all)
+                        }
                     }
                 } label: {
                     FilterToolbarIcon(isActive: hasActiveFilter)
@@ -173,7 +204,7 @@ struct ScheduleScreen: View {
                 .accessibilityLabel(Text("filter.button"))
                 .appPopoverTip(
                     DiscoverabilityTips.scheduleFilters,
-                    currentTipID: tipSequencer.currentTipID,
+                    currentTipID: isPersonalPlan ? nil : tipSequencer.currentTipID,
                     arrowEdge: .top
                 )
             }

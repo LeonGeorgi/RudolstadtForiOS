@@ -7,13 +7,6 @@ extension Color {
     static let stageType2 = Color("Stage Type 2")
     static let stageType3 = Color("Stage Type 3")
 
-    static let areaType1 = Color("Area Type 1")
-    static let areaType2 = Color("Area Type 2")
-    static let areaType3 = Color("Area Type 3")
-    static let areaType4 = Color("Area Type 4")
-    static let areaType5 = Color("Area Type 5")
-    static let areaType6 = Color("Area Type 6")
-
     static func festivalCategory(tintHex: String? = nil, darkTintHex: String? = nil,
                                  colorScheme: ColorScheme) -> Color {
         let hex = colorScheme == .dark ? darkTintHex ?? tintHex : tintHex

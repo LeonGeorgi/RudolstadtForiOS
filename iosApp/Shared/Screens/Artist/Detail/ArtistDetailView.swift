@@ -331,6 +331,9 @@ struct ArtistDetailView: View {
         GeometryReader { geometry in
             detailLayout(availableWidth: geometry.size.width)
         }
+        #if os(iOS)
+            .modifier(FriendArtistRatingsPresentationModifier(artistName: artist.formattedName))
+        #endif
             .environment(\.artistDetailTheme, artistTheme)
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier(

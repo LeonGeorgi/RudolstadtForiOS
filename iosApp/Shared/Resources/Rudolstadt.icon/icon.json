@@ -7,37 +7,11 @@
       "layers" : [
         {
           "blend-mode" : "normal",
-          "fill-specializations" : [
-            {
-              "value" : {
-                "automatic-gradient" : "extended-gray:1.00000,1.00000"
-              }
-            },
-            {
-              "appearance" : "dark",
-              "value" : {
-                "automatic-gradient" : "srgb:0.82711,0.35576,0.80230,1.00000"
-              }
-            }
-          ],
-          "glass" : false,
-          "image-name" : "icon.png",
-          "name" : "icon",
-          "opacity-specializations" : [
-            {
-              "value" : 0.9
-            },
-            {
-              "appearance" : "dark",
-              "value" : 0.9
-            },
-            {
-              "appearance" : "tinted",
-              "value" : 0.9
-            }
-          ],
+          "glass" : true,
+          "image-name" : "02-Gehaeuse.svg",
+          "name" : "02 Gehaeuse und Klaviatur",
           "position" : {
-            "scale" : 0.67,
+            "scale" : 1,
             "translation-in-points" : [
               0,
               0
@@ -45,13 +19,44 @@
           }
         }
       ],
+      "lighting" : "combined",
+      "name" : "02 Gehaeuse und Klaviatur",
       "shadow" : {
         "kind" : "neutral",
-        "opacity" : 0.5
+        "opacity" : 0.12
       },
+      "specular" : true,
       "translucency" : {
         "enabled" : true,
-        "value" : 0.5
+        "value" : 0.040000000000000001
+      }
+    },
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "glass" : true,
+          "image-name" : "01-Balg.svg",
+          "name" : "01 Zusammenhaengender Balg",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting" : "combined",
+      "name" : "01 Zusammenhaengender Balg",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.080000000000000002
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.080000000000000002
       }
     }
   ],

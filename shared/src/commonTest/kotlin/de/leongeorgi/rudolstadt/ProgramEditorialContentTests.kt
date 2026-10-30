@@ -3,6 +3,7 @@ package de.leongeorgi.rudolstadt
 import de.leongeorgi.rudolstadt.festival.*
 import de.leongeorgi.rudolstadt.interop.CoreBridge
 import kotlin.test.*
+import kotlinx.serialization.json.*
 
 class ProgramEditorialContentTests {
     private val content =
@@ -44,45 +45,136 @@ class ProgramEditorialContentTests {
                 place,
                 artist,
                 listOf(tag),
-                editorialContent = editorial,
             )
-        return FestivalProgram(listOf(artist), emptyList(), listOf(place), listOf(event), 0, 2026)
+        return FestivalProgram(
+            listOf(artist),
+            emptyList(),
+            listOf(place),
+            listOf(event),
+            0,
+            2026,
+            eventDetails =
+                editorial?.let { EventDetailsFeature(listOf(EventDetailContent(4, it))) },
+        )
     }
 
     @Test
-    fun eventCatalogProvidesEventSpecificArticleFieldsAndLinks() {
-        val event = program().events.single()
-        val details = ProgramEventCatalog(listOf(event), event.tags).details(event.eventID)!!
-        assertEquals(content.article, details.content)
-        assertEquals(content.fields, details.informationFields)
-        assertEquals(content.links, details.programLinks)
-        assertNotEquals(event.artist.content.descriptions, details.content)
+    fun featureOwnsEventContentIndependentlyOfArtistDescriptions() {
+        val program = program()
+        assertEquals(content, program.eventDetails!!.details(4))
+        assertNotEquals(
+            program.events.single().artist.content.descriptions,
+            program.eventDetails.details(4)?.article,
+        )
+        assertNull(program.eventDetails.details(999))
     }
 
     @Test
-    fun editorialContentSurvivesNormalizedCacheAndSharedTagReferences() {
+    fun featureAndCategoryContentSurviveNormalizedCache() {
         val bridge = CoreBridge()
         val original = program()
         val restored = bridge.decodeProgram(bridge.encodeProgram(original))
         assertEquals(original, restored)
-        assertEquals(content, restored.events.single().editorialContent)
+        assertEquals(content, restored.eventDetails!!.details(4))
         assertEquals(content, restored.events.single().tags.single().editorialContent)
         assertSame(restored.artists.single(), restored.events.single().artist)
     }
 
     @Test
-    fun oldCachesRemainReadableWithoutEditorialFields() {
+    fun disabledAndEnabledButEmptyFeaturesRemainDistinct() {
         val bridge = CoreBridge()
-        val legacy = bridge.encodeProgram(program(null)).replace(",\"editorialContent\":null", "")
-        assertFalse(legacy.contains("editorialContent"))
-        val restored = bridge.decodeProgram(legacy)
-        assertNull(restored.events.single().editorialContent)
-        assertNull(restored.events.single().tags.single().editorialContent)
-        val details =
-            ProgramEventCatalog(restored.events, restored.events.single().tags).details(4)!!
-        assertNull(details.content)
-        assertTrue(details.informationFields.isEmpty())
-        assertTrue(details.programLinks.isEmpty())
+        val disabled = program(null)
+        val enabled = disabled.copy(eventDetails = EventDetailsFeature())
+        assertNull(bridge.decodeProgram(bridge.encodeProgram(disabled)).eventDetails)
+        assertEquals(enabled, bridge.decodeProgram(bridge.encodeProgram(enabled)))
+        assertNull(enabled.eventDetails!!.details(4))
+        assertTrue(ProgramPreparation.valid(enabled, emptyList()))
+    }
+
+    @Test
+    fun tagsAndCategoryContentDoNotEnableConcertDetails() {
+        val program = program().copy(eventDetails = null)
+        assertTrue(program.events.single().tags.single().editorialContent!!.hasContent)
+        val prepared =
+            PreparedProgram(
+                program,
+                emptyList(),
+                emptyList(),
+                emptyList(),
+                emptyList(),
+                emptyMap(),
+                emptyList(),
+                program.events.single().tags,
+            )
+        val capabilities =
+            ProgramCatalogs.build(
+                prepared,
+                de.leongeorgi.rudolstadt.planning.WalkingDistanceMatrix(emptyMap()),
+                emptyList(),
+                null,
+                false,
+                false,
+                false,
+            )
+        assertNull(capabilities.eventDetails)
+        assertEquals("3", prepared.tags.single().tagID)
+    }
+
+    @Test
+    fun unknownAndDuplicateEventDetailsAreRejectedAtImportAndExport() {
+        val bridge = CoreBridge()
+        val original = program()
+        for (entries in
+            listOf(
+                listOf(EventDetailContent(999, content)),
+                listOf(EventDetailContent(4, content), EventDetailContent(4, content)),
+            )) {
+            val invalid = original.copy(eventDetails = EventDetailsFeature(entries))
+            assertFalse(ProgramPreparation.valid(invalid, emptyList()))
+            assertFails { bridge.encodeProgram(invalid) }
+            val cache =
+                Json.parseToJsonElement(bridge.encodeProgram(original)).jsonObject.toMutableMap()
+            cache["eventDetails"] = Json.encodeToJsonElement(EventDetailsFeature(entries))
+            assertFails { bridge.decodeProgram(JsonObject(cache).toString()) }
+        }
+    }
+
+    @Test
+    fun legacyInlineContentMigratesIntoAnExplicitFeature() {
+        val bridge = CoreBridge()
+        val cache =
+            Json.parseToJsonElement(bridge.encodeProgram(program(null))).jsonObject.toMutableMap()
+        cache.remove("formatVersion")
+        cache.remove("eventDetails")
+        val event = cache.getValue("events").jsonArray.single().jsonObject.toMutableMap()
+        event["editorialContent"] = Json.encodeToJsonElement(content)
+        cache["events"] = JsonArray(listOf(JsonObject(event)))
+        val restored = bridge.decodeProgram(JsonObject(cache).toString())
+        assertEquals(content, restored.eventDetails!!.details(4))
+        val current = Json.parseToJsonElement(bridge.encodeProgram(restored)).jsonObject
+        assertEquals(2, current.getValue("formatVersion").jsonPrimitive.int)
+        assertEquals(restored, bridge.decodeProgram(current.toString()))
+    }
+
+    @Test
+    fun currentCachesCannotBypassTheFeatureWithInlineContent() {
+        val bridge = CoreBridge()
+        val cache =
+            Json.parseToJsonElement(bridge.encodeProgram(program(null))).jsonObject.toMutableMap()
+        val event = cache.getValue("events").jsonArray.single().jsonObject.toMutableMap()
+        event["editorialContent"] = Json.encodeToJsonElement(content)
+        cache["events"] = JsonArray(listOf(JsonObject(event)))
+        assertFails { bridge.decodeProgram(JsonObject(cache).toString()) }
+    }
+
+    @Test
+    fun oldCachesWithoutContentKeepTheFeatureDisabled() {
+        val bridge = CoreBridge()
+        val cache =
+            Json.parseToJsonElement(bridge.encodeProgram(program(null))).jsonObject.toMutableMap()
+        cache.remove("formatVersion")
+        cache.remove("eventDetails")
+        assertNull(bridge.decodeProgram(JsonObject(cache).toString()).eventDetails)
     }
 
     @Test
@@ -103,8 +195,8 @@ class ProgramEditorialContentTests {
     }
 
     @Test
-    fun providerEnrichmentRetainsNewContentWithoutMutatingTheOriginal() {
-        val original = program(null)
+    fun metadataEnrichmentPreservesTheFeatureAndNeverEnablesItForTags() {
+        val original = program()
         val enriched =
             ProgramPreparation.enrich(
                 original,
@@ -113,23 +205,24 @@ class ProgramEditorialContentTests {
                 "en",
                 emptyList(),
                 emptyList(),
-                listOf(EventMetadata(4, null, content)),
+                listOf(EventMetadata(4, emptyList())),
                 emptyList(),
             )
-        assertEquals(content, enriched.events.single().editorialContent)
-        assertNull(original.events.single().editorialContent)
-        val retained =
+        assertSame(original.eventDetails, enriched.eventDetails)
+        assertTrue(enriched.events.single().tags.isEmpty())
+        assertTrue(original.events.single().tags.isNotEmpty())
+        val disabled =
             ProgramPreparation.enrich(
-                enriched,
+                program(null),
                 emptyList(),
                 "Europe/Berlin",
                 "en",
                 emptyList(),
                 emptyList(),
-                emptyList(),
+                listOf(EventMetadata(4, original.events.single().tags)),
                 emptyList(),
             )
-        assertSame(enriched.events.single(), retained.events.single())
+        assertNull(disabled.eventDetails)
     }
 
     @Test

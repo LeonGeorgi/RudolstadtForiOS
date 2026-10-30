@@ -139,6 +139,8 @@ struct ScheduleTimelineEventPresentation {
 }
 
 struct ScheduleTimelineEventCell: View {
+    @Environment(\.festivalData) private var festivalData
+    @EnvironmentObject private var settings: UserSettings
     let width: CGFloat
     let height: CGFloat
     let presentation: ScheduleTimelineEventPresentation
@@ -172,7 +174,7 @@ struct ScheduleTimelineEventCell: View {
 
     func renderContent() -> some View {
         let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-        return NavigationLink(value: presentation.navigationRoute) {
+        return NavigationLink(value: festivalData.eventDestination(event, fallback: presentation.navigationRoute, alwaysShowDetails: settings.alwaysShowEventDetails)) {
             cardContent
                 .padding(.bottom, showsFooterIndicators ? 14 : 0)
                 .padding(.horizontal, horizontalContentPadding)

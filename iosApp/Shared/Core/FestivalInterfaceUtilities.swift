@@ -120,16 +120,12 @@ extension FestivalData {
             days: days.map(\.core), zone: metadata.timeZone.identifier,
             defaultLanguage: metadata.defaultContentLanguage.identifier,
             artistMetadata: artists, placeMetadata: places,
-            eventMetadata: events.map { event in
-                let details = features.eventDetails.value?.details(for: event.id)
-                return EventMetadata(
-                    eventID: event.eventID, tags: details?.tags,
-                    editorialContent: details?.editorialContent)
-            },
+            eventMetadata: [],
             areas: features.areas.value?.areas ?? [])
         data.artists = program.artists
         data.stages = program.places
         data.events = program.events
+        data.preparedTags = preparedTags
         data.areas = program.areas
         data.festivalYear = days.first?.date.year ?? Int(metadata.identity.editionID) ?? festivalYear
         return data

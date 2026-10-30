@@ -50,10 +50,9 @@ struct ArtistEventsBlock: View {
                 let isSaved = profile.isEventSaved(event.id)
                 let isHighlighted =
                     highlightedEventId == event.id && artistEvents.count > 1
-                let route = AppNavigationRoute.stage(
-                    id: event.stage.id,
-                    highlightedEventId: event.id
-                )
+                let route = festivalData.eventDestination(
+                    event, fallback: .stage(id: event.stage.id, highlightedEventId: event.id),
+                    alwaysShowDetails: settings.alwaysShowEventDetails)
 
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {

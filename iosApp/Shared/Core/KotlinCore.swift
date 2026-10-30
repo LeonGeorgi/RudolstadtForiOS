@@ -14,6 +14,14 @@ enum KotlinCore {
     static func artistOverview(_ request: CoreDiscoveryRequest) -> [Int] {
         bridge.artistOverview(request: request, collation: unicodeCollation).map(\.intValue)
     }
+    static func matchingArtists(
+        _ index: ProgramArtistIndex, favoritesOnly: Bool, ratings: [String: Int],
+        search: String, groups: [String: String]
+    ) -> [Artist] {
+        index.matching(
+            favoritesOnly: favoritesOnly, ratings: ratings.mapValues { KotlinInt(value: Int32($0)) },
+            search: search, groups: groups, collation: unicodeCollation)
+    }
     static func friends(_ request: CoreDiscoveryRequest) -> [CoreFriendRecommendation] {
         bridge.friends(request: request, collation: localizedCollation)
     }
@@ -122,7 +130,8 @@ extension FestivalProgram {
             artistSimilarities: curated ? .bundled : nil,
             walkingDistanceMatrix: curated ? StageWalkingDistanceProvider.bundled : .empty,
             festivalYear: Int(year), sitePlan: try sitePlan?.native(),
-            identity: FestivalIdentity(festivalID: festivalID, editionID: String(year)))
+            identity: FestivalIdentity(festivalID: festivalID, editionID: String(year)),
+            features: FestivalFeatures(eventDetails: eventDetails.map { .available($0) } ?? .unsupported))
     }
 }
 
@@ -253,7 +262,8 @@ extension ScheduleTransitionAssessment {
 extension FestivalData {
     var coreProgram: FestivalProgram {
         FestivalProgram(artists: artists, areas: areas, places: stages, events: events,
-            omittedRecordCount: Int32(omittedRecordCount), year: Int32(festivalYear), sitePlan: sitePlan?.core)
+            omittedRecordCount: Int32(omittedRecordCount), year: Int32(festivalYear), sitePlan: sitePlan?.core,
+            eventDetails: features.eventDetails.value)
     }
 }
 

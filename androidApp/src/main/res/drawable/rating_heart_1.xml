@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Geometry from iosApp/Shared/Assets.xcassets/rating-heart-1.imageset/rating-heart-1.svg. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group android:translateX="0" android:translateY="1.448458">
+        <group android:translateX="1.2" android:translateY="1.74"
+            android:scaleX="1.35" android:scaleY="1.35">
+            <path android:fillColor="#FF000000"
+                android:pathData="M8 14.2C7.6 13.8 1 9.4 1 4.8C1 2.4 2.8 1 4.8 1C6.2 1 7.4 1.8 8 2.9C8.6 1.8 9.8 1 11.2 1C13.2 1 15 2.4 15 4.8C15 9.4 8.4 13.8 8 14.2Z" />
+        </group>
+    </group>
+</vector>

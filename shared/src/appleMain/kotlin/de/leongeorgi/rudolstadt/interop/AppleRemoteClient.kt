@@ -4,6 +4,7 @@ package de.leongeorgi.rudolstadt.interop
 
 import de.leongeorgi.rudolstadt.discovery.MusicPreviewSelection
 import de.leongeorgi.rudolstadt.discovery.MusicReference
+import de.leongeorgi.rudolstadt.discovery.NewsLinkPreview
 import de.leongeorgi.rudolstadt.festival.RudolstadtPayload
 import de.leongeorgi.rudolstadt.loading.HttpBytes
 import de.leongeorgi.rudolstadt.loading.HttpRequester
@@ -91,6 +92,13 @@ class AppleRemoteClient(private val source: AppleHttpSource?) {
     @Throws(Exception::class)
     suspend fun news(baseURL: String, request: AppleRequest): List<NewsRecord> =
         perform(request) { api.news(baseURL) }
+
+    @Throws(Exception::class)
+    suspend fun linkPreview(
+        url: String,
+        cached: NewsLinkPreview?,
+        request: AppleRequest,
+    ): NewsLinkPreview? = perform(request) { api.linkPreview(url, cached) }
 
     @Throws(Exception::class)
     suspend fun musicPreview(

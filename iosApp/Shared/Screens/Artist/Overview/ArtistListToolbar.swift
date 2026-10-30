@@ -136,7 +136,7 @@ struct ArtistListToolbar: ToolbarContent {
             }
             .labelStyle(.iconOnly)
 
-            if festivalData.features.eventDetails.value?.tags.contains(where: \.isDiscoverable) == true {
+            if festivalData.tags.contains(where: \.isDiscoverable) {
                 NavigationLink(value: AppNavigationRoute.programDiscovery(tagID: nil)) {
                     Label("program.discovery.title", systemImage: "tag")
                 }

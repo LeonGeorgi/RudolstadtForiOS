@@ -4,6 +4,18 @@ import Testing
 @testable import Rudolstadt
 
 struct DataConverterTests {
+    @MainActor
+    private func newsLinkURLs(_ text: String, artists: [Artist]) -> [URL] {
+        let mentions = newsInlineMentions(texts: [text], artists: artists, stages: [])
+        let rich = newsAttributedText(text, mentions: mentions, isSubtitle: false,
+                                      font: .systemFont(ofSize: 17), accent: .systemBlue, colorScheme: .light)
+        var urls: [URL] = []
+        rich.enumerateAttribute(.link, in: NSRange(location: 0, length: rich.length)) { value, _, _ in
+            if let url = value as? URL { urls.append(url) }
+        }
+        return urls
+    }
+
     @Test
     @MainActor
     func timelineAdapterKeepsSharedEventIdentity() throws {
@@ -225,15 +237,15 @@ struct DataConverterTests {
         #expect(artist.countryCodes == ["CIV", "FRA"])
     }
 
-    @Test
+    @Test @MainActor
     func attributedStringMarksPlainURLsAsLinks() throws {
-        let attributedString = attributedStringWithDetectedLinksAndArtistMentions(
+        let attributedString = newsLinkURLs(
             "Read more at https://example.com/news",
             artists: []
         )
         let expectedURL = try #require(URL(string: "https://example.com/news"))
 
-        #expect(attributedString.runs.compactMap(\.link) == [expectedURL])
+        #expect(attributedString == [expectedURL])
     }
 
     @Test
@@ -272,29 +284,27 @@ struct DataConverterTests {
         )
     }
 
-    @Test
+    @Test @MainActor
     func attributedStringAddsArtistLink() {
         let artist = TestFixtures.artist(id: 77, name: "BandAdriatica")
-        let attributedString = attributedStringWithDetectedLinksAndArtistMentions(
+        let attributedString = newsLinkURLs(
             "Tonight: BandAdriatica live",
             artists: [artist]
         )
 
         #expect(
-            attributedString.runs.contains { run in
-                run.link == inlineArtistLinkURL(for: artist)
-            }
+            attributedString.contains(inlineArtistLinkURL(for: artist))
         )
     }
 
-    @Test
+    @Test @MainActor
     func attributedStringLinksOnlyFirstArtistOccurrence() {
         let artist = TestFixtures.artist(id: 78, name: "BandAdriatica")
-        let attributedString = attributedStringWithDetectedLinksAndArtistMentions(
+        let attributedString = newsLinkURLs(
             "BandAdriatica meets BandAdriatica after the show",
             artists: [artist]
         )
-        let artistLinks = attributedString.runs.compactMap(\.link).filter { link in
+        let artistLinks = attributedString.filter { link in
             link == inlineArtistLinkURL(for: artist)
         }
 

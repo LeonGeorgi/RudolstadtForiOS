@@ -229,6 +229,14 @@ enum ScreenshotRuntime {
             }
         }
 
+        func friendRatings(for artistNames: [String], rating: Int) -> [FestivalArtistPreference] {
+            artistNames.compactMap { name in
+                festivalData.artists.first { $0.name == name }.map {
+                    FestivalArtistPreference(artistID: $0.id, rating: rating, iconName: nil)
+                }
+            }
+        }
+
         profile.friendProfilesStore.viewModel.restore(profiles: [
             SharedFestivalProfile(
                 id: "screenshot-friend-aya",
@@ -240,7 +248,7 @@ enum ScreenshotRuntime {
                 savedEventIDs: firstEventIDs(
                     for: ["Kitty, Daisy & Lewis", "RIAN", "Raquel Martins"]
                 ) + friendScheduleEvents.map(\.id),
-                artistPreferences: []
+                artistPreferences: friendRatings(for: ["Duo Ruut", "Adaya"], rating: 2)
             ),
             SharedFestivalProfile(
                 id: "screenshot-friend-mika",
@@ -252,7 +260,7 @@ enum ScreenshotRuntime {
                 savedEventIDs: firstEventIDs(
                     for: ["RIAN", "Sara Curruchich", "Raquel Martins"]
                 ),
-                artistPreferences: []
+                artistPreferences: friendRatings(for: ["Adaya"], rating: 3)
             )
         ])
     }

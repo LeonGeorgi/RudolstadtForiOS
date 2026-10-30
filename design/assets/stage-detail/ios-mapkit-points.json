@@ -1,0 +1,154 @@
+[
+  {
+    "title" : "Große Bühne Heinepark",
+    "y" : 151.21273734562467,
+    "id" : 3,
+    "number" : 1,
+    "category" : "comboticket",
+    "x" : 82.051769167527667
+  },
+  {
+    "category" : "cityticket",
+    "y" : 311.06260737714047,
+    "x" : 42.633061621267416,
+    "id" : 7,
+    "title" : "Große Bühne Markt",
+    "number" : 3
+  },
+  {
+    "title" : "Schulplatz",
+    "x" : 105.77220451454168,
+    "category" : "cityticket",
+    "y" : 349.52361695816171,
+    "id" : 9,
+    "number" : 5
+  },
+  {
+    "category" : "comboticket",
+    "title" : "Stadtkirche",
+    "y" : 384.4074075837072,
+    "x" : 120.77836852120929,
+    "id" : 10,
+    "number" : 7
+  },
+  {
+    "id" : 11,
+    "number" : 9,
+    "category" : "comboticket",
+    "title" : "Stadtbibliothek",
+    "y" : 348.43040119614216,
+    "x" : 107.75415070455233
+  },
+  {
+    "y" : 228.47793483784574,
+    "id" : 12,
+    "number" : 10,
+    "category" : "comboticket",
+    "title" : "Theater im Stadthaus",
+    "x" : 11.205057759361585
+  },
+  {
+    "title" : "Freiligrathstraße",
+    "id" : 17,
+    "number" : 17,
+    "x" : 104.85988007806971,
+    "category" : "cityticket",
+    "y" : 309.57188335938923
+  },
+  {
+    "id" : 18,
+    "number" : 18,
+    "y" : 357.97121060923286,
+    "category" : "cityticket",
+    "title" : "Supturhof",
+    "x" : 124.39620680368387
+  },
+  {
+    "y" : 201.00004996546951,
+    "id" : 19,
+    "x" : 201.00000000014447,
+    "category" : "cityticket",
+    "title" : "Saalestrand",
+    "number" : 19
+  },
+  {
+    "y" : 359.79836966716374,
+    "id" : 21,
+    "title" : "Altes Rathaus",
+    "number" : 20,
+    "x" : 42.087085089742573,
+    "category" : "comboticket"
+  },
+  {
+    "category" : "comboticket",
+    "x" : 14.544465382771131,
+    "title" : "Löwensaal",
+    "number" : 21,
+    "id" : 22,
+    "y" : 322.26616770727276
+  },
+  {
+    "y" : 311.41044311904852,
+    "title" : "Marktplatz",
+    "x" : 23.254032212719931,
+    "category" : "cityticket",
+    "id" : 23,
+    "number" : 22
+  },
+  {
+    "title" : "Hof Markt 8",
+    "number" : 23,
+    "y" : 323.79700075861302,
+    "x" : 48.934039685788321,
+    "id" : 24,
+    "category" : "cityticket"
+  },
+  {
+    "number" : 25,
+    "title" : "Kinderfest",
+    "x" : 154.66021052181102,
+    "y" : 168.90152091774323,
+    "id" : 25,
+    "category" : "cityticket"
+  },
+  {
+    "x" : 302.1450344841457,
+    "y" : 251.59847884939151,
+    "number" : 32,
+    "category" : "comboticket",
+    "id" : 29,
+    "title" : "Saalgärten"
+  },
+  {
+    "number" : 33,
+    "id" : 30,
+    "x" : -6.0661876055219333,
+    "category" : "information",
+    "y" : 223.21090104565369,
+    "title" : "Zentraler Bändcheneintausch"
+  },
+  {
+    "x" : 37.37933124632891,
+    "number" : 34,
+    "y" : 322.5909053384492,
+    "category" : "cityticket",
+    "id" : 31,
+    "title" : "Folkbude-Merch"
+  },
+  {
+    "id" : 34,
+    "title" : "Luther´s Pub",
+    "number" : 24,
+    "x" : 107.80994761819638,
+    "y" : 282.74563660147959,
+    "category" : "cityticket"
+  },
+  {
+    "title" : "Bauernhäuser",
+    "x" : 59.851450180895434,
+    "y" : 113.38743140684554,
+    "id" : 35,
+    "number" : 13,
+    "category" : "comboticket"
+  }
+]

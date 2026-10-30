@@ -1,5 +1,9 @@
 import Foundation
 import Testing
+import class RudolstadtCore.EventDetailContent
+import class RudolstadtCore.EventDetailsFeature
+import class RudolstadtCore.ProgramContent
+import class RudolstadtCore.ProgramEditorialContent
 @testable import Rudolstadt
 
 @MainActor
@@ -320,6 +324,98 @@ struct FestivalAdapterContractTests {
         #expect(store.festivalDataLastDownloadDate == nil)
         #expect(store.festivalDataProvenance == data.provenance)
         #expect(store.loadedFestivalData?.events.map(\.id) == data.events.map(\.id))
+    }
+
+    @Test
+    func concertDetailsAreOptInAndDoNotControlTagDiscovery() throws {
+        let fixture = try fixture()
+        var input = fixture.snapshot
+        let original = try #require(input.events.first)
+        let tag = Tag(id: "workshop", title: text("Atelier"))
+        input.events = [original.replacing(tags: [tag])]
+        let output = try input.prepared(using: fixture.metadata)
+        #expect(!output.features.eventDetails.isSupported)
+        #expect(output.tags.map(\.id) == ["workshop"])
+        #expect(output.eventDestination(output.events[0]) == .artist(
+            id: original.artist.id, highlightedEventId: original.id, transitionSourceID: nil))
+        #expect(output.eventDestination(output.events[0], fallback: .stage(
+            id: original.stage.id, highlightedEventId: original.id)) == .stage(
+                id: original.stage.id, highlightedEventId: original.id))
+    }
+
+    @Test
+    func enabledButEmptyDetailsUseConcertNavigationAndSurviveCoreRoundTrips() throws {
+        let fixture = try fixture()
+        var input = fixture.snapshot
+        input.features = FestivalFeatures(eventDetails: .available(EventDetailsFeature(contents: [])))
+        let output = try input.prepared(using: fixture.metadata)
+        let event = try #require(output.events.first)
+        #expect(output.features.eventDetails.isSupported)
+        #expect(output.features.eventDetails.value?.details(id: event.eventID) == nil)
+        #expect(output.eventDestination(event) == .festival(.event(event.id)))
+        #expect(output.eventDestination(event, fallback: .stage(id: event.stage.id,
+            highlightedEventId: event.id)) == .festival(.event(event.id)))
+        let restored = try KotlinCore.bridge.decodeProgram(
+            cacheJSON: KotlinCore.bridge.encodeProgram(program: output.coreProgram))
+        #expect(restored.eventDetails != nil)
+        #expect(try restored.native(curated: false).features.eventDetails.isSupported)
+    }
+
+    @Test
+    func personalDetailPreferenceChangesNavigationWithoutEnablingFestivalContent() throws {
+        let fixture = try fixture()
+        let event = try #require(fixture.snapshot.events.first)
+        let fallback = AppNavigationRoute.stage(id: event.stage.id, highlightedEventId: event.id)
+        #expect(!fixture.snapshot.features.eventDetails.isSupported)
+        #expect(fixture.snapshot.eventDestination(event, fallback: fallback) == fallback)
+        #expect(fixture.snapshot.eventDestination(
+            event, fallback: fallback, alwaysShowDetails: true) == .festival(.event(event.id)))
+        #expect(!fixture.snapshot.features.eventDetails.isSupported)
+        #expect(fixture.snapshot.features.eventDetails.value == nil)
+    }
+
+    @Test
+    func concertDetailsRemainCanonicalThroughPreparation() throws {
+        let fixture = try fixture()
+        var input = fixture.snapshot
+        let event = try #require(input.events.first)
+        let content = ProgramEditorialContent(
+            article: ProgramContent(texts: ["fr": "Informations du concert"], html: false),
+            fields: [], links: [])
+        input.features = FestivalFeatures(eventDetails: .available(EventDetailsFeature(contents: [
+            EventDetailContent(eventID: event.eventID, content: content)
+        ])))
+        let output = try input.prepared(using: fixture.metadata)
+        #expect(output.coreProgram.eventDetails?.details(id: event.eventID) === content)
+        #expect(output.features.eventDetails.value?.details(id: event.eventID) === content)
+    }
+
+    @Test
+    func unavailableConcertDetailsStaySupportedWithoutContents() throws {
+        let fixture = try fixture()
+        var input = fixture.snapshot
+        input.features = FestivalFeatures(eventDetails: .unavailable(.missingData))
+        let output = try input.prepared(using: fixture.metadata)
+        #expect(output.features.eventDetails.isSupported)
+        #expect(output.features.eventDetails.value == nil)
+        #expect(output.eventDestination(output.events[0]) == .festival(.event(output.events[0].id)))
+    }
+
+    @Test
+    func sourceAdapterDoesNotEnableDetailsForOrdinaryProgramTags() throws {
+        let raw = TestFixtures.festivalData(events: [TestFixtures.event(id: 1, dayInJuly: 3,
+            timeAsString: "12:00", stage: TestFixtures.stage(id: 1), artist: TestFixtures.artist(id: 1))])
+        let adapter = FestivalRegistry.rudolstadt(year: 2026, source: FestivalDataProviderStub(), archive: false)
+        let disabled = try adapter.prepare(raw, source: .preview)
+        #expect(!disabled.features.eventDetails.isSupported)
+        var enabled = raw
+        enabled.features = FestivalFeatures(eventDetails: .available(EventDetailsFeature(contents: [])))
+        #expect(try adapter.prepare(enabled, source: .preview).features.eventDetails.isSupported)
+        var unavailable = raw
+        unavailable.features = FestivalFeatures(eventDetails: .unavailable(.missingData))
+        let output = try adapter.prepare(unavailable, source: .preview)
+        #expect(output.features.eventDetails.isSupported)
+        #expect(output.features.eventDetails.value == nil)
     }
 
     private func fixture() throws -> (metadata: FestivalMetadata, snapshot: FestivalData) {

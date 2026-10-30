@@ -551,6 +551,9 @@ private struct ScheduleTimelineScrollView<Content: View, PullContent: View>: Vie
             }
             .scrollDisabled(zoomGestureSession != nil)
             .simultaneousGesture(spatialEventGesture)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) { zoomMenu }
+            }
             .onDisappear {
                 zoomFrameScheduler.cancel()
                 zoomGestureSession = nil
@@ -572,6 +575,59 @@ private struct ScheduleTimelineScrollView<Content: View, PullContent: View>: Vie
                 scrollState.update(to: $0)
             }
             .background(alignment: .topLeading) { pullContent(dayPull.hint) }
+            .toolbar {
+                ToolbarItem { zoomMenu }
+            }
+        #endif
+    }
+
+    private var zoomMenu: some View {
+        Menu {
+            ForEach(ScheduleTimelineZoomPreset.allCases, id: \.self) { preset in
+                Button {
+                    applyZoomPreset(preset)
+                } label: {
+                    if preset.matches(heightPerHour: heightPerHour, columnWidth: columnWidth) {
+                        Label(LocalizedStringKey(preset.titleKey), systemImage: "checkmark")
+                    } else {
+                        Text(LocalizedStringKey(preset.titleKey))
+                    }
+                }
+            }
+            Divider()
+            Button {
+                applyZoomPreset(.standard)
+            } label: {
+                Label("schedule.zoom.reset", systemImage: "arrow.counterclockwise")
+            }
+        } label: {
+            Label("schedule.zoom.title", systemImage: "plus.magnifyingglass")
+        }
+        .labelStyle(.iconOnly)
+        .accessibilityIdentifier("schedule-zoom-menu")
+    }
+
+    private func applyZoomPreset(_ preset: ScheduleTimelineZoomPreset) {
+        #if os(iOS)
+            zoomFrameScheduler.cancel()
+            zoomGestureSession = nil
+            dayPull.cancel()
+            let anchor = CGPoint(
+                x: scrollState.containerSize.width / 2,
+                y: scrollState.containerSize.height / 2
+            )
+            let session = makeZoomSession(anchorViewportPoint: anchor)
+            applyZoom(
+                magnification: ScheduleTimelineZoomMagnification(
+                    horizontal: preset.columnWidth / columnWidth,
+                    vertical: preset.heightPerHour / heightPerHour
+                ),
+                centroid: anchor,
+                session: session
+            )
+        #else
+            heightPerHour = preset.heightPerHour
+            columnWidth = preset.columnWidth
         #endif
     }
 

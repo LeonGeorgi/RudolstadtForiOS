@@ -104,6 +104,7 @@ struct FestivalSourceAdapter: FestivalAdapter {
         data.areas = prepared.program.areas
         data.stages = prepared.program.places
         data.events = prepared.program.events
+        data.preparedTags = prepared.tags
         let places = data.stages
         let events = data.events
         let coordinates = Dictionary(uniqueKeysWithValues: prepared.coordinates.map {
@@ -189,7 +190,7 @@ struct FestivalSourceAdapter: FestivalAdapter {
             information: informationPages.isEmpty
                 ? .unsupported : .available(FestivalInformationCatalog(pages: informationPages)),
             artistDetails: .available(catalogs.artists), placeDetails: .available(catalogs.places),
-            eventDetails: .available(catalogs.events),
+            eventDetails: catalogs.eventDetails.map { .available($0) } ?? input.features.eventDetails,
             admission: catalogs.admission.map { .available($0) } ?? .unsupported,
             summaries: catalogs.summaries.map { .available($0) } ?? .unsupported,
             groupings: .available(catalogs.artists),

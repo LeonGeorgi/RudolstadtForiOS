@@ -3,16 +3,30 @@ import SwiftUI
 struct EventTimeBadge: View {
     let event: Event
     var size: CGFloat = 52
+    var headerColor: Color? = nil
+
+    @ScaledMetric(relativeTo: .caption2) private var dayFontSize: CGFloat = 11
+    @ScaledMetric(relativeTo: .subheadline) private var timeFontSize: CGFloat = 15
+
+    private var scale: CGFloat { size / 52 }
+    private var cornerRadius: CGFloat { size / 4 }
 
     var body: some View {
         VStack(spacing: 0) {
-            Text(event.knownDate == nil ? "?" : event.shortWeekDay.uppercased())
-                .font(.caption2.weight(.bold))
+            Text(event.startDate == nil && event.knownDate == nil ? "?" : event.shortWeekDay.uppercased())
+                .font(.system(size: dayFontSize * scale, weight: .bold))
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 4)
-                .background(.tint.opacity(0.18))
+                .padding(.vertical, 4 * scale)
+                .foregroundStyle(headerColor.map { $0.prefersDarkForeground ? Color.black : .white } ?? .primary)
+                .background {
+                    if let headerColor {
+                        headerColor.overlay(.black.opacity(0.30))
+                    } else {
+                        Color.accentColor.opacity(0.18)
+                    }
+                }
 
             Group {
                 if event.startDate == nil {
@@ -21,7 +35,7 @@ struct EventTimeBadge: View {
                     Text(event.timeAsString)
                 }
             }
-                .font(.system(.subheadline, design: .monospaced).weight(.bold))
+                .font(.system(size: timeFontSize * scale, weight: .bold, design: .monospaced))
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -29,9 +43,9 @@ struct EventTimeBadge: View {
         .foregroundStyle(.primary)
         .frame(width: size, height: size)
         .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 .stroke(.white.opacity(0.20), lineWidth: 0.5)
         )
         .shadow(

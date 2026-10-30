@@ -2,6 +2,7 @@
 
 - [Projektaufbau und Entwicklung](../README.md)
 - [Produkt, Funktionen und bisherige Screenshots](product.md)
+- [Screen-Checkliste: iOS und Android (English)](ios-screens.md)
 - [Architektur und Plattformgrenzen](adr/0001-kmp-boundaries.md)
 - [Festivaldaten, Archive und Importe](festival-data.md)
 - [Apple-Music-Linkfinder](artist-music-links.md)

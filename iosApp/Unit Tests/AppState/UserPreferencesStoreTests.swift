@@ -5,6 +5,18 @@ import Testing
 @MainActor
 struct UserPreferencesStoreTests {
     @Test
+    func alwaysShowEventDetailsDefaultsOffAndPersistsAcrossFestivalChanges() {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        let settings = UserSettings(userDefaults: defaults)
+        #expect(!settings.alwaysShowEventDetails)
+        settings.alwaysShowEventDetails = true
+        settings.festivalEdition = .ludwigsburg2026
+        #expect(UserSettings(userDefaults: defaults).alwaysShowEventDetails)
+        settings.alwaysShowEventDetails = false
+        #expect(!UserSettings(userDefaults: defaults).alwaysShowEventDetails)
+    }
+
+    @Test
     func festivalIdentityDistinguishesSameYearAndMigratesExistingYearSelection() {
         let defaults = TestFixtures.isolatedUserDefaults()
         defaults.set(2024, forKey: "festival/selectedYear/v1")

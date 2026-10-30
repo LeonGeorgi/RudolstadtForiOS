@@ -7,6 +7,26 @@ import Testing
 
 struct ScheduleTimelineZoomTests {
     @Test
+    func presetsStayWithinGestureLimits() {
+        for preset in ScheduleTimelineZoomPreset.allCases {
+            #expect(preset.heightPerHour >= ScheduleTimelineZoom.minimumHeightPerHour)
+            #expect(preset.heightPerHour <= ScheduleTimelineZoom.maximumHeightPerHour)
+            #expect(preset.columnWidth >= ScheduleTimelineZoom.minimumColumnWidth)
+            #expect(preset.columnWidth <= ScheduleTimelineZoom.maximumColumnWidth)
+        }
+    }
+
+    @Test
+    func standardPresetRestoresBothAxesAfterIndependentPinchZoom() {
+        let preset = ScheduleTimelineZoomPreset.standard
+        #expect(preset.heightPerHour == ScheduleTimelineZoom.defaultHeightPerHour)
+        #expect(preset.columnWidth == ScheduleTimelineZoom.defaultColumnWidth)
+        #expect(preset.matches(heightPerHour: 60, columnWidth: 70))
+        #expect(!preset.matches(heightPerHour: 60, columnWidth: 105))
+        #expect(!preset.matches(heightPerHour: 90, columnWidth: 70))
+    }
+
+    @Test
     func zoomKeepsAnchorAtSameViewportPosition() {
         let session = makeSession()
 

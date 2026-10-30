@@ -19,6 +19,24 @@ class RudolstadtPayload internal constructor(internal val root: JsonObject) {
 object RudolstadtPayloads {
     private val endpoints = listOf("areas", "artists", "events", "stages", "tags")
 
+    /** Check the source dates before conversion deliberately turns foreign dates into unknowns. */
+    fun hasForeignEventDates(payload: RudolstadtPayload, year: Int): Boolean =
+        payload.root.getValue("events").jsonArray.any { element ->
+            val record = element.jsonObject
+            val start = record.obj("start")
+            val timestamp =
+                FestivalTime.apiTime(
+                    start.string("date").orEmpty(),
+                    start.string("timezone").orEmpty(),
+                )
+                    ?: FestivalTime.parse(
+                        record.string("day").orEmpty(),
+                        "dd.MM.yyyy",
+                        "Europe/Berlin",
+                    )
+            timestamp != null && FestivalTime.local(timestamp, "Europe/Berlin").year != year
+        }
+
     fun records(endpoint: String, sourceJSON: String): RudolstadtRecords {
         require(endpoint in endpoints)
         return records(endpoint, Json.parseToJsonElement(sourceJSON).jsonArray)

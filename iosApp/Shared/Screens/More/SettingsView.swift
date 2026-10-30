@@ -61,6 +61,8 @@ struct SettingsView: View {
             }
 
             Section("schedule.title") {
+                Toggle("settings.always_show_event_details", isOn: $settings.alwaysShowEventDetails)
+                    .accessibilityIdentifier("settings-always-show-event-details")
                 Picker(
                     "settings.schedule.day_selection", selection: $settings.scheduleDaySelectionStyle
                 ) {

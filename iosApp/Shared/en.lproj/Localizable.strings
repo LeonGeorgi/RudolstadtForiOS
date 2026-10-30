@@ -70,6 +70,11 @@
 "artist.rating.icon_picker" = "Choose another rating";
 "artist.rating.icon_picker.selected" = "Other rating: %@";
 "artist.image.open" = "View image of %@ full screen";
+"artist.friend_ratings.title" = "Ratings";
+"artist.friend_ratings.open" = "Shows your friends’ ratings";
+"artist.friend_ratings.close" = "Close ratings";
+"artist.friend_rating.value.one" = "%lld heart";
+"artist.friend_rating.value.other" = "%lld hearts";
 "artist.friend_ratings.accessibility.format" = "Friend ratings: %@";
 "artist.friend_rating.hearts.one" = "%1$@ gave %2$lld heart";
 "artist.friend_rating.hearts.other" = "%1$@ gave %2$lld hearts";
@@ -109,7 +114,7 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "stage.events" = "EVENTS";
 "stage.events.loading" = "Loading events…";
 "stage.map" = "MAP";
-"stage.nearby" = "NEARBY LOCATIONS";
+"stage.nearby" = "Nearby locations";
 
 "artists.title" = "Artists";
 "artists.none-found" = "There are no artists that match the filter settings you have chosen.";
@@ -145,6 +150,20 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "schedule.day.pull" = "Keep pulling to switch";
 "schedule.day.release" = "Release to switch";
 "schedule.title" = "Schedule";
+"schedule.plan.title" = "My plan";
+"schedule.plan.walking" = "approx. %ld min walk · %ld m";
+"schedule.plan.walking.unknown" = "Walking time unknown";
+"schedule.plan.buffer" = "%ld min to spare";
+"schedule.plan.late" = "Estimated %ld min late";
+"schedule.plan.overlap" = "Overlap: %ld min";
+"schedule.plan.impossible" = "Cannot reach the next performance in time";
+"schedule.plan.tight" = "Tight connection";
+"schedule.plan.estimates" = "End times and walking times are estimated.";
+"schedule.zoom.title" = "Zoom";
+"schedule.zoom.overview" = "Overview · 70%";
+"schedule.zoom.standard" = "Standard · 100%";
+"schedule.zoom.detail" = "Details · 200%";
+"schedule.zoom.reset" = "Reset";
 "schedule.day.picker" = "Day";
 "settings.schedule.day_selection" = "Day selector";
 "settings.schedule.day_selection.toolbar" = "Toolbar menu";
@@ -367,6 +386,8 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "licenses.navigation_title" = "Licenses";
 
 "copy.link.title" = "Copy link";
+"news.open_link" = "Open link";
+"news.write_email" = "Write email";
 "copy.email.title" = "Copy email address";
 "email.send.title" = "Send an email";
 
@@ -562,3 +583,14 @@ I built this app in my spare time because I wanted a more convenient way to use 
 
 "stage.location_info" = "Location information";
 "stage.location.approximate" = "Approximate position";
+
+"program.event.details.unavailable" = "Additional concert information is currently unavailable.";
+
+"program.event.title" = "Concert details";
+"program.event.about" = "About the concert";
+"program.event.additional" = "Additional information";
+"program.event.location" = "Stage & location";
+"program.event.open_map" = "Open map";
+"program.event.duration" = "%lld min";
+
+"settings.always_show_event_details" = "Always show concert detail pages";

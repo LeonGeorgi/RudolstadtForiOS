@@ -59,54 +59,84 @@ Targeted `FestivalAdapterContractTests` cover optional features, both map kinds,
 non-numeric place IDs, logical festival days across midnight, duration independence,
 identity validation, arbitrary content languages, scoped profiles and news state.
 
-## Editorial program content
+## Concert details and editorial content
 
-Festival sources can supply optional `ProgramEditorialContent` on a `ProgramTag`
-(a category or curated topic) and on an individual `ProgramOccurrence`.
-The content belongs to that festival edition and is independent of the artist's
-biography. It contains:
+Concert details are an explicit opt-in on the shared `FestivalProgram`:
 
-- `article`: a localized `ProgramContent`, using the existing plain-text/HTML format.
-- `fields`: localized label/value pairs with stable IDs unique within the content,
-  for participation requirements, equipment, audience, language or registration.
-- `links`: localized `ProgramLink` values, including the existing browser-opening mode.
+- `eventDetails = null` means the festival does not support concert detail pages.
+- `EventDetailsFeature(contents = emptyList())` enables them with the concert's basic information.
+- `EventDetailContent(eventID, content)` supplies additional content for an existing event.
 
-For example, an adapter can attach the following value to a workshop event:
+The feature owns all concert-specific `ProgramEditorialContent`. Neither
+`ProgramOccurrence` nor `EventMetadata` (including the Swift `Event` initializer)
+accepts editorial content. There is no independent Boolean switch. Supplying the
+feature is the only way to enable the capability and attach concert information.
 
 ```kotlin
-val content = ProgramEditorialContent(
-    article = ProgramContent(mapOf("de" to "Gemeinsam musizieren", "en" to "Play music together")),
-    fields = listOf(
-        ProgramInformationField(
-            "equipment",
-            mapOf("de" to "Mitbringen", "en" to "Bring along"),
-            mapOf("de" to "Eigenes Instrument", "en" to "Your own instrument"),
+val program = FestivalProgram(
+    artists = artists,
+    areas = areas,
+    places = places,
+    events = events,
+    omittedRecordCount = 0,
+    year = 2026,
+    eventDetails = EventDetailsFeature(
+        contents = listOf(
+            EventDetailContent(
+                eventID = workshop.eventID,
+                content = ProgramEditorialContent(
+                    article = ProgramContent(mapOf("de" to "Gemeinsam musizieren")),
+                    fields = listOf(
+                        ProgramInformationField(
+                            "equipment",
+                            mapOf("de" to "Mitbringen"),
+                            mapOf("de" to "Eigenes Instrument"),
+                        )
+                    ),
+                    links = listOf(
+                        ProgramLink("registration", mapOf("en" to "Registration"),
+                            "https://example.com/workshop")
+                    ),
+                ),
+            )
         )
     ),
-    links = listOf(ProgramLink("details", mapOf("en" to "Details"), "https://example.com/workshop")),
 )
-val workshop = event.copy(editorialContent = content)
 ```
 
-The Swift aliases are `FestivalEditorialContent` and `FestivalInformationField`.
-The native `Event` and `Tag` convenience initializers accept `editorialContent`.
-Alternatively, `FestivalEventDetailsProviding` can supply an event description,
-`informationFields` and links; program preparation retains these values in the
-canonical event. `ProgramEventCatalog` projects that same data back to consumers.
-Category `introductionTexts` remain available as a short introduction and take
-precedence over the festival policy's fallback text. Discoverability and topic
-membership continue to use the festival's tag policy and event tags.
+Preparation and normalized-cache import/export reject duplicate detail entries
+and references to unknown events. Current cache format 2 stores the feature at
+program level. Format 1 caches are migrated explicitly: existing inline concert
+content becomes a feature block; caches without such content remain unsupported.
+Current-format caches cannot use the old inline field to bypass the feature.
 
-In **Programm entdecken**, category content appears above its event list. An event
-with editorial content opens its own detail page with its date, existing save
-action, content, and links to its artist and venue. An event without content keeps
-the artist-detail destination. Empty content adds no detail page. Browser modes,
-language fallback and read-only festival permissions use the existing app behavior.
+`ProgramCatalogs` exposes the same optional `EventDetailsFeature` to Android and
+Apple. Swift's `FestivalFeatures.eventDetails` wraps it in `FeatureAvailability`,
+retaining the distinction between unsupported, available, and temporarily
+unavailable. Provider enrichment preserves the feature as part of the immutable
+shared program; it does not attach separate content to events.
 
-Editorial content survives normalized program-cache round trips. New properties
-are optional, so older caches, archives and adapters remain readable. This contract
-does not change the external Rudolstadt API or fetch workshop information from the
-website; a festival source must supply the actual content.
+When the feature is supported, concert entries in artist, stage, schedule, and
+program-discovery lists open the concert detail page, even when a particular
+concert has no additional editorial content. The page provides the date, time,
+existing save action, optional content, and explicit links to artist and stage.
+Unsupported festivals retain their existing destinations. The artist screen has
+no separate inline concert-details disclosure. A temporarily unavailable Apple
+feature keeps the concert destination and displays an explicit availability hint.
+
+Tags remain ordinary program metadata and do not enable concert details. Tag
+membership, discoverability and `Programm entdecken` read the program's tags
+independently of this feature. A `ProgramTag` can still carry editorial category
+content and `introductionTexts`; those describe a topic rather than an individual
+concert. Category introductions retain their existing festival-policy fallback.
+
+`ProgramEditorialContent` consists of a localized plain-text/HTML `article`,
+labeled `fields` with stable IDs, and localized `links` with their browser-opening
+mode. The Swift aliases remain `FestivalEditorialContent` and
+`FestivalInformationField`. Browser modes, language fallback and read-only
+festival permissions continue to use the existing app behavior. External source
+formats and personal profile schemas are unchanged; a festival source must supply
+the actual optional concert content.
 
 ## Festival archive
 
@@ -187,7 +217,7 @@ Regenerate the snapshot from the previously downloaded official source directory
 ```sh
 python3 scripts/data/import_ludwigsburg.py /path/to/strassenmusik-ludwigsburg/2026 \
   shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026.json \
-  --map-output-directory iosApp/Shared/Resources/FestivalBackup
+  --map-output-directory shared/src/commonMain/resources/FestivalBackup
 ```
 
 The importer also verifies the PDF checksum against

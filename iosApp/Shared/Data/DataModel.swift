@@ -15,7 +15,8 @@ struct FestivalData: Sendable {
     var artists: [Artist] { didSet { detailCatalog = nil } }
     var areas: [Area]
     var stages: [Stage] { didSet { detailCatalog = nil } }
-    var events: [Event] { didSet { detailCatalog = nil } }
+    var events: [Event] { didSet { detailCatalog = nil; preparedTags = nil } }
+    var preparedTags: [Tag]? = nil
     var detailCatalog: ProgramDetailCatalog? = nil
     var omittedRecordCount = 0
     var artistSimilarities: ArtistSimilarityCatalog? = nil { didSet { detailCatalog = nil } }
@@ -27,6 +28,12 @@ struct FestivalData: Sendable {
     var provenance: FestivalDataProvenance? = nil
     var features = FestivalFeatures() { didSet { detailCatalog = nil } }
     var metadata: FestivalMetadata? = nil { didSet { detailCatalog = nil } }
+
+    var tags: [Tag] {
+        if let preparedTags { return preparedTags }
+        var seen = Set<String>()
+        return events.flatMap(\.tags).filter { seen.insert($0.tagID).inserted }
+    }
 
     var eventDurations: [Int: Int] {
         Dictionary(
@@ -376,8 +383,7 @@ extension ProgramOccurrence: @retroactive Identifiable, @unchecked @retroactive 
     convenience init(
         id: Int, startDate: Date?, knownDate: Date?, stage: Stage, artist: Artist,
         tag: Tag? = nil, tags: [Tag]? = nil, durationMinutes: Int? = nil,
-        timeZone: TimeZone = FestivalConfiguration.timeZone,
-        editorialContent: FestivalEditorialContent? = nil
+        timeZone: TimeZone = FestivalConfiguration.timeZone
     ) {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = timeZone
@@ -391,7 +397,7 @@ extension ProgramOccurrence: @retroactive Identifiable, @unchecked @retroactive 
             eventDuration: durationMinutes.map {
                 EventDuration(minutes: Int32($0), isEstimated: false)
             },
-            assignedDay: nil, zoneID: timeZone.identifier, editorialContent: editorialContent)
+            assignedDay: nil, zoneID: timeZone.identifier)
     }
 
     convenience init(

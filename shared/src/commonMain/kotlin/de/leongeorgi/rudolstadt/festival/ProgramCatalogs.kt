@@ -7,13 +7,6 @@ data class ProgramPlaceInformation(
     val programLinks: List<ProgramLink>,
 )
 
-data class ProgramEventInformation(
-    val content: ProgramContent?,
-    val tags: List<ProgramTag>,
-    val programLinks: List<ProgramLink>,
-    val informationFields: List<ProgramInformationField> = emptyList(),
-)
-
 data class ProgramAdmission(val categoryIDs: Set<String>, val notes: Map<String, String>?)
 
 data class ProgramAirDistance(val meters: Double, val approximate: Boolean)
@@ -67,20 +60,6 @@ class ProgramPlaceCatalog(
     }
 
     fun eventAdmission(id: Long) = eventPlaces[id]?.let(::admission)
-}
-
-class ProgramEventCatalog(events: List<ProgramOccurrence>, val tags: List<ProgramTag>) {
-    private val events = events.associateBy { it.eventID }
-
-    fun details(id: Long) =
-        events[id]?.let {
-            ProgramEventInformation(
-                it.editorialContent?.article,
-                it.tags.mapNotNull { tag -> tags.firstOrNull { it.tagID == tag.tagID } },
-                it.editorialContent?.links.orEmpty(),
-                it.editorialContent?.fields.orEmpty(),
-            )
-        }
 }
 
 data class SimilarArtistIDs(val artistID: Long, val similarIDs: List<Long>)
@@ -151,7 +130,7 @@ class ProgramDistanceCatalog(
 data class ProgramCapabilities(
     val artists: ProgramArtistCatalog,
     val places: ProgramPlaceCatalog,
-    val events: ProgramEventCatalog,
+    val eventDetails: EventDetailsFeature?,
     val admission: ProgramPlaceCatalog?,
     val summaries: ProgramArtistCatalog?,
     val similarities: ProgramSimilarityCatalog?,
@@ -206,7 +185,7 @@ object ProgramCatalogs {
         return ProgramCapabilities(
             artists,
             places,
-            ProgramEventCatalog(program.events, prepared.tags),
+            program.eventDetails,
             places.takeIf { includesAdmission },
             artists.takeIf { program.artists.any { it.summaries.isNotEmpty() } },
             similarities?.let(::ProgramSimilarityCatalog),

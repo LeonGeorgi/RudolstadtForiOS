@@ -9,7 +9,9 @@ einschließlich Watch-Geräte und Watch-Simulatoren.
 `iosApp` enthält das vollständige native Apple-Projekt. SwiftUI, CloudKit,
 WatchConnectivity, Betriebssystemdienste, native Formatierung und die bestehenden
 Persistenzadapter bleiben in Swift. `androidApp` enthält die native Android-Oberfläche
-mit Jetpack Compose, zunächst als Künstlerliste aus dem mitgelieferten Programm.
+mit Jetpack Compose und Material 3. Künstlerindex, Filter, Programmaufbereitung und
+Planung stammen aus `shared`; Android ergänzt DataStore, WorkManager, Media3 und
+MapLibre als native Adapter. CloudKit und Freundesfreigaben bleiben Apple-spezifisch.
 
 Die Fach-Packages heißen `festival`, `planning`, `profile`, `discovery`,
 `loading` und `news`. Das Package `presentation` besitzt ViewModels und App-State.
@@ -131,6 +133,15 @@ Fähigkeiten; `RudolstadtContent` besitzt Festivalregeln, Zusatzorte und
 Informationsdefinitionen. Die gemeinsame Bibliothek benötigt für diese Aufgaben
 keine Swift-Servicehierarchie. Native Adapter ergänzen Lokalisierung, Foundation-
 Werte, Symbole und geprüfte PDF-/Kartenressourcen.
+
+Zusätzliche Konzertinhalte gehören ausschließlich zum optionalen
+`FestivalProgram.eventDetails`-Feature. Auftritte und ihre Metadaten nehmen keine
+redaktionellen Konzertinhalte entgegen. Das Vorhandensein des Feature-Blocks
+aktiviert die Konzertdetailnavigation; eine leere Inhaltsliste bleibt ein
+aktiviertes Feature. Tags und Programmentdeckung sind davon unabhängig.
+Der normalisierte Cache migriert frühere Inhalte am Auftritt explizit in diesen
+Feature-Block und prüft eindeutige, bestehende Veranstaltungsreferenzen.
+
 
 Die kanonischen News-Modelle, ihre Wire-Formate und Konvertierungen liegen in
 `news`; `presentation` besitzt deren State und Aktualisierungsentscheidungen.

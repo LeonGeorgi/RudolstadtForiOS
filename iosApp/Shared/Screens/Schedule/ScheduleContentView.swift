@@ -16,11 +16,13 @@ struct ScheduleContentView: View {
 
     @EnvironmentObject private var profile: FestivalProfileStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.festivalData) private var festivalData
 
     let events: [Event]
     let displayMode: ScheduleDisplayMode
     @Binding var selectedDay: String?
     let currentTipID: String?
+    var showsPlanTransitions = false
 
     private var sections: ScheduleEventSections {
         ScheduleEventSections(events: events, selectedProgramDay: selectedDay)
@@ -69,7 +71,16 @@ struct ScheduleContentView: View {
                     if effectiveDisplayMode == .timeline {
                         ScheduleTimelineView(events: events, selectedDay: $selectedDay)
                     } else {
-                        ScheduleListView(events: sections.scheduled)
+                        ScheduleListView(
+                            events: sections.scheduled,
+                            planFacts: showsPlanTransitions
+                                ? PlanFactsCalculator.shared.calculate(
+                                    events: sections.scheduled,
+                                    durations: festivalData.eventDurations.coreMinutes,
+                                    defaultMinutes: 60,
+                                    transfer: festivalData.coreWalkingTransfers
+                                ) : nil
+                        )
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

@@ -70,6 +70,11 @@
 "artist.rating.icon_picker" = "Andere Bewertung auswählen";
 "artist.rating.icon_picker.selected" = "Andere Bewertung: %@";
 "artist.image.open" = "Bild von %@ im Vollbild anzeigen";
+"artist.friend_ratings.title" = "Bewertungen";
+"artist.friend_ratings.open" = "Zeigt die Bewertungen deiner Freunde";
+"artist.friend_ratings.close" = "Bewertungen schließen";
+"artist.friend_rating.value.one" = "%lld Herz";
+"artist.friend_rating.value.other" = "%lld Herzen";
 "artist.friend_ratings.accessibility.format" = "Bewertungen von Freunden: %@";
 "artist.friend_rating.hearts.one" = "%1$@ hat %2$lld Herz vergeben";
 "artist.friend_rating.hearts.other" = "%1$@ hat %2$lld Herzen vergeben";
@@ -109,7 +114,7 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "stage.events" = "VERANSTALTUNGEN";
 "stage.events.loading" = "Veranstaltungen laden…";
 "stage.map" = "KARTE";
-"stage.nearby" = "ORTE IN DER NÄHE";
+"stage.nearby" = "Orte in der Nähe";
 
 "artists.title" = "Künstler";
 "artists.none-found" = "Es gibt keine Künstler, die zu deinen gewählten Filtereinstellungen passen.";
@@ -144,6 +149,20 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "schedule.day.pull" = "Weiterziehen zum Wechseln";
 "schedule.day.release" = "Loslassen zum Wechseln";
 "schedule.title" = "Zeitplan";
+"schedule.plan.title" = "Mein Plan";
+"schedule.plan.walking" = "ca. %ld Min. zu Fuß · %ld m";
+"schedule.plan.walking.unknown" = "Fußweg unbekannt";
+"schedule.plan.buffer" = "%ld Min. Zeitpuffer";
+"schedule.plan.late" = "Voraussichtlich %ld Min. zu spät";
+"schedule.plan.overlap" = "Überschneidung: %ld Min.";
+"schedule.plan.impossible" = "Anschluss nicht erreichbar";
+"schedule.plan.tight" = "Anschluss knapp";
+"schedule.plan.estimates" = "Endzeiten und Gehzeiten sind geschätzt.";
+"schedule.zoom.title" = "Zoom";
+"schedule.zoom.overview" = "Übersicht · 70 %";
+"schedule.zoom.standard" = "Standard · 100 %";
+"schedule.zoom.detail" = "Details · 200 %";
+"schedule.zoom.reset" = "Zurücksetzen";
 "schedule.day.picker" = "Tag";
 "settings.schedule.day_selection" = "Tagesauswahl";
 "settings.schedule.day_selection.toolbar" = "Toolbar-Menü";
@@ -367,6 +386,8 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "licenses.navigation_title" = "Lizenzen";
 
 "copy.link.title" = "Link kopieren";
+"news.open_link" = "Link öffnen";
+"news.write_email" = "E-Mail schreiben";
 "copy.email.title" = "E-Mail-Adresse kopieren";
 "email.send.title" = "E-Mail senden";
 
@@ -561,3 +582,14 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 
 "stage.location_info" = "Ortsinfos";
 "stage.location.approximate" = "Ungefähre Position";
+
+"program.event.details.unavailable" = "Die zusätzlichen Konzertinformationen sind gerade nicht verfügbar.";
+
+"program.event.title" = "Konzertdetails";
+"program.event.about" = "Zum Konzert";
+"program.event.additional" = "Zusatzinformationen";
+"program.event.location" = "Bühne & Lage";
+"program.event.open_map" = "Karte öffnen";
+"program.event.duration" = "%lld Min.";
+
+"settings.always_show_event_details" = "Konzertdetailseiten immer anzeigen";

@@ -1,0 +1,69 @@
+{
+  "fill" : {
+    "automatic-gradient" : "srgb:0.47059,0.17255,0.45490,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "glass" : true,
+          "image-name" : "02-Gehaeuse.svg",
+          "name" : "02 Gehaeuse und Klaviatur",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting" : "combined",
+      "name" : "02 Gehaeuse und Klaviatur",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.12
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.040000000000000001
+      }
+    },
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "glass" : true,
+          "image-name" : "01-Balg.svg",
+          "name" : "01 Zusammenhaengender Balg",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting" : "combined",
+      "name" : "01 Zusammenhaengender Balg",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.080000000000000002
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.080000000000000002
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
