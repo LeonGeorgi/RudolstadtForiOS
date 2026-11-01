@@ -72,12 +72,30 @@ def main():
     report = {"platform": args.platform, "device": device, "device_info": device_info,
               "app_sha256": hashlib.sha256(app.read_bytes()).hexdigest(),
               "maestro": command("maestro", "--version"), "locales": args.locales,
-              "method": "Prebuilt app; boot excluded, install/setup/driver startup/export included. Alternating order; no discarded warmup or automatic native retries.",
+              "method": "Prebuilt app; build/boot and common app prewarm excluded. Common preparation is recorded separately. Per-engine install/setup/driver startup/export included. Alternating order; no discarded capture runs or automatic native retries.",
               "runs": []}
     if args.platform == "ios":
         report["native_version"] = command("xcodebuild", "-version")
     else:
         report["native_version"] = "UI Automator 2.4.0 / AndroidX Test runner 1.7.0"
+    # Charge the shared first app/runtime startup to neither engine.
+    # Each capture still includes its own install/setup/driver/export overhead.
+    prepared = time.monotonic()
+    if args.platform == "android":
+        preparation = [
+            [adb, "-s", device, "install", "-r", str(app)],
+            [adb, "-s", device, "shell", "am", "start", "-W", "-n", "de.leongeorgi.rudolstadt.android/.MainActivity"],
+        ]
+    else:
+        preparation = [
+            ["xcrun", "simctl", "install", device, str(app.parent)],
+            ["xcrun", "simctl", "privacy", device, "grant", "location", "de.leongeorgi.RudolstadtForiOS"],
+            ["bash", str(ROOT / "scripts/ios/prewarm-screenshot-app.sh")],
+        ]
+    with (output / "common-preparation.log").open("w") as log:
+        for step in preparation:
+            subprocess.run(step, env=env, stdout=log, stderr=subprocess.STDOUT, check=True, timeout=180)
+    report["common_preparation_seconds"] = round(time.monotonic() - prepared, 2)
     for round_number in range(1, args.rounds + 1):
         order = ("maestro", "native") if round_number % 2 else ("native", "maestro")
         for engine in order:
@@ -111,7 +129,7 @@ def main():
         passed = [run for run in runs if run["success"]]
         median = f"{statistics.median(run['seconds'] for run in passed):.2f}" if passed else "—"
         rows.append(f"| {engine} | {len(passed)}/{len(runs)} | {median} |")
-    summary = f"# {args.platform} screenshot comparison\n\n" + "\n".join(rows) + "\n\n" + report["method"] + "\n\nSmall local/CI sample: this does not establish long-term reliability. Review the paired images in gallery.html; timing and PNG completeness do not establish visual equivalence.\n"
+    summary = f"# {args.platform} screenshot comparison\n\n" + "\n".join(rows) + "\n\n" + report["method"] + f" Common preparation: {report['common_preparation_seconds']:.2f}s.\n\nSmall local/CI sample: this does not establish long-term reliability. Review the paired images in gallery.html; timing and PNG completeness do not establish visual equivalence.\n"
     (output / "summary.md").write_text(summary)
     gallery = ["<!doctype html><meta charset='utf-8'><title>Screenshot comparison</title><style>body{font:16px system-ui}table{border-collapse:collapse}td,th{padding:12px}img{width:260px;max-width:40vw}figure{margin:0}</style><h1>Screenshot comparison</h1><p>Review navigation, scroll positions, loaded maps/images and appearance.</p>"]
     for round_number in range(1, args.rounds + 1):

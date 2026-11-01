@@ -36,7 +36,9 @@ PR-Branch den nativen Telefon-/Tablet-Test.
 
 Die Messung umfasst Installation, Geräteeinstellungen, Treiberstart, Navigation,
 Aufnahmen und Export. App-Build und Emulatorstart sind ausgeschlossen; die Geräte
-müssen vorher gestartet sein. Es gibt keinen verworfenen Aufwärmlauf. Vorhandene
+müssen vorher gestartet sein. Der gemeinsame erste App-/Runtime-Start wird vor beiden
+Werkzeugen ausgeführt und separat als `common_preparation_seconds` berichtet. So trägt
+nicht allein das erste Werkzeug den Kaltstart. Es werden keine Capture-Läufe verworfen. Vorhandene
 gezielte Maestro-Treiber-Retries bleiben Teil der gemessenen Zeit und in den Logs
 sichtbar. XCTest/UI Automator wiederholen fehlgeschlagene Capture-Läufe nicht.
 Der Report prüft vollständige Dateisätze, PNG-Header, Auflösungen und Prüfsummen;
