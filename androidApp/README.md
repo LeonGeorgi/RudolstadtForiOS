@@ -227,6 +227,13 @@ auf `master`. Pro Gerät gibt es ein Screenshot-Artefakt mit den Ordnern
 `de/light`, `de/dark`, `en/light` und `en/dark`: Zeitplan, Künstler, Orte und Mehr.
 Maestro-Berichte, Logs und Fehlerbilder liegen im separaten Diagnose-Artefakt.
 
+Vollständig erfolgreiche Läufe auf `master` veröffentlichen zusätzlich alle 32
+Originale und optimierte Vorschaubilder im Branch `screenshots`. Die Haupt-README
+bindet diese stabilen Bildadressen ein; die Galerie im Screenshot-Branch zeigt
+alle Sprachen und Darstellungen. Fehlgeschlagene oder PR-Läufe ersetzen keine
+veröffentlichten Bilder. Die bisherigen iPhone-/iPad-Bilder verwenden weiter die
+bestehende GitHub-Pages-Galerie.
+
 Lokal mit JDK 17, Maestro und einer gebauten Debug-APK auf einem dedizierten,
 bereits gestarteten Android-Emulator ab API 33:
 
