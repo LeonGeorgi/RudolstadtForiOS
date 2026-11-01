@@ -22,4 +22,4 @@ Der ursprüngliche iOS-Checkout wird nicht benötigt.
 - `RudolstadtForiOS.xcodeproj/`: Targets, Schemes, Ressourcen und Build-Phasen.
 
 [CloudKit](../docs/apple/cloudkit.md) · [Watch-Transport](../docs/apple/watch.md) ·
-[Festivaldaten](../docs/festival-data.md) · [Screenshot-Automation](../.maestro/app-store-screenshots/README.md)
+[Festivaldaten](../docs/festival-data.md) · [Screenshot-Automation](../docs/screenshots.md)

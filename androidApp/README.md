@@ -225,10 +225,9 @@ auf einem Pixel 7 Pro und Pixel Tablet jeweils Deutsch und Englisch in Hell und 
 auf. Er läuft manuell sowie bei Android-relevanten Pull Requests und Änderungen
 auf `master`. Pro Gerät gibt es ein Screenshot-Artefakt mit den Ordnern
 `de/light`, `de/dark`, `en/light` und `en/dark`: Zeitplan, Künstler, Orte und Mehr.
-Maestro-Berichte, Logs und Fehlerbilder liegen im separaten Diagnose-Artefakt.
-Beim manuellen Start kann `engine: native` für UI Automator 2.4 gewählt werden.
-Dieser Pfad verwendet dasselbe Ausgabeformat und denselben README-Publisher.
-Lokale Aufrufe und Messungen stehen im [Werkzeugvergleich](../docs/native-screenshot-comparison.md).
+UI-Automator-Berichte, Logs und Fehlerbilder liegen im separaten Diagnose-Artefakt.
+Die Aufnahmen laufen mit UI Automator 2.4. Lokale Aufrufe und Details stehen in der
+[Screenshot-Anleitung](../docs/screenshots.md).
 
 Vollständig erfolgreiche Läufe auf `master` veröffentlichen zusätzlich alle 32
 Originale und optimierte Vorschaubilder im Branch `screenshots`. Die Haupt-README
@@ -237,10 +236,11 @@ alle Sprachen und Darstellungen. Fehlgeschlagene oder PR-Läufe ersetzen keine
 veröffentlichten Bilder. Die bisherigen iPhone-/iPad-Bilder verwenden weiter die
 bestehende GitHub-Pages-Galerie.
 
-Lokal mit JDK 17, Maestro und einer gebauten Debug-APK auf einem dedizierten,
+Lokal mit JDK 17 und den gebauten App-/Test-APKs auf einem dedizierten,
 bereits gestarteten Android-Emulator ab API 33:
 
 ```sh
+./gradlew :androidApp:assembleDebug :androidScreenshotTests:assembleDebug
 ANDROID_SERIAL=emulator-5554 bash scripts/android/capture-screenshots.sh
 ```
 
@@ -249,13 +249,11 @@ Statusleiste des Emulators. Er löscht keine App-Daten. Für reproduzierbare
 Aufnahmen einen frischen Emulator mit der Standarddarstellung „System“ verwenden.
 Programm und Karten verwenden das normale Ladeverhalten einschließlich gebündeltem
 Fallback; Bilder und Kartenkacheln können Netzwerkzugriff benötigen.
-`PREBUILT_APK_PATH`, `LOCALES`, `OUTPUT_ROOT` und `DIAGNOSTICS_ROOT` sind optional.
+`PREBUILT_APK_PATH`, `NATIVE_TEST_APK_PATH`, `LOCALES`, `OUTPUT_ROOT` und
+`DIAGNOSTICS_ROOT` sind optional.
 Lokale Ausgaben landen unter `artifacts/screenshots/android/`.
-Der Maestro-Treiber hat standardmäßig zwei Minuten Startzeit
-(`MAESTRO_DRIVER_STARTUP_TIMEOUT`, Millisekunden). Bei einem Treiber-Starttimeout
-wird genau einmal mit frisch gestarteten Treiber-Prozessen wiederholt. Fehlgeschlagene
-Versuche bleiben im Diagnose-Artefakt; Navigations- und Prüfungsfehler werden nicht
-wiederholt. Nur ein vollständiger erfolgreicher Satz wird als Aufnahme übernommen.
+Ein fehlgeschlagener Instrumentation-Test oder ein unvollständiger Bildsatz beendet
+den Lauf mit Fehler. Nur ein vollständiger erfolgreicher Satz wird übernommen.
 
 ## Bauen und prüfen
 

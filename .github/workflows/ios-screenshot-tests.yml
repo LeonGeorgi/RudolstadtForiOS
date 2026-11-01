@@ -2,12 +2,6 @@ name: App Store Screenshots
 
 on:
   workflow_dispatch:
-    inputs:
-      engine:
-        description: Screenshot engine (both publish the same gallery)
-        type: choice
-        options: [maestro, native]
-        default: maestro
 
 permissions:
   contents: read
@@ -33,20 +27,13 @@ jobs:
       - name: Build screenshot app
         env:
           DERIVED_DATA_PATH: ${{ runner.temp }}/AppStoreScreenshotDerivedData
-          SCREENSHOT_ENGINE: ${{ inputs.engine || 'maestro' }}
         run: |
           set -o pipefail
           started_at="$(date +%s)"
-          action=build
-          scheme='RudolstadtForiOS (iOS)'
-          if [[ "$SCREENSHOT_ENGINE" == native ]]; then
-            action=build-for-testing
-            scheme='Native Screenshots'
-          fi
-          xcodebuild "$action" \
+          xcodebuild build-for-testing \
             -quiet \
             -project "iosApp/RudolstadtForiOS.xcodeproj" \
-            -scheme "$scheme" \
+            -scheme "Native Screenshots" \
             -configuration Debug \
             -destination "generic/platform=iOS Simulator" \
             -derivedDataPath "$DERIVED_DATA_PATH" \
@@ -97,21 +84,6 @@ jobs:
 
       - name: Extract app
         run: tar -xf "${{ runner.temp }}/PrebuiltApp/Rudolstadt.app.tar" -C "${{ runner.temp }}/PrebuiltApp"
-
-      - name: Set up Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Install Maestro
-        if: inputs.engine != 'native'
-        env:
-          MAESTRO_VERSION: "2.6.1"
-        run: |
-          curl -Ls "https://get.maestro.mobile.dev" | bash
-          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
-          "$HOME/.maestro/bin/maestro" --version
 
       - name: Select iOS 26 ${{ matrix.device_family }} simulator
         id: simulator
@@ -164,20 +136,13 @@ jobs:
           DEVICE_ID: ${{ steps.simulator.outputs.device-id }}
           LOCALES: "de en"
           PREBUILT_APP_PATH: ${{ runner.temp }}/PrebuiltApp/Debug-iphonesimulator/Rudolstadt.app
-          SCREENSHOT_ENGINE: ${{ inputs.engine || 'maestro' }}
           OUTPUT_ROOT: ${{ runner.temp }}/AppStoreScreenshots
           DIAGNOSTICS_ROOT: ${{ runner.temp }}/AppStoreScreenshotDiagnostics
-          MAESTRO_CLI_NO_ANALYTICS: "1"
-          MAESTRO_DRIVER_STARTUP_TIMEOUT: "300000"
         run: |
           set -o pipefail
-          if [[ "$SCREENSHOT_ENGINE" == native ]]; then
-            export XCTEST_RUN_FILE
-            XCTEST_RUN_FILE="$(find "${{ runner.temp }}/PrebuiltApp" -maxdepth 1 -name '*.xctestrun' -print -quit)"
-            bash scripts/ios/capture-native-screenshots.sh
-          else
-            bash scripts/ios/capture-app-store-screenshots.sh
-          fi 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
+          export XCTEST_RUN_FILE
+          XCTEST_RUN_FILE="$(find "${{ runner.temp }}/PrebuiltApp" -maxdepth 1 -name '*.xctestrun' -print -quit)"
+          bash scripts/ios/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
 
       - name: Check for ${{ matrix.device_family }} capture diagnostics
         id: capture_diagnostics
