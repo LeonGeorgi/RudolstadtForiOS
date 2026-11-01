@@ -87,14 +87,14 @@ object CuratedLinks {
 data class ArtistPublicLink(val year: Int, val artistID: Long) {
     fun url(): String? =
         if (year in 1000..9999 && artistID > 0)
-            "https://rudolstadt.leongeorgi.de/$year/artists/$artistID"
+            "https://festival.leongeorgi.de/rudolstadt/$year/artists/$artistID"
         else null
 
     companion object {
         fun parse(value: String): ArtistPublicLink? {
             val match =
                 Regex(
-                        "https://rudolstadt\\.leongeorgi\\.de(?::443)?/(\\d{4})/artists/([1-9]\\d*)/?(?:[?#].*)?",
+                        "https://(?:festival\\.leongeorgi\\.de(?::443)?/rudolstadt|rudolstadt\\.leongeorgi\\.de(?::443)?)/(\\d{4})/artists/([1-9]\\d*)/?(?:[?#].*)?",
                         RegexOption.IGNORE_CASE,
                     )
                     .matchEntire(value) ?: return null
@@ -104,16 +104,15 @@ data class ArtistPublicLink(val year: Int, val artistID: Long) {
                 } ?: return null
             val id = match.groupValues[2].toLongOrNull() ?: return null
             // Scheme and host are case-insensitive; path components remain case-sensitive.
-            if (
+            val path =
                 value
                     .substringAfter("://")
                     .substringAfter('/')
                     .substringBefore('?')
                     .substringBefore('#')
-                    .split('/')
-                    .getOrNull(1) != "artists"
-            )
-                return null
+                    .removeSuffix("/")
+            val artistPath = "$year/artists/$id"
+            if (path != artistPath && path != "rudolstadt/$artistPath") return null
             return ArtistPublicLink(year, id)
         }
     }

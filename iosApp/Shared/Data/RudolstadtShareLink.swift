@@ -1,7 +1,7 @@
 import Foundation
 
 struct ArtistShareLink: Equatable {
-    private static let host = "rudolstadt.leongeorgi.de"
+    private static let hosts = ["festival.leongeorgi.de", "rudolstadt.leongeorgi.de"]
 
     let year: Int
     let artistID: Int
@@ -19,7 +19,8 @@ struct ArtistShareLink: Equatable {
     init?(url: URL) {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
               components.scheme?.lowercased() == "https",
-              components.host?.lowercased() == Self.host,
+              let host = components.host?.lowercased(),
+              Self.hosts.contains(host),
               components.user == nil,
               components.password == nil,
               components.port == nil || components.port == 443
@@ -27,7 +28,7 @@ struct ArtistShareLink: Equatable {
             return nil
         }
 
-        let canonical = "https://rudolstadt.leongeorgi.de" + "/" + url.pathComponents.dropFirst().joined(separator: "/")
+        let canonical = "https://" + host + "/" + url.pathComponents.dropFirst().joined(separator: "/")
         let value = KotlinCore.bridge.parseArtistLink(value: canonical)
         guard let value else { return nil }
         let year = Int(value.year)

@@ -4,6 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
+		<string>applinks:festival.leongeorgi.de</string>
 		<string>applinks:rudolstadt.leongeorgi.de</string>
 	</array>
 	<key>aps-environment</key>
