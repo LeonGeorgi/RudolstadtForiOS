@@ -218,6 +218,30 @@ echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd \
 Das ARM64-Systemabbild ist für Apple Silicon. Auf Intel-Macs ein passendes
 x86_64-Abbild wählen. Der Emulator kann regulär über sein Fenster beendet werden.
 
+## Screenshots in GitHub Actions
+
+Der Workflow **Android Screenshots** baut die APK einmal und nimmt anschließend
+auf einem Pixel 7a und Pixel Tablet jeweils Deutsch und Englisch in Hell und Dunkel
+auf. Er läuft manuell sowie bei Android-relevanten Pull Requests und Änderungen
+auf `master`. Pro Gerät gibt es ein Screenshot-Artefakt mit den Ordnern
+`de/light`, `de/dark`, `en/light` und `en/dark`: Zeitplan, Künstler, Orte und Mehr.
+Maestro-Berichte, Logs und Fehlerbilder liegen im separaten Diagnose-Artefakt.
+
+Lokal mit JDK 17, Maestro und einer gebauten Debug-APK auf einem dedizierten,
+bereits gestarteten Android-Emulator ab API 33:
+
+```sh
+ANDROID_SERIAL=emulator-5554 bash scripts/android/capture-screenshots.sh
+```
+
+Der Runner installiert die APK und ändert App-Sprache, Systemdarstellung und
+Statusleiste des Emulators. Er löscht keine App-Daten. Für reproduzierbare
+Aufnahmen einen frischen Emulator mit der Standarddarstellung „System“ verwenden.
+Programm und Karten verwenden das normale Ladeverhalten einschließlich gebündeltem
+Fallback; Bilder und Kartenkacheln können Netzwerkzugriff benötigen.
+`PREBUILT_APK_PATH`, `LOCALES`, `OUTPUT_ROOT` und `DIAGNOSTICS_ROOT` sind optional.
+Lokale Ausgaben landen unter `artifacts/screenshots/android/`.
+
 ## Bauen und prüfen
 
 ```sh

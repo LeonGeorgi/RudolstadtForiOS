@@ -37,7 +37,9 @@ jobs:
           distribution: temurin
           java-version: '17'
       - name: Install Android SDK platform and build tools
-        run: sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;35.0.0'
       - name: Build Android app and verify bundled artist loading and shared resources
         run: ./gradlew :shared:verifyAndroidResources :androidApp:assembleDebug :androidApp:testDebugUnitTest :androidApp:lintDebug
       - uses: actions/upload-artifact@v4

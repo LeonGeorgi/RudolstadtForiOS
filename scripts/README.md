@@ -8,7 +8,7 @@ App-Targets; ihre relativen Datenpfade beziehen sich auf dieses Repository.
 | `data/` | Archiv- und Ludwigsburg-Import, kuratierte Planpositionen, Musiklink-Suche |
 | `analysis/` | Künstler-Embeddings, Ähnlichkeitsanalysen, Plots und Ressourcenexport |
 | `ios/` | Kotlin-Framework für Xcode bauen und App-Store-Screenshots aufnehmen |
-| `android/` | Android-App bauen, Emulator starten und Künstlerliste öffnen |
+| `android/` | Android-App bauen, Emulator starten und Screenshots aufnehmen |
 
 ## Datenpflege
 
@@ -68,3 +68,12 @@ und baut das passende `RudolstadtCore.framework`. Für manuelle Gradle-Aufrufe s
 [Projekt-README](../README.md). Die [Screenshot-Anleitung](../.maestro/app-store-screenshots/README.md)
 beschreibt `ios/capture-app-store-screenshots.sh`; Ausgaben liegen standardmäßig
 unter `artifacts/screenshots/app-store/`.
+
+## Android-Screenshots
+
+`android/capture-screenshots.sh` verwendet eine gebaute Debug-APK und einen
+dedizierten, gestarteten Emulator. Maestro nimmt die vier Hauptansichten auf
+Deutsch und Englisch in Hell und Dunkel auf. Der Workflow **Android Screenshots**
+baut einmal und verwendet die APK für Telefon und Tablet. Aufnahmen und Diagnosen
+werden als getrennte Artefakte hochgeladen. Details und lokale Aufrufe stehen im
+[Android-README](../androidApp/README.md#screenshots-in-github-actions).

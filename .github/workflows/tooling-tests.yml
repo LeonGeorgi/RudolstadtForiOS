@@ -32,3 +32,4 @@ jobs:
           python -m compileall -q scripts
           sh -n scripts/ios/build-apple-framework.sh
           bash -n scripts/ios/capture-app-store-screenshots.sh
+          bash -n scripts/android/capture-screenshots.sh
