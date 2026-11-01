@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.test) apply false
     alias(libs.plugins.android.kmp.library) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
@@ -21,11 +22,13 @@ dependencies { kotlinFormatter(libs.ktfmt) }
 val kotlinSources =
     fileTree("shared/src") { include("**/*.kt") } +
         fileTree("androidApp/src") { include("**/*.kt") } +
+        fileTree("androidScreenshotTests/src") { include("**/*.kt") } +
         files(
             "build.gradle.kts",
             "settings.gradle.kts",
             "shared/build.gradle.kts",
             "androidApp/build.gradle.kts",
+            "androidScreenshotTests/build.gradle.kts",
         )
 
 fun registerKotlinFormatter(name: String, checkOnly: Boolean) =

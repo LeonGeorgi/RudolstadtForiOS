@@ -65,14 +65,14 @@ Tests mit eingerichteter Analyseumgebung:
 
 `ios/build-apple-framework.sh` wird von Xcode mit dessen Build-Umgebung aufgerufen
 und baut das passende `RudolstadtCore.framework`. Für manuelle Gradle-Aufrufe siehe
-[Projekt-README](../README.md). Die [Screenshot-Anleitung](../.maestro/app-store-screenshots/README.md)
+[Projekt-README](../README.md). Die [Screenshot-Anleitung](../docs/screenshots.md)
 beschreibt `ios/capture-app-store-screenshots.sh`; Ausgaben liegen standardmäßig
 unter `artifacts/screenshots/app-store/`.
 
 ## Android-Screenshots
 
 `android/capture-screenshots.sh` verwendet eine gebaute Debug-APK und einen
-dedizierten, gestarteten Emulator. Maestro nimmt die vier Hauptansichten auf
+dedizierten, gestarteten Emulator. UI Automator nimmt die vier Hauptansichten auf
 Deutsch und Englisch in Hell und Dunkel auf. Der Workflow **Android Screenshots**
 baut einmal und verwendet die APK für Telefon und Tablet. Aufnahmen und Diagnosen
 werden als getrennte Artefakte hochgeladen. Details und lokale Aufrufe stehen im
@@ -81,3 +81,11 @@ werden als getrennte Artefakte hochgeladen. Details und lokale Aufrufe stehen im
 `prepare_readme_screenshots.py` prüft alle 32 Android-Aufnahmen, erstellt kleine
 Vorschaubilder und die Galerie. `publish-readme-screenshots.sh` aktualisiert danach
 den separaten Branch `screenshots`, dessen stabile Bildlinks die Haupt-README nutzt.
+
+## Screenshot-Tests
+
+`ios/capture-app-store-screenshots.sh` führt den XCTest-Screenshot-Satz aus und
+exportiert benannte PNG-Anhänge aus dem `xcresult`.
+`android/capture-screenshots.sh` verwendet das separate UI-Automator-Testmodul
+`androidScreenshotTests`. Beide erzeugen das Ausgabeformat der Galerie-Publisher.
+Aufrufe und Voraussetzungen: [Screenshot-Automation](../docs/screenshots.md).

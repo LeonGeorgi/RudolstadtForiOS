@@ -64,7 +64,7 @@ corresponding automation. For run results, see the individual workflow runs.
 The gallery above shows the published screenshots of the original iOS project.
 The migrated repository retains the manually triggered
 [screenshot workflow](../.github/workflows/ios-screenshot-tests.yml) and
-[capture instructions](../.maestro/app-store-screenshots/README.md).
+[capture instructions](screenshots.md).
 
 ## Special Features
 - Dark mode

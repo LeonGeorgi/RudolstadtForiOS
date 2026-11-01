@@ -65,6 +65,11 @@ Die Apple-Aufnahmen werden durch den manuell gestarteten
 Android-Bilder nach vollständigen erfolgreichen Läufen auf `master` automatisch.
 Die Bildadressen bleiben dabei gleich; die README muss nicht nach jeder Aufnahme geändert werden.
 
+Die Aufnahmen laufen ausschließlich mit XCTest unter iOS und UI Automator unter
+Android. Nach vollständigen erfolgreichen Läufen auf `master` verwenden beide
+weiterhin dieselben Galerien und README-Bildadressen. Lokale Aufrufe und Details:
+[Screenshot-Automation](docs/screenshots.md).
+
 
 ## Aufbau
 
@@ -79,7 +84,6 @@ RudolstadtKMP/
 │   └── ios/       Xcode-Anbindung und Screenshot-Aufnahme
 ├── docs/          Produkt-, Daten-, Apple- und Recherche-Dokumentation
 ├── website/       Statische Support- und Datenschutzseiten
-├── .maestro/      iOS-UI-Flows und Screenshot-Anleitung
 ├── .github/       CI-Workflows und Screenshot-Galerie
 └── artifacts/     Lokale Ausgaben und Caches, von Git ignoriert
 ```

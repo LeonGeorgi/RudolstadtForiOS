@@ -119,18 +119,18 @@ when available and `gh` as the fallback. Do not create a parallel local tracker.
 
 Use this workflow only when the user explicitly asks to run the app and capture
 an iOS screen. The canonical App Store capture workflow and its options live in
-`../.maestro/app-store-screenshots/README.md`; do not duplicate or override it here.
+`../docs/screenshots.md`; do not duplicate or override it here.
 
 - Prefer an already booted suitable iOS 26 simulator and an already installed
   app. Avoid unnecessary builds and avoid leaving multiple simulators booted.
-- If a build is required, use the `RudolstadtForiOS (iOS)` scheme, bundle ID
+- For automated captures, use the `Native Screenshots` scheme, bundle ID
   `de.leongeorgi.RudolstadtForiOS`, and normal simulator signing.
 - Use `-screenshotMode YES` only when deterministic seeded screenshot state is
   intended. It loads bundled festival and news backups, disables network
   refreshes and CloudKit, resets screenshot-relevant preferences, seeds profile
   and friend data, and suppresses permission interruptions. It does not navigate
   to the requested screen.
-- Prefer semantic Maestro navigation over coordinates. Inspect before acting,
+- Prefer semantic XCTest navigation over coordinates. Inspect before acting,
   use visible text or stable accessibility identifiers, and verify the hierarchy
   again after navigation. Do not add screenshot-only navigation behavior to
   production code.

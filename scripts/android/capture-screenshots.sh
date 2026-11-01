@@ -8,9 +8,11 @@ apk="${PREBUILT_APK_PATH:-$project_root/androidApp/build/outputs/apk/debug/andro
 output="${OUTPUT_ROOT:-$project_root/artifacts/screenshots/android}"
 diagnostics="${DIAGNOSTICS_ROOT:-$output-diagnostics}"
 adb="${ANDROID_HOME:+$ANDROID_HOME/platform-tools/}adb"
-export MAESTRO_DRIVER_STARTUP_TIMEOUT="${MAESTRO_DRIVER_STARTUP_TIMEOUT:-120000}"
+native_apk="${NATIVE_TEST_APK_PATH:-$project_root/androidScreenshotTests/build/outputs/apk/debug/androidScreenshotTests-debug.apk}"
+native_package=de.leongeorgi.rudolstadt.screenshots
 
-for tool in "$adb" maestro python3; do
+tools=("$adb" python3)
+for tool in "${tools[@]}"; do
     command -v "$tool" >/dev/null || { echo "Missing command: $tool" >&2; exit 1; }
 done
 [[ -f "$apk" ]] || { echo "Build :androidApp:assembleDebug or set PREBUILT_APK_PATH." >&2; exit 1; }
@@ -32,6 +34,8 @@ collect_diagnostics() {
 trap collect_diagnostics EXIT
 
 "$adb" -s "$serial" install -r "$apk"
+[[ -f "$native_apk" ]] || { echo 'Build :androidScreenshotTests:assembleDebug first.' >&2; exit 1; }
+"$adb" -s "$serial" install -r "$native_apk"
 "$adb" -s "$serial" shell settings put global sysui_demo_allowed 1
 "$adb" -s "$serial" shell am broadcast -a com.android.systemui.demo --es command enter
 "$adb" -s "$serial" shell am broadcast -a com.android.systemui.demo --es command clock --es hhmm 0941
@@ -51,31 +55,22 @@ for locale in ${LOCALES:-de en}; do
         "$adb" -s "$serial" shell cmd uimode night "$night"
         destination="$output/$locale/$appearance"
         [[ ! -e "$destination" ]] || { echo "Output already exists: $destination" >&2; exit 1; }
-        for attempt in 1 2; do
-            capture="$diagnostics/$locale/$appearance/attempt-$attempt"
-            mkdir -p "$capture"
-            set +e
-            MAESTRO_CLI_NO_ANALYTICS=1 maestro test \
-                --udid "$serial" \
-                --test-output-dir "$capture" \
-                --format JUNIT --output "$capture/report.xml" \
-                --no-ansi \
-                "$project_root/.maestro/android-screenshots/screenshots.yaml" \
-                2>&1 | tee "$capture/maestro.log"
-            maestro_status=$?
-            set -e
-            if (( maestro_status == 0 )); then
-                break
-            fi
-            if (( attempt == 1 )) && grep -Fq \
-                'Maestro Android driver did not start up in time' "$capture/maestro.log"; then
-                echo 'Maestro driver startup failed; retrying once with a fresh driver.'
-                "$adb" -s "$serial" shell am force-stop dev.mobile.maestro
-                "$adb" -s "$serial" shell am force-stop dev.mobile.maestro.test
-            else
-                exit "$maestro_status"
-            fi
-        done
+        capture="$diagnostics/$locale/$appearance/native"
+        mkdir -p "$capture"
+        "$adb" -s "$serial" shell am force-stop "$app_id"
+        "$adb" -s "$serial" shell am instrument -w -r \
+            -e class de.leongeorgi.rudolstadt.screenshots.MainScreenshots \
+            -e screenshotLocale "$locale" \
+            "$native_package/androidx.test.runner.AndroidJUnitRunner" \
+            | tr -d '\r' | tee "$capture/instrumentation.log"
+        if grep -Eq '^INSTRUMENTATION_STATUS_CODE: -' "$capture/instrumentation.log" || \
+            ! grep -Eq '^OK \([1-9][0-9]* tests?\)$' "$capture/instrumentation.log"; then
+            echo 'UI Automator instrumentation did not pass.' >&2
+            exit 1
+        fi
+        remote_directory="$(sed -n 's/^INSTRUMENTATION_STATUS: screenshotDirectory=//p' "$capture/instrumentation.log" | tail -n 1)"
+        [[ -n "$remote_directory" ]] || { echo 'UI Automator did not report screenshot output.' >&2; exit 1; }
+        "$adb" -s "$serial" pull "$remote_directory/." "$capture/images"
         python3 - "$capture" "$destination" <<'PY'
 from pathlib import Path
 import shutil
