@@ -1,0 +1,76 @@
+{
+  "artist": "Duo Ruut",
+  "photoCredit": "Mia Tohver",
+  "photoSource": "https://www.rudolstadt-festival.de/assets/images/n/DuoRuut%C2%A9MiaTohver-2kd1tma131x6ta4.jpg",
+  "similarArtists": [
+    {
+      "id": 240,
+      "name": "Duo Gletschergliss",
+      "country": "DEU",
+      "path": "/Users/leon/Documents/Projekte/RudolstadtKMP/design/assets/artist-detail/artist-240.jpg",
+      "source": "https://www.rudolstadt-festival.de/assets/images/r/DuoGletschergliss-8z94mmqhdxmwn7j.jpg"
+    },
+    {
+      "id": 192,
+      "name": "Ramsch & Rosen",
+      "country": "AUT",
+      "path": "/Users/leon/Documents/Projekte/RudolstadtKMP/design/assets/artist-detail/artist-192.jpg",
+      "source": "https://www.rudolstadt-festival.de/assets/images/s/RamschUndRosen%C2%A9Bergen-wccakfa5g4tcr1m.jpg"
+    },
+    {
+      "id": 268,
+      "name": "Camila Morgenstern",
+      "country": "DEU",
+      "path": "/Users/leon/Documents/Projekte/RudolstadtKMP/design/assets/artist-detail/artist-268.jpg",
+      "source": "https://www.rudolstadt-festival.de/assets/images/b/CAmilaMorgenstern%C2%A9Peter-helixmedia-5p0pt2rdm988xxk.jpg"
+    },
+    {
+      "id": 228,
+      "name": "between the trees and me",
+      "country": "DEU",
+      "path": "/Users/leon/Documents/Projekte/RudolstadtKMP/design/assets/artist-detail/artist-228.jpg",
+      "source": "https://www.rudolstadt-festival.de/assets/images/h/betweenthetreesandme-b4ksq0ep5yx43ec.jpg"
+    },
+    {
+      "id": 232,
+      "name": "Alex Boldin",
+      "country": "DEU",
+      "path": "/Users/leon/Documents/Projekte/RudolstadtKMP/design/assets/artist-detail/artist-232.jpg",
+      "source": "https://www.rudolstadt-festival.de/assets/images/b/AlexBoldin%C2%A9MarkusEngler-v68bc3a5zrd0gfp.jpg"
+    },
+    {
+      "id": 246,
+      "name": "Heart’n’Beat",
+      "country": "DEU",
+      "path": "/Users/leon/Documents/Projekte/RudolstadtKMP/design/assets/artist-detail/artist-246.jpg",
+      "source": "https://www.rudolstadt-festival.de/assets/images/x/HeartNBeat-nnq4pa9c10yq7yb.jpg"
+    },
+    {
+      "id": 287,
+      "name": "Trio Talan",
+      "country": "IRN | DEU",
+      "path": "/Users/leon/Documents/Projekte/RudolstadtKMP/design/assets/artist-detail/artist-287.jpg",
+      "source": "https://www.rudolstadt-festival.de/assets/images/7/TrioTalan%C2%A9Malessa-cyxn66a0mkqxvrb.jpg"
+    }
+  ],
+  "nativeUIKits": [
+    "Apple iOS 27 UI Kit",
+    "Material Design 3 UI Kit"
+  ],
+  "heartAssets": {
+    "iOS": "iosApp/Shared/Assets.xcassets/rating-heart-{1,2,3}.imageset/",
+    "Android": "androidApp/src/main/res/drawable/rating_heart_{1,2,3}.xml (same geometry as iOS)"
+  },
+  "systemSymbols": [
+    "theatermasks.fill",
+    "person.2.fill",
+    "pencil.and.scribble"
+  ],
+  "concertHeroPhoto": {
+    "artist": "Camila Morgenstern",
+    "photoCredit": "Peter - helixmedia",
+    "path": "design/assets/artist-detail/camila-morgenstern-hero.jpg",
+    "source": "https://www.rudolstadt-festival.de/files/Bilder/2026/Stramu/CAmilaMorgenstern%C2%A9Peter-helixmedia.jpg",
+    "sourcePage": "https://www.rudolstadt-festival.de/artist/camila-morgenstern.html"
+  }
+}

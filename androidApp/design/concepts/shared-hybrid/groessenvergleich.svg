@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1330" viewBox="0 0 1500 1330">
+  <rect width="1500" height="1330" fill="#F4F1F5" />
+  <text x="65" y="65" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="25" font-weight="500" fill="#786B7D" text-anchor="start">Rudolstadt / Größenvergleich des zentrierten Motivs</text>
+  <text x="65" y="125" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="47" font-weight="600" fill="#2D2432" text-anchor="start">Drei Größen, dieselbe Form</text>
+  <text x="65" y="171" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="400" fill="#786B7D" text-anchor="start">52 dp als Raster-Ausgangspunkt · ±5 % linear · kein behauptetes Wahrnehmungsoptimum</text>
+  <text x="215" y="230" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432" text-anchor="middle">95 %</text>
+  <text x="215" y="269" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D" text-anchor="middle">49,4 × 39,5 dp</text>
+  <image x="65" y="300" width="300" height="300" href="SizeStudies/compact/android.png" />
+  <text x="215" y="638" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <image x="65" y="690" width="300" height="300" href="SizeStudies/compact/ios.png" />
+  <text x="215" y="1027" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#786B7D" text-anchor="middle">iOS · nativer Export</text>
+  <image x="85" y="1090" width="48" height="48" href="SizeStudies/compact/mono.png" />
+  <image x="195" y="1082" width="64" height="64" href="SizeStudies/compact/ios.png" />
+  <text x="85" y="1174" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="start">48 px</text>
+  <text x="195" y="1174" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="start">64 px</text>
+  <text x="705" y="230" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432" text-anchor="middle">100 % · Ausgangsmaß</text>
+  <text x="705" y="269" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D" text-anchor="middle">52,0 × 41,5 dp</text>
+  <image x="555" y="300" width="300" height="300" href="Previews/android-default.png" />
+  <text x="705" y="638" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <image x="555" y="690" width="300" height="300" href="Previews/ios-default.png" />
+  <text x="705" y="1027" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#786B7D" text-anchor="middle">iOS · nativer Export</text>
+  <image x="575" y="1090" width="48" height="48" href="Previews/android-themed.png" />
+  <image x="685" y="1082" width="64" height="64" href="Previews/ios-default.png" />
+  <text x="575" y="1174" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="start">48 px</text>
+  <text x="685" y="1174" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="start">64 px</text>
+  <text x="1195" y="230" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432" text-anchor="middle">105 %</text>
+  <text x="1195" y="269" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D" text-anchor="middle">54,6 × 43,6 dp</text>
+  <image x="1045" y="300" width="300" height="300" href="SizeStudies/large/android.png" />
+  <text x="1195" y="638" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <image x="1045" y="690" width="300" height="300" href="SizeStudies/large/ios.png" />
+  <text x="1195" y="1027" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#786B7D" text-anchor="middle">iOS · nativer Export</text>
+  <image x="1065" y="1090" width="48" height="48" href="SizeStudies/large/mono.png" />
+  <image x="1175" y="1082" width="64" height="64" href="SizeStudies/large/ios.png" />
+  <text x="1065" y="1174" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="start">48 px</text>
+  <text x="1175" y="1174" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="start">64 px</text>
+  <text x="65" y="1274" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#786B7D" text-anchor="start">Alle Motive sind flächenschwerpunktzentriert und liegen innerhalb des sicheren Android-Kreises mit 66 dp Durchmesser.</text>
+</svg>

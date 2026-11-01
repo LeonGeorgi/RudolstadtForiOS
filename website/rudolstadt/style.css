@@ -1,0 +1,94 @@
+:root {
+    color-scheme: light dark;
+    --background: #faf8fa;
+    --foreground: #302632;
+    --secondary: #66596a;
+    --accent: #803482;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--background);
+    color: var(--foreground);
+    text-align: center;
+}
+
+main {
+    width: 100%;
+    max-width: 30rem;
+    margin-block: auto;
+    padding-block: 3rem;
+}
+
+.app-icon {
+    display: block;
+    margin-inline: auto;
+}
+
+h1 {
+    margin: 1.5rem 0 0.75rem;
+    font-size: clamp(1.75rem, 7vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+}
+
+p {
+    margin: 0;
+    color: var(--secondary);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    text-wrap: balance;
+}
+
+.download {
+    display: inline-block;
+    margin-top: 2rem;
+}
+
+.download img {
+    display: block;
+    width: auto;
+    height: 48px;
+}
+
+a:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 5px;
+}
+
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 1rem;
+    font-size: 0.875rem;
+}
+
+footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--secondary);
+    text-underline-offset: 0.2em;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #1b171d;
+        --foreground: #f5eff5;
+        --secondary: #c0b4c3;
+        --accent: #98479b;
+    }
+}

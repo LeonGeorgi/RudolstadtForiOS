@@ -1,0 +1,35 @@
+appId: de.leongeorgi.rudolstadt.android
+name: Android - Main screens
+---
+- launchApp
+- setOrientation: PORTRAIT
+- extendedWaitUntil:
+    visible: 'Filters: All|Filter: Alle'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: 01-schedule
+
+- tapOn: 'Artists|Künstler'
+- extendedWaitUntil:
+    visible: 'Search artists|Künstler suchen'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: 02-artists
+
+- tapOn: 'Locations|Orte'
+- extendedWaitUntil:
+    visible: 'Search stages and places|Bühnen und Orte suchen'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: 03-locations
+
+- tapOn: 'More|Mehr'
+- extendedWaitUntil:
+    visible: 'Settings|Einstellungen'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: 04-more

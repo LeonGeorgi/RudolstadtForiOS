@@ -1,0 +1,9 @@
+# Normalize text in Git while keeping platform-specific launcher line endings.
+* text=auto
+gradlew text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# PDFs may contain readable streams but must remain byte-for-byte unchanged.
+*.pdf binary
+design/Rudolstadt.sketch filter=lfs diff=lfs merge=lfs -text

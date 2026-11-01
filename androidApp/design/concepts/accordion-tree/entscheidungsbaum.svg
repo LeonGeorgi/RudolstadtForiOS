@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1530" viewBox="0 0 1800 1530">
+  <rect width="1800" height="1530" fill="#F4F1F5" />
+  <text x="70" y="68" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="25" font-weight="500" fill="#786B7D" text-anchor="start">Rudolstadt / Akkordeon · Entscheidungsbaum</text>
+  <text x="70" y="132" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="48" font-weight="600" fill="#2D2432" text-anchor="start">Erst die Haltung, dann die Details</text>
+  <text x="70" y="179" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="400" fill="#786B7D" text-anchor="start">Farben und iOS-Material bleiben gleich. Jede Abzweigung verändert gezielt eine Richtung.</text>
+  <path d="M900,548 V563.0 H450 V578" fill="none" stroke="#C9C1CD" stroke-width="2" />
+  <path d="M900,548 V563.0 H1350 V578" fill="none" stroke="#C9C1CD" stroke-width="2" />
+  <path d="M450,936 V974.5 H225 V1013" fill="none" stroke="#C9C1CD" stroke-width="2" />
+  <path d="M450,936 V974.5 H675 V1013" fill="none" stroke="#C9C1CD" stroke-width="2" />
+  <path d="M1350,936 V974.5 H1125 V1013" fill="none" stroke="#C9C1CD" stroke-width="2" />
+  <path d="M1350,936 V974.5 H1575 V1013" fill="none" stroke="#C9C1CD" stroke-width="2" />
+  <text x="900" y="232" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="500" fill="#2D2432" text-anchor="middle">0 · Ausgangspunkt</text>
+  <image x="748" y="258" width="142" height="142" href="0/android.png" />
+  <image x="910" y="258" width="142" height="142" href="0/ios.png" />
+  <image x="868" y="432" width="64" height="64" href="0/mono.png" />
+  <text x="820" y="422" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <text x="980" y="422" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">iOS</text>
+  <text x="900" y="527" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D" text-anchor="middle">Systemfarbe · 64 px</text>
+  <text x="450" y="620" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="500" fill="#2D2432" text-anchor="middle">A · Ruhiger</text>
+  <image x="298" y="646" width="142" height="142" href="A/android.png" />
+  <image x="460" y="646" width="142" height="142" href="A/ios.png" />
+  <image x="418" y="820" width="64" height="64" href="A/mono.png" />
+  <text x="370" y="810" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <text x="530" y="810" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">iOS</text>
+  <text x="450" y="915" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D" text-anchor="middle">Systemfarbe · 64 px</text>
+  <text x="1350" y="620" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="500" fill="#2D2432" text-anchor="middle">B · Bewegter</text>
+  <image x="1198" y="646" width="142" height="142" href="B/android.png" />
+  <image x="1360" y="646" width="142" height="142" href="B/ios.png" />
+  <image x="1318" y="820" width="64" height="64" href="B/mono.png" />
+  <text x="1270" y="810" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <text x="1430" y="810" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">iOS</text>
+  <text x="1350" y="915" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D" text-anchor="middle">Systemfarbe · 64 px</text>
+  <text x="225" y="1055" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="500" fill="#2D2432" text-anchor="middle">A1 · Ruhiger · fein</text>
+  <image x="73" y="1081" width="142" height="142" href="A1/android.png" />
+  <image x="235" y="1081" width="142" height="142" href="A1/ios.png" />
+  <image x="193" y="1255" width="64" height="64" href="A1/mono.png" />
+  <text x="145" y="1245" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <text x="305" y="1245" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">iOS</text>
+  <text x="225" y="1350" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D" text-anchor="middle">Systemfarbe · 64 px</text>
+  <text x="675" y="1055" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="500" fill="#2D2432" text-anchor="middle">A2 · Ruhiger · kräftig</text>
+  <image x="523" y="1081" width="142" height="142" href="A2/android.png" />
+  <image x="685" y="1081" width="142" height="142" href="A2/ios.png" />
+  <image x="643" y="1255" width="64" height="64" href="A2/mono.png" />
+  <text x="595" y="1245" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <text x="755" y="1245" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">iOS</text>
+  <text x="675" y="1350" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D" text-anchor="middle">Systemfarbe · 64 px</text>
+  <text x="1125" y="1055" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="500" fill="#2D2432" text-anchor="middle">B1 · Bewegter · fein</text>
+  <image x="973" y="1081" width="142" height="142" href="B1/android.png" />
+  <image x="1135" y="1081" width="142" height="142" href="B1/ios.png" />
+  <image x="1093" y="1255" width="64" height="64" href="B1/mono.png" />
+  <text x="1045" y="1245" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <text x="1205" y="1245" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">iOS</text>
+  <text x="1125" y="1350" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D" text-anchor="middle">Systemfarbe · 64 px</text>
+  <text x="1575" y="1055" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="500" fill="#2D2432" text-anchor="middle">B2 · Bewegter · kräftig</text>
+  <image x="1423" y="1081" width="142" height="142" href="B2/android.png" />
+  <image x="1585" y="1081" width="142" height="142" href="B2/ios.png" />
+  <image x="1543" y="1255" width="64" height="64" href="B2/mono.png" />
+  <text x="1495" y="1245" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">Android</text>
+  <text x="1655" y="1245" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D" text-anchor="middle">iOS</text>
+  <text x="1575" y="1350" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#786B7D" text-anchor="middle">Systemfarbe · 64 px</text>
+  <text x="70" y="1500" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#786B7D" text-anchor="start">iOS: native Icon-Composer-Exporte · Android-Maske und Systemfarben sind simuliert.</text>
+</svg>

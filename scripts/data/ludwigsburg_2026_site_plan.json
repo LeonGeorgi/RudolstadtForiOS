@@ -1,0 +1,903 @@
+{
+  "resourceName": "ludwigsburg_2026_site_plan",
+  "sourceURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/06/SMF2026_Lageplan.pdf",
+  "sourceSHA256": "3f11761c3ccc90acb60fc5f24ab07aca50afcb54aec5c404b862781d6b921074",
+  "locations": [
+    {
+      "id": "stage-a",
+      "category": "stage",
+      "nameDE": "Hauptbühne A",
+      "nameEN": "Main stage A",
+      "point": {
+        "x": 0.53973,
+        "y": 0.325212
+      },
+      "reference": "A",
+      "stageID": 9,
+      "coordinate": {
+        "latitude": 48.89894,
+        "longitude": 9.19542,
+        "isApproximate": true
+      },
+      "noteDE": "Hauptbühne mit Interviews und Abschlusskonzert. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Main stage with interviews and the closing concert. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-b",
+      "category": "stage",
+      "nameDE": "Bühne B",
+      "nameEN": "Stage B",
+      "point": {
+        "x": 0.390555,
+        "y": 0.298199
+      },
+      "reference": "B",
+      "stageID": 1,
+      "coordinate": {
+        "latitude": 48.89765,
+        "longitude": 9.19665,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-c",
+      "category": "stage",
+      "nameDE": "Bühne C",
+      "nameEN": "Stage C",
+      "point": {
+        "x": 0.335832,
+        "y": 0.214513
+      },
+      "reference": "C",
+      "stageID": 3,
+      "coordinate": {
+        "latitude": 48.89686,
+        "longitude": 9.1962,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-d",
+      "category": "stage",
+      "nameDE": "Bühne D",
+      "nameEN": "Stage D",
+      "point": {
+        "x": 0.408546,
+        "y": 0.37447
+      },
+      "reference": "D",
+      "stageID": 4,
+      "coordinate": {
+        "latitude": 48.89855,
+        "longitude": 9.19728,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-e",
+      "category": "stage",
+      "nameDE": "Bühne E",
+      "nameEN": "Stage E",
+      "point": {
+        "x": 0.281109,
+        "y": 0.616525
+      },
+      "reference": "E",
+      "stageID": 5,
+      "coordinate": {
+        "latitude": 48.89992,
+        "longitude": 9.20162,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-f",
+      "category": "stage",
+      "nameDE": "Bühne F",
+      "nameEN": "Stage F",
+      "point": {
+        "x": 0.374813,
+        "y": 0.597987
+      },
+      "reference": "F",
+      "stageID": 6,
+      "coordinate": {
+        "latitude": 48.9002,
+        "longitude": 9.2004,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-g",
+      "category": "stage",
+      "nameDE": "Bühne G",
+      "nameEN": "Stage G",
+      "point": {
+        "x": 0.516492,
+        "y": 0.551377
+      },
+      "reference": "G",
+      "stageID": 7,
+      "coordinate": {
+        "latitude": 48.90085,
+        "longitude": 9.1984,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-h",
+      "category": "stage",
+      "nameDE": "Bühne H",
+      "nameEN": "Stage H",
+      "point": {
+        "x": 0.592954,
+        "y": 0.684852
+      },
+      "reference": "H",
+      "stageID": 8,
+      "coordinate": {
+        "latitude": 48.9021,
+        "longitude": 9.1999,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-i",
+      "category": "stage",
+      "nameDE": "Bühne I",
+      "nameEN": "Stage I",
+      "point": {
+        "x": 0.662669,
+        "y": 0.598517
+      },
+      "reference": "I",
+      "stageID": 10,
+      "coordinate": {
+        "latitude": 48.902,
+        "longitude": 9.1971,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-k",
+      "category": "stage",
+      "nameDE": "Bühne K",
+      "nameEN": "Stage K",
+      "point": {
+        "x": 0.736132,
+        "y": 0.509004
+      },
+      "reference": "K",
+      "stageID": 11,
+      "coordinate": {
+        "latitude": 48.90155,
+        "longitude": 9.19564,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "stage-m",
+      "category": "stage",
+      "nameDE": "Bühne M",
+      "nameEN": "Stage M",
+      "point": {
+        "x": 0.434783,
+        "y": 0.489936
+      },
+      "reference": "M",
+      "stageID": 2,
+      "coordinate": {
+        "latitude": 48.8997,
+        "longitude": 9.19837,
+        "isApproximate": true
+      },
+      "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "entrance-main",
+      "category": "entrance",
+      "nameDE": "Haupteingang",
+      "nameEN": "Main entrance",
+      "point": {
+        "x": 0.296102,
+        "y": 0.175847
+      },
+      "reference": "1",
+      "coordinate": {
+        "latitude": 48.8964,
+        "longitude": 9.19617,
+        "isApproximate": true
+      },
+      "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "entrance-moempelgard",
+      "category": "entrance",
+      "nameDE": "Eingang Mömpelgardstraße",
+      "nameEN": "Mömpelgardstraße entrance",
+      "point": {
+        "x": 0.4003,
+        "y": 0.397775
+      },
+      "reference": "2",
+      "coordinate": {
+        "latitude": 48.89874,
+        "longitude": 9.19763,
+        "isApproximate": true
+      },
+      "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "entrance-marbach",
+      "category": "entrance",
+      "nameDE": "Eingang Marbacher Straße",
+      "nameEN": "Marbacher Straße entrance",
+      "point": {
+        "x": 0.743628,
+        "y": 0.572034
+      },
+      "reference": "3",
+      "coordinate": {
+        "latitude": 48.90228,
+        "longitude": 9.19665,
+        "isApproximate": true
+      },
+      "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "entrance-kaffeeberg",
+      "category": "entrance",
+      "nameDE": "Eingang Kaffeeberg",
+      "nameEN": "Kaffeeberg entrance",
+      "point": {
+        "x": 0.588456,
+        "y": 0.28178
+      },
+      "reference": "4",
+      "coordinate": {
+        "latitude": 48.89886,
+        "longitude": 9.19443,
+        "isApproximate": true
+      },
+      "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "entrance-fairytale",
+      "category": "entrance",
+      "nameDE": "Eingang Märchengarten",
+      "nameEN": "Fairy-tale garden entrance",
+      "point": {
+        "x": 0.584708,
+        "y": 0.636653
+      },
+      "reference": "6",
+      "coordinate": {
+        "latitude": 48.90175,
+        "longitude": 9.19865,
+        "isApproximate": true
+      },
+      "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "entrance-courtyard",
+      "category": "entrance",
+      "nameDE": "Eingang Hinterer Schlosshof",
+      "nameEN": "Rear palace courtyard entrance",
+      "point": {
+        "x": 0.497751,
+        "y": 0.458686
+      },
+      "reference": "8",
+      "coordinate": {
+        "latitude": 48.89982,
+        "longitude": 9.19746,
+        "isApproximate": true
+      },
+      "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "entrance-parkcafe",
+      "category": "entrance",
+      "nameDE": "Eingang Parkcafé",
+      "nameEN": "Parkcafé entrance",
+      "point": {
+        "x": 0.172414,
+        "y": 0.558263
+      },
+      "reference": "9",
+      "coordinate": {
+        "latitude": 48.8997,
+        "longitude": 9.20193,
+        "isApproximate": true
+      },
+      "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+      "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+    },
+    {
+      "id": "food-parkcafe",
+      "category": "food",
+      "nameDE": "Restaurant Parkcafé",
+      "nameEN": "Parkcafé restaurant",
+      "point": {
+        "x": 0.215142,
+        "y": 0.595339
+      },
+      "reference": "7",
+      "coordinate": {
+        "latitude": 48.89962,
+        "longitude": 9.202,
+        "isApproximate": true
+      },
+      "noteDE": "Laut Plansymbolen internationale und vegetarische Gerichte.",
+      "noteEN": "The plan indicates international and vegetarian food."
+    },
+    {
+      "id": "food-rose",
+      "category": "food",
+      "nameDE": "Café am Rosengarten und Cool-Down-Area",
+      "nameEN": "Café am Rosengarten and cool-down area",
+      "point": {
+        "x": 0.693403,
+        "y": 0.621292
+      },
+      "reference": "5",
+      "coordinate": {
+        "latitude": 48.90229,
+        "longitude": 9.19702,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "food-beer",
+      "category": "food",
+      "nameDE": "Biergarten",
+      "nameEN": "Beer garden",
+      "point": {
+        "x": 0.453523,
+        "y": 0.423729
+      },
+      "coordinate": {
+        "latitude": 48.89926,
+        "longitude": 9.19745,
+        "isApproximate": true
+      },
+      "noteDE": "Internationale Gerichte laut Plansymbol.",
+      "noteEN": "International food according to the plan symbol."
+    },
+    {
+      "id": "food-bistro",
+      "category": "food",
+      "nameDE": "Bistro",
+      "nameEN": "Bistro",
+      "point": {
+        "x": 0.54048,
+        "y": 0.370763
+      },
+      "coordinate": {
+        "latitude": 48.89933,
+        "longitude": 9.19598,
+        "isApproximate": true
+      },
+      "noteDE": "Laut Plansymbolen internationale und vegetarische Gerichte.",
+      "noteEN": "The plan indicates international and vegetarian food."
+    },
+    {
+      "id": "food-drinks",
+      "category": "food",
+      "nameDE": "Getränke",
+      "nameEN": "Drinks",
+      "point": {
+        "x": 0.697901,
+        "y": 0.551907
+      },
+      "coordinate": {
+        "latitude": 48.90183,
+        "longitude": 9.1968,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "food-fairytale",
+      "category": "food",
+      "nameDE": "Märchenimbiss",
+      "nameEN": "Fairy-tale garden snack bar",
+      "point": {
+        "x": 0.513493,
+        "y": 0.677966
+      },
+      "coordinate": {
+        "latitude": 48.90202,
+        "longitude": 9.20011,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "parking-baerenwiese",
+      "category": "parking",
+      "nameDE": "Parkplatz Bärenwiese",
+      "nameEN": "Bärenwiese car park",
+      "noteDE": "P03/P04 Bärenwiese West und Ost. Ungefähres gemeinsames Anfahrtsziel des Betreibers; im Lageplan nur als Richtungsverweis.",
+      "noteEN": "P03/P04 Bärenwiese West and East. Approximate shared arrival point provided by the operator; the site plan only shows a directional reference.",
+      "coordinate": {
+        "latitude": 48.89375,
+        "longitude": 9.19708,
+        "isApproximate": true,
+        "sourceURL": "https://www.swlb.de/baerenwiese"
+      }
+    },
+    {
+      "id": "parking-rathaus",
+      "category": "parking",
+      "nameDE": "Parkhaus Rathaus / Mathilde",
+      "nameEN": "Rathaus / Mathilde parking garage",
+      "noteDE": "Im Lageplan kombinierter Richtungsverweis „Rathaus / Mathilde“. Nicht eindeutig als ein einzelner aktueller Parkplatz bestätigt.",
+      "noteEN": "The site plan combines “Rathaus / Mathilde” in one directional reference. Not confirmed as a single current parking location."
+    },
+    {
+      "id": "parking-marstall",
+      "category": "parking",
+      "nameDE": "Parkhaus MARSTALL",
+      "nameEN": "MARSTALL parking garage",
+      "noteDE": "Außerhalb des Geländes; im Plan nur als Richtungsverweis eingezeichnet.",
+      "noteEN": "Outside the grounds; the plan only shows a directional reference.",
+      "coordinate": {
+        "latitude": 48.89964,
+        "longitude": 9.19028,
+        "isApproximate": true,
+        "sourceURL": "https://www.openstreetmap.org/node/1517558296"
+      }
+    },
+    {
+      "id": "parking-buses",
+      "category": "parking",
+      "nameDE": "Busparkplätze",
+      "nameEN": "Coach parking",
+      "point": {
+        "x": 0.651424,
+        "y": 0.368644
+      },
+      "coordinate": {
+        "latitude": 48.89994,
+        "longitude": 9.19486,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "toilets-moempelgard",
+      "category": "toilets",
+      "nameDE": "Toiletten am Eingang Mömpelgardstraße",
+      "nameEN": "Toilets at the Mömpelgardstraße entrance",
+      "point": {
+        "x": 0.388306,
+        "y": 0.37553
+      },
+      "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+      "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+      "coordinate": {
+        "latitude": 48.89838,
+        "longitude": 9.19755,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "toilets-courtyard",
+      "category": "toilets",
+      "nameDE": "Toiletten am Walk of Fame",
+      "nameEN": "Toilets at the Walk of Fame",
+      "point": {
+        "x": 0.49925,
+        "y": 0.495233
+      },
+      "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+      "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+      "coordinate": {
+        "latitude": 48.90012,
+        "longitude": 9.19785,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "toilets-parkcafe",
+      "category": "toilets",
+      "nameDE": "Toiletten am Parkcafé",
+      "nameEN": "Toilets at Parkcafé",
+      "point": {
+        "x": 0.215142,
+        "y": 0.603814
+      },
+      "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+      "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+      "coordinate": {
+        "latitude": 48.89966,
+        "longitude": 9.20217,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "toilets-rose",
+      "category": "toilets",
+      "nameDE": "Toiletten nahe dem Rosengarten",
+      "nameEN": "Toilets near the rose garden",
+      "point": {
+        "x": 0.715892,
+        "y": 0.57839
+      },
+      "noteDE": "Im Lageplan als normale Toiletten gekennzeichnet; Barrierefreiheit und Wickelmöglichkeit sind hier nicht ausgewiesen.",
+      "noteEN": "Marked as standard toilets on the site plan; accessibility and baby-changing facilities are not indicated here.",
+      "coordinate": {
+        "latitude": 48.90231,
+        "longitude": 9.19712,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "toilets-fairytale-entry",
+      "category": "toilets",
+      "nameDE": "Toiletten am Eingang Märchengarten",
+      "nameEN": "Toilets at the fairy-tale garden entrance",
+      "point": {
+        "x": 0.603448,
+        "y": 0.629237
+      },
+      "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+      "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+      "coordinate": {
+        "latitude": 48.90181,
+        "longitude": 9.19841,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "toilets-fairytale-snack",
+      "category": "toilets",
+      "nameDE": "Toiletten am Märchenimbiss",
+      "nameEN": "Toilets at the fairy-tale garden snack bar",
+      "point": {
+        "x": 0.554723,
+        "y": 0.706568
+      },
+      "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+      "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+      "coordinate": {
+        "latitude": 48.90236,
+        "longitude": 9.19964,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "first-aid",
+      "category": "firstAid",
+      "nameDE": "DRK / Erste Hilfe",
+      "nameEN": "Red Cross / first aid",
+      "point": {
+        "x": 0.356822,
+        "y": 0.361758
+      },
+      "coordinate": {
+        "latitude": 48.8983,
+        "longitude": 9.19769,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "service-lounge",
+      "category": "service",
+      "nameDE": "Sparda Giro Lounge",
+      "nameEN": "Sparda Giro Lounge",
+      "point": {
+        "x": 0.553973,
+        "y": 0.60911
+      },
+      "coordinate": {
+        "latitude": 48.90134,
+        "longitude": 9.19868,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "service-exchange",
+      "category": "service",
+      "nameDE": "Sparda Hutgeld-Wechselstube",
+      "nameEN": "Sparda tip-money exchange",
+      "point": {
+        "x": 0.503748,
+        "y": 0.389301
+      },
+      "coordinate": {
+        "latitude": 48.89927,
+        "longitude": 9.19655,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "service-mobile",
+      "category": "service",
+      "nameDE": "Sparda-Mobil",
+      "nameEN": "Sparda mobile stand",
+      "point": {
+        "x": 0.532234,
+        "y": 0.389301
+      },
+      "coordinate": {
+        "latitude": 48.89944,
+        "longitude": 9.19628,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "service-walk",
+      "category": "service",
+      "nameDE": "Walk of Fame, Cocktailbar und Imbiss",
+      "nameEN": "Walk of Fame, cocktail bar and snack stand",
+      "point": {
+        "x": 0.49925,
+        "y": 0.477225
+      },
+      "coordinate": {
+        "latitude": 48.89998,
+        "longitude": 9.19765,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "activity-performers-south",
+      "category": "activity",
+      "nameDE": "Gaukler:innen und Artist:innen im Südgarten",
+      "nameEN": "Street performers in the south garden",
+      "point": {
+        "x": 0.452024,
+        "y": 0.258475
+      },
+      "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+      "noteEN": "Saturday and Sunday, noon–6 pm.",
+      "coordinate": {
+        "latitude": 48.89782,
+        "longitude": 9.19552,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "activity-performers-north",
+      "category": "activity",
+      "nameDE": "Gaukler:innen und Artist:innen am Schloss",
+      "nameEN": "Street performers by the palace",
+      "point": {
+        "x": 0.652174,
+        "y": 0.509534
+      },
+      "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+      "noteEN": "Saturday and Sunday, noon–6 pm.",
+      "coordinate": {
+        "latitude": 48.90114,
+        "longitude": 9.1966,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "activity-performers-rose",
+      "category": "activity",
+      "nameDE": "Gaukler:innen und Artist:innen beim Rosengarten",
+      "nameEN": "Street performers near the rose garden",
+      "point": {
+        "x": 0.649175,
+        "y": 0.575742
+      },
+      "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+      "noteEN": "Saturday and Sunday, noon–6 pm.",
+      "coordinate": {
+        "latitude": 48.90167,
+        "longitude": 9.19709,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "activity-performers-fairytale",
+      "category": "activity",
+      "nameDE": "Gaukler:innen und Artist:innen beim Märchengarten",
+      "nameEN": "Street performers near the fairy-tale garden",
+      "point": {
+        "x": 0.604948,
+        "y": 0.648835
+      },
+      "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+      "noteEN": "Saturday and Sunday, noon–6 pm.",
+      "coordinate": {
+        "latitude": 48.90192,
+        "longitude": 9.19883,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "activity-gym",
+      "category": "activity",
+      "nameDE": "Rollende Kinderturn-Welt",
+      "nameEN": "Mobile children’s gymnastics activities",
+      "point": {
+        "x": 0.237631,
+        "y": 0.579449
+      },
+      "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+      "noteEN": "Saturday and Sunday, noon–6 pm.",
+      "coordinate": {
+        "latitude": 48.89976,
+        "longitude": 9.20155,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "activity-circus",
+      "category": "activity",
+      "nameDE": "Mitmachzirkus",
+      "nameEN": "Participatory circus",
+      "point": {
+        "x": 0.336582,
+        "y": 0.592691
+      },
+      "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+      "noteEN": "Saturday and Sunday, noon–6 pm.",
+      "coordinate": {
+        "latitude": 48.90002,
+        "longitude": 9.20072,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "activity-face-painting",
+      "category": "activity",
+      "nameDE": "Kinderschminken",
+      "nameEN": "Face painting",
+      "noteDE": "Samstag und Sonntag 13–18 Uhr. Nur in der Legende genannt; kein eindeutiger Standort eingezeichnet.",
+      "noteEN": "Saturday and Sunday, 1–6 pm. Listed in the legend without a distinct location."
+    },
+    {
+      "id": "activity-photo",
+      "category": "activity",
+      "nameDE": "Fotobox",
+      "nameEN": "Photo booth",
+      "noteDE": "Samstag und Sonntag 13–20 Uhr. Nur in der Legende genannt; kein eindeutiger Standort eingezeichnet.",
+      "noteEN": "Saturday and Sunday, 1–8 pm. Listed in the legend without a distinct location."
+    },
+    {
+      "id": "food-catering-parkcafe",
+      "category": "food",
+      "nameDE": "Verpflegungsstand",
+      "nameEN": "Catering stand",
+      "point": {
+        "x": 0.293853,
+        "y": 0.581568
+      },
+      "noteDE": "Getränke und internationale Gerichte; vegetarisches Angebot laut Plansymbol.",
+      "noteEN": "Drinks and international food; vegetarian options indicated by the plan.",
+      "coordinate": {
+        "latitude": 48.89977,
+        "longitude": 9.20102,
+        "isApproximate": true
+      }
+    },
+    {
+      "id": "food-catering-rose",
+      "category": "food",
+      "nameDE": "Verpflegungsstand",
+      "nameEN": "Catering stand",
+      "point": {
+        "x": 0.7009,
+        "y": 0.579979
+      },
+      "noteDE": "Getränke und internationale Gerichte; vegetarisches Angebot laut Plansymbol.",
+      "noteEN": "Drinks and international food; vegetarian options indicated by the plan.",
+      "coordinate": {
+        "latitude": 48.90201,
+        "longitude": 9.19698,
+        "isApproximate": true
+      }
+    }
+  ],
+  "coordinateSourceURL": "https://www.openstreetmap.org/copyright",
+  "coordinateLicense": "ODbL-1.0",
+  "coordinateMethod": "Local landmark alignment against OpenStreetMap, manually reviewed. Approximate positions, not surveyed festival coordinates.",
+  "sourceCropBox": {
+    "x": 62,
+    "y": 85,
+    "width": 486,
+    "height": 575
+  },
+  "sourceClipPolygon": [
+    [
+      225,
+      85
+    ],
+    [
+      520,
+      412
+    ],
+    [
+      548,
+      497
+    ],
+    [
+      545,
+      514
+    ],
+    [
+      488,
+      625
+    ],
+    [
+      279,
+      660
+    ],
+    [
+      252,
+      575
+    ],
+    [
+      161,
+      583
+    ],
+    [
+      62,
+      553
+    ],
+    [
+      65,
+      523
+    ],
+    [
+      94,
+      517
+    ],
+    [
+      90,
+      461
+    ],
+    [
+      175,
+      453
+    ],
+    [
+      175,
+      442
+    ],
+    [
+      254,
+      382
+    ],
+    [
+      195,
+      369
+    ],
+    [
+      195,
+      349
+    ],
+    [
+      90,
+      217
+    ]
+  ]
+}

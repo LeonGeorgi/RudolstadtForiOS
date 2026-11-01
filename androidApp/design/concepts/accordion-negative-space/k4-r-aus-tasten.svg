@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 108 108">
+  <title>K4 · R aus Tasten</title>
+  <defs>
+    <mask id="k4-r-aus-tasten-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="108" height="108" style="mask-type:luminance">
+      <g transform="translate(54 54) scale(0.8388034) translate(-53.50000 -53.37500)">
+        <g>
+          <path d="M46,37 L51,34 L57,37 L63,33 L69,35 V70 L63,74 L57,71 L51,75 L46,72Z" fill="#FFFFFF" />
+          <path d="M71,33 Q71,30 74,29 L79,28 Q82,27 82,31 V67 Q82,70 79,71 L74,72 Q71,73 71,69Z" fill="#FFFFFF" />
+          <path d="M25,79 V35 Q25,32 28,31 L36,29 Q46,27 46,39 V44 Q46,51 39,54 L47,74 L39,76 L32,58 V77Z M32,39 V49 L36,48 Q40,47 40,42 Q40,37 36,38Z" fill="#FFFFFF" fill-rule="evenodd" />
+          <path d="M24,45 L45,40 M24,57 L43,52 M24,69 L43,65" fill="none" stroke="#000000" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M51,34 V75 M63,33 V74" fill="none" stroke="#000000" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="76.5" cy="40" r="1.8" fill="#000000" />
+          <circle cx="76.5" cy="50" r="1.8" fill="#000000" />
+          <circle cx="76.5" cy="60" r="1.8" fill="#000000" />
+        </g>
+      </g>
+    </mask>
+  </defs>
+  <rect id="background" width="108" height="108" fill="#782C74" />
+  <g id="artwork">
+    <g mask="url(#k4-r-aus-tasten-mask)">
+      <g transform="translate(54 54) scale(0.8388034) translate(-53.50000 -53.37500)">
+        <g>
+          <path d="M46,37 L51,34 L57,37 L63,33 L69,35 V70 L63,74 L57,71 L51,75 L46,72Z" fill="#F1B779" />
+          <path d="M71,33 Q71,30 74,29 L79,28 Q82,27 82,31 V67 Q82,70 79,71 L74,72 Q71,73 71,69Z" fill="#FFF5E9" />
+          <path d="M25,79 V35 Q25,32 28,31 L36,29 Q46,27 46,39 V44 Q46,51 39,54 L47,74 L39,76 L32,58 V77Z M32,39 V49 L36,48 Q40,47 40,42 Q40,37 36,38Z" fill="#FFF5E9" fill-rule="evenodd" />
+          <path d="M24,45 L45,40 M24,57 L43,52 M24,69 L43,65" fill="none" stroke="#782C74" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M51,34 V75 M63,33 V74" fill="none" stroke="#782C74" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="76.5" cy="40" r="1.8" fill="#782C74" />
+          <circle cx="76.5" cy="50" r="1.8" fill="#782C74" />
+          <circle cx="76.5" cy="60" r="1.8" fill="#782C74" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

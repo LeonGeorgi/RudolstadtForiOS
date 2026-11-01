@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 108 108">
+  <title>R als Band</title>
+  <desc>Android-Icon-Entwurf. Die Außenform wird vom Launcher bestimmt.</desc>
+  <rect id="background" width="108" height="108" fill="#782C74" />
+  <g id="artwork">
+    <path d="M34,80 L34,34 Q34,30 38,29 L54,25 Q74,21 74,41 Q74,53 63,59 L77,75 L63,78 L49,62 L46,63 L46,77 Z M46,40 L46,51 L54,49 Q62,47 62,42 Q62,36 55,38 Z" fill="#FFFFFF" fill-rule="evenodd" />
+  </g>
+</svg>

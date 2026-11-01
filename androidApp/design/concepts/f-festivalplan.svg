@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 108 108">
+  <title>Festivalplan</title>
+  <desc>Android-Icon-Entwurf. Die Außenform wird vom Launcher bestimmt.</desc>
+  <rect id="background" width="108" height="108" fill="#782C74" />
+  <g id="artwork" transform="translate(54 54) scale(.86) translate(-54 -54)">
+    <path d="M28,35 L45,29 L62,35 L79,29 L79,73 L62,80 L45,74 L28,81 Z" fill="#FFFFFF" fill-rule="evenodd" />
+    <path d="M45,29 V74 M62,35 V80" fill="none" stroke="#782C74" stroke-width="2.5" />
+    <path d="M36,65 L52,51 L69,55" fill="none" stroke="#F1B779" stroke-width="4.3" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="69" cy="55" r="4.5" fill="#F1B779" />
+  </g>
+</svg>

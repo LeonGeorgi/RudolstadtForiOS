@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="700" viewBox="0 0 1280 700"><rect width="1280" height="700" fill="#F4F1F5" /><text x="80" y="65" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="29" font-weight="600" fill="#2D2432">H4 · bisher</text><text x="720" y="65" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="29" font-weight="600" fill="#2D2432">H4a · überarbeitet</text><svg width="500" height="500" viewBox="18 18 72 72" x="70" y="110">
+  <title>H4 · Aufgezogen</title>
+  <defs>
+    <mask id="h4-aufgezogen-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="108" height="108" style="mask-type:luminance">
+      <g transform="translate(54 54) scale(0.9097368) translate(-54.50000 -53.25000)">
+        <g>
+          <path d="M26,43 Q25,40 28,38 L34,34 Q37,32 38,36 L47,69 Q48,72 45,74 L39,78 Q36,80 35,76Z" fill="#FFFFFF" />
+          <path d="M39,39 L45,35 L50,38 L56,32 L61,35 L68,30 L67,67 L61,73 L55,69 L50,76 L45,72 L48,69Z" fill="#FFFFFF" />
+          <path d="M71,30 Q72,27 75,28 L81,31 Q84,32 83,36 L75,69 Q74,72 71,71 L65,68 Q62,67 63,64Z" fill="#FFFFFF" />
+          <path d="M46,42 L51,67 M57,39 L57,65" fill="none" stroke="#000000" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M31,45 L33,50 M35,58 L36,63 M38,70 L39,73" fill="none" stroke="#000000" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="76" cy="40" r="1.8" fill="#000000" />
+          <circle cx="73.5" cy="50" r="1.8" fill="#000000" />
+          <circle cx="71" cy="60" r="1.8" fill="#000000" />
+        </g>
+      </g>
+    </mask>
+  </defs>
+  <rect id="background" width="108" height="108" fill="#782C74" />
+  <g id="artwork">
+    <g mask="url(#h4-aufgezogen-mask)">
+      <g transform="translate(54 54) scale(0.9097368) translate(-54.50000 -53.25000)">
+        <g>
+          <path d="M26,43 Q25,40 28,38 L34,34 Q37,32 38,36 L47,69 Q48,72 45,74 L39,78 Q36,80 35,76Z" fill="#FFF5E9" />
+          <path d="M39,39 L45,35 L50,38 L56,32 L61,35 L68,30 L67,67 L61,73 L55,69 L50,76 L45,72 L48,69Z" fill="#F1B779" />
+          <path d="M71,30 Q72,27 75,28 L81,31 Q84,32 83,36 L75,69 Q74,72 71,71 L65,68 Q62,67 63,64Z" fill="#FFF5E9" />
+          <path d="M46,42 L51,67 M57,39 L57,65" fill="none" stroke="#782C74" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M31,45 L33,50 M35,58 L36,63 M38,70 L39,73" fill="none" stroke="#782C74" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="76" cy="40" r="1.8" fill="#782C74" />
+          <circle cx="73.5" cy="50" r="1.8" fill="#782C74" />
+          <circle cx="71" cy="60" r="1.8" fill="#782C74" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg><svg width="500" height="500" viewBox="18 18 72 72" x="710" y="110"><defs><mask id="detail-refined-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="108" height="108" style="mask-type:luminance"><g transform="translate(54 54) scale(0.8551930) translate(-53.50000 -53.12500)"><g><path d="M34.18277,36.07598 L40.61476,32.74879 L47.04676,34.42160 L53.47875,31.09441 L59.91075,32.76723 L66.34275,29.44004 L72.77474,31.11285 L63.58171,67.98409 L60.53357,71.22267 L57.48544,69.46124 L54.43730,72.69982 L51.38916,70.93840 L48.34103,74.17698 L45.29289,72.41556 Z" fill="#FFFFFF" /><g transform="translate(34 56) rotate(-17)"><path d="M6,-22 H-3 Q-6,-22 -6,-19 V19 Q-6,22 -3,22 H6Z" fill="#FFFFFF" /><path d="M0,-12 V-8 M0,-2 V2 M0,8 V12" fill="none" stroke="#000000" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" /></g><g transform="translate(74 51) rotate(14)"><path d="M-6,-22 H3 Q6,-22 6,-19 V19 Q6,22 3,22 H-6Z" fill="#FFFFFF" /><circle cx="0" cy="-11" r="1.8" fill="#000000" /><circle cx="0" cy="0" r="1.8" fill="#000000" /><circle cx="0" cy="11" r="1.8" fill="#000000" /></g><path d="M47.63717,39.38662 L50.79875,65.97338" fill="none" stroke="#000000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /><path d="M59.58099,37.75634 L57.81520,64.47213" fill="none" stroke="#000000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></g></g></mask></defs><rect id="background" width="108" height="108" fill="#782C74" /><g id="artwork"><g mask="url(#detail-refined-mask)"><g transform="translate(54 54) scale(0.8551930) translate(-53.50000 -53.12500)"><g><path d="M34.18277,36.07598 L40.61476,32.74879 L47.04676,34.42160 L53.47875,31.09441 L59.91075,32.76723 L66.34275,29.44004 L72.77474,31.11285 L63.58171,67.98409 L60.53357,71.22267 L57.48544,69.46124 L54.43730,72.69982 L51.38916,70.93840 L48.34103,74.17698 L45.29289,72.41556 Z" fill="#F1B779" /><g transform="translate(34 56) rotate(-17)"><path d="M6,-22 H-3 Q-6,-22 -6,-19 V19 Q-6,22 -3,22 H6Z" fill="#FFF5E9" /><path d="M0,-12 V-8 M0,-2 V2 M0,8 V12" fill="none" stroke="#782C74" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" /></g><g transform="translate(74 51) rotate(14)"><path d="M-6,-22 H3 Q6,-22 6,-19 V19 Q6,22 3,22 H-6Z" fill="#FFF5E9" /><circle cx="0" cy="-11" r="1.8" fill="#782C74" /><circle cx="0" cy="0" r="1.8" fill="#782C74" /><circle cx="0" cy="11" r="1.8" fill="#782C74" /></g><path d="M47.63717,39.38662 L50.79875,65.97338" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /><path d="M59.58099,37.75634 L57.81520,64.47213" fill="none" stroke="#782C74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></g></g></g></g></svg><text x="80" y="660" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" fill="#786B7D">Freihändig gesetzte Teile und Details</text><text x="720" y="660" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" fill="#786B7D">Aus gemeinsamen Kanten konstruierte Form</text></svg>

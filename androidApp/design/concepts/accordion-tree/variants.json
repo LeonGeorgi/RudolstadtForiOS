@@ -1,0 +1,93 @@
+[
+  {
+    "button" : 1.8,
+    "id" : "0",
+    "key" : 4.2000000000000002,
+    "leftAngle" : -17,
+    "leftY" : 56,
+    "parent" : "",
+    "rightAngle" : 14,
+    "rightY" : 51,
+    "seam" : 2.7999999999999998,
+    "slot" : 3,
+    "title" : "Ausgangspunkt"
+  },
+  {
+    "button" : 1.8,
+    "id" : "A",
+    "key" : 4.2000000000000002,
+    "leftAngle" : -10,
+    "leftY" : 54,
+    "parent" : "0",
+    "rightAngle" : 10,
+    "rightY" : 54,
+    "seam" : 2.7999999999999998,
+    "slot" : 3,
+    "title" : "Ruhiger"
+  },
+  {
+    "button" : 1.8,
+    "id" : "B",
+    "key" : 4.2000000000000002,
+    "leftAngle" : -22,
+    "leftY" : 56,
+    "parent" : "0",
+    "rightAngle" : 19,
+    "rightY" : 51,
+    "seam" : 2.7999999999999998,
+    "slot" : 3,
+    "title" : "Bewegter"
+  },
+  {
+    "button" : 1.55,
+    "id" : "A1",
+    "key" : 3.6000000000000001,
+    "leftAngle" : -10,
+    "leftY" : 54,
+    "parent" : "A",
+    "rightAngle" : 10,
+    "rightY" : 54,
+    "seam" : 2.2000000000000002,
+    "slot" : 2.5,
+    "title" : "Ruhiger · fein"
+  },
+  {
+    "button" : 2.1000000000000001,
+    "id" : "A2",
+    "key" : 4.8499999999999996,
+    "leftAngle" : -10,
+    "leftY" : 54,
+    "parent" : "A",
+    "rightAngle" : 10,
+    "rightY" : 54,
+    "seam" : 3.3500000000000001,
+    "slot" : 3.6000000000000001,
+    "title" : "Ruhiger · kräftig"
+  },
+  {
+    "button" : 1.55,
+    "id" : "B1",
+    "key" : 3.6000000000000001,
+    "leftAngle" : -22,
+    "leftY" : 56,
+    "parent" : "B",
+    "rightAngle" : 19,
+    "rightY" : 51,
+    "seam" : 2.2000000000000002,
+    "slot" : 2.5,
+    "title" : "Bewegter · fein"
+  },
+  {
+    "button" : 2.1000000000000001,
+    "id" : "B2",
+    "key" : 4.8499999999999996,
+    "leftAngle" : -22,
+    "leftY" : 56,
+    "parent" : "B",
+    "rightAngle" : 19,
+    "rightY" : 51,
+    "seam" : 3.3500000000000001,
+    "slot" : 3.6000000000000001,
+    "title" : "Bewegter · kräftig"
+  }
+]

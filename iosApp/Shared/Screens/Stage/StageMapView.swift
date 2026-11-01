@@ -1,0 +1,204 @@
+import Foundation
+import MapKit
+import SwiftUI
+
+struct StageMapView: UIViewRepresentable {
+    @Environment(\.festivalData) private var data
+    let stage: Stage
+    let isInteractive: Bool
+    let recenterTrigger: Int
+    let verticalContentOffset: CGFloat
+
+    init(
+        stage: Stage,
+        isInteractive: Bool = false,
+        recenterTrigger: Int = 0,
+        verticalContentOffset: CGFloat = 0
+    ) {
+        self.stage = stage
+        self.isInteractive = isInteractive
+        self.recenterTrigger = recenterTrigger
+        self.verticalContentOffset = verticalContentOffset
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(
+            highlightedPlaceID: stage.id,
+            performancePlaceIDs: Set(data.events.map { $0.stage.id }))
+    }
+
+    func makeUIView(context: Context) -> MKMapView {
+        let view = MKMapView()
+        view.delegate = context.coordinator
+        let annotation = FestivalMapAnnotation(stage: stage)
+        let otherAnnotations = data.stages
+            .filter { $0.hasLocation && $0.id != stage.id }
+            .map { FestivalMapAnnotation(stage: $0) }
+        view.addAnnotations(otherAnnotations + [annotation])
+
+        view.setRegion(initialRegion, animated: false)
+        view.selectAnnotation(annotation, animated: false)
+        view.isZoomEnabled = isInteractive
+        view.isScrollEnabled = isInteractive
+        view.isRotateEnabled = isInteractive
+        view.isPitchEnabled = isInteractive
+        view.isUserInteractionEnabled = isInteractive
+
+        view.pointOfInterestFilter = .excludingAll
+
+        if isInteractive {
+            view.showsCompass = true
+            view.showsScale = true
+            view.showsUserLocation = true
+
+            context.coordinator.locationManager.requestWhenInUseAuthorization()
+        }
+
+        return view
+    }
+
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        if !isInteractive {
+            guard context.coordinator.lastVerticalContentOffset != verticalContentOffset else {
+                return
+            }
+
+            context.coordinator.lastVerticalContentOffset = verticalContentOffset
+            uiView.setCenter(parallaxCenter(in: uiView), animated: false)
+            return
+        }
+
+        if context.coordinator.lastRecenterTrigger != recenterTrigger {
+            context.coordinator.lastRecenterTrigger = recenterTrigger
+            uiView.setUserTrackingMode(.follow, animated: true)
+        }
+    }
+
+    private func parallaxCenter(in mapView: MKMapView) -> CLLocationCoordinate2D {
+        guard mapView.bounds.height > 0 else {
+            return initialRegion.center
+        }
+
+        let latitudeOffset = initialRegion.span.latitudeDelta
+            * Double(verticalContentOffset / mapView.bounds.height)
+
+        return CLLocationCoordinate2D(
+            latitude: initialRegion.center.latitude + latitudeOffset,
+            longitude: initialRegion.center.longitude
+        )
+    }
+
+    private var initialRegion: MKCoordinateRegion {
+        let center = CLLocationCoordinate2D(
+            latitude: stage.latitude,
+            longitude: stage.longitude
+        )
+
+        if isInteractive {
+            return MKCoordinateRegion(
+                center: center,
+                latitudinalMeters: 700,
+                longitudinalMeters: 700
+            )
+        }
+
+        // Keep local context while clearly pinpointing the selected stage.
+        return MKCoordinateRegion(
+            center: center,
+            latitudinalMeters: 900,
+            longitudinalMeters: 900
+        )
+    }
+
+    static func openInMaps(stage: Stage) {
+        guard stage.hasLocation else { return }
+
+        let coordinates = CLLocationCoordinate2DMake(
+            stage.latitude,
+            stage.longitude
+        )
+        let placemark = MKPlacemark(
+            coordinate: coordinates,
+            addressDictionary: nil
+        )
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = stage.localizedName
+        mapItem.openInMaps(launchOptions: nil)
+    }
+}
+
+extension StageMapView {
+    final class Coordinator: NSObject, MKMapViewDelegate {
+        let highlightedPlaceID: FestivalPlaceID
+        let performancePlaceIDs: Set<FestivalPlaceID>
+
+        init(highlightedPlaceID: FestivalPlaceID, performancePlaceIDs: Set<FestivalPlaceID>) {
+            self.highlightedPlaceID = highlightedPlaceID
+            self.performancePlaceIDs = performancePlaceIDs
+        }
+
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            guard let place = annotation as? FestivalMapAnnotation else { return nil }
+            let marker = FestivalMapMarker.view(
+                for: place, in: mapView,
+                usesReferenceBadge: performancePlaceIDs.contains(place.stage.id)
+                    || place.stage.admissionCategory != nil)
+            // Keep MapKit's large programmatic selection while ignoring touches on every marker.
+            marker.isEnabled = place.stage.id == highlightedPlaceID
+            marker.isUserInteractionEnabled = false
+            marker.accessibilityTraits = .staticText
+            return marker
+        }
+
+        let locationManager = CLLocationManager()
+        var lastRecenterTrigger: Int = 0
+        var lastVerticalContentOffset: CGFloat = 0
+    }
+}
+
+#if DEBUG
+@MainActor
+private struct StageMapViewPreviewShowcase: View {
+    private var stages: [Stage] {
+        Array(PreviewMockData.festivalData.stages.prefix(2))
+    }
+
+    var body: some View {
+        VStack(spacing: 16) {
+            ForEach(stages) { stage in
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(stage.localizedName)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    StageMapView(stage: stage)
+                        .frame(height: 180)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+            }
+
+            if let interactiveStage = stages.first {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Interactive")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    StageMapView(stage: interactiveStage, isInteractive: true)
+                        .frame(height: 220)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+            }
+        }
+        .padding()
+    }
+}
+
+struct StageMapView_Previews: PreviewProvider {
+    @MainActor
+    static var previews: some View {
+        StageMapViewPreviewShowcase()
+            .previewMockEnvironment(suiteName: "StageMapViewPreview")
+            .previewLayout(.sizeThatFits)
+    }
+}
+#endif
