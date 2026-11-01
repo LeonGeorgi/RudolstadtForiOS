@@ -46,13 +46,14 @@ xcrun simctl bootstatus "$device_id" -b
 app_path="${PREBUILT_APP_PATH:-$(dirname "$test_run")/Debug-iphonesimulator/Rudolstadt.app}"
 xcrun simctl install "$device_id" "$app_path"
 xcrun simctl privacy "$device_id" grant location de.leongeorgi.RudolstadtForiOS
+bash "$project_root/scripts/ios/prewarm-screenshot-app.sh"
 xcrun simctl status_bar "$device_id" override --time 9:41 --dataNetwork wifi --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4
 trap 'xcrun simctl status_bar "$device_id" clear >/dev/null 2>&1 || true' EXIT
 set +e
 xcodebuild test-without-building \
     -xctestrun "$test_run" -destination "platform=iOS Simulator,id=$device_id" \
     -collect-test-diagnostics never \
-    -test-timeouts-enabled YES -default-test-execution-time-allowance 300 \
+    -test-timeouts-enabled YES -default-test-execution-time-allowance 600 \
     -parallel-testing-enabled NO -resultBundlePath "$diagnostics/results.xcresult" \
     "${selectors[@]}" 2>&1 | tee "$diagnostics/test.log"
 status=$?

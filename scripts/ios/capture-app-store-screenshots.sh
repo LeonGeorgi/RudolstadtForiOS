@@ -115,6 +115,7 @@ fi
 install_started_at="$(date +%s)"
 xcrun simctl install "$DEVICE_ID" "$app_path"
 xcrun simctl privacy "$DEVICE_ID" grant location "$BUNDLE_ID" 2>/dev/null || true
+bash "$PROJECT_ROOT/scripts/ios/prewarm-screenshot-app.sh"
 xcrun simctl status_bar "$DEVICE_ID" override \
   --time 09:41 \
   --batteryState charged \
