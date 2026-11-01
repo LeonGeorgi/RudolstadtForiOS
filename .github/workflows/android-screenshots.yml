@@ -63,7 +63,7 @@ jobs:
       matrix:
         include:
           - device: phone
-            profile: pixel_7a
+            profile: pixel_7_pro
           - device: tablet
             profile: pixel_tablet
     env:

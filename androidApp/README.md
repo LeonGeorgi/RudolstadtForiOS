@@ -221,7 +221,7 @@ x86_64-Abbild wählen. Der Emulator kann regulär über sein Fenster beendet wer
 ## Screenshots in GitHub Actions
 
 Der Workflow **Android Screenshots** baut die APK einmal und nimmt anschließend
-auf einem Pixel 7a und Pixel Tablet jeweils Deutsch und Englisch in Hell und Dunkel
+auf einem Pixel 7 Pro und Pixel Tablet jeweils Deutsch und Englisch in Hell und Dunkel
 auf. Er läuft manuell sowie bei Android-relevanten Pull Requests und Änderungen
 auf `master`. Pro Gerät gibt es ein Screenshot-Artefakt mit den Ordnern
 `de/light`, `de/dark`, `en/light` und `en/dark`: Zeitplan, Künstler, Orte und Mehr.
