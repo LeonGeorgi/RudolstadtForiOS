@@ -50,6 +50,7 @@ jobs:
             -configuration Debug \
             -destination "generic/platform=iOS Simulator" \
             -derivedDataPath "$DERIVED_DATA_PATH" \
+            ARCHS=arm64 \
             2>&1 | tee "${{ runner.temp }}/app-store-screenshot-build.log"
           echo "Build completed in $(( $(date +%s) - started_at ))s"
 

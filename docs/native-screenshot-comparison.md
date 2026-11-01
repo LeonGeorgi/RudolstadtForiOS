@@ -30,6 +30,9 @@ als Vergleichsbasis; der bisherige iOS-Publisher verwendet weiterhin 2.6.1.
 Der Vergleich lädt `report.json`, `summary.md`, `gallery.html`, Originalbilder und
 Diagnosen hoch, auch wenn ein Werkzeug scheitert. Er veröffentlicht die Ergebnisse
 nicht automatisch als README-Galerie.
+Als neuer manueller Workflow kann er über GitHub erst nach dem Merge in `master`
+gestartet werden. Die vorhandenen Screenshot-Workflows erlauben bereits auf dem
+PR-Branch den nativen Telefon-/Tablet-Test.
 
 Die Messung umfasst Installation, Geräteeinstellungen, Treiberstart, Navigation,
 Aufnahmen und Export. App-Build und Emulatorstart sind ausgeschlossen; die Geräte
@@ -40,6 +43,48 @@ Der Report prüft vollständige Dateisätze, PNG-Header, Auflösungen und Prüfs
 die HTML-Galerie dient zur visuellen Prüfung. Unterschiedliche Scroll-Gesten,
 Kartenkacheln und nachgeladene Bilder verhindern einen sinnvollen pauschalen
 Pixelgleichheits-Test. Zwei erfolgreiche Runden belegen keine langfristige Stabilität.
+
+## Lokale Messung vom 1. November 2026
+
+Android: Pixel-7a-Profil, API 36 / Google APIs ARM64, 1080 × 2400 Pixel,
+Maestro 2.12.0 gegen UI Automator 2.4.0. Zwei vollständige Runden mit identischem APK
+(SHA-256 `3dd5596bbc2f05c15efd2726667e6c8fdf941e18b121e7404697a61d7e99f343`).
+
+| Werkzeug | Runde 1 | Runde 2 | Median | Vollständige Sätze |
+| --- | ---: | ---: | ---: | ---: |
+| Maestro | 161,24 s | 120,24 s | 140,74 s | 2/2, je 16 PNGs |
+| UI Automator | 51,08 s | 58,83 s | 54,95 s | 2/2, je 16 PNGs |
+
+Das entspricht rund 61 % weniger Zeit für UI Automator. Alle 64 PNGs wurden zusätzlich
+mit Pillow dekodiert/geprüft. In Runde 1 sind 13/16 Paare pixelgleich; die übrigen drei
+Paare sind Kartenansichten. Die visuelle Gegenüberstellung zeigt bei beiden Werkzeugen
+geladene Karten und dieselben Hauptansichten in beiden Darstellungen.
+Auf diesem Entwicklungsrechner lief parallel eine iOS-Funktionsprüfung. Die Zahlen
+geben eine praktische Größenordnung an, keine isolierte Leistungs- oder CI-Kostenmessung.
+Geräte, Karten-/Bild-Caches und Runnerlast beeinflussen die Dauer.
+
+iOS: eigener iPhone-17-Simulator mit iOS 27.0, Xcode 27.1, 1206 × 2622 Pixel.
+Auf diesem Rechner war kein iOS-26-Runtime installiert; die CI-Matrix prüft separat
+iOS 26. Eine vollständige Runde mit beiden Sprachen und demselben signierten App-Build
+(SHA-256 der App-Binary `212d9a7968f72a7e27955566008f2830b07753a605740020541613e556bd55c9`).
+
+| Werkzeug | Zeit einschließlich Setup/Export | Vollständiger Satz |
+| --- | ---: | ---: |
+| Maestro 2.12.0 | 218,97 s | 14/14 PNGs |
+| XCTest | 195,15 s | 14/14 PNGs |
+
+Hier beträgt der gemessene Vorteil rund 11 %. Maestro lief zuerst; beide Werkzeuge
+profitierten bereits von Karten-/Bild-Caches aus der Funktionsprüfung. Mit nur einer
+Runde lässt sich der kleine Unterschied nicht sicher von Reihenfolge und Last trennen.
+Die Aufnahmen enthalten dieselben sieben Ansichten. Scrollpositionen und rotierende
+News-Texte können abweichen; es handelt sich nicht um Pixel-Baselines.
+
+Für Android ist UI Automator damit ein aussichtsreicher Standard: gleicher Bildsatz
+bei deutlich weniger Laufzeit und ohne zusätzlichen Maestro-Treiber. XCTest ist ein
+funktionsfähiger iOS-Ersatz mit direkten Assertions und nativen Diagnoseberichten;
+der kleinere gemessene Zeitvorteil rechtfertigt allein noch keine Stabilitätsaussage.
+Die Werkzeugauswahl bleibt bis zur Auswertung der CI-Matrix manuell möglich,
+Maestro bleibt in diesem PR die Voreinstellung.
 
 ## Lokal: Android
 
