@@ -77,3 +77,7 @@ Deutsch und Englisch in Hell und Dunkel auf. Der Workflow **Android Screenshots*
 baut einmal und verwendet die APK für Telefon und Tablet. Aufnahmen und Diagnosen
 werden als getrennte Artefakte hochgeladen. Details und lokale Aufrufe stehen im
 [Android-README](../androidApp/README.md#screenshots-in-github-actions).
+
+`prepare_readme_screenshots.py` prüft alle 32 Android-Aufnahmen, erstellt kleine
+Vorschaubilder und die Galerie. `publish-readme-screenshots.sh` aktualisiert danach
+den separaten Branch `screenshots`, dessen stabile Bildlinks die Haupt-README nutzt.

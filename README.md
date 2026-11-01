@@ -7,6 +7,65 @@ Die Android-App bietet Programm, Künstler, Karten, Nachrichten und lokale pers�
 mit Jetpack Compose und Material 3. CloudKit und Freunde bleiben auf Apple.
 Sie lässt sich ohne Android Studio auf einem lokalen Emulator ausführen.
 
+## Screenshots
+
+Zuletzt erfolgreich veröffentlichte Aufnahmen. Die Vorschaubilder öffnen die Originale in voller Auflösung.
+
+### iPhone
+
+<p align="center">
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/iphone/de/01-schedule.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/iphone/de/01-schedule.png" width="150" alt="Zeitplan auf dem iPhone"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/iphone/de/02-artists.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/iphone/de/02-artists.png" width="150" alt="Künstler auf dem iPhone"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/iphone/de/03-locations.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/iphone/de/03-locations.png" width="150" alt="Orte auf dem iPhone"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/iphone/de/04-artist-detail.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/iphone/de/04-artist-detail.png" width="150" alt="Künstlerdetails auf dem iPhone"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/iphone/de/05-friends.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/iphone/de/05-friends.png" width="150" alt="Freundesempfehlungen auf dem iPhone"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/iphone/de/06-artist-world-map.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/iphone/de/06-artist-world-map.png" width="150" alt="Künstler-Weltkarte auf dem iPhone"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/iphone/de/07-schedule-dark.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/iphone/de/07-schedule-dark.png" width="150" alt="Zeitplan im Dunkelmodus auf dem iPhone"></a>
+</p>
+
+### iPad
+
+<p align="center">
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/ipad/de/01-schedule.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/ipad/de/01-schedule.png" width="220" alt="Zeitplan auf dem iPad"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/ipad/de/02-artists.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/ipad/de/02-artists.png" width="220" alt="Künstler auf dem iPad"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/ipad/de/03-locations.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/ipad/de/03-locations.png" width="220" alt="Orte auf dem iPad"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/ipad/de/04-artist-detail.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/ipad/de/04-artist-detail.png" width="220" alt="Künstlerdetails auf dem iPad"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/ipad/de/05-friends.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/ipad/de/05-friends.png" width="220" alt="Freundesempfehlungen auf dem iPad"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/ipad/de/06-artist-world-map.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/ipad/de/06-artist-world-map.png" width="220" alt="Künstler-Weltkarte auf dem iPad"></a>
+  <a href="https://leongeorgi.github.io/RudolstadtForiOS/screenshots/ipad/de/07-schedule-dark.png"><img src="https://leongeorgi.github.io/RudolstadtForiOS/thumbnails/ipad/de/07-schedule-dark.png" width="220" alt="Zeitplan im Dunkelmodus auf dem iPad"></a>
+</p>
+
+[Alle iPhone-/iPad-Aufnahmen auf Deutsch und Englisch ansehen und herunterladen](https://leongeorgi.github.io/RudolstadtForiOS/)
+
+### Android-Telefon
+
+<p align="center">
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/phone/de/light/01-schedule.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/phone/de/light/01-schedule.png" width="150" alt="Zeitplan, Android-Telefon"></a>
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/phone/de/light/02-artists.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/phone/de/light/02-artists.png" width="150" alt="Künstler, Android-Telefon"></a>
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/phone/de/light/03-locations.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/phone/de/light/03-locations.png" width="150" alt="Orte, Android-Telefon"></a>
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/phone/de/light/04-more.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/phone/de/light/04-more.png" width="150" alt="Mehr, Android-Telefon"></a>
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/phone/de/dark/01-schedule.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/phone/de/dark/01-schedule.png" width="150" alt="Zeitplan im Dunkelmodus, Android-Telefon"></a>
+</p>
+
+### Android-Tablet
+
+<p align="center">
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/tablet/de/light/01-schedule.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/tablet/de/light/01-schedule.png" width="220" alt="Zeitplan, Android-Tablet"></a>
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/tablet/de/light/02-artists.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/tablet/de/light/02-artists.png" width="220" alt="Künstler, Android-Tablet"></a>
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/tablet/de/light/03-locations.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/tablet/de/light/03-locations.png" width="220" alt="Orte, Android-Tablet"></a>
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/tablet/de/light/04-more.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/tablet/de/light/04-more.png" width="220" alt="Mehr, Android-Tablet"></a>
+  <a href="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/screenshots/tablet/de/dark/01-schedule.png"><img src="https://raw.githubusercontent.com/LeonGeorgi/RudolstadtForiOS/screenshots/android/thumbnails/tablet/de/dark/01-schedule.png" width="220" alt="Zeitplan im Dunkelmodus, Android-Tablet"></a>
+</p>
+
+[Alle 32 Android-Aufnahmen auf Deutsch und Englisch in Hell und Dunkel ansehen](https://github.com/LeonGeorgi/RudolstadtForiOS/tree/screenshots)
+
+Die Apple-Aufnahmen werden durch den manuell gestarteten
+[App-Store-Screenshot-Workflow](.github/workflows/ios-screenshot-tests.yml) aktualisiert.
+[Android Screenshots](.github/workflows/android-screenshots.yml) aktualisiert die
+Android-Bilder nach vollständigen erfolgreichen Läufen auf `master` automatisch.
+Die Bildadressen bleiben dabei gleich; die README muss nicht nach jeder Aufnahme geändert werden.
+
+
 ## Aufbau
 
 ```text

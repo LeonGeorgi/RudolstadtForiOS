@@ -142,3 +142,51 @@ jobs:
             echo "Result: $RESULT"
             echo "Screenshots: ${ARTIFACT_URL:-not uploaded}"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  publish-readme-screenshots:
+    if: github.ref == 'refs/heads/master'
+    needs: capture-screenshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    concurrency:
+      group: android-readme-screenshots
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          path: source
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Download phone screenshots
+        uses: actions/download-artifact@v5
+        with:
+          name: android-screenshots-phone-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/captures/phone
+      - name: Download tablet screenshots
+        uses: actions/download-artifact@v5
+        with:
+          name: android-screenshots-tablet-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/captures/tablet
+      - name: Install preview dependency
+        run: python -m pip install Pillow==12.3.0
+      - name: Prepare complete gallery and optimized README previews
+        env:
+          CAPTURE_ROOT: ${{ runner.temp }}/captures
+          PREPARED_ROOT: ${{ runner.temp }}/prepared
+          REPOSITORY: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SOURCE_COMMIT: ${{ github.sha }}
+        run: |
+          python source/scripts/android/prepare_readme_screenshots.py \
+            "$CAPTURE_ROOT" "$PREPARED_ROOT" \
+            --repository "$REPOSITORY" --run-url "$RUN_URL" --commit "$SOURCE_COMMIT"
+      - name: Publish stable screenshot links
+        env:
+          PREPARED_ROOT: ${{ runner.temp }}/prepared
+          PUBLICATION_ROOT: ${{ runner.temp }}/screenshot-publication
+        run: |
+          bash source/scripts/android/publish-readme-screenshots.sh \
+            "$PREPARED_ROOT" "$GITHUB_WORKSPACE/source" "$PUBLICATION_ROOT"
