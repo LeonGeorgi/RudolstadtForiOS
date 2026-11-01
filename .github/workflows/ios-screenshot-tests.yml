@@ -15,6 +15,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Set up Java for Kotlin/Native
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
       - name: Show Xcode version
         run: xcodebuild -version
 
@@ -26,7 +32,7 @@ jobs:
           started_at="$(date +%s)"
           xcodebuild build \
             -quiet \
-            -project "RudolstadtForiOS.xcodeproj" \
+            -project "iosApp/RudolstadtForiOS.xcodeproj" \
             -scheme "RudolstadtForiOS (iOS)" \
             -configuration Debug \
             -destination "generic/platform=iOS Simulator" \
@@ -150,7 +156,7 @@ jobs:
           MAESTRO_DRIVER_STARTUP_TIMEOUT: "300000"
         run: |
           set -o pipefail
-          scripts/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
+          scripts/ios/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
 
       - name: Check for ${{ matrix.device_family }} capture diagnostics
         id: capture_diagnostics

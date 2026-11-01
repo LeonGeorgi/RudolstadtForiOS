@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080">
+  <rect width="1440" height="1080" fill="#F4F1F5" />
+  <text x="60" y="65" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="25" font-weight="500" fill="#786B7D" text-anchor="start">Rudolstadt / Zentrierung des Ausgangsentwurfs 0</text>
+  <text x="60" y="125" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="43" font-weight="600" fill="#2D2432" text-anchor="start">Jetzt liegt der Flächenschwerpunkt in der Mitte</text>
+  <text x="60" y="170" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#786B7D" text-anchor="start">Kreuz = Iconmitte · Punkt = Flächenschwerpunkt der gemeinsamen Vektorkontur</text>
+  <text x="400" y="220" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432" text-anchor="middle">Vorher</text>
+  <text x="1050" y="220" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432" text-anchor="middle">Zentriert · 52 dp breit</text>
+  <text x="60" y="410" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#2D2432" text-anchor="start">Android</text>
+  <image x="250" y="250" width="300" height="300" href="Centering/before-android.png" />
+  <path d="M400,244 V556 M244,400 H556" stroke="#37B8C2" stroke-width="1" opacity=".7" fill="none" />
+  <circle cx="404.63233641995447" cy="392.2437618008547" r="4" fill="#D85451" stroke="#FFFFFF" stroke-width="1" />
+  <text x="400" y="590" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D" text-anchor="middle">55,112 / 52,139 dp</text>
+  <image x="900" y="250" width="300" height="300" href="Previews/android-default.png" />
+  <path d="M1050,244 V556 M894,400 H1206" stroke="#37B8C2" stroke-width="1" opacity=".7" fill="none" />
+  <circle cx="1050.0" cy="400.0" r="4" fill="#D85451" stroke="#FFFFFF" stroke-width="1" />
+  <text x="1050" y="590" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D" text-anchor="middle">54,000 / 54,000 dp</text>
+  <text x="60" y="810" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#2D2432" text-anchor="start">iOS</text>
+  <image x="250" y="650" width="300" height="300" href="Centering/before-ios.png" />
+  <path d="M400,644 V956 M244,800 H556" stroke="#37B8C2" stroke-width="1" opacity=".7" fill="none" />
+  <circle cx="404.63233641995447" cy="792.2437618008547" r="4" fill="#D85451" stroke="#FFFFFF" stroke-width="1" />
+  <text x="400" y="990" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D" text-anchor="middle">55,112 / 52,139 dp</text>
+  <image x="900" y="650" width="300" height="300" href="Previews/ios-default.png" />
+  <path d="M1050,644 V956 M894,800 H1206" stroke="#37B8C2" stroke-width="1" opacity=".7" fill="none" />
+  <circle cx="1050.0" cy="800.0" r="4" fill="#D85451" stroke="#FFFFFF" stroke-width="1" />
+  <text x="1050" y="990" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#786B7D" text-anchor="middle">54,000 / 54,000 dp</text>
+  <text x="60" y="1040" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#786B7D" text-anchor="start">Geometrische Zentrierung, inklusive Aussparungen; Licht, Schatten und Hintergrund zählen nicht zur Motivfläche.</text>
+</svg>

@@ -1,0 +1,9 @@
+{
+  "method": "Convex-envelope area match to Google Design 52x36 dp rounded-rectangle keyline, radius 4dp; inspired by AOSP hull normalization, applied here to foreground as an explicit design policy.",
+  "sourceHullArea": 1625.5312377817236,
+  "referenceArea": 1858.2654824574367,
+  "scale": 1.0691932789495835,
+  "width": 55.59805050537834,
+  "height": 44.41700545645681,
+  "radius": 31.532424047198145
+}

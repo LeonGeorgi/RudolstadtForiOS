@@ -15,11 +15,20 @@ permissions:
 jobs:
   unit-tests:
     runs-on: macos-26
-    timeout-minutes: 20
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: iosApp
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+
+      - name: Set up Java for Kotlin/Native
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
 
       - name: Show Xcode version
         run: xcodebuild -version

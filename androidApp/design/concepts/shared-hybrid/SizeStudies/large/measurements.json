@@ -1,0 +1,28 @@
+{
+  "after" : {
+    "area" : 1260.0416096879228,
+    "centroidX" : 54.000000000000092,
+    "centroidY" : 54.000000000000149,
+    "equivalentAreaDiameter" : 40.054148417690925,
+    "height" : 43.6196678818431,
+    "radius" : 30.966379887914904,
+    "width" : 54.600000000000009
+  },
+  "androidCircleFillFraction" : 0.30947816463472466,
+  "appleCanvasWidthFraction" : 0.75833333333333341,
+  "before" : {
+    "area" : 1190.6138653679329,
+    "centroidX" : 55.111760740789073,
+    "centroidY" : 52.13850283220512,
+    "height" : 42.40092968547853,
+    "width" : 53.074470147233654
+  },
+  "method" : "Signed area moments of the filled vector silhouette; exact polynomial quadrature over Bezier paths",
+  "note" : "Perceived size requires observer matching in platform context; these measurements are objective design proxies, not a validated icon-perception model.",
+  "scaleRelativeToOriginal" : 1.0287431951470147,
+  "sizeFactor" : 1.05,
+  "translationAtOriginalScale" : {
+    "dx" : -1.1117607407890731,
+    "dy" : 1.8614971677948802
+  }
+}

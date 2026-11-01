@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1090" viewBox="0 0 1400 1090">
+  <rect width="1400" height="1090" fill="#F4F1F5" />
+  <text x="55" y="54" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="500" fill="#786B7D">Rudolstadt · eingebundene App-Icons</text>
+  <text x="55" y="110" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="42" font-weight="600" fill="#2D2432">Ein Akkordeon für beide Plattformen</text>
+  <text x="55" y="150" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#786B7D">Schwerpunktzentriert · rasterbasiert auf 55,6 × 44,4 dp skaliert</text>
+  <text x="55" y="215" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#2D2432">Android · Farbe</text>
+  <image href="Previews/android-color.png" x="100" y="240" width="280" height="280" />
+  <image href="Previews/android-color.png" x="190" y="535" width="48" height="48" />
+  <text x="250" y="566" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">48 px</text>
+  <text x="505" y="215" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#2D2432">iOS · Standard</text>
+  <image href="Previews/ios-default.png" x="550" y="240" width="280" height="280" />
+  <image href="Previews/ios-default.png" x="640" y="535" width="48" height="48" />
+  <text x="700" y="566" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">48 px</text>
+  <text x="955" y="215" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#2D2432">iOS · Dunkel</text>
+  <image href="Previews/ios-dark.png" x="1000" y="240" width="280" height="280" />
+  <image href="Previews/ios-dark.png" x="1090" y="535" width="48" height="48" />
+  <text x="1150" y="566" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">48 px</text>
+  <text x="55" y="635" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#2D2432">Android · Systemfarbe</text>
+  <image href="Previews/android-themed.png" x="100" y="660" width="280" height="280" />
+  <image href="Previews/android-themed.png" x="190" y="955" width="48" height="48" />
+  <text x="250" y="986" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">48 px</text>
+  <text x="505" y="635" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#2D2432">iOS · Eingefärbt</text>
+  <image href="Previews/ios-tinted.png" x="550" y="660" width="280" height="280" />
+  <image href="Previews/ios-tinted.png" x="640" y="955" width="48" height="48" />
+  <text x="700" y="986" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">48 px</text>
+  <text x="955" y="635" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#2D2432">iOS · Klar</text>
+  <image href="Previews/ios-clear.png" x="1000" y="660" width="280" height="280" />
+  <image href="Previews/ios-clear.png" x="1090" y="955" width="48" height="48" />
+  <text x="1150" y="986" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">48 px</text>
+  <text x="55" y="1060" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">iOS: native Icon-Composer-Exporte. Android: Ressourcenpfade mit simulierter Launcher-Maske und Systemfarbe.</text>
+</svg>

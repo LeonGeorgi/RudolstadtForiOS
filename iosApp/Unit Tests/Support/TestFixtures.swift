@@ -1,0 +1,252 @@
+import RudolstadtCore
+import Foundation
+@testable import Rudolstadt
+
+enum TestFixtures {
+    static func recommendationState(_ ids: [Int]? = nil) -> RecommendationState {
+        RecommendationState(
+            phase: ids == nil ? .loading : .ready, eventIDs: KotlinCore.ids(ids ?? []),
+            durations: nil, generatedAt: nil, requestGeneration: 0)
+    }
+
+    static func profileState(saved: [Int] = [], positive: [Int] = []) -> ProfileState {
+        ProfileState(
+            profile: PersonalProfile(
+                badgeName: nil, badgeColorHex: nil,
+                savedEventIDs: KotlinCore.ids(saved),
+                artistPreferences: positive.map {
+                    ArtistPreference(artistID: Int64($0), rating: 1, iconName: nil)
+                }, artistNotes: []), changes: [], pending: [], recommendationRevision: 0)
+    }
+
+    static var festivalCalendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.locale = Locale(identifier: "en_US_POSIX")
+        calendar.timeZone = TimeZone(identifier: "Europe/Berlin") ?? .gmt
+        return calendar
+    }
+
+    static func isolatedUserDefaults() -> UserDefaults {
+        let suiteName = "RudolstadtTests.\(UUID().uuidString)"
+        guard let userDefaults = UserDefaults(suiteName: suiteName) else {
+            preconditionFailure("Could not create isolated UserDefaults suite")
+        }
+        userDefaults.removePersistentDomain(forName: suiteName)
+        return userDefaults
+    }
+
+    @MainActor
+    static func userSettings() -> UserSettings {
+        UserSettings(userDefaults: isolatedUserDefaults())
+    }
+
+    static func festivalData(events: [Event]) -> FestivalData {
+        FestivalData(
+            artists: unique(events.map(\.artist), by: \.id),
+            areas: unique(events.compactMap(\.stage.area), by: \.id),
+            stages: unique(events.map(\.stage), by: \.id),
+            events: events
+        )
+    }
+
+    static func cachedOwnerFestivalProfile(
+        festivalYear: Int = DataStore.year,
+        savedEventIDs: [Int] = [],
+        artistPreferences: [FestivalArtistPreference] = [],
+        artistNotes: [FestivalArtistNote] = []
+    ) -> CachedOwnerFestivalProfile {
+        CachedOwnerFestivalProfile(
+            festivalYear: festivalYear,
+            badgeName: nil,
+            badgeColorHex: FestivalProfileBadge.defaultColorHex,
+            savedEventIDs: savedEventIDs,
+            artistPreferences: artistPreferences,
+            artistNotes: artistNotes,
+            shareRecordName: nil,
+            shareRecordSystemFieldsData: nil,
+            rootRecordSystemFieldsData: nil,
+            savedEventRecordSystemFieldsByName: [:],
+            artistPreferenceRecordSystemFieldsByName: [:],
+            artistNoteRecordSystemFieldsByName: [:]
+        )
+    }
+
+    static func festivalProfileCache(
+        currentProfile: CachedOwnerFestivalProfile? = nil
+    ) -> FestivalProfileCache {
+        FestivalProfileCache(
+            currentProfile: currentProfile ?? cachedOwnerFestivalProfile(),
+            sharedProfiles: [],
+            migrationVersion: FestivalProfileStore.Constants.migrationVersion,
+            lastSuccessfulRefreshDate: nil,
+            privateStateSerializationData: nil,
+            sharedStateSerializationData: nil
+        )
+    }
+
+    @MainActor
+    static func festivalProfileStore() -> FestivalProfileStore {
+        FestivalProfileStore(
+            userDefaults: isolatedUserDefaults(),
+            cloudKitEnabled: false,
+            now: { date(dayInJuly: 3, hour: 12, minute: 0) }
+        )
+    }
+
+    static func sharedFestivalProfile(
+        id: String = "friend-profile",
+        savedEventIDs: [Int] = [],
+        artistPreferences: [FestivalArtistPreference] = [],
+        festivalYear: Int = DataStore.year
+    ) -> SharedFestivalProfile {
+        SharedFestivalProfile(
+            id: id,
+            title: "Friend Profile",
+            ownerName: "Friend",
+            badgeName: nil,
+            badgeColorHex: nil,
+            festivalYear: festivalYear,
+            savedEventIDs: savedEventIDs,
+            artistPreferences: artistPreferences
+        )
+    }
+
+    static func artist(
+        id: Int,
+        name: String? = nil,
+        hiddenFromArtistList: Bool = false,
+        descriptionGerman: String? = nil,
+        descriptionEnglish: String? = nil
+    ) -> Artist {
+        Artist(
+            id: id,
+            hiddenFromArtistList: hiddenFromArtistList,
+            artistType: .stage,
+            name: name ?? "Artist \(id)",
+            countries: "Germany",
+            countryCodes: ["DEU"],
+            url: nil,
+            facebookID: nil,
+            youtubeID: nil,
+            instagram: nil,
+            descriptionGerman: descriptionGerman,
+            descriptionEnglish: descriptionEnglish,
+            thumbImageUrlString: "https://example.com/thumb.jpg",
+            fullImageUrlString: "https://example.com/full.jpg",
+            ai: nil
+        )
+    }
+
+    static func stage(
+        id: Int,
+        stageNumber: Int? = nil,
+        latitude: Double? = nil,
+        longitude: Double? = nil,
+        germanName: String? = nil,
+        englishName: String? = nil
+    ) -> Stage {
+        Stage(
+            id: id,
+            germanName: germanName ?? "Stage \(id)",
+            englishName: englishName ?? "Stage \(id)",
+            germanDescription: nil,
+            englishDescription: nil,
+            stageNumber: stageNumber,
+            latitude: latitude ?? 50.0 + Double(id) * 0.001,
+            longitude: longitude ?? 11.0 + Double(id) * 0.001,
+            area: .example,
+            stageType: .festivalTicket
+        )
+    }
+
+    static func event(
+        id: Int,
+        dayInJuly: Int,
+        timeAsString: String,
+        stage: Stage,
+        artist: Artist,
+        tag: Tag? = nil
+    ) -> Event {
+        Event(
+            id: id,
+            dayInJuly: dayInJuly,
+            timeAsString: timeAsString,
+            stage: stage,
+            artist: artist,
+            tag: tag
+        )
+    }
+
+    static func date(
+        dayInJuly: Int,
+        hour: Int,
+        minute: Int,
+        calendar: Calendar = festivalCalendar
+    ) -> Date {
+        guard let date = calendar.date(
+            from: DateComponents(
+                year: DataStore.year,
+                month: 7,
+                day: dayInJuly,
+                hour: hour,
+                minute: minute
+            )
+        ) else {
+            preconditionFailure("Could not create festival test date")
+        }
+        return date
+    }
+
+    static func apiNewsItem(id: Int, language: String) -> APINewsItem {
+        APINewsItem(
+            id: id,
+            title: "Title \(id)",
+            language: language,
+            teaser: "Teaser \(id)",
+            text: "Text \(id)",
+            time: APITime(
+                date: "2025-07-06 14:00:00.000000",
+                timezoneType: 3,
+                timezone: "Europe/Berlin"
+            )
+        )
+    }
+
+    static func apiFestivalData(artistID: Int? = nil) -> RudolstadtPayload {
+        let artist = artistID.map { "{\"id\":\($0),\"category\":\"concert\",\"name\":\"API Artist \($0)\",\"country\":\"Germany\"}" } ?? ""
+        return try! KotlinCore.bridge.decodeRudolstadtPayload(sourceJSON:
+            "{\"areas\":[],\"artists\":[\(artist)],\"events\":[],\"stages\":[],\"tags\":[]}")
+    }
+
+    static func sourcePayload(_ data: Data) throws -> RudolstadtPayload {
+        try KotlinCore.bridge.decodeRudolstadtPayload(sourceJSON: String(decoding: data, as: UTF8.self))
+    }
+
+    static func sourceRecords(_ payload: RudolstadtPayload, _ key: String) throws -> [[String: Any]] {
+        let root = try JSONSerialization.jsonObject(with: Data(payload.sourceJSON.utf8)) as? [String: Any]
+        guard let records = root?[key] as? [[String: Any]] else { throw CocoaError(.coderReadCorrupt) }
+        return records
+    }
+
+    static func newsItem(id: Int, languageCode: String) -> NewsItem {
+        NewsItem(
+            id: id,
+            languageCode: languageCode,
+            dateAsString: "06.07.2025",
+            timeAsString: "14:00",
+            shortDescription: "Short \(id)",
+            longDescription: "Long \(id)",
+            content: "Content \(id)"
+        )
+    }
+
+    private static func unique<T, Key: Hashable>(
+        _ values: [T],
+        by keyPath: KeyPath<T, Key>
+    ) -> [T] {
+        var seen = Set<Key>()
+        return values.filter { value in
+            seen.insert(value[keyPath: keyPath]).inserted
+        }
+    }
+}

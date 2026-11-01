@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1270" viewBox="0 0 1560 1270">
+  <rect width="1560" height="1270" fill="#F4F1F5" />
+  <text x="70" y="65" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#786B7D">Rudolstadt / gemeinsamer Icon-Entwurf</text>
+  <text x="68" y="124" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="46" font-weight="600" fill="#2D2432">Eine Form für Android und iOS</text>
+  <text x="70" y="169" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="400" fill="#786B7D">K1-Balg mit K3-Klaviatur · iOS aus Apples nativem Icon-Composer-Renderer</text>
+  <text x="70" y="240" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432">Android · Farbe</text>
+  <text x="70" y="276" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">Flacher Vordergrund, runde Launcher-Maske</text>
+  <image x="100" y="305" width="300" height="300" href="Previews/android-default.png" />
+  <image x="207" y="630" width="64" height="64" href="Previews/android-default.png" />
+  <text x="292" y="671" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">64 px</text>
+  <text x="570" y="240" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432">iOS · Standard</text>
+  <text x="570" y="276" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">Zwei Materialgruppen über Violett</text>
+  <image x="600" y="305" width="300" height="300" href="Previews/ios-default.png" />
+  <image x="707" y="630" width="64" height="64" href="Previews/ios-default.png" />
+  <text x="792" y="671" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">64 px</text>
+  <text x="1070" y="240" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432">iOS · Dunkel</text>
+  <text x="1070" y="276" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">Apples automatische dunkle Darstellung</text>
+  <image x="1100" y="305" width="300" height="300" href="Previews/ios-dark.png" />
+  <image x="1207" y="630" width="64" height="64" href="Previews/ios-dark.png" />
+  <text x="1292" y="671" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">64 px</text>
+  <text x="70" y="740" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432">Android · Systemfarbe</text>
+  <text x="70" y="776" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">Dieselbe Form als einfarbige Maske</text>
+  <image x="100" y="805" width="300" height="300" href="Previews/android-themed.png" />
+  <image x="207" y="1130" width="64" height="64" href="Previews/android-themed.png" />
+  <text x="292" y="1171" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">64 px</text>
+  <text x="570" y="740" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432">iOS · Eingefärbt</text>
+  <text x="570" y="776" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">Beispiel einer hellen violetten Tönung</text>
+  <image x="600" y="805" width="300" height="300" href="Previews/ios-tinted-light.png" />
+  <image x="707" y="1130" width="64" height="64" href="Previews/ios-tinted-light.png" />
+  <text x="792" y="1171" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">64 px</text>
+  <text x="1070" y="740" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#2D2432">iOS · Klar</text>
+  <text x="1070" y="776" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">Apples klare Darstellung, statischer Export</text>
+  <image x="1100" y="805" width="300" height="300" href="Previews/ios-clear.png" />
+  <image x="1207" y="1130" width="64" height="64" href="Previews/ios-clear.png" />
+  <text x="1292" y="1171" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">64 px</text>
+  <text x="70" y="1240" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#786B7D">Android-Systemfarbe und Launcher-Maske sind simuliert. iOS: native statische Exporte für Designgeneration 26.</text>
+</svg>

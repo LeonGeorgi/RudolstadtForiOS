@@ -4,10 +4,12 @@ The screenshot flow follows one continuous, deterministic journey through the si
 
 ## Run
 
+Run commands from the repository root. Xcode and JDK 17 are required for a local build.
+
 Use a dedicated booted iOS 26 iPhone or iPad simulator. The runner builds with normal simulator signing, installs the app, fixes the status bar, forces portrait orientation, and captures German and English screenshots in one pass by default:
 
 ```sh
-DEVICE_ID=<simulator-udid> scripts/capture-app-store-screenshots.sh
+DEVICE_ID=<simulator-udid> scripts/ios/capture-app-store-screenshots.sh
 ```
 
 Optional environment variables:
@@ -19,7 +21,7 @@ Optional environment variables:
 - `DERIVED_DATA_PATH=/tmp/custom-derived-data`
 - `PREBUILT_APP_PATH=/path/to/Rudolstadt.app` to skip the build
 
-Generated PNGs are stored below `AppStoreScreenshots/<locale>/<device>/<capture-id>/` and are ignored by Git. Screenshots 01–06 use light mode and screenshot 07 uses dark mode. A new capture ID prevents screenshots from older selections remaining in the current set.
+Generated PNGs are stored below `artifacts/screenshots/app-store/<locale>/<device>/<capture-id>/` and are ignored by Git. Screenshots 01–06 use light mode and screenshot 07 uses dark mode. A new capture ID prevents screenshots from older selections remaining in the current set.
 
 Run the command once for each local device. For the required iPad App Store slot, use a 13-inch iPad Pro or Air simulator (2064 × 2752 pixels) or a compatible 12.9-inch iPad Pro simulator (2048 × 2732 pixels).
 

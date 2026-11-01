@@ -1,8 +1,46 @@
+.gradle/
+.kotlin/
+.konan/
+build/
+**/build/
 .idea/
-Screenshots/
-AppStoreScreenshots/
-**/.DS_Store
-.codex-tmp/
-xcuserdata/
+*.iml
+local.properties
+.DS_Store
+**/xcuserdata/
 *.xcuserstate
-/[0-9][0-9]-*.png
+**/xcshareddata/IDEWorkspaceChecks.plist
+
+# Native build state and packaged app outputs
+.cxx/
+.externalNativeBuild/
+DerivedData/
+*.xcarchive/
+*.xcresult/
+*.dSYM/
+*.ipa
+*.apk
+*.aab
+
+# Local environment and signing credentials
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.jks
+*.keystore
+keystore.properties
+key.properties
+*.p12
+*.p8
+*.mobileprovision
+
+# Local tooling, generated reports, captures and caches
+/artifacts/
+.venv*/
+.codex-tmp/
+__pycache__/
+*.py[cod]
+
+# Generated Xcode Cloud metadata
+/iosApp/RudolstadtForiOS.xcodeproj/xcshareddata/xcodecloud/
