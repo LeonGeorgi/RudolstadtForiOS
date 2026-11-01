@@ -32,3 +32,10 @@ Run the **App Store Screenshots** workflow manually from the Actions tab. It bui
 If the local Maestro XCTest driver becomes unreachable or times out while taking a screenshot, the affected locale is retried once with a freshly installed driver. Failed attempts stay in the diagnostics artifact, while only a complete successful attempt is eligible for publishing.
 
 The app's `-screenshotMode` launch argument loads the bundled festival and news backups, disables network refreshes and CloudKit, and resets screenshot-relevant preferences. It also seeds a presentation-ready local profile and friend recommendations. Artist photography and Apple map tiles are still rendered by their normal production components, so allow those views to settle before capture.
+## Native alternative
+
+The same screenshot set is available through XCTest. Both tools use seeded
+screenshot data and normal visible navigation. See the
+[native comparison guide](../../docs/native-screenshot-comparison.md) for commands
+and measurements. Selecting `engine: native` in **App Store Screenshots** reuses
+the existing gallery publisher and stable README image links.

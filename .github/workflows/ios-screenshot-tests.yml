@@ -2,6 +2,12 @@ name: App Store Screenshots
 
 on:
   workflow_dispatch:
+    inputs:
+      engine:
+        description: Screenshot engine (both publish the same gallery)
+        type: choice
+        options: [maestro, native]
+        default: maestro
 
 permissions:
   contents: read
@@ -27,13 +33,20 @@ jobs:
       - name: Build screenshot app
         env:
           DERIVED_DATA_PATH: ${{ runner.temp }}/AppStoreScreenshotDerivedData
+          SCREENSHOT_ENGINE: ${{ inputs.engine || 'maestro' }}
         run: |
           set -o pipefail
           started_at="$(date +%s)"
-          xcodebuild build \
+          action=build
+          scheme='RudolstadtForiOS (iOS)'
+          if [[ "$SCREENSHOT_ENGINE" == native ]]; then
+            action=build-for-testing
+            scheme='Native Screenshots'
+          fi
+          xcodebuild "$action" \
             -quiet \
             -project "iosApp/RudolstadtForiOS.xcodeproj" \
-            -scheme "RudolstadtForiOS (iOS)" \
+            -scheme "$scheme" \
             -configuration Debug \
             -destination "generic/platform=iOS Simulator" \
             -derivedDataPath "$DERIVED_DATA_PATH" \
@@ -43,8 +56,7 @@ jobs:
       - name: Package app
         run: |
           tar -cf "${{ runner.temp }}/Rudolstadt.app.tar" \
-            -C "${{ runner.temp }}/AppStoreScreenshotDerivedData/Build/Products/Debug-iphonesimulator" \
-            Rudolstadt.app
+            -C "${{ runner.temp }}/AppStoreScreenshotDerivedData/Build/Products" .
 
       - name: Upload app
         uses: actions/upload-artifact@v4
@@ -149,14 +161,21 @@ jobs:
         env:
           DEVICE_ID: ${{ steps.simulator.outputs.device-id }}
           LOCALES: "de en"
-          PREBUILT_APP_PATH: ${{ runner.temp }}/PrebuiltApp/Rudolstadt.app
+          PREBUILT_APP_PATH: ${{ runner.temp }}/PrebuiltApp/Debug-iphonesimulator/Rudolstadt.app
+          SCREENSHOT_ENGINE: ${{ inputs.engine || 'maestro' }}
           OUTPUT_ROOT: ${{ runner.temp }}/AppStoreScreenshots
           DIAGNOSTICS_ROOT: ${{ runner.temp }}/AppStoreScreenshotDiagnostics
           MAESTRO_CLI_NO_ANALYTICS: "1"
           MAESTRO_DRIVER_STARTUP_TIMEOUT: "300000"
         run: |
           set -o pipefail
-          scripts/ios/capture-app-store-screenshots.sh 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
+          if [[ "$SCREENSHOT_ENGINE" == native ]]; then
+            export XCTEST_RUN_FILE
+            XCTEST_RUN_FILE="$(find "${{ runner.temp }}/PrebuiltApp" -maxdepth 1 -name '*.xctestrun' -print -quit)"
+            bash scripts/ios/capture-native-screenshots.sh
+          else
+            bash scripts/ios/capture-app-store-screenshots.sh
+          fi 2>&1 | tee "${{ runner.temp }}/app-store-screenshots-${{ matrix.device_family }}.log"
 
       - name: Check for ${{ matrix.device_family }} capture diagnostics
         id: capture_diagnostics

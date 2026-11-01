@@ -17,7 +17,9 @@ tags:
 
 # Schedule
 - tapOn:
-    text: "Sun|So\\."
+    text: "Thu.*|Do\\..*"
+- tapOn:
+    text: "Sun.*|So\\..*"
 - swipe:
     direction: UP
     duration: 700
@@ -74,6 +76,9 @@ tags:
           visible:
             id: "artist-194"
           timeout: 10000
+- swipe:
+    direction: DOWN
+    duration: 400
 - tapOn:
     text: "Search|Suchen"
 - inputText: "Duo Ruut"
@@ -159,7 +164,7 @@ tags:
       id: "artist-194"
     timeout: 10000
 - tapOn:
-    text: "Explore on the world map|Auf der Weltkarte entdecken"
+    id: "globe\\.europe\\.africa"
 - extendedWaitUntil:
     visible:
       id: "artist-world-map"
@@ -185,7 +190,9 @@ tags:
       id: "schedule-screen"
     timeout: 20000
 - tapOn:
-    text: "Sun|So\\."
+    text: "Thu.*|Do\\..*"
+- tapOn:
+    text: "Sun.*|So\\..*"
 - swipe:
     direction: UP
     duration: 700

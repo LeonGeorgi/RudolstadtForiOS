@@ -226,6 +226,9 @@ auf. Er läuft manuell sowie bei Android-relevanten Pull Requests und Änderunge
 auf `master`. Pro Gerät gibt es ein Screenshot-Artefakt mit den Ordnern
 `de/light`, `de/dark`, `en/light` und `en/dark`: Zeitplan, Künstler, Orte und Mehr.
 Maestro-Berichte, Logs und Fehlerbilder liegen im separaten Diagnose-Artefakt.
+Beim manuellen Start kann `engine: native` für UI Automator 2.4 gewählt werden.
+Dieser Pfad verwendet dasselbe Ausgabeformat und denselben README-Publisher.
+Lokale Aufrufe und Messungen stehen im [Werkzeugvergleich](../docs/native-screenshot-comparison.md).
 
 Vollständig erfolgreiche Läufe auf `master` veröffentlichen zusätzlich alle 32
 Originale und optimierte Vorschaubilder im Branch `screenshots`. Die Haupt-README

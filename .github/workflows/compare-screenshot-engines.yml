@@ -1,0 +1,126 @@
+name: Compare Screenshot Engines
+
+on:
+  workflow_dispatch:
+    inputs:
+      rounds:
+        description: Alternating rounds per engine
+        type: choice
+        options: ['2', '1']
+        default: '2'
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      ANDROID_SERIAL: emulator-5554
+      ROUNDS: ${{ inputs.rounds }}
+    steps:
+      - uses: actions/checkout@v5
+      - run: echo "OUTPUT=$RUNNER_TEMP/comparison" >> "$GITHUB_ENV"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;35.0.0'
+      - name: Build both APKs once
+        run: ./gradlew :androidApp:assembleDebug :androidScreenshotTests:assembleDebug --console=plain
+      - name: Install the same Maestro version on both platforms
+        env:
+          MAESTRO_VERSION: '2.12.0'
+        run: |
+          curl -fsSL https://get.maestro.mobile.dev | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Compare on the same API 36 phone
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 36
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7_pro
+          avd-name: screenshot-comparison
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: python3 scripts/compare_screenshot_engines.py android --output "$OUTPUT" --rounds "$ROUNDS"
+      - name: Upload paired captures, timings and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-engine-comparison
+          path: ${{ env.OUTPUT }}
+          retention-days: 14
+      - name: Summarize comparison
+        if: always()
+        run: if [[ -f "$OUTPUT/summary.md" ]]; then cat "$OUTPUT/summary.md" >> "$GITHUB_STEP_SUMMARY"; fi
+
+  ios:
+    runs-on: macos-26
+    timeout-minutes: 55
+    env:
+      ROUNDS: ${{ inputs.rounds }}
+    steps:
+      - uses: actions/checkout@v5
+      - run: |
+          echo "OUTPUT=$RUNNER_TEMP/comparison" >> "$GITHUB_ENV"
+          echo "DERIVED_DATA_PATH=$RUNNER_TEMP/NativeScreenshotDerivedData" >> "$GITHUB_ENV"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install the same Maestro version on both platforms
+        env:
+          MAESTRO_VERSION: '2.12.0'
+        run: |
+          curl -fsSL https://get.maestro.mobile.dev | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+      - name: Select an available iOS 26 iPhone
+        run: |
+          DEVICE_ID="$(xcrun simctl list devices available --json | python3 -c '
+          import json, sys
+          devices = [d for runtime, ds in json.load(sys.stdin)["devices"].items() if "iOS-26" in runtime for d in ds if d["isAvailable"] and d["name"].startswith("iPhone")]
+          if not devices: raise SystemExit("No iOS 26 iPhone simulator available")
+          print(next((d for d in devices if d["name"] == "iPhone 17 Pro"), devices[0])["udid"])
+          ')"
+          echo "DEVICE_ID=$DEVICE_ID" >> "$GITHUB_ENV"
+          xcrun simctl boot "$DEVICE_ID" || true
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+      - name: Build app and native tests once
+        env:
+          BUILD_ONLY: '1'
+          DIAGNOSTICS_ROOT: ${{ runner.temp }}/native-build
+        run: bash scripts/ios/capture-native-screenshots.sh
+      - name: Compare on the same simulator and signed app
+        run: |
+          export XCTEST_RUN_FILE PREBUILT_APP_PATH
+          XCTEST_RUN_FILE="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["test_run"])' "${{ runner.temp }}/native-build/build.json")"
+          PREBUILT_APP_PATH="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["app"])' "${{ runner.temp }}/native-build/build.json")"
+          python3 scripts/compare_screenshot_engines.py ios --output "$OUTPUT" --rounds "$ROUNDS"
+      - name: Upload paired captures, timings and xcresult diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-engine-comparison
+          path: |
+            ${{ env.OUTPUT }}
+            ${{ runner.temp }}/native-build
+          retention-days: 14
+      - name: Summarize comparison
+        if: always()
+        run: if [[ -f "$OUTPUT/summary.md" ]]; then cat "$OUTPUT/summary.md" >> "$GITHUB_STEP_SUMMARY"; fi

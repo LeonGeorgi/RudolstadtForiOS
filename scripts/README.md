@@ -81,3 +81,14 @@ werden als getrennte Artefakte hochgeladen. Details und lokale Aufrufe stehen im
 `prepare_readme_screenshots.py` prüft alle 32 Android-Aufnahmen, erstellt kleine
 Vorschaubilder und die Galerie. `publish-readme-screenshots.sh` aktualisiert danach
 den separaten Branch `screenshots`, dessen stabile Bildlinks die Haupt-README nutzt.
+
+## Native Screenshots und Werkzeugvergleich
+
+`ios/capture-native-screenshots.sh` führt den XCTest-Screenshot-Satz aus und exportiert
+benannte PNG-Anhänge aus dem `xcresult`. `android/capture-screenshots.sh` unterstützt
+zusätzlich `SCREENSHOT_ENGINE=native` mit dem separaten UI-Automator-Testmodul.
+Beide liefern das bestehende Ausgabeformat der Galerie-Publisher.
+
+`compare_screenshot_engines.py` führt beide Werkzeuge nacheinander auf demselben
+Gerät mit demselben vorgebauten App-Build aus. Aufrufe, Messverfahren und Ergebnisse:
+[Nativer Screenshot-Vergleich](../docs/native-screenshot-comparison.md).

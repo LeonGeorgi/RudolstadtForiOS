@@ -10,6 +10,7 @@
 - [Watch und Widget](apple/watch.md)
 - [Skripte und deren Tests](../scripts/README.md)
 - [Maestro und App-Store-Screenshots](../.maestro/app-store-screenshots/README.md)
+- [XCTest / UI Automator: Aufnahmen und Werkzeugvergleich](native-screenshot-comparison.md)
 
 `research/` enthält datierte Recherchen und Produktideen. `agents/` enthält die
 übernommenen Arbeitskonventionen; das Issue-Tracking verweist dort weiterhin auf

@@ -2,6 +2,12 @@ name: Android Screenshots
 
 on:
   workflow_dispatch:
+    inputs:
+      engine:
+        description: Screenshot engine (both publish the same README gallery)
+        type: choice
+        options: [maestro, native]
+        default: maestro
   pull_request:
     paths:
       - '.github/workflows/android-screenshots.yml'
@@ -46,11 +52,13 @@ jobs:
         with:
           packages: 'platform-tools platforms;android-36 build-tools;35.0.0'
       - name: Build screenshot APK once
-        run: ./gradlew :androidApp:assembleDebug --console=plain
+        run: ./gradlew :androidApp:assembleDebug :androidScreenshotTests:assembleDebug --console=plain
       - uses: actions/upload-artifact@v4
         with:
           name: android-screenshot-apk
-          path: androidApp/build/outputs/apk/debug/androidApp-debug.apk
+          path: |
+            androidApp/build/outputs/apk/debug/androidApp-debug.apk
+            androidScreenshotTests/build/outputs/apk/debug/androidScreenshotTests-debug.apk
           if-no-files-found: error
           retention-days: 1
 
@@ -69,6 +77,7 @@ jobs:
     env:
       ANDROID_SERIAL: emulator-5554
       MAESTRO_CLI_NO_ANALYTICS: '1'
+      SCREENSHOT_ENGINE: ${{ inputs.engine || 'maestro' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v4
@@ -99,7 +108,8 @@ jobs:
       - name: Capture German and English in light and dark mode
         uses: reactivecircus/android-emulator-runner@v2
         env:
-          PREBUILT_APK_PATH: ${{ runner.temp }}/apk/androidApp-debug.apk
+          PREBUILT_APK_PATH: ${{ runner.temp }}/apk/androidApp/build/outputs/apk/debug/androidApp-debug.apk
+          NATIVE_TEST_APK_PATH: ${{ runner.temp }}/apk/androidScreenshotTests/build/outputs/apk/debug/androidScreenshotTests-debug.apk
           OUTPUT_ROOT: ${{ runner.temp }}/AndroidScreenshots
           DIAGNOSTICS_ROOT: ${{ runner.temp }}/AndroidScreenshotDiagnostics
         with:

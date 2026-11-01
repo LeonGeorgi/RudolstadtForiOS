@@ -18,3 +18,5 @@ rootProject.name = "RudolstadtKMP"
 include(":shared")
 
 include(":androidApp")
+
+include(":androidScreenshotTests")
