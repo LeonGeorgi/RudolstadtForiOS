@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import SwiftUI
 
 enum FileLoadingResult<T> {
@@ -13,26 +14,8 @@ struct EntityHelper<T, S> where S: StringProtocol {
     let converter: ([S]) -> [T]
 }
 
-struct FestivalData {
-    let artists: [Artist]
-    let areas: [Area]
-    let stages: [Stage]
-    let events: [Event]
-    var omittedRecordCount = 0
-}
-
-enum FestivalDataSource: Equatable {
-    case remote
-    case cache
-    case staleCache
-    case bundledBackup
-    case screenshot
-}
-
-struct FestivalDataProvenance: Equatable {
-    let source: FestivalDataSource
-    let dataUpdatedAt: Date?
-    let refreshCheckedAt: Date?
+private struct FestivalEditionEnvironmentKey: EnvironmentKey {
+    static let defaultValue = FestivalEdition.current
 }
 
 private struct FestivalDataEnvironmentKey: EnvironmentKey {
@@ -40,6 +23,11 @@ private struct FestivalDataEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
+    var festivalEdition: FestivalEdition {
+        get { self[FestivalEditionEnvironmentKey.self] }
+        set { self[FestivalEditionEnvironmentKey.self] = newValue }
+    }
+
     var festivalData: FestivalData {
         get {
             self[FestivalDataEnvironmentKey.self]
@@ -156,11 +144,19 @@ enum PreviewMockData {
             return fallbackFestivalData
         }
 
-        return convertAPIRudolstadtDataToEntities(
+        let raw = convertAPIRudolstadtDataToEntities(
             apiData: apiData,
             extraData: loadExtraDataFromResource(fileName: "extra_data")
                 ?? ExtraDataCollection.empty()
         )
+        let adapter = FestivalRegistry.rudolstadt(year: raw.festivalYear,
+            source: RudolstadtFestivalDataProvider(cache: DataStore.makeDefaultDataLoader()), archive: false)
+        do {
+            return try adapter.prepare(raw, source: .preview)
+        } catch {
+            AppLog.data.error("Invalid festival preview: \(error.localizedDescription)")
+            return fallbackFestivalData
+        }
     }()
 
     static var featuredArtist: Artist {
@@ -195,7 +191,8 @@ enum PreviewMockData {
             festivalProfileStore: profile,
             userSettings: settings
         )
-        dataStore.festivalData = .success(festivalData)
+        do { try dataStore.install(festivalData) }
+        catch { preconditionFailure("Invalid preview program: \(error)") }
         dataStore.recommendationStore.update(
             RecommendationSnapshot(
                 recommendedEventIds: [],
@@ -364,3 +361,16 @@ extension View {
     }
 }
 #endif
+
+
+extension FestivalData {
+    func transitionEvaluator() -> ScheduleTransitionEvaluator {
+        let transfer: (@Sendable (FestivalPlaceID, FestivalPlaceID) -> StageTransferEstimate?)?
+        if metadata != nil {
+            let provider = features.distances.value
+            transfer = { source, destination in provider?.walkingTransfer(from: source, to: destination).map(StageTransferEstimate.init) }
+        } else { transfer = nil }
+        return ScheduleTransitionEvaluator(transferEstimator: StageTransferEstimator(stages: stages, matrix: walkingDistanceMatrix),
+            calendar: metadata?.calendar ?? FestivalDateUtilities.festivalCalendar, transferProvider: transfer)
+    }
+}

@@ -7,13 +7,46 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FAD100062FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100052FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift */; };
+		FAD100042FFC1001004F9471 /* FriendArtistRatingsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */; };
+		FAD100022FFC1001004F9471 /* FriendArtistRatingsMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100012FFC1001004F9471 /* FriendArtistRatingsMotion.swift */; };
+		F940000C2FFC0001004F9471 /* FestivalBackup/2024_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F940000A2FFC0001004F9471 /* FestivalBackup/2024_archive.json */; };
+		F950000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026.json in Resources */ = {isa = PBXBuildFile; fileRef = F950000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026.json */; };
+		F960000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F960000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf */; };
+		F970000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png in Resources */ = {isa = PBXBuildFile; fileRef = F970000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png */; };
+		F970000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png in Resources */ = {isa = PBXBuildFile; fileRef = F970000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png */; };
+		F98000022FFC0001004F9471 /* FestivalZoomableMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98000012FFC0001004F9471 /* FestivalZoomableMap.swift */; };
+		F9A000022FFC0001004F9471 /* MapSheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A000012FFC0001004F9471 /* MapSheetPresentation.swift */; };
+		F9A000032FFC0001004F9471 /* MapSheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A000012FFC0001004F9471 /* MapSheetPresentation.swift */; };
+		F98000032FFC0001004F9471 /* FestivalZoomableMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98000012FFC0001004F9471 /* FestivalZoomableMap.swift */; };
+		F98000122FFC0001004F9471 /* FestivalMapZoomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98000112FFC0001004F9471 /* FestivalMapZoomTests.swift */; };
+		F99000122FFC0001004F9471 /* FestivalMapSheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99000112FFC0001004F9471 /* FestivalMapSheetTests.swift */; };
+		F942025C2FFC0001004F9471 /* FestivalBackup/2025_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F942025A2FFC0001004F9471 /* FestivalBackup/2025_archive.json */; };
+		F942023C2FFC0001004F9471 /* FestivalBackup/2023_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F942023A2FFC0001004F9471 /* FestivalBackup/2023_archive.json */; };
+		F942022C2FFC0001004F9471 /* FestivalBackup/2022_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F942022A2FFC0001004F9471 /* FestivalBackup/2022_archive.json */; };
+		F942019C2FFC0001004F9471 /* FestivalBackup/2019_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F942019A2FFC0001004F9471 /* FestivalBackup/2019_archive.json */; };
+		F940000B2FFC0001004F9471 /* FestivalBackup/2024_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F940000A2FFC0001004F9471 /* FestivalBackup/2024_archive.json */; };
+		F950000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026.json in Resources */ = {isa = PBXBuildFile; fileRef = F950000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026.json */; };
+		F960000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F960000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf */; };
+		F942025B2FFC0001004F9471 /* FestivalBackup/2025_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F942025A2FFC0001004F9471 /* FestivalBackup/2025_archive.json */; };
+		F942023B2FFC0001004F9471 /* FestivalBackup/2023_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F942023A2FFC0001004F9471 /* FestivalBackup/2023_archive.json */; };
+		F942022B2FFC0001004F9471 /* FestivalBackup/2022_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F942022A2FFC0001004F9471 /* FestivalBackup/2022_archive.json */; };
+		F942019B2FFC0001004F9471 /* FestivalBackup/2019_archive.json in Resources */ = {isa = PBXBuildFile; fileRef = F942019A2FFC0001004F9471 /* FestivalBackup/2019_archive.json */; };
+		F94000022FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94000012FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift */; };
+		F95000022FFC0001004F9471 /* LudwigsburgFestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95000012FFC0001004F9471 /* LudwigsburgFestivalDataProvider.swift */; };
+		F96000022FFC0001004F9471 /* FestivalSitePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96000012FFC0001004F9471 /* FestivalSitePlan.swift */; };
+		F97000022FFC0001004F9471 /* FestivalSitePlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97000012FFC0001004F9471 /* FestivalSitePlanView.swift */; };
+		F94000032FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94000012FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift */; };
+		F95000032FFC0001004F9471 /* LudwigsburgFestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95000012FFC0001004F9471 /* LudwigsburgFestivalDataProvider.swift */; };
+		F96000032FFC0001004F9471 /* FestivalSitePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96000012FFC0001004F9471 /* FestivalSitePlan.swift */; };
+		F97000032FFC0001004F9471 /* FestivalSitePlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97000012FFC0001004F9471 /* FestivalSitePlanView.swift */; };
+		F93000022FFB0001004F9471 /* FestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93000012FFB0001004F9471 /* FestivalDataProvider.swift */; };
+		F93000032FFB0001004F9471 /* FestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93000012FFB0001004F9471 /* FestivalDataProvider.swift */; };
 		FB71000230010001004F9471 /* ProgramDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71000130010001004F9471 /* ProgramDiscoveryView.swift */; };
 		FB71000330010001004F9471 /* ProgramDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71000130010001004F9471 /* ProgramDiscoveryView.swift */; };
 		F90000142FF90001004F9471 /* StageLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90000042FF90001004F9471 /* StageLocationTests.swift */; };
-		F90000132FF90001004F9471 /* FestivalMapNumberPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90000032FF90001004F9471 /* FestivalMapNumberPicker.swift */; };
-		F90000122FF90001004F9471 /* FestivalMapCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90000022FF90001004F9471 /* FestivalMapCanvas.swift */; };
-		A71000022FF30001004F9471 /* ArtistShareLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000012FF30001004F9471 /* ArtistShareLink.swift */; };
-		A71000032FF30001004F9471 /* ArtistShareLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000012FF30001004F9471 /* ArtistShareLink.swift */; };
+		A71000022FF30001004F9471 /* RudolstadtShareLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000012FF30001004F9471 /* RudolstadtShareLink.swift */; };
+		A71000032FF30001004F9471 /* RudolstadtShareLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000012FF30001004F9471 /* RudolstadtShareLink.swift */; };
 		A71000052FF30001004F9471 /* ArtistShareLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000042FF30001004F9471 /* ArtistShareLinkTests.swift */; };
 		32A11008167D61F884FC47D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A112FBB6E762F9793E8E60 /* Localizable.strings */; };
 		32A110C0A5FA7EA77076DEA5 /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */; };
@@ -70,12 +103,8 @@
 		32A11F2390384051C89FAB56 /* NewsItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A11FA9E53D32EB6D58A19E /* NewsItemCell.swift */; };
 		32A11F71D8849BEB960E410C /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A113E8EF0720699AAD91D0 /* DataLoader.swift */; };
 		35028CC42805BEA6004F0E3F /* HelperTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35028CC32805BEA6004F0E3F /* HelperTypes.swift */; };
-		3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732428547CE0008932A9 /* ParkAndRideView.swift */; };
-		3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732428547CE0008932A9 /* ParkAndRideView.swift */; };
 		3505732828549B81008932A9 /* EmbeddedWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732728549B81008932A9 /* EmbeddedWebView.swift */; };
 		3505732928549B81008932A9 /* EmbeddedWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732728549B81008932A9 /* EmbeddedWebView.swift */; };
-		3505732B28549BF8008932A9 /* BusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732A28549BF8008932A9 /* BusView.swift */; };
-		3505732C28549BF8008932A9 /* BusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505732A28549BF8008932A9 /* BusView.swift */; };
 		350573342854F73C008932A9 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573332854F73C008932A9 /* AboutView.swift */; };
 		350573352854F73C008932A9 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573332854F73C008932A9 /* AboutView.swift */; };
 		350573372854FA4C008932A9 /* EventSavedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350573362854FA4C008932A9 /* EventSavedIcon.swift */; };
@@ -342,6 +371,19 @@
 		C40000032FF50001004F9471 /* FestivalProfileSyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40000012FF50001004F9471 /* FestivalProfileSyncCoordinator.swift */; };
 		C40000052FF50001004F9471 /* FestivalProfileSharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40000042FF50001004F9471 /* FestivalProfileSharingService.swift */; };
 		C40000062FF50001004F9471 /* FestivalProfileSharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40000042FF50001004F9471 /* FestivalProfileSharingService.swift */; };
+		58BADFACD019D7FA0E3BD68E /* FestivalInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E975A86F09FFDD73EE7DAC /* FestivalInterfaces.swift */; };
+		628EAAD811BB924349901559 /* FestivalInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E975A86F09FFDD73EE7DAC /* FestivalInterfaces.swift */; };
+		D7C4102E4F7AA73E8A661BDE /* FestivalInterfaceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEAAB47D3D8E82F6B770A81 /* FestivalInterfaceUtilities.swift */; };
+		2B59811E9A4186FB002BFF6C /* FestivalInterfaceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEAAB47D3D8E82F6B770A81 /* FestivalInterfaceUtilities.swift */; };
+		12F57F438C89D8ADE35F8DCF /* FestivalDurationResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BD785E2C3A746DB0F0E0F9 /* FestivalDurationResolver.swift */; };
+		6BC06EF05FA9967FF448F2C3 /* FestivalDurationResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BD785E2C3A746DB0F0E0F9 /* FestivalDurationResolver.swift */; };
+		910F0EA92A9E2ABAC2AACFD5 /* FestivalFeatureCatalogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2616A060C2AB6AE75EE270BA /* FestivalFeatureCatalogs.swift */; };
+		948BF27EADC2EFB7ACE879AA /* FestivalFeatureCatalogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2616A060C2AB6AE75EE270BA /* FestivalFeatureCatalogs.swift */; };
+		BB8CCA7397DC69E59F9B242D /* FestivalSourceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592B9CA3F6953CCF8CDEB9E /* FestivalSourceAdapter.swift */; };
+		1ACD2AD1177B68294EF2BA2F /* FestivalSourceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592B9CA3F6953CCF8CDEB9E /* FestivalSourceAdapter.swift */; };
+		AAD60BE1817D9630736C96FB /* FestivalRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7741C627008D880FD3664853 /* FestivalRegistry.swift */; };
+		CE1943E67FA6C6288E07DFAE /* FestivalRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7741C627008D880FD3664853 /* FestivalRegistry.swift */; };
+		CEA321B8BFF0C13B5C38151F /* FestivalAdapterContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44174B2FD9E0E7AFABB9418D /* FestivalAdapterContractTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -408,11 +450,29 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FAD100052FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift"; sourceTree = SOURCE_ROOT; };
+		FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingsPresentation.swift; sourceTree = "<group>"; };
+		FAD100012FFC1001004F9471 /* FriendArtistRatingsMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingsMotion.swift; sourceTree = "<group>"; };
+		F940000A2FFC0001004F9471 /* FestivalBackup/2024_archive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FestivalBackup/2024_archive.json; sourceTree = "<group>"; };
+		F950000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FestivalBackup/ludwigsburg_2026.json; sourceTree = "<group>"; };
+		F960000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = FestivalBackup/ludwigsburg_2026_site_plan.pdf; sourceTree = "<group>"; };
+		F970000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png */ = {isa = PBXFileReference; explicitFileType = file; path = FestivalBackup/ludwigsburg_2026_site_plan_background.png; sourceTree = "<group>"; };
+		F98000012FFC0001004F9471 /* FestivalZoomableMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalZoomableMap.swift; sourceTree = "<group>"; };
+		F9A000012FFC0001004F9471 /* MapSheetPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSheetPresentation.swift; sourceTree = "<group>"; };
+		F98000112FFC0001004F9471 /* FestivalMapZoomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FestivalMapZoomTests.swift"; sourceTree = SOURCE_ROOT; };
+		F99000112FFC0001004F9471 /* FestivalMapSheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FestivalMapSheetTests.swift"; sourceTree = SOURCE_ROOT; };
+		F942025A2FFC0001004F9471 /* FestivalBackup/2025_archive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FestivalBackup/2025_archive.json; sourceTree = "<group>"; };
+		F942023A2FFC0001004F9471 /* FestivalBackup/2023_archive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FestivalBackup/2023_archive.json; sourceTree = "<group>"; };
+		F942022A2FFC0001004F9471 /* FestivalBackup/2022_archive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FestivalBackup/2022_archive.json; sourceTree = "<group>"; };
+		F942019A2FFC0001004F9471 /* FestivalBackup/2019_archive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FestivalBackup/2019_archive.json; sourceTree = "<group>"; };
+		F94000012FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtArchiveDataProvider.swift; sourceTree = "<group>"; };
+		F95000012FFC0001004F9471 /* LudwigsburgFestivalDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LudwigsburgFestivalDataProvider.swift; sourceTree = "<group>"; };
+		F96000012FFC0001004F9471 /* FestivalSitePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalSitePlan.swift; sourceTree = "<group>"; };
+		F97000012FFC0001004F9471 /* FestivalSitePlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalSitePlanView.swift; sourceTree = "<group>"; };
+		F93000012FFB0001004F9471 /* FestivalDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalDataProvider.swift; sourceTree = "<group>"; };
 		FB71000130010001004F9471 /* ProgramDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDiscoveryView.swift; sourceTree = "<group>"; };
 		F90000042FF90001004F9471 /* StageLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageLocationTests.swift; sourceTree = "<group>"; };
-		F90000032FF90001004F9471 /* FestivalMapNumberPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalMapNumberPicker.swift; sourceTree = "<group>"; };
-		F90000022FF90001004F9471 /* FestivalMapCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalMapCanvas.swift; sourceTree = "<group>"; };
-		A71000012FF30001004F9471 /* ArtistShareLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistShareLink.swift; sourceTree = "<group>"; };
+		A71000012FF30001004F9471 /* RudolstadtShareLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/Data/RudolstadtShareLink.swift; sourceTree = SOURCE_ROOT; };
 		A71000042FF30001004F9471 /* ArtistShareLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistShareLinkTests.swift; sourceTree = "<group>"; };
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
 		32A111877F55C961A8ED2F89 /* ArtistRatingSymbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistRatingSymbol.swift; sourceTree = "<group>"; };
@@ -442,9 +502,7 @@
 		32A11FA9E53D32EB6D58A19E /* NewsItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsItemCell.swift; sourceTree = "<group>"; };
 		32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		35028CC32805BEA6004F0E3F /* HelperTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperTypes.swift; sourceTree = "<group>"; };
-		3505732428547CE0008932A9 /* ParkAndRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkAndRideView.swift; sourceTree = "<group>"; };
 		3505732728549B81008932A9 /* EmbeddedWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddedWebView.swift; sourceTree = "<group>"; };
-		3505732A28549BF8008932A9 /* BusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusView.swift; sourceTree = "<group>"; };
 		350573332854F73C008932A9 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		350573362854FA4C008932A9 /* EventSavedIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSavedIcon.swift; sourceTree = "<group>"; };
 		350573392855B2C3008932A9 /* ContextCopyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextCopyButton.swift; sourceTree = "<group>"; };
@@ -610,6 +668,13 @@
 		D80000012FF50001004F9471 /* ArtistOverviewOrderingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistOverviewOrderingTests.swift; sourceTree = "<group>"; };
 		C40000012FF50001004F9471 /* FestivalProfileSyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileSyncCoordinator.swift; sourceTree = "<group>"; };
 		C40000042FF50001004F9471 /* FestivalProfileSharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileSharingService.swift; sourceTree = "<group>"; };
+		79E975A86F09FFDD73EE7DAC /* FestivalInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shared/Core/FestivalInterfaces.swift"; sourceTree = SOURCE_ROOT; };
+		EEEAAB47D3D8E82F6B770A81 /* FestivalInterfaceUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shared/Core/FestivalInterfaceUtilities.swift"; sourceTree = SOURCE_ROOT; };
+		36BD785E2C3A746DB0F0E0F9 /* FestivalDurationResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shared/Core/FestivalDurationResolver.swift"; sourceTree = SOURCE_ROOT; };
+		2616A060C2AB6AE75EE270BA /* FestivalFeatureCatalogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shared/Data/FestivalFeatureCatalogs.swift"; sourceTree = SOURCE_ROOT; };
+		B592B9CA3F6953CCF8CDEB9E /* FestivalSourceAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shared/Data/FestivalSourceAdapter.swift"; sourceTree = SOURCE_ROOT; };
+		7741C627008D880FD3664853 /* FestivalRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shared/Data/FestivalRegistry.swift"; sourceTree = SOURCE_ROOT; };
+		44174B2FD9E0E7AFABB9418D /* FestivalAdapterContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Domain/FestivalAdapterContractTests.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -700,6 +765,7 @@
 			children = (
 				A20000012FA20001004F9471 /* DiscoverabilityTips.swift */,
 				32A11C3491E3EF12BFE1CC75 /* RatingSymbol.swift */,
+				F9A000012FFC0001004F9471 /* MapSheetPresentation.swift */,
 				D10000032FD10001004F9471 /* EventTimeBadge.swift */,
 				D10000152FD10001004F9471 /* FriendSavedEventBadges.swift */,
 				A10000272FA10001004F9471 /* EventActions */,
@@ -750,6 +816,8 @@
 				E200000D2FE10001004F9471 /* ArtistNoteBlock.swift */,
 				351359AF2BE7A9D0007C0480 /* ArtistRatingView.swift */,
 				D10000122FD10001004F9471 /* FriendArtistRatingSummary.swift */,
+				FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */,
+				FAD100012FFC1001004F9471 /* FriendArtistRatingsMotion.swift */,
 				35143ABD2F8E700C006DA6B7 /* ZoomableRemoteImageViewer.swift */,
 			);
 			path = Detail;
@@ -795,11 +863,9 @@
 				35879AE62E11CA630041FFD3 /* SettingsView.swift */,
 				350573332854F73C008932A9 /* AboutView.swift */,
 				350573992FB00000008932A9 /* LicensesView.swift */,
-				3505732A28549BF8008932A9 /* BusView.swift */,
 				356A65C62BE809360006761D /* DonationView.swift */,
 				32A11EABD81D0BA97B963376 /* MoreView.swift */,
 				C10000062FD00001004F9471 /* SyncStatusView.swift */,
-				3505732428547CE0008932A9 /* ParkAndRideView.swift */,
 				A10000222FA10001004F9471 /* Components */,
 				A10000232FA10001004F9471 /* Support */,
 			);
@@ -856,6 +922,16 @@
 				356F08942E0A93B8004F27E6 /* ExtraData.swift */,
 				3551CC8028043DA2004F9471 /* DataModel.swift */,
 				3551CC8328043E8D004F9471 /* DataStore.swift */,
+				7741C627008D880FD3664853 /* FestivalRegistry.swift */,
+				B592B9CA3F6953CCF8CDEB9E /* FestivalSourceAdapter.swift */,
+				2616A060C2AB6AE75EE270BA /* FestivalFeatureCatalogs.swift */,
+				36BD785E2C3A746DB0F0E0F9 /* FestivalDurationResolver.swift */,
+				EEEAAB47D3D8E82F6B770A81 /* FestivalInterfaceUtilities.swift */,
+				79E975A86F09FFDD73EE7DAC /* FestivalInterfaces.swift */,
+				F93000012FFB0001004F9471 /* FestivalDataProvider.swift */,
+				F94000012FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift */,
+				F95000012FFC0001004F9471 /* LudwigsburgFestivalDataProvider.swift */,
+				F96000012FFC0001004F9471 /* FestivalSitePlan.swift */,
 				35028CC32805BEA6004F0E3F /* HelperTypes.swift */,
 				32A113E8EF0720699AAD91D0 /* DataLoader.swift */,
 				354B96762BE798D100F58179 /* ArtistLinks.swift */,
@@ -868,9 +944,9 @@
 		350573432857E9AB008932A9 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				F90000032FF90001004F9471 /* FestivalMapNumberPicker.swift */,
-				F90000022FF90001004F9471 /* FestivalMapCanvas.swift */,
 				350573442857E9BE008932A9 /* MapOverview.swift */,
+				F97000012FFC0001004F9471 /* FestivalSitePlanView.swift */,
+				F98000012FFC0001004F9471 /* FestivalZoomableMap.swift */,
 				350573462857F312008932A9 /* MapView.swift */,
 			);
 			path = Map;
@@ -890,6 +966,14 @@
 				353596F92F92464800723570 /* 2026_artist_urls.csv */,
 				F30000042FDD0001004F9471 /* 2026_artist_preview_urls.csv */,
 				A1B2C3DB2FA90001004F9471 /* FestivalBackup/2026_rudolstadt_data.json */,
+				F940000A2FFC0001004F9471 /* FestivalBackup/2024_archive.json */,
+				F950000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026.json */,
+				F960000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf */,
+				F970000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png */,
+				F942025A2FFC0001004F9471 /* FestivalBackup/2025_archive.json */,
+				F942023A2FFC0001004F9471 /* FestivalBackup/2023_archive.json */,
+				F942022A2FFC0001004F9471 /* FestivalBackup/2022_archive.json */,
+				F942019A2FFC0001004F9471 /* FestivalBackup/2019_archive.json */,
 				A1B2C3DC2FA90001004F9471 /* FestivalBackup/2026_news.json */,
 			);
 			path = Resources;
@@ -993,7 +1077,7 @@
 		356A65C22BE805900006761D /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				A71000012FF30001004F9471 /* ArtistShareLink.swift */,
+				A71000012FF30001004F9471 /* RudolstadtShareLink.swift */,
 				C20000002FE00001004F9471 /* AppLog.swift */,
 				35D0A48B2A073AFF004C506D /* ColorExtensions.swift */,
 				32A1194705F0DC9D18C2B09B /* FestivalDateUtilities.swift */,
@@ -1025,6 +1109,10 @@
 				F90000042FF90001004F9471 /* StageLocationTests.swift */,
 				A71000042FF30001004F9471 /* ArtistShareLinkTests.swift */,
 				F100000E2F990001004F9471 /* FestivalDateUtilitiesTests.swift */,
+				44174B2FD9E0E7AFABB9418D /* FestivalAdapterContractTests.swift */,
+				F98000112FFC0001004F9471 /* FestivalMapZoomTests.swift */,
+				F99000112FFC0001004F9471 /* FestivalMapSheetTests.swift */,
+				FAD100052FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift */,
 				F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */,
 				F10000062F990001004F9471 /* RecommendationServiceTests.swift */,
 				A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */,
@@ -1491,6 +1579,14 @@
 				A10000142F9A1001004F9471 /* world_countries_detail.geojson in Resources */,
 				32A115480EF0AF9794B76632 /* Localizable.strings in Resources */,
 				A1B2C3D72FA90001004F9471 /* FestivalBackup/2026_rudolstadt_data.json in Resources */,
+				F940000B2FFC0001004F9471 /* FestivalBackup/2024_archive.json in Resources */,
+				F950000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026.json in Resources */,
+				F960000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf in Resources */,
+				F970000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png in Resources */,
+				F942025B2FFC0001004F9471 /* FestivalBackup/2025_archive.json in Resources */,
+				F942023B2FFC0001004F9471 /* FestivalBackup/2023_archive.json in Resources */,
+				F942022B2FFC0001004F9471 /* FestivalBackup/2022_archive.json in Resources */,
+				F942019B2FFC0001004F9471 /* FestivalBackup/2019_archive.json in Resources */,
 				A1B2C3D82FA90001004F9471 /* FestivalBackup/2026_news.json in Resources */,
 				353596FA2F92464800723570 /* 2026_artist_urls.csv in Resources */,
 				F30000162FDD0001004F9471 /* 2026_artist_preview_urls.csv in Resources */,
@@ -1512,6 +1608,14 @@
 				A10000132F9A1001004F9471 /* world_countries.geojson in Resources */,
 				A10000162F9A1001004F9471 /* world_countries_detail.geojson in Resources */,
 				A1B2C3D92FA90001004F9471 /* FestivalBackup/2026_rudolstadt_data.json in Resources */,
+				F940000C2FFC0001004F9471 /* FestivalBackup/2024_archive.json in Resources */,
+				F950000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026.json in Resources */,
+				F960000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf in Resources */,
+				F970000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png in Resources */,
+				F942025C2FFC0001004F9471 /* FestivalBackup/2025_archive.json in Resources */,
+				F942023C2FFC0001004F9471 /* FestivalBackup/2023_archive.json in Resources */,
+				F942022C2FFC0001004F9471 /* FestivalBackup/2022_archive.json in Resources */,
+				F942019C2FFC0001004F9471 /* FestivalBackup/2019_archive.json in Resources */,
 				A1B2C3DA2FA90001004F9471 /* FestivalBackup/2026_news.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1571,8 +1675,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F90000132FF90001004F9471 /* FestivalMapNumberPicker.swift in Sources */,
-				F90000122FF90001004F9471 /* FestivalMapCanvas.swift in Sources */,
+				AAD60BE1817D9630736C96FB /* FestivalRegistry.swift in Sources */,
+				BB8CCA7397DC69E59F9B242D /* FestivalSourceAdapter.swift in Sources */,
+				910F0EA92A9E2ABAC2AACFD5 /* FestivalFeatureCatalogs.swift in Sources */,
+				12F57F438C89D8ADE35F8DCF /* FestivalDurationResolver.swift in Sources */,
+				D7C4102E4F7AA73E8A661BDE /* FestivalInterfaceUtilities.swift in Sources */,
+				58BADFACD019D7FA0E3BD68E /* FestivalInterfaces.swift in Sources */,
 				B14400202FE50001004F9471 /* WatchSnapshot.swift in Sources */,
 				B14300102FE60001004F9471 /* WatchNextEventTimeline.swift in Sources */,
 				B14400272FE50001004F9471 /* WatchSnapshotBuilder.swift in Sources */,
@@ -1589,6 +1697,13 @@
 				35DC40512DFEF3960077079B /* NewsRefresher.swift in Sources */,
 				C20000042FE00001004F9471 /* AppServices.swift in Sources */,
 				3551CC8428043E8D004F9471 /* DataStore.swift in Sources */,
+				F93000022FFB0001004F9471 /* FestivalDataProvider.swift in Sources */,
+				F94000022FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift in Sources */,
+				F95000022FFC0001004F9471 /* LudwigsburgFestivalDataProvider.swift in Sources */,
+				F96000022FFC0001004F9471 /* FestivalSitePlan.swift in Sources */,
+				F97000022FFC0001004F9471 /* FestivalSitePlanView.swift in Sources */,
+				F98000022FFC0001004F9471 /* FestivalZoomableMap.swift in Sources */,
+				F9A000022FFC0001004F9471 /* MapSheetPresentation.swift in Sources */,
 				C20000012FE00001004F9471 /* AppLog.swift in Sources */,
 				F50000012FE40001004F9471 /* StageTransferEstimator.swift in Sources */,
 				F50000042FE40001004F9471 /* SchedulePlanning.swift in Sources */,
@@ -1628,13 +1743,14 @@
 				354B96772BE798D100F58179 /* ArtistLinks.swift in Sources */,
 				32A1116B6BA8D17499860263 /* SaveEventButton.swift in Sources */,
 				32A118A07CA6F813F4380570 /* FestivalDateUtilities.swift in Sources */,
-				A71000022FF30001004F9471 /* ArtistShareLink.swift in Sources */,
+				A71000022FF30001004F9471 /* RudolstadtShareLink.swift in Sources */,
 				D10000012FD10001004F9471 /* EventTimeBadge.swift in Sources */,
 				D10000132FD10001004F9471 /* FriendSavedEventBadges.swift in Sources */,
 				A10000292FA10001004F9471 /* TextFormatting.swift in Sources */,
 				32A11EF0FC00667B09CA5D0A /* StageEventCell.swift in Sources */,
 				D10000102FD10001004F9471 /* FriendArtistRatingSummary.swift in Sources */,
-				3505732528547CE0008932A9 /* ParkAndRideView.swift in Sources */,
+				FAD100042FFC1001004F9471 /* FriendArtistRatingsPresentation.swift in Sources */,
+				FAD100022FFC1001004F9471 /* FriendArtistRatingsMotion.swift in Sources */,
 				35D0A4922A0754CE004C506D /* StagePreview.swift in Sources */,
 				35879AE72E11CA680041FFD3 /* SettingsView.swift in Sources */,
 				32A118F15EE900F7D1D916E5 /* ArtistRatingSymbol.swift in Sources */,
@@ -1689,7 +1805,6 @@
 				A100000C2F9A1001004F9471 /* ArtistWorldMapView.swift in Sources */,
 				35D0A48C2A073AFF004C506D /* ColorExtensions.swift in Sources */,
 				32A115A10E8AE4441C178095 /* ArtistCell.swift in Sources */,
-				3505732B28549BF8008932A9 /* BusView.swift in Sources */,
 				351359B02BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */,
 				35514C4B2DD0EBB40004137D /* APIService.swift in Sources */,
 				32A1167A2BFBD49E2160B672 /* ArtistDetailView.swift in Sources */,
@@ -1713,13 +1828,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1943E67FA6C6288E07DFAE /* FestivalRegistry.swift in Sources */,
+				1ACD2AD1177B68294EF2BA2F /* FestivalSourceAdapter.swift in Sources */,
+				948BF27EADC2EFB7ACE879AA /* FestivalFeatureCatalogs.swift in Sources */,
+				6BC06EF05FA9967FF448F2C3 /* FestivalDurationResolver.swift in Sources */,
+				2B59811E9A4186FB002BFF6C /* FestivalInterfaceUtilities.swift in Sources */,
+				628EAAD811BB924349901559 /* FestivalInterfaces.swift in Sources */,
 				B14400242FE50001004F9471 /* FestivalConfiguration.swift in Sources */,
 				F40000072FE20001004F9471 /* ArtistYouTubeVideoView.swift in Sources */,
 				F30000142FDD0001004F9471 /* AppleMusicPreviewService.swift in Sources */,
 				F30000152FDD0001004F9471 /* ArtistAppleMusicPreviewView.swift in Sources */,
 				35D0A4902A07504C004C506D /* EventContextPreview.swift in Sources */,
 				3551CC6C28043624004F9471 /* RootTabView.swift in Sources */,
-				3505732628547CE0008932A9 /* ParkAndRideView.swift in Sources */,
 				C20000052FE00001004F9471 /* AppServices.swift in Sources */,
 				3551CC6A28043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
 				C20000022FE00001004F9471 /* AppLog.swift in Sources */,
@@ -1764,7 +1884,7 @@
 				35879AE82E11CA680041FFD3 /* SettingsView.swift in Sources */,
 				32A1190D2BC1583EA5BCD4F4 /* SaveEventButton.swift in Sources */,
 				32A111D06B3F187ED5308393 /* FestivalDateUtilities.swift in Sources */,
-				A71000032FF30001004F9471 /* ArtistShareLink.swift in Sources */,
+				A71000032FF30001004F9471 /* RudolstadtShareLink.swift in Sources */,
 				D10000022FD10001004F9471 /* EventTimeBadge.swift in Sources */,
 				D10000142FD10001004F9471 /* FriendSavedEventBadges.swift in Sources */,
 				A100002C2FA10001004F9471 /* TextFormatting.swift in Sources */,
@@ -1779,7 +1899,6 @@
 				32A116285B893A6CED1CAB9D /* ArtistRatingSymbol.swift in Sources */,
 				32A1138E193F6CB4137516BE /* TimeProgramEventCell.swift in Sources */,
 				FB71000330010001004F9471 /* ProgramDiscoveryView.swift in Sources */,
-				3505732C28549BF8008932A9 /* BusView.swift in Sources */,
 				32A111D43D702F38C6382630 /* LocationListView.swift in Sources */,
 				35143AB62F8E2510006DA6B7 /* ArtistImageNavigationTransition.swift in Sources */,
 				32A112A1CF3EDC6BC9BECDE4 /* ScheduleListView.swift in Sources */,
@@ -1827,6 +1946,13 @@
 				32A11A5EB7B117FBF994E013 /* ScheduleScreen.swift in Sources */,
 				3568C7AE29F968DE00A7AA7D /* ScheduleContentView.swift in Sources */,
 				32A11F71D8849BEB960E410C /* DataLoader.swift in Sources */,
+				F93000032FFB0001004F9471 /* FestivalDataProvider.swift in Sources */,
+				F94000032FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift in Sources */,
+				F95000032FFC0001004F9471 /* LudwigsburgFestivalDataProvider.swift in Sources */,
+				F96000032FFC0001004F9471 /* FestivalSitePlan.swift in Sources */,
+				F97000032FFC0001004F9471 /* FestivalSitePlanView.swift in Sources */,
+				F98000032FFC0001004F9471 /* FestivalZoomableMap.swift in Sources */,
+				F9A000032FFC0001004F9471 /* MapSheetPresentation.swift in Sources */,
 				353596F62F921E2900723570 /* OKHSLColorConverter.swift in Sources */,
 				35143AC82F8E793E006DA6B7 /* AppNavigationRoute.swift in Sources */,
 				32A11BFC2B1C136F583BFE9E /* StageNumber.swift in Sources */,
@@ -1855,11 +1981,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA321B8BFF0C13B5C38151F /* FestivalAdapterContractTests.swift in Sources */,
+				F98000122FFC0001004F9471 /* FestivalMapZoomTests.swift in Sources */,
+				F99000122FFC0001004F9471 /* FestivalMapSheetTests.swift in Sources */,
 				F90000142FF90001004F9471 /* StageLocationTests.swift in Sources */,
 				A71000052FF30001004F9471 /* ArtistShareLinkTests.swift in Sources */,
 				B14400322FE50001004F9471 /* WatchSnapshotTests.swift in Sources */,
 				F30000132FDD0001004F9471 /* AppleMusicPreviewServiceTests.swift in Sources */,
 				F10001012F990001004F9471 /* NotificationPermissionPresentationTests.swift in Sources */,
+				FAD100062FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift in Sources */,
 				F10001022F990001004F9471 /* DataConverterTests.swift in Sources */,
 				F10001032F990001004F9471 /* NewsMentionMatchingTests.swift in Sources */,
 				F10001042F990001004F9471 /* NewsServiceTests.swift in Sources */,

@@ -373,7 +373,7 @@ struct WatchSnapshotTests {
         ))
 
         #expect(result.envelope.payload.events.map(\.id) == [validEvent.id])
-        #expect(result.envelope.payload.events.first?.stageID == stage.id)
+        #expect(result.envelope.payload.events.first?.stageID == stage.id.numericValue)
         #expect(result.envelope.payload.events.first?.stageNameGerman == "Neue Bühne")
         #expect(result.envelope.payload.recommendations.orderedEventIDs == [validEvent.id])
         #expect(result.envelope.payload.events.first?.friendSaveCount == 0)
@@ -462,6 +462,8 @@ struct WatchSnapshotTests {
     func builderUsesWorstTransitionFromOverlappingAlternatives() throws {
         let distantStage = TestFixtures.stage(id: 301)
         let targetStage = TestFixtures.stage(id: 302)
+        let sourceStageID = try #require(distantStage.id.numericValue)
+        let destinationStageID = try #require(targetStage.id.numericValue)
         let firstAlternative = TestFixtures.event(
             id: 101,
             dayInJuly: 3,
@@ -518,7 +520,7 @@ struct WatchSnapshotTests {
                 transferEstimator: StageTransferEstimator(
                     stages: [distantStage, targetStage],
                     matrix: StageWalkingDistanceMatrix(distancesByStageID: [
-                        distantStage.id: [targetStage.id: 2_000]
+                        sourceStageID: [destinationStageID: 2_000]
                     ])
                 ),
                 calendar: TestFixtures.festivalCalendar

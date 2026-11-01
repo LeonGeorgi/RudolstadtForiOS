@@ -26,7 +26,7 @@ enum TestFixtures {
     static func festivalData(events: [Event]) -> FestivalData {
         FestivalData(
             artists: unique(events.map(\.artist), by: \.id),
-            areas: unique(events.map(\.stage.area), by: \.id),
+            areas: unique(events.compactMap(\.stage.area), by: \.id),
             stages: unique(events.map(\.stage), by: \.id),
             events: events
         )
@@ -104,7 +104,6 @@ enum TestFixtures {
             id: id,
             hiddenFromArtistList: hiddenFromArtistList,
             artistType: .stage,
-            someNumber: 0,
             name: name ?? "Artist \(id)",
             countries: "Germany",
             countryCodes: ["DEU"],

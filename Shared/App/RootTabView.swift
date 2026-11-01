@@ -13,10 +13,13 @@ private enum AppTab: Int, Hashable {
 struct RootTabView: View {
     private static let notificationPromptDelay: Duration = .seconds(5)
 
-    @Binding var pendingArtistLink: ArtistShareLink?
     var refreshOnForeground: () async -> Void = {}
+    var pendingFestivalRoute: FestivalRoute? = nil
+    var onFestivalRouteHandled: () -> Void = {}
 
+    @Environment(\.festivalEdition) private var edition
     @Environment(\.festivalData) private var festivalData
+    @EnvironmentObject private var dataStore: DataStore
     @EnvironmentObject var newsStore: NewsStore
     @EnvironmentObject var userSettings: UserSettings
     @Environment(\.scenePhase) var scenePhase
@@ -74,34 +77,6 @@ struct RootTabView: View {
         }
     }
 
-    private func openNewsFromNotification(id: Int) {
-        selectedTab = .more
-        morePath = NavigationPath()
-        morePath.append(AppNavigationRoute.news(id: id))
-        newsNotificationNavigation.clearRequestedNewsItem(id: id)
-    }
-
-    private func openArtistLink(_ link: ArtistShareLink) {
-        pendingArtistLink = nil
-        isShowingNewsSheet = false
-        isShowingNotificationPrompt = false
-
-        guard link.year == DataStore.year,
-              festivalData.artists.contains(where: { $0.id == link.artistID })
-        else {
-            isShowingArtistLinkUnavailable = true
-            return
-        }
-
-        selectedTab = .artists
-        artistsPath = NavigationPath()
-        artistsPath.append(AppNavigationRoute.artist(
-            id: link.artistID,
-            highlightedEventId: nil,
-            transitionSourceID: nil
-        ))
-    }
-
     private func presentNewsSheet() {
         newsSheetPath = NavigationPath()
         retainsNewsAccessoryForPresentedSheet = true
@@ -109,7 +84,7 @@ struct RootTabView: View {
     }
 
     private var unreadNewsItems: [NewsItem] {
-        if case .success(let news) = newsStore.news {
+        if dataStore.hasNews, case .success(let news) = newsStore.news {
             return news.filter { item in
                 item.isInCurrentLanguage
                 && !userSettings.readNews.contains(item.id)
@@ -119,12 +94,20 @@ struct RootTabView: View {
         }
     }
 
+    private var unreadFestivalNews: [FestivalNewsItem] {
+        guard !newsStore.usesLegacyPresentation, let snapshot = newsStore.snapshot else { return [] }
+        return snapshot.items.filter { !userSettings.isFestivalNewsRead($0.id, identity: snapshot.identity) }
+    }
+
     var unreadNewsCount: Int {
-        unreadNewsItems.count
+        newsStore.usesLegacyPresentation ? unreadNewsItems.count : unreadFestivalNews.count
     }
 
     private var unreadNewsAccessoryContent: [UnreadNewsAccessoryContent] {
-        unreadNewsItems.map { newsItem in
+        if !newsStore.usesLegacyPresentation {
+            return unreadFestivalNews.map { UnreadNewsAccessoryContent(title: $0.title.resolved(), subtitle: $0.summary?.resolved() ?? "") }
+        }
+        return unreadNewsItems.map { newsItem in
             UnreadNewsAccessoryContent(
                 title: newsItem.formattedShortDescription,
                 subtitle: newsItem.formattedLongDescription
@@ -156,7 +139,7 @@ struct RootTabView: View {
     private var appTabView: some View {
         TabView(selection: selectionBinding) {
             NavigationStack(path: $mapPath) {
-                MapOverview()
+                MapOverview(presentsPlaceSheets: true, navigate: { mapPath.append($0) })
                     .navigationDestination(for: AppNavigationRoute.self) { route in
                         AppNavigationDestination(
                             route: route,
@@ -303,7 +286,7 @@ struct RootTabView: View {
 
     var body: some View {
         tabViewWithNewsAccessory
-        .accentColor(.rudolstadt)
+        .accentColor(dataStore.metadata.presentation.accentColorHex.flatMap { Color(festivalProfileHex: $0) } ?? .rudolstadt)
         .onAppear {
             if isScreenshotMode {
                 selectedTab = .schedule
@@ -338,7 +321,7 @@ struct RootTabView: View {
             .presentationDragIndicator(.visible)
         }
         .task(id: scenePhase) {
-            guard scenePhase == .active, !isScreenshotMode else {
+            guard scenePhase == .active, !isScreenshotMode, dataStore.hasNews else {
                 return
             }
 
@@ -383,26 +366,31 @@ struct RootTabView: View {
         } message: {
             Text("artist.share.unavailable.message")
         }
-        .onChange(of: pendingArtistLink, initial: true) { _, link in
-            if let link {
-                openArtistLink(link)
+        .onChange(of: pendingFestivalRoute, initial: true) { _, route in
+            guard let route, route.identity == dataStore.metadata.identity else { return }
+            switch route.destination {
+            case .artist, .event:
+                selectedTab = .artists
+                artistsPath = NavigationPath()
+                artistsPath.append(AppNavigationRoute.festival(route.destination))
+            case .place:
+                selectedTab = .map
+                mapPath = NavigationPath()
+                mapPath.append(AppNavigationRoute.festival(route.destination))
+            case .overview: selectedTab = .schedule
+            case .news, .information:
+                selectedTab = .more
+                morePath = NavigationPath()
+                morePath.append(AppNavigationRoute.festival(route.destination))
             }
-        }
-        .onChange(
-            of: newsNotificationNavigation.requestedNewsItemID,
-            initial: true
-        ) { _, requestedNewsItemID in
-            guard let requestedNewsItemID else {
-                return
-            }
-            openNewsFromNotification(id: requestedNewsItemID)
+            onFestivalRouteHandled()
         }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 Task {
                     await refreshOnForeground()
                 }
-            } else if newPhase == .inactive {
+            } else if newPhase == .inactive && dataStore.hasNews {
                 UNUserNotificationCenter.current().setBadgeCount(unreadNewsCount)
                 NewsRefresher.scheduleNextBackgroundTask()
             }
@@ -622,7 +610,7 @@ private struct NotificationPermissionPromptView: View {
 struct RootTabView_Previews: PreviewProvider {
     @MainActor
     static var previews: some View {
-        RootTabView(pendingArtistLink: .constant(nil))
+        RootTabView()
             .previewMockEnvironment(suiteName: "RootTabViewPreview")
     }
 }

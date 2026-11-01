@@ -1,0 +1,2933 @@
+{
+  "schemaVersion": 1,
+  "festivalID": "ludwigsburg-2026",
+  "year": 2026,
+  "timeZone": "Europe/Berlin",
+  "sourceURL": "https://strassenmusikfestival.de/spielzeiten/",
+  "retrievedAt": "2026-10-20T05:40:00.910585+00:00",
+  "sourceSHA256": "ebf148cad4dd771fcd1248c810b74a0ab038d4e6564ad26c4516d09e34892d7c",
+  "omittedRecordCount": 1,
+  "artists": [
+    {
+      "id": 1,
+      "name": "Allie and the Feathers",
+      "sourceURL": "https://strassenmusikfestival.de/band/allie-feather/",
+      "countries": "Ukraine",
+      "countryCodes": [
+        "UKR"
+      ],
+      "descriptionDE": "Die ukrainische Sängerin und Songwriterin aus Berlin lebt im Campervan, reist mit ihrer Band durch die Welt und verwandelt jede Straßenbühne in einen intensiven Moment. Ihr Sound verbindet Rock mit Indie, Reggae. Jazz und Anklängen ukrainischer Folklore.\n\nZu dritt bringen Allie and the Feathers ihre eigenen Songs mit voller Energie auf die Bühne. Allies wandelbare Stimme mit großer Dynamik und emotionaler Tiefe erinnert manche an Künstlerinnen wie Sinéad O’Connor, Björk oder Janis Joplin, bleibt aber vom ersten Ton an unverwechselbar ihre eigene. Jede Show fühlt sich an wie eine kleine Reise durch ihre Welt, immer nah am Publikum und immer mit ganzem Herzen gespielt.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2025/05/Allie-and-the-Feathers-1024x1024.jpg",
+      "facebook": "https://www.facebook.com/linch.stately.5/",
+      "instagram": "https://www.instagram.com/allie.feather/",
+      "youtube": "https://www.youtube.com/@Allie.Feather"
+    },
+    {
+      "id": 2,
+      "name": "Aske Julius",
+      "sourceURL": "https://strassenmusikfestival.de/band/aske-julius/",
+      "countries": "Dänemark",
+      "countryCodes": [
+        "DNK"
+      ],
+      "descriptionDE": "Zwischen Kopfsteinpflaster und offenen Plätzen erzählt Aske Julius als Busker aus Kopenhagen seine Geschichten mit Gitarre und Stimme.\n\nDer dänische Singer Songwriter hat sich über Jahre als Straßenmusiker in seiner Heimatstadt und in vielen Städten Europas einen Namen gemacht. Mit seiner besonderen Stimme und einem sehr eigenen Gitarrenspiel zieht er die Aufmerksamkeit oft schon mit den ersten Tönen auf sich und schafft eine intime Atmosphäre mitten im Trubel.\n\nIn seinen Auftritten mischt er eigene Song mit ausgewählten Covers, immer geprägt von viel Gefühl und direkter Nähe zum Publikum. Man spürt, dass er ein Busker mit Herz und Seele ist, der seine Geschichten am liebsten unter freiem Himmel erzählt.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2019/05/Aske-Julius-821x1024.jpeg",
+      "facebook": "https://www.facebook.com/profile.php?id=100086874998584",
+      "instagram": "https://www.instagram.com/askejulius",
+      "youtube": "https://www.youtube.com/channel/UC1lCZuGLCHuI1UKxIcmQMRw"
+    },
+    {
+      "id": 3,
+      "name": "Bianca Sbriglione",
+      "sourceURL": "https://strassenmusikfestival.de/band/bianca-sbriglione/",
+      "countries": "Italien",
+      "countryCodes": [
+        "ITA"
+      ],
+      "descriptionDE": "Ob in Granada, Rom oder Lissabon – Bianca Sbriglione nimmt ihr Publikum überall mit in ihre Welt aus Pop, Rock und Emotionen.\n\nDie italienische Sängerin lebt und arbeitet vor allem in Spanien, Italien und Portugal, aktuell oft in Granada. Sie performt überwiegend auf Englisch und hat sich mit ihrer starken Stimme und viel Gefühl für Melodien einen festen Platz in der Straßenmusikszene erarbeitet. Neben der Straße steht sie auch regelmäßig in Pubs, Restaurants und Kunstgalerien auf der Bühne und war bereits bei Formaten wie dem Fira Tarrega Festival, dem Tour Music Fest und in der Omnia Gallerie Art Granada vertreten.\n\nStraßenmusik ist für Bianca das Herzstück ihrer Kunst. Sie schafft Auftritte, die gleichzeitig nahbar, emotional und voller Authentizität sind, ganz so, als würde niemand zusehen und niemand zuhören und doch alle im Moment verbunden sein.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Bianca-Sbriglione.jpg",
+      "facebook": "https://www.facebook.com/share/17nan4heoa/",
+      "instagram": "https://www.instagram.com/biancasbriglione",
+      "youtube": "https://www.youtube.com/@biancasbriglione"
+    },
+    {
+      "id": 4,
+      "name": "Cris Cosmo",
+      "sourceURL": "https://strassenmusikfestival.de/band/cris-cosmo/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Cris Cosmo erreichte mit seinen Songs den Bundesvision Songcontest, erhielt einen Radio-Regenbogen-Award und wurde für den Echo sowie den German Songwriting Award nominiert. Seine Zeit als Straßenmusiker in Europa, Südamerika und Asien prägte seinen Künstlernamen „Cosmo“ und seinen einzigartigen Stil aus Singer-Songriter, Pop-Rock und südamerikanischen Grooves.\n\nSeine positiven, mitreißenden Songs feiern Vielfalt, Selbstverwirklichung und Lebensfreude und setzen ein Zeichen für Frieden und Verständigung. Als authentischer Entertainer steht Cris Cosmo für Unterhaltung mit Haltung – eine Freiheits-Party für Menschen aller Nationen und Altersgruppen.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Cris-Cosmo.jpg",
+      "instagram": "https://www.instagram.com/cris_cosmo/",
+      "youtube": "https://www.youtube.com/@cris_cosmo"
+    },
+    {
+      "id": 5,
+      "name": "DenManTau",
+      "sourceURL": "https://strassenmusikfestival.de/band/denmantau/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Die fünfköpfige Band aus Hamburg mischt akustische Gitarre, Trompete, Beats und Syntheziser zu einem Sound, der sofort wiederzuerkennen ist. Touren durch Europa, Amerika und Ozeanien haben ihre Songs auf viele Bühnen und Plätze gebracht.\n\nMit ihrer Strange Love EP und eigenen Produktionen zeigt die Band, wie eingängige Melodien, markante Vocals und melodische Lead Gitarren zusammenfinden. Live entsteht daraus eine Mischung aus Emotion, Energie und direktem Kontakt zum Publikum.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/DenManTau-682x1024.jpeg",
+      "facebook": "https://www.facebook.com/denmantau",
+      "instagram": "https://www.instagram.com/denmantau/",
+      "youtube": "https://www.youtube.com/denmantau"
+    },
+    {
+      "id": 6,
+      "name": "Desmadre Orkesta",
+      "sourceURL": "https://strassenmusikfestival.de/band/desmadre-orkesta/",
+      "countries": "Argentinien",
+      "countryCodes": [
+        "ARG"
+      ],
+      "descriptionDE": "Desmadre Orkestra bringt die echte Music Party nach Ludwigsburg.\n\nDie siebenköpfige Band aus Buenos Aires mischt Latin, Reggae und Cumbia mit brasilianischen Grooves, argentinischen Wurzeln und der Wucht einer Balkan inspirierten Bläsersection. Seit vielen Jahren touren sie durch Amerika, Europa und Asien und verwandeln jede Bühne in ein buntes Fest voller Tanz, Energie und Lebensfreude.\n\nFür ihre neue Europa Tour haben Desmadre Orkesta ein frisches Programm im Gepäck, mit Frontsängerin und einem dynamischen Repertoire, das Grenzen einfach wegtanzt und das Publikum mitten ins Geschehen zieht.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2022/05/Desmadre-Orkestra.jpg",
+      "facebook": "https://www.facebook.com/desmadreorkesta/",
+      "instagram": "https://www.instagram.com/desmadreorkesta/",
+      "youtube": "https://www.youtube.com/watch?v=WmjM4Ymeuz0"
+    },
+    {
+      "id": 7,
+      "name": "Drecksglomb",
+      "sourceURL": "https://strassenmusikfestival.de/band/juergen-frey/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Fünf Musiker aus Ludwigsburg bringen Gitarre, Bass, Schlagzeug, Saxophon und eine markante Stimme zusammen und lassen damit echten Schwabenrock unplugged entstehen. Direkt, ehrlich, nah am Publikum und mit dieser besonderen Mischung aus Humor, Herz und handgemachter Energie, die sofort die Stimmung hebt.\n\nZwischen eigenen Songs und bekannten Melodien mit neuen schwäbischen Texten entsteht das Klangbild einer mitreißender Rockband. Hier wird im Dialekt erzählt, geschmunzelt und vor allem laut mitgesungen, bis jeder Refrain sitzt.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2025/04/2025-05-16_Drecksglomb_001-1024x948.jpg",
+      "youtube": "https://www.youtube.com/channel/UC71lMN4LWIPdd0Qxe4BODZw"
+    },
+    {
+      "id": 8,
+      "name": "Faela",
+      "sourceURL": "https://strassenmusikfestival.de/band/faela/",
+      "countries": "Schweden",
+      "countryCodes": [
+        "SWE"
+      ],
+      "descriptionDE": "FAELA sind sechs Musiker mit Wurzeln in Argentinien, England, Chile, Brasilien und Spanien, die in Malmö zusammengefunden haben und dort einen vibrierenden Mix aus Latin, Reggae, Cumbica, Jazz und Rock erschaffen, der Grenzen verschwimmen lässt und sofort in die Beine geht.\n\nSeit 2007bringen sie mit unbändiger Energie Festival Bühnen und Clubs in Europa und Südamerika zum Beben, haben mehrere Alben veröffentlicht und ihr aktuelles Werk Noites na Murdeira verbindet treibende Latin Grooves, poetische Texte und mitreißende Melodien zu einem Sound, der das Publikum zusammenführt.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Faela-1024x1024.jpg",
+      "facebook": "https://www.facebook.com/faelaband",
+      "instagram": "https://www.instagram.com/faelaband/?hl=es",
+      "youtube": "https://www.youtube.com/@faela5584"
+    },
+    {
+      "id": 9,
+      "name": "Fede Marka",
+      "sourceURL": "https://strassenmusikfestival.de/band/fede-marka/",
+      "countries": "Italien",
+      "countryCodes": [
+        "ITA"
+      ],
+      "descriptionDE": "Fede Marka ist eine One-Man-Band aus Italien, der mit Rock-Sound, markanter Stimme und unglaublicher Energie seit Jahren die Straßen füllt. Seine Live‑Shows verwandeln jede Bühne in ein vibrierendes Rock’n’Roll‑Erlebnis und begeistert tausende Fans sowohl live als auch online, wo seine Videos millionenfach geklickt werden.\n\nMit seinem Camper tourt er durch Städte wie Verona, Ferrara, Turin, Mailand und Bologna und bringt überall seine unverwechselbare Mischung aus Blues bis Hard Rock auf die Straße. Nach seinem Album „Valzer of Insomnia“ arbeitet er bereits an neuer Musik.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Fede-Marka.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100085062857974",
+      "instagram": "https://www.instagram.com/fedemarka/",
+      "youtube": "https://www.youtube.com/@FedeMarka"
+    },
+    {
+      "id": 10,
+      "name": "HaltMaKurz",
+      "sourceURL": "https://strassenmusikfestival.de/band/haltmakurz/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Die Acoustic Pop Combo HaltMaKurz mit Wurzeln in Würzburg machen seit Jahren das Straßenpflaster zu ihrer Bühne.\n\nMit Gitarre, Melodica und viel zweistimmigem Gesang spielen Anna und Flo sich quer durch ein buntes Set aus Sixties und Seventies Klassikern, Country Folk, irischen Stimmungsmachern und eigenen Lieblingssongs. Ihre liebevoll arrangierten Straßen Versionen leben von Spielfreude, Harmoniegesang und einer Spontanität, die sofort ansteckt.\n\nZwei Jahre lang waren die beiden unterwegs, haben in 20 Ländern gespielt, vom Atlantik bis zum Schwarzen Meer, von Stockholm bis Istanbul. Überall entstehen kleine Open Air Wohnzimmer, in denen gelacht und mitgesungen wird.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2023/05/Hauptmotiv-1.jpg",
+      "facebook": "﻿﻿https://www.facebook.com/profile.php?id=100076114032209",
+      "instagram": "https://www.instagram.com/haltmakurz_on_tour/",
+      "youtube": "https://www.youtube.com/@HaltMaKurz"
+    },
+    {
+      "id": 11,
+      "name": "hey sunny",
+      "sourceURL": "https://strassenmusikfestival.de/band/hey-sunny/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "hey sunny bringt pure Good Vibes auf die Bühne! Das Folk-Pop-Duo aus Sunny & Marty kombiniert zwei harmonische Stimmen mit Gitarre, Ukulele und Percussion. Dieser ehrliche Sound macht sofort gute Laune und lädt zum Mitsingen ein.\n\nIhre Auftritte schaffen eine warme, positive Atmosphäre: mal ruhig und berührend, mal rhythmisch und mitreißend. Ihre Songs erzählen von kleinen Alltagsmomenten, großen Erlebnissen und ganz viel Lebensfreude: authentisch, nahbar und handgemacht.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Hey-Sunny-1024x1024.jpg",
+      "instagram": "https://www.instagram.com/hey.sunny_music/",
+      "youtube": "https://www.youtube.com/@hey.sunny_music"
+    },
+    {
+      "id": 12,
+      "name": "Ideal Forgery",
+      "sourceURL": "https://strassenmusikfestival.de/band/ideal-forgery/",
+      "countries": "England",
+      "countryCodes": [
+        "GBR"
+      ],
+      "descriptionDE": "In Manchester zuhause und im Rock verwurzelt, stehen Ideal Forgery für vier Musiker und einen wuchtigen Sound. Laut, kompromisslos und trotzdem voller Melodien, die im Kopf bleiben. Zwischen verzerrten Gitarren, druckvollen Drums und der intensiven Stimme von Zak Heaney entstehen Songs, die irgendwo zwischen Biffy Clyro, Nirvana, Bring Me The Horizon und Soundgarden liegen und doch ganz klar ihre eigene Handschrift tragen. Ihre Musik spannt den Bogen Rockmomenten bis hin zu melancholischen Akustikpassagen. Mit Michael Taylor an der Leadgitarre, Dexter Doughty am Bass und Pete Mitchell am Schlagzeug wird jede Bühne z",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2020/03/Ideal-Forgery-819x1024.jpeg",
+      "facebook": "https://www.facebook.com/IdealForgery/",
+      "instagram": "https://www.instagram.com/idealforgery/",
+      "youtube": "https://www.youtube.com/user/IdealForgery"
+    },
+    {
+      "id": 13,
+      "name": "Jazzrakede",
+      "sourceURL": "https://strassenmusikfestival.de/band/jazzrakede/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Sechs Musikerinnen und Musiker aus Stuttgart zünden mit Swing, Dixieland und Jazzklassiekern eine Rakete, die direkt ins Ohr fliegt und dort bleibt. Sie bringen sieben Instrumente, viel Spontanität und noch mehr Spielfreude mit und machen aus jeder Ecke eine kleine Bühne.\n\nIhr Sound bewegt sich zwischen Jazz und Soul, mal federnd leicht, mal kraftvoll und voller Druck. Unter dem Motto echt eindrucksvoll eingespielt nehmen sie das Publikum mit auf eine Reise, bei der jede Solo Linie und jeder Bläsersatz einen eigenen kleinen Funkensprung auslöst.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Jazzrakede-1024x1024.jpeg",
+      "instagram": "https://www.instagram.com/jazzrake.de/",
+      "youtube": "https://www.youtube.com/@jazzrakede9207"
+    },
+    {
+      "id": 14,
+      "name": "Just Tony",
+      "sourceURL": "https://strassenmusikfestival.de/band/just-tony/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Wie er im letzten Jahr bewiesen hat, ist Just Tony nicht einfach nur „just“ Tony – er liefert die Energie einer ganzen Band, verpackt in einer einzigen Person. Als One-Man-Band spielt er Gitarre, Bass, Schlagzeug, Akkordeon, Handpan, Kazoo. Gleichzeitig singt er, als wäre es das Normalste der Welt. Mit seinem Mix aus eigenen Songs und ungewöhnlichen Coverversionen hat er bereits Menschen in Australien, Spanien, Irland und vielen anderen Orten begeistert.\n\nMit jeder Menge Bühnenerfahrung, Spielfreude und sympathischem Chaos-Charme sorgt Just Tony für offene Münder und tanzende Beine, die einfach nicht stillstehen wollen.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2025/05/Just-Tony-682x1024.jpeg",
+      "instagram": "https://www.instagram.com/antonio.justtony/"
+    },
+    {
+      "id": 15,
+      "name": "Justiniano Trio",
+      "sourceURL": "https://strassenmusikfestival.de/band/justiniano-trio/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Das Justiniano Trio vereint drei musikalische Biografien aus Chile, Argentinien und Deutschland und hat in Essen eine gemeinsame Heimat gefunden. Mit dieser bunten Mischung interpretieren sie bekannte Songs auf Spanisch neu und ergänzen sie mit eigenen Kompositionen, nah am Herzen des Publikums.\n\nIhre Musik bewegt sich zwischen Singer/Songwriter Klang, lateinamerikanischer Wärme und ruhigen Melodien, die lange nachhallen. Gitarre, Bass und Querflöte verweben sich mit drei Stimmen zu einem feinen akustischen Geflecht, das jede Ecke des Straßenmusikfestivals in einen kleinen Wohnzimmermoment verwandelt.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Justiniano-Trio-1024x970.jpeg",
+      "facebook": "https://www.facebook.com/profile.php?id=61586384314105",
+      "instagram": "https://www.instagram.com/justiniano.art/",
+      "youtube": "https://www.youtube.com/@CarlosJustiniano1957"
+    },
+    {
+      "id": 16,
+      "name": "Laurin Sigmund",
+      "sourceURL": "https://strassenmusikfestival.de/band/laurin-sigmund/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Laurin Sigmund bringt ehrliches Songwriting und eine Stimme auf die Bühne, die direkt ins Herz geht.\n\nDer Singer-Songwriter aus Baden-Württemberg erzählt in seinen Songs Geschichten, die berühren und im Kopf bleiben. Von Straßenmusik über Auftritte im Europäischen Parlament bis hin zu großen Bühnen wie dem Fest am See in Karlsruhe oder als Support für PUR zeigt Laurin, dass seine Musik Menschen verbindet und jeden Auftritt zu einem besonderen Moment macht.\n\nSeine Songs gibt es unter anderem auf Spotify, YouTube und Instagram, wo man seine Emotionen auch abseits der Bühne erleben kann.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Laurin-Sigmund-731x1024.jpeg",
+      "instagram": "https://www.instagram.com/laurin.sigmund/"
+    },
+    {
+      "id": 17,
+      "name": "Legiana Collective",
+      "sourceURL": "https://strassenmusikfestival.de/band/legiana-collective/",
+      "countries": "Niederlande",
+      "countryCodes": [
+        "NLD"
+      ],
+      "descriptionDE": "Legiana Collective verbindet modern Folk mit Einflüssen aus aller Welt. Legiana spielt in wechselnden Formationen von vier bis neun Mitgliedern. Für das Straßenmusikfestival kommen sie dieses Jahr dieses Jahr zu viert – mir Jarana, Violine Cello, Bass und Gesang.\n\nWas einmal als lockeres Straßenmusikprojekt in den Niederlanden begann, hat sich zu einem Ensemble entwickelt, das mit einer enormen Präsenz auftritt und die Energie der Straße direkt auf große Festivalbühnen transportiert.Ihre Musik reicht von mexikanischem Son Jarocho bis zu georgischer Polyphonie. Mit ihrem Album Wicked Light gehen sie konsequent ihren eigenen Weg und verbinden originäre Songs mit neu Interpretierten Traditionals zu einer Reise durch Kulturen und Emotionen.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Legiana-Collective.jpg",
+      "facebook": "https://www.facebook.com/legianamusic/",
+      "instagram": "https://www.instagram.com/legiana_collective/",
+      "youtube": "https://www.youtube.com/@legiana_collective"
+    },
+    {
+      "id": 18,
+      "name": "Loop ’n Loompa",
+      "sourceURL": "https://strassenmusikfestival.de/band/loop-n-loompa/",
+      "countries": "Spanien",
+      "countryCodes": [
+        "ESP"
+      ],
+      "descriptionDE": "Loop ’n Loompa bringt das Pflaster zum Beben, lange bevor jemand „Tanzfläche“ sagen kann.\n\nDie Band aus Spanien verwandelt seit Jahren Straßen, Plätze und Ecken in spontane Dancefloors. Mit einer explosiven Mischung aus Rock, Funk, Cumbica und Reggae, viel Bewegung und akrobatischer Spielfreude entsteht ein Sog, dem man sich kaum entziehen kann. Jeder Auftritt wächst mit dem Publikum, wird lauter, wilder und lebendiger, je mehr Menschen stehen bleiben, klatschen und mittanzen.\n\nLoop ’n Loompa stehen für echten Street Spirit: offene Räume, direkter Kontakt, pure Energie und das Gefühl, plötzlich Teil von etwas Größerem zu sein.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2024/04/Loop-n-Loompa-1-1024x1024.jpeg",
+      "facebook": "https://www.facebook.com/loopnloompa",
+      "instagram": "https://www.instagram.com/loop_n_loompa/",
+      "youtube": "https://www.youtube.com/watch?v=SzeiwpsbMBE"
+    },
+    {
+      "id": 19,
+      "name": "Frankie Owls",
+      "sourceURL": "https://strassenmusikfestival.de/band/frankie-owls/",
+      "countries": "USA",
+      "countryCodes": [
+        "USA"
+      ],
+      "descriptionDE": "FRANKIE OWLS SPIELT ALS ERSATZ FÜR LUCIE GLANG\n\nVom Knistern eines gelben „Big Bird“-Plattenspielers bis hin zu nächtlichen Blues-Clubs in ganz Deutschland – Frankie Owls ist stets einer Wahrheit gefolgt: Jede Note zählt. Frankie verbindet tiefe Blues-Tradition mit modernem Soul-Feuer und schöpft dabei aus der Rauheit des Deltas, dem Rhythmus des Piedmont, dem Drive Chicagos, der Hitze Texas’ und der in Gospel verwurzelten Hoffnung – und formt daraus einen unverwechselbaren Sound. Das ist keine Nostalgie. Das ist lebendiger Blues.\n\nMittlerweile in Stuttgart ansässig, hat er sich in Deutschland als amerikanischer Bluesgitarrist einen Namen gemacht und präsentiert einen rohen, emotionalen Stil, der den traditionellen Blues in einem modernen Umfeld am Leben erhält. Kein Glanz, keine Spielereien – nur ehrlicher Sound, der in Saiten und Holz eingemeißelt ist.\n\nFrankie hat über 150 Blues-Abende in Stuttgart, Böblingen und Süddeutschland gespielt – in kleinen Clubs, Cafés, bei Akustik-Sessions, Open-Mic-Veranstaltungen und Straßenauftritten. Diese intimen Auftritte haben seinen Sound geprägt: eine Stimme, eine Gitarre, die den ganzen Geist des Blues in die europäischen Nächte tragen.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/06/Frankie-Owls.jpeg",
+      "facebook": "http://facebook.com/frankieowlsofficial",
+      "instagram": "https://www.instagram.com/p/DOUTmwtDGAH/",
+      "youtube": "https://youtube.com/@frankieowls"
+    },
+    {
+      "id": 20,
+      "name": "Mellie Meteors",
+      "sourceURL": "https://strassenmusikfestival.de/band/mellie-meteors/",
+      "countries": "Niederlande",
+      "countryCodes": [
+        "NLD"
+      ],
+      "descriptionDE": "Mellie Meteors bringt mit einer fünfköpfigen Band Berliner Straßenflair und niederländischen Indie Spirit nach Ludwigsburg.\n\nDer unabhängige Künstler aus den Niederlanden hat sich in Berlin als Busker einen Namen gemacht, als sich während der Pandemie vieles in die Straßen und in die Underground Szene verlagert hat. Sein Sound bewegt sich zwischen Indie, Electro, Reggae und Rock,geprägt von einer klaren Falsettstimme, die mühelos zwischen kraftvoll und zerbrechlich wechselt.\n\nLive holt Mellie sein Publikum mitten auf die Bühne, schafft Momente, in denen alle gemeinsam im Jetzt leben und zwischen Unbeschwertheit, Melancholie und Hoffnunghin und her schwingen.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Mellie-Meteors-1024x1024.jpeg",
+      "facebook": "https://facebook.com/melliemeteors",
+      "instagram": "https://www.instagram.com/melliemelliemeteors/",
+      "youtube": "https://www.youtube.com/melliemeteors"
+    },
+    {
+      "id": 21,
+      "name": "Mike Angelovsky",
+      "sourceURL": "https://strassenmusikfestival.de/band/mike-angelovsky/",
+      "countries": "",
+      "countryCodes": [],
+      "descriptionDE": "Mike Angelovsky ist ein Gittarist aus Göppingen, der alte Grooves mit frischer Energie verbindet. Nach Jahren mit verschiedensten Bands und Studio Sessions hat er den Schritt gewagt und seine eigene musikalische Reise als Solokünstler gestartet.\n\nSeine Setlist reicht von zeitlosen Radio Klassikern bis zu aktuellen Chart Songs und wird von Künstlern wie Chris Stapleton, Joe Cocker oder Aaron Neville inspiriert. So entsteht eine gefühlvolle Mischung aus rauem Soul und lebendigem Gitarrenspiel, die direkt unter die Haut geht.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Mike-Angelovsky.jpg",
+      "instagram": "https://www.instagram.com/mikeangelovsky?igsh=MWpobHkzYmt3OWE4Yw==",
+      "youtube": "https://youtube.com/@mikeangelovsky?si=FHALLhA-2ifysne7"
+    },
+    {
+      "id": 22,
+      "name": "Nicolas Gohla",
+      "sourceURL": "https://strassenmusikfestival.de/band/nicolas-gohla/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Mit seinem Permissive Fingerstyle verbindet er Melodie, Rhythmus und Percussion zu einem warmen, lebendigen Sound, der direkt ins Herz geht. Jeder Ton ist Teil seiner ganz persönlichen Ausdrucksform.\n\nLive zeigt Nicolas, wie viel Gefühl, Humor und Energie in einer einzigen Akustikgitarre stecken können. Seine Musik erzählt Geschichten, lädt zum Träumen ein und schafft Momente, in denen man völlig versinken kann.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2025/05/Pic1-1024x1024.jpeg",
+      "facebook": "https://www.facebook.com/profile.php?id=100095550101742",
+      "instagram": "https://www.instagram.com/nicolasgohla/",
+      "youtube": "https://www.youtube.com/channel/UCQ81A6Nswz4U9-Ay71HKn4A"
+    },
+    {
+      "id": 23,
+      "name": "Panos-Bouzouki Loops",
+      "sourceURL": "https://strassenmusikfestival.de/band/bouzouki-loops/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Geboren im Norden Griechenland und heute in Deutschland zuhause, verbindet er World Music, mediterrane Klänge und moderne Improvisation. Mit Loopstation, handgebauter Stomp Box und Effektpedalen legt er Schicht um Schicht und erschafft einen kompletten Bandsound ganz allein.\n\nIn seinen rein instrumentalen Sets entstehen Melodien im Moment, jede Phrase ein kleiner Dialog zwischen Vergangenheit und Gegenwart. Seine Bouzouki Loops führen ihn inzwischen auf Festivals, Concert Stages und in besondere Kulturorte in ganz Europa.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2019/05/Panos-Bouzouki-Loops-1024x1024.jpg",
+      "facebook": "https://www.facebook.com/panosbouzouki",
+      "instagram": "https://www.instagram.com/panosbouzouki/",
+      "youtube": "https://www.youtube.com/@panos_bouzouki"
+    },
+    {
+      "id": 24,
+      "name": "PlaGu",
+      "sourceURL": "https://strassenmusikfestival.de/band/plagu/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "PlaGu ist ein Musiker aus Bayern der heute in Berlin lebt und seine eigene Mischung aus Singer/Songwroter Vibes und elektronischen Sounds gefunden hat. Gitarre, selbstgebastelte Beats und persönliche deutsche Texte formen Songs, die nach vorn schauen und trotzdem sehr nah sind.\n\nWas als Kind am Schlagzeug begann, wurde über den Computer zum Produzenten und über die Straßen der Hauptstadt zum Ein-Mann-Projekt aus Beats-Gitarre-Gefühl. Live verbindet PlaGu Loops, Stimme und Groove zu Momenten, die gleichzeitig wie Party und Umarmung wirken.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/PlaGu-731x1024.jpg",
+      "facebook": "https://www.facebook.com/Plagufromgermany",
+      "instagram": "https://www.instagram.com/plagu_musix/",
+      "youtube": "https://www.youtube.com/@plagu7325/videos"
+    },
+    {
+      "id": 25,
+      "name": "Ricky Vicente",
+      "sourceURL": "https://strassenmusikfestival.de/band/ricky-vicente/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "In Süddeutschland hat er sich längst einen Namen gemacht. Seine markante Stimme und sein Gefühl für gute Melodien machen jeden Auftritt besonders. Spätestens seit seinem Duett mit Nico Santos in der Porsche Arena wissen viele: Ricky hat das gewisse Etwas, das ein Publikum sofort packt.\n\nRicky bringt Menschen dazu mitzusingen und sich mitreißen zu lassen. Mit Gitarre, Stimme und Loop Station baut er live einen Sound auf, der klingt, als stünde eine ganze Band auf der Bühne. Mal leise und emotional, mal voller Power, immer absolut echt.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2024/04/RickyVicente.jpeg",
+      "instagram": "https://www.instagram.com/rickymusik/",
+      "youtube": "https://www.youtube.com/@rickymusik"
+    },
+    {
+      "id": 26,
+      "name": "Roger William Smith",
+      "sourceURL": "https://strassenmusikfestival.de/band/the-rw-smith/",
+      "countries": "USA",
+      "countryCodes": [
+        "USA"
+      ],
+      "descriptionDE": "Roger Smith bringt eine kraftvolle Mischung aus Blues und Americana ein weiteres Mal beim Straßenmusikfestival auf die Bühne (im letzten Jahr als „R. W. Smith“).\n\nSeine musikalischen Wurzeln reichen von Texas, wo er aufgewachsen ist, bis nach New York City, wo er seinen kreativen Stil geprägt hat. Daraus entsteht ein Sound, der eine starke erzählerische Wärme trägt.\n\nIn Mannheim hat Roger seinen ganz eigenen Groove gefunden. Mit seinem Debütalbum (2024) startet er in eine neue kreative Phase, in der Blues, Country und Rock zu einem persönlichen, authentischen Stil verschmelzen.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2025/05/Roger-William-Smith.jpeg",
+      "facebook": "facebook.com/profile.php?id=100044750240958",
+      "instagram": "https://www.instagram.com/roger_william_smith",
+      "youtube": "https://www.youtube.com/@therwsmith1972"
+    },
+    {
+      "id": 27,
+      "name": "Schubi Straßenfeger & Die Borstigen Banditen",
+      "sourceURL": "https://strassenmusikfestival.de/band/schubi-strassenfeger-die-borstigen-banditen/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Schubi Straßenfeger & Die Borstigen Banditen sind ein akustisches Gaunerkollektiv, das den Geist der Berliner Straßen direkt auf die Bühne holt.\n\nFünf Musiker mischen Cumbia, Punk, Swing und Folk zu einem Sound, der gleichzeitig ungebändigt, tanzbar und überraschend melodiös ist. Rauher Gesang, scheppernde Gitarren, treibender Kontrabass, freche Trompeten und ein unruhiger Puls im Rhythmus machen jede Nummer zu einer kleinen Revolte mit Augenzwinkern.\n\nIn ihren Texten treffen scharfen Wortwitz, gesellschaftliche Seitenhiebe und Geschichten von Unterwegssein und Aufbegehren aufeinander, immer mit einer guten Portion Selbstironie und großer Spielfreude. Aus jedem Auftritt wird so ein anarchischer Straßenball, bei dem niemand lange still stehen bleibt.\n\nAlso macht euch bereit, denn Schubi Straßenfeger & Die Borstigen Banditen kehren beim Straßenmusikfestival einmal so richtig durch.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Schubi-Strassenfeger-1024x1024.jpg",
+      "youtube": "https://www.youtube.com/channel/UCGopCejPBse-C3Md7ff5GZg"
+    },
+    {
+      "id": 28,
+      "name": "Sleepwalker’s Station",
+      "sourceURL": "https://strassenmusikfestival.de/band/sleepwalkers-station-rock-blues/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Sleepwalker’s Station ist ein europaweit verwurzeltes Indie World Folk Projekt, das in fünf Sprachen singt und Einflüsse aus Flamenco, Chanson, canzone d’autore, Austro Pop, Tango, alpiner Musik und mehr miteinander verbindet. Jeder Song fühlt sich an wie ein kleines Reisetagebuch, in dem Figuren wie Don Quijote, Ulysses oder Coelhos Alchemist in Klängen von der irischen Westküste bis in die Anden auftauchen.\n\nSeit 2011 ist die Band mit wechselnden Besetzungen auf Tour, mit hunderten Konzerten in Europa und Amerika und Auftritten auf Festivals wie Glastonbury oder SXSW.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2017/05/Sleepwalkers-Station.jpg",
+      "facebook": "https://www.facebook.com/Sleepwalkers-Station-48223376746/",
+      "instagram": "https://www.instagram.com/sleepwalkers_station/",
+      "youtube": "https://www.youtube.com/user/sleepwalkerstation"
+    },
+    {
+      "id": 29,
+      "name": "Sun State of Mind",
+      "sourceURL": "https://strassenmusikfestival.de/band/sun-state-of-mind/",
+      "countries": "Österreich",
+      "countryCodes": [
+        "AUT"
+      ],
+      "descriptionDE": "Alle guten Dinge sind 3! Oder auch Sun State of Mind .\n\nZum dritten Mal steht das Loop Station Duo aus Wien auf der Bühne des Straßenmusikfestivals. Mit Gitarre, Gesang, Drums, Effekten und mehreren Loop Stations bauen sie dichte, filmische Soundlandschaften. Ihre Musik bewegt sich zwischen Alternative, Indie, Electronica und Psychedelic Pop Soul und fühlt sich an wie ein Roadtrip nach innen, mal rhythmisch, mal zart, mal atmosphärisch, aber immer ganz nah am Moment.\n\nMit über 600 Shows, von der Straßenecke bis zu Festivals wie dem Busking World Cup in Südkorea, kultURKNALL, Rudolstadt sind sie für ihre good Vibes bekannt.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2024/04/Sun-State-of-Mind-1024x1024.jpg",
+      "facebook": "https://www.facebook.com/SunStateMind",
+      "instagram": "https://www.instagram.com/sunstateofmind_band/",
+      "youtube": "https://www.youtube.com/sunstateofmind"
+    },
+    {
+      "id": 30,
+      "name": "Suzie Fleur",
+      "sourceURL": "https://strassenmusikfestival.de/band/suzie-fleur/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Mit originellen Liedern über Liebe, Herzschmerz und die Reise des Lebens, präsentiert Suzie Fleur ihre Musik spielerisch und rau. Sie hat in verschiedenen Bands mitgewirkt, von der Rockband bis zum Techno-DJ, und kehrt nun zu ihren Wurzeln als Singer-Songwriterin zurück. Seit letztem Jahr ist sie hauptberuflich Straßenmusikerin in Berlin und hat dadurch gelernt, wie man jedes Publikum bewegt und wie man in jeder Situation eine Stimmung erzeugt. Jetzt ist sie bereit, ihre Musik auf Festivals und Bühnen zu präsentieren und wünscht sich, mehr von der Welt zu sehen, indem sie ihre Worte und Magie verbreitet.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2025/04/Suzie-Fleur.jpg",
+      "facebook": "https://www.facebook.com/SuzieFleur/",
+      "instagram": "https://www.instagram.com/suziefleur/",
+      "youtube": "https://www.youtube.com/@suziefleur"
+    },
+    {
+      "id": 31,
+      "name": "The Lazy Bandits",
+      "sourceURL": "https://strassenmusikfestival.de/band/peter-jones-the-lazy-bandits-blues-rock/",
+      "countries": "Dänmark",
+      "countryCodes": [
+        "DNK"
+      ],
+      "descriptionDE": "Peter Jones ist ein Singer/Songwriter und Vollblut Busker, der seit den achtziger Jahren auf den Straßen steht und konsequent seine eigenen Songs spielt. Keine Covers, sondern Geschichten aus seinem Leben, verpackt in ehrliche Melodien.\n\nAus dem Solokünstler wurde eine vierköpfige Band, die zeigen, wie lebendig handgemachte Musik auch nach unzähligen Gigs noch sein kann, denn das erste Mal standen sie 2003 auf unserer Bühne.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2017/05/The-Lazy-Bandits-816x1024.jpeg",
+      "youtube": "https://youtu.be/CBE1AfK7Ovw?si=kInje5Y46oOyokTA"
+    },
+    {
+      "id": 32,
+      "name": "UKULAYERS",
+      "sourceURL": "https://strassenmusikfestival.de/band/ukulayers/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Seit 2014 formen drei Musiker:innen das Herz von UKULAYERS und lassen ihre Ukulelen Geschichten erzählen, die zwischen Leichtigkeit und Tiefgang schwingen. Eigenwillige Arrangements, feine Melodien und eine Prise Fernweh mischen sich zu einem warmen Singer/Songwriter Sound, der sofort Nähe schafft.\n\nAuf Festivals und Clubbühnen von Prag bis Mannheim zeigen UKULAYERS, wie vielseitig Ukulelen sein können. Mal zart und verträumt, mal treibend und rhythmisch entsteht ein Klang zwischen Folk, Pop, Jazz und feinen Klangexperimenten, der Zuschauerinnen und Zuschauer jeden Alters zum Lauschen und Mitschwingen einlädt.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Ukulayers-963x1024.jpeg",
+      "facebook": "https://www.facebook.com/Ukulayers/?locale=de_DE",
+      "instagram": "https://www.instagram.com/ukulayers/",
+      "youtube": "https://www.youtube.com/channel/UC0ShIOeOiPcfItzn6R-ns2Q"
+    },
+    {
+      "id": 33,
+      "name": "Umanaya",
+      "sourceURL": "https://strassenmusikfestival.de/band/umanaya/",
+      "countries": "Polen",
+      "countryCodes": [
+        "POL"
+      ],
+      "descriptionDE": "Umanaya [Uman-Aya] steht für „Human Hearts“. Mit Handpan, Didgeridoo, Flöten, Gitarre, Beatbox und vielen weiteren Instrumenten aus verschiedenen Kulturen bringen sie energiegeladene World‑Music direkt auf die Straße. Jeder Klang erzählt seine eigene Geschichte, die Menschen zum Tanzen, Singen und Mitfühlen verbindet.\n\nLasst euch auf eine Reise durch die Fantasie oder auch auf den Dancefloor entführen, denn Umanaya verwandelt jeden Ort in eine kleine gemeinsame Tanzfläche.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Umanaya-792x1024.jpeg",
+      "facebook": "https://www.facebook.com/share/1FcfLj3fTQ/?mibextid=wwXIfr",
+      "instagram": "https://www.instagram.com/umanaya_band/",
+      "youtube": "https://youtube.com/@umanaya_band"
+    },
+    {
+      "id": 34,
+      "name": "Wild im Wald",
+      "sourceURL": "https://strassenmusikfestival.de/band/wild-im-wald/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Mit Akustikgitarre, Harmonizer und Stopp Box macht Nicky aus bekannten Songs kleine, persönliche Geschichten. Sie greift sich Pop, Folk, Liedermacherei und alte Schlager heraus und packt vertraute Melodien in neuem, akustischen Glanz.\n\nAls studierte Sozialarbeiterin und leidenschaftliche Straßenmusikerin liebt sie das umperfekte Menschliche und den direkten Austausch. Ihre Auftritte bei Festivals in Deutschland, Italien, Schottland und sogar der Straßenmusikerinnen Weltmeisterschaft in Südkorea zeigen, wie weit ihre Songs tragen können.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2018/04/Wild-im-Wald-739x1024.jpeg",
+      "facebook": "https://www.facebook.com/wildimwald.hessen",
+      "instagram": "https://www.instagram.com/wild_im_wald/",
+      "youtube": "https://www.youtube.com/@wildimwald"
+    },
+    {
+      "id": 35,
+      "name": "Wuthe & Faust",
+      "sourceURL": "https://strassenmusikfestival.de/band/wuthe-faust/",
+      "countries": "Deutschland",
+      "countryCodes": [
+        "DEU"
+      ],
+      "descriptionDE": "Wuthe & Faust bringen fein gearbeitetes Songwriting auf die Bühne, das man heute nicht mehr alle Tage findet.\n\nSeit über 20 Jahren stehen Jan Hampicke und Maik Garthe gemeinsam als Wuthe & Faust auf kleinen, liebevoll ausgewählten Bühnen im ganzen Land. Abseits des Mainstreams haben sie sich ihr ganz eigenes musikalisches Universum geschaffen. Der Duo Name geht auf die Mädchennamen ihrer Mütter zurück und erzählt damit schon seine erste kleine Geschichte.\n\nDiese Geschichte beginnt tatsächlich in der angloamerikanischen Songwriter Tradition: beatlesker Harmoniegesang mit markanten Stimmen, authentisches Storytelling, charakteristische Gitarren und Einflüsse aus Folk, Blues, Roots Rock und Country. In ihrem aktuellen Programm „Duets“ nehmen sie das Publikum mit auf eine Reise zu berühmten Duetten der Pop Geschichte, interpretiert im ganz eigenen Wuthe & Faust Stil.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/Wuthe-Faust--1024x1024.jpeg",
+      "facebook": "https://www.facebook.com/wutheundfaust",
+      "youtube": "https://www.youtube.com/@maikgarthe"
+    },
+    {
+      "id": 36,
+      "name": "Yuni Douglas",
+      "sourceURL": "https://strassenmusikfestival.de/band/yuni-douglas/",
+      "countries": "Kuba, Deutschland",
+      "countryCodes": [
+        "CUB",
+        "DEU"
+      ],
+      "descriptionDE": "Yuni Douglas bringt die karibische Lebensfreude auf die Bühne. Als Sänger und Gitarrist verzaubert er mit kubanischen Klassikern und modernen Latinorhythmen. Aufgewachsen in einer Musikerfamilie, entwickelte er früh eine tiefe Leidenschaft für Musik und singt seit 15 Jahren in Bands. Seit seiner Ankunft in Deutschland 2015 vertieft er seine Liebe zu Salsa und Son.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2025/04/Yuni-Douglas.jpg",
+      "instagram": "https://www.instagram.com/yunidouglas/",
+      "youtube": "www.youtube.com/@yunidouglas9728"
+    },
+    {
+      "id": 37,
+      "name": "ZABABA",
+      "sourceURL": "https://strassenmusikfestival.de/band/zababa/",
+      "countries": "Frankreich",
+      "countryCodes": [
+        "FRA"
+      ],
+      "descriptionDE": "ZABABA ist ein musikalischer Wirbelwind aus Marseille.\n\nAls One Man Band verbindet er Handpan, ethnische Klänge, elektronische Beats und Gesang zu einem Sound, der irgendwo zwischen Techno, Weltmusik und Straßenzauber schwebt. Seine starke Bühnenpräsenz kommt nicht von ungefähr: ZABABA ist auch Schauspieler und Entertainer und hat sein Straßenprogramm bereits in mehr als zwölf Ländern auf mehreren Kontinenten gespielt.\n\nFür ihn ist Musik seit der Kindheit eine Art religiöse Erfahrung, eine ekstatische Trance zwischen Ost und West, getragen von Blasinstrumenten, Percussion, Elektronik und seiner unverwechselbaren Stimme. Aktuell ist er mit seinem halbanalogen, halbdigitalen Liveset auf Festivals und Straßen in ganz Europa unterwegs.",
+      "imageURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/05/ZABABA.jpg",
+      "instagram": "https://www.instagram.com/zababamusic/",
+      "youtube": "https://www.youtube.com/@zababamusic"
+    }
+  ],
+  "stages": [
+    {
+      "id": 1,
+      "name": "Bühne B",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/b/"
+    },
+    {
+      "id": 2,
+      "name": "Bühne M",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/buehne-m/"
+    },
+    {
+      "id": 3,
+      "name": "Bühne C",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/c/"
+    },
+    {
+      "id": 4,
+      "name": "Bühne D",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/d/"
+    },
+    {
+      "id": 5,
+      "name": "Bühne E",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/e/"
+    },
+    {
+      "id": 6,
+      "name": "Bühne F",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/f/"
+    },
+    {
+      "id": 7,
+      "name": "Bühne G",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/g/"
+    },
+    {
+      "id": 8,
+      "name": "Bühne H",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/h/"
+    },
+    {
+      "id": 9,
+      "name": "Hauptbühne A",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/hauptbuehne/"
+    },
+    {
+      "id": 10,
+      "name": "Bühne I",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/i/"
+    },
+    {
+      "id": 11,
+      "name": "Bühne K",
+      "sourceURL": "https://strassenmusikfestival.de/buehne/k/"
+    }
+  ],
+  "events": [
+    {
+      "id": 136107827955517,
+      "start": "2026-06-20T14:20",
+      "durationMinutes": 20,
+      "artist": 1,
+      "stage": 9
+    },
+    {
+      "id": 114090891831685,
+      "start": "2026-06-20T14:40",
+      "durationMinutes": 20,
+      "artist": 2,
+      "stage": 9
+    },
+    {
+      "id": 138595371114182,
+      "start": "2026-06-20T15:00",
+      "durationMinutes": 20,
+      "artist": 4,
+      "stage": 9
+    },
+    {
+      "id": 277435979894904,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 20,
+      "artist": 3,
+      "stage": 9
+    },
+    {
+      "id": 97424879186944,
+      "start": "2026-06-20T15:40",
+      "durationMinutes": 20,
+      "artist": 5,
+      "stage": 9
+    },
+    {
+      "id": 184431701957858,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 20,
+      "artist": 9,
+      "stage": 9
+    },
+    {
+      "id": 193296989042860,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 20,
+      "artist": 14,
+      "stage": 9
+    },
+    {
+      "id": 8680827622124,
+      "start": "2026-06-20T17:00",
+      "durationMinutes": 20,
+      "artist": 10,
+      "stage": 9
+    },
+    {
+      "id": 63990482666084,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 20,
+      "artist": 16,
+      "stage": 9
+    },
+    {
+      "id": 194929639294880,
+      "start": "2026-06-20T17:40",
+      "durationMinutes": 20,
+      "artist": 12,
+      "stage": 9
+    },
+    {
+      "id": 12683720180900,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 20,
+      "artist": 6,
+      "stage": 9
+    },
+    {
+      "id": 157190343156463,
+      "start": "2026-06-20T19:00",
+      "durationMinutes": 20,
+      "artist": 13,
+      "stage": 9
+    },
+    {
+      "id": 67641586058284,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 20,
+      "artist": 15,
+      "stage": 9
+    },
+    {
+      "id": 213617970926999,
+      "start": "2026-06-20T19:40",
+      "durationMinutes": 20,
+      "artist": 19,
+      "stage": 9
+    },
+    {
+      "id": 131999777071347,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 20,
+      "artist": 7,
+      "stage": 9
+    },
+    {
+      "id": 196279520590692,
+      "start": "2026-06-20T20:20",
+      "durationMinutes": 20,
+      "artist": 34,
+      "stage": 9
+    },
+    {
+      "id": 182361920989289,
+      "start": "2026-06-20T20:40",
+      "durationMinutes": 20,
+      "artist": 36,
+      "stage": 9
+    },
+    {
+      "id": 152703841712625,
+      "start": "2026-06-20T21:00",
+      "durationMinutes": 20,
+      "artist": 8,
+      "stage": 9
+    },
+    {
+      "id": 202224388072546,
+      "start": "2026-06-20T14:00",
+      "durationMinutes": 30,
+      "artist": 34,
+      "stage": 1
+    },
+    {
+      "id": 203533710895411,
+      "start": "2026-06-20T14:40",
+      "durationMinutes": 30,
+      "artist": 23,
+      "stage": 1
+    },
+    {
+      "id": 99410661387172,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 28,
+      "stage": 1
+    },
+    {
+      "id": 134051352939673,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 1,
+      "stage": 1
+    },
+    {
+      "id": 194914532318710,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 30,
+      "stage": 1
+    },
+    {
+      "id": 178007580676679,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 29,
+      "stage": 1
+    },
+    {
+      "id": 68388850427142,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 7,
+      "stage": 1
+    },
+    {
+      "id": 61262690719624,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 30,
+      "artist": 26,
+      "stage": 1
+    },
+    {
+      "id": 158755773643005,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 37,
+      "stage": 1
+    },
+    {
+      "id": 202832529306569,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 31,
+      "stage": 1
+    },
+    {
+      "id": 244794541091626,
+      "start": "2026-06-20T14:00",
+      "durationMinutes": 30,
+      "artist": 36,
+      "stage": 3
+    },
+    {
+      "id": 212331350804183,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 17,
+      "stage": 3
+    },
+    {
+      "id": 255460155176112,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 2,
+      "stage": 3
+    },
+    {
+      "id": 276389614150733,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 32,
+      "stage": 3
+    },
+    {
+      "id": 266871558451123,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 28,
+      "stage": 3
+    },
+    {
+      "id": 29735899617905,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 19,
+      "stage": 3
+    },
+    {
+      "id": 181119249925649,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 30,
+      "artist": 33,
+      "stage": 3
+    },
+    {
+      "id": 123172549353362,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 35,
+      "stage": 3
+    },
+    {
+      "id": 130624277364626,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 22,
+      "stage": 3
+    },
+    {
+      "id": 41198872831364,
+      "start": "2026-06-20T20:40",
+      "durationMinutes": 30,
+      "artist": 9,
+      "stage": 3
+    },
+    {
+      "id": 150955029661225,
+      "start": "2026-06-20T14:00",
+      "durationMinutes": 30,
+      "artist": 8,
+      "stage": 4
+    },
+    {
+      "id": 251665360106329,
+      "start": "2026-06-20T14:40",
+      "durationMinutes": 30,
+      "artist": 30,
+      "stage": 4
+    },
+    {
+      "id": 52640575440289,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 16,
+      "stage": 4
+    },
+    {
+      "id": 130567559606389,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 31,
+      "stage": 4
+    },
+    {
+      "id": 99241085719749,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 6,
+      "stage": 4
+    },
+    {
+      "id": 125026982440433,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 27,
+      "stage": 4
+    },
+    {
+      "id": 277912496206253,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 2,
+      "stage": 4
+    },
+    {
+      "id": 95474811794693,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 30,
+      "artist": 32,
+      "stage": 4
+    },
+    {
+      "id": 92707332625422,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 24,
+      "stage": 4
+    },
+    {
+      "id": 127674185216564,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 33,
+      "stage": 4
+    },
+    {
+      "id": 59361600774783,
+      "start": "2026-06-20T14:00",
+      "durationMinutes": 30,
+      "artist": 9,
+      "stage": 5
+    },
+    {
+      "id": 266229102755630,
+      "start": "2026-06-20T14:40",
+      "durationMinutes": 30,
+      "artist": 6,
+      "stage": 5
+    },
+    {
+      "id": 171364162694652,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 15,
+      "stage": 5
+    },
+    {
+      "id": 96005586613030,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 33,
+      "stage": 5
+    },
+    {
+      "id": 34857158765012,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 8,
+      "stage": 5
+    },
+    {
+      "id": 83798856236812,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 26,
+      "stage": 5
+    },
+    {
+      "id": 49175151049144,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 5,
+      "stage": 5
+    },
+    {
+      "id": 78900873710193,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 30,
+      "artist": 30,
+      "stage": 5
+    },
+    {
+      "id": 261190974728403,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 21,
+      "stage": 5
+    },
+    {
+      "id": 90972006668138,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 2,
+      "stage": 5
+    },
+    {
+      "id": 50177576260289,
+      "start": "2026-06-20T14:00",
+      "durationMinutes": 30,
+      "artist": 13,
+      "stage": 6
+    },
+    {
+      "id": 225424432657303,
+      "start": "2026-06-20T14:40",
+      "durationMinutes": 30,
+      "artist": 14,
+      "stage": 6
+    },
+    {
+      "id": 65609937682592,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 20,
+      "stage": 6
+    },
+    {
+      "id": 250376202610727,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 7,
+      "stage": 6
+    },
+    {
+      "id": 186272750383407,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 25,
+      "stage": 6
+    },
+    {
+      "id": 247178044898177,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 17,
+      "stage": 6
+    },
+    {
+      "id": 260226428555341,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 34,
+      "stage": 6
+    },
+    {
+      "id": 118831368800823,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 30,
+      "artist": 18,
+      "stage": 6
+    },
+    {
+      "id": 107911171509425,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 28,
+      "stage": 6
+    },
+    {
+      "id": 270811402824468,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 1,
+      "stage": 6
+    },
+    {
+      "id": 223956413178876,
+      "start": "2026-06-20T20:40",
+      "durationMinutes": 30,
+      "artist": 4,
+      "stage": 6
+    },
+    {
+      "id": 62694622207624,
+      "start": "2026-06-20T14:40",
+      "durationMinutes": 30,
+      "artist": 18,
+      "stage": 7
+    },
+    {
+      "id": 6496337074305,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 27,
+      "stage": 7
+    },
+    {
+      "id": 181455069000192,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 35,
+      "stage": 7
+    },
+    {
+      "id": 85407572058615,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 13,
+      "stage": 7
+    },
+    {
+      "id": 82179505150736,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 22,
+      "stage": 7
+    },
+    {
+      "id": 88596545687182,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 31,
+      "stage": 7
+    },
+    {
+      "id": 248188277057407,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 30,
+      "artist": 4,
+      "stage": 7
+    },
+    {
+      "id": 205356353283784,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 14,
+      "stage": 7
+    },
+    {
+      "id": 126842824224486,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 5,
+      "stage": 7
+    },
+    {
+      "id": 39518344623244,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 12,
+      "stage": 8
+    },
+    {
+      "id": 84991030680163,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 32,
+      "stage": 8
+    },
+    {
+      "id": 68479794648571,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 37,
+      "stage": 8
+    },
+    {
+      "id": 182381460417954,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 18,
+      "stage": 8
+    },
+    {
+      "id": 84432030907184,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 15,
+      "stage": 8
+    },
+    {
+      "id": 212122298515499,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 36,
+      "stage": 8
+    },
+    {
+      "id": 212135138807432,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 30,
+      "artist": 25,
+      "stage": 8
+    },
+    {
+      "id": 215478224288956,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 29,
+      "stage": 8
+    },
+    {
+      "id": 134216241699625,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 20,
+      "stage": 8
+    },
+    {
+      "id": 56533011877108,
+      "start": "2026-06-20T14:40",
+      "durationMinutes": 30,
+      "artist": 24,
+      "stage": 10
+    },
+    {
+      "id": 105055534871368,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 26,
+      "stage": 10
+    },
+    {
+      "id": 232613556575166,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 19,
+      "stage": 10
+    },
+    {
+      "id": 269598105533681,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 3,
+      "stage": 10
+    },
+    {
+      "id": 68595917085238,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 23,
+      "stage": 10
+    },
+    {
+      "id": 141712960771527,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 37,
+      "stage": 10
+    },
+    {
+      "id": 38348913562450,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 30,
+      "artist": 16,
+      "stage": 10
+    },
+    {
+      "id": 34586174550257,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 8,
+      "stage": 10
+    },
+    {
+      "id": 245266439012649,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 17,
+      "stage": 10
+    },
+    {
+      "id": 255559390997386,
+      "start": "2026-06-20T20:40",
+      "durationMinutes": 30,
+      "artist": 10,
+      "stage": 10
+    },
+    {
+      "id": 54379431809048,
+      "start": "2026-06-20T14:40",
+      "durationMinutes": 30,
+      "artist": 10,
+      "stage": 11
+    },
+    {
+      "id": 159453750025239,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 21,
+      "stage": 11
+    },
+    {
+      "id": 28550906840982,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 34,
+      "stage": 11
+    },
+    {
+      "id": 132676201779202,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 24,
+      "stage": 11
+    },
+    {
+      "id": 98112167227131,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 20,
+      "stage": 11
+    },
+    {
+      "id": 68405947387041,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 35,
+      "stage": 11
+    },
+    {
+      "id": 72305435214629,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 3,
+      "stage": 11
+    },
+    {
+      "id": 219473640332491,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 27,
+      "stage": 11
+    },
+    {
+      "id": 6871225142011,
+      "start": "2026-06-20T14:00",
+      "durationMinutes": 30,
+      "artist": 22,
+      "stage": 2
+    },
+    {
+      "id": 17856612900135,
+      "start": "2026-06-20T14:40",
+      "durationMinutes": 30,
+      "artist": 25,
+      "stage": 2
+    },
+    {
+      "id": 38414134490958,
+      "start": "2026-06-20T15:20",
+      "durationMinutes": 30,
+      "artist": 29,
+      "stage": 2
+    },
+    {
+      "id": 96293891642105,
+      "start": "2026-06-20T16:00",
+      "durationMinutes": 30,
+      "artist": 36,
+      "stage": 2
+    },
+    {
+      "id": 243145071259941,
+      "start": "2026-06-20T16:40",
+      "durationMinutes": 30,
+      "artist": 4,
+      "stage": 2
+    },
+    {
+      "id": 124381684703573,
+      "start": "2026-06-20T17:20",
+      "durationMinutes": 30,
+      "artist": 21,
+      "stage": 2
+    },
+    {
+      "id": 248977101995577,
+      "start": "2026-06-20T18:00",
+      "durationMinutes": 30,
+      "artist": 1,
+      "stage": 2
+    },
+    {
+      "id": 125785498759085,
+      "start": "2026-06-20T18:40",
+      "durationMinutes": 30,
+      "artist": 9,
+      "stage": 2
+    },
+    {
+      "id": 236709261989105,
+      "start": "2026-06-20T19:20",
+      "durationMinutes": 30,
+      "artist": 23,
+      "stage": 2
+    },
+    {
+      "id": 211421343837739,
+      "start": "2026-06-20T20:00",
+      "durationMinutes": 30,
+      "artist": 12,
+      "stage": 2
+    },
+    {
+      "id": 274206088446818,
+      "start": "2026-06-21T14:00",
+      "durationMinutes": 20,
+      "artist": 17,
+      "stage": 9
+    },
+    {
+      "id": 221296226398976,
+      "start": "2026-06-21T14:20",
+      "durationMinutes": 20,
+      "artist": 18,
+      "stage": 9
+    },
+    {
+      "id": 248092425192676,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 20,
+      "artist": 21,
+      "stage": 9
+    },
+    {
+      "id": 195264651789376,
+      "start": "2026-06-21T15:00",
+      "durationMinutes": 20,
+      "artist": 20,
+      "stage": 9
+    },
+    {
+      "id": 245452511687214,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 20,
+      "artist": 23,
+      "stage": 9
+    },
+    {
+      "id": 171721383112740,
+      "start": "2026-06-21T15:40",
+      "durationMinutes": 20,
+      "artist": 24,
+      "stage": 9
+    },
+    {
+      "id": 89489837579188,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 20,
+      "artist": 25,
+      "stage": 9
+    },
+    {
+      "id": 187935927991177,
+      "start": "2026-06-21T16:20",
+      "durationMinutes": 20,
+      "artist": 27,
+      "stage": 9
+    },
+    {
+      "id": 140586520630934,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 20,
+      "artist": 29,
+      "stage": 9
+    },
+    {
+      "id": 163640964781652,
+      "start": "2026-06-21T17:00",
+      "durationMinutes": 20,
+      "artist": 28,
+      "stage": 9
+    },
+    {
+      "id": 213159855074703,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 20,
+      "artist": 26,
+      "stage": 9
+    },
+    {
+      "id": 263760290822483,
+      "start": "2026-06-21T17:40",
+      "durationMinutes": 20,
+      "artist": 30,
+      "stage": 9
+    },
+    {
+      "id": 84147530683236,
+      "start": "2026-06-21T18:20",
+      "durationMinutes": 20,
+      "artist": 31,
+      "stage": 9
+    },
+    {
+      "id": 82076915648352,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 20,
+      "artist": 32,
+      "stage": 9
+    },
+    {
+      "id": 142380764963096,
+      "start": "2026-06-21T19:00",
+      "durationMinutes": 20,
+      "artist": 37,
+      "stage": 9
+    },
+    {
+      "id": 203640231886359,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 20,
+      "artist": 35,
+      "stage": 9
+    },
+    {
+      "id": 144611904447079,
+      "start": "2026-06-21T19:40",
+      "durationMinutes": 20,
+      "artist": 33,
+      "stage": 9
+    },
+    {
+      "id": 61759162201981,
+      "start": "2026-06-21T20:00",
+      "durationMinutes": 20,
+      "artist": 22,
+      "stage": 9
+    },
+    {
+      "id": 202434726678657,
+      "start": "2026-06-21T14:00",
+      "durationMinutes": 30,
+      "artist": 27,
+      "stage": 1
+    },
+    {
+      "id": 223295470505828,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 33,
+      "stage": 1
+    },
+    {
+      "id": 154108592714417,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 5,
+      "stage": 1
+    },
+    {
+      "id": 43747420603030,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 18,
+      "stage": 1
+    },
+    {
+      "id": 123147416268890,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 19,
+      "stage": 1
+    },
+    {
+      "id": 117130626659418,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 12,
+      "stage": 1
+    },
+    {
+      "id": 21374130828652,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 11,
+      "stage": 1
+    },
+    {
+      "id": 262457450209126,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 24,
+      "stage": 1
+    },
+    {
+      "id": 118205753631067,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 26,
+      "stage": 1
+    },
+    {
+      "id": 213630007729173,
+      "start": "2026-06-21T14:00",
+      "durationMinutes": 30,
+      "artist": 23,
+      "stage": 3
+    },
+    {
+      "id": 157221200252422,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 25,
+      "stage": 3
+    },
+    {
+      "id": 217800386839254,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 6,
+      "stage": 3
+    },
+    {
+      "id": 125921467278369,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 17,
+      "stage": 3
+    },
+    {
+      "id": 95550432676265,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 16,
+      "stage": 3
+    },
+    {
+      "id": 199400975240036,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 15,
+      "stage": 3
+    },
+    {
+      "id": 277560249471753,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 14,
+      "stage": 3
+    },
+    {
+      "id": 24931045236592,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 19,
+      "stage": 3
+    },
+    {
+      "id": 132696696207805,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 30,
+      "stage": 3
+    },
+    {
+      "id": 68551914965445,
+      "start": "2026-06-21T14:00",
+      "durationMinutes": 30,
+      "artist": 24,
+      "stage": 4
+    },
+    {
+      "id": 142726263121826,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 29,
+      "stage": 4
+    },
+    {
+      "id": 253391873518645,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 7,
+      "stage": 4
+    },
+    {
+      "id": 6252028430727,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 11,
+      "stage": 4
+    },
+    {
+      "id": 4292676954491,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 31,
+      "stage": 4
+    },
+    {
+      "id": 182434270453581,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 5,
+      "stage": 4
+    },
+    {
+      "id": 44071951188976,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 17,
+      "stage": 4
+    },
+    {
+      "id": 64665727489812,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 28,
+      "stage": 4
+    },
+    {
+      "id": 8969153100970,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 21,
+      "stage": 4
+    },
+    {
+      "id": 196144612599092,
+      "start": "2026-06-21T14:00",
+      "durationMinutes": 30,
+      "artist": 35,
+      "stage": 5
+    },
+    {
+      "id": 79867065911706,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 10,
+      "stage": 5
+    },
+    {
+      "id": 240321635359204,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 28,
+      "stage": 5
+    },
+    {
+      "id": 204899750601970,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 36,
+      "stage": 5
+    },
+    {
+      "id": 219129896030988,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 9,
+      "stage": 5
+    },
+    {
+      "id": 268756664258457,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 14,
+      "stage": 5
+    },
+    {
+      "id": 4159385994966,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 7,
+      "stage": 5
+    },
+    {
+      "id": 277211353022631,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 2,
+      "stage": 5
+    },
+    {
+      "id": 159282443399132,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 18,
+      "stage": 5
+    },
+    {
+      "id": 154208382597471,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 27,
+      "stage": 5
+    },
+    {
+      "id": 48386902488907,
+      "start": "2026-06-21T14:00",
+      "durationMinutes": 30,
+      "artist": 32,
+      "stage": 6
+    },
+    {
+      "id": 84825294977868,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 11,
+      "stage": 6
+    },
+    {
+      "id": 41481864311261,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 14,
+      "stage": 6
+    },
+    {
+      "id": 166578513191107,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 4,
+      "stage": 6
+    },
+    {
+      "id": 103905396495423,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 10,
+      "stage": 6
+    },
+    {
+      "id": 267955858918072,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 33,
+      "stage": 6
+    },
+    {
+      "id": 49738178556295,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 36,
+      "stage": 6
+    },
+    {
+      "id": 224947959089640,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 7,
+      "stage": 6
+    },
+    {
+      "id": 44238962945993,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 15,
+      "stage": 6
+    },
+    {
+      "id": 15179359808331,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 31,
+      "stage": 7
+    },
+    {
+      "id": 64920917904880,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 12,
+      "stage": 7
+    },
+    {
+      "id": 241690752903262,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 1,
+      "stage": 7
+    },
+    {
+      "id": 212742223028434,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 35,
+      "stage": 7
+    },
+    {
+      "id": 213638254268715,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 20,
+      "stage": 7
+    },
+    {
+      "id": 181135263684978,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 34,
+      "stage": 7
+    },
+    {
+      "id": 78539358337215,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 16,
+      "stage": 7
+    },
+    {
+      "id": 11492873161701,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 5,
+      "stage": 7
+    },
+    {
+      "id": 55807276757548,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 22,
+      "stage": 8
+    },
+    {
+      "id": 62668232691995,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 19,
+      "stage": 8
+    },
+    {
+      "id": 194198251810598,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 34,
+      "stage": 8
+    },
+    {
+      "id": 33546587123079,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 13,
+      "stage": 8
+    },
+    {
+      "id": 84541439789302,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 3,
+      "stage": 8
+    },
+    {
+      "id": 89550639187959,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 9,
+      "stage": 8
+    },
+    {
+      "id": 87694318770536,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 10,
+      "stage": 8
+    },
+    {
+      "id": 74588792782747,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 20,
+      "stage": 8
+    },
+    {
+      "id": 153270622852994,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 13,
+      "stage": 10
+    },
+    {
+      "id": 266013889865978,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 15,
+      "stage": 10
+    },
+    {
+      "id": 81935307663696,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 8,
+      "stage": 10
+    },
+    {
+      "id": 22512143003781,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 37,
+      "stage": 10
+    },
+    {
+      "id": 10329062468621,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 6,
+      "stage": 10
+    },
+    {
+      "id": 17250500572297,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 1,
+      "stage": 10
+    },
+    {
+      "id": 273612835802230,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 25,
+      "stage": 10
+    },
+    {
+      "id": 23632406477833,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 12,
+      "stage": 10
+    },
+    {
+      "id": 72935679456338,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 37,
+      "stage": 11
+    },
+    {
+      "id": 123593025143097,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 26,
+      "stage": 11
+    },
+    {
+      "id": 137977969991397,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 21,
+      "stage": 11
+    },
+    {
+      "id": 4969381815724,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 22,
+      "stage": 11
+    },
+    {
+      "id": 21012519579047,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 8,
+      "stage": 11
+    },
+    {
+      "id": 118741391498015,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 13,
+      "stage": 11
+    },
+    {
+      "id": 260144749633326,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 3,
+      "stage": 11
+    },
+    {
+      "id": 102828959938105,
+      "start": "2026-06-21T14:00",
+      "durationMinutes": 30,
+      "artist": 3,
+      "stage": 2
+    },
+    {
+      "id": 245958147675598,
+      "start": "2026-06-21T14:40",
+      "durationMinutes": 30,
+      "artist": 16,
+      "stage": 2
+    },
+    {
+      "id": 159883281018177,
+      "start": "2026-06-21T15:20",
+      "durationMinutes": 30,
+      "artist": 30,
+      "stage": 2
+    },
+    {
+      "id": 98867349558770,
+      "start": "2026-06-21T16:00",
+      "durationMinutes": 30,
+      "artist": 2,
+      "stage": 2
+    },
+    {
+      "id": 162228857800468,
+      "start": "2026-06-21T16:40",
+      "durationMinutes": 30,
+      "artist": 32,
+      "stage": 2
+    },
+    {
+      "id": 42149298889689,
+      "start": "2026-06-21T17:20",
+      "durationMinutes": 30,
+      "artist": 23,
+      "stage": 2
+    },
+    {
+      "id": 43802808713657,
+      "start": "2026-06-21T18:00",
+      "durationMinutes": 30,
+      "artist": 4,
+      "stage": 2
+    },
+    {
+      "id": 181555065090712,
+      "start": "2026-06-21T18:40",
+      "durationMinutes": 30,
+      "artist": 29,
+      "stage": 2
+    },
+    {
+      "id": 86425934948176,
+      "start": "2026-06-21T19:20",
+      "durationMinutes": 30,
+      "artist": 6,
+      "stage": 2
+    }
+  ],
+  "sitePlan": {
+    "resourceName": "ludwigsburg_2026_site_plan",
+    "sourceURL": "https://strassenmusikfestival.de/wp-content/uploads/2026/06/SMF2026_Lageplan.pdf",
+    "sourceSHA256": "2b6ce71e904dbf8d4c14a255da7bccca0d734a888f6cab88ca2c291af6658851",
+    "locations": [
+      {
+        "id": "stage-a",
+        "category": "stage",
+        "nameDE": "Hauptbühne A",
+        "nameEN": "Main stage A",
+        "point": {
+          "x": 0.5335150524279836,
+          "y": 0.32833518379130433
+        },
+        "reference": "A",
+        "stageID": 9,
+        "coordinate": {
+          "latitude": 48.89894,
+          "longitude": 9.19542,
+          "isApproximate": true
+        },
+        "noteDE": "Hauptbühne mit Interviews und Abschlusskonzert. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Main stage with interviews and the closing concert. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-b",
+        "category": "stage",
+        "nameDE": "Bühne B",
+        "nameEN": "Stage B",
+        "point": {
+          "x": 0.3507983913168724,
+          "y": 0.2887839236695652
+        },
+        "reference": "B",
+        "stageID": 1,
+        "coordinate": {
+          "latitude": 48.89765,
+          "longitude": 9.19665,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-c",
+        "category": "stage",
+        "nameDE": "Bühne C",
+        "nameEN": "Stage C",
+        "point": {
+          "x": 0.28377104862551444,
+          "y": 0.16625452099130436
+        },
+        "reference": "C",
+        "stageID": 3,
+        "coordinate": {
+          "latitude": 48.89686,
+          "longitude": 9.1962,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-d",
+        "category": "stage",
+        "nameDE": "Bühne D",
+        "nameEN": "Stage D",
+        "point": {
+          "x": 0.37283462694650205,
+          "y": 0.40045660573913044
+        },
+        "reference": "D",
+        "stageID": 4,
+        "coordinate": {
+          "latitude": 48.89855,
+          "longitude": 9.19728,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-e",
+        "category": "stage",
+        "nameDE": "Bühne E",
+        "nameEN": "Stage E",
+        "point": {
+          "x": 0.21674370593415634,
+          "y": 0.7548630126086957
+        },
+        "reference": "E",
+        "stageID": 5,
+        "coordinate": {
+          "latitude": 48.89992,
+          "longitude": 9.20162,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-f",
+        "category": "stage",
+        "nameDE": "Bühne F",
+        "nameEN": "Stage F",
+        "point": {
+          "x": 0.3315168382469136,
+          "y": 0.7277204790086956
+        },
+        "reference": "F",
+        "stageID": 6,
+        "coordinate": {
+          "latitude": 48.9002,
+          "longitude": 9.2004,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-g",
+        "category": "stage",
+        "nameDE": "Bühne G",
+        "nameEN": "Stage G",
+        "point": {
+          "x": 0.5050520407242798,
+          "y": 0.6594761435304348
+        },
+        "reference": "G",
+        "stageID": 7,
+        "coordinate": {
+          "latitude": 48.90085,
+          "longitude": 9.1984,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-h",
+        "category": "stage",
+        "nameDE": "Bühne H",
+        "nameEN": "Stage H",
+        "point": {
+          "x": 0.5987063483621398,
+          "y": 0.8549044352695653
+        },
+        "reference": "H",
+        "stageID": 8,
+        "coordinate": {
+          "latitude": 48.9021,
+          "longitude": 9.1999,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-i",
+        "category": "stage",
+        "nameDE": "Bühne I",
+        "nameEN": "Stage I",
+        "point": {
+          "x": 0.6840966083209876,
+          "y": 0.7284964819652173
+        },
+        "reference": "I",
+        "stageID": 10,
+        "coordinate": {
+          "latitude": 48.902,
+          "longitude": 9.1971,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-k",
+        "category": "stage",
+        "nameDE": "Bühne K",
+        "nameEN": "Stage K",
+        "point": {
+          "x": 0.7740775975967078,
+          "y": 0.5974354392347826
+        },
+        "reference": "K",
+        "stageID": 11,
+        "coordinate": {
+          "latitude": 48.90155,
+          "longitude": 9.19564,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "stage-m",
+        "category": "stage",
+        "nameDE": "Bühne M",
+        "nameEN": "Stage M",
+        "point": {
+          "x": 0.40497095701234564,
+          "y": 0.5695169026782608
+        },
+        "reference": "M",
+        "stageID": 2,
+        "coordinate": {
+          "latitude": 48.8997,
+          "longitude": 9.19837,
+          "isApproximate": true
+        },
+        "noteDE": "Spielstätte für Straßenmusik. Samstag und Sonntag ab 14 Uhr. Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Street music performance location. Saturday and Sunday from 14:00. Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "entrance-main",
+        "category": "entrance",
+        "nameDE": "Haupteingang",
+        "nameEN": "Main entrance",
+        "point": {
+          "x": 0.23510784804938265,
+          "y": 0.10964144492173912
+        },
+        "reference": "1",
+        "coordinate": {
+          "latitude": 48.8964,
+          "longitude": 9.19617,
+          "isApproximate": true
+        },
+        "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "entrance-moempelgard",
+        "category": "entrance",
+        "nameDE": "Eingang Mömpelgardstraße",
+        "nameEN": "Mömpelgardstraße entrance",
+        "point": {
+          "x": 0.36273453251028803,
+          "y": 0.4345787734782608
+        },
+        "reference": "2",
+        "coordinate": {
+          "latitude": 48.89874,
+          "longitude": 9.19763,
+          "isApproximate": true
+        },
+        "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "entrance-marbach",
+        "category": "entrance",
+        "nameDE": "Eingang Marbacher Straße",
+        "nameEN": "Marbacher Straße entrance",
+        "point": {
+          "x": 0.7832590562304526,
+          "y": 0.6897212248000001
+        },
+        "reference": "3",
+        "coordinate": {
+          "latitude": 48.90228,
+          "longitude": 9.19665,
+          "isApproximate": true
+        },
+        "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "entrance-kaffeeberg",
+        "category": "entrance",
+        "nameDE": "Eingang Kaffeeberg",
+        "nameEN": "Kaffeeberg entrance",
+        "point": {
+          "x": 0.5931969832427982,
+          "y": 0.26474393773913035
+        },
+        "reference": "4",
+        "coordinate": {
+          "latitude": 48.89886,
+          "longitude": 9.19443,
+          "isApproximate": true
+        },
+        "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "entrance-fairytale",
+        "category": "entrance",
+        "nameDE": "Eingang Märchengarten",
+        "nameEN": "Fairy-tale garden entrance",
+        "point": {
+          "x": 0.5886062539259259,
+          "y": 0.784333555078261
+        },
+        "reference": "6",
+        "coordinate": {
+          "latitude": 48.90175,
+          "longitude": 9.19865,
+          "isApproximate": true
+        },
+        "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "entrance-courtyard",
+        "category": "entrance",
+        "nameDE": "Eingang Hinterer Schlosshof",
+        "nameEN": "Rear palace courtyard entrance",
+        "point": {
+          "x": 0.482097169292181,
+          "y": 0.523762011373913
+        },
+        "reference": "8",
+        "coordinate": {
+          "latitude": 48.89982,
+          "longitude": 9.19746,
+          "isApproximate": true
+        },
+        "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "entrance-parkcafe",
+        "category": "entrance",
+        "nameDE": "Eingang Parkcafé",
+        "nameEN": "Parkcafé entrance",
+        "point": {
+          "x": 0.08360888120164607,
+          "y": 0.6695583253391303
+        },
+        "reference": "9",
+        "coordinate": {
+          "latitude": 48.8997,
+          "longitude": 9.20193,
+          "isApproximate": true
+        },
+        "noteDE": "Stimmkarten-Box am Standort. Abgabe der Stimmkarten: Samstag bis 21 Uhr, Sonntag bis 20 Uhr.",
+        "noteEN": "Voting-card box at this location. Submit voting cards by 21:00 on Saturday and 20:00 on Sunday."
+      },
+      {
+        "id": "food-parkcafe",
+        "category": "food",
+        "nameDE": "Restaurant Parkcafé",
+        "nameEN": "Parkcafé restaurant",
+        "point": {
+          "x": 0.13594417529218106,
+          "y": 0.7238433925391303
+        },
+        "reference": "7",
+        "coordinate": {
+          "latitude": 48.89962,
+          "longitude": 9.202,
+          "isApproximate": true
+        },
+        "noteDE": "Laut Plansymbolen internationale und vegetarische Gerichte.",
+        "noteEN": "The plan indicates international and vegetarian food."
+      },
+      {
+        "id": "food-rose",
+        "category": "food",
+        "nameDE": "Café am Rosengarten und Cool-Down-Area",
+        "nameEN": "Café am Rosengarten and cool-down area",
+        "point": {
+          "x": 0.7217410786584362,
+          "y": 0.761842646747826
+        },
+        "reference": "5",
+        "coordinate": {
+          "latitude": 48.90229,
+          "longitude": 9.19702,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "food-beer",
+        "category": "food",
+        "nameDE": "Biergarten",
+        "nameEN": "Beer garden",
+        "point": {
+          "x": 0.42792460359670775,
+          "y": 0.4725794918434783
+        },
+        "coordinate": {
+          "latitude": 48.89926,
+          "longitude": 9.19745,
+          "isApproximate": true
+        },
+        "noteDE": "Internationale Gerichte laut Plansymbol.",
+        "noteEN": "International food according to the plan symbol."
+      },
+      {
+        "id": "food-bistro",
+        "category": "food",
+        "nameDE": "Bistro",
+        "nameEN": "Bistro",
+        "point": {
+          "x": 0.5344336882304526,
+          "y": 0.39502897751304344
+        },
+        "coordinate": {
+          "latitude": 48.89933,
+          "longitude": 9.19598,
+          "isApproximate": true
+        },
+        "noteDE": "Laut Plansymbolen internationale und vegetarische Gerichte.",
+        "noteEN": "The plan indicates international and vegetarian food."
+      },
+      {
+        "id": "food-drinks",
+        "category": "food",
+        "nameDE": "Getränke",
+        "nameEN": "Drinks",
+        "point": {
+          "x": 0.7272504437777777,
+          "y": 0.6602521464869566
+        },
+        "coordinate": {
+          "latitude": 48.90183,
+          "longitude": 9.1968,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "food-fairytale",
+        "category": "food",
+        "nameDE": "Märchenimbiss",
+        "nameEN": "Fairy-tale garden snack bar",
+        "point": {
+          "x": 0.5013787223621398,
+          "y": 0.8448222534608696
+        },
+        "coordinate": {
+          "latitude": 48.90202,
+          "longitude": 9.20011,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "parking-baerenwiese",
+        "category": "parking",
+        "nameDE": "Parkplatz Bärenwiese",
+        "nameEN": "Bärenwiese car park",
+        "noteDE": "P03/P04 Bärenwiese West und Ost. Ungefähres gemeinsames Anfahrtsziel des Betreibers; im Lageplan nur als Richtungsverweis.",
+        "noteEN": "P03/P04 Bärenwiese West and East. Approximate shared arrival point provided by the operator; the site plan only shows a directional reference.",
+        "coordinate": {
+          "latitude": 48.89375,
+          "longitude": 9.19708,
+          "isApproximate": true,
+          "sourceURL": "https://www.swlb.de/baerenwiese"
+        }
+      },
+      {
+        "id": "parking-rathaus",
+        "category": "parking",
+        "nameDE": "Parkhaus Rathaus / Mathilde",
+        "nameEN": "Rathaus / Mathilde parking garage",
+        "noteDE": "Im Lageplan kombinierter Richtungsverweis „Rathaus / Mathilde“. Nicht eindeutig als ein einzelner aktueller Parkplatz bestätigt.",
+        "noteEN": "The site plan combines “Rathaus / Mathilde” in one directional reference. Not confirmed as a single current parking location."
+      },
+      {
+        "id": "parking-marstall",
+        "category": "parking",
+        "nameDE": "Parkhaus MARSTALL",
+        "nameEN": "MARSTALL parking garage",
+        "noteDE": "Außerhalb des Geländes; im Plan nur als Richtungsverweis eingezeichnet.",
+        "noteEN": "Outside the grounds; the plan only shows a directional reference.",
+        "coordinate": {
+          "latitude": 48.89964,
+          "longitude": 9.19028,
+          "isApproximate": true,
+          "sourceURL": "https://www.openstreetmap.org/node/1517558296"
+        }
+      },
+      {
+        "id": "parking-buses",
+        "category": "parking",
+        "nameDE": "Busparkplätze",
+        "nameEN": "Coach parking",
+        "point": {
+          "x": 0.6703231955226336,
+          "y": 0.39192642984347836
+        },
+        "coordinate": {
+          "latitude": 48.89994,
+          "longitude": 9.19486,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "toilets-moempelgard",
+        "category": "toilets",
+        "nameDE": "Toiletten am Eingang Mömpelgardstraße",
+        "nameEN": "Toilets at the Mömpelgardstraße entrance",
+        "point": {
+          "x": 0.3480437087572016,
+          "y": 0.4020086116521739
+        },
+        "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+        "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+        "coordinate": {
+          "latitude": 48.89838,
+          "longitude": 9.19755,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "toilets-courtyard",
+        "category": "toilets",
+        "nameDE": "Toiletten am Walk of Fame",
+        "nameEN": "Toilets at the Walk of Fame",
+        "point": {
+          "x": 0.48393321604938266,
+          "y": 0.577272539773913
+        },
+        "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+        "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+        "coordinate": {
+          "latitude": 48.90012,
+          "longitude": 9.19785,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "toilets-parkcafe",
+        "category": "toilets",
+        "nameDE": "Toiletten am Parkcafé",
+        "nameEN": "Toilets at Parkcafé",
+        "point": {
+          "x": 0.13594417529218106,
+          "y": 0.7362521190608695
+        },
+        "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+        "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+        "coordinate": {
+          "latitude": 48.89966,
+          "longitude": 9.20217,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "toilets-rose",
+        "category": "toilets",
+        "nameDE": "Toiletten nahe dem Rosengarten",
+        "nameEN": "Toilets near the rose garden",
+        "point": {
+          "x": 0.7492866794074073,
+          "y": 0.6990274036521739
+        },
+        "noteDE": "Im Lageplan als normale Toiletten gekennzeichnet; Barrierefreiheit und Wickelmöglichkeit sind hier nicht ausgewiesen.",
+        "noteEN": "Marked as standard toilets on the site plan; accessibility and baby-changing facilities are not indicated here.",
+        "coordinate": {
+          "latitude": 48.90231,
+          "longitude": 9.19712,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "toilets-fairytale-entry",
+        "category": "toilets",
+        "nameDE": "Toiletten am Eingang Märchengarten",
+        "nameEN": "Toilets at the fairy-tale garden entrance",
+        "point": {
+          "x": 0.6115599005102881,
+          "y": 0.7734753703130436
+        },
+        "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+        "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+        "coordinate": {
+          "latitude": 48.90181,
+          "longitude": 9.19841,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "toilets-fairytale-snack",
+        "category": "toilets",
+        "nameDE": "Toiletten am Märchenimbiss",
+        "nameEN": "Toilets at the fairy-tale garden snack bar",
+        "point": {
+          "x": 0.5518791945432099,
+          "y": 0.8867000582956521
+        },
+        "noteDE": "Laut Plansymbol mit barrierefreien Toiletten und Wickelmöglichkeit.",
+        "noteEN": "The plan marks accessible toilets and baby-changing facilities.",
+        "coordinate": {
+          "latitude": 48.90236,
+          "longitude": 9.19964,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "first-aid",
+        "category": "firstAid",
+        "nameDE": "DRK / Erste Hilfe",
+        "nameEN": "Red Cross / first aid",
+        "point": {
+          "x": 0.3094806026172839,
+          "y": 0.3818442480347826
+        },
+        "coordinate": {
+          "latitude": 48.8983,
+          "longitude": 9.19769,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "service-lounge",
+        "category": "service",
+        "nameDE": "Sparda Giro Lounge",
+        "nameEN": "Sparda Giro Lounge",
+        "point": {
+          "x": 0.5509605587407408,
+          "y": 0.7440062920000001
+        },
+        "coordinate": {
+          "latitude": 48.90134,
+          "longitude": 9.19868,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "service-exchange",
+        "category": "service",
+        "nameDE": "Sparda Hutgeld-Wechselstube",
+        "nameEN": "Sparda tip-money exchange",
+        "point": {
+          "x": 0.48944258116872413,
+          "y": 0.42217151111304346
+        },
+        "coordinate": {
+          "latitude": 48.89927,
+          "longitude": 9.19655,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "service-mobile",
+        "category": "service",
+        "nameDE": "Sparda-Mobil",
+        "nameEN": "Sparda mobile stand",
+        "point": {
+          "x": 0.5243335937942386,
+          "y": 0.42217151111304346
+        },
+        "coordinate": {
+          "latitude": 48.89944,
+          "longitude": 9.19628,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "service-walk",
+        "category": "service",
+        "nameDE": "Walk of Fame, Cocktailbar und Imbiss",
+        "nameEN": "Walk of Fame, cocktail bar and snack stand",
+        "point": {
+          "x": 0.48393321604938266,
+          "y": 0.5509060091304347
+        },
+        "coordinate": {
+          "latitude": 48.89998,
+          "longitude": 9.19765,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "activity-performers-south",
+        "category": "activity",
+        "nameDE": "Gaukler:innen und Artist:innen im Südgarten",
+        "nameEN": "Street performers in the south garden",
+        "point": {
+          "x": 0.4260885568395061,
+          "y": 0.23062177
+        },
+        "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+        "noteEN": "Saturday and Sunday, noon–6 pm.",
+        "coordinate": {
+          "latitude": 48.89782,
+          "longitude": 9.19552,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "activity-performers-north",
+        "category": "activity",
+        "nameDE": "Gaukler:innen und Artist:innen am Schloss",
+        "nameEN": "Street performers by the palace",
+        "point": {
+          "x": 0.671241831325103,
+          "y": 0.5982114421913044
+        },
+        "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+        "noteEN": "Saturday and Sunday, noon–6 pm.",
+        "coordinate": {
+          "latitude": 48.90114,
+          "longitude": 9.1966,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "activity-performers-rose",
+        "category": "activity",
+        "nameDE": "Gaukler:innen und Artist:innen beim Rosengarten",
+        "nameEN": "Street performers near the rose garden",
+        "point": {
+          "x": 0.6675685129629628,
+          "y": 0.6951503171826087
+        },
+        "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+        "noteEN": "Saturday and Sunday, noon–6 pm.",
+        "coordinate": {
+          "latitude": 48.90167,
+          "longitude": 9.19709,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "activity-performers-fairytale",
+        "category": "activity",
+        "nameDE": "Gaukler:innen und Artist:innen beim Märchengarten",
+        "nameEN": "Street performers near the fairy-tale garden",
+        "point": {
+          "x": 0.6133971721152264,
+          "y": 0.8021699098260869
+        },
+        "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+        "noteEN": "Saturday and Sunday, noon–6 pm.",
+        "coordinate": {
+          "latitude": 48.90192,
+          "longitude": 9.19883,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "activity-gym",
+        "category": "activity",
+        "nameDE": "Rollende Kinderturn-Welt",
+        "nameEN": "Mobile children’s gymnastics activities",
+        "point": {
+          "x": 0.16348977604115225,
+          "y": 0.7005779454086956
+        },
+        "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+        "noteEN": "Saturday and Sunday, noon–6 pm.",
+        "coordinate": {
+          "latitude": 48.89976,
+          "longitude": 9.20155,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "activity-circus",
+        "category": "activity",
+        "nameDE": "Mitmachzirkus",
+        "nameEN": "Participatory circus",
+        "point": {
+          "x": 0.28468968442798354,
+          "y": 0.7199663060695651
+        },
+        "noteDE": "Samstag und Sonntag 12–18 Uhr.",
+        "noteEN": "Saturday and Sunday, noon–6 pm.",
+        "coordinate": {
+          "latitude": 48.90002,
+          "longitude": 9.20072,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "activity-face-painting",
+        "category": "activity",
+        "nameDE": "Kinderschminken",
+        "nameEN": "Face painting",
+        "noteDE": "Samstag und Sonntag 13–18 Uhr. Nur in der Legende genannt; kein eindeutiger Standort eingezeichnet.",
+        "noteEN": "Saturday and Sunday, 1–6 pm. Listed in the legend without a distinct location."
+      },
+      {
+        "id": "activity-photo",
+        "category": "activity",
+        "nameDE": "Fotobox",
+        "nameEN": "Photo booth",
+        "noteDE": "Samstag und Sonntag 13–20 Uhr. Nur in der Legende genannt; kein eindeutiger Standort eingezeichnet.",
+        "noteEN": "Saturday and Sunday, 1–8 pm. Listed in the legend without a distinct location."
+      },
+      {
+        "id": "food-catering-parkcafe",
+        "category": "food",
+        "nameDE": "Verpflegungsstand",
+        "nameEN": "Catering stand",
+        "point": {
+          "x": 0.23235316548971188,
+          "y": 0.7036804930782609
+        },
+        "noteDE": "Getränke und internationale Gerichte; vegetarisches Angebot laut Plansymbol.",
+        "noteEN": "Drinks and international food; vegetarian options indicated by the plan.",
+        "coordinate": {
+          "latitude": 48.89977,
+          "longitude": 9.20102,
+          "isApproximate": true
+        }
+      },
+      {
+        "id": "food-catering-rose",
+        "category": "food",
+        "nameDE": "Verpflegungsstand",
+        "nameEN": "Catering stand",
+        "point": {
+          "x": 0.7309237621399175,
+          "y": 0.7013539483652175
+        },
+        "noteDE": "Getränke und internationale Gerichte; vegetarisches Angebot laut Plansymbol.",
+        "noteEN": "Drinks and international food; vegetarian options indicated by the plan.",
+        "coordinate": {
+          "latitude": 48.90201,
+          "longitude": 9.19698,
+          "isApproximate": true
+        }
+      }
+    ],
+    "coordinateSourceURL": "https://www.openstreetmap.org/copyright",
+    "coordinateLicense": "ODbL-1.0",
+    "coordinateMethod": "Local landmark alignment against OpenStreetMap, manually reviewed. Approximate positions, not surveyed festival coordinates.",
+    "originalSourceSHA256": "3f11761c3ccc90acb60fc5f24ab07aca50afcb54aec5c404b862781d6b921074",
+    "background": {
+      "resourceName": "ludwigsburg_2026_site_plan_background",
+      "width": 1860,
+      "height": 2200,
+      "sha256": "6fc2982eb3dbd829371ec66eba9fcac6e6d964ca2ad022457cd37dcbf5da3d4b"
+    }
+  }
+}

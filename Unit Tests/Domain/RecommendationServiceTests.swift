@@ -380,6 +380,34 @@ struct RecommendationServiceTests {
     }
 
     @Test
+    func defaultServiceUsesWalkingDistancesFromTheProvidedFestival() {
+        let saved = TestFixtures.event(
+            id: 3001, dayInJuly: 3, timeAsString: "18:00",
+            stage: TestFixtures.stage(id: 10), artist: TestFixtures.artist(id: 301)
+        )
+        let candidate = TestFixtures.event(
+            id: 3002, dayInJuly: 3, timeAsString: "19:15",
+            stage: TestFixtures.stage(id: 11), artist: TestFixtures.artist(id: 302)
+        )
+        var data = TestFixtures.festivalData(events: [saved, candidate])
+        let service = RecommendationService(calendar: TestFixtures.festivalCalendar)
+        let now = TestFixtures.date(dayInJuly: 3, hour: 12, minute: 0)
+        let coordinateEstimate = service.buildSnapshot(
+            data: data, savedEventIds: [saved.id], ratings: ["302": 3], now: now
+        )
+        data.walkingDistanceMatrix = StageWalkingDistanceMatrix(
+            distancesByStageID: [10: [11: 1600]]
+        )
+
+        let knownRoute = service.buildSnapshot(
+            data: data, savedEventIds: [saved.id], ratings: ["302": 3], now: now
+        )
+
+        #expect(coordinateEstimate.recommendedEventIds == [candidate.id])
+        #expect(knownRoute.recommendedEventIds.isEmpty)
+    }
+
+    @Test
     func estimateEventDurationsCoversGapBoundaries() {
         let cases = [
             (gapMinutes: 20, expectedDuration: 20),

@@ -6,6 +6,25 @@ struct FestivalDateUtilitiesTests {
     private let calendar = TestFixtures.festivalCalendar
 
     @Test
+    func archiveWeekdaysAndCurrentDayUseTheExplicitFestivalYear() throws {
+        #expect(FestivalDateUtilities.shortWeekDay(
+            day: 4, year: 2024, locale: Locale(identifier: "en_US")
+        ) == "Thu")
+        #expect(FestivalDateUtilities.fullWeekDay(
+            day: 7, year: 2024, locale: Locale(identifier: "de_DE")
+        ) == "Sonntag")
+        let archiveMorning = try #require(FestivalDateUtilities.parse(
+            "2024-07-05 04:30", format: "yyyy-MM-dd HH:mm"
+        ))
+        #expect(FestivalDateUtilities.getCurrentFestivalDay(
+            eventDays: [4, 5, 6, 7], now: archiveMorning, festivalYear: 2024
+        ) == 4)
+        #expect(FestivalDateUtilities.getCurrentFestivalDay(
+            eventDays: [4, 5, 6, 7], now: archiveMorning, festivalYear: 2026
+        ) == nil)
+    }
+
+    @Test
     func fullWeekDayUsesExplicitLocale() {
         let germanWeekDay = FestivalDateUtilities.fullWeekDay(
             day: 2,

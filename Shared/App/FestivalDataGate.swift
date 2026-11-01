@@ -14,23 +14,39 @@ struct FestivalDataGate<Content: View>: View {
                 FestivalDataLoadingView()
             case .failure(let reason):
                 FestivalDataUnavailableView(
-                    reason: reason
+                    reason: reason,
+                    websiteURL: dataStore.metadata.officialLinks.first?.destination
                 ) {
                     loadAttempt += 1
                 }
             case .success(let festivalData):
-                content()
-                    .environment(\.festivalData, festivalData)
-                    .safeAreaInset(edge: .bottom, spacing: 0) {
-                        if festivalData.omittedRecordCount > 0 {
-                            Label("data.import.incomplete", systemImage: "exclamationmark.triangle")
-                                .font(.footnote)
-                                .foregroundStyle(.secondary)
-                                .padding()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(.background)
+                VStack(spacing: 0) {
+                    ForEach(dataStore.metadata.notices) { notice in
+                        VStack(spacing: 4) {
+                            Text(notice.title.resolved()).font(.subheadline.weight(.semibold))
+                            if let message = notice.message { Text(message.resolved()).font(.footnote) }
                         }
+                        .foregroundStyle(notice.severity == .warning ? Color.black : Color.primary)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.horizontal).padding(.vertical, 8).frame(maxWidth: .infinity)
+                        .background(notice.severity == .warning ? Color.orange : Color.clear)
                     }
+
+                    content()
+
+                    // Reserve layout space outside the tab view so this notice cannot cover its tab bar.
+                    if festivalData.omittedRecordCount > 0 {
+                        Label("data.import.incomplete", systemImage: "exclamationmark.triangle")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(.background)
+                    }
+                }
+                .environment(\.festivalData, festivalData)
+                .environment(\.festivalEdition, dataStore.edition)
             }
         }
         .task(id: loadAttempt) {
@@ -65,11 +81,10 @@ private struct FestivalDataLoadingView: View {
 
 private struct FestivalDataUnavailableView: View {
     let reason: FailureReason
-    let retry: () -> Void
+    @State private var isShowingSettings = false
 
-    private static let festivalWebsiteURL = URL(
-        string: "https://www.rudolstadt-festival.de/"
-    )!
+    let websiteURL: URL?
+    let retry: () -> Void
 
     var body: some View {
         VStack(spacing: 18) {
@@ -91,8 +106,8 @@ private struct FestivalDataUnavailableView: View {
                 Button("data.unavailable.retry", action: retry)
                     .buttonStyle(.borderedProminent)
 
-                if reason.showsFestivalWebsiteButton {
-                    Link(destination: Self.festivalWebsiteURL) {
+                if reason.showsFestivalWebsiteButton, let websiteURL {
+                    Link(destination: websiteURL) {
                         Label(
                             "data.unavailable.open_festival_website",
                             systemImage: "safari"
@@ -100,6 +115,7 @@ private struct FestivalDataUnavailableView: View {
                     }
                     .buttonStyle(.bordered)
                 }
+                Button("settings.title") { isShowingSettings = true }
             }
             .padding(.top, 4)
 
@@ -111,6 +127,16 @@ private struct FestivalDataUnavailableView: View {
         .padding(24)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
+        .sheet(isPresented: $isShowingSettings) {
+            NavigationStack {
+                SettingsView()
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("archive.close") { isShowingSettings = false }
+                        }
+                    }
+            }
+        }
     }
 }
 

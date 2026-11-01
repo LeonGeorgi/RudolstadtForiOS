@@ -5,6 +5,7 @@ struct ArtistCountryListRouteView: View {
     let countryCode: String
     let imageTransitionNamespace: Namespace.ID?
     var showsCountryPreview = true
+    var onSelectArtist: ((AppNavigationRoute) -> Void)? = nil
 
     @Environment(\.festivalData) private var festivalData
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -97,13 +98,7 @@ struct ArtistCountryListRouteView: View {
                             spacing: ArtistGridLayout.rowSpacing
                         ) {
                             ForEach(artists) { artist in
-                                NavigationLink(
-                                    value: AppNavigationRoute.artist(
-                                        id: artist.id,
-                                        highlightedEventId: nil,
-                                        transitionSourceID: artist.id
-                                    )
-                                ) {
+                                artistLink(artist, transitionSourceID: artist.id) {
                                     ArtistGridCell(
                                         artist: artist,
                                         imageTransitionNamespace: resolvedImageTransitionNamespace,
@@ -129,13 +124,7 @@ struct ArtistCountryListRouteView: View {
                     }
 
                     ForEach(artists) { artist in
-                        NavigationLink(
-                            value: AppNavigationRoute.artist(
-                                id: artist.id,
-                                highlightedEventId: nil,
-                                transitionSourceID: nil
-                            )
-                        ) {
+                        artistLink(artist, transitionSourceID: nil) {
                             ArtistCell(
                                 artist: artist,
                                 artistRating: profile.rating(for: artist.id),
@@ -148,6 +137,20 @@ struct ArtistCountryListRouteView: View {
                 }
                 .listStyle(.plain)
             }
+        }
+    }
+
+    @ViewBuilder
+    private func artistLink<Label: View>(_ artist: Artist, transitionSourceID: Int?, @ViewBuilder label: () -> Label) -> some View {
+        let route = AppNavigationRoute.artist(
+            id: artist.id,
+            highlightedEventId: nil,
+            transitionSourceID: onSelectArtist == nil ? transitionSourceID : nil
+        )
+        if let onSelectArtist {
+            Button { onSelectArtist(route) } label: { label() }
+        } else {
+            NavigationLink(value: route, label: label)
         }
     }
 

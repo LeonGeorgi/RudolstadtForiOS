@@ -26,8 +26,8 @@ struct RudolstadtForiOSApp: App {
 
     var body: some Scene {
         WindowGroup {
-            FestivalRootView(refreshOnForeground: services.refreshOnForeground)
-            .appEnvironment(services)
+            FestivalRootView(services: services)
+            .environmentObject(services.userSettings)
             .preferredColorScheme(ScreenshotAppearance.colorScheme)
         }
         .backgroundTask(.appRefresh("updateNews")) {
@@ -38,17 +38,31 @@ struct RudolstadtForiOSApp: App {
 }
 
 private struct FestivalRootView: View {
-    let refreshOnForeground: () async -> Void
+    let services: AppServices
+    @EnvironmentObject private var settings: UserSettings
+    @ObservedObject private var newsNavigation = NewsNotificationNavigationController.shared
 
     // Keep incoming links while the data gate is loading or showing a retry.
-    @State private var pendingArtistLink: ArtistShareLink?
+    @State private var pendingFestivalRoute: FestivalRoute?
+
+    private var edition: FestivalEdition {
+        settings.festivalEdition
+    }
 
     var body: some View {
         FestivalDataGate {
             RootTabView(
-                pendingArtistLink: $pendingArtistLink,
-                refreshOnForeground: refreshOnForeground
+                refreshOnForeground: services.refreshOnForeground,
+                pendingFestivalRoute: pendingFestivalRoute,
+                onFestivalRouteHandled: { pendingFestivalRoute = nil; newsNavigation.clearRequestedRoute() }
             )
+        }
+        .appEnvironment(services, edition: edition)
+        .id(edition)
+        .onChange(of: newsNavigation.requestedRoute, initial: true) { _, route in
+            guard let route, let adapter = FestivalRegistry.catalog.adapter(for: route.identity) else { return }
+            settings.festivalEdition = FestivalEdition(metadata: adapter.metadata)
+            pendingFestivalRoute = route
         }
         .onOpenURL { url in
             receiveArtistLink(url)
@@ -61,8 +75,13 @@ private struct FestivalRootView: View {
     }
 
     private func receiveArtistLink(_ url: URL) {
-        if let link = ArtistShareLink(url: url) {
-            pendingArtistLink = link
+        for adapter in FestivalRegistry.catalog.adapters {
+            if let destination = adapter.services.publicLinks.value?.destination(for: url) {
+                let metadata = adapter.metadata
+                settings.festivalEdition = FestivalEdition(metadata: metadata)
+                pendingFestivalRoute = FestivalRoute(identity: metadata.identity, destination: destination)
+                return
+            }
         }
     }
 }

@@ -5,17 +5,16 @@ enum FriendsTogetherListKind: Hashable {
 }
 
 enum AppNavigationRoute: Hashable {
-    case programDiscovery(tagID: Int?)
+    case festival(FestivalDestination)
+    case programDiscovery(tagID: String?)
     case artistWorldMap
     case artistCountry(code: String)
     case artist(id: Int, highlightedEventId: Int?, transitionSourceID: Int?)
-    case stage(id: Int, highlightedEventId: Int?)
+    case stage(id: FestivalPlaceID, highlightedEventId: Int?)
     case sharedFestivalProfile(profile: SharedFestivalProfile)
     case newsList
     case news(id: Int)
     case about
-    case parkAndRide
-    case bus
     case donation
     case settings
     case syncStatus
@@ -32,6 +31,8 @@ struct AppNavigationDestination: View {
 
     var body: some View {
         switch route {
+        case .festival(let destination):
+            festivalDestination(destination)
         case .programDiscovery(let tagID):
             ProgramDiscoveryView(tagID: tagID)
         case .artistWorldMap:
@@ -52,15 +53,11 @@ struct AppNavigationDestination: View {
         case .sharedFestivalProfile(let profile):
             SharedFestivalProfileDetailView(profile: profile)
         case .newsList:
-            NewsListView()
+            FestivalNewsListView()
         case .news(let id):
             NewsNavigationDestination(id: id, navigate: navigate)
         case .about:
             AboutView()
-        case .parkAndRide:
-            ParkAndRideView()
-        case .bus:
-            BusView()
         case .donation:
             DonationView()
         case .settings:
@@ -75,12 +72,31 @@ struct AppNavigationDestination: View {
     }
 
     @ViewBuilder
+    private func festivalDestination(_ destination: FestivalDestination) -> some View {
+        switch destination {
+        case .overview: Text("schedule.title")
+        case .artist(let id): artistDestination(id: id, highlightedEventId: nil, transitionSourceID: nil)
+        case .event(let id):
+            if let event = festivalData.events.first(where: { $0.id == id }) {
+                artistDestination(id: event.artist.id, highlightedEventId: id, transitionSourceID: nil)
+            } else { Text("events.loading") }
+        case .place(let id):
+            stageDestination(id: id, highlightedEventId: nil)
+        case .information(let id):
+            if let page = festivalData.features.information.value?.page(for: id) { FestivalInformationView(page: page) }
+            else { Text("site_plan.unavailable") }
+        case .news(let id): FestivalNewsDetailView(id: id)
+        }
+    }
+
+    @ViewBuilder
     private func artistWorldMapDestination() -> some View {
         ArtistMapScreenView(
             artists: festivalData.artists.filter { artist in
                 !artist.hiddenFromArtistList
             },
-            navigationTitleKey: "artists.title"
+            navigationTitleKey: "artists.title",
+            navigate: navigate
         )
     }
 
@@ -111,9 +127,9 @@ struct AppNavigationDestination: View {
     }
 
     @ViewBuilder
-    private func stageDestination(id: Int, highlightedEventId: Int?) -> some View {
+    private func stageDestination(id: FestivalPlaceID, highlightedEventId: Int?) -> some View {
         if let stage = festivalData.stages.first(where: { $0.id == id }) {
-            StageDetailView(stage: stage, highlightedEventId: highlightedEventId)
+            StageDetailView(stage: stage, highlightedEventId: highlightedEventId, navigate: navigate)
         } else {
             Text("locations.empty")
         }

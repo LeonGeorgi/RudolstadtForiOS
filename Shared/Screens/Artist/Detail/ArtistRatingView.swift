@@ -95,14 +95,52 @@ struct ArtistRatingPopoverButton: View {
     }
 
     var body: some View {
+        if profile.userDataPolicy.artistRatings != .editable {
+            if rating != 0 {
+                triggerIcon
+                    .frame(width: Layout.buttonSize, height: Layout.buttonSize)
+                    .background(triggerBackgroundColor, in: Circle())
+                    .foregroundStyle(.white)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel(Text("artist.rating.menu"))
+                    .accessibilityValue(Text(triggerAccessibilityValue))
+            }
+        } else {
+            #if os(iOS)
+            VStack(alignment: .trailing, spacing: 12) {
+                if let friendRatingSummary {
+                    FriendArtistRatingsButton(summary: friendRatingSummary)
+                }
+                ratingButton
+            }
+            #else
+            ratingButton
+            .overlay(alignment: .topTrailing) {
+                if let friendRatingSummary {
+                    FriendArtistRatingsBubble(
+                        summary: friendRatingSummary,
+                        style: .detailInline
+                    )
+                    .fixedSize()
+                    .offset(y: Layout.friendRatingsVerticalOffset)
+                }
+            }
+            .padding(
+                .top,
+                reservesSpaceForFriendRatings && friendRatingSummary != nil
+                    ? -Layout.friendRatingsVerticalOffset
+                    : 0
+            )
+            #endif
+        }
+    }
+
+    private var ratingButton: some View {
         Button {
             isShowingRatingPalette = true
         } label: {
             triggerIcon
-                .frame(
-                    width: Layout.buttonSize,
-                    height: Layout.buttonSize
-                )
+                .frame(width: Layout.buttonSize, height: Layout.buttonSize)
                 .contentShape(Circle())
                 .background(triggerBackgroundColor, in: Circle())
                 .foregroundStyle(.white)
@@ -113,22 +151,6 @@ struct ArtistRatingPopoverButton: View {
         .disabled(!artist.isMetadataAvailable)
         .accessibilityLabel(Text("artist.rating.menu"))
         .accessibilityValue(Text(triggerAccessibilityValue))
-        .overlay(alignment: .topTrailing) {
-            if let friendRatingSummary {
-                FriendArtistRatingsBubble(
-                    summary: friendRatingSummary,
-                    style: .detailInline
-                )
-                .fixedSize()
-                .offset(y: Layout.friendRatingsVerticalOffset)
-            }
-        }
-        .padding(
-            .top,
-            reservesSpaceForFriendRatings && friendRatingSummary != nil
-                ? -Layout.friendRatingsVerticalOffset
-                : 0
-        )
         .appPopoverTip(
             DiscoverabilityTips.artistRating,
             currentTipID: currentTipID,

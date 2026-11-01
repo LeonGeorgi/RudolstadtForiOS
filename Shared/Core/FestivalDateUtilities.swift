@@ -57,11 +57,15 @@ enum FestivalDateUtilities {
 
     static func shortWeekDay(
         day: Int,
+        year: Int = FestivalConfiguration.year,
+        month: Int = 7,
         calendar: Calendar = .current,
         locale: Locale = .current
     ) -> String {
         weekDay(
             day: day,
+            year: year,
+            month: month,
             dateFormat: "EE",
             calendar: calendar,
             locale: locale
@@ -70,11 +74,15 @@ enum FestivalDateUtilities {
 
     static func fullWeekDay(
         day: Int,
+        year: Int = FestivalConfiguration.year,
+        month: Int = 7,
         calendar: Calendar = .current,
         locale: Locale = .current
     ) -> String {
         weekDay(
             day: day,
+            year: year,
+            month: month,
             dateFormat: "EEEE",
             calendar: calendar,
             locale: locale
@@ -83,6 +91,8 @@ enum FestivalDateUtilities {
 
     private static func weekDay(
         day: Int,
+        year: Int,
+        month: Int,
         dateFormat: String,
         calendar: Calendar,
         locale: Locale
@@ -93,8 +103,8 @@ enum FestivalDateUtilities {
         let dateComponents = DateComponents(
             calendar: festivalCalendar,
             timeZone: festivalTimeZone,
-            year: DataStore.year,
-            month: 7,
+            year: year,
+            month: month,
             day: day
         )
 
@@ -112,7 +122,9 @@ enum FestivalDateUtilities {
     static func getCurrentFestivalDay(
         eventDays: [Int],
         now: Date = .now,
-        calendar: Calendar = .current
+        calendar: Calendar = .current,
+        festivalYear: Int = FestivalConfiguration.year,
+        festivalMonth: Int = 7
     ) -> Int? {
         let festivalCalendar = calendarInFestivalTimeZone(basedOn: calendar)
         let components = festivalCalendar.dateComponents(
@@ -124,7 +136,7 @@ enum FestivalDateUtilities {
         else {
             return nil
         }
-        guard year == DataStore.year, month == 7 else {
+        guard year == festivalYear, month == festivalMonth else {
             return nil
         }
         let festivalDay = hour < 5 ? day - 1 : day

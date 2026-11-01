@@ -9,18 +9,22 @@
 import SwiftUI
 
 struct SaveEventButton: View {
+    @EnvironmentObject private var profile: FestivalProfileStore
+    @Environment(\.festivalEdition) private var edition
     let event: Event
     let isSaved: Bool
     let onToggle: () -> Void
 
     var body: some View {
-        Button(action: onToggle) {
-            Label {
-                Text(LocalizedStringKey(isSaved ? "event.remove" : "event.save"))
-            } icon: {
-                Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
-                    .contentTransition(.symbolEffect(.replace))
-                    .animation(.default, value: isSaved)
+        if profile.userDataPolicy.savedEvents == .editable {
+            Button(action: onToggle) {
+                Label {
+                    Text(LocalizedStringKey(isSaved ? "event.remove" : "event.save"))
+                } icon: {
+                    Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
+                        .contentTransition(.symbolEffect(.replace))
+                        .animation(.default, value: isSaved)
+                }
             }
         }
     }

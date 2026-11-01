@@ -13,15 +13,16 @@ struct ScheduleContentView: View {
     @State private var isShowingUnplacedEvents = false
     @State private var unplacedNavigationPath = [AppNavigationRoute]()
 
+    @EnvironmentObject private var profile: FestivalProfileStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     let events: [Event]
     let displayMode: ScheduleDisplayMode
-    @Binding var selectedDay: Int
+    @Binding var selectedDay: String?
     let currentTipID: String?
 
     private var sections: ScheduleEventSections {
-        ScheduleEventSections(events: events, selectedDay: selectedDay)
+        ScheduleEventSections(events: events, selectedProgramDay: selectedDay)
     }
 
     private var effectiveDisplayMode: ScheduleDisplayMode {
@@ -30,12 +31,14 @@ struct ScheduleContentView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            AppInlineTipView(
-                tip: DiscoverabilityTips.eventQuickActions,
-                currentTipID: currentTipID,
-                arrowEdge: .bottom
-            )
-            .padding(.top, 8)
+            if profile.userDataPolicy.savedEvents == .editable {
+                AppInlineTipView(
+                    tip: DiscoverabilityTips.eventQuickActions,
+                    currentTipID: currentTipID,
+                    arrowEdge: .bottom
+                )
+                .padding(.top, 8)
+            }
 
             if !sections.unplaced.isEmpty {
                 Button {

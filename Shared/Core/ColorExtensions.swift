@@ -14,6 +14,13 @@ extension Color {
     static let areaType5 = Color("Area Type 5")
     static let areaType6 = Color("Area Type 6")
 
+    static func festivalCategory(tintHex: String? = nil, darkTintHex: String? = nil,
+                                 colorScheme: ColorScheme) -> Color {
+        let hex = colorScheme == .dark ? darkTintHex ?? tintHex : tintHex
+        return hex.flatMap { Color(festivalProfileHex: $0) }
+            ?? .okhsl(h: 65.0 / 360.0, s: 0.7, l: colorScheme == .dark ? 0.60 : 0.48)
+    }
+
     static func okhsl(
         h: Double,
         s: Double,

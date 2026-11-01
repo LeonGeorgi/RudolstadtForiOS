@@ -64,7 +64,6 @@ struct FriendsTogetherListView_Previews: PreviewProvider {
         let environment = PreviewMockData.makeEnvironment(
             suiteName: "FriendsTogetherListViewPreview"
         )
-        environment.dataStore.loadExtraData()
 
         return NavigationStack {
             FriendsTogetherListView(kind: .recommendations)

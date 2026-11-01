@@ -266,16 +266,32 @@ protocol FestivalProfilePersisting: Sendable {
 final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @unchecked Sendable {
     private let userDefaults: UserDefaults
     private let festivalYear: Int
+    private let isReadOnly: Bool
+    private let namespace: String?
 
-    init(userDefaults: UserDefaults, festivalYear: Int) {
+    init(userDefaults: UserDefaults, festivalYear: Int, isReadOnly: Bool = false, namespace: String? = nil) {
         self.userDefaults = userDefaults
         self.festivalYear = festivalYear
+        self.isReadOnly = isReadOnly
+        self.namespace = namespace
+    }
+
+    private func scopedKey(_ key: String) -> String {
+        namespace.map { "festival/\($0)/\(key)" } ?? key
     }
 
     func loadCache() -> FestivalProfileCache? {
-        migrateLegacyCacheIfNeeded()
-        let cacheKey = FestivalProfileStore.Constants.cacheKey(for: festivalYear)
-        return decodedCache(forKey: cacheKey, expectedFestivalYear: festivalYear)
+        // Browsing an archive must not migrate, overwrite or remove stored profiles.
+        if !isReadOnly && namespace == nil { migrateLegacyCacheIfNeeded() }
+        let cacheKey = scopedKey(FestivalProfileStore.Constants.cacheKey(for: festivalYear))
+        if let cache = decodedCache(forKey: cacheKey, expectedFestivalYear: festivalYear) {
+            return cache
+        }
+        guard isReadOnly && namespace == nil else { return nil }
+        return decodedCache(
+            forKey: FestivalProfileStore.Constants.legacyCacheKey,
+            expectedFestivalYear: festivalYear
+        )
     }
 
     private func migrateLegacyCacheIfNeeded() {
@@ -315,19 +331,19 @@ final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @
     func loadLegacyOwnerProfile() -> CachedOwnerFestivalProfile {
         let savedEventIDs = (
             userDefaults.array(
-                forKey: FestivalProfileStore.Constants.legacySavedEventsKey(for: festivalYear)
+                forKey: scopedKey(FestivalProfileStore.Constants.legacySavedEventsKey(for: festivalYear))
             ) as? [Int]
                 ?? []
         )
         .sorted()
         let ratings = userDefaults.dictionary(
-            forKey: FestivalProfileStore.Constants.legacyRatingsKey(for: festivalYear)
+            forKey: scopedKey(FestivalProfileStore.Constants.legacyRatingsKey(for: festivalYear))
         ) as? [String: Int] ?? [:]
         let icons = userDefaults.dictionary(
-            forKey: FestivalProfileStore.Constants.legacyArtistIconsKey(for: festivalYear)
+            forKey: scopedKey(FestivalProfileStore.Constants.legacyArtistIconsKey(for: festivalYear))
         ) as? [String: String] ?? [:]
         let notes = userDefaults.dictionary(
-            forKey: FestivalProfileStore.Constants.legacyArtistNotesKey(for: festivalYear)
+            forKey: scopedKey(FestivalProfileStore.Constants.legacyArtistNotesKey(for: festivalYear))
         ) as? [String: String] ?? [:]
 
         let preferences = ratings.compactMap { entry -> FestivalArtistPreference? in
@@ -371,7 +387,7 @@ final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @
     }
 
     func persist(_ cache: FestivalProfileCache) {
-        guard cache.currentProfile.festivalYear == festivalYear else {
+        guard !isReadOnly, cache.currentProfile.festivalYear == festivalYear else {
             return
         }
         guard let encodedCache = try? JSONEncoder().encode(cache) else {
@@ -379,7 +395,7 @@ final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @
         }
         userDefaults.set(
             encodedCache,
-            forKey: FestivalProfileStore.Constants.cacheKey(for: festivalYear)
+            forKey: scopedKey(FestivalProfileStore.Constants.cacheKey(for: festivalYear))
         )
     }
 

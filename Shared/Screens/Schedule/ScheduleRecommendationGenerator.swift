@@ -16,16 +16,13 @@ protocol RecommendationProviding: Sendable {
 
 final class RecommendationService: RecommendationProviding {
     private let calendar: Calendar
-    private let walkingDistanceMatrix: StageWalkingDistanceMatrix
+    private let walkingDistanceMatrix: StageWalkingDistanceMatrix?
 
     init(
         calendar: Calendar = .current,
-        walkingDistanceMatrix: StageWalkingDistanceMatrix =
-            StageWalkingDistanceProvider.bundled
+        walkingDistanceMatrix: StageWalkingDistanceMatrix? = nil
     ) {
-        self.calendar = FestivalDateUtilities.calendarInFestivalTimeZone(
-            basedOn: calendar
-        )
+        self.calendar = calendar
         self.walkingDistanceMatrix = walkingDistanceMatrix
     }
 
@@ -35,13 +32,23 @@ final class RecommendationService: RecommendationProviding {
         ratings: [String: Int],
         now: Date = .now
     ) -> RecommendationSnapshot {
-        let estimatedEventDurations = estimateEventDurations(events: data.events)
+        let estimatedEventDurations = data.metadata == nil ? estimateEventDurations(events: data.events) : data.eventDurations
+        if data.metadata != nil && data.features.automaticPlanning.value == nil {
+            return RecommendationSnapshot(recommendedEventIds: [], estimatedEventDurations: estimatedEventDurations)
+        }
+        let planningTransfer: (@Sendable (FestivalPlaceID, FestivalPlaceID) -> StageTransferEstimate?)?
+        if let provider = data.features.automaticPlanning.value {
+            planningTransfer = { source, destination in
+                provider.transfer(from: source, to: destination).map(StageTransferEstimate.init)
+            }
+        } else { planningTransfer = nil }
         let transitionEvaluator = ScheduleTransitionEvaluator(
             transferEstimator: StageTransferEstimator(
                 stages: data.stages,
-                matrix: walkingDistanceMatrix
+                matrix: walkingDistanceMatrix ?? data.walkingDistanceMatrix
             ),
-            calendar: calendar
+            calendar: data.metadata?.calendar ?? calendar,
+            transferProvider: planningTransfer
         )
         let generator = ScheduleRecommendationGenerator(
             allEvents: data.events,
@@ -50,7 +57,9 @@ final class RecommendationService: RecommendationProviding {
             eventDurations: estimatedEventDurations,
             now: now,
             calendar: calendar,
-            transitionEvaluator: transitionEvaluator
+            transitionEvaluator: transitionEvaluator,
+            eligibleEventIDs: data.features.automaticPlanning.value?.eligibleEventIDs,
+            requiresKnownTransfers: data.metadata != nil
         )
 
         return RecommendationSnapshot(
@@ -60,54 +69,9 @@ final class RecommendationService: RecommendationProviding {
     }
 
     func estimateEventDurations(events: [Event]) -> [Int: Int] {
-        let reversedEvents = events.filter { $0.startDate != nil && $0.stage.isMetadataAvailable }
-            .sorted { Event.precedes($1, $0) }
-        let reversedEventsByStage = Dictionary(grouping: reversedEvents) { event in
-            event.stage.id
-        }
-        var eventDurations = [Int: Int]()
-
-        for (_, reversedEventsForStage) in reversedEventsByStage {
-            var subsequentEvent: Event? = nil
-            for currentEvent in reversedEventsForStage {
-                var length = 60
-                if let subsequentEvent, let nextStart = subsequentEvent.startDate,
-                    let currentStart = currentEvent.startDate
-                {
-                    let minutesUntilNextEvent =
-                        nextStart.timeIntervalSince(currentStart) / 60
-                    var estimatedLength = length
-                    let minutesUntilNextEventRoundedDown =
-                        floor(minutesUntilNextEvent / 30.0) * 30
-                    if minutesUntilNextEventRoundedDown < 30 {
-                        estimatedLength = Int(minutesUntilNextEvent)
-                    } else if minutesUntilNextEventRoundedDown < 60 {
-                        estimatedLength = Int(minutesUntilNextEventRoundedDown)
-                    } else {
-                        let halfWayTimeInterval =
-                            floor((minutesUntilNextEvent / 2) / 30.0) * 30
-                        if halfWayTimeInterval < 30 {
-                            estimatedLength = Int(halfWayTimeInterval)
-                        } else if halfWayTimeInterval <= 90 {
-                            estimatedLength = Int(halfWayTimeInterval)
-                        } else if minutesUntilNextEvent > 300 {
-                            estimatedLength = 60
-                        } else {
-                            estimatedLength = 90
-                        }
-                    }
-                    if minutesUntilNextEvent < 60 {
-                        length = Int(minutesUntilNextEvent)
-                    } else {
-                        length = max(60, estimatedLength)
-                    }
-                }
-                eventDurations[currentEvent.id] = length
-                subsequentEvent = currentEvent
-            }
-        }
-
-        return eventDurations
+        return Dictionary(uniqueKeysWithValues: FestivalDurationResolver.resolve(events).compactMap {
+            event in event.duration.map { (event.id, $0.minutes) }
+        })
     }
 }
 
@@ -122,6 +86,12 @@ struct ScheduleEventSections {
             $0.startDate == nil && $0.knownDate != nil && $0.festivalDay == selectedDay
         }
         unknownDate = events.filter { $0.knownDate == nil }
+    }
+
+    init(events: [Event], selectedProgramDay: String?) {
+        scheduled = events.filter { $0.startDate != nil && $0.programDay?.id == selectedProgramDay }
+        unknownTime = events.filter { $0.startDate == nil && $0.knownDate != nil && $0.programDay?.id == selectedProgramDay }
+        unknownDate = events.filter { $0.programDay == nil }
     }
 
     var unplaced: [Event] { (unknownTime + unknownDate).sorted(by: Event.precedes) }
@@ -192,7 +162,7 @@ struct SchedulePresenter {
         Set(events.lazy.map { event in
             event.festivalDay(calendar: calendar)
         }).sorted(by: <).filter { day in
-            if day <= 0 || (DataStore.year == 2023 && day < 6) {
+            if day <= 0 {
                 return false
             } else {
                 return true
@@ -209,9 +179,14 @@ final class ScheduleRecommendationGenerator {
         eventDurations: [Int: Int],
         now: Date,
         calendar: Calendar = .current,
-        transitionEvaluator: ScheduleTransitionEvaluator
+        transitionEvaluator: ScheduleTransitionEvaluator,
+        eligibleEventIDs: Set<Int>? = nil,
+        requiresKnownTransfers: Bool = false
     ) {
-        self.allEvents = allEvents.filter(\.hasCompleteMetadata)
+        self.allEvents = allEvents.filter { event in
+            eligibleEventIDs.map { $0.contains(event.id) } ?? event.hasCompleteMetadata
+        }
+        self.requiresKnownTransfers = requiresKnownTransfers
         self.savedEventIds = Set(savedEventIds)
         var normalizedRatings = [Int: Int]()
         for (idAsString, rating) in artistRatings {
@@ -227,6 +202,7 @@ final class ScheduleRecommendationGenerator {
         self.transitionEvaluator = transitionEvaluator
     }
 
+    let requiresKnownTransfers: Bool
     let allEvents: [Event]
     let savedEventIds: Set<Int>
     let artistRatings: [Int: Int]
@@ -236,6 +212,7 @@ final class ScheduleRecommendationGenerator {
     let transitionEvaluator: ScheduleTransitionEvaluator
 
     func generateRecommendedSchedule() -> [Event] {
+        guard !Task.isCancelled else { return [] }
         let savedEvents = allEvents.filter { event in
             savedEventIds.contains(event.id)
         }
@@ -269,6 +246,7 @@ final class ScheduleRecommendationGenerator {
         }
 
         for artistId in artistIdsByPriority {
+            guard !Task.isCancelled else { return [] }
             let artistEvents = (interestingEventsByArtist[artistId] ?? [])
                 .sorted(by: recommendationSortOrder)
             if let firstFeasibleEvent = artistEvents.first(where: { event in
@@ -281,6 +259,7 @@ final class ScheduleRecommendationGenerator {
 
         var improved = true
         while improved {
+            guard !Task.isCancelled else { return [] }
             improved = false
             for eventToAdd in interestingEvents {
                 if solution.contains(where: { $0.id == eventToAdd.id }) {
@@ -364,13 +343,14 @@ final class ScheduleRecommendationGenerator {
     }
 
     private func intersects(e1: Event, e2: Event) -> Bool {
-        transitionEvaluator.assess(
+        let assessment = transitionEvaluator.assess(
             first: e1,
             firstDurationMinutes: eventDurations[e1.id] ?? 60,
             second: e2,
             secondDurationMinutes: eventDurations[e2.id] ?? 60,
             policy: .recommendation
-        ).isConflict
+        )
+        return assessment.isConflict || (requiresKnownTransfers && assessment.status == .unknown)
     }
 
     private func intersects(events: [Event], current: Event) -> Bool {

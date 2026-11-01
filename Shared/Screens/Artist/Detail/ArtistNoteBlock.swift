@@ -3,6 +3,7 @@ import CoreFoundation
 
 struct ArtistNoteBlock: View {
     let note: String?
+    var isReadOnly = false
     let onEdit: () -> Void
 
     @Environment(\.locale) private var locale
@@ -40,47 +41,54 @@ struct ArtistNoteBlock: View {
     }
 
     var body: some View {
-        Button(action: onEdit) {
-            Group {
-                if isEmpty {
-                    Image(systemName: "pencil.and.scribble")
-                        .font(.system(size: 17, weight: .medium))
-                        .foregroundStyle(.primary.opacity(0.62))
-                } else {
-                    Text(displayText)
-                        .font(
-                            .custom(
-                                "PatrickHand-Regular",
-                                size: 14,
-                                relativeTo: .caption
-                            )
-                        )
-                        .foregroundStyle(.primary)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(5)
-                        .padding(.leading, 10)
-                        .padding(.trailing, 12)
-                        .padding(.vertical, 7)
-                }
-            }
-            .frame(
-                width: noteWidth,
-                height: noteHeight,
-                alignment: isEmpty ? .center : .topLeading
-            )
-            .frame(
-                minHeight: isEmpty ? nil : 52,
-                alignment: .topLeading
-            )
-            .background {
-                ArtistNotePaperBackground(foldSize: foldSize)
-            }
-            .rotationEffect(.degrees(2.2))
-            .padding(.vertical, 3)
+        if isReadOnly {
+            noteContent
+                .accessibilityLabel(accessibilityLabel)
+        } else {
+            Button(action: onEdit) { noteContent }
+                .buttonStyle(.plain)
+                .accessibilityLabel(accessibilityLabel)
+                .accessibilityHint(Text("artist.edit-note.button"))
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(accessibilityLabel)
-        .accessibilityHint(Text("artist.edit-note.button"))
+    }
+
+    private var noteContent: some View {
+        Group {
+            if isEmpty {
+                Image(systemName: "pencil.and.scribble")
+                    .font(.system(size: 17, weight: .medium))
+                    .foregroundStyle(.primary.opacity(0.62))
+            } else {
+                Text(displayText)
+                    .font(
+                        .custom(
+                            "PatrickHand-Regular",
+                            size: 14,
+                            relativeTo: .caption
+                        )
+                    )
+                    .foregroundStyle(.primary)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(isReadOnly ? nil : 5)
+                    .padding(.leading, 10)
+                    .padding(.trailing, 12)
+                    .padding(.vertical, 7)
+            }
+        }
+        .frame(
+            width: noteWidth,
+            height: noteHeight,
+            alignment: isEmpty ? .center : .topLeading
+        )
+        .frame(
+            minHeight: isEmpty ? nil : 52,
+            alignment: .topLeading
+        )
+        .background {
+            ArtistNotePaperBackground(foldSize: foldSize)
+        }
+        .rotationEffect(.degrees(2.2))
+        .padding(.vertical, 3)
     }
 }
 

@@ -45,16 +45,17 @@ struct ScheduleTransitionAssessment: Equatable, Sendable {
 
 struct ScheduleTransitionEvaluator: Sendable {
     let transferEstimator: StageTransferEstimator
+    let transferProvider: (@Sendable (FestivalPlaceID, FestivalPlaceID) -> StageTransferEstimate?)?
     let calendar: Calendar
 
     init(
         transferEstimator: StageTransferEstimator,
-        calendar: Calendar = .current
+        calendar: Calendar = .current,
+        transferProvider: (@Sendable (FestivalPlaceID, FestivalPlaceID) -> StageTransferEstimate?)? = nil
     ) {
+        self.transferProvider = transferProvider
         self.transferEstimator = transferEstimator
-        self.calendar = FestivalDateUtilities.calendarInFestivalTimeZone(
-            basedOn: calendar
-        )
+        self.calendar = calendar
     }
 
     func assess(
@@ -81,8 +82,8 @@ struct ScheduleTransitionEvaluator: Sendable {
                 status: .unknown)
         }
 
-        guard orderedEvents.first.event.festivalDay(calendar: calendar)
-                == orderedEvents.second.event.festivalDay(calendar: calendar)
+        guard (orderedEvents.first.event.programDay?.id ?? String(orderedEvents.first.event.festivalDay(calendar: calendar)))
+                == (orderedEvents.second.event.programDay?.id ?? String(orderedEvents.second.event.festivalDay(calendar: calendar)))
         else {
             return ScheduleTransitionAssessment(
                 firstEventID: orderedEvents.first.event.id,
@@ -109,10 +110,12 @@ struct ScheduleTransitionEvaluator: Sendable {
         let availableSeconds = secondStart.timeIntervalSince(firstEnd)
             - TimeInterval(max(0, policy.arrivalBufferMinutes)) * 60
         let availableTransferMinutes = Int(floor(availableSeconds / 60))
-        let transfer = transferEstimator.estimate(
-            from: orderedEvents.first.event.stage,
-            to: orderedEvents.second.event.stage
-        )
+        let transfer: StageTransferEstimate?
+        if let transferProvider {
+            transfer = transferProvider(orderedEvents.first.event.stage.id, orderedEvents.second.event.stage.id)
+        } else {
+            transfer = transferEstimator.estimate(from: orderedEvents.first.event.stage, to: orderedEvents.second.event.stage)
+        }
         let projectedLatenessMinutes = transfer.map { estimate in
             max(0, estimate.walkingMinutes - availableTransferMinutes)
         }
@@ -206,7 +209,7 @@ struct WatchScheduleEventProjection: Equatable, Sendable, Identifiable {
     let id: Int
     let artistID: Int
     let artistName: String
-    let stageID: Int
+    let stageID: FestivalPlaceID
     let stageNameGerman: String
     let stageNameEnglish: String
     let startDate: Date

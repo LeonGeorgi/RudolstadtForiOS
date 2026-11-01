@@ -1,6 +1,36 @@
 import Foundation
 
-struct AIArtistData {
+/// The single program representation used by source adapters, calculations and views.
+struct FestivalData: Sendable {
+    var artists: [Artist]
+    var areas: [Area]
+    var stages: [Stage]
+    var events: [Event]
+    var omittedRecordCount = 0
+    var artistSimilarities: ArtistSimilarityCatalog? = nil
+    var walkingDistanceMatrix: StageWalkingDistanceMatrix = .empty
+    var festivalYear: Int = FestivalConfiguration.year
+    var sitePlan: FestivalSitePlan? = nil
+    var days: [FestivalDay] = []
+    var identity: FestivalIdentity? = nil
+    var provenance: FestivalDataProvenance? = nil
+    var features = FestivalFeatures()
+    var metadata: FestivalMetadata? = nil
+
+    var eventDurations: [Int: Int] {
+        Dictionary(uniqueKeysWithValues: events.compactMap { event in
+            event.durationMinutes.map { (event.id, $0) }
+        })
+    }
+
+    var festivalMonth: Int {
+        events.compactMap(\.knownDate).min().map {
+            FestivalDateUtilities.festivalCalendar.component(.month, from: $0)
+        } ?? 7
+    }
+}
+
+struct AIArtistData: Sendable {
     let summaryDE: String?
     let summaryEN: String?
     let tagsDE: [String]
@@ -8,64 +38,88 @@ struct AIArtistData {
     let browseGenreIDs: [String]
     let flags: [String]
 
-    var localizedSummary: String? {
-        localizedSummary(locale: .current)
-    }
-
-    func localizedSummary(locale: Locale) -> String? {
-        if locale.appLanguageCodeIdentifier == "de" {
-            return summaryDE?.trimmingCharacters(in: .whitespacesAndNewlines)
-        } else {
-            return summaryEN?.trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-    }
-
-    var localizedTags: [String] {
-        localizedTags(locale: .current)
-    }
-
-    func localizedTags(locale: Locale) -> [String] {
-        if locale.appLanguageCodeIdentifier == "de" {
-            return tagsDE
-        } else {
-            return tagsEN
-        }
-    }
-
-    var hasContent: Bool {
-        hasContent(locale: .current)
-    }
-
-    func hasContent(locale: Locale) -> Bool {
-        let summary = localizedSummary(locale: locale)
-        return summary?.isEmpty == false
-            || !localizedTags(locale: locale).isEmpty
-    }
 }
 
-struct Artist: Identifiable {
-    private static let knownFestivalPlaceholderImageNames: Set<String> = [
-        "aaaplatzhalter-jj406147npwtqwg.jpg",
-        "aaaplatzhalter-eev4gvb1gk8384g.jpg",
-    ]
-
+/// An artist's source-independent content. Views and source adapters share these values.
+struct Artist: Identifiable, Sendable {
     let id: Int
     let hiddenFromArtistList: Bool
-    let artistType: ArtistType
-    let someNumber: Int
     let name: String
-    let countries: String
-    let countryCodes: [String]
-    let url: String?
-    let facebookID: String?
-    let youtubeID: String?
-    let instagram: String?
-    let descriptionGerman: String?
-    let descriptionEnglish: String?
-    let thumbImageUrlString: String
-    let fullImageUrlString: String
-    let ai: AIArtistData?
+    var details: ArtistDetails
+    var localizedSummaries: [LanguageTag: ArtistSummary] = [:]
+    var groupIDs: [String: Set<String>] = [:]
+    var defaultContentLanguage: LanguageTag? = nil
     var isMetadataAvailable = true
+    private var fallbackCountryFlags: [String] = []
+
+    var artistType: ArtistType {
+        groupIDs["artist-kind"]?.compactMap(Int.init).first.flatMap(ArtistType.init(rawValue:)) ?? .other
+    }
+    var countries: String { details.countryDescription?.resolved(defaultLanguage: defaultContentLanguage) ?? "" }
+    var countryCodes: [String] { details.countryCodes }
+    var localizedDescriptions: FestivalContent? { details.descriptions }
+    var localizedKeywords: [LanguageTag: [String]] { details.keywords }
+    var musicPreview: FestivalMusicPreview {
+        get { details.musicPreview }
+        set { details.musicPreview = newValue }
+    }
+    var additionalLinks: [FestivalLink] {
+        get { details.links }
+        set { details.links = newValue }
+    }
+    var thumbImageUrlString: String { details.thumbnailURL?.absoluteString ?? "" }
+    var fullImageUrlString: String { details.imageURL?.absoluteString ?? "" }
+
+    init(id: Int, name: String, isListed: Bool = true, details: ArtistDetails? = nil,
+         groupIDs: [String: Set<String>] = [:], summaries: [LanguageTag: ArtistSummary] = [:]) {
+        self.id = id
+        self.name = name
+        self.hiddenFromArtistList = !isListed
+        self.details = details ?? ArtistDetails(descriptions: FestivalContent(text: bilingual(nil, nil), format: .plainText),
+            thumbnailURL: nil, imageURL: nil, countryCodes: [], links: [])
+        self.groupIDs = groupIDs
+        self.localizedSummaries = summaries
+        self.isMetadataAvailable = !name.isEmpty
+    }
+
+    init(id: Int, hiddenFromArtistList: Bool, artistType: ArtistType, name: String,
+         countries: String, countryCodes: [String], url: String?, facebookID: String?,
+         youtubeID: String?, instagram: String?, descriptionGerman: String?, descriptionEnglish: String?,
+         thumbImageUrlString: String, fullImageUrlString: String, ai: AIArtistData?,
+         isMetadataAvailable: Bool = true) {
+        self.id = id
+        self.hiddenFromArtistList = hiddenFromArtistList
+        self.name = name
+        self.isMetadataAvailable = isMetadataAvailable
+        self.fallbackCountryFlags = ai?.flags ?? []
+        self.details = ArtistDetails(
+            descriptions: FestivalContent(text: bilingual(descriptionGerman, descriptionEnglish), format: .html),
+            thumbnailURL: Self.usableImageURL(from: thumbImageUrlString), imageURL: Self.usableImageURL(from: fullImageUrlString),
+            countryCodes: countryCodes, links: [], countryDescription: bilingual(countries, countries),
+            keywords: [LanguageTag("de"): ai?.tagsDE ?? [], LanguageTag("en"): ai?.tagsEN ?? []])
+        groupIDs = ["artist-kind": [String(artistType.rawValue)], "genre": Set(ai?.browseGenreIDs ?? [])]
+        let summaries = bilingual(ai?.summaryDE, ai?.summaryEN)
+        localizedSummaries = Dictionary(uniqueKeysWithValues: summaries.values.map { language, text in
+            (language, ArtistSummary(text: text, language: language, origin: .aiGenerated, sourceURL: nil))
+        })
+        func socialURL(_ value: String?, prefix: String) -> String? {
+            guard let value, !value.isEmpty else { return nil }
+            return value.contains("http") ? value : prefix + value
+        }
+        additionalLinks = [("website", url), ("facebook", socialURL(facebookID, prefix: "https://www.facebook.com/")),
+            ("youtube", socialURL(youtubeID, prefix: "https://www.youtube.com/watch?v=")), ("instagram", instagram)]
+            .compactMap { id, value in
+                guard let value, !value.isEmpty, let url = URL(string: value), url.scheme != nil else { return nil }
+                return FestivalLink(id: id, title: LocalizedText(values: [LanguageTag("en"): id]),
+                                    destination: url, openingMode: .externalBrowser)
+            }
+    }
+
+    private func link(_ id: String) -> URL? { additionalLinks.first { $0.id == id }?.destination }
+    var url: String? { link("website")?.absoluteString }
+    var instagram: String? { link("instagram")?.absoluteString }
+    var descriptionGerman: String? { localizedDescriptions?.text.text(in: LanguageTag("de")) }
+    var descriptionEnglish: String? { localizedDescriptions?.text.text(in: LanguageTag("en")) }
 
     func displayName(locale: Locale = .current) -> String {
         isMetadataAvailable
@@ -76,8 +130,7 @@ struct Artist: Identifiable {
 
     static func missing(id: Int) -> Artist {
         Artist(
-            id: id, hiddenFromArtistList: true, artistType: .other, someNumber: 0,
-            name: "", countries: "", countryCodes: [], url: nil, facebookID: nil,
+            id: id, hiddenFromArtistList: true, artistType: .other, name: "", countries: "", countryCodes: [], url: nil, facebookID: nil,
             youtubeID: nil, instagram: nil, descriptionGerman: nil, descriptionEnglish: nil,
             thumbImageUrlString: "", fullImageUrlString: "", ai: nil, isMetadataAvailable: false)
     }
@@ -91,53 +144,21 @@ struct Artist: Identifiable {
     }
 
     func formattedDescription(locale: Locale) -> String? {
-        let isGerman = locale.appLanguageCodeIdentifier == "de"
-        let description = isGerman ? descriptionGerman : descriptionEnglish
-        guard let description = description else {
-            return nil
-        }
-        return formatString(description)
+        if let localizedDescriptions { return formatString(localizedDescriptions.text.resolved(locale: locale, defaultLanguage: defaultContentLanguage)) }
+        return nil
     }
 
     var thumbImageUrl: URL? {
-        return Self.usableImageURL(from: thumbImageUrlString)
+        details.thumbnailURL
     }
 
     var fullImageUrl: URL? {
-        return Self.usableImageURL(from: fullImageUrlString)
+        details.imageURL
     }
 
-    var videoUrl: URL? {
-        guard let youtubeID = youtubeID else {
-            return nil
-        }
-        if youtubeID.isEmpty {
-            return nil
-        }
-        return URL(
-            string: youtubeID.contains("http")
-                ? youtubeID
-                : "https://www.youtube.com/watch?v=\(youtubeID)"
-        )
-    }
-
-    var facebookUrl: URL? {
-        guard let facebookID = facebookID else {
-            return nil
-        }
-        return URL(
-            string: facebookID.contains("http")
-                ? facebookID
-                : "https://www.facebook.com/\(facebookID)"
-        )
-    }
-
-    var instagramUrl: URL? {
-        guard let instagram = instagram else {
-            return nil
-        }
-        return URL(string: instagram)
-    }
+    var videoUrl: URL? { link("youtube") }
+    var facebookUrl: URL? { link("facebook") }
+    var instagramUrl: URL? { link("instagram") }
 
     func matches(searchTerm: String) -> Bool {
         matches(searchTerm: searchTerm, locale: .current)
@@ -158,7 +179,6 @@ struct Artist: Identifiable {
         id: 0,
         hiddenFromArtistList: false,
         artistType: .stage,
-        someNumber: 0,
         name: "Michael Jackson",
         countries: "USA",
         countryCodes: ["USA"],
@@ -194,13 +214,6 @@ struct Artist: Identifiable {
 
         let path = url.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         guard !path.isEmpty else {
-            return nil
-        }
-
-        let fileName = (url.lastPathComponent.removingPercentEncoding
-            ?? url.lastPathComponent)
-            .lowercased()
-        guard !knownFestivalPlaceholderImageNames.contains(fileName) else {
             return nil
         }
 
@@ -258,57 +271,73 @@ enum ArtistType: Int, Identifiable, CaseIterable {
     }
 }
 
-struct Area: Identifiable, Hashable {
+struct Area: Identifiable, Hashable, Sendable {
     let id: Int
-    let germanName: String
-    let englishName: String
+    let name: LocalizedText
 
-    var localizedName: String {
-        localizedName(locale: .current)
+    init(id: Int, name: LocalizedText) {
+        self.id = id
+        self.name = name
     }
 
-    func localizedName(locale: Locale) -> String {
-        if locale.appLanguageCodeIdentifier == "de" {
-            return germanName
-        } else {
-            return englishName
-        }
+    init(id: Int, germanName: String, englishName: String) {
+        self.init(id: id, name: bilingual(germanName, englishName))
     }
 
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
+    var germanName: String { name.text(in: LanguageTag("de")) ?? "" }
+    var englishName: String { name.text(in: LanguageTag("en")) ?? "" }
+    var localizedName: String { localizedName(locale: .current) }
+    func localizedName(locale: Locale) -> String { name.resolved(locale: locale) }
 
-    static let example = Area(
-        id: 3,
-        germanName: "Heinepark (City Park)",
-        englishName: "City Park"
-    )
+    static func == (lhs: Area, rhs: Area) -> Bool { lhs.id == rhs.id && lhs.name.values == rhs.name.values }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
+
+    static let example = Area(id: 3, germanName: "Heinepark (City Park)", englishName: "City Park")
 }
 
-struct Event: Identifiable {
+struct Event: Identifiable, Sendable {
+    var resolvedDuration: FestivalEventDuration? = nil
+    var programDay: FestivalDay? = nil
+    var timeZone: TimeZone = FestivalConfiguration.timeZone
+
+    var calendar: Calendar {
+        var result = Calendar(identifier: .gregorian)
+        result.timeZone = timeZone
+        return result
+    }
+
     let id: Int
     let startDate: Date?
     // A known calendar day is distinct from a known instant.
     let knownDate: Date?
-    let stage: Stage
-    let artist: Artist
-    let tags: [Tag]
+    var stage: Stage
+    var artist: Artist
+    var tags: [Tag]
+    var durationMinutes: Int? { resolvedDuration?.minutes }
 
+    var artistID: Int { artist.id }
+    var placeID: FestivalPlaceID? { stage.isMetadataAvailable ? stage.id : nil }
+    var festivalDayID: FestivalDay.ID? { programDay?.id }
+    var duration: FestivalEventDuration? { resolvedDuration }
     var tag: Tag? { tags.first }
 
     init(
         id: Int, startDate: Date?, knownDate: Date?, stage: Stage, artist: Artist,
-        tag: Tag? = nil, tags: [Tag]? = nil
+        tag: Tag? = nil, tags: [Tag]? = nil, durationMinutes: Int? = nil,
+        timeZone: TimeZone = FestivalConfiguration.timeZone
     ) {
         self.id = id
+        self.timeZone = timeZone
         self.startDate = startDate
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
         self.knownDate =
-            startDate.map { FestivalDateUtilities.festivalCalendar.startOfDay(for: $0) }
+            startDate.map { calendar.startOfDay(for: $0) }
             ?? knownDate
         self.stage = stage
         self.artist = artist
         self.tags = tags ?? tag.map { [$0] } ?? []
+        self.resolvedDuration = durationMinutes.map { FestivalEventDuration(minutes: $0, isEstimated: false) }
     }
 
     init(id: Int, dayInJuly: Int, timeAsString: String, stage: Stage, artist: Artist, tag: Tag?) {
@@ -331,43 +360,50 @@ struct Event: Identifiable {
     }
 
     var hasCompleteMetadata: Bool {
-        startDate != nil && artist.isMetadataAvailable && stage.isMetadataAvailable
-            && stage.hasLocation
+        if programDay != nil {
+            return startDate != nil && artist.isMetadataAvailable && stage.isMetadataAvailable && resolvedDuration != nil
+        }
+        return startDate != nil && artist.isMetadataAvailable && stage.isMetadataAvailable
+            && stage.hasLocation && !stage.locationIsApproximate
             && stage.stageType != .unknown
     }
 
     var dayInJuly: Int {
-        knownDate.map { FestivalDateUtilities.festivalCalendar.component(.day, from: $0) } ?? 0
+        programDay?.date.day ?? knownDate.map { self.calendar.component(.day, from: $0) } ?? 0
     }
 
     var timeAsString: String {
         if let startDate {
-            return FestivalDateUtilities.format(
-                startDate, pattern: "HH:mm", locale: Locale(identifier: "en_US_POSIX"))
+            return formattedDate(startDate, pattern: "HH:mm", locale: Locale(identifier: "en_US_POSIX"))
         }
         return NSLocalizedString(
             knownDate == nil ? "event.date.unknown" : "event.time.unknown", comment: "")
     }
 
-    var festivalHour: Int { festivalHour(calendar: FestivalDateUtilities.festivalCalendar) }
+    var festivalHour: Int { festivalHour(calendar: self.calendar) }
     func festivalHour(calendar: Calendar) -> Int {
         guard let startDate else { return 0 }
-        let hour = FestivalDateUtilities.festivalCalendar.component(.hour, from: startDate)
+        if let programDay {
+            let start = self.calendar.startOfDay(for: programDay.interval.start)
+            return Int(startDate.timeIntervalSince(start) / 3600)
+        }
+        let hour = self.calendar.component(.hour, from: startDate)
         return hour < 5 ? hour + 24 : hour
     }
 
     var startTimeInMinutes: Int {
-        startTimeInMinutes(calendar: FestivalDateUtilities.festivalCalendar)
+        startTimeInMinutes(calendar: self.calendar)
     }
     func startTimeInMinutes(calendar: Calendar) -> Int {
         guard let startDate else { return 0 }
         return festivalHour * 60
-            + FestivalDateUtilities.festivalCalendar.component(.minute, from: startDate)
+            + self.calendar.component(.minute, from: startDate)
     }
 
     // Zero means that no festival day is known; it must not become a day tab.
-    var festivalDay: Int { festivalDay(calendar: FestivalDateUtilities.festivalCalendar) }
+    var festivalDay: Int { festivalDay(calendar: self.calendar) }
     func festivalDay(calendar: Calendar) -> Int {
+        if let programDay { return programDay.date.day }
         guard knownDate != nil else { return 0 }
         return startDate != nil && festivalHour >= 24 ? dayInJuly - 1 : dayInJuly
     }
@@ -466,10 +502,11 @@ struct Event: Identifiable {
         startDate?.addingTimeInterval(Double(max(0, durationInMinutes)) * 60)
     }
 
-    var festivalDate: Date? { festivalDate(calendar: FestivalDateUtilities.festivalCalendar) }
+    var festivalDate: Date? { festivalDate(calendar: self.calendar) }
     func festivalDate(calendar: Calendar) -> Date? {
+        if let programDay { return programDay.date.date(in: self.calendar) }
         guard let knownDate else { return nil }
-        return FestivalDateUtilities.festivalCalendar.date(
+        return self.calendar.date(
             byAdding: .day,
             value: startDate != nil && festivalHour >= 24 ? -1 : 0, to: knownDate)
     }
@@ -477,13 +514,22 @@ struct Event: Identifiable {
     var weekDay: String { weekDay(calendar: .current, locale: .current) }
     func weekDay(calendar: Calendar, locale: Locale) -> String {
         guard let knownDate else { return NSLocalizedString("event.date.unknown", comment: "") }
-        return FestivalDateUtilities.format(knownDate, pattern: "EEEE", locale: locale)
+        return formattedDate(knownDate, pattern: "EEEE", locale: locale)
     }
 
     var shortWeekDay: String { shortWeekDay(calendar: .current, locale: .current) }
     func shortWeekDay(calendar: Calendar, locale: Locale) -> String {
         guard let knownDate else { return NSLocalizedString("event.date.unknown", comment: "") }
-        return FestivalDateUtilities.format(knownDate, pattern: "EE", locale: locale)
+        return formattedDate(knownDate, pattern: "EE", locale: locale)
+    }
+
+    private func formattedDate(_ date: Date, pattern: String, locale: Locale) -> String {
+        let formatter = DateFormatter()
+        formatter.calendar = calendar
+        formatter.timeZone = timeZone
+        formatter.locale = locale
+        formatter.dateFormat = pattern
+        return formatter.string(from: date)
     }
 
     static let example = Event(
@@ -567,22 +613,47 @@ struct NewsItem: Identifiable {
     )
 }
 
-struct Stage: Identifiable, Hashable {
+struct Stage: Identifiable, Hashable, Sendable {
     static func == (lhs: Stage, rhs: Stage) -> Bool {
         lhs.id == rhs.id
     }
 
-    let id: Int
-    let germanName: String
-    let englishName: String
-    let germanDescription: String?
-    let englishDescription: String?
-    let stageNumber: Int?
-    let latitude: Double
-    let longitude: Double
-    let area: Area
+    typealias ID = FestivalPlaceID
+    let id: ID
+    var germanName: String { localizedNames?.text(in: LanguageTag("de")) ?? "" }
+    var englishName: String { localizedNames?.text(in: LanguageTag("en")) ?? "" }
+    var germanDescription: String? { localizedDescriptions?.text.text(in: LanguageTag("de")) }
+    var englishDescription: String? { localizedDescriptions?.text.text(in: LanguageTag("en")) }
+    var stageNumber: Int? { stageCode.flatMap(Int.init) }
+    var latitude: Double
+    var longitude: Double
+    var area: Area?
     let stageType: StageType
+    var defaultContentLanguage: LanguageTag? = nil
     var isMetadataAvailable = true
+    var locationIsApproximate = false
+    var stageCode: String? = nil
+    var localizedNames: LocalizedText? = nil
+    var localizedDescriptions: FestivalContent? = nil
+    var admissionCategory: FestivalAdmissionCategory? = nil
+    var mapCategory: MapCategory? = nil
+
+    var name: LocalizedText { localizedNames ?? bilingual(nil, nil) }
+    var reference: String? { displayCode }
+
+    var displayCode: String? {
+        stageCode
+    }
+
+    static func precedes(_ lhs: Stage, _ rhs: Stage) -> Bool {
+        switch (lhs.displayCode, rhs.displayCode) {
+        case let (left?, right?) where left != right:
+            return left.compare(right, options: .numeric, locale: Locale(identifier: "en_US_POSIX")) == .orderedAscending
+        case (_?, nil): return true
+        case (nil, _?): return false
+        default: return lhs.id < rhs.id
+        }
+    }
 
     var hasLocation: Bool {
         isMetadataAvailable && latitude.isFinite && longitude.isFinite
@@ -604,11 +675,7 @@ struct Stage: Identifiable, Hashable {
     }
 
     func localizedName(locale: Locale) -> String {
-        if locale.appLanguageCodeIdentifier == "de" {
-            return germanName
-        } else {
-            return englishName
-        }
+        localizedNames?.resolved(locale: locale, defaultLanguage: defaultContentLanguage) ?? ""
     }
 
     var localizedDescription: String? {
@@ -616,11 +683,8 @@ struct Stage: Identifiable, Hashable {
     }
 
     func localizedDescription(locale: Locale) -> String? {
-        if locale.appLanguageCodeIdentifier == "de" {
-            return germanDescription
-        } else {
-            return englishDescription
-        }
+        if let localizedDescriptions { return localizedDescriptions.text.resolved(locale: locale, defaultLanguage: defaultContentLanguage) }
+        return nil
     }
 
     func matches(searchTerm: String) -> Bool {
@@ -636,16 +700,14 @@ struct Stage: Identifiable, Hashable {
             locale: locale
         ).contains(searchTerm)
             || normalize(
-                string: area.localizedName(locale: locale),
+                string: (area?.localizedName(locale: locale) ?? ""),
                 locale: locale
             ).contains(searchTerm)
             || (localizedDescription(locale: locale).map {
                 normalize(string: $0, locale: locale)
             }?
             .contains(searchTerm) ?? false)
-            || stageNumber.map {
-                String($0)
-            }?
+            || displayCode.map { normalize(string: $0, locale: locale) }?
             .contains(searchTerm) ?? false
     }
 
@@ -708,30 +770,90 @@ enum StageType: Int, Identifiable, CaseIterable {
     }
 }
 
-struct Tag: Identifiable {
-    let id: Int
-    let germanName: String
-    let englishName: String
+struct Tag: Identifiable, Sendable {
+    let id: String
+    var title: LocalizedText
+    var introduction: LocalizedText? = nil
+    var isDiscoverable = true
+    var showsOnTimeline = true
 
-    var localizedName: String {
-        localizedName(locale: .current)
+    init(id: String, title: LocalizedText, introduction: LocalizedText? = nil,
+         isDiscoverable: Bool = true, showsOnTimeline: Bool = true) {
+        self.id = id
+        self.title = title
+        self.introduction = introduction
+        self.isDiscoverable = isDiscoverable
+        self.showsOnTimeline = showsOnTimeline
     }
 
-    func localizedName(locale: Locale) -> String {
-        if locale.appLanguageCodeIdentifier == "de" {
-            return germanName
-        } else {
-            return englishName
+    init(id: Int, germanName: String, englishName: String) {
+        self.init(id: String(id), title: bilingual(germanName, englishName))
+    }
+
+    var germanName: String { title.text(in: LanguageTag("de")) ?? "" }
+    var englishName: String { title.text(in: LanguageTag("en")) ?? "" }
+    var localizedName: String { localizedName(locale: .current) }
+    func localizedName(locale: Locale) -> String { title.resolved(locale: locale) }
+
+    static let example = Tag(id: 6, germanName: "Länderschwerpunkt", englishName: "Country Special")
+}
+
+extension Stage {
+    init(id: FestivalPlaceID, germanName: String, englishName: String,
+         germanDescription: String?, englishDescription: String?, stageNumber: Int?,
+         latitude: Double, longitude: Double, area: Area?, stageType: StageType,
+         isMetadataAvailable: Bool = true, locationIsApproximate: Bool = false,
+         stageCode: String? = nil) {
+        self.id = id
+        self.latitude = latitude
+        self.longitude = longitude
+        self.area = area
+        self.stageType = stageType
+        self.isMetadataAvailable = isMetadataAvailable
+        self.locationIsApproximate = locationIsApproximate
+        self.stageCode = stageCode ?? stageNumber.map(String.init)
+        self.localizedNames = bilingual(germanName, englishName)
+        self.localizedDescriptions = FestivalContent(text: bilingual(germanDescription, englishDescription), format: .plainText)
+    }
+
+    init(id: Int, germanName: String, englishName: String,
+         germanDescription: String?, englishDescription: String?, stageNumber: Int?,
+         latitude: Double, longitude: Double, area: Area?, stageType: StageType,
+         isMetadataAvailable: Bool = true, locationIsApproximate: Bool = false,
+         stageCode: String? = nil) {
+        self.init(id: .numeric(id), germanName: germanName, englishName: englishName,
+                  germanDescription: germanDescription, englishDescription: englishDescription,
+                  stageNumber: stageNumber, latitude: latitude, longitude: longitude,
+                  area: area, stageType: stageType, isMetadataAvailable: isMetadataAvailable,
+                  locationIsApproximate: locationIsApproximate, stageCode: stageCode)
+    }
+
+    init(id: FestivalPlaceID, name: LocalizedText, reference: String?) {
+        self.init(id: id, germanName: "", englishName: "", germanDescription: nil, englishDescription: nil,
+                  stageNumber: nil, latitude: .nan, longitude: .nan, area: nil, stageType: .unknown,
+                  stageCode: reference)
+        self.localizedNames = name
+    }
+}
+
+extension Artist {
+    func summary(locale: Locale = .current) -> String? {
+        if !localizedSummaries.isEmpty {
+            return LocalizedText(values: localizedSummaries.mapValues(\.text)).resolved(locale: locale, defaultLanguage: defaultContentLanguage).nilIfEmpty()
         }
+        return nil
     }
-    
-    var isStageOrBuskers: Bool {
-        return germanName == "Bühne" || germanName == "Straßenmusik"
-    }
+}
 
-    static let example = Tag(
-        id: 6,
-        germanName: "Länderschwerpunkt",
-        englishName: "Country Special"
-    )
+extension Artist {
+    func keywordLabels(locale: Locale = .current) -> [String]? {
+        let choices = localizedKeywords.filter { !$0.value.isEmpty }
+        let keyText = LocalizedText(values: Dictionary(uniqueKeysWithValues: choices.keys.map { ($0, $0.identifier) }))
+        if let key = keyText.resolved(locale: locale, defaultLanguage: defaultContentLanguage).nilIfEmpty() { return choices[LanguageTag(key)] }
+        return nil
+    }
+    var flagSymbols: [String] {
+        let flags = countryCodes.compactMap(emojiFlag(forRegionCode:))
+        return flags.isEmpty ? fallbackCountryFlags : flags
+    }
 }

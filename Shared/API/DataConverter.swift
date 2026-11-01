@@ -26,7 +26,7 @@ func convertAPIRudolstadtDataToEntities(
         let artistID = event.artist > 0 ? event.artist : -event.id
         let stageID = event.stage > 0 ? event.stage : -event.id
         if artistIDs.insert(artistID).inserted { artists.append(.missing(id: artistID)) }
-        if stageIDs.insert(stageID).inserted { stages.append(.missing(id: stageID)) }
+        if stageIDs.insert(.numeric(stageID)).inserted { stages.append(.missing(id: stageID)) }
     }
     artists.sort {
         let a = normalize(string: $0.name, locale: Locale(identifier: "en_US_POSIX"))
@@ -47,7 +47,10 @@ func convertAPIRudolstadtDataToEntities(
     return FestivalData(
         artists: artists, areas: areas, stages: stages, events: events,
         omittedRecordCount: apiData.omittedRecordCount + areaRecords.omitted + artistRecords.omitted
-            + stageRecords.omitted + tagRecords.omitted + eventRecords.omitted)
+            + stageRecords.omitted + tagRecords.omitted + eventRecords.omitted,
+        artistSimilarities: .bundled,
+        walkingDistanceMatrix: StageWalkingDistanceProvider.bundled,
+        identity: FestivalIdentity(festivalID: "rudolstadt", editionID: String(FestivalConfiguration.year)))
 }
 
 private func uniqueRecords<Value>(_ values: [Value], id: KeyPath<Value, Int>)
@@ -114,7 +117,6 @@ func convertAPIArtistToArtist(
         id: apiArtist.id,
         hiddenFromArtistList: apiArtist.hideArtist,
         artistType: artistType,
-        someNumber: 0,
         name: apiArtist.name.decodingHTMLCharacterReferences(),
         countries: countries,
         countryCodes: parseArtistCountryCodes(countries),
@@ -124,10 +126,8 @@ func convertAPIArtistToArtist(
         instagram: apiArtist.instagram,
         descriptionGerman: apiArtist.descriptionDE.decodingHTMLCharacterReferences(),
         descriptionEnglish: apiArtist.descriptionEN.decodingHTMLCharacterReferences(),
-        thumbImageUrlString: "https://www.rudolstadt-festival.de/"
-            + apiArtist.imgThumb,
-        fullImageUrlString: "https://www.rudolstadt-festival.de/"
-            + apiArtist.imgFull,
+        thumbImageUrlString: rudolstadtArtistImageURL("https://www.rudolstadt-festival.de/" + apiArtist.imgThumb),
+        fullImageUrlString: rudolstadtArtistImageURL("https://www.rudolstadt-festival.de/" + apiArtist.imgFull),
         ai: ai,
     )
 }
@@ -168,7 +168,7 @@ func convertAPIEventToEvent(
     guard apiEvent.id > 0 else { return nil }
     let stageID = apiEvent.stage > 0 ? apiEvent.stage : -apiEvent.id
     let artistID = apiEvent.artist > 0 ? apiEvent.artist : -apiEvent.id
-    let stage = stages.first { $0.id == stageID } ?? .missing(id: stageID)
+    let stage = stages.first { $0.id == .numeric(stageID) } ?? .missing(id: stageID)
     let artist = artists.first { $0.id == artistID } ?? .missing(id: artistID)
     let parsedStart = apiEvent.start.getDate()
     let calendar = FestivalDateUtilities.festivalCalendar
@@ -186,7 +186,7 @@ func convertAPIEventToEvent(
     return Event(
         id: apiEvent.id, startDate: start, knownDate: legacyDay,
         stage: stage, artist: artist,
-        tags: apiEvent.tags.compactMap { id in tags.first { $0.id == id } })
+        tags: apiEvent.tags.compactMap { id in tags.first { $0.id == String(id) } })
 }
 
 func convertAPIStageCategoryToStageType(apiCategory: APIStageCategory)
@@ -243,7 +243,7 @@ func convertAPITagToTag(apiTag: APITag) -> Tag {
     )
 }
 
-private extension String {
+extension String {
     func decodingHTMLCharacterReferences() -> String {
         var result = self
 
@@ -289,4 +289,11 @@ private extension String {
 
         return result
     }
+}
+
+
+func rudolstadtArtistImageURL(_ value: String) -> String {
+    let placeholders: Set<String> = ["aaaplatzhalter-jj406147npwtqwg.jpg", "aaaplatzhalter-eev4gvb1gk8384g.jpg"]
+    guard let url = URL(string: value) else { return "" }
+    return placeholders.contains(url.lastPathComponent.lowercased()) ? "" : value
 }

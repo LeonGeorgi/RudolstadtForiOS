@@ -30,27 +30,24 @@ struct ArtistEventsBlock: View {
         _ artistEvents: [Event]
     ) -> [Int: [Event]] {
         let savedEventIDs = Set(profile.savedEvents)
-        let estimatedEventDurations = recommendations.state.estimatedEventDurationsByEventID ?? [:]
+        let estimatedEventDurations = festivalData.eventDurations
         
         let savedEvents = festivalData.events.filter { savedEventIDs.contains($0.id) }
-        let transitionEvaluator = ScheduleTransitionEvaluator(
-            transferEstimator: StageTransferEstimator(
-                stages: festivalData.stages,
-                matrix: StageWalkingDistanceProvider.bundled
-            )
-        )
-        
+        let transitionEvaluator = festivalData.transitionEvaluator()
+
         var results: [Int: [Event]] = [:]
         results.reserveCapacity(artistEvents.count)
         
         for artistEvent in artistEvents {
             let intersectingEvents = savedEvents.filter { savedEvent in
-                savedEvent.artist.id != artistEvent.artist.id
-                && transitionEvaluator.assess(
+                guard savedEvent.artist.id != artistEvent.artist.id,
+                      let savedDuration = estimatedEventDurations[savedEvent.id],
+                      let artistDuration = estimatedEventDurations[artistEvent.id] else { return false }
+                return transitionEvaluator.assess(
                     first: savedEvent,
-                    firstDurationMinutes: estimatedEventDurations[savedEvent.id] ?? 60,
+                    firstDurationMinutes: savedDuration,
                     second: artistEvent,
-                    secondDurationMinutes: estimatedEventDurations[artistEvent.id] ?? 60,
+                    secondDurationMinutes: artistDuration,
                     policy: .savedEventWarning
                 ).isConflict
             }

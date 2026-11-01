@@ -1,0 +1,22 @@
+{
+  "name": "rudolstadt-app-demo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.tsx",
+    "render:portrait": "remotion render src/index.tsx RudolstadtPortrait output/rudolstadt-news-hochformat.mp4 --codec=h264 --crf=16 --pixel-format=yuv420p --audio-codec=aac --audio-bitrate=192k --log=info",
+    "render:landscape": "remotion render src/index.tsx RudolstadtLandscape output/rudolstadt-news-querformat.mp4 --codec=h264 --crf=16 --pixel-format=yuv420p --audio-codec=aac --audio-bitrate=192k --log=info",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.538",
+    "@remotion/renderer": "4.0.538",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.538"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.0",
+    "typescript": "5.9.3"
+  }
+}

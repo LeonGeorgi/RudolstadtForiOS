@@ -285,7 +285,7 @@ struct NewsItemDetailView: View {
 
     private func artistCountryAndFlags(_ artist: Artist) -> String? {
         let country = artist.countries.trimmingCharacters(in: .whitespacesAndNewlines)
-        let flags = artist.ai?.flags.joined(separator: "") ?? ""
+        let flags = artist.flagSymbols.joined(separator: "") ?? ""
         let value = [country, flags]
             .filter { !$0.isEmpty }
             .joined(separator: " ")
@@ -294,7 +294,7 @@ struct NewsItemDetailView: View {
     }
 
     private func artistTagsText(_ artist: Artist) -> String? {
-        let tags = (artist.ai?.localizedTags ?? [])
+        let tags = (artist.keywordLabels() ?? [])
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
         guard !tags.isEmpty else {

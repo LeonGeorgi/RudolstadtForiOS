@@ -17,6 +17,7 @@ private enum ShareSheetPresentation: Identifiable {
 }
 
 struct FriendsView: View {
+    @Environment(\.festivalEdition) private var edition
     @EnvironmentObject private var profile: FestivalProfileStore
     @EnvironmentObject private var friends: FriendProfilesStore
     @EnvironmentObject private var profileSync: FestivalProfileSyncStore
@@ -56,7 +57,13 @@ struct FriendsView: View {
 
     var body: some View {
         List {
-            if !isSetupComplete {
+            if edition.isExperimental {
+                Text("festival.experimental.sharing_unavailable")
+                    .foregroundStyle(.secondary)
+            } else if profile.isReadOnly {
+                Text("archive.personal_data_unavailable")
+                    .foregroundStyle(.secondary)
+            } else if !isSetupComplete {
                 Section {
                     setupIntroduction
                         .listRowBackground(Color.clear)
@@ -78,7 +85,7 @@ struct FriendsView: View {
         .listStyle(.insetGrouped)
         .navigationTitle("more.friends.title")
         .toolbar {
-            if isSetupComplete {
+            if edition.usesLiveServices && isSetupComplete {
                 ToolbarItem(placement: .topBarTrailing) {
                     connectionMenu
                 }
@@ -449,6 +456,7 @@ struct FriendsView: View {
     }
 
     private func refreshShareParticipants() {
+        guard edition.usesLiveServices, !profile.isReadOnly else { return }
         Task {
             await profile.refreshShareParticipants()
         }

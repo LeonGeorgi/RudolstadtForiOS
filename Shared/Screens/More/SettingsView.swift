@@ -30,20 +30,39 @@ struct SettingsView: View {
     var body: some View {
         List {
             Section {
-                Button(action: handleNotificationSettingsAction) {
-                    HStack {
-                        Label("settings.notifications", systemImage: "bell.badge")
-                        Spacer()
-                        Text(notificationStatusLabel)
-                            .foregroundStyle(.secondary)
+                Picker("settings.festival", selection: $settings.festivalEdition) {
+                    ForEach(FestivalEdition.availableEditions) { edition in
+                        Text(verbatim: edition.displayName).tag(edition)
                     }
                 }
+                .accessibilityIdentifier("festival-year-picker")
             } footer: {
-                Text("settings.notifications.footer")
+                Text(LocalizedStringKey(settings.festivalEdition.isExperimental
+                    ? "settings.festival.experimental_footer"
+                    : settings.festivalEdition.isArchive
+                        ? "settings.festival_year.archive_footer"
+                        : "settings.festival_year.current_footer"))
             }
 
-            Toggle(isOn: $settings.aiSummaryEnabled) {
-                Label("settings.show_ai_summaries", systemImage: "sparkles")
+            if dataStore.hasNews {
+                Section {
+                    Button(action: handleNotificationSettingsAction) {
+                        HStack {
+                            Label("settings.notifications", systemImage: "bell.badge")
+                            Spacer()
+                            Text(notificationStatusLabel)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                } footer: {
+                    Text("settings.notifications.footer")
+                }
+
+            }
+            if dataStore.features.summaries.isSupported {
+                Toggle(isOn: $settings.aiSummaryEnabled) {
+                    Label("settings.show_ai_summaries", systemImage: "sparkles")
+                }
             }
             Toggle(isOn: useFlames) {
                 Label("settings.use_flames", systemImage: settings.likeIcon)
@@ -55,7 +74,7 @@ struct SettingsView: View {
                     Label("settings.language", systemImage: "globe")
                 }
             }
-            if SettingsFeatureFlags.showsCacheManagementActions {
+            if SettingsFeatureFlags.showsCacheManagementActions && dataStore.adapter.loadingStrategy == .refreshable {
                 Button(role: .destructive) {
                     isShowingClearCacheAlert = true
                 } label: {
@@ -169,10 +188,12 @@ struct SettingsView: View {
     }
 
     private func deleteFestivalData() {
-        if dataStore.deleteCachedFestivalData() {
+        Task {
+        if await dataStore.deleteCachedFestivalData() {
             isShowingFestivalDataDeletedAlert = true
         } else {
             isShowingFestivalDataDeleteFailedAlert = true
+        }
         }
     }
 }

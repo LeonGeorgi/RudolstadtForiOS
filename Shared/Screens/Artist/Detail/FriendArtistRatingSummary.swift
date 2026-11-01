@@ -13,6 +13,14 @@ struct FriendArtistRatingSummary: Equatable {
     }
 
     let entries: [Entry]
+
+    var visibleEntries: [Entry] {
+        Array(entries.prefix(3))
+    }
+
+    var remainingCount: Int {
+        max(0, entries.count - 3)
+    }
 }
 
 struct FriendArtistRatingsBubble: View {
@@ -25,16 +33,12 @@ struct FriendArtistRatingsBubble: View {
     let summary: FriendArtistRatingSummary
     var style: Style = .capsule
 
-    private var maxVisibleRatings: Int {
-        style == .detailInline ? 2 : 3
-    }
-
     private var visibleEntries: [FriendArtistRatingSummary.Entry] {
-        Array(summary.entries.prefix(maxVisibleRatings))
+        summary.visibleEntries
     }
 
     private var remainingCount: Int {
-        max(0, summary.entries.count - maxVisibleRatings)
+        summary.remainingCount
     }
 
     var body: some View {
@@ -129,11 +133,14 @@ struct FriendArtistRatingsBubble: View {
     }
 }
 
-private struct FriendArtistRatingBadge: View {
+struct FriendArtistRatingBadge: View {
     let entry: FriendArtistRatingSummary.Entry
     let style: FriendArtistRatingsBubble.Style
+    var diameter: CGFloat? = nil
+    var preferenceOpacity = 1.0
 
     private var badgeDiameter: CGFloat {
+        if let diameter { return diameter }
         switch style {
         case .capsule:
             return 22
@@ -156,7 +163,7 @@ private struct FriendArtistRatingBadge: View {
         FestivalProfileBadgeAvatar(
             badge: entry.badge,
             diameter: badgeDiameter,
-            fontScale: style == .capsule ? 0.34 : 0.40,
+            fontScale: style == .capsule ? 0.34 : 0.40 - 0.06 * min(max((badgeDiameter - 24) / 16, 0), 1),
             showsShadow: style != .detailInline
         )
         .overlay(
@@ -165,6 +172,7 @@ private struct FriendArtistRatingBadge: View {
         )
         .overlay(alignment: .bottomTrailing) {
             FriendArtistPreferenceDot(preference: entry.preference, style: style)
+                .opacity(preferenceOpacity)
                 .offset(x: preferenceOffset, y: preferenceOffset)
         }
         .accessibilityElement(children: .combine)

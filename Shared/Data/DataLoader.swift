@@ -116,13 +116,14 @@ final class DataLoader: @unchecked Sendable {
         encoder.outputFormatting = .prettyPrinted
         do {
             let jsonData = try encoder.encode(data)
-            try jsonData.write(to: dataFile)
+            try jsonData.write(to: dataFile, options: .atomic)
+            return true
         } catch {
             AppLog.data.error(
                 "Failed to cache festival data in \(dataFile.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)"
             )
         }
-        return FileManager.default.fileExists(atPath: dataFile.path)
+        return false
     }
 
     func deleteCachedFestivalData() -> Bool {
@@ -273,6 +274,8 @@ final class DataLoader: @unchecked Sendable {
             return .unparsable
         }
     }
+
+    func deleteCachedNews() -> Bool { deleteCachedFile(fileName: "news.json", logger: AppLog.news) }
 
     private func deleteCachedFile(fileName: String, logger: Logger) -> Bool {
         let dataFile = cacheFileURL(for: fileName)

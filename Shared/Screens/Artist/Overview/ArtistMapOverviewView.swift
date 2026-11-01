@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ArtistMapOverviewView: View {
     let artists: [Artist]
+    var navigate: ((AppNavigationRoute) -> Void)? = nil
 
     var body: some View {
         let artistCountsByCountryCode = artists.reduce(into: [String: Int]()) { counts, artist in
@@ -11,7 +12,8 @@ struct ArtistMapOverviewView: View {
         }
 
         ArtistWorldMapView(
-            artistCountsByCountryCode: artistCountsByCountryCode
+            artistCountsByCountryCode: artistCountsByCountryCode,
+            navigate: navigate
         )
     }
 }

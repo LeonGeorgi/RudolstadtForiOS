@@ -85,8 +85,7 @@ struct EventContextPreview: View {
     private var artistSummary: String? {
         guard
             state.isArtistSummaryEnabled,
-            let summary = event.artist.ai?
-                .localizedSummary(locale: locale)?
+            let summary = event.artist.summary(locale: locale)?
                 .trimmingCharacters(in: .whitespacesAndNewlines),
             !summary.isEmpty
         else {

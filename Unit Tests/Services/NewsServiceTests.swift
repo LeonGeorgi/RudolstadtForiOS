@@ -479,7 +479,7 @@ struct NewsNotificationContractTests {
     func payloadRoundTripsAndPreservesNotificationContent() {
         let item = TestFixtures.newsItem(id: 42, languageCode: "en")
         let request = NewsNotificationPayload.request(for: item)
-        #expect(request.identifier == "42")
+        #expect(request.identifier == FestivalEdition.current.identity.storageKey + "/news/42")
         #expect(request.content.title == item.formattedShortDescription)
         #expect(request.content.body == item.formattedLongDescription)
         #expect(request.content.sound != nil)
@@ -487,6 +487,17 @@ struct NewsNotificationContractTests {
         #expect(
             NewsNotificationPayload.itemID(
                 userInfo: request.content.userInfo, identifier: request.identifier) == 42)
+    }
+
+    @Test
+    func notificationRoutesUseFullIdentityAndPreserveLegacyRudolstadtPayloads() {
+        let route = NewsNotificationPayload.route(userInfo: ["festivalID": "other",
+            "editionID": "winter", "newsItemID": "opening"], identifier: "unused")
+        #expect(route == FestivalRoute(identity: FestivalIdentity(festivalID: "other", editionID: "winter"),
+            destination: .news("opening")))
+        #expect(NewsNotificationPayload.route(userInfo: ["festivalID": "other", "newsItemID": 42], identifier: "42") == nil)
+        #expect(NewsNotificationPayload.route(userInfo: [:], identifier: "42") == FestivalRoute(
+            identity: FestivalEdition.current.identity, destination: .news("42")))
     }
 
     @Test

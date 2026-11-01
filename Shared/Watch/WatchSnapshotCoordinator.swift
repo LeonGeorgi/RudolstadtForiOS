@@ -97,7 +97,8 @@ final class WatchSnapshotCoordinator {
             )
             return
         }
-        guard provenance.source != .screenshot else {
+        guard dataStore.edition.usesLiveServices, provenance.source != .screenshot,
+              provenance.source != .bundledArchive, provenance.source != .bundledExperiment else {
             AppLog.watchSync.debug("Skipped screenshot data for Watch transport")
             return
         }
@@ -105,10 +106,6 @@ final class WatchSnapshotCoordinator {
         let generatedAt = Date.now
         let recommendations = makeRecommendationSnapshot()
         let friends = makeFriendSnapshot()
-        let estimator = StageTransferEstimator(
-            stages: festivalData.stages,
-            matrix: StageWalkingDistanceProvider.bundled
-        )
         let buildResult = builder.build(WatchSnapshotBuildInput(
             festivalYear: DataStore.year,
             revision: revisionGenerator.next(),
@@ -125,13 +122,11 @@ final class WatchSnapshotCoordinator {
             savedEventIDs: Set(profileStore.savedEvents),
             ratingsByArtistID: profileStore.ratings,
             estimatedDurationsByEventID:
-                dataStore.recommendationStore.state.estimatedEventDurationsByEventID ?? [:],
+                festivalData.eventDurations,
             recommendations: recommendations,
             friends: friends,
             friendProfiles: profileStore.acceptedFriendProfiles,
-            transitionEvaluator: ScheduleTransitionEvaluator(
-                transferEstimator: estimator
-            ),
+            transitionEvaluator: festivalData.transitionEvaluator(),
             omittedRecordCount: festivalData.omittedRecordCount
         ))
 
@@ -197,7 +192,7 @@ final class WatchSnapshotCoordinator {
             return .cache
         case .staleCache:
             return .staleCache
-        case .bundledBackup, .screenshot:
+        case .bundledBackup, .bundledArchive, .bundledExperiment, .screenshot, .preview:
             return .bundledBackup
         }
     }

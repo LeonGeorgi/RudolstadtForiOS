@@ -6,19 +6,10 @@ struct ArtistBrowseGenresBlock: View {
     @EnvironmentObject var dataStore: DataStore
 
     private var localizedBrowseGenres: [String] {
-        let browseGenreIDs = artist.ai?.browseGenreIDs ?? []
-        var seen = Set<String>()
-        return browseGenreIDs.compactMap { genreID in
-            let label = dataStore.localizedBrowseGenreLabel(for: genreID)
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !label.isEmpty else {
-                return nil
-            }
-            if seen.contains(label) {
-                return nil
-            }
-            seen.insert(label)
-            return label
+        let provider = dataStore.features.groupings.value
+        return (provider?.groupings ?? []).flatMap { grouping in
+            let ids = provider?.groupIDs(for: artist.id, in: grouping.id) ?? []
+            return grouping.groups.filter { ids.contains($0.id) }.map { $0.title.resolved() }
         }
     }
 
@@ -43,7 +34,6 @@ struct ArtistBrowseGenresBlock_Previews: PreviewProvider {
         let environment = PreviewMockData.makeEnvironment(
             suiteName: "ArtistBrowseGenresBlockPreview"
         )
-        environment.dataStore.loadExtraData()
 
         return ArtistBrowseGenresBlock(artist: PreviewMockData.featuredArtist)
             .previewEnvironment(environment)

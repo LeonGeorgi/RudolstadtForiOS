@@ -70,6 +70,11 @@
 "artist.rating.icon_picker" = "Choose another rating";
 "artist.rating.icon_picker.selected" = "Other rating: %@";
 "artist.image.open" = "View image of %@ full screen";
+"artist.friend_ratings.title" = "Ratings";
+"artist.friend_ratings.open" = "Shows your friends’ ratings";
+"artist.friend_ratings.close" = "Close ratings";
+"artist.friend_rating.value.one" = "%lld heart";
+"artist.friend_rating.value.other" = "%lld hearts";
 "artist.friend_ratings.accessibility.format" = "Friend ratings: %@";
 "artist.friend_rating.hearts.one" = "%1$@ gave %2$lld heart";
 "artist.friend_rating.hearts.other" = "%1$@ gave %2$lld hearts";
@@ -505,3 +510,54 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "program.discovery.country.intro" = "Explore the concerts and other events celebrating the festival's country focus.";
 "program.discovery.ebu.intro" = "European broadcasters bring selected musicians to Rudolstadt. Their concerts form the EBU Folk Festival within the festival.";
 "program.discovery.ruth.intro" = "RUTH is the German World Music Award. Find the related festival events here.";
+
+"settings.festival_year" = "Festival year";
+"settings.festival_year.archive_footer" = "Earlier editions are read-only. Saved events, ratings and notes from the selected year are shown.";
+"settings.festival_year.current_footer" = "Current festival program with your personal schedule. Earlier editions are available as an archive.";
+"archive.close" = "Done";
+
+
+"archive.selected %@" = "Archive %@";
+"archive.personal_data_unavailable" = "Shared profiles are unavailable in the archive.";
+"archive.additional_data_unavailable" = "News and travel information have not been archived for this year.";
+
+// Experimental festival integration
+"settings.festival" = "Festival";
+"settings.festival.experimental_footer" = "Experimental integration using the saved schedule for 20–21 June 2026. Ratings, notes and saved events are stored separately on this device. No live updates, sharing or automatic schedule optimization. One inconsistent event was omitted.";
+"festival.experimental.selected %@" = "Test: %@";
+"festival.experimental.additional_data_unavailable" = "News and travel information are not included for this festival.";
+"festival.experimental.sharing_unavailable" = "Shared plans and iCloud sharing are unavailable for this experimental integration. Your ratings, notes and saved events stay on this device.";
+"festival.locations_unavailable" = "Map locations are unavailable for these stages.";
+
+// Official festival site plans
+"site_plan.title" = "Site plan";
+"site_plan.official_source" = "Official festival site plan";
+"site_plan.show_location" = "Show on site plan";
+"site_plan.unavailable" = "The site plan could not be opened.";
+"site_plan.category.stage" = "Stages";
+"site_plan.category.entrance" = "Entrances";
+"site_plan.category.food" = "Food and drinks";
+"site_plan.category.parking" = "Parking";
+"site_plan.category.toilets" = "Toilets and baby changing";
+"site_plan.category.firstAid" = "First aid";
+"site_plan.category.service" = "Services and other facilities";
+"site_plan.category.activity" = "Activities and entertainment";
+
+"site_plan.coordinates_approximate" = "Approximate positions derived from the site plan.";
+"site_plan.coordinate_source" = "Positions: © OpenStreetMap contributors";
+"site_plan.show_geographic_location" = "Open in Maps";
+
+"map.legend" = "Legend";
+
+"map.recenter" = "Recenter map";
+
+"map.user_location" = "Your location";
+
+"map.zoom_in" = "Zoom in";
+
+"map.zoom_out" = "Zoom out";
+
+"festival.map.unavailable" = "The map is currently unavailable.";
+
+"stage.location_info" = "Location information";
+"stage.location.approximate" = "Approximate position";

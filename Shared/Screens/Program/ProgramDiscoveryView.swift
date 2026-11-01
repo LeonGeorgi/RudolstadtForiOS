@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ProgramDiscoveryView: View {
-    let tagID: Int?
+    let tagID: String?
 
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
@@ -9,35 +9,18 @@ struct ProgramDiscoveryView: View {
     @EnvironmentObject private var settings: UserSettings
 
     private var availableTags: [Tag] {
-        let tags = festivalData.events.flatMap(\.tags)
-        return ["Workshop", "Tanzworkshop", "Vortrag", "Mitmachtanz", "Tanzabend",
-                "Kindertanz", "Film", "Ausstellung", "Länderschwerpunkt", "EBU", "RUTH"]
-            .compactMap { name in tags.first { $0.germanName == name } }
+        festivalData.features.eventDetails.value?.tags.filter(\.isDiscoverable) ?? []
     }
 
     private var selectedTag: Tag? {
-        festivalData.events.lazy.flatMap(\.tags).first { $0.id == tagID }
+        festivalData.features.eventDetails.value?.tags.first { $0.id == tagID }
     }
 
     private var events: [Event] {
-        festivalData.events.filter { event in
-            event.tags.contains { $0.id == tagID }
+        guard let tagID else { return [] }
+        return festivalData.events.filter { event in
+            festivalData.features.eventDetails.value?.details(for: event.id)?.tags.contains { $0.id == tagID } == true
         }.sorted(by: Event.precedes)
-    }
-
-    private var introduction: LocalizedStringKey? {
-        switch selectedTag?.germanName {
-        case "Länderschwerpunkt": "program.discovery.country.intro"
-        case "EBU": "program.discovery.ebu.intro"
-        case "RUTH": "program.discovery.ruth.intro"
-        default: nil
-        }
-    }
-
-    private func title(for tag: Tag) -> String {
-        tag.germanName == "Mitmachtanz"
-            ? String(localized: "program.discovery.dance-along")
-            : (tag.localizedName.isEmpty ? tag.germanName : tag.localizedName)
     }
 
     var body: some View {
@@ -49,14 +32,14 @@ struct ProgramDiscoveryView: View {
                 }
                 ForEach(availableTags) { tag in
                     NavigationLink(
-                        title(for: tag),
+                        tag.title.resolved(),
                         value: AppNavigationRoute.programDiscovery(tagID: tag.id)
                     )
                 }
             } else {
-                if let introduction {
+                if let introduction = selectedTag?.introduction {
                     Section {
-                        Text(introduction)
+                        Text(introduction.resolved())
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -98,7 +81,7 @@ struct ProgramDiscoveryView: View {
             }
         }
         .navigationTitle(
-            selectedTag.map { title(for: $0) }
+            selectedTag?.title.resolved()
                 ?? String(localized: "program.discovery.title")
         )
     }

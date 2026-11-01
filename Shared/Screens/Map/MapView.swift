@@ -1,331 +1,224 @@
-//
-//  ActualMapView.swift
-//  RudolstadtForiOS (iOS)
-//
-//  Created by Leon Georgi on 14.06.22.
-//
-
 import MapKit
 import SwiftUI
 
-struct MapView: View {
-    private enum MapSheet: Hashable, Identifiable {
-        case numbers
-        case stage(Int)
+#if os(iOS)
 
-        var id: Self { self }
-        var stageID: Int? {
-            if case let .stage(id) = self { return id }
-            return nil
+struct FestivalMapCanvas: UIViewRepresentable {
+    @Environment(\.colorScheme) private var colorScheme
+    let stages: [Stage]
+    let performancePlaceIDs: Set<FestivalPlaceID>
+    let selectedPlaceID: FestivalPlaceID?
+    let focusTrigger: Int
+    let showsUserLocation: Bool
+    let isPlaceSheetPresented: Bool
+    let onSelectPlace: (FestivalPlaceID) -> Void
+
+    func makeCoordinator() -> Coordinator { Coordinator(self) }
+
+    func makeUIView(context: Context) -> MKMapView {
+        let view = FestivalMapUIKitView()
+        view.delegate = context.coordinator
+        view.isRotateEnabled = false
+        view.isPitchEnabled = false
+        view.accessibilityIdentifier = "festival-map"
+        let configuration = MKStandardMapConfiguration(elevationStyle: .flat)
+        configuration.pointOfInterestFilter = MKPointOfInterestFilter.excludingAll
+        view.preferredConfiguration = configuration
+        view.tintColor = .tintColor
+        view.didLayout = { [weak view, weak coordinator = context.coordinator] in
+            guard let view, let coordinator else { return }
+            coordinator.performPendingFocus(in: view)
+        }
+        return view
+    }
+
+    func updateUIView(_ view: MKMapView, context: Context) {
+        let coordinator = context.coordinator
+        coordinator.parent = self
+        view.showsUserLocation = showsUserLocation
+        coordinator.updateAnnotations(in: view)
+        if coordinator.lastFocusTrigger != focusTrigger {
+            coordinator.lastFocusTrigger = focusTrigger
+            coordinator.pendingFocus = selectedPlaceID.map { [$0] } ?? []
+        }
+        // Apply camera changes after SwiftUI has finished updating the map layout.
+        DispatchQueue.main.async { [weak view, weak coordinator] in
+            guard let view, let coordinator else { return }
+            coordinator.performPendingFocus(in: view)
         }
     }
 
-    var stages: [Stage]
-    let currentTipID: String?
+    final class Coordinator: NSObject, MKMapViewDelegate {
+        var parent: FestivalMapCanvas
+        var lastFocusTrigger: Int?
+        var pendingFocus: [FestivalPlaceID]?
+        private var lastStages: [Stage] = []
+        private var lastColorScheme: ColorScheme?
+        private var hasFocusedOverview = false
 
-    @StateObject private var manager = LocationManager()
-    @State private var enabledStageFilters = Set(MapLegendFilter.allCases)
-    @State private var selectedStageID: Int?
-    @State private var focusStageIDs: [Int] = []
-    @State private var focusTrigger = 0
-    @State private var presentedSheet: MapSheet?
-    @State private var sheetDetent: PresentationDetent = .medium
-    @State private var showsUserLocation = false
-    @State private var enableUserLocationTask: Task<Void, Never>?
+        init(_ parent: FestivalMapCanvas) { self.parent = parent }
 
-    private var numberedStages: [Stage] {
-        stages.filter { $0.stageNumber != nil }.sorted {
-            ($0.stageNumber ?? .max, $0.id) < ($1.stageNumber ?? .max, $1.id)
-        }
-    }
-
-    private var locatedStages: [Stage] {
-        var located = numberedStages.filter(\.hasLocation)
-        if let selected = stages.first(where: { $0.id == selectedStageID }),
-            selected.stageNumber == nil, selected.hasLocation {
-            located.append(selected)
-        }
-        return located
-    }
-
-    private var filteredStages: [Stage] {
-        locatedStages.filter {
-            enabledStageFilters.contains(MapLegendFilter(stageType: $0.stageType))
-        }
-    }
-
-    var body: some View {
-        ZStack(alignment: .bottom) {
-            FestivalMapCanvas(
-                stages: filteredStages,
-                overviewStages: locatedStages,
-                selectedStageID: selectedStageID,
-                focusStageIDs: focusStageIDs,
-                focusTrigger: focusTrigger,
-                showsUserLocation: showsUserLocation,
-                isStageSheetPresented: presentedSheet?.stageID != nil,
-                onSelectStage: selectStage
-            )
-            .ignoresSafeArea()
-
-            VStack(alignment: .trailing, spacing: 12) {
-                Button {
-                    selectedStageID = nil
-                    focusStageIDs = []
-                    focusTrigger += 1
-                } label: {
-                    Image(systemName: "scope")
+        func updateAnnotations(in view: MKMapView) {
+            if lastStages != parent.stages || lastColorScheme != parent.colorScheme {
+                lastStages = parent.stages
+                lastColorScheme = parent.colorScheme
+                view.removeAnnotations(view.annotations.compactMap { $0 as? FestivalMapAnnotation })
+                view.addAnnotations(parent.stages.map { FestivalMapAnnotation(stage: $0) })
+            }
+            // Keep the selected pin in sync with navigation inside the place sheet.
+            for annotation in view.selectedAnnotations {
+                if let place = annotation as? FestivalMapAnnotation,
+                    place.stage.id != parent.selectedPlaceID {
+                    view.deselectAnnotation(place, animated: false)
                 }
-                .modifier(MapRecenterButtonStyle())
-                .accessibilityLabel("Center on festival area")
-                .accessibilityIdentifier("festival-map-recenter")
-                .appPopoverTip(
-                    DiscoverabilityTips.mapRecenter,
-                    currentTipID: currentTipID,
-                    arrowEdge: .leading
+            }
+            if let selected = view.annotations.compactMap({ $0 as? FestivalMapAnnotation })
+                .first(where: { $0.stage.id == parent.selectedPlaceID }),
+                !view.selectedAnnotations.contains(where: { $0 === selected }) {
+                view.selectAnnotation(selected, animated: false)
+            }
+        }
+
+        func performPendingFocus(in view: MKMapView) {
+            guard let ids = pendingFocus, view.bounds.width > 0, view.bounds.height > 120 else { return }
+            pendingFocus = nil
+            if !hasFocusedOverview {
+                focus(on: parent.stages, in: view, animated: false)
+                hasFocusedOverview = true
+            }
+            let targets = ids.isEmpty ? parent.stages
+                : parent.stages.filter { ids.contains($0.id) }
+            focus(on: targets, in: view, animated: lastFocusTrigger != 0)
+        }
+
+        private func focus(on stages: [Stage], in view: MKMapView, animated: Bool) {
+            guard !stages.isEmpty else {
+                return
+            }
+            if parent.isPlaceSheetPresented, stages.count == 1, let stage = stages.first {
+                let point = MKMapPoint(CLLocationCoordinate2D(
+                    latitude: stage.latitude, longitude: stage.longitude
+                ))
+                let visibleTop = view.safeAreaInsets.top + 80
+                let visibleBottom = view.bounds.height / 2
+                let targetY = (visibleTop + visibleBottom) / 2
+                let mapPointsPerPoint = view.visibleMapRect.height / view.bounds.height
+                let center = MKMapPoint(
+                    x: point.x,
+                    y: point.y + (view.bounds.midY - targetY) * mapPointsPerPoint
                 )
+                // Pan within the current map scale; selecting a pin must never change the zoom.
+                view.setCenter(center.coordinate, animated: animated)
+                return
             }
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .padding()
-            .padding(.bottom, 32) // Leave the native map attribution unobstructed.
+            var rect = MKMapRect.null
+            for stage in stages {
+                let point = MKMapPoint(CLLocationCoordinate2D(latitude: stage.latitude, longitude: stage.longitude))
+                rect = rect.union(MKMapRect(x: point.x, y: point.y, width: 1, height: 1))
+            }
+            let minimum = MKMapPointsPerMeterAtLatitude(stages[0].latitude) * 350
+            rect = MKMapRect(x: rect.midX - max(rect.width, minimum) / 2,
+                             y: rect.midY - max(rect.height, minimum) / 2,
+                             width: max(rect.width, minimum), height: max(rect.height, minimum))
+            view.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(
+                top: view.safeAreaInsets.top + 80, left: 32,
+                bottom: view.safeAreaInsets.bottom + 36, right: 32
+            ), animated: animated)
         }
-        .overlay(alignment: .top) { legend }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    sheetDetent = .medium
-                    presentedSheet = .numbers
-                } label: {
-                    Label("map.numbers.title", systemImage: "number")
-                }
-                .accessibilityIdentifier("festival-map-number-picker")
+
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            guard let place = annotation as? FestivalMapAnnotation else { return nil }
+            let marker = mapView.dequeueReusableAnnotationView(withIdentifier: "festival-place")
+                as? MKMarkerAnnotationView
+                ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "festival-place")
+            let stage = place.stage
+            marker.annotation = annotation
+            marker.clusteringIdentifier = nil
+            let usesReferenceBadge = parent.performancePlaceIDs.contains(place.stage.id) || place.stage.admissionCategory != nil
+            marker.displayPriority = .required
+            marker.canShowCallout = false
+            marker.titleVisibility = .adaptive
+            if usesReferenceBadge {
+                marker.glyphImage = nil
+                marker.selectedGlyphImage = nil
+                marker.glyphText = stage.displayCode
+            } else {
+                marker.glyphText = nil
+                let symbol = stage.mapCategory?.systemImageName ?? "mappin"
+                // MapKit scales its normal and selected glyph slots differently.
+                marker.glyphImage = glyphImage(systemName: symbol, canvasSize: 20, circleDiameter: 36,
+                                              displayScale: mapView.traitCollection.displayScale)
+                marker.selectedGlyphImage = glyphImage(systemName: symbol, canvasSize: 40, circleDiameter: 68,
+                                                      displayScale: mapView.traitCollection.displayScale)
             }
+            let scheme: ColorScheme = mapView.traitCollection.userInterfaceStyle == .dark ? .dark : .light
+            marker.markerTintColor = UIColor(StageNumber.baseColor(for: stage, colorScheme: scheme))
+            marker.accessibilityLabel = [stage.displayCode, stage.localizedName]
+                .compactMap { $0 }.joined(separator: " · ")
+            marker.accessibilityIdentifier = "festival-place-\(stage.id)"
+            marker.isAccessibilityElement = true
+            marker.accessibilityTraits = .button
+            return marker
         }
-        .sheet(item: $presentedSheet, onDismiss: {
-            if presentedSheet == nil { selectedStageID = nil }
-        }) { sheet in
-            Group {
-                switch sheet {
-                case .numbers:
-                    FestivalMapNumberPicker(
-                        stages: numberedStages,
-                        selectedStageID: selectedStageID,
-                        select: selectStage
-                    )
-                case .stage(let rootStageID):
-                    if let stage = stages.first(where: { $0.id == rootStageID }) {
-                        MapStageSheet(stage: stage, onSelectStage: selectStageFromSheet)
-                            .id(stage.id)
-                    }
-                }
-            }
-            .presentationDetents([.medium, .large], selection: $sheetDetent)
-            .presentationDragIndicator(.visible)
-            .presentationBackgroundInteraction(
-                sheet.stageID != nil ? .enabled(upThrough: .medium) : .disabled
+
+        @MainActor
+        private func glyphImage(systemName: String, canvasSize: CGFloat, circleDiameter: CGFloat,
+                                displayScale: CGFloat) -> UIImage? {
+            // Keep MapKit's glyph canvas while sharing the badge's symbol layout.
+            let renderer = ImageRenderer(content:
+                PlaceSymbol(systemName: systemName, circleDiameter: circleDiameter)
+                    .foregroundStyle(.white)
+                    .frame(width: canvasSize, height: canvasSize)
             )
+            renderer.scale = displayScale
+            return renderer.uiImage?.withRenderingMode(.alwaysTemplate)
         }
-        .tint(.rudolstadt)
-        .onAppear {
-            guard enableUserLocationTask == nil else { return }
-            enableUserLocationTask = Task { @MainActor in
-                await Task.yield()
-                guard !Task.isCancelled else { return }
-                showsUserLocation = true
-                manager.startLocationTracking()
-            }
-        }
-        .onDisappear {
-            enableUserLocationTask?.cancel()
-            enableUserLocationTask = nil
-        }
-        .onChange(of: stages.map(\.id)) { _, updatedIDs in
-            if let selectedStageID, !updatedIDs.contains(selectedStageID) {
-                self.selectedStageID = nil
-                if presentedSheet?.stageID != nil { presentedSheet = nil }
-            }
-            if let rootStageID = presentedSheet?.stageID, !updatedIDs.contains(rootStageID) {
-                presentedSheet = nil
-            }
-        }
-    }
 
-    private func selectStage(_ id: Int) {
-        guard let stage = stages.first(where: { $0.id == id }) else { return }
-        updateMapSelection(stage)
-        if presentedSheet?.stageID == nil { sheetDetent = .medium }
-        presentedSheet = .stage(id)
-    }
-
-    private func selectStageFromSheet(_ id: Int) {
-        guard let stage = stages.first(where: { $0.id == id }) else { return }
-        updateMapSelection(stage)
-        sheetDetent = .medium
-    }
-
-    private func updateMapSelection(_ stage: Stage) {
-        guard selectedStageID != stage.id else { return }
-        selectedStageID = stage.id
-        enabledStageFilters.insert(MapLegendFilter(stageType: stage.stageType))
-        if stage.hasLocation {
-            focusStageIDs = [stage.id]
-            focusTrigger += 1
-        }
-    }
-
-    private var legend: some View {
-        VStack(spacing: 8) {
-            AppInlineTipView(
-                tip: DiscoverabilityTips.mapLegend,
-                currentTipID: currentTipID,
-                arrowEdge: .bottom
-            )
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    legendToggleChip(filter: .festivalTicket,
-                                     color: StageNumber.baseColor(for: .festivalTicket),
-                                     title: "ticket.type.festival")
-                    legendToggleChip(filter: .festivalAndDayTicket,
-                                     color: StageNumber.baseColor(for: .festivalAndDayTicket),
-                                     title: "ticket.type.day-and-festival")
-                    legendToggleChip(filter: .other,
-                                     color: StageNumber.baseColor(for: .other),
-                                     title: "ticket.type.other")
-                }
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
+        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            guard let place = view.annotation as? FestivalMapAnnotation,
+                parent.selectedPlaceID != place.stage.id else { return }
+            DispatchQueue.main.async { [weak self] in
+                self?.parent.onSelectPlace(place.stage.id)
             }
-            .scrollClipDisabled()
-        }
-        .padding(.top, 8)
-        .padding(.horizontal, 10)
-    }
-
-    private func legendToggleChip(
-        filter: MapLegendFilter,
-        color: Color,
-        title: LocalizedStringKey
-    ) -> some View {
-        let isEnabled = enabledStageFilters.contains(filter)
-        return Button { toggle(filter) } label: {
-            Label {
-                Text(title)
-            } icon: {
-                Image(systemName: "circle.fill")
-                    .foregroundStyle(isEnabled ? color : .secondary)
-            }
-            .font(.caption.weight(.medium))
-            .foregroundStyle(.primary)
-            .lineLimit(1)
-            .padding(3)
-        }
-        .modifier(MapLegendChipButtonStyle(isEnabled: isEnabled, tintColor: color))
-        .accessibilityLabel(Text(title))
-        .accessibilityValue(Text(isEnabled ? "On" : "Off"))
-    }
-
-    private func toggle(_ filter: MapLegendFilter) {
-        if enabledStageFilters.contains(filter) {
-            // Keep at least one filter active so users don't accidentally hide all locations.
-            if enabledStageFilters.count > 1 {
-                enabledStageFilters.remove(filter)
-            }
-        } else {
-            enabledStageFilters.insert(filter)
         }
     }
 }
 
-private struct MapRecenterButtonStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        if #available(iOS 26.0, *) {
-            content
-                .buttonStyle(.glass)
-                .buttonBorderShape(.circle)
-                .controlSize(.regular)
-        } else {
-            content
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.circle)
-        }
+private final class FestivalMapUIKitView: MKMapView {
+    var didLayout: (() -> Void)?
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        didLayout?()
     }
 }
 
-private struct MapStageSheet: View {
+private final class FestivalMapAnnotation: NSObject, MKAnnotation {
     let stage: Stage
-    let onSelectStage: (Int) -> Void
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.festivalData) private var festivalData
-    @State private var path: [AppNavigationRoute] = []
+    let coordinate: CLLocationCoordinate2D
+    var title: String? { stage.localizedName }
 
-    private var activeStageID: Int {
-        for route in path.reversed() {
-            if case let .stage(id, _) = route { return id }
-        }
-        return stage.id
+    init(stage: Stage) {
+        self.stage = stage
+        coordinate = CLLocationCoordinate2D(latitude: stage.latitude, longitude: stage.longitude)
     }
+}
+#endif
+
+struct MapStageSheet: View {
+    let stage: Stage
+    var highlightedEventId: Int? = nil
+    @Binding var selectedDay: String
+    let navigate: (AppNavigationRoute) -> Void
 
     var body: some View {
-        NavigationStack(path: $path) {
-            StageDetailView(stage: stage, highlightedEventId: nil, showsMap: false)
-                .navigationDestination(for: AppNavigationRoute.self) { route in
-                    if case let .stage(id, highlightedEventId) = route {
-                        if let nearbyStage = festivalData.stages.first(where: { $0.id == id }) {
-                            StageDetailView(
-                                stage: nearbyStage,
-                                highlightedEventId: highlightedEventId,
-                                showsMap: false
-                            )
-                        } else {
-                            Text("locations.empty")
-                        }
-                    } else {
-                        AppNavigationDestination(route: route, navigate: { path.append($0) })
-                    }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("common.done") { dismiss() }
-                    }
-                }
-        }
-        .onChange(of: activeStageID) { _, id in onSelectStage(id) }
-    }
-}
-
-private struct MapLegendChipButtonStyle: ViewModifier {
-    let isEnabled: Bool
-    let tintColor: Color
-
-    func body(content: Content) -> some View {
-        if #available(iOS 26.0, *) {
-            content
-                .buttonStyle(.glass)
-                .buttonBorderShape(.capsule)
-                .controlSize(.mini)
-                .tint(isEnabled ? tintColor : .gray.opacity(0.55))
-        } else {
-            content
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.capsule)
-                .tint(isEnabled ? tintColor : .gray)
-        }
-    }
-}
-
-private enum MapLegendFilter: CaseIterable, Hashable {
-    case festivalTicket
-    case festivalAndDayTicket
-    case other
-
-    init(stageType: StageType) {
-        switch stageType {
-        case .festivalTicket:
-            self = .festivalTicket
-        case .festivalAndDayTicket:
-            self = .festivalAndDayTicket
-        case .other, .unknown:
-            self = .other
+        NavigationStack {
+            StageDetailView(
+                stage: stage,
+                highlightedEventId: highlightedEventId,
+                showsMap: false,
+                navigate: navigate,
+                programDaySelection: $selectedDay
+            )
         }
     }
 }
@@ -334,12 +227,14 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let manager = CLLocationManager()
     private var didConfigureManager = false
     private var isUpdatingLocation = false
+    private var isTrackingRequested = false
 
     override init() {
         super.init()
     }
 
     func startLocationTracking() {
+        isTrackingRequested = true
         if !didConfigureManager {
             manager.delegate = self
             manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -362,13 +257,13 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
 
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        startLocationTracking()
+    func stopLocationTracking() {
+        isTrackingRequested = false
+        manager.stopUpdatingLocation()
+        isUpdatingLocation = false
     }
-}
 
-struct MapView_Previews: PreviewProvider {
-    static var previews: some View {
-        MapView(stages: [], currentTipID: nil)
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if isTrackingRequested { startLocationTracking() }
     }
 }

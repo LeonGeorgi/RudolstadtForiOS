@@ -8,10 +8,15 @@ protocol NewsFetching {
 }
 
 protocol NewsCaching {
+    func deleteCachedNews() -> Bool
     func loadNewsFromFile() -> FileLoadingResult<[NewsItem]>
     func loadBundledNewsBackup() -> FileLoadingResult<[NewsItem]>
     func storeAPINewsToFile(news: [APINewsItem], fileName: String) -> Bool
     func isFileOlderThan(fileName: String, date: Date?) -> Bool
+}
+
+extension NewsCaching {
+    func deleteCachedNews() -> Bool { false }
 }
 
 protocol NewsNotifying {
@@ -29,14 +34,29 @@ enum NewsNotificationPayload {
         return id.flatMap { $0 > 0 ? $0 : nil }
     }
 
+    static func route(userInfo: [AnyHashable: Any], identifier: String) -> FestivalRoute? {
+        if userInfo["festivalID"] != nil || userInfo["editionID"] != nil {
+            guard let festival = userInfo["festivalID"] as? String, !festival.isEmpty,
+                  let edition = userInfo["editionID"] as? String, !edition.isEmpty else { return nil }
+            let id = (userInfo[newsItemIDKey] as? String) ?? (userInfo[newsItemIDKey] as? Int).map(String.init)
+            guard let id, !id.isEmpty else { return nil }
+            return FestivalRoute(identity: FestivalIdentity(festivalID: festival, editionID: edition), destination: .news(id))
+        }
+        // Only notifications from the original app lacked a festival identity.
+        return itemID(userInfo: userInfo, identifier: identifier).map {
+            FestivalRoute(identity: FestivalEdition.current.identity, destination: .news(String($0)))
+        }
+    }
+
     @MainActor
     static func request(for item: NewsItem) -> UNNotificationRequest {
         let content = UNMutableNotificationContent()
         content.title = item.formattedShortDescription
         content.body = item.formattedLongDescription
         content.sound = .default
-        content.userInfo = [newsItemIDKey: item.id]
-        return UNNotificationRequest(identifier: String(item.id), content: content, trigger: nil)
+        let identity = FestivalEdition.current.identity
+        content.userInfo = [newsItemIDKey: item.id, "festivalID": identity.festivalID, "editionID": identity.editionID]
+        return UNNotificationRequest(identifier: identity.storageKey + "/news/" + String(item.id), content: content, trigger: nil)
     }
 }
 
@@ -87,21 +107,25 @@ final class NewsNotificationNavigationController: ObservableObject {
     static let shared = NewsNotificationNavigationController()
 
     @Published private(set) var requestedNewsItemID: Int?
+    @Published private(set) var requestedRoute: FestivalRoute?
 
     init() {}
 
     func requestOpeningNewsItem(id: Int) {
         requestedNewsItemID = id
+        requestedRoute = FestivalRoute(identity: FestivalEdition.current.identity, destination: .news(String(id)))
     }
 
     func requestOpeningNewsItem(from response: UNNotificationResponse) {
         let request = response.notification.request
-        if let id = NewsNotificationPayload.itemID(
-            userInfo: request.content.userInfo,
-            identifier: request.identifier
-        ) {
-            requestOpeningNewsItem(id: id)
-        }
+        guard let route = NewsNotificationPayload.route(userInfo: request.content.userInfo, identifier: request.identifier) else { return }
+        requestedRoute = route
+        if case .news(let id) = route.destination { requestedNewsItemID = Int(id) }
+    }
+
+    func clearRequestedRoute() {
+        requestedRoute = nil
+        requestedNewsItemID = nil
     }
 
     func clearRequestedNewsItem(id: Int) {
@@ -109,6 +133,7 @@ final class NewsNotificationNavigationController: ObservableObject {
             return
         }
         requestedNewsItemID = nil
+        requestedRoute = nil
     }
 }
 
@@ -180,6 +205,7 @@ final class NewsService {
     private var lastAttempt: Date?
     private var refreshTask: Task<LoadingResult<[NewsItem]>, Never>?
     private var foregroundRefreshRequested = false
+    private var isDeletingCache = false
 
     func loadCachedNews() -> [NewsItem]? {
         if case .success(let items) = latestResult {
@@ -209,7 +235,7 @@ final class NewsService {
     }
 
     private func refreshNews(inBackground: Bool) async -> LoadingResult<[NewsItem]> {
-        guard !Task.isCancelled else { return availableNews() }
+        guard !Task.isCancelled, !isDeletingCache else { return availableNews() }
         if let refreshTask {
             // A foreground request also makes the shared result a silent update.
             if !inBackground { foregroundRefreshRequested = true }
@@ -240,6 +266,22 @@ final class NewsService {
         }
         refreshTask = nil
         return result
+    }
+
+    func deleteNewsCache() async -> Bool {
+        guard !isDeletingCache else { return false }
+        isDeletingCache = true
+        defer { isDeletingCache = false }
+        let task = refreshTask
+        task?.cancel()
+        _ = await task?.value
+        guard dataLoader.deleteCachedNews() else { return false }
+        refreshTask = nil
+        latestResult = nil
+        lastAttempt = nil
+        source = nil
+        notice = nil
+        return true
     }
 
     private func performRefresh() async -> LoadingResult<[NewsItem]> {

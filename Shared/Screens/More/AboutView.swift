@@ -2,15 +2,7 @@ import SwiftUI
 
 struct AboutView: View {
 
-    var officialAppUrl: URL? {
-        URL(string: "itms-apps://apple.com/app/id534902145")
-    }
-
-    let officialWebsiteUrlString = "https://www.rudolstadt-festival.de"
-
-    var officialWebsiteUrl: URL? {
-        URL(string: officialWebsiteUrlString)
-    }
+    @EnvironmentObject private var dataStore: DataStore
 
     let githubUrlString = "https://github.com/LeonGeorgi"
 
@@ -28,25 +20,9 @@ struct AboutView: View {
         List {
             Section {
                 Text("about.app.content")
-                if let officialWebsiteUrl {
-                    Link("about.official_website.title", destination: officialWebsiteUrl)
-                        .contextMenu {
-                            ContextCopyButton(
-                                textToCopy: officialWebsiteUrlString,
-                                label: "copy.link.title"
-                            )
-                        }
-                }
-
-                if let officialAppUrl {
-                    Link("about.official_app.title", destination: officialAppUrl)
-                        .contextMenu {
-                            ContextCopyButton(
-                                textToCopy:
-                                    "https://apps.apple.com/de/app/rudolstadt-festival/id534902145",
-                                label: "copy.link.title"
-                            )
-                        }
+                ForEach(dataStore.metadata.officialLinks) { link in
+                    Link(link.title.resolved(), destination: link.destination)
+                        .contextMenu { ContextCopyButton(textToCopy: link.destination.absoluteString, label: "copy.link.title") }
                 }
             }
             Section(header: Text("about.developer.header")) {

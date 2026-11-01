@@ -54,6 +54,8 @@ final class FestivalProfileStore: ObservableObject {
     private var savedEventIDSet = Set<Int>()
     @Published private var artistIconsByID: [String: String] = [:]
 
+    let userDataPolicy: FestivalUserDataPolicy
+    let isReadOnly: Bool
     private let cloudKitEnabled: Bool
     private let persistence: any FestivalProfilePersisting
     private let waitBeforePersisting: @Sendable () async -> Void
@@ -77,25 +79,36 @@ final class FestivalProfileStore: ObservableObject {
 
     init(
         userDefaults: UserDefaults = .standard,
+        readOnlyFestivalYear: Int? = nil,
         cloudKitEnabled: Bool = FestivalProfileStore.defaultCloudKitEnabled,
         now: @escaping () -> Date = { .now },
         persistence: (any FestivalProfilePersisting)? = nil,
+        userDataPolicy: FestivalUserDataPolicy? = nil,
         waitBeforePersisting: @escaping @Sendable () async -> Void = {
             try? await Task.sleep(for: .milliseconds(250))
         }
     ) {
-        let persistence = persistence
-            ?? UserDefaultsFestivalProfilePersistence(
-                userDefaults: userDefaults,
-                festivalYear: DataStore.year
+        let resolvedPersistence: any FestivalProfilePersisting
+        if let readOnlyFestivalYear {
+            resolvedPersistence = UserDefaultsFestivalProfilePersistence(
+                userDefaults: userDefaults, festivalYear: readOnlyFestivalYear, isReadOnly: true
             )
-        self.cloudKitEnabled = cloudKitEnabled
+        } else {
+            resolvedPersistence = persistence ?? UserDefaultsFestivalProfilePersistence(
+                userDefaults: userDefaults, festivalYear: DataStore.year
+            )
+        }
+        let access: FestivalUserDataAccess = readOnlyFestivalYear == nil ? .editable : .readOnly
+        self.userDataPolicy = userDataPolicy ?? FestivalUserDataPolicy(savedEvents: access, artistRatings: access, artistNotes: access)
+        self.isReadOnly = readOnlyFestivalYear != nil || (self.userDataPolicy.savedEvents != .editable
+            && self.userDataPolicy.artistRatings != .editable && self.userDataPolicy.artistNotes != .editable)
+        self.cloudKitEnabled = cloudKitEnabled && !self.isReadOnly
         self.now = now
-        self.persistence = persistence
+        self.persistence = resolvedPersistence
         self.waitBeforePersisting = waitBeforePersisting
-        self.cache = persistence.loadCache()
+        self.cache = resolvedPersistence.loadCache()
             ?? FestivalProfileCache(
-                currentProfile: persistence.loadLegacyOwnerProfile(),
+                currentProfile: resolvedPersistence.loadLegacyOwnerProfile(),
                 sharedProfiles: [],
                 migrationVersion: 0,
                 lastSuccessfulRefreshDate: nil,
@@ -159,6 +172,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     func toggleSavedEvent(_ event: Event) {
+        guard userDataPolicy.savedEvents == .editable else { return }
         updateCurrentProfile(.toggleSavedEvent(eventID: event.id))
     }
 
@@ -210,6 +224,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     func setArtistRating(for artist: Artist, rating: Int) {
+        guard userDataPolicy.artistRatings == .editable else { return }
         guard artist.isMetadataAvailable else { return }
         updateCurrentProfile(.setArtistRating(artistID: artist.id, rating: rating))
     }
@@ -219,6 +234,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     func setArtistIcon(for artist: Artist, icon: String) {
+        guard userDataPolicy.artistRatings == .editable else { return }
         guard artist.isMetadataAvailable else { return }
         updateCurrentProfile(.setArtistIcon(artistID: artist.id, iconName: icon))
     }
@@ -233,6 +249,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     func setArtistNote(forArtistID artistID: Int, note: String) {
+        guard userDataPolicy.artistNotes == .editable else { return }
         updateCurrentProfile(.setArtistNote(artistID: artistID, noteText: note))
     }
 
@@ -287,6 +304,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     private func updateCurrentProfile(_ mutation: FestivalProfileMutation) {
+        guard !isReadOnly else { return }
         let oldProfile = cache.currentProfile
         var updatedProfile = FestivalProfileReducer.applying(
             mutation,
@@ -443,6 +461,7 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     func persistCache(immediately: Bool = false) {
+        guard !isReadOnly else { return }
         let cacheSnapshot = cache
         pendingPersistTask?.cancel()
         pendingPersistTask = Task { [persistence, waitBeforePersisting] in

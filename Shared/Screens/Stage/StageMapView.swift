@@ -109,40 +109,17 @@ struct StageMapView: UIViewRepresentable {
     static func openInMaps(stage: Stage) {
         guard stage.hasLocation else { return }
 
-        let center = CLLocationCoordinate2D(
-            latitude: 50.719877,
-            longitude: 11.338449
-        )
-        let latDistance = abs(center.latitude - stage.latitude)
-        let longDistance = abs(center.longitude - stage.longitude)
-
-        let latDelta = max(0.01, latDistance * 2)
-        let longDelta = max(0.01, longDistance * 2)
-
         let coordinates = CLLocationCoordinate2DMake(
             stage.latitude,
             stage.longitude
         )
-        let regionSpan = MKCoordinateRegion(
-            center: center,
-            latitudinalMeters: latDelta,
-            longitudinalMeters: longDelta
-        )
-        let options = [
-            MKLaunchOptionsMapCenterKey: NSValue(
-                mkCoordinate: regionSpan.center
-            ),
-            MKLaunchOptionsMapSpanKey: NSValue(
-                mkCoordinateSpan: regionSpan.span
-            ),
-        ]
         let placemark = MKPlacemark(
             coordinate: coordinates,
             addressDictionary: nil
         )
         let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = "\(stage.localizedName)"
-        mapItem.openInMaps(launchOptions: options)
+        mapItem.name = stage.localizedName
+        mapItem.openInMaps(launchOptions: nil)
     }
 }
 
@@ -160,7 +137,7 @@ final class StageAnnotation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
 
     init(stage: Stage) {
-        self.id = String(stage.id)
+        self.id = stage.id.description
         self.title = stage.localizedName
         self.coordinate = CLLocationCoordinate2D(
             latitude: stage.latitude,

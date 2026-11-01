@@ -58,8 +58,38 @@ struct UserDefault<T> {
 final class UserPreferencesStore: ObservableObject {
     nonisolated let objectWillChange = ObservableObjectPublisher()
 
-    fileprivate let userDefaults: UserDefaults
+    let userDefaults: UserDefaults
     private var listeners: [UserSettingsChange: [() -> Void]] = [:]
+
+    @UserDefault(key: "festival/selectedYear/v1", defaultValue: FestivalConfiguration.year)
+    private var selectedFestivalYear: Int
+
+    @UserDefault(key: "festival/selectedEdition/v1", defaultValue: "")
+    private var selectedFestivalEditionID: String
+
+    @UserDefault(key: "festival/selectedIdentity/v2", defaultValue: Data())
+    private var selectedFestivalIdentity: Data
+
+    var festivalEdition: FestivalEdition {
+        get {
+            if let identity = try? JSONDecoder().decode(FestivalIdentity.self, from: selectedFestivalIdentity),
+               let adapter = FestivalRegistry.catalog.adapter(for: identity) {
+                return FestivalEdition(metadata: adapter.metadata)
+            }
+            if !selectedFestivalEditionID.isEmpty {
+                return FestivalEdition(id: selectedFestivalEditionID) ?? FestivalEdition(identity: FestivalRegistry.catalog.defaultIdentity)
+            }
+            if userDefaults.object(forKey: "festival/selectedYear/v1") != nil,
+               let legacy = FestivalEdition(year: selectedFestivalYear) { return legacy }
+            return FestivalEdition(identity: FestivalRegistry.catalog.defaultIdentity)
+        }
+        set {
+            do {
+                selectedFestivalIdentity = try JSONEncoder().encode(newValue.identity)
+                selectedFestivalEditionID = newValue.legacySelectionID
+            } catch { AppLog.app.error("Cannot persist festival selection: \(error.localizedDescription)") }
+        }
+    }
 
     @UserDefault(key: "\(DataStore.year)/readNews", defaultValue: [])
     var readNews: [Int]
@@ -259,3 +289,62 @@ final class UserPreferencesStore: ObservableObject {
 }
 
 typealias UserSettings = UserPreferencesStore
+
+
+extension UserPreferencesStore {
+    func scheduleFilter(for identity: FestivalIdentity) -> ScheduleFilter {
+        if identity == FestivalEdition.current.identity { return getScheduleFilterType(scheduleFilterType) }
+        let key = "festival/\(identity.storageKey)/schedule-filter/v1"
+        return getScheduleFilterType(userDefaults.integer(forKey: key))
+    }
+
+    func setScheduleFilter(_ filter: ScheduleFilter, for identity: FestivalIdentity) {
+        if identity == FestivalEdition.current.identity { setScheduleFilterType(type: filter); return }
+        let raw: Int
+        switch filter { case .all: raw = 0; case .interesting: raw = 1; case .optimal: raw = 2; case .saved: raw = 3 }
+        userDefaults.set(raw, forKey: "festival/\(identity.storageKey)/schedule-filter/v1")
+        objectWillChange.send()
+    }
+}
+
+extension UserPreferencesStore {
+    func selectedMap(for identity: FestivalIdentity) -> String? {
+        userDefaults.string(forKey: "festival/\(identity.storageKey)/selected-map/v1")
+    }
+    func setSelectedMap(_ id: String, for identity: FestivalIdentity) {
+        userDefaults.set(id, forKey: "festival/\(identity.storageKey)/selected-map/v1")
+    }
+}
+
+
+extension UserPreferencesStore {
+    func isFestivalNewsRead(_ id: String, identity: FestivalIdentity) -> Bool {
+        if identity == FestivalEdition.current.identity, let legacyID = Int(id) { return readNews.contains(legacyID) }
+        return userDefaults.stringArray(forKey: "festival/\(identity.storageKey)/read-news/v1")?.contains(id) == true
+    }
+
+    func markFestivalNewsRead(_ id: String, identity: FestivalIdentity) {
+        if identity == FestivalEdition.current.identity, let legacyID = Int(id) {
+            if !readNews.contains(legacyID) { readNews.append(legacyID) }
+            return
+        }
+        let key = "festival/\(identity.storageKey)/read-news/v1"
+        var ids = Set(userDefaults.stringArray(forKey: key) ?? [])
+        ids.insert(id)
+        userDefaults.set(ids.sorted(), forKey: key)
+        objectWillChange.send()
+    }
+}
+
+
+extension UserPreferencesStore {
+    func mapVisibility(for identity: FestivalIdentity) -> (categories: Set<String>, legend: Bool)? {
+        let key = "festival/\(identity.storageKey)/map-visibility/v1"
+        guard let value = userDefaults.dictionary(forKey: key), let categories = value["categories"] as? [String] else { return nil }
+        return (Set(categories), value["legend"] as? Bool ?? true)
+    }
+    func setMapVisibility(categories: Set<String>, legend: Bool, for identity: FestivalIdentity) {
+        userDefaults.set(["categories": categories.sorted(), "legend": legend],
+            forKey: "festival/\(identity.storageKey)/map-visibility/v1")
+    }
+}

@@ -7,9 +7,11 @@ struct ArtistDetailIntroView: View {
     let topPadding: CGFloat
     let onEditNote: () -> Void
 
+    @Environment(\.festivalEdition) private var edition
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.locale) private var locale
     @EnvironmentObject private var settings: UserSettings
+    @EnvironmentObject private var profile: FestivalProfileStore
 
     private var localizedSummary: String? {
         guard settings.aiSummaryEnabled else {
@@ -17,8 +19,7 @@ struct ArtistDetailIntroView: View {
         }
 
         guard
-            let summary = artist.ai?
-                .localizedSummary(locale: locale)?
+            let summary = artist.summary(locale: locale)?
                 .trimmingCharacters(in: .whitespacesAndNewlines),
             !summary.isEmpty
         else {
@@ -61,13 +62,20 @@ struct ArtistDetailIntroView: View {
         }
     }
 
+    @ViewBuilder
     private var noteBlock: some View {
-        ArtistNoteBlock(note: note, onEdit: onEditNote)
-            .appPopoverTip(
-                DiscoverabilityTips.artistNotes,
-                currentTipID: currentTipID,
-                arrowEdge: .top
-            )
+        if profile.userDataPolicy.artistNotes != .editable {
+            if let note, !note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                ArtistNoteBlock(note: note, isReadOnly: true, onEdit: {})
+            }
+        } else {
+            ArtistNoteBlock(note: note, onEdit: onEditNote)
+                .appPopoverTip(
+                    DiscoverabilityTips.artistNotes,
+                    currentTipID: currentTipID,
+                    arrowEdge: .top
+                )
+        }
     }
 
 }

@@ -181,11 +181,11 @@ struct StageTransferEstimate: Equatable, Sendable {
 }
 
 struct StageTransferLocation: Equatable, Sendable {
-    let stageID: Int
+    let stageID: FestivalPlaceID
     let latitude: Double
     let longitude: Double
 
-    init(stageID: Int, latitude: Double, longitude: Double) {
+    init(stageID: FestivalPlaceID, latitude: Double, longitude: Double) {
         self.stageID = stageID
         self.latitude = latitude
         self.longitude = longitude
@@ -240,8 +240,8 @@ struct StageTransferEstimator: Sendable {
         let source: StageTransferSource
     }
 
-    private let locationsByStageID: [Int: StageTransferLocation]
-    private let availableStageIDs: Set<Int>
+    private let locationsByStageID: [FestivalPlaceID: StageTransferLocation]
+    private let availableStageIDs: Set<FestivalPlaceID>
     private let matrix: StageWalkingDistanceMatrix
     private let policy: StageTransferPolicy
 
@@ -279,7 +279,7 @@ struct StageTransferEstimator: Sendable {
         )
     }
 
-    func estimate(fromStageID firstStageID: Int, toStageID secondStageID: Int)
+    func estimate(fromStageID firstStageID: FestivalPlaceID, toStageID secondStageID: FestivalPlaceID)
         -> StageTransferEstimate?
     {
         if firstStageID == secondStageID {
@@ -329,8 +329,8 @@ struct StageTransferEstimator: Sendable {
         )
 
         let bothStagesAreOutsideKnownNetwork =
-            !matrix.containsStage(id: firstLocation.stageID)
-                && !matrix.containsStage(id: secondLocation.stageID)
+            !matrixContains(firstLocation.stageID)
+                && !matrixContains(secondLocation.stageID)
         if candidates.isEmpty || bothStagesAreOutsideKnownNetwork,
            let directAirDistance = firstLocation.airDistanceInMeters(to: secondLocation)
         {
@@ -350,7 +350,7 @@ struct StageTransferEstimator: Sendable {
     }
 
     private func anchors(for location: StageTransferLocation) -> [Anchor] {
-        if matrix.containsStage(id: location.stageID) {
+        if matrixContains(location.stageID) {
             return [Anchor(
                 location: location,
                 connectorDistanceInMeters: 0
@@ -364,7 +364,7 @@ struct StageTransferEstimator: Sendable {
         let nearbyAnchors = locationsByStageID.values.compactMap { candidate -> Anchor? in
             guard
                 candidate.stageID != location.stageID,
-                matrix.containsStage(id: candidate.stageID),
+                matrixContains(candidate.stageID),
                 let airDistance = location.airDistanceInMeters(to: candidate),
                 airDistance <= policy.maximumAnchorDistanceInMeters
             else {
@@ -414,10 +414,12 @@ struct StageTransferEstimator: Sendable {
         var allowedStageIDs = availableStageIDs
         allowedStageIDs.insert(firstLocation.stageID)
         allowedStageIDs.insert(secondLocation.stageID)
-        guard let knownDistance = matrix.distanceInMeters(
-            from: firstLocation.stageID,
-            to: secondLocation.stageID,
-            allowedStageIDs: allowedStageIDs
+        guard let firstID = firstLocation.stageID.numericValue,
+              let secondID = secondLocation.stageID.numericValue,
+              let knownDistance = matrix.distanceInMeters(
+            from: firstID,
+            to: secondID,
+            allowedStageIDs: Set(allowedStageIDs.compactMap(\.numericValue))
         ) else {
             return nil
         }
@@ -467,6 +469,10 @@ struct StageTransferEstimator: Sendable {
         return first.distanceInMeters < second.distanceInMeters
     }
 
+    private func matrixContains(_ id: FestivalPlaceID) -> Bool {
+        id.numericValue.map { matrix.containsStage(id: $0) } ?? false
+    }
+
     private func sourcePriority(_ source: StageTransferSource) -> Int {
         switch source {
         case .sameStage, .knownRoute:
@@ -476,5 +482,32 @@ struct StageTransferEstimator: Sendable {
         case .directCoordinateEstimate:
             return 2
         }
+    }
+}
+
+
+extension StageTransferLocation {
+    init(stageID: Int, latitude: Double, longitude: Double) {
+        self.init(stageID: .numeric(stageID), latitude: latitude, longitude: longitude)
+    }
+}
+
+extension StageTransferEstimator {
+    func estimate(fromStageID source: Int, toStageID destination: Int) -> StageTransferEstimate? {
+        estimate(fromStageID: .numeric(source), toStageID: .numeric(destination))
+    }
+}
+
+
+extension StageTransferEstimate {
+    init(_ transfer: WalkingTransfer) {
+        let source: StageTransferSource
+        switch transfer.basis {
+        case .samePlace: source = .sameStage
+        case .knownWalkingRoute: source = .knownRoute
+        case .anchoredEstimate: source = .anchoredEstimate
+        case .coordinateEstimate: source = .directCoordinateEstimate
+        }
+        self.init(distanceInMeters: transfer.distanceMeters, walkingMinutes: transfer.estimatedMinutes, source: source)
     }
 }

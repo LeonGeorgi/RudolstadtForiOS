@@ -6,14 +6,17 @@ struct ArtistOverviewListView: View {
     let showsWorldMapCallout: Bool
     let showWorldMap: () -> Void
 
+    @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
     @EnvironmentObject private var friends: FriendProfilesStore
 
     var body: some View {
         List {
             if showsWorldMapCallout {
-                NavigationLink(value: AppNavigationRoute.programDiscovery(tagID: nil)) {
-                    Label("program.discovery.title", systemImage: "compass")
+                if festivalData.features.eventDetails.value?.tags.contains(where: \.isDiscoverable) == true {
+                    NavigationLink(value: AppNavigationRoute.programDiscovery(tagID: nil)) {
+                        Label("program.discovery.title", systemImage: "compass")
+                    }
                 }
 
                 ArtistWorldMapCalloutCard(action: showWorldMap)

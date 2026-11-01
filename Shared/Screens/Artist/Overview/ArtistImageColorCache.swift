@@ -188,48 +188,48 @@ final class ArtistImageColorCache {
     private static let colorContext = CIContext()
     private static let dominantColorSampleSize = 48
     private static let bucketSize = 32
-    private static let persistedColorsKey = "artist.image.theme.colors.v5"
+    private static let persistedColorsKey = "artist.image.theme.colors.v6"
 
     private let lock = NSLock()
-    private var colorsByArtistId: [Int: ArtistImageThemeColors] = [:]
-    private var inFlightColorTasksByArtistId: [Int: Task<ArtistImageThemeColors?, Never>] = [:]
+    private var colorsByImageURL: [String: ArtistImageThemeColors] = [:]
+    private var inFlightColorTasksByImageURL: [String: Task<ArtistImageThemeColors?, Never>] = [:]
 
     private init() {
         restorePersistedColors()
     }
 
-    func cachedBackgroundColor(for artistId: Int, colorScheme: ColorScheme) -> Color? {
-        cachedThemeColors(for: artistId)?.backgroundColor(for: colorScheme)
+    func cachedBackgroundColor(for imageURL: String, colorScheme: ColorScheme) -> Color? {
+        cachedThemeColors(for: imageURL)?.backgroundColor(for: colorScheme)
     }
 
-    func cachedThemeColors(for artistId: Int) -> ArtistImageThemeColors? {
+    func cachedThemeColors(for imageURL: String) -> ArtistImageThemeColors? {
         lock.lock()
         defer { lock.unlock() }
-        return colorsByArtistId[artistId]
+        return colorsByImageURL[imageURL]
     }
 
-    private func store(_ color: ArtistImageThemeColors, for artistId: Int) {
+    private func store(_ color: ArtistImageThemeColors, for imageURL: String) {
         lock.lock()
         defer { lock.unlock() }
-        colorsByArtistId[artistId] = color
+        colorsByImageURL[imageURL] = color
         persistLockedColors()
     }
 
     private func restorePersistedColors() {
         guard
             let data = UserDefaults.standard.data(forKey: Self.persistedColorsKey),
-            let decodedColors = try? JSONDecoder().decode([Int: ArtistImageThemeColors].self, from: data)
+            let decodedColors = try? JSONDecoder().decode([String: ArtistImageThemeColors].self, from: data)
         else {
             return
         }
 
         lock.lock()
-        colorsByArtistId = decodedColors
+        colorsByImageURL = decodedColors
         lock.unlock()
     }
 
     private func persistLockedColors() {
-        guard let encoded = try? JSONEncoder().encode(colorsByArtistId) else {
+        guard let encoded = try? JSONEncoder().encode(colorsByImageURL) else {
             return
         }
         UserDefaults.standard.set(encoded, forKey: Self.persistedColorsKey)
@@ -239,25 +239,25 @@ final class ArtistImageColorCache {
         lock.lock()
         defer { lock.unlock() }
 
-        inFlightColorTasksByArtistId.values.forEach { $0.cancel() }
-        inFlightColorTasksByArtistId.removeAll()
-        colorsByArtistId.removeAll()
+        inFlightColorTasksByImageURL.values.forEach { $0.cancel() }
+        inFlightColorTasksByImageURL.removeAll()
+        colorsByImageURL.removeAll()
         UserDefaults.standard.removeObject(forKey: Self.persistedColorsKey)
     }
 
-    private func inFlightTask(for artistId: Int) -> Task<ArtistImageThemeColors?, Never>? {
+    private func inFlightTask(for imageURL: String) -> Task<ArtistImageThemeColors?, Never>? {
         lock.lock()
         defer { lock.unlock() }
-        return inFlightColorTasksByArtistId[artistId]
+        return inFlightColorTasksByImageURL[imageURL]
     }
 
     private func setInFlightTask(
         _ task: Task<ArtistImageThemeColors?, Never>?,
-        for artistId: Int
+        for imageURL: String
     ) {
         lock.lock()
         defer { lock.unlock() }
-        inFlightColorTasksByArtistId[artistId] = task
+        inFlightColorTasksByImageURL[imageURL] = task
     }
 
     func prepareBackgroundColor(for artist: Artist) async {
@@ -265,17 +265,17 @@ final class ArtistImageColorCache {
     }
 
     func themeColors(for artist: Artist) async -> ArtistImageThemeColors? {
-        if let cachedThemeColors = cachedThemeColors(for: artist.id) {
-            return cachedThemeColors
-        }
-
         guard let imageUrl = artist.thumbImageUrl ?? artist.fullImageUrl else {
             return nil
         }
+        let imageKey = imageUrl.absoluteString
+        if let cachedThemeColors = cachedThemeColors(for: imageKey) {
+            return cachedThemeColors
+        }
 
-        if let inFlightTask = inFlightTask(for: artist.id) {
+        if let inFlightTask = inFlightTask(for: imageKey) {
             if let inFlightThemeColors = await inFlightTask.value {
-                store(inFlightThemeColors, for: artist.id)
+                store(inFlightThemeColors, for: imageKey)
                 return inFlightThemeColors
             }
             return nil
@@ -290,15 +290,15 @@ final class ArtistImageColorCache {
             }
         }
 
-        setInFlightTask(task, for: artist.id)
+        setInFlightTask(task, for: imageKey)
         let themeColors = await task.value
-        setInFlightTask(nil, for: artist.id)
+        setInFlightTask(nil, for: imageKey)
 
         guard let themeColors else {
             return nil
         }
 
-        store(themeColors, for: artist.id)
+        store(themeColors, for: imageKey)
         return themeColors
     }
 

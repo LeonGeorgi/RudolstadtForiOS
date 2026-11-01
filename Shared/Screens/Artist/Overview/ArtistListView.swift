@@ -52,34 +52,10 @@ struct ArtistListView: View {
     }
 
     private func filteredArtists(from data: FestivalData) -> [Artist] {
-        let hasBrowseGenres = !dataStore.browseTaxonomy.isEmpty
-        return data.artists.filter { artist in
-            let artistTypeMatches: Bool
-            if let selectedArtistType = overviewState.selectedArtistType {
-                artistTypeMatches =
-                    selectedArtistType
-                    == ShownArtistTypes(artistType: artist.artistType)
-            } else {
-                artistTypeMatches = true
+        data.artists.filter { artist in
+            !artist.hiddenFromArtistList && overviewState.selectedGroups.allSatisfy { groupingID, groupID in
+                artist.groupIDs[groupingID]?.contains(groupID) == true
             }
-
-            if !hasBrowseGenres {
-                return !artist.hiddenFromArtistList && artistTypeMatches
-            }
-
-            let browseGenreMatches: Bool
-            if let selectedBrowseGenreID = overviewState.selectedBrowseGenreID {
-                let artistBrowseGenreIDs = artist.ai?.browseGenreIDs ?? []
-                browseGenreMatches = artistBrowseGenreIDs.contains(
-                    selectedBrowseGenreID
-                )
-            } else {
-                browseGenreMatches = true
-            }
-
-            return !artist.hiddenFromArtistList
-                && artistTypeMatches
-                && browseGenreMatches
         }
     }
 

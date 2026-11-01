@@ -32,6 +32,7 @@ struct ArtistOverviewGridView: View {
     let showsWorldMapCallout: Bool
     let showWorldMap: () -> Void
 
+    @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var profile: FestivalProfileStore
     @EnvironmentObject private var friends: FriendProfilesStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -47,12 +48,14 @@ struct ArtistOverviewGridView: View {
         ScrollView {
             VStack(spacing: 0) {
                 if showsWorldMapCallout {
-                    NavigationLink(value: AppNavigationRoute.programDiscovery(tagID: nil)) {
-                        Label("program.discovery.title", systemImage: "compass")
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                    if festivalData.features.eventDetails.value?.tags.contains(where: \.isDiscoverable) == true {
+                        NavigationLink(value: AppNavigationRoute.programDiscovery(tagID: nil)) {
+                            Label("program.discovery.title", systemImage: "compass")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
 
                     ArtistWorldMapCalloutCard(action: showWorldMap)
                         .padding(.horizontal, 16)

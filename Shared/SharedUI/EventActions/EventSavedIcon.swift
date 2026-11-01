@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EventSavedIcon: View {
+    @EnvironmentObject private var profile: FestivalProfileStore
+    @Environment(\.festivalEdition) private var edition
     let event: Event
     let isSaved: Bool
     var symbolAlignment: Alignment = .center
@@ -39,33 +41,42 @@ struct EventSavedIcon: View {
     }
 
     var body: some View {
-        Button {
+        if profile.userDataPolicy.savedEvents != .editable {
             if isSaved {
-                isAlertShown = true
-            } else {
-                onToggle()
+                Image(systemName: "bookmark.fill")
+                    .foregroundStyle(.primary)
+                    .frame(width: 44, height: 44, alignment: symbolAlignment)
+                    .accessibilityLabel(Text("event.saved.value.saved"))
             }
-        } label: {
-            Image(
-                systemName: isSaved
-                    ? "bookmark.fill" : "bookmark"
+        } else {
+            Button {
+                if isSaved {
+                    isAlertShown = true
+                } else {
+                    onToggle()
+                }
+            } label: {
+                Image(
+                    systemName: isSaved
+                        ? "bookmark.fill" : "bookmark"
+                )
+                .contentTransition(.symbolEffect(.replace))
+                .animation(.default, value: isSaved)
+                .foregroundStyle(.primary)
+                .frame(width: 44, height: 44, alignment: symbolAlignment)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(
+                Text(isSaved ? "event.saved.remove" : "event.saved.add")
             )
-            .contentTransition(.symbolEffect(.replace))
-            .animation(.default, value: isSaved)
-            .foregroundStyle(.primary)
-            .frame(width: 44, height: 44, alignment: symbolAlignment)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(
-            Text(isSaved ? "event.saved.remove" : "event.saved.add")
-        )
-        .accessibilityValue(
-            Text(isSaved ? "event.saved.value.saved" : "event.saved.value.not_saved")
-        )
-        .accessibilityAddTraits(isSaved ? .isSelected : [])
-        .alert(isPresented: $isAlertShown) {
-            createAlert()
+            .accessibilityValue(
+                Text(isSaved ? "event.saved.value.saved" : "event.saved.value.not_saved")
+            )
+            .accessibilityAddTraits(isSaved ? .isSelected : [])
+            .alert(isPresented: $isAlertShown) {
+                createAlert()
+            }
         }
     }
 }

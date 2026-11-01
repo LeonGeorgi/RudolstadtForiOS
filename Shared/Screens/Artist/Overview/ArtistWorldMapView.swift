@@ -36,11 +36,8 @@ enum ArtistPresentationMode: Int, CaseIterable {
 struct ArtistWorldMapView: View {
     let artistCountsByCountryCode: [String: Int]
 
-    private struct SelectedCountry: Identifiable {
-        let id: String
-    }
-
-    @State private var selectedCountry: SelectedCountry?
+    var navigate: ((AppNavigationRoute) -> Void)? = nil
+    @State private var sheetNavigation = MapSheetNavigation<String>()
     @State private var sheetDetent: PresentationDetent = .medium
     @StateObject private var overlayLoader = GeoJSONCountryOverlayLoader.worldMapShared
 
@@ -65,10 +62,10 @@ struct ArtistWorldMapView: View {
                     ArtistWorldMapSwiftUIMap(
                         artistCountsByCountryCode: artistCountsByCountryCode,
                         loadedMap: overlayLoader.loadedMap,
-                        selectedCountryCode: selectedCountry?.id
+                        selectedCountryCode: sheetNavigation.selection
                     ) { countryCode in
-                        if selectedCountry == nil { sheetDetent = .medium }
-                        selectedCountry = SelectedCountry(id: countryCode)
+                        if sheetNavigation.selection == nil { sheetDetent = .medium }
+                        sheetNavigation.select(countryCode)
                     }
                     .ignoresSafeArea()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -84,16 +81,33 @@ struct ArtistWorldMapView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .accessibilityIdentifier("artist-world-map")
-        .sheet(item: $selectedCountry) { country in
-            ArtistMapCountrySheet(countryCode: country.id)
-                .id(country.id)
-                .presentationDetents([.medium, .large], selection: $sheetDetent)
-                .presentationDragIndicator(.visible)
-                .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+        .sheet(isPresented: $sheetNavigation.isSheetPresented, onDismiss: {
+            if let route = sheetNavigation.sheetDismissed() { navigate?(route) }
+        }) {
+            Group {
+                if let country = sheetNavigation.selection {
+                    NavigationStack {
+                        ArtistCountryListRouteView(
+                            countryCode: country,
+                            imageTransitionNamespace: nil,
+                            showsCountryPreview: false,
+                            onSelectArtist: { sheetNavigation.open($0) }
+                        )
+                    }
+                    .id(country)
+                }
+            }
+            #if os(iOS)
+            .environment(\.isPresentedInMapSheet, true)
+            #endif
+            .presentationDetents([.medium, .large], selection: $sheetDetent)
+            .presentationDragIndicator(.visible)
+            .presentationBackgroundInteraction(.enabled(upThrough: .medium))
         }
+        .onAppear { sheetNavigation.returnToMap() }
         .onChange(of: artistCountsByCountryCode) { _, counts in
-            if let selectedCountry, counts[selectedCountry.id] == nil {
-                self.selectedCountry = nil
+            if let country = sheetNavigation.selection, counts[country] == nil {
+                sheetNavigation.clearSelection()
             }
         }
         .task {
@@ -128,36 +142,6 @@ struct ArtistWorldMapView: View {
             .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
             .padding(20)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-    }
-}
-
-private struct ArtistMapCountrySheet: View {
-    let countryCode: String
-
-    @Environment(\.dismiss) private var dismiss
-    @State private var path = NavigationPath()
-    @Namespace private var imageTransitionNamespace
-
-    var body: some View {
-        NavigationStack(path: $path) {
-            ArtistCountryListRouteView(
-                countryCode: countryCode,
-                imageTransitionNamespace: imageTransitionNamespace,
-                showsCountryPreview: false
-            )
-            .navigationDestination(for: AppNavigationRoute.self) { route in
-                AppNavigationDestination(
-                    route: route,
-                    navigate: { path.append($0) },
-                    imageTransitionNamespace: imageTransitionNamespace
-                )
-            }
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("common.done") { dismiss() }
-                }
-            }
-        }
     }
 }
 
@@ -202,52 +186,45 @@ private struct ArtistWorldMapSwiftUIMap: View {
             maximumArtistCount: artistCountsByCountryCode.values.max() ?? 1
         )
 
-        GeometryReader { geometry in
-            MapReader { proxy in
-                Map(
-                    position: $cameraPosition,
-                    bounds: cameraBounds,
-                    interactionModes: [.pan, .zoom, .pitch],
-                    scope: mapScope
-                ) {
-                    if let loadedMap {
-                        ForEach(loadedMap.overlays, id: \.self) { overlay in
-                            let count = loadedMap.overlayMetadataByID[ObjectIdentifier(overlay)]
-                                .flatMap { artistCountsByCountryCode[$0.code] } ?? 0
-                            let appearance = style.appearance(forArtistCount: count)
-                            let isSelected = loadedMap.overlayMetadataByID[ObjectIdentifier(overlay)]?.code
-                                == selectedCountryCode
-                            MapPolygon(overlay)
-                                .foregroundStyle(appearance.fillColor)
-                                .stroke(
-                                    isSelected ? Color.primary : appearance.strokeColor,
-                                    lineWidth: isSelected ? 1.8 : appearance.lineWidth
-                                )
-                        }
+        MapReader { proxy in
+            Map(
+                position: $cameraPosition,
+                bounds: cameraBounds,
+                interactionModes: [.pan, .zoom, .pitch],
+                scope: mapScope
+            ) {
+                if let loadedMap {
+                    ForEach(loadedMap.overlays, id: \.self) { overlay in
+                        let count = loadedMap.overlayMetadataByID[ObjectIdentifier(overlay)]
+                            .flatMap { artistCountsByCountryCode[$0.code] } ?? 0
+                        let appearance = style.appearance(forArtistCount: count)
+                        let isSelected = loadedMap.overlayMetadataByID[ObjectIdentifier(overlay)]?.code
+                            == selectedCountryCode
+                        MapPolygon(overlay)
+                            .foregroundStyle(appearance.fillColor)
+                            .stroke(
+                                isSelected ? Color.primary : appearance.strokeColor,
+                                lineWidth: isSelected ? 1.8 : appearance.lineWidth
+                            )
                     }
                 }
-                .mapStyle(
-                    .hybrid(
-                        elevation: .realistic,
-                        pointsOfInterest: .excludingAll,
-                        showsTraffic: false
-                    )
-                )
-                .mapControls {
-                    MapScaleView()
-                }
-                .mapScope(mapScope)
-                .safeAreaPadding(.bottom, selectedCountryCode == nil ? 0 : geometry.size.height / 2)
-                .onChange(of: selectedCountryCode) { _, code in
-                    guard let code, let rect = loadedMap?.focusRect(for: code) else { return }
-                    withAnimation { cameraPosition = .rect(rect) }
-                }
-                .simultaneousGesture(
-                    SpatialTapGesture().onEnded { value in
-                        selectCountry(at: value.location, using: proxy)
-                    }
-                )
             }
+            .mapStyle(
+                .hybrid(
+                    elevation: .realistic,
+                    pointsOfInterest: .excludingAll,
+                    showsTraffic: false
+                )
+            )
+            .mapControls {
+                MapScaleView()
+            }
+            .mapScope(mapScope)
+            .simultaneousGesture(
+                SpatialTapGesture().onEnded { value in
+                    selectCountry(at: value.location, using: proxy)
+                }
+            )
         }
         .accessibilityRepresentation {
             VStack {
@@ -383,19 +360,6 @@ struct LoadedWorldCountryMap: @unchecked Sendable {
     let overlays: [MKPolygon]
     let overlayMetadataByID: [ObjectIdentifier: CountryOverlayMetadata]
     let hitPathsByOverlayID: [ObjectIdentifier: CGPath]
-
-    func focusRect(for countryCode: String) -> MKMapRect? {
-        let polygons = overlays.filter { overlayMetadataByID[ObjectIdentifier($0)]?.code == countryCode }
-        // Focus the main landmass rather than spanning distant overseas territories.
-        func area(of polygon: MKPolygon) -> Double {
-            let rect = polygon.boundingMapRect
-            let metersPerPoint = MKMetersPerMapPointAtLatitude(polygon.coordinate.latitude)
-            return rect.width * rect.height * metersPerPoint * metersPerPoint
-        }
-        guard let polygon = polygons.max(by: { area(of: $0) < area(of: $1) }) else { return nil }
-        let rect = polygon.boundingMapRect
-        return rect.insetBy(dx: -rect.width * 0.2, dy: -rect.height * 0.2)
-    }
 }
 
 @MainActor

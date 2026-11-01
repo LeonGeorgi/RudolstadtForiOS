@@ -6,6 +6,7 @@ import AppKit
 #endif
 
 struct ArtistDetailView: View {
+    @EnvironmentObject private var dataStore: DataStore
     private enum Layout {
         static let maximumContentWidth: CGFloat = 720
         static let minimumImageColumnWidth: CGFloat = 220
@@ -26,6 +27,7 @@ struct ArtistDetailView: View {
     let highlightedEventId: Int?
     let navigate: ((AppNavigationRoute) -> Void)?
 
+    @Environment(\.festivalEdition) private var edition
     @Environment(\.colorScheme) private var systemColorScheme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.festivalData) private var festivalData
@@ -91,7 +93,7 @@ struct ArtistDetailView: View {
     }
 
     private func presentNoteEditor() {
-        guard artist.isMetadataAvailable else { return }
+        guard !profile.isReadOnly, artist.isMetadataAvailable else { return }
         noteDraft = ArtistNoteDraft(noteText: artistNote)
         isEditAlertShown = false
         isShowingNoteEditor = true
@@ -193,11 +195,11 @@ struct ArtistDetailView: View {
     }
 
     private var supportingContent: some View {
-        let similarArtists = ArtistSimilarityCatalog.bundled.similarArtists(
+        let similarArtists = festivalData.artistSimilarities?.similarArtists(
             to: artist,
             among: festivalData.artists,
-            festivalYear: DataStore.year
-        )
+            festivalYear: festivalData.festivalYear
+        ) ?? []
 
         return VStack(spacing: 0) {
             ArtistDescriptionBlock(
@@ -389,6 +391,9 @@ struct ArtistDetailView: View {
         GeometryReader { geometry in
             detailLayout(availableWidth: geometry.size.width)
         }
+            #if os(iOS)
+            .modifier(FriendArtistRatingsPresentationModifier(artistName: artist.formattedName))
+            #endif
             .environment(\.artistDetailTheme, artistTheme)
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier(
@@ -403,7 +408,7 @@ struct ArtistDetailView: View {
             )
             .toolbarColorScheme(nil, for: .navigationBar)
             .toolbar {
-                if let url = ArtistShareLink(year: DataStore.year, artistID: artist.id).url {
+                if let url = dataStore.adapter.services.publicLinks.value?.url(for: .artist(artist.id)) {
                     ToolbarItem(placement: .primaryAction) {
                         shareButton(url: url)
                             .accessibilityIdentifier("artist-share")

@@ -106,6 +106,7 @@ struct FilterToolbarIcon: View {
 }
 
 struct ArtistListToolbar: ToolbarContent {
+    @Environment(\.festivalData) private var festivalData
     @ObservedObject var state: ArtistOverviewState
     let currentTipID: String?
     let browseGenreOptions: [BrowseTaxonomyEntry]
@@ -167,65 +168,19 @@ struct ArtistListToolbar: ToolbarContent {
                     Divider()
                 }
                 
-                Menu {
-                    Button {
-                        state.selectedArtistType = nil
-                    } label: {
-                        if state.selectedArtistType == nil {
-                            Label("artisttypes.all", systemImage: "checkmark")
-                        } else {
-                            Text("artisttypes.all")
-                        }
-                    }
-                    
-                    ForEach(ShownArtistTypes.allCases, id: \.self) { artistType in
-                        Button {
-                            state.selectedArtistType = artistType
-                        } label: {
-                            if state.selectedArtistType == artistType {
-                                Label(
-                                    artistType.localizedName,
-                                    systemImage: "checkmark"
-                                )
-                            } else {
-                                Text(artistType.localizedName)
-                            }
-                        }
-                    }
-                } label: {
-                    Text(artistTypeMenuTitle)
-                }
-                
-                if !browseGenreOptions.isEmpty {
+                ForEach(festivalData.features.groupings.value?.groupings ?? []) { grouping in
                     Menu {
-                        Button {
-                            state.selectedBrowseGenreID = nil
-                        } label: {
-                            if state.selectedBrowseGenreID == nil {
-                                Label(
-                                    "filter.genres.all",
-                                    systemImage: "checkmark"
-                                )
-                            } else {
-                                Text("filter.genres.all")
-                            }
-                        }
-                        
-                        ForEach(browseGenreOptions, id: \.id) { browseGenre in
-                            let label = localizedBrowseGenreLabel(browseGenre.id)
+                        Button("artisttypes.all") { state.selectedGroups.removeValue(forKey: grouping.id) }
+                        ForEach(grouping.groups) { group in
                             Button {
-                                state.selectedBrowseGenreID = browseGenre.id
+                                state.selectedGroups[grouping.id] = group.id
                             } label: {
-                                if state.selectedBrowseGenreID == browseGenre.id {
-                                    Label(label, systemImage: "checkmark")
-                                } else {
-                                    Text(label)
-                                }
+                                if state.selectedGroups[grouping.id] == group.id {
+                                    Label(group.title.resolved(), systemImage: "checkmark")
+                                } else { Text(group.title.resolved()) }
                             }
                         }
-                    } label: {
-                        Text(genreMenuTitle)
-                    }
+                    } label: { Text(grouping.title.resolved()) }
                 }
             } label: {
                 FilterToolbarIcon(isActive: state.hasActiveFilters)

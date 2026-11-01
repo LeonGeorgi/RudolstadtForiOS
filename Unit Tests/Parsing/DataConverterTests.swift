@@ -1,5 +1,4 @@
 import Foundation
-import MapKit
 import Testing
 @testable import Rudolstadt
 
@@ -35,9 +34,9 @@ struct DataConverterTests {
             )
         )
 
-        #expect(stage.area.id == 0)
-        #expect(stage.area.germanName == "Sonstige Orte")
-        #expect(stage.area.englishName == "Other locations")
+        #expect(stage.area?.id == 0)
+        #expect(stage.area?.germanName == "Sonstige Orte")
+        #expect(stage.area?.englishName == "Other locations")
     }
 
     @Test
@@ -182,19 +181,6 @@ struct DataConverterTests {
         #expect(detailCodes.isSubset(of: overviewCodes))
         #expect(overviewCodes.contains("XKX"))
         #expect(!overviewCodes.contains("KOS"))
-    }
-
-    @Test(arguments: [
-        ("DEU", 51.0, 10.0), ("FRA", 47.0, 2.0), ("USA", 40.0, -100.0),
-    ])
-    func worldMapFocusesMainLandmass(code: String, latitude: Double, longitude: Double) throws {
-        let map = try WorldCountryOverlayStore.buildLoadedMap(resourceNames: ["world_countries"])
-        let rect = try #require(map.focusRect(for: code))
-        let point = MKMapPoint(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-
-        #expect(rect.contains(point))
-        #expect(rect.width < MKMapRect.world.width / 3)
-        #expect(map.focusRect(for: "unknown") == nil)
     }
 
     @Test
@@ -368,7 +354,7 @@ struct FestivalDataContractTests {
         #expect(event.stage.stageNumber == 7)
         #expect(event.stage.englishName == "Stage")
         #expect(event.stage.stageType == .festivalAndDayTicket)
-        #expect(event.tag?.id == 33)
+        #expect(event.tag?.id == "33")
         #expect(event.timeAsString == "01:30")
         #expect(event.festivalDay == 3)
         #expect(event.startDate == TestFixtures.date(dayInJuly: 4, hour: 1, minute: 30))
@@ -394,8 +380,8 @@ struct FestivalDataContractTests {
         )
         let event = try #require(convert(cached).events.first)
         #expect(event.artist.hiddenFromArtistList)
-        #expect(event.tags.map(\.id) == [33, 44])
-        #expect(event.tag?.id == 33)
+        #expect(event.tags.map(\.id) == ["33", "44"])
+        #expect(event.tag?.id == "33")
     }
 
     @Test
@@ -553,16 +539,20 @@ struct FestivalDataContractTests {
         #expect(!data.events.isEmpty)
         #expect(Set(data.events.map(\.id)) == Set(api.events.map(\.id)))
         #expect(data.events.count == api.events.count)
-        #expect(data.events.allSatisfy { $0.hasCompleteMetadata })
+        #expect(data.events.allSatisfy {
+            $0.startDate != nil && $0.artist.isMetadataAvailable && $0.stage.isMetadataAvailable
+        })
+        // The bundled stage 26 has no coordinates. Its two events must remain in the program.
+        #expect(data.events.filter { !$0.hasCompleteMetadata }.map(\.id).sorted() == [415, 416])
         #expect(
             data.events.allSatisfy { event in
                 data.artists.contains { $0.id == event.artist.id }
                     && data.stages.contains { $0.id == event.stage.id }
             })
         let fallback = try #require(data.stages.first { $0.id == 44 })
-        #expect(fallback.area.id == 0)
-        #expect(fallback.area.germanName == "Sonstige Orte")
-        #expect(fallback.area.englishName == "Other locations")
+        #expect(fallback.area?.id == 0)
+        #expect(fallback.area?.germanName == "Sonstige Orte")
+        #expect(fallback.area?.englishName == "Other locations")
     }
 
     @Test @MainActor

@@ -2,24 +2,31 @@ import SwiftUI
 
 struct ScheduleScreen: View {
     
+    @Environment(\.festivalEdition) private var edition
     @Environment(\.festivalData) private var festivalData
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject var recommendations: RecommendationStore
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var profile: FestivalProfileStore
     
-    @State private var selectedDay = -1
+    @State private var selectedDay: String?
+    @EnvironmentObject private var dataStore: DataStore
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.scheduleScreen
     )
+
+    private var selectedFilter: ScheduleFilter {
+        let filter = settings.scheduleFilter(for: dataStore.metadata.identity)
+        return filter == .optimal && !dataStore.automaticPlanning.isSupported ? .all : filter
+    }
+
+    private var days: [FestivalDay] { festivalData.days }
 
     private var presenter: SchedulePresenter {
         SchedulePresenter(
             festivalData: festivalData,
             recommendationState: recommendations.state.recommendedEventIDs,
-            scheduleFilterType: settings.getScheduleFilterType(
-                settings.scheduleFilterType
-            ),
+            scheduleFilterType: selectedFilter,
             savedEventIds: Set(profile.savedEvents),
             positiveRatedArtistIds: Set(
                 profile.ratings.compactMap { entry in
@@ -33,14 +40,14 @@ struct ScheduleScreen: View {
     }
     
     private var hasActiveFilter: Bool {
-        settings.getScheduleFilterType(settings.scheduleFilterType) != .all
+        selectedFilter != .all
     }
 
     var body: some View {
         Group {
             switch presenter.shownEvents {
             case .loading:
-                if settings.getScheduleFilterType(settings.scheduleFilterType) == .optimal {
+                if selectedFilter == .optimal {
                     Text("recommendations.loading")
                 } else {
                     Text("events.loading")
@@ -60,18 +67,18 @@ struct ScheduleScreen: View {
         .onAppear {
             ensureSelectedDay()
         }
-        .onChange(of: presenter.availableEventDays, initial: false) { _, _ in
+        .onChange(of: days.map(\.id), initial: false) { _, _ in
             ensureSelectedDay()
         }
         .navigationTitle("schedule.title")
         .navigationBarTitleDisplayMode(.inline)
         .scheduleDaySwitcherBar {
-            if !presenter.availableEventDays.isEmpty {
+            if !days.map(\.id).isEmpty {
                 VStack(spacing: 0) {
                     Picker("schedule.day.picker", selection: $selectedDay) {
-                        ForEach(presenter.availableEventDays, id: \.self) { day in
-                            Text(FestivalDateUtilities.shortWeekDay(day: day))
-                                .tag(day)
+                        ForEach(days) { day in
+                            Text(day.label(calendar: dataStore.metadata.calendar))
+                                .tag(Optional(day.id))
                         }
                     }
                     .pickerStyle(.segmented)
@@ -119,21 +126,19 @@ struct ScheduleScreen: View {
                         "filter.button",
                         selection: Binding<ScheduleFilter>(
                             get: {
-                                settings.getScheduleFilterType(
-                                    settings.scheduleFilterType
-                                )
+                                selectedFilter
                             },
                             set: { (type: ScheduleFilter) in
-                                settings.setScheduleFilterType(
-                                    type: type
-                                )
+                                settings.setScheduleFilter(type, for: dataStore.metadata.identity)
                             }
                         )
                     ) {
                         Text("schedule.type.saved")
                             .tag(ScheduleFilter.saved)
-                        Text("schedule.type.optimal")
-                            .tag(ScheduleFilter.optimal)
+                        if dataStore.automaticPlanning.isSupported {
+                            Text("schedule.type.optimal")
+                                .tag(ScheduleFilter.optimal)
+                        }
                         Text("schedule.type.interesting")
                             .tag(ScheduleFilter.interesting)
                         Text("schedule.type.all")
@@ -153,19 +158,13 @@ struct ScheduleScreen: View {
     }
 
     private func ensureSelectedDay() {
-        guard !presenter.availableEventDays.isEmpty else {
-            selectedDay = -1
-            return
-        }
-        
-        if !presenter.availableEventDays.contains(selectedDay) {
-            selectedDay =
-                FestivalDateUtilities.getCurrentFestivalDay(
-                    eventDays: presenter.availableEventDays
-                )
-                ?? presenter.availableEventDays.first ?? -1
+        guard !days.isEmpty else { selectedDay = nil; return }
+        if !days.contains(where: { $0.id == selectedDay }) {
+            let now = Date.now
+            selectedDay = days.first { now >= $0.interval.start && now < $0.interval.end }?.id ?? days.first?.id
         }
     }
+
 }
 
 enum ScheduleFilter: Equatable {

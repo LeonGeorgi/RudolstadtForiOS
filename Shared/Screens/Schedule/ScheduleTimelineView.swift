@@ -10,7 +10,7 @@ enum EventOrGap {
 
 struct ScheduleTimelineView: View {
     let events: [Event]
-    @EnvironmentObject var recommendations: RecommendationStore
+    @Environment(\.festivalData) private var festivalData
     @State private var isShowingEndTimeInformation = false
 
     var eventDays: [Int] {
@@ -34,7 +34,7 @@ struct ScheduleTimelineView: View {
         return d.map { entry in
             (entry.key, generateEventGapList(ev: entry.value))
         }.sorted { s1, s2 in
-            s1.0.stageNumber ?? 1000 < s2.0.stageNumber ?? 1000
+            Stage.precedes(s1.0, s2.0)
         }
     }
 
@@ -49,10 +49,10 @@ struct ScheduleTimelineView: View {
             // This keeps layout deterministic and prevents duplicate start slots
             // from pushing later events down in this stacked timeline model.
             let e1End = e1.endDate(
-                durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[e1.id] ?? 60
+                durationInMinutes: festivalData.eventDurations[e1.id] ?? 60
             )
             let e2End = e2.endDate(
-                durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[e2.id] ?? 60
+                durationInMinutes: festivalData.eventDurations[e2.id] ?? 60
             )
             if let e1End, let e2End, e1End != e2End { return e1End > e2End }
 
@@ -76,7 +76,7 @@ struct ScheduleTimelineView: View {
             }
             result.append(.event(event))
             let eventEnd = event.endDate(
-                durationInMinutes: recommendations.state.estimatedEventDurationsByEventID?[event.id]
+                durationInMinutes: festivalData.eventDurations[event.id]
                     ?? 60
             )
             // Keep timeline monotonic even with bad/overlapping source data.
@@ -92,7 +92,7 @@ struct ScheduleTimelineView: View {
         events.compactMap {
             $0.endDate(
                 durationInMinutes:
-                    recommendations.state.estimatedEventDurationsByEventID?[$0.id] ?? 60)
+                    festivalData.eventDurations[$0.id] ?? 60)
         }.max() ?? firstEventTime
     }
 
@@ -100,7 +100,7 @@ struct ScheduleTimelineView: View {
         ScheduleTimelineContentView(
             timeIntervals: timeIntervalList,
             stages: stageList,
-            estimatedEventDurations: recommendations.state.estimatedEventDurationsByEventID,
+            estimatedEventDurations: festivalData.eventDurations,
             onShowEndTimeInformation: {
                 isShowingEndTimeInformation = true
             }
@@ -113,7 +113,7 @@ struct ScheduleTimelineView: View {
     }
 
     func generateHalfHourlyDates(startDate: Date, endDate: Date) -> [Date] {
-        let calendar = FestivalDateUtilities.festivalCalendar
+        let calendar = festivalData.metadata?.calendar ?? FestivalDateUtilities.festivalCalendar
 
         // Runde das Startdatum auf die nächste halbe oder ganze Stunde ab
         let startComponents = calendar.dateComponents(

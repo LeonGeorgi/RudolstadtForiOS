@@ -90,7 +90,7 @@ struct FriendArtistRecommendationRow: View {
 
     private var genreText: String? {
         var seen = Set<String>()
-        let browseGenreIDs: [String] = recommendation.artist.ai?.browseGenreIDs ?? []
+        let browseGenreIDs: [String] = Array(recommendation.artist.groupIDs["genre"] ?? [])
         let labels = browseGenreIDs.compactMap { genreID -> String? in
             let label = dataStore.localizedBrowseGenreLabel(for: genreID)
                 .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -108,7 +108,7 @@ struct FriendArtistRecommendationRow: View {
     }
 
     private var flags: String? {
-        let value = (recommendation.artist.ai?.flags ?? [])
+        let value = recommendation.artist.flagSymbols
             .joined(separator: "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
         return value.isEmpty ? nil : value

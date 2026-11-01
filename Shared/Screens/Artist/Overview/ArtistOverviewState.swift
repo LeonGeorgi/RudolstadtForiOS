@@ -27,14 +27,16 @@ enum ArtistGridDensity: Int, CaseIterable {
 final class ArtistOverviewState: ObservableObject {
     @Published var selectedArtistType: ShownArtistTypes? = nil
     @Published var selectedBrowseGenreID: String? = nil
+    @Published var selectedGroups: [String: String] = [:]
     @Published var searchText = ""
     @Published var favoriteArtistsOnly = false
 
     var hasActiveFilters: Bool {
-        selectedArtistType != nil || selectedBrowseGenreID != nil
+        selectedArtistType != nil || selectedBrowseGenreID != nil || !selectedGroups.isEmpty
     }
 
     func clearFilters() {
+        selectedGroups = [:]
         selectedArtistType = nil
         selectedBrowseGenreID = nil
     }

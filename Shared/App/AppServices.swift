@@ -3,6 +3,7 @@ import SwiftUI
 @MainActor
 final class AppServices {
     let dataStore: DataStore
+    private var editionDataStores: [FestivalEdition: DataStore] = [:]
     let userSettings: UserSettings
     let festivalProfileStore: FestivalProfileStore
     let iapManager: IAPManager
@@ -11,42 +12,54 @@ final class AppServices {
     let watchSnapshotCoordinator: WatchSnapshotCoordinator?
 #endif
 
-    init() {
-        let userSettings = UserSettings()
+    init(
+        userSettings: UserSettings? = nil,
+        festivalProfileStore: FestivalProfileStore? = nil,
+        festivalAdapter: (any FestivalAdapter)? = nil
+    ) {
+        let userSettings = userSettings ?? UserSettings()
         if ScreenshotRuntime.isEnabled {
             ScreenshotRuntime.configure(userSettings: userSettings)
         }
 
-        let festivalProfileStore: FestivalProfileStore
+        let resolvedProfileStore: FestivalProfileStore
         if ScreenshotRuntime.isEnabled {
             let suiteName = "AppStoreScreenshots"
             let screenshotDefaults =
                 UserDefaults(suiteName: suiteName) ?? .standard
             screenshotDefaults.removePersistentDomain(forName: suiteName)
-            festivalProfileStore = FestivalProfileStore(
+            resolvedProfileStore = FestivalProfileStore(
                 userDefaults: screenshotDefaults,
                 cloudKitEnabled: false
             )
         } else {
-            festivalProfileStore = FestivalProfileStore()
+            resolvedProfileStore = festivalProfileStore ?? FestivalProfileStore(userDefaults: userSettings.userDefaults)
         }
         let newsService = NewsService(userSettings: userSettings)
         let recommendationService = RecommendationService()
+        let base = festivalAdapter ?? FestivalRegistry.catalog.adapter(for: FestivalEdition.current.identity)
+        let currentAdapter: (any FestivalAdapter)?
+        if festivalAdapter == nil, var programAdapter = base as? FestivalSourceAdapter {
+            programAdapter.services = FestivalServices(news: .available(RudolstadtNewsAdapter(service: newsService,
+                loader: DataStore.makeDefaultDataLoader(), identity: programAdapter.metadata.identity)),
+                publicLinks: programAdapter.services.publicLinks)
+            currentAdapter = programAdapter
+        } else { currentAdapter = base }
         let dataStore = DataStore(
-            festivalProfileStore: festivalProfileStore,
+            festivalProfileStore: resolvedProfileStore,
             userSettings: userSettings,
-            newsService: newsService,
-            recommendationService: recommendationService
+            recommendationService: recommendationService,
+            festivalAdapter: currentAdapter
         )
         if ScreenshotRuntime.isEnabled {
             ScreenshotRuntime.configure(
-                profile: festivalProfileStore,
+                profile: resolvedProfileStore,
                 dataStore: dataStore
             )
         }
 
         self.userSettings = userSettings
-        self.festivalProfileStore = festivalProfileStore
+        self.festivalProfileStore = resolvedProfileStore
         self.dataStore = dataStore
         self.iapManager = IAPManager()
         self.newsRefresher = NewsRefresher(newsService: newsService)
@@ -54,24 +67,35 @@ final class AppServices {
         self.watchSnapshotCoordinator = WatchSnapshotTransportRuntime.isEnabled
             ? WatchSnapshotCoordinator(
                 dataStore: dataStore,
-                profileStore: festivalProfileStore
+                profileStore: resolvedProfileStore
             )
             : nil
 #endif
 
-        festivalProfileStore.onChange(of: .recommendationInputs) { [weak dataStore] in
+        resolvedProfileStore.onChange(of: .recommendationInputs) { [weak dataStore] in
             dataStore?.scheduleRecommendationRefresh()
         }
 
 #if os(iOS)
-        CloudKitShareAcceptanceController.shared.profileStore = festivalProfileStore
+        CloudKitShareAcceptanceController.shared.profileStore = resolvedProfileStore
 #endif
+    }
+
+    func dataStore(for edition: FestivalEdition) -> DataStore {
+        guard !edition.usesLiveServices else { return dataStore }
+        if let store = editionDataStores[edition] { return store }
+        let store = DataStore(userSettings: userSettings, edition: edition, loadInitialData: false)
+        store.festivalProfileStore.onChange(of: .recommendationInputs) { [weak store] in
+            store?.scheduleRecommendationRefresh()
+        }
+        editionDataStores[edition] = store
+        return store
     }
 
     func refreshOnForeground() async {
         async let cloudRefresh: Void =
             festivalProfileStore.refreshFromCloud(reason: "foreground")
-        async let appRefresh: Void = dataStore.refreshOnAppActive()
+        async let appRefresh: Void = dataStore(for: userSettings.festivalEdition).refreshOnAppActive()
         _ = await (cloudRefresh, appRefresh)
     }
 }
@@ -111,6 +135,7 @@ enum ScreenshotRuntime {
 
     @MainActor
     static func configure(userSettings: UserSettings) {
+        userSettings.festivalEdition = .current
         userSettings.mapType = 0
         userSettings.scheduleDisplayMode = .timeline
         userSettings.artistViewType = 1
@@ -204,6 +229,14 @@ enum ScreenshotRuntime {
             }
         }
 
+        func friendRatings(for artistNames: [String], rating: Int) -> [FestivalArtistPreference] {
+            artistNames.compactMap { name in
+                festivalData.artists.first { $0.name == name }.map {
+                    FestivalArtistPreference(artistID: $0.id, rating: rating, iconName: nil)
+                }
+            }
+        }
+
         profile.friendProfilesStore.updateProfiles([
             SharedFestivalProfile(
                 id: "screenshot-friend-aya",
@@ -215,7 +248,7 @@ enum ScreenshotRuntime {
                 savedEventIDs: firstEventIDs(
                     for: ["Kitty, Daisy & Lewis", "RIAN", "Raquel Martins"]
                 ) + friendScheduleEvents.map(\.id),
-                artistPreferences: []
+                artistPreferences: friendRatings(for: ["Duo Ruut", "Adaya"], rating: 2)
             ),
             SharedFestivalProfile(
                 id: "screenshot-friend-mika",
@@ -227,7 +260,7 @@ enum ScreenshotRuntime {
                 savedEventIDs: firstEventIDs(
                     for: ["RIAN", "Sara Curruchich", "Raquel Martins"]
                 ),
-                artistPreferences: []
+                artistPreferences: friendRatings(for: ["Adaya"], rating: 3)
             )
         ])
     }
@@ -235,14 +268,16 @@ enum ScreenshotRuntime {
 
 extension View {
     @MainActor
-    func appEnvironment(_ services: AppServices) -> some View {
-        environmentObject(services.dataStore)
+    func appEnvironment(_ services: AppServices, edition: FestivalEdition = .current) -> some View {
+        let dataStore = services.dataStore(for: edition)
+        let profile = dataStore.festivalProfileStore
+        return environmentObject(dataStore)
             .environmentObject(services.userSettings)
-            .environmentObject(services.festivalProfileStore)
-            .environmentObject(services.festivalProfileStore.syncStore)
-            .environmentObject(services.festivalProfileStore.friendProfilesStore)
-            .environmentObject(services.dataStore.newsStore)
-            .environmentObject(services.dataStore.recommendationStore)
+            .environmentObject(profile)
+            .environmentObject(profile.syncStore)
+            .environmentObject(profile.friendProfilesStore)
+            .environmentObject(dataStore.newsStore)
+            .environmentObject(dataStore.recommendationStore)
             .environmentObject(services.iapManager)
     }
 }

@@ -11,6 +11,14 @@ struct RecommendationState {
 final class RecommendationStore: ObservableObject {
     @Published private(set) var state = RecommendationState()
 
+    func unavailable() {
+        state = RecommendationState(recommendedEventIDs: .failure(.couldNotLoadFromFile))
+    }
+
+    func disable() {
+        state = RecommendationState(recommendedEventIDs: .success([]))
+    }
+
     func reset() {
         state = RecommendationState()
     }

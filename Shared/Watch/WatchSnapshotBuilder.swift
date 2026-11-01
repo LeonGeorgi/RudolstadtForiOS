@@ -20,6 +20,7 @@ struct WatchSnapshotBuildInput {
 enum WatchSnapshotBuildDiagnostic: Equatable {
     case duplicateEventID(Int)
     case invalidEventDate(Int)
+    case unsupportedPlaceID(eventID: Int)
     case missingSavedEventID(Int)
     case missingRecommendedEventID(Int)
     case ignoredFriendProfileFromFestivalYear(Int)
@@ -36,6 +37,7 @@ struct WatchSnapshotBuilder {
         let event: Event
         let startDate: Date
         let festivalDay: Int
+        let numericStageID: Int
     }
 
     let defaultDurationMinutes: Int
@@ -54,10 +56,16 @@ struct WatchSnapshotBuilder {
                 diagnostics.append(.invalidEventDate(event.id))
                 return nil
             }
+            // The existing Rudolstadt Watch payload uses numeric stage identifiers.
+            guard let stageID = event.stage.id.numericValue else {
+                diagnostics.append(.unsupportedPlaceID(eventID: event.id))
+                return nil
+            }
             return DatedEvent(
                 event: event,
                 startDate: startDate,
-                festivalDay: event.festivalDay
+                festivalDay: event.festivalDay,
+                numericStageID: stageID
             )
         }.sorted { first, second in
             if first.startDate != second.startDate {
@@ -125,7 +133,7 @@ struct WatchSnapshotBuilder {
                 id: event.id,
                 artistID: event.artist.id,
                 artistName: event.artist.name,
-                stageID: event.stage.id,
+                stageID: datedEvent.numericStageID,
                 stageNumber: event.stage.stageNumber,
                 stageNameGerman: event.stage.germanName,
                 stageNameEnglish: event.stage.englishName,

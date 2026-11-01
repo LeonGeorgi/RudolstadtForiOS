@@ -78,6 +78,55 @@ struct DataLoaderCacheMetadataTests {
         #expect(!loader.isFileStale(fileName: "news.json"))
     }
 
+    @Test
+    func festivalDataWriteReportsSuccessAndReplacesCache() throws {
+        let directory = try makeTemporaryCacheDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let loader = DataLoader(cacheURL: directory)
+
+        #expect(loader.storeAPIRudolstadtDataToFile(
+            data: TestFixtures.apiFestivalData(artistID: 1),
+            fileName: "rudolstadt_data.json"
+        ))
+        #expect(loader.storeAPIRudolstadtDataToFile(
+            data: TestFixtures.apiFestivalData(artistID: 2),
+            fileName: "rudolstadt_data.json"
+        ))
+
+        let cachedData = try Data(contentsOf: loader.cacheFileURL(for: "rudolstadt_data.json"))
+        let cached = try JSONDecoder().decode(APIRudolstadtData.self, from: cachedData)
+        #expect(cached.artists.map(\.id) == [2])
+    }
+
+    @Test
+    func failedFestivalDataWriteReportsFailureAndPreservesExistingCache() throws {
+        let directory = try makeTemporaryCacheDirectory()
+        let loader = DataLoader(cacheURL: directory)
+        let fileURL = loader.cacheFileURL(for: "rudolstadt_data.json")
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o700], ofItemAtPath: directory.path)
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o600], ofItemAtPath: fileURL.path)
+            try? FileManager.default.removeItem(at: directory)
+        }
+        #expect(loader.storeAPIRudolstadtDataToFile(
+            data: TestFixtures.apiFestivalData(artistID: 1),
+            fileName: "rudolstadt_data.json"
+        ))
+        let previousCache = try Data(contentsOf: fileURL)
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o400], ofItemAtPath: fileURL.path)
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o500], ofItemAtPath: directory.path)
+
+        #expect(!loader.storeAPIRudolstadtDataToFile(
+            data: TestFixtures.apiFestivalData(artistID: 2),
+            fileName: "rudolstadt_data.json"
+        ))
+        #expect(try Data(contentsOf: fileURL) == previousCache)
+    }
+
     private func createCacheFile(
         using loader: DataLoader,
         fileName: String,

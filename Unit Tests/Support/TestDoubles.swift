@@ -81,7 +81,7 @@ final class FestivalDataCacheStub: @unchecked Sendable, FestivalDataCaching,
     BundledNewsLoading
 {
     private let lock = NSLock()
-    private let loadResult: FileLoadingResult<FestivalData>
+    private var loadResult: FileLoadingResult<FestivalData>
     private let bundledFestivalResult: FileLoadingResult<FestivalData>
     private let bundledNewsResult: FileLoadingResult<[NewsItem]>
     private let storeResult: Bool
@@ -121,8 +121,12 @@ final class FestivalDataCacheStub: @unchecked Sendable, FestivalDataCaching,
     ) -> FileLoadingResult<FestivalData> {
         lock.withLock {
             storedLoadCallCount += 1
+            return loadResult
         }
-        return loadResult
+    }
+
+    func setLoadResult(_ result: FileLoadingResult<FestivalData>) {
+        lock.withLock { loadResult = result }
     }
 
     func loadBundledFestivalDataBackup(
@@ -177,6 +181,41 @@ actor ControlledFestivalDataFetcher: FestivalDataFetching {
     func resumeFetch(at index: Int, with data: APIRudolstadtData) {
         continuations[index].resume(returning: data)
     }
+}
+
+final class FestivalDataProviderStub: FestivalDataProviding, @unchecked Sendable {
+    let cacheModificationDate: Date?
+    let isCacheStale: Bool
+    private let cachedData: FileLoadingResult<FestivalData>
+    private let bundledData: FileLoadingResult<FestivalData>
+    private let refreshResult: Result<FestivalData, Error>
+    private let taxonomy: [BrowseTaxonomyEntry]
+    private let links: [String: ArtistLinks]
+
+    init(
+        cachedData: FileLoadingResult<FestivalData> = .notFound,
+        bundledData: FileLoadingResult<FestivalData> = .notFound,
+        refreshResult: Result<FestivalData, Error> = .failure(URLError(.notConnectedToInternet)),
+        cacheModificationDate: Date? = nil,
+        isCacheStale: Bool = true,
+        taxonomy: [BrowseTaxonomyEntry] = [],
+        links: [String: ArtistLinks] = [:]
+    ) {
+        self.cachedData = cachedData
+        self.bundledData = bundledData
+        self.refreshResult = refreshResult
+        self.cacheModificationDate = cacheModificationDate
+        self.isCacheStale = isCacheStale
+        self.taxonomy = taxonomy
+        self.links = links
+    }
+
+    func loadCachedData() -> FileLoadingResult<FestivalData> { cachedData }
+    func loadBundledData() -> FileLoadingResult<FestivalData> { bundledData }
+    func refresh() async throws -> FestivalData { try refreshResult.get() }
+    func deleteCache() -> Bool { true }
+    func loadBrowseTaxonomy() -> [BrowseTaxonomyEntry] { taxonomy }
+    func loadArtistLinks() -> [String: ArtistLinks] { links }
 }
 
 final class NewsAPIStub: NewsFetching {

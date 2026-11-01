@@ -1,12 +1,12 @@
 import Foundation
 
-enum ArtistAppleMusicPreviewSelection: Equatable {
+enum ArtistAppleMusicPreviewSelection: Equatable, Sendable {
     case automatic
     case disabled
     case songURL(String)
 }
 
-struct ArtistLinks {
+struct ArtistLinks: Sendable {
     var spotifyURL: String?
     var appleMusicURL: String?
     var appleMusicPreviewSelection: ArtistAppleMusicPreviewSelection

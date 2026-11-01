@@ -285,7 +285,7 @@ struct ScheduleTimelineEventCell: View {
 
     private var tagsText: String? {
         var seen = Set<String>()
-        let tags = event.artist.ai?.localizedTags(locale: locale)
+        let tags = event.artist.keywordLabels(locale: locale)?
             .compactMap { tag -> String? in
                 let value = tag.trimmingCharacters(
                     in: .whitespacesAndNewlines
@@ -301,7 +301,7 @@ struct ScheduleTimelineEventCell: View {
     }
 
     private var summaryText: String? {
-        let summary = event.artist.ai?.localizedSummary(locale: locale)
+        let summary = event.artist.summary(locale: locale)
         return summary?.isEmpty == false ? summary : nil
     }
 
@@ -417,7 +417,7 @@ struct ScheduleTimelineEventCell: View {
             return false
         }
 
-        return !tag.isStageOrBuskers
+        return tag.showsOnTimeline
     }
 
     func getColorForEvent(_ event: Event) -> Color {
@@ -596,24 +596,10 @@ struct ScheduleTimelineEventCell_Previews: PreviewProvider {
         id: Int,
         name: String
     ) -> Artist {
-        Artist(
-            id: id,
-            hiddenFromArtistList: Artist.example.hiddenFromArtistList,
-            artistType: artistType,
-            someNumber: Artist.example.someNumber,
-            name: name,
-            countries: Artist.example.countries,
-            countryCodes: Artist.example.countryCodes,
-            url: Artist.example.url,
-            facebookID: Artist.example.facebookID,
-            youtubeID: Artist.example.youtubeID,
-            instagram: Artist.example.instagram,
-            descriptionGerman: Artist.example.descriptionGerman,
-            descriptionEnglish: Artist.example.descriptionEnglish,
-            thumbImageUrlString: Artist.example.thumbImageUrlString,
-            fullImageUrlString: Artist.example.fullImageUrlString,
-            ai: Artist.example.ai
-        )
+        var groups = Artist.example.groupIDs
+        groups["artist-kind"] = [String(artistType.rawValue)]
+        return Artist(id: id, name: name, isListed: !Artist.example.hiddenFromArtistList,
+            details: Artist.example.details, groupIDs: groups, summaries: Artist.example.localizedSummaries)
     }
 
     private static func exampleEvent(

@@ -710,7 +710,8 @@ private struct ScheduleTimelineStageHeaders: View {
 
     private func stageHeader(_ stage: Stage) -> some View {
         VStack(alignment: .center, spacing: 5) {
-            ScheduleTimelineStageNumber(stage: stage)
+            StageNumber(stage: stage, size: 18, font: .caption2.weight(.semibold))
+                .monospacedDigit()
 
             Text(stage.localizedName)
                 .frame(width: columnWidth - 1)
@@ -724,31 +725,6 @@ private struct ScheduleTimelineStageHeaders: View {
         .padding(.bottom, 6)
         .frame(width: columnWidth, height: stageHeaderHeight)
         .contentShape(Rectangle())
-    }
-}
-
-private struct ScheduleTimelineStageNumber: View {
-    let stage: Stage
-
-    private let size: CGFloat = 18
-
-    var body: some View {
-        Group {
-            if let stageNumber = stage.stageNumber {
-                Text(String(stageNumber))
-                    .font(.caption2.weight(.semibold))
-                    .monospacedDigit()
-            } else {
-                Image(systemName: "mappin")
-                    .font(.system(size: 9, weight: .semibold))
-            }
-        }
-        .foregroundStyle(.white)
-        .frame(width: size, height: size)
-        .background(
-            StageNumber.baseColor(for: stage.stageType),
-            in: Circle()
-        )
     }
 }
 
@@ -937,7 +913,7 @@ private enum ScheduleTimelineContentViewPreviewData {
             )
         }
         .sorted { first, second in
-            first.0.stageNumber ?? 1000 < second.0.stageNumber ?? 1000
+            Stage.precedes(first.0, second.0)
         }
     }
 
@@ -1012,7 +988,7 @@ struct ScheduleTimelineContentView_Previews: PreviewProvider {
         let events = ScheduleTimelineContentViewPreviewData.events(
             from: environment
         )
-        let estimatedEventDurations = environment.dataStore.recommendationStore.state.estimatedEventDurationsByEventID
+        let estimatedEventDurations = environment.festivalData.eventDurations
 
         NavigationStack {
             ScheduleTimelineContentView(
