@@ -241,6 +241,11 @@ Programm und Karten verwenden das normale Ladeverhalten einschließlich gebünde
 Fallback; Bilder und Kartenkacheln können Netzwerkzugriff benötigen.
 `PREBUILT_APK_PATH`, `LOCALES`, `OUTPUT_ROOT` und `DIAGNOSTICS_ROOT` sind optional.
 Lokale Ausgaben landen unter `artifacts/screenshots/android/`.
+Der Maestro-Treiber hat standardmäßig zwei Minuten Startzeit
+(`MAESTRO_DRIVER_STARTUP_TIMEOUT`, Millisekunden). Bei einem Treiber-Starttimeout
+wird genau einmal mit frisch gestarteten Treiber-Prozessen wiederholt. Fehlgeschlagene
+Versuche bleiben im Diagnose-Artefakt; Navigations- und Prüfungsfehler werden nicht
+wiederholt. Nur ein vollständiger erfolgreicher Satz wird als Aufnahme übernommen.
 
 ## Bauen und prüfen
 

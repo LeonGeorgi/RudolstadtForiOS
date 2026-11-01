@@ -8,6 +8,7 @@ apk="${PREBUILT_APK_PATH:-$project_root/androidApp/build/outputs/apk/debug/andro
 output="${OUTPUT_ROOT:-$project_root/artifacts/screenshots/android}"
 diagnostics="${DIAGNOSTICS_ROOT:-$output-diagnostics}"
 adb="${ANDROID_HOME:+$ANDROID_HOME/platform-tools/}adb"
+export MAESTRO_DRIVER_STARTUP_TIMEOUT="${MAESTRO_DRIVER_STARTUP_TIMEOUT:-120000}"
 
 for tool in "$adb" maestro python3; do
     command -v "$tool" >/dev/null || { echo "Missing command: $tool" >&2; exit 1; }
@@ -48,17 +49,33 @@ for locale in ${LOCALES:-de en}; do
     for appearance in light dark; do
         case "$appearance" in light) night=no ;; dark) night=yes ;; esac
         "$adb" -s "$serial" shell cmd uimode night "$night"
-        capture="$diagnostics/$locale/$appearance"
         destination="$output/$locale/$appearance"
         [[ ! -e "$destination" ]] || { echo "Output already exists: $destination" >&2; exit 1; }
-        mkdir -p "$capture"
-        MAESTRO_CLI_NO_ANALYTICS=1 maestro test \
-            --udid "$serial" \
-            --test-output-dir "$capture" \
-            --format JUNIT --output "$capture/report.xml" \
-            --no-ansi \
-            "$project_root/.maestro/android-screenshots/screenshots.yaml" \
-            2>&1 | tee "$capture/maestro.log"
+        for attempt in 1 2; do
+            capture="$diagnostics/$locale/$appearance/attempt-$attempt"
+            mkdir -p "$capture"
+            set +e
+            MAESTRO_CLI_NO_ANALYTICS=1 maestro test \
+                --udid "$serial" \
+                --test-output-dir "$capture" \
+                --format JUNIT --output "$capture/report.xml" \
+                --no-ansi \
+                "$project_root/.maestro/android-screenshots/screenshots.yaml" \
+                2>&1 | tee "$capture/maestro.log"
+            maestro_status=$?
+            set -e
+            if (( maestro_status == 0 )); then
+                break
+            fi
+            if (( attempt == 1 )) && grep -Fq \
+                'Maestro Android driver did not start up in time' "$capture/maestro.log"; then
+                echo 'Maestro driver startup failed; retrying once with a fresh driver.'
+                "$adb" -s "$serial" shell am force-stop dev.mobile.maestro
+                "$adb" -s "$serial" shell am force-stop dev.mobile.maestro.test
+            else
+                exit "$maestro_status"
+            fi
+        done
         python3 - "$capture" "$destination" <<'PY'
 from pathlib import Path
 import shutil
