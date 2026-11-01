@@ -105,6 +105,7 @@ jobs:
           java-version: "17"
 
       - name: Install Maestro
+        if: inputs.engine != 'native'
         env:
           MAESTRO_VERSION: "2.6.1"
         run: |
