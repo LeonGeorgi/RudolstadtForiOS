@@ -83,6 +83,32 @@ Netzwerk-Refresh und CloudKit, setzt Screenshot-Einstellungen zurück und erstel
 Demo-Profile. Er navigiert nicht selbst zu den Ansichten. Künstlerbilder und
 Apple-Karten werden weiterhin durch die Produktionskomponenten geladen.
 
+## Manuelle iOS-Regressionstests
+
+Die drei bisherigen Regressionen liegen als `NavigationRegressionTests` im selben
+UI-Test-Target: Festivalwechsel mit benutzbaren Tabs, Freundesbewertungen mit einem
+oder mehreren Freunden und Navigation zwischen Karten-Sheets, Künstlern und
+klassischen Ortsdetails. Sie werden unabhängig von der Screenshot-Aufnahme gestartet:
+
+```sh
+xcodebuild test \
+  -project iosApp/RudolstadtForiOS.xcodeproj \
+  -scheme 'Native Screenshots' \
+  -destination 'platform=iOS Simulator,id=<simulator-udid>' \
+  -derivedDataPath /tmp/RudolstadtUIRegressions \
+  -parallel-testing-enabled NO \
+  -only-testing:'Tests iOS/NavigationRegressionTests' \
+  -resultBundlePath /tmp/RudolstadtNavigationRegressions.xcresult
+```
+
+Auch hier einen dedizierten Simulator und einen neuen Ergebnispfad verwenden.
+Der Festivaltest nutzt normalen App-Zustand, wechselt durch aktuelle und archivierte
+Ausgaben und stellt zuletzt Rudolstadt 2026 ein; Profile und gespeicherte Daten werden
+nicht gelöscht. Die beiden anderen Tests verwenden die isolierten Demo-Profile des
+Screenshot-Modus. Vier benannte Screenshot-Anhänge bleiben zur Kontrolle im `xcresult`.
+Die Capture-Pipeline wählt ausschließlich `NativeScreenshotTests` aus und führt diese
+Regressionen daher nicht zusätzlich bei jeder Bildaufnahme aus.
+
 ## Grundlage der Umstellung
 
 Der lokale Vergleich vom 1. November 2026 verwendete pro Plattform denselben App-Build
