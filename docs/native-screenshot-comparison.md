@@ -51,6 +51,7 @@ Pixelgleichheits-Test. Zwei erfolgreiche Runden belegen keine langfristige Stabi
 Android: Pixel-7a-Profil, API 36 / Google APIs ARM64, 1080 × 2400 Pixel,
 Maestro 2.12.0 gegen UI Automator 2.4.0. Zwei vollständige Runden mit identischem APK
 (SHA-256 `3dd5596bbc2f05c15efd2726667e6c8fdf941e18b121e7404697a61d7e99f343`).
+Die App war hier bereits durch den vorausgehenden Funktionstest initialisiert.
 
 | Werkzeug | Runde 1 | Runde 2 | Median | Vollständige Sätze |
 | --- | ---: | ---: | ---: | ---: |
@@ -72,14 +73,20 @@ iOS 26. Eine vollständige Runde mit beiden Sprachen und demselben signierten Ap
 
 | Werkzeug | Zeit einschließlich Setup/Export | Vollständiger Satz |
 | --- | ---: | ---: |
-| Maestro 2.12.0 | 218,97 s | 14/14 PNGs |
-| XCTest | 195,15 s | 14/14 PNGs |
+| Maestro 2.12.0 | 203,06 s | 14/14 PNGs |
+| XCTest | 193,80 s | 14/14 PNGs |
 
-Hier beträgt der gemessene Vorteil rund 11 %. Maestro lief zuerst; beide Werkzeuge
+Der gemeinsame Vorlauf dauerte 1,44 s und ist separat erfasst. Hier beträgt der
+gemessene Vorteil rund 5 %. Maestro lief zuerst; beide Werkzeuge
 profitierten bereits von Karten-/Bild-Caches aus der Funktionsprüfung. Mit nur einer
 Runde lässt sich der kleine Unterschied nicht sicher von Reihenfolge und Last trennen.
 Die Aufnahmen enthalten dieselben sieben Ansichten. Scrollpositionen und rotierende
 News-Texte können abweichen; es handelt sich nicht um Pixel-Baselines.
+Ein früherer warmer Lauf lag bei 218,97 s / 195,15 s. Ein Kontrolllauf nach erneutem
+Simulatorstart lag bei 281,68 s / 197,86 s; dort trug das zuerst gestartete Maestro
+noch den gemeinsamen ersten App-Start. Das begründet die separate Initialisierungsphase
+des endgültigen Messverfahrens und zeigt, warum aus einzelnen Läufen keine allgemeine
+iOS-Geschwindigkeitsgarantie abgeleitet werden kann.
 
 Für Android ist UI Automator damit ein aussichtsreicher Standard: gleicher Bildsatz
 bei deutlich weniger Laufzeit und ohne zusätzlichen Maestro-Treiber. XCTest ist ein
@@ -87,6 +94,24 @@ funktionsfähiger iOS-Ersatz mit direkten Assertions und nativen Diagnosebericht
 der kleinere gemessene Zeitvorteil rechtfertigt allein noch keine Stabilitätsaussage.
 Die Werkzeugauswahl bleibt bis zur Auswertung der CI-Matrix manuell möglich,
 Maestro bleibt in diesem PR die Voreinstellung.
+
+## CI-Verifikation
+
+- [UI Automator: Pixel 7 Pro und Pixel Tablet](https://github.com/LeonGeorgi/RudolstadtForiOS/actions/runs/41286115013):
+  beide erfolgreich, je 16 Aufnahmen. Der bisherige SwiftShader-Grafikmodus ließ
+  Kartensymbole und Beschriftungen aus; mit `-gpu swangle` sind sie in den geprüften
+  Bildern sichtbar. Die App-Bibliotheken wurden dafür nicht geändert.
+- [XCTest: iPhone 17 Pro und iPad Pro 13-inch, iOS 26](https://github.com/LeonGeorgi/RudolstadtForiOS/actions/runs/41287113366):
+  beide erfolgreich, je 14 Aufnahmen. Der generische Build verwendet ARM64 passend
+  zum Kotlin-Simulatortarget. Beide iOS-Werkzeuge starten die Seed-App vor ihrer
+  Automation; XCTest erlaubt für einen vollständigen Sprachsatz bis zu zehn Minuten
+  auf langsamen CI-Runnern. Es gibt keine Testwiederholung als Ersatz für fehlschlagende
+  Assertions. Die früheren iOS-Kaltstartfehler bleiben in den Diagnose-Läufen nachvollziehbar.
+
+Die Publisher laufen auf einem PR-Branch nicht. Das Android-Galerieformat wurde mit
+den nativen Telefon-/Tablet-Dateien geprüft; die iOS-Anhänge werden in das bestehende
+`locale/device/capture-id`-Format exportiert. Veröffentlichte README-Bilder werden
+erst durch einen vollständigen erfolgreichen Lauf auf `master` ersetzt.
 
 ## Lokal: Android
 
