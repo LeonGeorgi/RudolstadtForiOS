@@ -1,8 +1,11 @@
 # Öffentliche Begleitseiten
 
 Statische Download-, Support- und Datenschutzseiten. Der Ordner `website/`
-ist direkt das Veröffentlichungsverzeichnis für Cloudflare Pages; ein Build,
-Node.js, Python oder ein Zugriff auf Festivaldaten ist dafür nicht erforderlich.
+ist das Veröffentlichungsverzeichnis für Cloudflare Workers Static Assets.
+Die Dateien benötigen keinen Build und keinen Zugriff auf Festivaldaten.
+Wrangler wird nur zur lokalen Vorschau und Veröffentlichung verwendet;
+die Website selbst benötigt keinen Worker-Code. `.assetsignore` schließt diese
+Dokumentation von der Veröffentlichung aus.
 
 `rudolstadt/index.html` enthält zunächst nur die App-Identität, einen
 App-Store-Downloadbutton und Links zu Support und Datenschutz. Die bestehenden
@@ -47,13 +50,24 @@ Die Seite versucht nicht, installierte Apps zu erkennen. Nach einer Installation
 muss der ursprüngliche Künstlerlink erneut geöffnet werden; eine automatische
 Übernahme des Künstlerlinks aus dem App Store ist nicht vorgesehen.
 
-## Cloudflare Pages einrichten
+## Cloudflare Workers einrichten
 
-1. Das Repository verbinden, als Produktionsbranch den gewünschten Branch wählen.
-2. Kein Framework und keinen Build-Befehl konfigurieren; Veröffentlichungsverzeichnis:
-   `website` relativ zum Repository-Stamm.
-3. Die benutzerdefinierte Domain `festival.leongeorgi.de` hinzufügen und die von
-   Cloudflare angezeigte DNS-Konfiguration beim Domain-Anbieter übernehmen.
+Die Datei `wrangler.jsonc` im Repository-Stamm konfiguriert einen reinen
+Static-Assets-Worker namens `festival-leongeorgi` mit `website/` als
+Asset-Verzeichnis. Die vorhandenen `_headers` und `_redirects` werden auch
+von Workers Static Assets ausgewertet.
+
+1. In Cloudflare unter Workers & Pages eine Anwendung über GitHub anlegen.
+   Das Repository verbinden und als Produktionsbranch `master` wählen.
+   Die Website-Dateien und `wrangler.jsonc` müssen zuvor auf GitHub liegen.
+2. Projektname: `festival-leongeorgi`. Root directory: Repository-Stamm
+   (leer lassen). Build command: leer lassen. Deploy command:
+   `npx wrangler deploy`. Preview command: `npx wrangler preview`.
+3. Nach dem Deployment im Worker unter Settings → Domains & Routes → Add →
+   Custom Domain die Domain `festival.leongeorgi.de` hinzufügen. Dafür muss
+   `leongeorgi.de` bei Cloudflare als aktive Zone eingerichtet sein. Cloudflare
+   erstellt DNS und Zertifikat für die Worker-Domain; es wird kein Pages-CNAME
+   bei DigitalOcean mehr benötigt.
 4. Nach der Veröffentlichung die AASA-Datei auf Status 200, JSON-Content-Type
    und ausbleibende Weiterleitung prüfen. Einen Künstlerlink auf einem echten
    iPhone aus Nachrichten oder Notizen mit der aktualisierten App testen.
@@ -61,16 +75,23 @@ muss der ursprüngliche Künstlerlink erneut geöffnet werden; eine automatische
    App-Store-Button prüfen. Der App-Store-Link verwendet die vorhandene App-ID
    `1629927812`.
 
-Für eine lokale Vorschau der Seite kann im Repository-Stamm
+Für eine lokale Vorschau einschließlich Künstlerpfaden und HTTP-Headern kann
+im Repository-Stamm `npx wrangler dev` gestartet werden. Ein Deployment wird
+dadurch nicht ausgeführt. Für eine Prüfung ohne Veröffentlichung:
+`npx wrangler deploy --dry-run`.
+
+Für eine einfache lokale Vorschau nur der Seite kann im Repository-Stamm
 `python3 -m http.server 8080 --directory website` gestartet und
 `http://localhost:8080/rudolstadt/` geöffnet werden. Dieser einfache Server wertet
-`_redirects` und `_headers` nicht aus; die Künstlerpfade benötigen Cloudflare Pages
-oder eine Cloudflare-kompatible Vorschau.
+`_redirects` und `_headers` nicht aus; die Künstlerpfade benötigen die
+Wrangler-Vorschau oder die veröffentlichte Website.
 
 ## Noch ausstehend
 
-- Hosting, DNS, Veröffentlichung der aktualisierten Apps und der Gerätetest
-  sind noch nicht eingerichtet beziehungsweise durchgeführt.
+- Das Worker-Deployment, die Custom Domain, die Veröffentlichung der
+  aktualisierten Apps und der Gerätetest stehen noch aus.
+- Die Nameserver-Umstellung von DigitalOcean auf Cloudflare wurde gestartet;
+  vor der Domain-Anbindung muss die Zone in Cloudflare als aktiv angezeigt werden.
 - Für Android fehlt `/.well-known/assetlinks.json` mit Paketname
   `de.leongeorgi.rudolstadt.android` und dem SHA-256-Fingerabdruck des tatsächlichen
   Release-Signaturzertifikats (bei Play App Signing: App-Signaturschlüssel).

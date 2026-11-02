@@ -1,6 +1,7 @@
 .gradle/
 .kotlin/
 .konan/
+.wrangler/
 build/
 **/build/
 .idea/
