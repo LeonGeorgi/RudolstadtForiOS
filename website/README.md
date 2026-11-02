@@ -28,6 +28,16 @@ Quelle: [Apple Marketing Tools](https://tools.applemediaservices.com/api/badges/
 Die [App-Store-Marketingrichtlinien](https://developer.apple.com/app-store/marketing/guidelines/)
 beschreiben Mindestgröße und Freiraum.
 
+## Gestaltung der Begleitseiten
+
+`support.html` und `privacy.html` verwenden das gemeinsame `site.css`. Die
+responsive Gestaltung entspricht Version 2 der Sketch-Entwürfe und greift
+Farben, Typografie, Trennlinien und Button-Radien von `leongeorgi.de` auf.
+Source Sans 3 wird aus `fonts/SourceSans3-wght.ttf` lokal geladen; die zugehörige
+SIL Open Font License liegt in `fonts/OFL.txt`. Es gibt keine externe
+Schriftanfrage und kein JavaScript für Navigation oder Inhaltsverzeichnis.
+Die Datenschutzabschnitte und deren Aktualisierungsdatum bleiben erhalten.
+
 ## Künstlerlinks
 
 Neue Künstlerlinks verwenden
