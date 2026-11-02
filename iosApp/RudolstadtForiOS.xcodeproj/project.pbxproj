@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FAD100062FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100052FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift */; };
-		FAD100042FFC1001004F9471 /* FriendArtistRatingsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */; };
-		FAD100022FFC1001004F9471 /* FriendArtistRatingsMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100012FFC1001004F9471 /* FriendArtistRatingsMotion.swift */; };
 		12F57F438C89D8ADE35F8DCF /* Shared/Core/FestivalDurationResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BD785E2C3A746DB0F0E0F9 /* Shared/Core/FestivalDurationResolver.swift */; };
 		1ACD2AD1177B68294EF2BA2F /* Shared/Data/FestivalSourceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592B9CA3F6953CCF8CDEB9E /* Shared/Data/FestivalSourceAdapter.swift */; };
 		2B59811E9A4186FB002BFF6C /* Shared/Core/FestivalInterfaceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEAAB47D3D8E82F6B770A81 /* Shared/Core/FestivalInterfaceUtilities.swift */; };
@@ -257,8 +254,6 @@
 		CEA321B8BFF0C13B5C38151F /* Unit Tests/Domain/FestivalAdapterContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44174B2FD9E0E7AFABB9418D /* Unit Tests/Domain/FestivalAdapterContractTests.swift */; };
 		D10000012FD10001004F9471 /* EventTimeBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000032FD10001004F9471 /* EventTimeBadge.swift */; };
 		D10000022FD10001004F9471 /* EventTimeBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000032FD10001004F9471 /* EventTimeBadge.swift */; };
-		F61000022FFF0001004F9471 /* FestivalListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61000012FFF0001004F9471 /* FestivalListRow.swift */; };
-		F61000032FFF0001004F9471 /* FestivalListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61000012FFF0001004F9471 /* FestivalListRow.swift */; };
 		D10000042FD10001004F9471 /* FestivalProfileBadgeAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000062FD10001004F9471 /* FestivalProfileBadgeAvatar.swift */; };
 		D10000052FD10001004F9471 /* FestivalProfileBadgeAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000062FD10001004F9471 /* FestivalProfileBadgeAvatar.swift */; };
 		D10000072FD10001004F9471 /* SharedFestivalProfileRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000092FD10001004F9471 /* SharedFestivalProfileRows.swift */; };
@@ -354,6 +349,8 @@
 		F582E77621894A1E9C789C1E /* EventContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2E36A802794C54B20DBD81 /* EventContextMenu.swift */; };
 		F60000022FF10001004F9471 /* PatrickHand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */; };
 		F60000032FF10001004F9471 /* PatrickHand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */; };
+		F61000022FFF0001004F9471 /* FestivalListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61000012FFF0001004F9471 /* FestivalListRow.swift */; };
+		F61000032FFF0001004F9471 /* FestivalListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61000012FFF0001004F9471 /* FestivalListRow.swift */; };
 		F90000142FF90001004F9471 /* StageLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90000042FF90001004F9471 /* StageLocationTests.swift */; };
 		F93000022FFB0001004F9471 /* FestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93000012FFB0001004F9471 /* FestivalDataProvider.swift */; };
 		F93000032FFB0001004F9471 /* FestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93000012FFB0001004F9471 /* FestivalDataProvider.swift */; };
@@ -375,12 +372,12 @@
 		F950000C2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026.json in Resources */ = {isa = PBXBuildFile; fileRef = F950000A2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026.json */; };
 		F96000022FFC0001004F9471 /* FestivalSitePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96000012FFC0001004F9471 /* FestivalSitePlan.swift */; };
 		F96000032FFC0001004F9471 /* FestivalSitePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96000012FFC0001004F9471 /* FestivalSitePlan.swift */; };
-		F960000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F960000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf */; };
-		F960000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F960000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf */; };
+		F960000B2FFC0001004F9471 /* ludwigsburg_2026_site_plan.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F960000A2FFC0001004F9471 /* ludwigsburg_2026_site_plan.pdf */; };
+		F960000C2FFC0001004F9471 /* ludwigsburg_2026_site_plan.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F960000A2FFC0001004F9471 /* ludwigsburg_2026_site_plan.pdf */; };
 		F97000022FFC0001004F9471 /* FestivalSitePlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97000012FFC0001004F9471 /* FestivalSitePlanView.swift */; };
 		F97000032FFC0001004F9471 /* FestivalSitePlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97000012FFC0001004F9471 /* FestivalSitePlanView.swift */; };
-		F970000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png in Resources */ = {isa = PBXBuildFile; fileRef = F970000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png */; };
-		F970000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png in Resources */ = {isa = PBXBuildFile; fileRef = F970000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png */; };
+		F970000B2FFC0001004F9471 /* ludwigsburg_2026_site_plan_background.png in Resources */ = {isa = PBXBuildFile; fileRef = F970000A2FFC0001004F9471 /* ludwigsburg_2026_site_plan_background.png */; };
+		F970000C2FFC0001004F9471 /* ludwigsburg_2026_site_plan_background.png in Resources */ = {isa = PBXBuildFile; fileRef = F970000A2FFC0001004F9471 /* ludwigsburg_2026_site_plan_background.png */; };
 		F98000022FFC0001004F9471 /* FestivalZoomableMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98000012FFC0001004F9471 /* FestivalZoomableMap.swift */; };
 		F98000032FFC0001004F9471 /* FestivalZoomableMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98000012FFC0001004F9471 /* FestivalZoomableMap.swift */; };
 		F98000122FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift */; };
@@ -393,6 +390,9 @@
 		FA2000032FFD0001004F9471 /* DetailHeroHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2000012FFD0001004F9471 /* DetailHeroHeader.swift */; };
 		FA3000022FFD0001004F9471 /* EventAccessories.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3000012FFD0001004F9471 /* EventAccessories.swift */; };
 		FA3000032FFD0001004F9471 /* EventAccessories.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3000012FFD0001004F9471 /* EventAccessories.swift */; };
+		FAD100022FFC1001004F9471 /* FriendArtistRatingsMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100012FFC1001004F9471 /* FriendArtistRatingsMotion.swift */; };
+		FAD100042FFC1001004F9471 /* FriendArtistRatingsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */; };
+		FAD100062FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */; };
 		FB71000230010001004F9471 /* ProgramDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71000130010001004F9471 /* ProgramDiscoveryView.swift */; };
 		FB71000330010001004F9471 /* ProgramDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71000130010001004F9471 /* ProgramDiscoveryView.swift */; };
 /* End PBXBuildFile section */
@@ -461,9 +461,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FAD100052FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift"; sourceTree = SOURCE_ROOT; };
-		FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingsPresentation.swift; sourceTree = "<group>"; };
-		FAD100012FFC1001004F9471 /* FriendArtistRatingsMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingsMotion.swift; sourceTree = "<group>"; };
 		0A2E36A802794C54B20DBD81 /* EventContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventContextMenu.swift; sourceTree = "<group>"; };
 		2616A060C2AB6AE75EE270BA /* Shared/Data/FestivalFeatureCatalogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/Data/FestivalFeatureCatalogs.swift; sourceTree = SOURCE_ROOT; };
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
@@ -612,7 +609,6 @@
 		C40000042FF50001004F9471 /* FestivalProfileSharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileSharingService.swift; sourceTree = "<group>"; };
 		CA1000010000000000000003 /* Shared/Core/KotlinCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/Core/KotlinCore.swift; sourceTree = SOURCE_ROOT; };
 		D10000032FD10001004F9471 /* EventTimeBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTimeBadge.swift; sourceTree = "<group>"; };
-		F61000012FFF0001004F9471 /* FestivalListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalListRow.swift; sourceTree = "<group>"; };
 		D10000062FD10001004F9471 /* FestivalProfileBadgeAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileBadgeAvatar.swift; sourceTree = "<group>"; };
 		D10000092FD10001004F9471 /* SharedFestivalProfileRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFestivalProfileRows.swift; sourceTree = "<group>"; };
 		D10000122FD10001004F9471 /* FriendArtistRatingSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingSummary.swift; sourceTree = "<group>"; };
@@ -670,6 +666,7 @@
 		F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageWalkingDistanceProvider.swift; sourceTree = "<group>"; };
 		F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalSchedulePlanningTests.swift; sourceTree = "<group>"; };
 		F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "PatrickHand-Regular.ttf"; sourceTree = "<group>"; };
+		F61000012FFF0001004F9471 /* FestivalListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalListRow.swift; sourceTree = "<group>"; };
 		F90000042FF90001004F9471 /* StageLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageLocationTests.swift; sourceTree = "<group>"; };
 		F93000012FFB0001004F9471 /* FestivalDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalDataProvider.swift; sourceTree = "<group>"; };
 		F94000012FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtArchiveDataProvider.swift; sourceTree = "<group>"; };
@@ -681,9 +678,9 @@
 		F95000012FFC0001004F9471 /* LudwigsburgFestivalDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LudwigsburgFestivalDataProvider.swift; sourceTree = "<group>"; };
 		F950000A2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026.json; sourceTree = SOURCE_ROOT; };
 		F96000012FFC0001004F9471 /* FestivalSitePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalSitePlan.swift; sourceTree = "<group>"; };
-		F960000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ludwigsburg_2026_site_plan.pdf; path = "../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026_site_plan.pdf"; sourceTree = SOURCE_ROOT; };
+		F960000A2FFC0001004F9471 /* ludwigsburg_2026_site_plan.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ludwigsburg_2026_site_plan.pdf; path = ../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026_site_plan.pdf; sourceTree = SOURCE_ROOT; };
 		F97000012FFC0001004F9471 /* FestivalSitePlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalSitePlanView.swift; sourceTree = "<group>"; };
-		F970000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png */ = {isa = PBXFileReference; explicitFileType = file; name = ludwigsburg_2026_site_plan_background.png; path = "../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026_site_plan_background.png"; sourceTree = SOURCE_ROOT; };
+		F970000A2FFC0001004F9471 /* ludwigsburg_2026_site_plan_background.png */ = {isa = PBXFileReference; explicitFileType = file; name = ludwigsburg_2026_site_plan_background.png; path = ../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026_site_plan_background.png; sourceTree = SOURCE_ROOT; };
 		F98000012FFC0001004F9471 /* FestivalZoomableMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalZoomableMap.swift; sourceTree = "<group>"; };
 		F98000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FestivalMapZoomTests.swift"; sourceTree = SOURCE_ROOT; };
 		F99000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FestivalMapSheetTests.swift"; sourceTree = SOURCE_ROOT; };
@@ -691,6 +688,9 @@
 		FA1000012FFD0001004F9471 /* DetailTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTags.swift; sourceTree = "<group>"; };
 		FA2000012FFD0001004F9471 /* DetailHeroHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHeroHeader.swift; sourceTree = "<group>"; };
 		FA3000012FFD0001004F9471 /* EventAccessories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAccessories.swift; sourceTree = "<group>"; };
+		FAD100012FFC1001004F9471 /* FriendArtistRatingsMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingsMotion.swift; sourceTree = "<group>"; };
+		FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingsPresentation.swift; sourceTree = "<group>"; };
+		FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift"; sourceTree = SOURCE_ROOT; };
 		FB71000130010001004F9471 /* ProgramDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDiscoveryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -988,8 +988,8 @@
 				A1B2C3DB2FA90001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2026_rudolstadt_data.json */,
 				F940000A2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2024_archive.json */,
 				F950000A2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026.json */,
-				F960000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf */,
-				F970000A2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png */,
+				F960000A2FFC0001004F9471 /* ludwigsburg_2026_site_plan.pdf */,
+				F970000A2FFC0001004F9471 /* ludwigsburg_2026_site_plan_background.png */,
 				F942025A2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2025_archive.json */,
 				F942023A2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2023_archive.json */,
 				F942022A2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2022_archive.json */,
@@ -1291,7 +1291,7 @@
 				44174B2FD9E0E7AFABB9418D /* Unit Tests/Domain/FestivalAdapterContractTests.swift */,
 				F98000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift */,
 				F99000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift */,
-				FAD100052FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift */,
+				FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */,
 				F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */,
 				F10000062F990001004F9471 /* RecommendationServiceTests.swift */,
 				A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */,
@@ -1591,8 +1591,8 @@
 				A1B2C3D72FA90001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2026_rudolstadt_data.json in Resources */,
 				F940000B2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2024_archive.json in Resources */,
 				F950000B2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026.json in Resources */,
-				F960000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf in Resources */,
-				F970000B2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png in Resources */,
+				F960000B2FFC0001004F9471 /* ludwigsburg_2026_site_plan.pdf in Resources */,
+				F970000B2FFC0001004F9471 /* ludwigsburg_2026_site_plan_background.png in Resources */,
 				F942025B2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2025_archive.json in Resources */,
 				F942023B2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2023_archive.json in Resources */,
 				F942022B2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2022_archive.json in Resources */,
@@ -1620,8 +1620,8 @@
 				A1B2C3D92FA90001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2026_rudolstadt_data.json in Resources */,
 				F940000C2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2024_archive.json in Resources */,
 				F950000C2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/ludwigsburg_2026.json in Resources */,
-				F960000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan.pdf in Resources */,
-				F970000C2FFC0001004F9471 /* FestivalBackup/ludwigsburg_2026_site_plan_background.png in Resources */,
+				F960000C2FFC0001004F9471 /* ludwigsburg_2026_site_plan.pdf in Resources */,
+				F970000C2FFC0001004F9471 /* ludwigsburg_2026_site_plan_background.png in Resources */,
 				F942025C2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2025_archive.json in Resources */,
 				F942023C2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2023_archive.json in Resources */,
 				F942022C2FFC0001004F9471 /* ../shared/src/commonMain/resources/FestivalBackup/2022_archive.json in Resources */,
@@ -2057,7 +2057,7 @@
 				CEA321B8BFF0C13B5C38151F /* Unit Tests/Domain/FestivalAdapterContractTests.swift in Sources */,
 				F98000122FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift in Sources */,
 				F99000122FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift in Sources */,
-				FAD100062FFC1001004F9471 /* FriendArtistRatingsMotionTests.swift in Sources */,
+				FAD100062FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift in Sources */,
 				F90000142FF90001004F9471 /* StageLocationTests.swift in Sources */,
 				A71000052FF30001004F9471 /* ArtistShareLinkTests.swift in Sources */,
 				B14400322FE50001004F9471 /* WatchSnapshotTests.swift in Sources */,

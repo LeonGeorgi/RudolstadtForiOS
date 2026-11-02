@@ -9,6 +9,7 @@ App-Targets; ihre relativen Datenpfade beziehen sich auf dieses Repository.
 | `analysis/` | Künstler-Embeddings, Ähnlichkeitsanalysen, Plots und Ressourcenexport |
 | `ios/` | Kotlin-Framework für Xcode bauen und App-Store-Screenshots aufnehmen |
 | `android/` | Android-App bauen, Emulator starten und Screenshots aufnehmen |
+| `donations/` | Apple-Spendenberichte zu öffentlichen Jahressummen pro Währung verdichten |
 
 ## Datenpflege
 
@@ -28,6 +29,16 @@ Importbefehle und Quellen sind unter [Festivaldaten](../docs/festival-data.md)
 beschrieben, Linkfinder-Optionen unter [Musiklinks](../docs/artist-music-links.md).
 Die mit dem Ludwigsburg-Importer verwendete kuratierte JSON-Datei bleibt direkt
 neben dem Skript; sie enthält die geprüfte Prüfsumme des offiziellen Lageplans.
+
+## Spendensummen
+
+Der unabhängige Spenden-Workflow und seine GitHub-Secrets sind unter
+[Öffentliche Spendensummen](../docs/apple/donation-totals.md) beschrieben. Seine
+Offline-Tests laufen ohne Apple-Zugangsdaten:
+
+```sh
+python3 -m unittest discover -s scripts/donations -p '*_test.py'
+```
 
 ## Analysen
 

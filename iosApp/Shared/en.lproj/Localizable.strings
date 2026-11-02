@@ -430,12 +430,14 @@ I built this app in my spare time because I wanted a more convenient way to use 
 
 "donations.title" = "Donate";
 "donations.hero.title" = "Support the app";
-"donations.description" = "I develop this app in my free time. If it helps you during the festival, you can support its continued development.";
-"donations.hero.note" = "Completely optional. The app stays fully usable without a donation.";
+"donations.description" = "I develop this app in my free time. Donations help me keep improving it.";
+"donations.hero.note" = "The app remains fully usable without a donation.";
 "donations.hero.ticket-note" = "1% of a festival ticket";
 "donations.options.description.ticket" = "Where possible, the page shows how a contribution roughly relates to the price of a festival ticket.";
 "donations.options.description.generic" = "Contributions are optional and help support the maintenance and future development of the app.";
 "donations.loading" = "Loading donation options…";
+"donations.selected_amount" = "Selected donation amount";
+"donations.button.donate %@" = "Donate %@";
 "donation.button.percentage" = "%.0f%% of a festival ticket";
 "donation.card.caption.200" = "Water after the dance tent";
 "donation.card.caption.500" = "Coffee at the Bauernhäuser";
@@ -444,7 +446,7 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "donation.card.caption.5000" = "Provisions for the whole weekend";
 "donation.card.caption.default" = "Thank you.";
 "donations.disclaimer.title" = "Note";
-"donations.disclaimer" = "Donations go directly to me as the developer of this app, not to the festival organizer.";
+"donations.disclaimer" = "Donations go to me, not to the festival organizer.";
 
 "settings.title" = "Settings";
 "settings.language" = "Change language";

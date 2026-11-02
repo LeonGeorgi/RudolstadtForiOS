@@ -429,12 +429,14 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 
 "donations.title" = "Spenden";
 "donations.hero.title" = "App unterstützen";
-"donations.description" = "Ich entwickle diese App in meiner Freizeit. Wenn sie dir beim Festival hilft, kannst du ihre Weiterentwicklung unterstützen.";
-"donations.hero.note" = "Ganz ohne Verpflichtung. Die App bleibt selbstverständlich auch ohne Spende vollständig nutzbar.";
+"donations.description" = "Ich entwickle diese App in meiner Freizeit. Spenden helfen mir, sie weiterzuentwickeln.";
+"donations.hero.note" = "Die App bleibt auch ohne Spende vollständig nutzbar.";
 "donations.hero.ticket-note" = "1 % eines Festivaltickets";
 "donations.options.description.ticket" = "Falls möglich, wird angezeigt, wie sich ein Beitrag grob zum Preis eines Festivaltickets verhält.";
 "donations.options.description.generic" = "Die Beiträge sind freiwillig und unterstützen die Pflege und Weiterentwicklung der App.";
 "donations.loading" = "Spendenoptionen werden geladen…";
+"donations.selected_amount" = "Ausgewählter Spendenbetrag";
+"donations.button.donate %@" = "%@ spenden";
 "donation.button.percentage" = "%.0f %% eines Festivaltickets";
 "donation.card.caption.200" = "Wasser nach dem Tanzzelt";
 "donation.card.caption.500" = "Kaffee in den Bauernhäusern";
@@ -443,7 +445,7 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "donation.card.caption.5000" = "Proviant fürs ganze Wochenende";
 "donation.card.caption.default" = "Danke dir.";
 "donations.disclaimer.title" = "Hinweis";
-"donations.disclaimer" = "Spenden gehen direkt an mich als Entwickler dieser App und nicht an den Veranstalter des Festivals.";
+"donations.disclaimer" = "Spenden gehen an mich, nicht an den Festivalveranstalter.";
 
 "settings.title" = "Einstellungen";
 "settings.language" = "Sprache ändern";

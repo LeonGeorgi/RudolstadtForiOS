@@ -8,6 +8,7 @@
 - [Apple-Music-Linkfinder](artist-music-links.md)
 - [CloudKit-Profilabgleich](apple/cloudkit.md)
 - [Watch und Widget](apple/watch.md)
+- [Öffentliche Spendensummen und GitHub-Workflow](apple/donation-totals.md)
 - [Skripte und deren Tests](../scripts/README.md)
 - [Screenshot-Automation mit XCTest und UI Automator](screenshots.md)
 
