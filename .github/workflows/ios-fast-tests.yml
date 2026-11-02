@@ -86,8 +86,10 @@ jobs:
               echo "## Fast Test Coverage"
               echo
               echo '```text'
-              cat "$COVERAGE_REPORT_PATH"
+              xcrun xccov view --report --only-targets "$RESULT_BUNDLE_PATH"
               echo '```'
+              echo
+              echo 'The full file-level coverage report is included in the fast-tests artifact.'
             } >> "$GITHUB_STEP_SUMMARY"
           else
             echo "Coverage report unavailable." | tee "$COVERAGE_REPORT_PATH"
