@@ -71,6 +71,10 @@ unter `artifacts/screenshots/app-store/`.
 
 ## Android-Screenshots
 
+Eine signierte APK ohne Play Store baut `android/build-release.sh`.
+Schlüsselablage, Installation und App-Link-Test sind in der
+[Release-Anleitung](android/RELEASE.md) beschrieben.
+
 `android/capture-screenshots.sh` verwendet eine gebaute Debug-APK und einen
 dedizierten, gestarteten Emulator. UI Automator nimmt die vier Hauptansichten auf
 Deutsch und Englisch in Hell und Dunkel auf. Der Workflow **Android Screenshots**

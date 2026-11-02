@@ -42,6 +42,15 @@ Die Apple-Zuordnungsdatei liegt direkt an der Domain-Wurzel:
   `/rudolstadt/*/artists/*` begrenzten Pfaden. `_headers` setzt
   `Content-Type: application/json`. Die Datei darf nicht weitergeleitet werden.
 
+Für Android liegt dort außerdem `/.well-known/assetlinks.json`, ebenfalls als
+JSON ohne Weiterleitung. Sie enthält den Paketnamen
+`de.leongeorgi.rudolstadt.android` und den SHA-256-Fingerabdruck des eigenen
+Release-Zertifikats. Debug-APKs sind damit nicht für die Domain verifiziert.
+Die signierte APK wird mit `scripts/android/build-release.sh` erzeugt;
+siehe [Release-Anleitung](../scripts/android/RELEASE.md).
+Falls später Play App Signing mit einem anderen App-Signaturschlüssel verwendet
+wird, muss dessen Fingerabdruck zusätzlich in die Datei aufgenommen werden.
+
 Bei installierter App kann das Betriebssystem einen Künstlerlink direkt in der
 App öffnen, bevor die Website geladen wird. Das hängt auch vom Browser und den
 Nutzereinstellungen ab. Eine im Browser eingegebene URL oder ein in Safari
@@ -86,16 +95,11 @@ Für eine einfache lokale Vorschau nur der Seite kann im Repository-Stamm
 `_redirects` und `_headers` nicht aus; die Künstlerpfade benötigen die
 Wrangler-Vorschau oder die veröffentlichte Website.
 
-## Noch ausstehend
+## Veröffentlichungsstand und offene Schritte
 
-- Das Worker-Deployment, die Custom Domain, die Veröffentlichung der
-  aktualisierten Apps und der Gerätetest stehen noch aus.
-- Die Nameserver-Umstellung von DigitalOcean auf Cloudflare wurde gestartet;
-  vor der Domain-Anbindung muss die Zone in Cloudflare als aktiv angezeigt werden.
-- Für Android fehlt `/.well-known/assetlinks.json` mit Paketname
-  `de.leongeorgi.rudolstadt.android` und dem SHA-256-Fingerabdruck des tatsächlichen
-  Release-Signaturzertifikats (bei Play App Signing: App-Signaturschlüssel).
-  Die Datei wird erst mit dem verifizierten Fingerabdruck ergänzt; bis dahin
-  ist die neue Domain für Android nicht verifiziert.
+- Cloudflare-DNS, Worker und Custom Domain sind eingerichtet. Die iOS-Links
+  wurden auf einem iPhone getestet.
+- Android wird zunächst mit einer lokal signierten APK ohne Play Store getestet.
+  Die Downloadseite bietet bislang nur den App-Store-Link für iOS an.
 - Die bisherigen Links benötigen für das direkte Öffnen in der App weiterhin
   eine eigene Zuordnungsdatei an der bisherigen Domain.
