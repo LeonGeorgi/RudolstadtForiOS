@@ -1,6 +1,6 @@
 # Android-Screenshots
 
-[Erfolgreicher Workflow-Lauf](https://github.com/LeonGeorgi/RudolstadtForiOS/actions/runs/41383537175) · [App-Stand 39940af](https://github.com/LeonGeorgi/RudolstadtForiOS/commit/39940af754d7c7e8b48c3d60cdbc61cfd80b39c2)
+[Erfolgreicher Workflow-Lauf](https://github.com/LeonGeorgi/RudolstadtForiOS/actions/runs/41391543987) · [App-Stand 1e912e6](https://github.com/LeonGeorgi/RudolstadtForiOS/commit/1e912e6b5feb244f27e2f0c940f9b5418efc77a1)
 
 Die Vorschaubilder öffnen die Originale in voller Auflösung.
 
