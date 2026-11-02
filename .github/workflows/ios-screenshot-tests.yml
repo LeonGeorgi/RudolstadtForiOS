@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set up Java for Kotlin/Native
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -47,7 +47,7 @@ jobs:
             -C "${{ runner.temp }}/AppStoreScreenshotDerivedData/Build/Products" .
 
       - name: Upload app
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: app-store-screenshot-app-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/Rudolstadt.app.tar
@@ -56,7 +56,7 @@ jobs:
 
       - name: Upload build diagnostics
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: app-store-screenshot-build-diagnostics-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/app-store-screenshot-build.log
@@ -77,7 +77,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Download app
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           name: app-store-screenshot-app-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/PrebuiltApp
@@ -159,7 +159,7 @@ jobs:
       - name: Upload ${{ matrix.device_family }} screenshots
         id: upload_screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: app-store-screenshots-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/AppStoreScreenshots
@@ -168,7 +168,7 @@ jobs:
 
       - name: Upload ${{ matrix.device_family }} diagnostics
         if: always() && (failure() || steps.capture_diagnostics.outputs.available == 'true')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: app-store-screenshot-diagnostics-${{ matrix.device_family }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: |
@@ -209,13 +209,13 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Download iphone screenshots
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           name: app-store-screenshots-iphone-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/screenshots/iphone
 
       - name: Download ipad screenshots
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           name: app-store-screenshots-ipad-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/screenshots/ipad
@@ -273,10 +273,10 @@ jobs:
           mv "$RUNNER_TEMP/app-store-screenshots.zip" "$PAGES_ROOT/app-store-screenshots.zip"
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ${{ runner.temp }}/pages
 
