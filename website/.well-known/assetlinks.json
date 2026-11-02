@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "de.leongeorgi.rudolstadt.android",
+      "sha256_cert_fingerprints": [
+        "A8:A8:E9:FD:3F:C1:27:34:62:E0:6C:32:C4:F0:CE:9E:E5:DE:11:91:9B:77:BB:D8:14:21:88:3C:21:32:A6:CD"
+      ]
+    }
+  }
+]

@@ -1,0 +1,21 @@
+section {
+    margin: auto;
+    max-width: 600px;
+}
+
+body {
+    font-family: "Open Sans", Arial, sans-serif;
+}
+
+.screenshots {
+    max-width: 100%;
+    display: flex;
+    gap: 1rem
+
+}
+
+.screenshots > img {
+    max-width: calc((100% - 1rem) / 2 - 2px);
+    height: auto;
+    border: 1px solid black;
+}
