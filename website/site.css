@@ -1,0 +1,364 @@
+@font-face {
+    font-family: "Source Sans 3";
+    src: url("fonts/SourceSans3-wght.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 200 900;
+    font-display: swap;
+}
+
+:root {
+    color-scheme: light;
+    --paper: #f8f8f6;
+    --ink: #111;
+    --body: #333;
+    --muted: #555;
+    --line: #d8d8d3;
+    --link: #38574e;
+    --link-hover: #2f4a43;
+    --callout: #e9efec;
+    /* OKLCH hue of the app's light accent color, #982f93. */
+    --accent-hue: 329.8884;
+    --gutter: 1.25rem;
+    font-family: "Source Sans 3", "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 100%;
+    line-height: 1.55;
+    color: var(--body);
+    background: var(--paper);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-size: 1.0625rem;
+}
+
+a {
+    color: var(--link);
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+}
+
+a:hover {
+    color: var(--link-hover);
+}
+
+a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
+
+h1, h2, h3 {
+    color: var(--ink);
+    line-height: 1.25;
+}
+
+h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+}
+
+p {
+    margin: 0 0 0.75rem;
+}
+p:last-child {
+    margin-bottom: 0;
+}
+
+.shell {
+    width: min(calc(100% - 2 * var(--gutter)), 60rem);
+    margin-inline: auto;
+}
+
+.skip-link {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: var(--gutter);
+    padding: 0.5rem 0.75rem;
+    transform: translateY(-110%);
+    background: var(--paper);
+}
+
+.skip-link:focus {
+    transform: translateY(0.5rem);
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    padding-block: 2rem;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.brand img {
+    display: block;
+    flex: none;
+}
+.brand strong, .brand small {
+    display: block;
+}
+
+.brand strong {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.brand small {
+    margin-top: 0.125rem;
+    color: var(--muted);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    font-size: 0.9375rem;
+}
+
+.site-nav a {
+    display: inline-block;
+    padding-block: 0.5rem;
+    text-decoration: none;
+}
+
+.site-nav a[aria-current="page"], .site-nav a:hover {
+    text-decoration: underline;
+}
+
+.hero {
+    padding-block: 2rem;
+    color: #fff;
+    background: linear-gradient(
+        67.5deg,
+        oklch(0.55 0.12 var(--accent-hue)),
+        oklch(0.7 0.08 var(--accent-hue))
+    );
+}
+
+.hero h1 {
+    margin: 0;
+    color: inherit;
+    font-size: clamp(2.125rem, 3.5vw, 2.75rem);
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+}
+
+.hero p {
+    max-width: 48rem;
+    margin: 0.75rem 0 0;
+}
+.hero .updated {
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+}
+
+.page-content {
+    display: grid;
+    align-items: start;
+    margin-top: 2.5rem;
+}
+
+.support-layout {
+    grid-template-columns: minmax(0, 1fr) 19.5rem;
+    gap: 3rem;
+}
+
+.support-main {
+    display: grid;
+    gap: 2rem;
+}
+.page-content > *, .support-main > * {
+    min-width: 0;
+}
+
+.callout {
+    border-left: 3px solid var(--link);
+    padding: 1.5rem;
+    background: var(--callout);
+}
+
+.contact h2 {
+    margin-bottom: 0.25rem;
+}
+.contact-address {
+    overflow-wrap: anywhere;
+    font-size: 1.125rem;
+}
+.contact-address a {
+    text-decoration: none;
+}
+.contact-address a:hover {
+    text-decoration: underline;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid var(--link);
+    border-radius: 3px;
+    color: #fff;
+    background: var(--link);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.3;
+    text-decoration: none;
+}
+
+.button:hover {
+    border-color: var(--link-hover);
+    color: #fff;
+    background: var(--link-hover);
+}
+
+.contact .button {
+    margin-top: 0.25rem;
+}
+.contact .hint {
+    margin: 1rem 0 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+.ruled-section {
+    border-top: 1px solid var(--line);
+    padding-top: 1.5rem;
+}
+.section-link {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-size: 0.9375rem;
+}
+
+.privacy-layout {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: 4rem;
+}
+.policy-sidebar {
+    display: grid;
+    gap: 2rem;
+}
+.policy-sidebar .callout {
+    padding: 1rem;
+    font-size: 0.9375rem;
+}
+.policy-sidebar h2 {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    letter-spacing: normal;
+}
+.policy-sidebar p + p {
+    margin-top: 1.25rem;
+}
+
+.policy-contents ol {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9375rem;
+}
+
+.policy section + section {
+    border-top: 1px solid var(--line);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+}
+
+.policy a {
+    overflow-wrap: anywhere;
+}
+[id] {
+    scroll-margin-top: 1.5rem;
+}
+.mobile-jump {
+    display: none;
+}
+
+.site-footer {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1rem;
+    font-size: 0.875rem;
+}
+
+.site-footer p {
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 0.8125rem;
+}
+
+@media (max-width: 760px) {
+    .site-header {
+        padding-block: 1.5rem 1rem;
+    }
+    .site-nav {
+        width: 100%;
+    }
+    .hero {
+        padding-block: 1.5rem;
+    }
+    .page-content {
+        margin-top: 2rem;
+    }
+    .support-layout, .privacy-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2rem;
+    }
+    .policy-contents {
+        display: none;
+    }
+    .mobile-jump {
+        display: inline-block;
+        margin-top: 1rem;
+    }
+    .site-footer {
+        margin-top: 2rem;
+    }
+}
+
+@media print {
+    :root {
+        color: #000;
+        background: #fff;
+    }
+    .site-header, .site-footer, .skip-link, .policy-sidebar {
+        display: none;
+    }
+    .hero {
+        padding: 0;
+        color: #000;
+        background: none;
+    }
+    .page-content {
+        display: block;
+    }
+}
