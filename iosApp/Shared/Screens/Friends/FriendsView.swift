@@ -71,14 +71,8 @@
                     profileBadgeSection
                     iCloudSetupSection
                 } else {
-                    Section {
-                        profileSummary
-                    } footer: {
-                        Text("friends.privacy.summary")
-                    }
                     togetherSections
                     followingSection
-                    followedBySection
                 }
             }
             .font(.body)
@@ -88,6 +82,17 @@
                 if edition.usesLiveServices && isSetupComplete {
                     ToolbarItem(placement: .topBarTrailing) {
                         connectionMenu
+                    }
+                    if #available(iOS 26.0, *) {
+                        ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                        ToolbarItem(placement: .topBarTrailing) {
+                            profileEditButton
+                        }
+                        .sharedBackgroundVisibility(.hidden)
+                    } else {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            profileEditButton
+                        }
                     }
                 }
             }
@@ -181,27 +186,19 @@
             }
         }
 
-        private var profileSummary: some View {
+        private var profileEditButton: some View {
             Button {
                 syncBadgeDraftsFromProfile()
                 isShowingProfileEditor = true
             } label: {
-                HStack(spacing: 12) {
-                    FestivalProfileBadgeAvatar(badge: profile.ownerBadge, diameter: 42)
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(profile.ownerBadge.displayName)
-                            .font(.headline)
-                        Text("friends.badge.section")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                    Text("friends.badge.edit")
-                        .foregroundStyle(.tint)
-                }
-                .contentShape(Rectangle())
+                FestivalProfileBadgeAvatar(badge: profile.ownerBadge, diameter: 42)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Circle())
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("friends.badge.edit.title")
+            .accessibilityValue(Text(profile.ownerBadge.displayName))
+            .accessibilityIdentifier("friends-edit-profile")
         }
 
         private var profileBadgeEditor: some View {
@@ -354,13 +351,23 @@
         @ViewBuilder
         private var togetherSections: some View {
             if !friendProfiles.isEmpty {
-                Section {
-                    FriendsRecommendationsSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .navigationLinkIndicatorVisibility(.hidden)
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
+                if #available(iOS 26.0, *) {
+                    recommendationsSection
+                        .listSectionMargins(.horizontal, 0)
+                } else {
+                    recommendationsSection
                 }
+            }
+        }
+
+        private var recommendationsSection: some View {
+            Section {
+                FriendsRecommendationsSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .navigationLinkIndicatorVisibility(.hidden)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
             }
         }
 
@@ -382,30 +389,46 @@
                     }
                 }
             } header: {
-                Text("friends.following.section")
+                HStack {
+                    Text("friends.following.section")
+                    Spacer(minLength: 8)
+                    if profileSync.state.shared {
+                        Button {
+                            handleManageShareButtonTapped()
+                        } label: {
+                            HStack(spacing: 4) {
+                                Text(followedByCompactCountText)
+                                Image(systemName: "chevron.right")
+                            }
+                        }
+                        .font(.footnote)
+                        .textCase(nil)
+                        .buttonStyle(.plain)
+                        .foregroundStyle(.tint)
+                        .disabled(profileSync.state.preparingShare)
+                        .accessibilityLabel(Text(followedByCountText))
+                        .accessibilityHint("friends.followed_by.details")
+                    } else {
+                        Text(followedByCompactCountText)
+                            .textCase(nil)
+                    }
+                }
             } footer: {
-                if friendProfiles.isEmpty {
-                    Text("friends.together.no_friends")
+                VStack(alignment: .leading, spacing: 8) {
+                    if friendProfiles.isEmpty {
+                        Text("friends.together.no_friends")
+                    }
+                    Text("friends.privacy.summary")
                 }
             }
         }
 
-        @ViewBuilder
-        private var followedBySection: some View {
-            Section {
-                Text(followedByCountText)
-                    .foregroundStyle(.secondary)
-                if profileSync.state.shared {
-                    Button {
-                        handleManageShareButtonTapped()
-                    } label: {
-                        Label("friends.followed_by.details", systemImage: "person.2")
-                    }
-                    .disabled(profileSync.state.preparingShare)
-                }
-            } header: {
-                Text("friends.followed_by.section")
-            }
+        private var followedByCompactCountText: String {
+            localizedCount(
+                followedByCount,
+                singularKey: "friends.followed_by.compact.one",
+                pluralKey: "friends.followed_by.compact.other"
+            )
         }
 
         private var followedByCountText: String {
@@ -534,10 +557,10 @@
         @EnvironmentObject private var profile: FestivalProfileStore
         @EnvironmentObject private var friends: FriendProfilesStore
 
-        private let contentHorizontalPadding: CGFloat = 16
+        private let contentHorizontalPadding: CGFloat = 20
         private let recommendationTileSpacing: CGFloat = 12
-        private let recommendationShelfVerticalPadding: CGFloat = 10
-        private let recommendationTileWidthRatio = 0.6
+        private let recommendationShelfBottomPadding: CGFloat = 10
+        private let recommendationTileWidth: CGFloat = 240
 
         var body: some View {
             let recommendations = context.recommendations(
@@ -545,35 +568,35 @@
                 savedEventIDs: profile.savedEvents, ratings: profile.ratings)
 
             VStack(alignment: .leading, spacing: 12) {
-                HStack(alignment: .center) {
-                    Label("friends.recommendations.title", systemImage: "sparkles")
-                        .font(.headline)
-
-                    Spacer()
-
-                    if !recommendations.isEmpty {
+                Group {
+                    if recommendations.isEmpty {
+                        Text("friends.recommendations.title")
+                    } else {
                         NavigationLink(
                             value: AppNavigationRoute.friendsTogether(kind: .recommendations)
                         ) {
-                            Image(systemName: "chevron.right")
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(.secondary)
-                                .frame(width: 28, height: 28)
-                                .background(
-                                    Color(.secondarySystemGroupedBackground),
-                                    in: Circle()
-                                )
+                            HStack(spacing: 8) {
+                                Text("friends.recommendations.title")
+                                Image(systemName: "chevron.right")
+                                    .font(.body.weight(.semibold))
+                                    .foregroundStyle(.secondary)
+                            }
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("friends.recommendations.more")
                     }
                 }
+                .font(.title3.bold())
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, contentHorizontalPadding)
+                .accessibilityAddTraits(.isHeader)
 
                 if recommendations.isEmpty {
                     Text("friends.together.empty")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, contentHorizontalPadding)
                 } else {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(alignment: .top, spacing: recommendationTileSpacing) {
@@ -586,14 +609,12 @@
                                     )
                                 ) {
                                     FriendArtistRecommendationTile(recommendation: recommendation)
-                                        .containerRelativeFrame(.horizontal) { length, _ in
-                                            length * recommendationTileWidthRatio
-                                        }
+                                        .frame(width: recommendationTileWidth)
                                 }
                                 .buttonStyle(.plain)
                             }
                         }
-                        .padding(.vertical, recommendationShelfVerticalPadding)
+                        .padding(.bottom, recommendationShelfBottomPadding)
                         .scrollTargetLayout()
                     }
                     .contentMargins(
@@ -603,7 +624,6 @@
                     )
                     .scrollTargetBehavior(.viewAligned)
                     .scrollClipDisabled()
-                    .padding(.horizontal, -contentHorizontalPadding)
                 }
             }
         }

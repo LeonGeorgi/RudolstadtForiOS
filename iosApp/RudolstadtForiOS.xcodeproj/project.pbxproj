@@ -286,6 +286,9 @@
 		E10000132FE00001004F9471 /* FriendsTogetherHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000062FE00001004F9471 /* FriendsTogetherHelpers.swift */; };
 		E10000142FE00001004F9471 /* FriendsTogetherListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000072FE00001004F9471 /* FriendsTogetherListView.swift */; };
 		E10000152FE00001004F9471 /* FriendsTogetherListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000072FE00001004F9471 /* FriendsTogetherListView.swift */; };
+		FC41000230020001004F9471 /* FriendRecommendationArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */; };
+		FC41000330020001004F9471 /* FriendRecommendationArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */; };
+		FC41000530020001004F9471 /* FriendRecommendationArtworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41000430020001004F9471 /* FriendRecommendationArtworkTests.swift */; };
 		E10000162FE00001004F9471 /* FriendsInsightRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000082FE00001004F9471 /* FriendsInsightRows.swift */; };
 		E10000172FE00001004F9471 /* FriendsInsightRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000082FE00001004F9471 /* FriendsInsightRows.swift */; };
 		E10000182FE00001004F9471 /* FriendsSharingSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000092FE00001004F9471 /* FriendsSharingSheets.swift */; };
@@ -625,6 +628,8 @@
 		E10000052FE00001004F9471 /* FriendsLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsLocalization.swift; sourceTree = "<group>"; };
 		E10000062FE00001004F9471 /* FriendsTogetherHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTogetherHelpers.swift; sourceTree = "<group>"; };
 		E10000072FE00001004F9471 /* FriendsTogetherListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTogetherListView.swift; sourceTree = "<group>"; };
+		FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRecommendationArtwork.swift; sourceTree = "<group>"; };
+		FC41000430020001004F9471 /* FriendRecommendationArtworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FriendRecommendationArtworkTests.swift"; sourceTree = SOURCE_ROOT; };
 		E10000082FE00001004F9471 /* FriendsInsightRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsInsightRows.swift; sourceTree = "<group>"; };
 		E10000092FE00001004F9471 /* FriendsSharingSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSharingSheets.swift; sourceTree = "<group>"; };
 		E100000A2FE00001004F9471 /* FriendsCloudSharingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCloudSharingViews.swift; sourceTree = "<group>"; };
@@ -1274,6 +1279,7 @@
 				E10000062FE00001004F9471 /* FriendsTogetherHelpers.swift */,
 				E10000072FE00001004F9471 /* FriendsTogetherListView.swift */,
 				E10000082FE00001004F9471 /* FriendsInsightRows.swift */,
+				FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */,
 				E10000092FE00001004F9471 /* FriendsSharingSheets.swift */,
 				E100000A2FE00001004F9471 /* FriendsCloudSharingViews.swift */,
 				E100000B2FE00001004F9471 /* FriendsQRCodeViews.swift */,
@@ -1292,6 +1298,7 @@
 				F98000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift */,
 				F99000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift */,
 				FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */,
+				FC41000430020001004F9471 /* FriendRecommendationArtworkTests.swift */,
 				F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */,
 				F10000062F990001004F9471 /* RecommendationServiceTests.swift */,
 				A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */,
@@ -1853,6 +1860,7 @@
 				E10000132FE00001004F9471 /* FriendsTogetherHelpers.swift in Sources */,
 				E10000152FE00001004F9471 /* FriendsTogetherListView.swift in Sources */,
 				E10000172FE00001004F9471 /* FriendsInsightRows.swift in Sources */,
+				FC41000330020001004F9471 /* FriendRecommendationArtwork.swift in Sources */,
 				E10000192FE00001004F9471 /* FriendsSharingSheets.swift in Sources */,
 				E100001B2FE00001004F9471 /* FriendsCloudSharingViews.swift in Sources */,
 				E100001D2FE00001004F9471 /* FriendsQRCodeViews.swift in Sources */,
@@ -1986,6 +1994,7 @@
 				E10000122FE00001004F9471 /* FriendsTogetherHelpers.swift in Sources */,
 				E10000142FE00001004F9471 /* FriendsTogetherListView.swift in Sources */,
 				E10000162FE00001004F9471 /* FriendsInsightRows.swift in Sources */,
+				FC41000230020001004F9471 /* FriendRecommendationArtwork.swift in Sources */,
 				E10000182FE00001004F9471 /* FriendsSharingSheets.swift in Sources */,
 				E100001A2FE00001004F9471 /* FriendsCloudSharingViews.swift in Sources */,
 				E100001C2FE00001004F9471 /* FriendsQRCodeViews.swift in Sources */,
@@ -2058,6 +2067,7 @@
 				F98000122FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift in Sources */,
 				F99000122FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift in Sources */,
 				FAD100062FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift in Sources */,
+				FC41000530020001004F9471 /* FriendRecommendationArtworkTests.swift in Sources */,
 				F90000142FF90001004F9471 /* StageLocationTests.swift in Sources */,
 				A71000052FF30001004F9471 /* ArtistShareLinkTests.swift in Sources */,
 				B14400322FE50001004F9471 /* WatchSnapshotTests.swift in Sources */,

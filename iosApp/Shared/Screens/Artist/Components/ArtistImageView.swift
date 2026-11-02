@@ -11,15 +11,18 @@ struct ArtistImageView: View {
     let artist: Artist
     let fullImage: Bool
     let loadingStyle: ArtistImageLoadingStyle
+    let onImageLoaded: ((PlatformImage) -> Void)?
 
     init(
         artist: Artist,
         fullImage: Bool,
-        loadingStyle: ArtistImageLoadingStyle = .standard
+        loadingStyle: ArtistImageLoadingStyle = .standard,
+        onImageLoaded: ((PlatformImage) -> Void)? = nil
     ) {
         self.artist = artist
         self.fullImage = fullImage
         self.loadingStyle = loadingStyle
+        self.onImageLoaded = onImageLoaded
     }
 
     private var selectedImageURL: URL? {
@@ -38,7 +41,8 @@ struct ArtistImageView: View {
 
     var body: some View {
         RemoteImageView(url: selectedImageURL, loadingStyle: loadingStyle,
-                        identifier: { "artist-image-\($0)-\(artist.id)" }) {
+                        identifier: { "artist-image-\($0)-\(artist.id)" },
+                        onImageLoaded: onImageLoaded) {
             placeholderImage
         }
     }
@@ -54,14 +58,17 @@ struct RemoteImageView<Placeholder: View>: View {
     let url: URL?
     let loadingStyle: ArtistImageLoadingStyle
     let identifier: (String) -> String
+    let onImageLoaded: ((PlatformImage) -> Void)?
     let placeholder: () -> Placeholder
 
     init(url: URL?, loadingStyle: ArtistImageLoadingStyle = .standard,
          identifier: @escaping (String) -> String = { "remote-image-\($0)" },
+         onImageLoaded: ((PlatformImage) -> Void)? = nil,
          @ViewBuilder placeholder: @escaping () -> Placeholder) {
         self.url = url
         self.loadingStyle = loadingStyle
         self.identifier = identifier
+        self.onImageLoaded = onImageLoaded
         self.placeholder = placeholder
     }
 
@@ -82,6 +89,7 @@ struct RemoteImageView<Placeholder: View>: View {
         if let url {
             if let image = cachedRemoteImage(for: url) {
                 cached(image)
+                    .task(id: ObjectIdentifier(image)) { onImageLoaded?(image) }
             } else {
                 LazyImage(url: url) { state in
                     if let image = state.image {
@@ -94,6 +102,11 @@ struct RemoteImageView<Placeholder: View>: View {
                     }
                 }
                 .priority(.high)
+                .onCompletion { result in
+                    if case .success(let response) = result {
+                        onImageLoaded?(response.image)
+                    }
+                }
                 .transaction { $0.animation = nil }
             }
         } else {

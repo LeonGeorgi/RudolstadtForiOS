@@ -17,14 +17,14 @@ struct FestivalProfileBadgeAvatar: View {
                     : .white
             )
             .frame(width: diameter, height: diameter)
-            .background(
+            .background {
                 Circle()
                     .fill(fillColor.gradient)
-            )
-            .overlay(
+            }
+            .overlay {
                 Circle()
                     .strokeBorder(.white.opacity(0.34), lineWidth: 1)
-            )
+            }
             .shadow(
                 color: showsShadow ? .black.opacity(0.12) : .clear,
                 radius: showsShadow ? 8 : 0,

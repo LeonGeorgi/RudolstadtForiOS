@@ -31,88 +31,42 @@ struct FriendEventSuggestionRow: View {
     }
 }
 
-struct FriendArtistRecommendationRow: View {
+struct FriendArtistRecommendationCard: View {
     let recommendation: FriendArtistRecommendation
 
-    @EnvironmentObject private var dataStore: DataStore
+    @Environment(\.colorScheme) private var colorScheme
+    @ScaledMetric(relativeTo: .subheadline) private var titleSize: CGFloat = 16
 
     var body: some View {
-        FestivalListRow(hasThirdLine: contentLineCount > 2, alignment: .top) {
-            ArtistListRowImage(artist: recommendation.artist)
-        } content: {
-            FestivalListRowTitle(recommendation.artist.formattedName)
+        VStack(spacing: 0) {
+            Color.clear.aspectRatio(1, contentMode: .fit)
 
-            metadata
+            VStack(alignment: .leading, spacing: 8) {
+                Text(recommendation.artist.formattedName)
+                    .font(.system(size: titleSize, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .fixedSize(horizontal: false, vertical: true)
 
-            VStack(alignment: .leading, spacing: 5) {
-                ForEach(recommendation.contributions) { contribution in
-                    FriendArtistRecommendationContributionRow(
-                        contribution: contribution
-                    )
+                VStack(alignment: .leading, spacing: 6) {
+                    ForEach(recommendation.contributions) { contribution in
+                        FriendArtistRecommendationContributionRow(
+                            contribution: contribution, compact: true, showsBadge: true
+                        )
+                    }
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
         }
-        .padding(.vertical, 6)
-        .contentShape(Rectangle())
-    }
-
-    @ViewBuilder
-    private var metadata: some View {
-        Group {
-            if let genreText {
-                Text(genreText)
-            }
-
-            if let countryAndFlags {
-                Text(countryAndFlags)
-            }
+        .background {
+            FriendRecommendationArtwork(artist: recommendation.artist)
+                .id(recommendation.artist.fullImageUrl ?? recommendation.artist.thumbImageUrl)
         }
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-        .lineLimit(1)
-    }
-
-    private var contentLineCount: Int {
-        1 + (genreText == nil ? 0 : 1) + (countryAndFlags == nil ? 0 : 1)
-            + recommendation.contributions.count
-    }
-
-    private var genreText: String? {
-        var seen = Set<String>()
-        let browseGenreIDs: [String] = Array(recommendation.artist.groupIDs["genre"] ?? [])
-        let labels = browseGenreIDs.compactMap { genreID -> String? in
-            let label = dataStore.localizedBrowseGenreLabel(for: genreID)
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !label.isEmpty, !seen.contains(label) else {
-                return nil
-            }
-            seen.insert(label)
-            return label
-        }
-        .prefix(3)
-
-        let value = labels.joined(separator: " • ")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return value.isEmpty ? nil : value
-    }
-
-    private var flags: String? {
-        let value = recommendation.artist.flagSymbols
-            .joined(separator: "")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return value.isEmpty ? nil : value
-    }
-
-    private var countryAndFlags: String? {
-        let country = recommendation.artist.countries.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
-        let value = [country, flags]
-            .compactMap { $0 }
-            .filter { !$0.isEmpty }
-            .joined(separator: " ")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return value.isEmpty ? nil : value
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .shadow(color: .black.opacity(colorScheme == .dark ? 0.24 : 0.08),
+                radius: 10, x: 0, y: 3)
+        .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -120,118 +74,116 @@ struct FriendArtistRecommendationTile: View {
     let recommendation: FriendArtistRecommendation
 
     @Environment(\.colorScheme) private var colorScheme
-    private let cornerRadius: CGFloat = 12
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @ScaledMetric(relativeTo: .subheadline) private var titleLineHeight: CGFloat = 20
+    @ScaledMetric(relativeTo: .caption) private var reasonLineHeight: CGFloat = 16
+
+    private var primaryContribution: FriendArtistRecommendation.Contribution? {
+        recommendation.contributions.first {
+            if case .savedEvent = $0.kind { return true }
+            return false
+        } ?? recommendation.contributions.first
+    }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            artwork
+        VStack(spacing: 0) {
+            Color.clear.aspectRatio(1, contentMode: .fit)
 
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(recommendation.artist.formattedName)
                     .font(.subheadline.weight(.semibold))
-                    .lineLimit(1)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(.white)
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
+                    .frame(maxWidth: .infinity, minHeight: titleLineHeight, alignment: .leading)
 
-                VStack(alignment: .leading, spacing: 3) {
-                    ForEach(recommendation.contributions) { contribution in
-                        FriendArtistRecommendationContributionRow(
-                            contribution: contribution,
-                            compact: true
-                        )
-                    }
+                if let contribution = primaryContribution {
+                    FriendArtistRecommendationContributionRow(
+                        contribution: contribution, compact: true
+                    )
+                    .frame(minHeight: reasonLineHeight, alignment: .leading)
                 }
             }
-            .padding(10)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(alignment: .top) {
-                GeometryReader { proxy in
-                    reflectionBackground(width: proxy.size.width)
-                }
-                .clipped()
-            }
+            .padding(.horizontal, 16)
+            .padding(.top, 10)
+            .padding(.bottom, 16)
+            .frame(maxWidth: .infinity, minHeight: 64, alignment: .topLeading)
         }
-        .frame(maxWidth: .infinity, alignment: .topLeading)
-        .background(Color(.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-        .shadow(color: tileShadowColor, radius: 18, x: 0, y: 6)
-        .contentShape(Rectangle())
-    }
-
-    private var artwork: some View {
-        Color.clear
-            .aspectRatio(8.0 / 7.0, contentMode: .fit)
-            .overlay {
-                GeometryReader { proxy in
-                    ArtistImageView(artist: recommendation.artist, fullImage: true)
-                        .frame(width: proxy.size.width, height: proxy.size.height)
-                }
-            }
-            .clipped()
-    }
-
-    private var tileShadowColor: Color {
-        colorScheme == .dark
-            ? .black.opacity(0.28)
-            : .black.opacity(0.10)
-    }
-
-    private var reflectionReadabilityOverlay: some View {
-        LinearGradient(
-            colors: [
-                Color(.systemBackground).opacity(colorScheme == .dark ? 0.24 : 0.56),
-                Color(.systemBackground).opacity(colorScheme == .dark ? 0.42 : 0.72)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
-    }
-
-    private func reflectionBackground(width: CGFloat) -> some View {
-        reflectedArtwork(width: width)
-        .overlay(reflectionReadabilityOverlay)
-        .clipped()
-    }
-
-    private func reflectedArtwork(width: CGFloat) -> some View {
-        ArtistImageView(artist: recommendation.artist, fullImage: true)
-            .frame(width: width, height: width * 7 / 8)
-            .scaleEffect(x: 1, y: -1, anchor: .center)
-            .blur(radius: 18, opaque: true)
-            .clipped()
+        .background {
+            FriendRecommendationArtwork(artist: recommendation.artist)
+                .id(recommendation.artist.fullImageUrl ?? recommendation.artist.thumbImageUrl)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .shadow(color: .black.opacity(colorScheme == .dark ? 0.28 : 0.10),
+                radius: 18, x: 0, y: 6)
+        .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .accessibilityElement(children: .combine)
     }
 }
 
 private struct FriendArtistRecommendationContributionRow: View {
     let contribution: FriendArtistRecommendation.Contribution
     var compact = false
+    var showsBadge = false
 
     @EnvironmentObject private var settings: UserSettings
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @ScaledMetric(relativeTo: .caption) private var badgeDiameter: CGFloat = 18
+    @ScaledMetric(relativeTo: .caption) private var badgeRowHeight: CGFloat = 24
 
     var body: some View {
         HStack(alignment: .center, spacing: 6) {
-            contributionIcon
-                .frame(width: compact ? 14 : 18)
+            if showsBadge {
+                FestivalProfileBadgeAvatar(
+                    badge: contribution.badge, diameter: badgeDiameter,
+                    fontScale: 0.4, showsShadow: false
+                )
+                .accessibilityHidden(true)
+            } else if !compact || showsRatingIcon {
+                contributionIcon
+                    .frame(width: compact ? 10 : 18)
+            }
 
-            Text(reasonText)
-                .font(compact ? .caption2 : .caption)
-                .foregroundStyle(.secondary)
-                .lineLimit(compact ? nil : 2)
+            Text(showsBadge ? informationText : reasonText)
+                .font(.caption)
+                .foregroundStyle(compact ? Color.white.opacity(0.85) : Color.secondary)
+                .lineLimit(showsBadge ? nil : compact ? (dynamicTypeSize.isAccessibilitySize ? nil : 1) : 2)
                 .fixedSize(horizontal: false, vertical: true)
         }
+        .frame(minHeight: showsBadge ? badgeRowHeight : nil, alignment: .leading)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(reasonText))
+    }
+
+    private var informationText: String {
+        switch contribution.kind {
+        case .savedEvent(let event):
+            return "\(FestivalDateUtilities.shortWeekDay(day: event.festivalDay)) · \(event.timeAsString)"
+        case .rating(let preference):
+            let key = preference.rating == 1
+                ? "artist.friend_rating.value.one" : "artist.friend_rating.value.other"
+            return String(format: friendsLocalizedString(key), Int64(preference.rating))
+        }
+    }
+
+    private var showsRatingIcon: Bool {
+        if case .rating = contribution.kind { return true }
+        return false
     }
 
     @ViewBuilder
     private var contributionIcon: some View {
         switch contribution.kind {
         case .savedEvent:
-            Image(systemName: "calendar.badge.checkmark")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.tint)
+            if !compact {
+                Image(systemName: "calendar.badge.checkmark")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.tint)
+            }
         case .rating(let preference):
             CompactRatingGlyph(
                 rating: preference.rating,
                 iconName: preference.iconName ?? settings.likeIcon,
-                color: .red,
+                color: compact ? .white : .red,
                 size: compact ? 7 : 8,
                 spread: compact ? 2 : 2.4
             )
@@ -241,7 +193,7 @@ private struct FriendArtistRecommendationContributionRow: View {
     private var reasonText: String {
         switch contribution.kind {
         case .savedEvent(let event):
-            if compact {
+            if compact && !showsBadge {
                 return String(
                     format: friendsLocalizedString(
                         "friends.recommendations.reason.saved_event.compact"

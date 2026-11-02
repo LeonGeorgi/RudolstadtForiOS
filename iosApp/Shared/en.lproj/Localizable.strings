@@ -270,6 +270,11 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "friends.together.no_friends" = "Add a friend to see recommendations from friend plans and ratings here.";
 "friends.together.empty" = "No saved concerts or friend ratings yet.";
 "friends.recommendations.title" = "Friend recommendations";
+"friends.recommendations.empty" = "No matching friend recommendations.";
+"friends.recommendations.filter.title" = "Choose friends";
+"friends.recommendations.filter.all" = "All friends";
+"friends.recommendations.filter.results.one" = "Show %lld recommendation";
+"friends.recommendations.filter.results.other" = "Show %lld recommendations";
 "friends.recommendations.detail.one" = "%lld artist from friend plans and ratings";
 "friends.recommendations.detail.other" = "%lld artists from friend plans and ratings";
 "friends.recommendations.score" = "Score %lld";
@@ -295,9 +300,11 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "friends.followed_by.section" = "Followed by";
 "friends.followed_by.count.one" = "%lld person follows you";
 "friends.followed_by.count.other" = "%lld people follow you";
+"friends.followed_by.compact.one" = "%lld follower";
+"friends.followed_by.compact.other" = "%lld followers";
 "friends.followed_by.details" = "Show details";
 "friends.privacy.section" = "Privacy";
-"friends.privacy.summary" = "You share your schedule and artist ratings.";
+"friends.privacy.summary" = "Your schedule and ratings are shared.";
 "friends.privacy.body" = "Saved events and artist ratings can be shared with invited friends. Artist notes stay private to you and sync only across your own devices.";
 "friends.share_unavailable.title" = "Share Unavailable";
 "friends.alert.ok" = "OK";

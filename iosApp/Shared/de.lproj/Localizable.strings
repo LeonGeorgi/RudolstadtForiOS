@@ -270,6 +270,11 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "friends.together.no_friends" = "Füge einen Freund hinzu, um Empfehlungen aus Freundesplänen und Bewertungen zu sehen.";
 "friends.together.empty" = "Noch keine gespeicherten Konzerte oder Bewertungen von Freunden.";
 "friends.recommendations.title" = "Freundesempfehlungen";
+"friends.recommendations.empty" = "Keine passenden Freundesempfehlungen.";
+"friends.recommendations.filter.title" = "Freunde auswählen";
+"friends.recommendations.filter.all" = "Alle Freunde";
+"friends.recommendations.filter.results.one" = "%lld Empfehlung anzeigen";
+"friends.recommendations.filter.results.other" = "%lld Empfehlungen anzeigen";
 "friends.recommendations.detail.one" = "%lld Künstler aus Freundesplänen und Bewertungen";
 "friends.recommendations.detail.other" = "%lld Künstler aus Freundesplänen und Bewertungen";
 "friends.recommendations.score" = "Score %lld";
@@ -295,9 +300,11 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "friends.followed_by.section" = "Folgt dir";
 "friends.followed_by.count.one" = "%lld Person folgt dir";
 "friends.followed_by.count.other" = "%lld Personen folgen dir";
+"friends.followed_by.compact.one" = "%lld folgt dir";
+"friends.followed_by.compact.other" = "%lld folgen dir";
 "friends.followed_by.details" = "Details anzeigen";
 "friends.privacy.section" = "Privatsphäre";
-"friends.privacy.summary" = "Du teilst deinen Plan und deine Künstlerbewertungen.";
+"friends.privacy.summary" = "Dein Plan und deine Bewertungen sind geteilt.";
 "friends.privacy.body" = "Gespeicherte Veranstaltungen und Künstlerbewertungen können mit eingeladenen Freunden geteilt werden. Künstlernotizen bleiben privat und werden nur zwischen deinen eigenen Geräten synchronisiert.";
 "friends.share_unavailable.title" = "Teilen nicht verfügbar";
 "friends.alert.ok" = "OK";
