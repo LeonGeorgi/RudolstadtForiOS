@@ -37,7 +37,7 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -47,7 +47,7 @@ jobs:
           packages: 'platform-tools platforms;android-36 build-tools;35.0.0'
       - name: Build screenshot APK once
         run: ./gradlew :androidApp:assembleDebug :androidScreenshotTests:assembleDebug --console=plain
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: android-screenshot-apk
           path: |
@@ -72,14 +72,14 @@ jobs:
       ANDROID_SERIAL: emulator-5554
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v7
         with:
           name: android-screenshot-apk
           path: ${{ runner.temp }}/apk
@@ -109,7 +109,7 @@ jobs:
       - name: Upload screenshots
         id: screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: android-screenshots-${{ matrix.device }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/AndroidScreenshots
@@ -117,7 +117,7 @@ jobs:
           retention-days: 14
       - name: Upload capture diagnostics and reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: android-screenshot-diagnostics-${{ matrix.device }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/AndroidScreenshotDiagnostics
@@ -156,12 +156,12 @@ jobs:
         with:
           python-version: '3.12'
       - name: Download phone screenshots
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           name: android-screenshots-phone-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/captures/phone
       - name: Download tablet screenshots
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           name: android-screenshots-tablet-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/captures/tablet

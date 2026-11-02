@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set up Java for Kotlin/Native
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -86,8 +86,10 @@ jobs:
               echo "## Fast Test Coverage"
               echo
               echo '```text'
-              cat "$COVERAGE_REPORT_PATH"
+              xcrun xccov view --report --only-targets "$RESULT_BUNDLE_PATH"
               echo '```'
+              echo
+              echo 'The full file-level coverage report is included in the fast-tests artifact.'
             } >> "$GITHUB_STEP_SUMMARY"
           else
             echo "Coverage report unavailable." | tee "$COVERAGE_REPORT_PATH"
@@ -95,7 +97,7 @@ jobs:
 
       - name: Upload test results and coverage
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: fast-tests-${{ github.run_number }}-${{ github.run_attempt }}
           path: |
