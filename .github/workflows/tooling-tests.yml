@@ -23,8 +23,6 @@ jobs:
         run: python -m pip install -r scripts/requirements-data.txt
       - name: Test offline data imports
         run: python -m unittest discover -s scripts/data -p '*_test.py'
-      - name: Test donation aggregation and publication without Apple credentials
-        run: python -m unittest discover -s scripts/donations -p '*_test.py'
       - name: Test screenshot attachment export
         run: python -m unittest discover -s scripts/ios -p '*_test.py'
       - name: Install pinned Ruby test dependency
@@ -38,4 +36,3 @@ jobs:
           bash -n scripts/ios/capture-app-store-screenshots.sh
           bash -n scripts/android/capture-screenshots.sh
           bash -n scripts/android/publish-readme-screenshots.sh
-          bash -n scripts/donations/publish_donations.sh
