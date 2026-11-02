@@ -1,0 +1,44 @@
+name: Website
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - '.github/workflows/website.yml'
+      - 'scripts/website/**'
+      - 'website/**'
+      - 'wrangler.jsonc'
+      - 'shared/src/commonMain/resources/FestivalBackup/*_archive.json'
+      - 'shared/src/commonMain/resources/FestivalBackup/*_rudolstadt_data.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-publication
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Queued runs always publish the latest source, never an older snapshot.
+          ref: master
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Test website generation and publication
+        run: python3 -m unittest discover -s scripts/website -p '*_test.py' -v
+      - name: Generate static website
+        run: python3 scripts/website/build.py
+      - name: Publish ready-to-deploy files
+        env:
+          PUBLICATION_ROOT: ${{ runner.temp }}/website-publication
+        run: bash scripts/website/publish.sh artifacts/website "$GITHUB_WORKSPACE" "$PUBLICATION_ROOT"

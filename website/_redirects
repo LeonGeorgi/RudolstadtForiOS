@@ -1,3 +1,0 @@
-# Serve one download page while keeping the shared artist URL in the address bar.
-/rudolstadt/:year/artists/:artist/ /rudolstadt/ 200
-/rudolstadt/:year/artists/:artist /rudolstadt/ 200

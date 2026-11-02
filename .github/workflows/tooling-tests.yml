@@ -25,6 +25,8 @@ jobs:
         run: python -m unittest discover -s scripts/data -p '*_test.py'
       - name: Test screenshot attachment export
         run: python -m unittest discover -s scripts/ios -p '*_test.py'
+      - name: Test static website generation and publication
+        run: python -m unittest discover -s scripts/website -p '*_test.py'
       - name: Install pinned Ruby test dependency
         run: gem install minitest -v 5.25.5 --no-document
       - name: Test music-link rules without network requests
@@ -36,3 +38,4 @@ jobs:
           bash -n scripts/ios/capture-app-store-screenshots.sh
           bash -n scripts/android/capture-screenshots.sh
           bash -n scripts/android/publish-readme-screenshots.sh
+          bash -n scripts/website/publish.sh

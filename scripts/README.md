@@ -9,8 +9,16 @@ App-Targets; ihre relativen Datenpfade beziehen sich auf dieses Repository.
 | `analysis/` | Künstler-Embeddings, Ähnlichkeitsanalysen, Plots und Ressourcenexport |
 | `ios/` | Kotlin-Framework für Xcode bauen und App-Store-Screenshots aufnehmen |
 | `android/` | Android-App bauen, Emulator starten und Screenshots aufnehmen |
+| `website/` | Statische Künstler-Linkvorschauen aus den gebündelten Festivaldaten erzeugen |
 
 ## Datenpflege
+
+Die Website benötigt keine Python-Pakete: `python3 scripts/website/build.py`
+erzeugt die veröffentlichbaren Dateien unter `artifacts/website/`. Ablauf,
+lokale Vorschau und Cloudflare-Einstellungen stehen in der
+[Website-Anleitung](../website/README.md). Die GitHub Action **Website** generiert
+die Ausgabe auf `master` und überträgt sie mit `website/publish.sh` in den
+Deployment-Branch `website-deploy`; Cloudflare veröffentlicht dessen fertige Dateien.
 
 Die Python-Importer benötigen Python 3.10 oder neuer. Der Ludwigsburg-Import und
 seine Tests benötigen zusätzlich `pypdf`; die Kartenvorschau verwendet `pdftoppm`

@@ -1,7 +1,12 @@
 {
   "name": "festival-leongeorgi",
   "compatibility_date": "2026-11-02",
+  "build": {
+    "command": "python3 scripts/website/build.py",
+    "watch_dir": ["website", "scripts/website", "shared/src/commonMain/resources/FestivalBackup"]
+  },
   "assets": {
-    "directory": "./website"
+    "directory": "./artifacts/website",
+    "not_found_handling": "404-page"
   }
 }
