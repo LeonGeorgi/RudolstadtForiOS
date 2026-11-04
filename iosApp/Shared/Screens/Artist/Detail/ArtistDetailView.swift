@@ -23,6 +23,7 @@ struct ArtistDetailView: View {
 
     let artist: Artist
     let highlightedEventId: Int?
+    let scrollToHighlightedEvent: Bool
     let navigate: ((AppNavigationRoute) -> Void)?
 
     @Environment(\.festivalEdition) private var edition
@@ -48,10 +49,12 @@ struct ArtistDetailView: View {
     init(
         artist: Artist,
         highlightedEventId: Int?,
+        scrollToHighlightedEvent: Bool = false,
         navigate: ((AppNavigationRoute) -> Void)? = nil
     ) {
         self.artist = artist
         self.highlightedEventId = highlightedEventId
+        self.scrollToHighlightedEvent = scrollToHighlightedEvent
         self.navigate = navigate
     }
 
@@ -278,21 +281,31 @@ struct ArtistDetailView: View {
     private func detailScrollView(showsProfile: Bool) -> some View {
         let showsHero = usesEdgeToEdgeHero && showsProfile
 
-        return ScrollView {
-            LazyVStack(spacing: 0) {
-                if showsHero {
-                    edgeToEdgeHero
-                }
+        return ScrollViewReader { reader in
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    if showsHero {
+                        edgeToEdgeHero
+                    }
 
-                contentColumn {
-                    primaryContent(showsInlineIdentity: showsProfile && !showsHero)
-                }
-                .background(artistTheme.pageBackground)
+                    contentColumn {
+                        primaryContent(showsInlineIdentity: showsProfile && !showsHero)
+                    }
+                    .background(artistTheme.pageBackground)
 
-                contentColumn {
-                    ArtistDetailSupportingContent(artist: artist, sectionSpacing: primarySectionSpacing)
+                    contentColumn {
+                        ArtistDetailSupportingContent(artist: artist, sectionSpacing: primarySectionSpacing)
+                    }
+                    .background(artistTheme.pageBackground)
                 }
-                .background(artistTheme.pageBackground)
+            }
+            .task(id: highlightedEventId) {
+                guard scrollToHighlightedEvent,
+                    let id = artistEvents.first(where: { $0.id == highlightedEventId })?.id
+                else { return }
+                await Task.yield()
+                guard !Task.isCancelled else { return }
+                reader.scrollTo(id, anchor: .center)
             }
         }
         .ignoresSafeArea(
@@ -304,27 +317,6 @@ struct ArtistDetailView: View {
                 isHidden: showsHero && isArtistTitleVisible
             )
         )
-    }
-
-    @ViewBuilder
-    private func shareButton(url: URL) -> some View {
-        if #available(macOS 13.0, *) {
-            ShareLink(item: url, subject: Text(artist.formattedName)) {
-                Label("artist.share", systemImage: "square.and.arrow.up")
-            }
-        } else {
-            #if os(macOS)
-            Menu {
-                ForEach(NSSharingService.sharingServices(forItems: [url]), id: \.self) { service in
-                    Button(service.title) {
-                        service.perform(withItems: [url])
-                    }
-                }
-            } label: {
-                Label("artist.share", systemImage: "square.and.arrow.up")
-            }
-            #endif
-        }
     }
 
     var body: some View {
@@ -346,11 +338,13 @@ struct ArtistDetailView: View {
                 navigationBarBackgroundVisibility,
                 for: .navigationBar
             )
-            .toolbarColorScheme(nil, for: .navigationBar)
+        #if os(iOS)
+            .modifier(ArtistHeroStatusBarStyle(isVisible: usesEdgeToEdgeHero && isArtistTitleVisible))
+        #endif
             .toolbar {
                 if let url = dataStore.adapter.services.publicLinks.value?.url(for: .artist(artist.id)) {
                     ToolbarItem(placement: .primaryAction) {
-                        shareButton(url: url)
+                        FestivalShareButton(url: url, subject: artist.formattedName, title: "artist.share")
                             .accessibilityIdentifier("artist-share")
                     }
                 }
@@ -362,20 +356,13 @@ struct ArtistDetailView: View {
                     onSave: saveNote
                 )
                 .interactiveDismissDisabled(noteDraft.hasChanges)
-                .alert(isPresented: $isEditAlertShown) {
-                    Alert(
-                        title: Text("artist.note.cancel.alert.title"),
-                        message: Text("artist.note.cancel.alert.message"),
-                        primaryButton: .destructive(
-                            Text("artist.note.cancel.alert.yes"),
-                            action: discardNoteChanges
-                        ),
-                        secondaryButton: .cancel(
-                            Text("artist.note.cancel.alert.no")
-                        ) {
-                            isEditAlertShown = false
-                        }
-                    )
+                .alert("artist.note.cancel.alert.title", isPresented: $isEditAlertShown) {
+                    Button("artist.note.cancel.alert.yes", role: .destructive, action: discardNoteChanges)
+                    Button("artist.note.cancel.alert.no", role: .cancel) {
+                        isEditAlertShown = false
+                    }
+                } message: {
+                    Text("artist.note.cancel.alert.message")
                 }
             }
             .onReceive(profile.objectWillChange) {
@@ -387,16 +374,40 @@ struct ArtistDetailView: View {
                 InAppSafariView(url: destination.url)
                     .ignoresSafeArea()
             }
+            #if os(iOS)
+            .onChange(of: scenePhase) { _, newPhase in
+                if newPhase != .active {
+                    appleMusicPreviewPlayer.pause()
+                }
+            }
+            #else
+            // Keep the overload available on macOS 12.
             .onChange(of: scenePhase) { newPhase in
                 if newPhase != .active {
                     appleMusicPreviewPlayer.pause()
                 }
             }
+            #endif
             .onDisappear {
                 appleMusicPreviewPlayer.stop()
             }
     }
 }
+
+#if os(iOS)
+private struct ArtistHeroStatusBarStyle: ViewModifier {
+    let isVisible: Bool
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 27.0, *) {
+            content.toolbarColorScheme(isVisible ? .dark : nil, for: .navigationBar, .statusBar)
+        } else {
+            content.toolbarColorScheme(isVisible ? .dark : nil, for: .navigationBar)
+        }
+    }
+}
+#endif
 
 struct ArtistNoteDraft: Equatable {
     private(set) var originalText: String

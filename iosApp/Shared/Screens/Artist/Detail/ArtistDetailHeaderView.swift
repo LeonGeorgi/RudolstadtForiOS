@@ -495,6 +495,7 @@ struct ArtistDetailLinksView: View {
 }
 
 private struct LinkButton: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     let label: LocalizedStringKey
     let scale: CGFloat
     let icon: () -> Image
@@ -520,12 +521,12 @@ private struct LinkButton: View {
                 .contentShape(Circle())
         }
         .accessibilityLabel(Text(label))
-        .artistDetailLinkButtonStyle(backgroundColor: theme.actionSurface)
+        .artistDetailLinkButtonStyle(backgroundColor: theme.actionSurface, foregroundColor: festivalAccentColor)
     }
 }
 
 private extension View {
-    func artistDetailLinkButtonStyle(backgroundColor: Color) -> some View {
+    func artistDetailLinkButtonStyle(backgroundColor: Color, foregroundColor: Color) -> some View {
         self
             .frame(
                 width: ArtistDetailLinkLayout.buttonSize,
@@ -533,6 +534,6 @@ private extension View {
             )
             .buttonBorderShape(.circle)
             .background(backgroundColor, in: Circle())
-            .foregroundStyle(Color.accentColor)
+            .foregroundStyle(foregroundColor)
     }
 }

@@ -1,14 +1,6 @@
 import MapKit
 import SwiftUI
 
-#if os(iOS)
-typealias PlatformColor = UIColor
-#elseif os(macOS)
-typealias PlatformColor = NSColor
-#endif
-
-private let worldMapMinimumZoomDistance: CLLocationDistance = 2_500_000
-
 enum ArtistPresentationMode: Int, CaseIterable {
     case list = 0
     case grid = 1
@@ -36,6 +28,8 @@ struct ArtistWorldMapView: View {
     let artistCountsByCountryCode: [String: Int]
 
     var navigate: ((AppNavigationRoute) -> Void)? = nil
+    @State private var showsGlobe = true
+    @State private var countryFocusTrigger = 0
     @State private var sheetNavigation = MapSheetNavigation<String>()
     @State private var sheetDetent: PresentationDetent = .medium
     @StateObject private var overlayLoader = GeoJSONCountryOverlayLoader.worldMapShared
@@ -58,16 +52,33 @@ struct ArtistWorldMapView: View {
                 }
             } else {
                 ZStack {
-                    ArtistWorldMapSwiftUIMap(
+                    #if os(iOS)
+                    ArtistMapKitWorldMap(
                         artistCountsByCountryCode: artistCountsByCountryCode,
                         loadedMap: overlayLoader.loadedMap,
-                        selectedCountryCode: sheetNavigation.selection
+                        selectedCountryCode: sheetNavigation.selection,
+                        showsGlobe: showsGlobe,
+                        focusTrigger: countryFocusTrigger
+                    ) { countryCode in
+                        if sheetNavigation.selection == nil { sheetDetent = .medium }
+                        sheetNavigation.select(countryCode)
+                        countryFocusTrigger += 1
+                    }
+                    .ignoresSafeArea()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    #else
+                    ArtistMacWorldMap(
+                        artistCountsByCountryCode: artistCountsByCountryCode,
+                        loadedMap: overlayLoader.loadedMap,
+                        selectedCountryCode: sheetNavigation.selection,
+                        showsGlobe: showsGlobe
                     ) { countryCode in
                         if sheetNavigation.selection == nil { sheetDetent = .medium }
                         sheetNavigation.select(countryCode)
                     }
                     .ignoresSafeArea()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    #endif
 
                     if overlayLoader.isLoading {
                         loadingOverlay
@@ -80,6 +91,26 @@ struct ArtistWorldMapView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .accessibilityIdentifier("artist-world-map")
+        .toolbar {
+            if !artistCountsByCountryCode.isEmpty {
+                ToolbarItem(id: "artist-world-map-projection", placement: .topBarTrailing) {
+                    Button {
+                        withAnimation {
+                            showsGlobe.toggle()
+                        }
+                    } label: {
+                        Label(
+                            showsGlobe
+                                ? LocalizedStringKey("artists.map.show_flat")
+                                : LocalizedStringKey("artists.map.show_globe"),
+                            systemImage: showsGlobe ? "map" : "globe.europe.africa"
+                        )
+                    }
+                    .labelStyle(.iconOnly)
+                    .accessibilityIdentifier("artist-world-map-projection-toggle")
+                }
+            }
+        }
         .sheet(isPresented: $sheetNavigation.isSheetPresented, onDismiss: {
             if let route = sheetNavigation.sheetDismissed() { navigate?(route) }
         }) {
@@ -103,7 +134,10 @@ struct ArtistWorldMapView: View {
             .presentationDragIndicator(.visible)
             .presentationBackgroundInteraction(.enabled(upThrough: .medium))
         }
-        .onAppear { sheetNavigation.returnToMap() }
+        .onAppear {
+            sheetNavigation.returnToMap()
+            if sheetNavigation.selection != nil { countryFocusTrigger += 1 }
+        }
         .onChange(of: artistCountsByCountryCode) { _, counts in
             if let country = sheetNavigation.selection, counts[country] == nil {
                 sheetNavigation.clearSelection()
@@ -144,15 +178,18 @@ struct ArtistWorldMapView: View {
     }
 }
 
-private struct ArtistWorldMapSwiftUIMap: View {
+#if os(macOS)
+private let worldMapMinimumZoomDistance: CLLocationDistance = 2_500_000
+
+private struct ArtistMacWorldMap: View {
     let artistCountsByCountryCode: [String: Int]
     let loadedMap: LoadedWorldCountryMap?
     let selectedCountryCode: String?
+    let showsGlobe: Bool
     let onCountrySelected: (String) -> Void
 
     @Environment(\.colorScheme) private var colorScheme
     @Namespace private var mapScope
-    @State private var showsGlobe = true
     @State private var visibleCamera: MapCamera?
     @State private var cameraPosition: MapCameraPosition = .camera(
         MapCamera(
@@ -179,7 +216,7 @@ private struct ArtistWorldMapSwiftUIMap: View {
     }
 
     var body: some View {
-        let style = ArtistWorldMapStyle(
+        let style = MacWorldMapStyle(
             colorScheme: colorScheme,
             maximumArtistCount: artistCountsByCountryCode.values.max() ?? 1
         )
@@ -227,19 +264,8 @@ private struct ArtistWorldMapSwiftUIMap: View {
                 }
             )
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button(action: toggleProjection) {
-                    Label(
-                        showsGlobe
-                            ? LocalizedStringKey("artists.map.show_flat")
-                            : LocalizedStringKey("artists.map.show_globe"),
-                        systemImage: showsGlobe ? "map" : "globe.europe.africa"
-                    )
-                }
-                .labelStyle(.iconOnly)
-                .accessibilityIdentifier("artist-world-map-projection-toggle")
-            }
+        .onChange(of: showsGlobe) { _, _ in
+            updateProjectionCamera()
         }
         .accessibilityRepresentation {
             VStack {
@@ -256,10 +282,9 @@ private struct ArtistWorldMapSwiftUIMap: View {
         }
     }
 
-    private func toggleProjection() {
+    private func updateProjectionCamera() {
         let camera = visibleCamera ?? cameraPosition.camera
         withAnimation {
-            showsGlobe.toggle()
             if var camera {
                 camera.pitch = showsGlobe ? 48 : 0
                 if showsGlobe { camera.distance = max(camera.distance, 44_000_000) }
@@ -311,12 +336,12 @@ private struct ArtistWorldMapSwiftUIMap: View {
 }
 
 @MainActor
-private struct ArtistWorldMapStyle {
+private struct MacWorldMapStyle {
     let colorScheme: ColorScheme
     let maximumArtistCount: Int
 
-    var strokeColor: PlatformColor {
-        PlatformColor(
+    var strokeColor: NSColor {
+        NSColor(
             red: colorScheme == .dark ? 0.06 : 0.14,
             green: colorScheme == .dark ? 0.07 : 0.15,
             blue: colorScheme == .dark ? 0.09 : 0.18,
@@ -324,8 +349,8 @@ private struct ArtistWorldMapStyle {
         )
     }
 
-    private var accentColor: PlatformColor {
-        PlatformColor(
+    private var accentColor: NSColor {
+        NSColor(
             red: colorScheme == .dark ? 0.847 : 0.596,
             green: colorScheme == .dark ? 0.498 : 0.184,
             blue: colorScheme == .dark ? 0.820 : 0.576,
@@ -333,8 +358,8 @@ private struct ArtistWorldMapStyle {
         )
     }
 
-    private var neutralColor: PlatformColor {
-        PlatformColor(
+    private var neutralColor: NSColor {
+        NSColor(
             red: 0.192,
             green: 0.204,
             blue: 0.231,
@@ -342,15 +367,15 @@ private struct ArtistWorldMapStyle {
         )
     }
 
-    func appearance(forArtistCount count: Int) -> WorldMapOverlayAppearance {
-        WorldMapOverlayAppearance(
-            fillPlatformColor: baseFillColor(forArtistCount: count),
-            strokePlatformColor: strokeColor,
+    func appearance(forArtistCount count: Int) -> MacWorldMapOverlayAppearance {
+        MacWorldMapOverlayAppearance(
+            fillNativeColor: baseFillColor(forArtistCount: count),
+            strokeNativeColor: strokeColor,
             lineWidth: 0.75
         )
     }
 
-    private func baseFillColor(forArtistCount count: Int) -> PlatformColor {
+    private func baseFillColor(forArtistCount count: Int) -> NSColor {
         guard count > 0 else {
             return neutralColor
         }
@@ -365,19 +390,21 @@ private struct ArtistWorldMapStyle {
     }
 }
 
-struct WorldMapOverlayAppearance {
-    let fillPlatformColor: PlatformColor
-    let strokePlatformColor: PlatformColor
+private struct MacWorldMapOverlayAppearance {
+    let fillNativeColor: NSColor
+    let strokeNativeColor: NSColor
     let lineWidth: CGFloat
 
     var fillColor: Color {
-        Color(platformColor: fillPlatformColor)
+        Color(nsColor: fillNativeColor)
     }
 
     var strokeColor: Color {
-        Color(platformColor: strokePlatformColor)
+        Color(nsColor: strokeNativeColor)
     }
 }
+
+#endif
 
 struct CountryOverlayMetadata {
     let code: String
@@ -387,6 +414,19 @@ struct LoadedWorldCountryMap: @unchecked Sendable {
     let overlays: [MKPolygon]
     let overlayMetadataByID: [ObjectIdentifier: CountryOverlayMetadata]
     let hitPathsByOverlayID: [ObjectIdentifier: CGPath]
+
+    func focusCoordinate(for countryCode: String) -> CLLocationCoordinate2D? {
+        // Focus the main landmass rather than the bounds of distant overseas islands.
+        let polygons = overlays.filter {
+            overlayMetadataByID[ObjectIdentifier($0)]?.code == countryCode
+        }
+        func approximateArea(_ polygon: MKPolygon) -> Double {
+            let rect = polygon.boundingMapRect
+            let metersPerPoint = MKMetersPerMapPointAtLatitude(polygon.coordinate.latitude)
+            return rect.width * rect.height * metersPerPoint * metersPerPoint
+        }
+        return polygons.max { approximateArea($0) < approximateArea($1) }?.coordinate
+    }
 }
 
 @MainActor
@@ -461,7 +501,7 @@ enum WorldCountryOverlayStore {
                 continue
             }
 
-            guard let code = countryCode(for: feature), code != "ATA" else {
+            guard let code = countryCode(for: feature) else {
                 continue
             }
 
@@ -587,9 +627,10 @@ private enum WorldCountryOverlayStoreError: Error {
     case resourceMissing
 }
 
+#if os(macOS)
 @MainActor
-private extension PlatformColor {
-    func mixed(with otherColor: PlatformColor, amount: CGFloat) -> PlatformColor {
+private extension NSColor {
+    func mixed(with otherColor: NSColor, amount: CGFloat) -> NSColor {
         let clampedAmount = min(max(amount, 0), 1)
 
         var leftRed: CGFloat = 0
@@ -609,7 +650,7 @@ private extension PlatformColor {
             alpha: &rightAlpha
         )
 
-        return PlatformColor(
+        return NSColor(
             red: leftRed + (rightRed - leftRed) * clampedAmount,
             green: leftGreen + (rightGreen - leftGreen) * clampedAmount,
             blue: leftBlue + (rightBlue - leftBlue) * clampedAmount,
@@ -618,12 +659,4 @@ private extension PlatformColor {
     }
 }
 
-private extension Color {
-    init(platformColor: PlatformColor) {
-        #if os(iOS)
-        self.init(uiColor: platformColor)
-        #elseif os(macOS)
-        self.init(nsColor: platformColor)
-        #endif
-    }
-}
+#endif

@@ -118,12 +118,14 @@ enum FestivalRegistry {
 struct RudolstadtPublicLinks: FestivalPublicLinksProviding {
     let year: Int
     func url(for destination: FestivalDestination) -> URL? {
-        if case .artist(let id) = destination { return ArtistShareLink(year: year, artistID: id).url }
+        if case .artist(let id, let eventID) = destination {
+            return ArtistShareLink(year: year, artistID: id, eventID: eventID).url
+        }
         return nil
     }
     func destination(for url: URL) -> FestivalDestination? {
         guard let link = ArtistShareLink(url: url), link.year == year else { return nil }
-        return .artist(link.artistID)
+        return .artist(link.artistID, highlightedEventID: link.eventID)
     }
 }
 

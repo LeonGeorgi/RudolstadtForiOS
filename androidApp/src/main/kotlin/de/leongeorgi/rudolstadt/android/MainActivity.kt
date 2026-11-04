@@ -47,7 +47,6 @@ class MainActivity : ComponentActivity() {
                 } else if (dark) FestivalDarkColors else FestivalLightColors
             SideEffect {
                 WindowCompat.getInsetsController(window, window.decorView).apply {
-                    isAppearanceLightStatusBars = !dark
                     isAppearanceLightNavigationBars = !dark
                 }
             }

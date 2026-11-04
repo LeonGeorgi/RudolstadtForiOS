@@ -138,6 +138,7 @@ enum ScreenshotRuntime {
         userSettings.festivalEdition = .current
         userSettings.scheduleDisplayMode = .timeline
         userSettings.scheduleDaySelectionStyle = .toolbarMenu
+        userSettings.mapStyle = .standard
         userSettings.artistViewType = 1
         userSettings.artistGridColumnCount = ArtistGridDensity.comfortable.rawValue
         userSettings.scheduleFilterType = 0

@@ -15,7 +15,7 @@ struct NewsItemCell: View {
         NavigationLink(value: AppNavigationRoute.news(id: newsItem.id)) {
             HStack(alignment: .top, spacing: 10) {
                 Circle()
-                    .foregroundColor(.blue)
+                    .foregroundStyle(.blue)
                     .frame(width: 10, height: 10)
                     .padding(.top, 5)
                     .opacity(settings.readNews.contains(newsItem.id) ? 0 : 1)
@@ -31,7 +31,7 @@ struct NewsItemCell: View {
                         .foregroundStyle(.secondary)
                     Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
             }
             .padding(.vertical, 6)

@@ -121,6 +121,7 @@ struct FriendArtistRecommendationTile: View {
 }
 
 private struct FriendArtistRecommendationContributionRow: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     let contribution: FriendArtistRecommendation.Contribution
     var compact = false
     var showsBadge = false
@@ -177,7 +178,7 @@ private struct FriendArtistRecommendationContributionRow: View {
             if !compact {
                 Image(systemName: "calendar.badge.checkmark")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tint)
+                    .foregroundStyle(festivalAccentColor)
             }
         case .rating(let preference):
             CompactRatingGlyph(

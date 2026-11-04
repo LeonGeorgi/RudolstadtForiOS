@@ -1,0 +1,41 @@
+{
+  "createdDate": "2026-11-04",
+  "source": "User-supplied screenshot in this chat; no new simulator run.",
+  "reference": "ios-orte-reference@3x.png",
+  "referenceSHA256": "e0d1841c61b318aa48a83158525ae80f208f955d9361fc988f2b50a0352ab25b",
+  "pixelSize": [
+    1206,
+    2622
+  ],
+  "logicalSize": [
+    402,
+    874
+  ],
+  "scale": 3,
+  "language": "German",
+  "appearance": "Light",
+  "deviceAndOS": "Not supplied; screenshot geometry matches 402 × 874 pt @3×.",
+  "dynamicType": "Not supplied; typography follows visible screenshot and current code.",
+  "state": "Geographic overview, all three admission filters enabled, no selected place or sheet.",
+  "nativeMapSurface": {
+    "file": "ios-orte-map-surface@3x.png",
+    "rectPoints": [
+      0,
+      116,
+      402,
+      758
+    ],
+    "content": "Unmodified native cartography and MapKit annotations, including numbered and parking pins.",
+    "excluded": "Navigation, filter capsules, recenter control, map attribution, tab bar.",
+    "cutouts": "Transparent extraction masks; no generated or inferred cartography."
+  },
+  "navigationMaterial": "Text-free top 60 px of source; stretched as an approximate material backdrop.",
+  "editableUI": [
+    "Navigation title",
+    "Category filter labels and dots",
+    "List and recenter vector icons",
+    "Map attribution",
+    "Shared native status and locations tab components"
+  ],
+  "limitations": "Map labels and native annotations are part of the reference bitmap. Glass material is approximated. No newly captured runtime reference."
+}

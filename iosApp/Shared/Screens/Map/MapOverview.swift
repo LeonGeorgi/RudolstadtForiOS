@@ -9,6 +9,7 @@ struct MapOverview: View {
     var navigate: ((AppNavigationRoute) -> Void)? = nil
     @Environment(\.festivalData) private var data
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.openURL) private var openURL
     @EnvironmentObject private var settings: UserSettings
     @State private var initialized = false
     @State private var selectedMapID: String?
@@ -21,6 +22,8 @@ struct MapOverview: View {
     @StateObject private var tipSequencer = TipSequencer(
         DiscoverabilityTipSequences.locationsScreen)
     @State private var showsUserLocation = false
+    @State private var followsUserLocation = false
+    @State private var showsLocationPermissionAlert = false
     @StateObject private var locationManager = LocationManager()
     @State private var region = MKCoordinateRegion()
     @State private var focusTrigger = 0
@@ -49,14 +52,17 @@ struct MapOverview: View {
         return false
     }
 
-    var body: some View {
-        content
-            .navigationTitle("locations.title")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar { mapToolbar }
-            .toolbarBackground(
-                isGeographicMap ? .hidden : .visible, for: .navigationBar
-            )
+    private var canChangeMapStyle: Bool {
+        #if os(iOS)
+            return isGeographicMap
+        #else
+            if #available(macOS 14, *) { return isGeographicMap }
+            return false
+        #endif
+    }
+
+    private var locationAwareMap: some View {
+        mapScreen
             .onAppear {
                 sheetNavigation.returnToMap()
                 guard !initialized else { return }
@@ -75,6 +81,7 @@ struct MapOverview: View {
             .task(id: isGeographicMap) {
                 guard isGeographicMap else {
                     showsUserLocation = false
+                    followsUserLocation = false
                     locationManager.stopLocationTracking()
                     return
                 }
@@ -83,7 +90,29 @@ struct MapOverview: View {
                 showsUserLocation = true
                 locationManager.startLocationTracking()
             }
-            .onDisappear { locationManager.stopLocationTracking() }
+            .onDisappear {
+                followsUserLocation = false
+                locationManager.stopLocationTracking()
+            }
+            .onChange(of: locationManager.authorizationStatus) { _, _ in
+                if locationManager.isLocationAccessDenied { followsUserLocation = false }
+            }
+            .alert("map.location.permission.title", isPresented: $showsLocationPermissionAlert) {
+                #if os(iOS)
+                    Button("map.location.open_settings") {
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            openURL(url)
+                        }
+                    }
+                #endif
+                Button("map.location.cancel", role: .cancel) {}
+            } message: {
+                Text("map.location.permission.message")
+            }
+    }
+
+    var body: some View {
+        locationAwareMap
             .onChange(of: selectedPlaceID) { _, _ in focusSelectedPlace() }
             .onChange(of: selectedMapID) { _, value in
                 if let identity = data.identity, let value {
@@ -122,6 +151,15 @@ struct MapOverview: View {
             }
     }
 
+    private var mapScreen: some View {
+        content
+            .navigationTitle("locations.title")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { mapToolbar }
+            .toolbarBackground(
+                isGeographicMap ? .hidden : .visible, for: .navigationBar)
+    }
+
     private var placeSheetContent: some View {
         NavigationStack(path: placeSheetPath) {
             Group {
@@ -154,16 +192,26 @@ struct MapOverview: View {
     @ToolbarContentBuilder
     private var mapToolbar: some ToolbarContent {
         ToolbarItemGroup(placement: .topBarTrailing) {
-            if let provider, provider.maps.count > 1 {
+            if canChangeMapStyle || (provider?.maps.count ?? 0) > 1 {
                 Menu {
-                    Picker("map.title", selection: $selectedMapID) {
-                        ForEach(provider.maps) { item in
-                            Text(item.title.resolved()).tag(Optional(item.id))
+                    if let provider, provider.maps.count > 1 {
+                        Picker("map.title", selection: $selectedMapID) {
+                            ForEach(provider.maps) { item in
+                                Text(item.title.resolved()).tag(Optional(item.id))
+                            }
+                        }
+                    }
+                    if canChangeMapStyle {
+                        Picker("map.type.title", selection: $settings.mapStyle) {
+                            ForEach(FestivalMapStyle.allCases) { style in
+                                Text(style.titleKey).tag(style)
+                            }
                         }
                     }
                 } label: {
-                    Label("map.title", systemImage: "map")
+                    Label("map.options", systemImage: "map")
                 }
+                .accessibilityIdentifier("festival-map-options")
             }
             if initialPlaceID == nil {
                 Button(action: showPlaceList) {
@@ -187,20 +235,9 @@ struct MapOverview: View {
                     ZStack(alignment: .bottomTrailing) {
                         mapContent(map)
                             .ignoresSafeArea()
-                        Button {
-                            recenter()
-                        } label: {
-                            Image(systemName: "scope")
-                        }
-                        .modifier(MapRecenterButtonStyle())
-                        .accessibilityLabel("map.recenter")
-                        .accessibilityIdentifier("festival-map-recenter")
-                        .appPopoverTip(
-                            DiscoverabilityTips.mapRecenter,
-                            currentTipID: tipSequencer.currentTipID, arrowEdge: .leading
-                        )
-                        .padding()
-                        .padding(.bottom, 32)
+                        mapCameraControls
+                            .padding(.trailing, 22)
+                            .padding(.bottom, 16)
                     }
                     .overlay(alignment: .top) { legend }
                     if case .geographic(let values) = map.content,
@@ -228,6 +265,47 @@ struct MapOverview: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+    }
+
+    private var mapCameraControls: some View {
+        VStack(spacing: 0) {
+            Button(action: recenter) {
+                Image(systemName: "target")
+                    .frame(width: 48, height: 48)
+                    .contentShape(Rectangle())
+            }
+            .foregroundStyle(.primary)
+            .accessibilityLabel("map.festival_area")
+            .accessibilityIdentifier("festival-map-recenter")
+            .appPopoverTip(
+                DiscoverabilityTips.mapRecenter,
+                currentTipID: tipSequencer.currentTipID, arrowEdge: .leading)
+
+            if isGeographicMap {
+                Button(action: locateUser) {
+                    Image(systemName: "location.fill")
+                        .frame(width: 48, height: 48)
+                        .contentShape(Rectangle())
+                }
+                .foregroundStyle(.blue)
+                .accessibilityLabel("map.locate_me")
+                .accessibilityIdentifier("festival-map-user-location")
+                .accessibilityAddTraits(followsUserLocation ? .isSelected : [])
+            }
+        }
+        .font(.system(size: 20, weight: .semibold))
+        .buttonStyle(.plain)
+        .modifier(MapCameraControlsStyle())
+    }
+
+    private func locateUser() {
+        guard !locationManager.isLocationAccessDenied else {
+            showsLocationPermissionAlert = true
+            return
+        }
+        selectedPlaceID = nil
+        followsUserLocation = true
+        locationManager.startLocationTracking()
     }
 
     private func placeSheet(_ place: Stage) -> some View {
@@ -329,6 +407,8 @@ struct MapOverview: View {
                     performancePlaceIDs: Set(data.events.map { $0.stage.id }),
                     selectedPlaceID: selectedPlaceID, focusTrigger: focusTrigger,
                     showsUserLocation: showsUserLocation,
+                    mapStyle: settings.mapStyle,
+                    followsUserLocation: $followsUserLocation,
                     isPlaceSheetPresented: sheetNavigation.selection != nil,
                     onSelectPlace: selectMapPlace
                 )
@@ -336,13 +416,18 @@ struct MapOverview: View {
                 if #available(macOS 14, *) {
                     FestivalGeographicMap(
                         places: located, region: region, focusTrigger: focusTrigger,
-                        showsUserLocation: showsUserLocation
+                        showsUserLocation: showsUserLocation,
+                        mapStyle: settings.mapStyle,
+                        followsUserLocation: $followsUserLocation
                     ) {
                         marker($0)
                     }
                 } else {
                     Map(
                         coordinateRegion: $region, showsUserLocation: showsUserLocation,
+                        userTrackingMode: Binding(
+                            get: { followsUserLocation ? .follow : .none },
+                            set: { followsUserLocation = $0 != .none }),
                         annotationItems: located
                     ) { item in
                         MapAnnotation(coordinate: item.coordinate) { marker(item.place) }
@@ -411,6 +496,7 @@ struct MapOverview: View {
         guard let id = selectedPlaceID, case .geographic(let coordinates) = selectedMap?.content,
             let coordinate = coordinates[id]
         else { return }
+        followsUserLocation = false
         focusTrigger += 1
         region = MKCoordinateRegion(
             center: CLLocationCoordinate2D(
@@ -418,6 +504,7 @@ struct MapOverview: View {
             span: MKCoordinateSpan(latitudeDelta: 0.003, longitudeDelta: 0.003))
     }
     private func recenter() {
+        followsUserLocation = false
         selectedPlaceID = nil
         guard case .geographic(let coordinates) = selectedMap?.content else {
             focusTrigger += 1
@@ -567,6 +654,8 @@ private struct FestivalGeographicMap<Marker: View>: View {
     let region: MKCoordinateRegion
     let focusTrigger: Int
     let showsUserLocation: Bool
+    let mapStyle: FestivalMapStyle
+    @Binding var followsUserLocation: Bool
     let marker: (Stage) -> Marker
     @State private var position: MapCameraPosition = .automatic
 
@@ -579,9 +668,21 @@ private struct FestivalGeographicMap<Marker: View>: View {
             }
             if showsUserLocation { UserAnnotation() }
         }
-        .mapStyle(.standard(pointsOfInterest: .excludingAll))
-        .onAppear { position = .region(region) }
+        .mapStyle(mapStyle.swiftUIStyle)
+        .onAppear { updatePosition() }
         .onChange(of: focusTrigger) { _, _ in position = .region(region) }
+        .onChange(of: followsUserLocation) { _, _ in updatePosition() }
+        .onChange(of: position.positionedByUser) { _, positionedByUser in
+            if positionedByUser { followsUserLocation = false }
+        }
+    }
+
+    private func updatePosition() {
+        if followsUserLocation {
+            position = .userLocation(followsHeading: false, fallback: .region(region))
+        } else if !position.positionedByUser {
+            position = .region(region)
+        }
     }
 }
 
@@ -623,17 +724,12 @@ private func festivalArtworkWebView(url: URL) -> WKWebView {
     }
 #endif
 
-private struct MapRecenterButtonStyle: ViewModifier {
+private struct MapCameraControlsStyle: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, macOS 26.0, *) {
-            content
-                .buttonStyle(.glass)
-                .buttonBorderShape(.circle)
-                .controlSize(.regular)
+            content.glassEffect(.regular.interactive(), in: Capsule())
         } else {
-            content
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.circle)
+            content.background(.regularMaterial, in: Capsule())
         }
     }
 }

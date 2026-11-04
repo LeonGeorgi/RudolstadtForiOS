@@ -179,7 +179,7 @@ private struct StageDetailContent: View {
                 }
             }
             if stage.hasLocation {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         StageMapView.openInMaps(stage: stage)
                     } label: {
@@ -456,10 +456,10 @@ private struct StageDetailContent: View {
             .aspectRatio(4.0 / 3.0, contentMode: .fill)
             .frame(maxWidth: .infinity)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .overlay(
+            .overlay {
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .stroke(mapPreviewStrokeColor, lineWidth: 0.5)
-            )
+            }
             .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
             .contentShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .padding(.horizontal, 56)

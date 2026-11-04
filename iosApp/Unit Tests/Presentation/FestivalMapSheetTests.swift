@@ -182,4 +182,209 @@ struct FestivalMapSheetTests {
         try #require(condition())
     }
 }
+
+@MainActor
+struct FestivalMapCameraTests {
+    @Test
+    func ownLocationTakesPriorityOverPendingFestivalFocus() {
+        let coordinator = makeCoordinator(followsUserLocation: .constant(true))
+        let map = CameraMapView()
+        coordinator.pendingFocus = []
+
+        coordinator.performPendingFocus(in: map)
+        coordinator.performPendingFocus(in: map)
+
+        #expect(map.trackingRequests == [.follow])
+        #expect(map.festivalFocusCount == 0)
+        #expect(coordinator.pendingFocus == nil)
+    }
+
+    @Test
+    func festivalFocusStopsFollowingAndFitsThePlaces() {
+        let coordinator = makeCoordinator(followsUserLocation: .constant(false))
+        let map = CameraMapView()
+        map.userTrackingMode = .follow
+        coordinator.pendingFocus = []
+
+        coordinator.performPendingFocus(in: map)
+
+        #expect(map.trackingRequests == [.none])
+        #expect(map.festivalFocusCount > 0)
+    }
+
+    @Test
+    func manualPanningStopsFollowingWithoutResettingTheMap() async throws {
+        var followsUserLocation = true
+        let binding = Binding(get: { followsUserLocation }, set: { followsUserLocation = $0 })
+        let coordinator = makeCoordinator(followsUserLocation: binding)
+        let map = CameraMapView()
+
+        coordinator.mapView(map, didChange: .none, animated: false)
+        for _ in 0..<50 where followsUserLocation { try await Task.sleep(for: .milliseconds(10)) }
+        coordinator.performPendingFocus(in: map)
+
+        #expect(!followsUserLocation)
+        #expect(map.festivalFocusCount == 0)
+        #expect(map.trackingRequests.isEmpty)
+    }
+
+    @Test
+    func staleStopFollowingCallbackDoesNotCancelANewLocationRequest() async throws {
+        var followsUserLocation = true
+        let binding = Binding(get: { followsUserLocation }, set: { followsUserLocation = $0 })
+        let coordinator = makeCoordinator(followsUserLocation: binding)
+        let map = CameraMapView()
+
+        coordinator.mapView(map, didChange: .none, animated: false)
+        map.userTrackingMode = .follow
+        try await Task.sleep(for: .milliseconds(20))
+
+        #expect(followsUserLocation)
+    }
+
+    @Test
+    func changingMapStyleKeepsCameraAndLocationTracking() {
+        let coordinator = makeCoordinator(followsUserLocation: .constant(true))
+        let map = CameraMapView()
+        map.userTrackingMode = .follow
+        map.setRegion(MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 50.72, longitude: 11.34),
+            span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.03)), animated: false)
+        let initialRegion = map.region
+        coordinator.updateConfiguration(in: map)
+        #expect(map.preferredConfiguration is MKStandardMapConfiguration)
+
+        for style in [FestivalMapStyle.satellite, .hybrid] {
+            coordinator.parent = makeCoordinator(
+                followsUserLocation: .constant(true), mapStyle: style).parent
+            coordinator.updateConfiguration(in: map)
+
+            switch style {
+            case .satellite: #expect(map.preferredConfiguration is MKImageryMapConfiguration)
+            case .hybrid: #expect(map.preferredConfiguration is MKHybridMapConfiguration)
+            case .standard: break
+            }
+            #expect(abs(map.region.center.latitude - initialRegion.center.latitude) < 0.000001)
+            #expect(abs(map.region.center.longitude - initialRegion.center.longitude) < 0.000001)
+            #expect(abs(map.region.span.latitudeDelta - initialRegion.span.latitudeDelta) < 0.000001)
+            #expect(abs(map.region.span.longitudeDelta - initialRegion.span.longitudeDelta) < 0.000001)
+            #expect(map.userTrackingMode == .follow)
+            #expect(map.trackingRequests.isEmpty)
+        }
+    }
+
+    private func makeCoordinator(followsUserLocation: Binding<Bool>,
+                                 mapStyle: FestivalMapStyle = .standard) -> FestivalMapCanvas.Coordinator {
+        FestivalMapCanvas(
+            stages: [TestFixtures.stage(id: 101)], performancePlaceIDs: [],
+            selectedPlaceID: nil, focusTrigger: 1, showsUserLocation: true,
+            mapStyle: mapStyle,
+            followsUserLocation: followsUserLocation,
+            isPlaceSheetPresented: false, onSelectPlace: { _ in }
+        ).makeCoordinator()
+    }
+
+    private final class CameraMapView: MKMapView {
+        private var trackingMode: MKUserTrackingMode = .none
+        var trackingRequests: [MKUserTrackingMode] = []
+        var festivalFocusCount = 0
+
+        init() {
+            super.init(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
+        }
+
+        required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+        override var userTrackingMode: MKUserTrackingMode {
+            get { trackingMode }
+            set { trackingMode = newValue }
+        }
+
+        override func setUserTrackingMode(_ mode: MKUserTrackingMode, animated: Bool) {
+            trackingRequests.append(mode)
+            trackingMode = mode
+        }
+
+        override func setVisibleMapRect(_ mapRect: MKMapRect, edgePadding insets: UIEdgeInsets,
+                                        animated animate: Bool) {
+            festivalFocusCount += 1
+        }
+    }
+}
+
+@MainActor
+struct FestivalLocationPermissionTests {
+    @Test(arguments: [CLAuthorizationStatus.denied, .restricted])
+    func deniedAccessDoesNotStartLocationUpdates(status: CLAuthorizationStatus) {
+        let native = StubLocationManager(status: status)
+        let location = LocationManager(manager: native)
+
+        location.startLocationTracking()
+
+        #expect(location.isLocationAccessDenied)
+        #expect(native.startCount == 0)
+        #expect(native.permissionRequestCount == 0)
+    }
+
+    @Test
+    func grantingPermissionStartsThePendingLocationRequest() {
+        let native = StubLocationManager(status: .notDetermined)
+        let location = LocationManager(manager: native)
+        location.startLocationTracking()
+        #expect(native.permissionRequestCount == 1)
+
+        native.status = .authorizedWhenInUse
+        location.locationManagerDidChangeAuthorization(native)
+        location.startLocationTracking()
+
+        #expect(location.authorizationStatus == .authorizedWhenInUse)
+        #expect(!location.isLocationAccessDenied)
+        #expect(native.startCount == 1)
+    }
+
+    @Test
+    func leavingTheMapCancelsAPendingPermissionRequest() {
+        let native = StubLocationManager(status: .notDetermined)
+        let location = LocationManager(manager: native)
+        location.startLocationTracking()
+        location.stopLocationTracking()
+
+        native.status = .authorizedWhenInUse
+        location.locationManagerDidChangeAuthorization(native)
+
+        #expect(native.startCount == 0)
+    }
+
+    @Test
+    func regrantingPermissionRestartsUpdatesAfterRevocation() {
+        let native = StubLocationManager(status: .authorizedWhenInUse)
+        let location = LocationManager(manager: native)
+        location.startLocationTracking()
+
+        native.status = .denied
+        location.locationManagerDidChangeAuthorization(native)
+        #expect(location.isLocationAccessDenied)
+
+        native.status = .authorizedWhenInUse
+        location.locationManagerDidChangeAuthorization(native)
+
+        #expect(native.startCount == 2)
+    }
+
+    private final class StubLocationManager: CLLocationManager {
+        var status: CLAuthorizationStatus
+        var startCount = 0
+        var permissionRequestCount = 0
+
+        init(status: CLAuthorizationStatus) {
+            self.status = status
+            super.init()
+        }
+
+        override var authorizationStatus: CLAuthorizationStatus { status }
+        override func startUpdatingLocation() { startCount += 1 }
+        override func stopUpdatingLocation() {}
+        override func requestWhenInUseAuthorization() { permissionRequestCount += 1 }
+    }
+}
 #endif

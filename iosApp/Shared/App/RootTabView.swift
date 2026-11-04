@@ -39,7 +39,6 @@ struct RootTabView: View {
     @State private var newsSheetPath = NavigationPath()
     @State private var isShowingNewsSheet = false
     @State private var retainsNewsAccessoryForPresentedSheet = false
-    @State private var isArtistWorldMapVisible = false
     @State private var isShowingNotificationPrompt = false
     @State private var isShowingArtistLinkUnavailable = false
 
@@ -116,140 +115,143 @@ struct RootTabView: View {
         }
     }
 
+    private var festivalAccentColor: Color {
+        dataStore.metadata.presentation.accentColorHex.flatMap { Color(festivalProfileHex: $0) }
+            ?? .rudolstadt
+    }
+
     private var shouldShowNewsAccessory: Bool {
         unreadNewsCount > 0 || retainsNewsAccessoryForPresentedSheet
     }
 
-    private var newsAccessoryColorScheme: ColorScheme {
-        selectedTab == .artists && isArtistWorldMapVisible
-            ? .dark
-            : appColorScheme
-    }
-
-    private func updateArtistWorldMapVisibility(
-        for route: AppNavigationRoute,
-        isVisible: Bool
-    ) {
-        guard case .artistWorldMap = route else {
-            return
-        }
-        isArtistWorldMapVisible = isVisible
-    }
-
-    @ViewBuilder
     private var appTabView: some View {
+        #if os(iOS)
+            return modernTabView
+        #else
+            if #available(macOS 15.0, *) {
+                return AnyView(modernTabView)
+            } else {
+                return AnyView(legacyTabView)
+            }
+        #endif
+    }
+
+    #if os(macOS)
+    // The Tab API is unavailable on older supported macOS versions.
+    private var legacyTabView: some View {
         TabView(selection: selectionBinding) {
-            NavigationStack(path: $mapPath) {
-                MapOverview(presentsPlaceSheets: true, navigate: { mapPath.append($0) })
-                    .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(
-                            route: route,
-                            navigate: { nestedRoute in
-                                mapPath.append(nestedRoute)
-                            }
-                        )
-                    }
-            }
-            .tabItem {
-                VStack {
-                    Image(systemName: "map.fill")
-                    Text("locations.title")
-                }
-            }
-            .tag(AppTab.map)
+            mapTabContent
+                .tabItem { Label("locations.title", systemImage: "map.fill") }
+                .tag(AppTab.map)
+            scheduleTabContent
+                .tabItem { Label("schedule.title", systemImage: "calendar") }
+                .tag(AppTab.schedule)
+            artistsTabContent
+                .tabItem { Label("artists.title", systemImage: "theatermasks.fill") }
+                .tag(AppTab.artists)
+            friendsTabContent
+                .tabItem { Label("more.friends.title", systemImage: "person.2.fill") }
+                .tag(AppTab.friends)
+            moreTabContent
+                .tabItem { Label("more.title", systemImage: "ellipsis") }
+                .tag(AppTab.more)
+        }
+    }
+    #endif
 
-            NavigationStack(path: $schedulePath) {
-                ScheduleScreen()
-                    .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(
-                            route: route,
-                            navigate: { nestedRoute in
-                                schedulePath.append(nestedRoute)
-                            }
-                        )
-                    }
+    @available(iOS 18.0, macOS 15.0, *)
+    private var modernTabView: some View {
+        TabView(selection: selectionBinding) {
+            Tab("locations.title", systemImage: "map.fill", value: AppTab.map) {
+                mapTabContent
             }
-            .tabItem {
-                VStack {
-                    Image(systemName: "calendar")
-                    Text("schedule.title")
-                }
+            Tab("schedule.title", systemImage: "calendar", value: AppTab.schedule) {
+                scheduleTabContent
             }
-            .tag(AppTab.schedule)
+            Tab("artists.title", systemImage: "theatermasks.fill", value: AppTab.artists) {
+                artistsTabContent
+            }
+            Tab("more.friends.title", systemImage: "person.2.fill", value: AppTab.friends) {
+                friendsTabContent
+            }
+            Tab("more.title", systemImage: "ellipsis", value: AppTab.more) {
+                moreTabContent
+            }
+        }
+    }
 
-            NavigationStack(path: $artistsPath) {
-                ArtistListView(
-                    imageTransitionNamespace: artistImageTransition
-                ) { route in
-                    artistsPath.append(route)
-                }
+    private var mapTabContent: some View {
+        NavigationStack(path: $mapPath) {
+            MapOverview(presentsPlaceSheets: true, navigate: { mapPath.append($0) })
                 .navigationDestination(for: AppNavigationRoute.self) { route in
                     AppNavigationDestination(
                         route: route,
                         navigate: { nestedRoute in
-                            artistsPath.append(nestedRoute)
-                        },
-                        imageTransitionNamespace: artistImageTransition
+                            mapPath.append(nestedRoute)
+                        }
                     )
-                    .onAppear {
-                        updateArtistWorldMapVisibility(
-                            for: route,
-                            isVisible: true
-                        )
-                    }
-                    .onDisappear {
-                        updateArtistWorldMapVisibility(
-                            for: route,
-                            isVisible: false
-                        )
-                    }
                 }
-            }
-            .tabItem {
-                VStack {
-                    Image(systemName: "theatermasks.fill")
-                    Text("artists.title")
-                }
-            }
-            .tag(AppTab.artists)
+        }
+    }
 
-            NavigationStack(path: $friendsPath) {
-                FriendsView()
-                    .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(
-                            route: route,
-                            navigate: { nestedRoute in
-                                friendsPath.append(nestedRoute)
-                            }
-                        )
-                    }
-            }
-            .tabItem {
-                VStack {
-                    Image(systemName: "person.2.fill")
-                    Text("more.friends.title")
+    private var scheduleTabContent: some View {
+        NavigationStack(path: $schedulePath) {
+            ScheduleScreen()
+                .navigationDestination(for: AppNavigationRoute.self) { route in
+                    AppNavigationDestination(
+                        route: route,
+                        navigate: { nestedRoute in
+                            schedulePath.append(nestedRoute)
+                        }
+                    )
                 }
-            }
-            .tag(AppTab.friends)
+        }
+    }
 
-            NavigationStack(path: $morePath) {
-                MoreView()
-                    .navigationDestination(for: AppNavigationRoute.self) { route in
-                        AppNavigationDestination(
-                            route: route,
-                            navigate: { nestedRoute in
-                                morePath.append(nestedRoute)
-                            }
-                        )
-                }
+    private var artistsTabContent: some View {
+        NavigationStack(path: $artistsPath) {
+            ArtistListView(
+                imageTransitionNamespace: artistImageTransition
+            ) { route in
+                artistsPath.append(route)
             }
-            .tabItem {
-                VStack {
-                    Image(systemName: "ellipsis")
-                    Text("more.title")
-                }
+            .navigationDestination(for: AppNavigationRoute.self) { route in
+                AppNavigationDestination(
+                    route: route,
+                    navigate: { nestedRoute in
+                        artistsPath.append(nestedRoute)
+                    },
+                    imageTransitionNamespace: artistImageTransition
+                )
             }
-            .tag(AppTab.more)
+        }
+    }
+
+    private var friendsTabContent: some View {
+        NavigationStack(path: $friendsPath) {
+            FriendsView()
+                .navigationDestination(for: AppNavigationRoute.self) { route in
+                    AppNavigationDestination(
+                        route: route,
+                        navigate: { nestedRoute in
+                            friendsPath.append(nestedRoute)
+                        }
+                    )
+                }
+        }
+    }
+
+    private var moreTabContent: some View {
+        NavigationStack(path: $morePath) {
+            MoreView()
+                .navigationDestination(for: AppNavigationRoute.self) { route in
+                    AppNavigationDestination(
+                        route: route,
+                        navigate: { nestedRoute in
+                            morePath.append(nestedRoute)
+                        }
+                    )
+                }
         }
     }
 
@@ -262,7 +264,7 @@ struct RootTabView: View {
                     UnreadNewsAccessory(
                         unreadCount: unreadNewsCount,
                         content: unreadNewsAccessoryContent,
-                        foregroundColorScheme: newsAccessoryColorScheme,
+                        foregroundColorScheme: appColorScheme,
                         openNews: presentNewsSheet
                     )
                 }
@@ -275,7 +277,7 @@ struct RootTabView: View {
                         UnreadNewsAccessory(
                             unreadCount: unreadNewsCount,
                             content: unreadNewsAccessoryContent,
-                            foregroundColorScheme: newsAccessoryColorScheme,
+                            foregroundColorScheme: appColorScheme,
                             openNews: presentNewsSheet
                         )
                     }
@@ -287,7 +289,6 @@ struct RootTabView: View {
 
     var body: some View {
         tabViewWithNewsAccessory
-        .accentColor(dataStore.metadata.presentation.accentColorHex.flatMap { Color(festivalProfileHex: $0) } ?? .rudolstadt)
         .onAppear {
             if isScreenshotMode {
                 selectedTab = .schedule
@@ -356,6 +357,7 @@ struct RootTabView: View {
                 activate: activateNewsNotifications,
                 defer: deferNewsNotifications
             )
+            .tint(festivalAccentColor)
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
@@ -396,6 +398,7 @@ struct RootTabView: View {
                 NewsRefresher.scheduleNextBackgroundTask()
             }
         }
+        .environment(\.festivalAccentColor, festivalAccentColor)
     }
 
     private func activateNewsNotifications() {
@@ -428,6 +431,7 @@ private struct UnreadNewsAccessoryRotationConfiguration: Equatable {
 
 @available(iOS 26.0, *)
 private struct UnreadNewsAccessory: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     @Environment(\.tabViewBottomAccessoryPlacement) private var placement
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
@@ -531,7 +535,7 @@ private struct UnreadNewsAccessory: View {
         HStack(spacing: 10) {
             Image(systemName: "megaphone.fill")
                 .font(.body)
-                .foregroundStyle(.tint)
+                .foregroundStyle(festivalAccentColor)
                 .frame(width: 28, height: 28)
                 .overlay(alignment: .topTrailing) {
                     Text("\(unreadCount)")
@@ -579,6 +583,7 @@ private struct UnreadNewsAccessory: View {
 }
 
 private struct NotificationPermissionPromptView: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     let activate: () -> Void
     let `defer`: () -> Void
 
@@ -586,7 +591,7 @@ private struct NotificationPermissionPromptView: View {
         VStack(spacing: 20) {
             Image(systemName: "bell.badge.fill")
                 .font(.largeTitle)
-                .foregroundStyle(.tint)
+                .foregroundStyle(festivalAccentColor)
                 .accessibilityHidden(true)
 
             VStack(spacing: 8) {

@@ -67,6 +67,8 @@
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
     <string name="share">Teilen</string>
+    <string name="share_concert">Konzert teilen</string>
+    <string name="share_artist">Künstler teilen</string>
     <string name="similar">Ähnliche Künstler</string>
     <string name="summary_ai">KI-Zusammenfassung</string>
     <string name="summary_notice">Automatisch erstellt; Angaben können fehlerhaft sein.</string>

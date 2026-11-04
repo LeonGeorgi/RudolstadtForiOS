@@ -1,0 +1,120 @@
+{
+  "date": "2026-11-04",
+  "conceptOnly": true,
+  "controlFramePoints": [
+    332,
+    679,
+    48,
+    96
+  ],
+  "touchAreasPoints": [
+    48,
+    48
+  ],
+  "topAction": "Festival area, target",
+  "bottomAction": "Own location, location.fill, system blue",
+  "symbolSource": "Native AppKit NSImage(systemSymbolName:), 20 pt semibold in 24 pt canvas @3x; export_symbols.swift",
+  "layoutReference": "User-supplied Apple Maps screenshot; original retained.",
+  "assets": {
+    "sf-target@3x.png": "b78f33789c5e88e4d8df3cc015ad597ca8acfad44d529e30794b3b29c75bb89c",
+    "sf-location.fill@3x.png": "d4ed1d9089a5b8cad9ea945c32530ee4c9e22f47a2a015975b1ef70152a47b60",
+    "apple-maps-controls-reference@3x.png": "dc839d7eec9a844754826dc413a13a41dbd59268cc7ebf4c55e4a2eee2e7e544",
+    "sf-map@3x.png": "ff91383e3457681315cbfe3ccae8d251745dfd420e11dc12849f9f2530f4038a",
+    "sf-list.bullet@3x.png": "4f750f1e6e90a3dd1739ba6f16cf84e294f9b56a05b8038ea38f21afe6cc881a"
+  },
+  "comparison": {
+    "before": "sketch-orte-liquid-glass@3x.png",
+    "after": "sketch-orte-spacing@3x.png",
+    "changedBoundsPixels": [
+      970,
+      1966,
+      1172,
+      2372
+    ],
+    "afterSHA256": "826b5b53945879d2fab95dfd64d92a7226bdbb581ebc4a60e1b20bd2ee8dbd07"
+  },
+  "previousCustomControlFramePoints": [
+    334,
+    670,
+    48,
+    96
+  ],
+  "component": {
+    "library": "Apple iOS 27 UI Kit",
+    "libraryID": "C4648B33-1215-43AD-851E-D785ECD1113D",
+    "name": "Toolbars/Light/Buttons/48pt/Active/Vertical Group - Symbol 2",
+    "instanceID": "DC127156-12A5-4B19-A4E0-05B826E3E117",
+    "linked": true,
+    "detached": false,
+    "nativeMaterial": "Glass blur enabled, radius 6; original source fills, shadows and corners preserved",
+    "icons": "Nested symbol overrides: target above, blue location.fill below"
+  },
+  "previousNativeControlFramePoints": [
+    334,
+    656,
+    48,
+    110
+  ],
+  "geometry": {
+    "rightMarginPoints": 22,
+    "gapToVisibleTabTopPoints": 16,
+    "visibleTabTopPoints": 791,
+    "iconCanvasCentersLocalPoints": [
+      [
+        24,
+        24
+      ],
+      [
+        24,
+        72
+      ]
+    ],
+    "iconCenterSpacingPoints": 48,
+    "iconCanvasSizePoints": [
+      28,
+      28
+    ],
+    "nativeButtonSlots": "Original library symbol retains its inner slots; local nested icon sources supply placement offsets for the resized instance."
+  },
+  "mapOptions": {
+    "overviewFrameID": "F203F3DE-A48D-4050-B409-6FC2AB03869D",
+    "openMenuFrameID": "D5F87450-5C40-40BE-BBC2-75EAF59B822E",
+    "toolbar": {
+      "localWrapperSourceID": "C0B9995E-516F-4B39-84F7-AA09BF0F4576",
+      "nativeSource": "Toolbars/Light/Buttons/44pt/Active/Horizontal Group - Symbol 2",
+      "framePoints": [
+        282,
+        62,
+        104,
+        44
+      ]
+    },
+    "menu": {
+      "instanceID": "FEA0E1AC-88EF-4B0A-935B-1AF3F4991706",
+      "nativeSource": "Menus/Light/iPhone",
+      "framePoints": [
+        132,
+        114,
+        250,
+        146
+      ],
+      "choices": [
+        "Karte",
+        "Satellit",
+        "Hybrid"
+      ],
+      "selected": "Karte"
+    },
+    "library": "Apple iOS 27 UI Kit",
+    "linked": true,
+    "detached": false,
+    "content": "Editable native symbol overrides; no flattened menu or UI screenshot.",
+    "runtimeComparison": "Concept uses kit defaults; no dedicated runtime screenshot captured.",
+    "implementation": "Native MapKit styles plus persisted UserPreferencesStore preference; 5 camera and 3 preference test methods passed.",
+    "bottomControlPixelComparison": null,
+    "exports": {
+      "sketch-orte-map-options@3x.png": "2495808b80d630ab176c0b68808afc9b9c45bb588d194673c15810522e02a911",
+      "sketch-orte-map-type-menu@3x.png": "bbff640260ae2d0fc93c3374fa13138e451d5ea87cd1e52b5c956de1d61ef6c0"
+    }
+  }
+}

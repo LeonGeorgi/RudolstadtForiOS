@@ -115,7 +115,7 @@ struct NewsItemDetailView: View {
                     .bold()
                 Text("\(newsItem.dateAsString) \(newsItem.timeAsString)")
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                     .padding(.bottom, 5)
 
                 Divider()
@@ -853,6 +853,9 @@ extension NativeNewsText: UIViewRepresentable {
         view.isEditable = false
         view.isScrollEnabled = false
         view.isSelectable = true
+        // UIKit's drag lift can invalidate ranges around linked inline attachments.
+        // These read-only articles keep selection and link menus without text dragging.
+        view.textDragInteraction?.isEnabled = false
         view.backgroundColor = .clear
         view.textContainerInset = .zero
         view.textContainer.lineFragmentPadding = 0
@@ -863,6 +866,7 @@ extension NativeNewsText: UIViewRepresentable {
 
     func updateUIView(_ view: NewsUIKitTextView, context: Context) {
         context.coordinator.onOpenURL = onOpenURL
+        context.coordinator.mentions = mentions
         updateText(view, width: view.bounds.width > 0 ? view.bounds.width : 260)
     }
 
@@ -892,6 +896,7 @@ extension NativeNewsText: UIViewRepresentable {
 
     final class Coordinator: NSObject, UITextViewDelegate {
         var onOpenURL: (URL) -> Void
+        var mentions: [ProgramInlineMention] = []
         init(onOpenURL: @escaping (URL) -> Void) { self.onOpenURL = onOpenURL }
 
         func textView(_ textView: UITextView, primaryActionFor textItem: UITextItem, defaultAction: UIAction) -> UIAction? {
@@ -914,6 +919,20 @@ extension NativeNewsText: UIViewRepresentable {
                 guard let attachment = attachment as? NewsInlineAttachment else { return .init(menu: defaultMenu) }
                 url = attachment.destination
             default: return .init(menu: defaultMenu)
+            }
+            if let artist = mentions.compactMap(\.artist).first(where: { inlineArtistLinkURL(for: $0) == url }) {
+                return .init(preview: nil, menu: UIMenu(title: artist.formattedName, children: [
+                    UIAction(title: NSLocalizedString("news.open_artist", comment: ""), image: UIImage(systemName: "theatermasks.fill")) { [weak self] _ in
+                        self?.onOpenURL(url)
+                    },
+                ]))
+            }
+            if let stage = mentions.compactMap(\.place).first(where: { inlineStageLinkURL(for: $0) == url }) {
+                return .init(preview: nil, menu: UIMenu(title: stage.localizedName, children: [
+                    UIAction(title: NSLocalizedString("news.open_stage", comment: ""), image: UIImage(systemName: "mappin.and.ellipse")) { [weak self] _ in
+                        self?.onOpenURL(url)
+                    },
+                ]))
             }
             let email = NewsMailLinks.shared.address(url: url.absoluteString)
             guard email != nil || ["http", "https"].contains(url.scheme?.lowercased() ?? "") else { return .init(menu: defaultMenu) }

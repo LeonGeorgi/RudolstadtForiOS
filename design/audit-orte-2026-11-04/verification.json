@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-04",
+  "frameID": "F203F3DE-A48D-4050-B409-6FC2AB03869D",
+  "scale": 3,
+  "alignment": "none",
+  "maskedRows": 186,
+  "files": {
+    "sketch-orte@3x.png": {
+      "sha256": "28e73f6cd31752db18dae4dc7e963b9459aaed2a1d3d3986efab9d447c2ae435",
+      "pixels": [
+        1206,
+        2622
+      ]
+    },
+    "comparison.png": {
+      "sha256": "18eba486285cadb9a18347889a43cf43a7966576825432360593c2704dd1771a",
+      "pixels": [
+        804,
+        874
+      ]
+    },
+    "channels.png": {
+      "sha256": "01048865ce3f635317f1d473e050f98b20c9d4ceb142054ebb1b2a033db990e4",
+      "pixels": [
+        1206,
+        2622
+      ]
+    },
+    "rgb-difference.png": {
+      "sha256": "990ac9a71f7eb596caca6d60d7376b022a816b55e597f16c8e7e497ed4b5353b",
+      "pixels": [
+        1206,
+        2622
+      ]
+    },
+    "overlay.png": {
+      "sha256": "fbb22191c017bc32f590bc53dd1b3d14f5d3b1f07ed82bd1bf7d6bf3f760314f",
+      "pixels": [
+        1206,
+        2622
+      ]
+    }
+  }
+}

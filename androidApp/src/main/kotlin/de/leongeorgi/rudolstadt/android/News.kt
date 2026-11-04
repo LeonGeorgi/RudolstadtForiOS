@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -302,13 +303,56 @@ private fun NewsArticleText(
     modifier: Modifier,
 ) {
     BoxWithConstraints(modifier) {
-        Text(
-            if (subtitle) text.subtitle else text.content,
-            style =
-                if (subtitle) MaterialTheme.typography.titleLarge
-                else MaterialTheme.typography.bodyLarge,
-            inlineContent = newsInlineContent(text, previews, subtitle, maxWidth),
-        )
+        val source = if (subtitle) text.subtitle else text.content
+        val blocks = remember(source) { newsArticleBlocks(source) }
+        val inlineContent = newsInlineContent(text, previews, subtitle, maxWidth)
+        val mailBadges = text.webLinks.filterValues { it.emailAddress != null }.keys
+        val density = LocalDensity.current
+        val chipStyle =
+            MaterialTheme.typography.bodySmall.copy(
+                fontSize = (if (subtitle) 15 else 13).sp,
+                fontWeight = FontWeight.Medium,
+                textDecoration = TextDecoration.None,
+            )
+        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            blocks.forEach { block ->
+                when (block) {
+                    is NewsArticleBlock.Text -> {
+                        val paragraphs =
+                            remember(block.value, subtitle) {
+                                if (subtitle) listOf(block.value)
+                                else newsTextParagraphs(block.value)
+                            }
+                        Column {
+                            paragraphs.forEach { paragraph ->
+                                val content: @Composable () -> Unit = {
+                                    Text(
+                                        paragraph,
+                                        style =
+                                            if (subtitle) MaterialTheme.typography.titleLarge
+                                            else MaterialTheme.typography.bodyLarge,
+                                        inlineContent = inlineContent,
+                                    )
+                                }
+                                if (
+                                    paragraph.getStringAnnotations(0, paragraph.length).any {
+                                        it.item in mailBadges
+                                    }
+                                )
+                                    DisableSelection { content() }
+                                else content()
+                            }
+                        }
+                    }
+                    is NewsArticleBlock.Preview -> {
+                        val link = text.webLinks.getValue(block.linkID)
+                        Box(Modifier.fillMaxWidth().height(with(density) { 92.sp.toDp() })) {
+                            NewsUrlChip(link, previews[link.url], chipStyle)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -412,103 +456,110 @@ private fun NewsUrlChip(
     val openLabel = stringResource(if (email != null) R.string.write_email else R.string.open_link)
     val copyLabel = stringResource(if (email != null) R.string.copy_email else R.string.copy_link)
     val scalePadding = with(density) { (if (email == null) 10 else 8).sp.toDp() }
-    BoxWithConstraints {
-        val thumbnailLimit = maxWidth * 0.28f
-        Box(
-            Modifier.fillMaxSize()
-                .clip(RoundedCornerShape(if (email == null) 12.dp else 6.dp))
-                .background(MaterialTheme.colorScheme.secondaryContainer)
-                .combinedClickable(
-                    onClick = { openURL(context, url) },
-                    onLongClick = { menu = true },
-                    onLongClickLabel = copyLabel,
-                )
-                .padding(horizontal = scalePadding),
-            contentAlignment = Alignment.Center,
-        ) {
-            if (email == null) {
-                Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-                    val side = with(density) { 72.sp.toDp() }.coerceAtMost(thumbnailLimit)
-                    Box(
-                        Modifier.size(side)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(MaterialTheme.colorScheme.surfaceContainerHigh),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Icon(
-                            Icons.Default.Link,
-                            null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        AsyncImage(
-                            preview?.imageURL,
-                            null,
-                            Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop,
-                        )
+    DisableSelection {
+        BoxWithConstraints {
+            val thumbnailLimit = maxWidth * 0.28f
+            Box(
+                Modifier.fillMaxSize()
+                    .clip(RoundedCornerShape(if (email == null) 12.dp else 6.dp))
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .combinedClickable(
+                        onClick = { openURL(context, url) },
+                        onLongClick = { menu = true },
+                        onLongClickLabel = copyLabel,
+                    )
+                    .padding(horizontal = scalePadding),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (email == null) {
+                    Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+                        val side = with(density) { 72.sp.toDp() }.coerceAtMost(thumbnailLimit)
+                        Box(
+                            Modifier.size(side)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(
+                                Icons.Default.Link,
+                                null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            AsyncImage(
+                                preview?.imageURL,
+                                null,
+                                Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop,
+                            )
+                        }
+                        Spacer(Modifier.width(with(density) { 12.sp.toDp() }))
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                preview?.title ?: label,
+                                style = style.copy(fontSize = 15.sp),
+                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                            Spacer(Modifier.height(4.dp))
+                            Text(
+                                preview?.domain
+                                    ?: de.leongeorgi.rudolstadt.discovery.NewsLinkPreviews.domain(
+                                        url
+                                    ),
+                                style =
+                                    style.copy(fontSize = 12.sp, fontWeight = FontWeight.Normal),
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
                     }
-                    Spacer(Modifier.width(with(density) { 12.sp.toDp() }))
-                    Column(Modifier.weight(1f)) {
+                } else
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (email != null) {
+                            Icon(
+                                Icons.Default.MailOutline,
+                                null,
+                                Modifier.size(with(density) { 16.sp.toDp() }),
+                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                            )
+                            Spacer(Modifier.width(with(density) { 6.sp.toDp() }))
+                        }
                         Text(
-                            preview?.title ?: label,
-                            style = style.copy(fontSize = 15.sp),
+                            label,
+                            style = style,
                             color = MaterialTheme.colorScheme.onSecondaryContainer,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Text(
-                            preview?.domain
-                                ?: de.leongeorgi.rudolstadt.discovery.NewsLinkPreviews.domain(url),
-                            style = style.copy(fontSize = 12.sp, fontWeight = FontWeight.Normal),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
                     }
-                }
-            } else
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (email != null) {
-                        Icon(
-                            Icons.Default.MailOutline,
-                            null,
-                            Modifier.size(with(density) { 16.sp.toDp() }),
-                            tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                        )
-                        Spacer(Modifier.width(with(density) { 6.sp.toDp() }))
-                    }
-                    Text(
-                        label,
-                        style = style,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-        }
-        DropdownMenu(menu, { menu = false }) {
-            Text(
-                email ?: url,
-                Modifier.padding(horizontal = 16.dp, vertical = 8.dp).widthIn(max = 280.dp),
-                style = MaterialTheme.typography.bodySmall,
-            )
-            DropdownMenuItem(
-                text = { Text(openLabel) },
-                onClick = {
-                    menu = false
-                    openURL(context, url)
-                },
-            )
-            DropdownMenuItem(
-                text = { Text(copyLabel) },
-                onClick = {
-                    context
-                        .getSystemService(android.content.ClipboardManager::class.java)
-                        .setPrimaryClip(android.content.ClipData.newPlainText(label, email ?: url))
-                    menu = false
-                },
-            )
+            }
+            DropdownMenu(menu, { menu = false }) {
+                Text(
+                    email ?: url,
+                    Modifier.padding(horizontal = 16.dp, vertical = 8.dp).widthIn(max = 280.dp),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                DropdownMenuItem(
+                    text = { Text(openLabel) },
+                    onClick = {
+                        menu = false
+                        openURL(context, url)
+                    },
+                )
+                DropdownMenuItem(
+                    text = { Text(copyLabel) },
+                    onClick = {
+                        context
+                            .getSystemService(android.content.ClipboardManager::class.java)
+                            .setPrimaryClip(
+                                android.content.ClipData.newPlainText(label, email ?: url)
+                            )
+                        menu = false
+                    },
+                )
+            }
         }
     }
 }

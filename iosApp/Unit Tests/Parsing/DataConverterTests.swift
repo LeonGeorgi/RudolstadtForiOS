@@ -36,10 +36,7 @@ struct DataConverterTests {
                     isArtistSummaryEnabled: true),
                 locale: locale, colorScheme: .light, countryFormatter: formatter)
         }
-        guard case .event(let shown) = columns.first?.items.first else {
-            Issue.record("Expected the original shared event in the native timeline")
-            return
-        }
+        let shown = try #require(columns.first?.events.first?.presentation)
         #expect(shown.event === event)
         #expect(timeline.nativeTicks.count == 4)
     }
@@ -196,6 +193,8 @@ struct DataConverterTests {
         let detailCodes = Set(detail.overlayMetadataByID.values.map(\.code))
 
         #expect(detailCodes.isSubset(of: overviewCodes))
+        #expect(overviewCodes.contains("ATA"))
+        #expect(detailCodes.contains("ATA"))
         #expect(overviewCodes.contains("XKX"))
         #expect(!overviewCodes.contains("KOS"))
     }

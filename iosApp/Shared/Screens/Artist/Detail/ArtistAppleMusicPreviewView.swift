@@ -285,6 +285,7 @@ final class AppleMusicPreviewPlayer: ObservableObject {
 }
 
 struct ArtistAppleMusicPreviewButton: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     private enum Layout {
         static let width: CGFloat = 110
         static let height: CGFloat = 50
@@ -332,7 +333,7 @@ struct ArtistAppleMusicPreviewButton: View {
             .foregroundStyle(.white)
             .padding(.horizontal, 16)
             .frame(width: buttonWidth, height: buttonHeight)
-            .background(Color.accentColor, in: Capsule())
+            .background(festivalAccentColor, in: Capsule())
             .contentShape(Capsule())
         }
         .buttonStyle(.plain)

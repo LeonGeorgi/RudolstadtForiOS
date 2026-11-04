@@ -49,7 +49,7 @@ struct ArtistEventsBlock: View {
             ForEach(Array(artistEvents.enumerated()), id: \.element.id) { index, event in
                 let isSaved = profile.isEventSaved(event.id)
                 let isHighlighted =
-                    highlightedEventId == event.id && artistEvents.count > 1
+                    highlightedEventId == event.id
                 let route = festivalData.eventDestination(
                     event, fallback: .stage(id: event.stage.id, highlightedEventId: event.id),
                     alwaysShowDetails: settings.alwaysShowEventDetails)
@@ -115,6 +115,7 @@ struct ArtistEventsBlock: View {
                             )
                     }
                 }
+                .id(event.id)
 
             }
         }

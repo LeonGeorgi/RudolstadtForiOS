@@ -421,7 +421,7 @@ protocol FestivalAutomaticPlanningProviding: Sendable {
 
 enum FestivalDestination: Hashable, Codable, Sendable {
     case overview
-    case artist(Artist.ID)
+    case artist(Artist.ID, highlightedEventID: Event.ID? = nil)
     case event(Event.ID)
     case place(FestivalPlaceID)
     case information(FestivalInformationPage.ID)
@@ -719,7 +719,7 @@ extension FestivalDestination {
         let kind: String; let id: String?
         switch self {
         case .overview: kind = "overview"; id = nil
-        case .artist(let value): kind = "artist"; id = String(value)
+        case .artist(let value, _): kind = "artist"; id = String(value)
         case .event(let value): kind = "event"; id = String(value)
         case .place(let value): kind = "place"; id = value.coreID
         case .information(let value): kind = "information"; id = value
@@ -732,7 +732,7 @@ extension ContentDestination {
     var native: FestivalDestination? {
         switch kind {
         case "overview": return .overview
-        case "artist": return id.flatMap(Int.init).map(FestivalDestination.artist)
+        case "artist": return id.flatMap(Int.init).map { .artist($0) }
         case "event": return id.flatMap(Int.init).map(FestivalDestination.event)
         case "place": return id.map { .place(FestivalPlaceID(coreID: $0)) }
         case "information": return id.map(FestivalDestination.information)

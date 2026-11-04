@@ -85,7 +85,11 @@ struct AppNavigationDestination: View {
     private func festivalDestination(_ destination: FestivalDestination) -> some View {
         switch destination {
         case .overview: Text("schedule.title")
-        case .artist(let id): artistDestination(id: id, highlightedEventId: nil, transitionSourceID: nil)
+        case .artist(let id, let eventID):
+            let link = ArtistShareLink(year: festivalData.festivalYear, artistID: id, eventID: eventID)
+            artistDestination(
+                id: id, highlightedEventId: link.selectedEventID(in: festivalData.events),
+                transitionSourceID: nil, scrollToHighlightedEvent: true)
         case .event(let id):
             if let event = festivalData.events.first(where: { $0.id == id }) {
                 if festivalData.features.eventDetails.isSupported || settings.alwaysShowEventDetails {
@@ -120,12 +124,14 @@ struct AppNavigationDestination: View {
     private func artistDestination(
         id: Int,
         highlightedEventId: Int?,
-        transitionSourceID: Int?
+        transitionSourceID: Int?,
+        scrollToHighlightedEvent: Bool = false
     ) -> some View {
         if let artist = festivalData.artists.first(where: { $0.id == id }) {
             let detailView = ArtistDetailView(
                 artist: artist,
                 highlightedEventId: highlightedEventId,
+                scrollToHighlightedEvent: scrollToHighlightedEvent,
                 navigate: navigate
             )
 

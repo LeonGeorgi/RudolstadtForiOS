@@ -13,30 +13,17 @@ struct EventSavedIcon: View {
     let event: Event
     let isSaved: Bool
     var symbolAlignment: Alignment = .center
+    var foregroundColor: Color = .primary
     let onToggle: () -> Void
 
     @State var isAlertShown = false
 
-    func createAlert() -> Alert {
-        Alert(
-            title: Text(
-                String(
-                    format: NSLocalizedString(
-                        "event.remove.alert.title",
-                        comment: ""
-                    ),
-                    event.artist.formattedName,
-                    event.shortWeekDay,
-                    event.timeAsString
-                )
-            ),
-            message: Text("event.remove.alert.message"),
-            primaryButton: .default(Text("event.remove")) {
-                if isSaved {
-                    onToggle()
-                }
-            },
-            secondaryButton: .cancel()
+    private var removalAlertTitle: String {
+        String(
+            format: NSLocalizedString("event.remove.alert.title", comment: ""),
+            event.artist.formattedName,
+            event.shortWeekDay,
+            event.timeAsString
         )
     }
 
@@ -44,7 +31,7 @@ struct EventSavedIcon: View {
         if profile.userDataPolicy.savedEvents != .editable {
             if isSaved {
                 Image(systemName: "bookmark.fill")
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(foregroundColor)
                     .frame(width: 44, height: 44, alignment: symbolAlignment)
                     .accessibilityLabel(Text("event.saved.value.saved"))
             }
@@ -62,7 +49,7 @@ struct EventSavedIcon: View {
                 )
                 .contentTransition(.symbolEffect(.replace))
                 .animation(.default, value: isSaved)
-                .foregroundStyle(.primary)
+                .foregroundStyle(foregroundColor)
                 .frame(width: 44, height: 44, alignment: symbolAlignment)
                 .contentShape(Rectangle())
             }
@@ -74,8 +61,15 @@ struct EventSavedIcon: View {
                 Text(isSaved ? "event.saved.value.saved" : "event.saved.value.not_saved")
             )
             .accessibilityAddTraits(isSaved ? .isSelected : [])
-            .alert(isPresented: $isAlertShown) {
-                createAlert()
+            .alert(removalAlertTitle, isPresented: $isAlertShown) {
+                Button("event.remove") {
+                    if isSaved {
+                        onToggle()
+                    }
+                }
+                Button("event.remove.alert.cancel", role: .cancel) {}
+            } message: {
+                Text("event.remove.alert.message")
             }
         }
     }

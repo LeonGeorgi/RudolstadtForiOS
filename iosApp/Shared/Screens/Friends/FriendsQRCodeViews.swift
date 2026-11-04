@@ -162,13 +162,16 @@ struct FriendProfileQRScannerSheetView: View {
             set: { newValue in
                 if !newValue {
                     errorMessage = nil
-                    restartScanner()
                 }
             }
         )) {
-            Button("friends.try_again", role: .cancel) {
+            Button("friends.try_again") {
                 errorMessage = nil
                 restartScanner()
+            }
+            Button("friends.done", role: .cancel) {
+                errorMessage = nil
+                dismiss()
             }
         } message: {
             Text(errorMessage ?? "")

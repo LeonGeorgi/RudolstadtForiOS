@@ -98,7 +98,8 @@ struct ScheduleScreen: View {
                     .pickerStyle(.segmented)
                     .labelsHidden()
                     .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
+                    .padding(.top, isPersonalPlan ? 0 : 8)
+                    .padding(.bottom, isPersonalPlan ? 7 : 8)
                     .background(.bar)
             }
         }
@@ -170,28 +171,30 @@ struct ScheduleScreen: View {
 
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Menu {
-                    Picker(
-                        "filter.button",
-                        selection: Binding<ScheduleFilter>(
-                            get: {
-                                selectedFilter
-                            },
-                            set: { (type: ScheduleFilter) in
-                                if isPersonalPlan {
-                                    personalPlanFilter = type
-                                } else {
+                    if isPersonalPlan {
+                        if dataStore.automaticPlanning.isSupported {
+                            Toggle("schedule.plan.show_recommendations", isOn: Binding(
+                                get: { selectedFilter == .optimal },
+                                set: { personalPlanFilter = $0 ? .optimal : .saved }
+                            ))
+                            .accessibilityIdentifier("personal-plan-show-recommendations")
+                        }
+                    } else {
+                        Picker(
+                            "filter.button",
+                            selection: Binding<ScheduleFilter>(
+                                get: { selectedFilter },
+                                set: { type in
                                     settings.setScheduleFilter(type, for: dataStore.metadata.identity)
                                 }
+                            )
+                        ) {
+                            Text("schedule.type.saved")
+                                .tag(ScheduleFilter.saved)
+                            if dataStore.automaticPlanning.isSupported {
+                                Text("schedule.type.optimal")
+                                    .tag(ScheduleFilter.optimal)
                             }
-                        )
-                    ) {
-                        Text("schedule.type.saved")
-                            .tag(ScheduleFilter.saved)
-                        if dataStore.automaticPlanning.isSupported {
-                            Text("schedule.type.optimal")
-                                .tag(ScheduleFilter.optimal)
-                        }
-                        if !isPersonalPlan {
                             Text("schedule.type.interesting")
                                 .tag(ScheduleFilter.interesting)
                             Text("schedule.type.all")
@@ -199,7 +202,11 @@ struct ScheduleScreen: View {
                         }
                     }
                 } label: {
-                    FilterToolbarIcon(isActive: hasActiveFilter)
+                    if isPersonalPlan {
+                        Image(systemName: "ellipsis")
+                    } else {
+                        FilterToolbarIcon(isActive: hasActiveFilter)
+                    }
                 }
                 .accessibilityLabel(Text("filter.button"))
                 .appPopoverTip(

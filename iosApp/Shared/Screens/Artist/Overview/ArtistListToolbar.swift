@@ -86,13 +86,14 @@ struct ArtistPresentationMenu: View {
 }
 
 struct FilterToolbarIcon: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     let isActive: Bool
 
     var body: some View {
         if isActive {
             ZStack {
                 Circle()
-                    .fill(Color.accentColor)
+                    .fill(festivalAccentColor)
                     .frame(width: 26, height: 26)
                 Image(systemName: "line.3.horizontal.decrease")
                     .font(.system(size: 13, weight: .semibold))
@@ -106,6 +107,7 @@ struct FilterToolbarIcon: View {
 }
 
 struct ArtistListToolbar: ToolbarContent {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     @Environment(\.festivalData) private var festivalData
     @ObservedObject var state: ArtistOverviewState
     let currentTipID: String?
@@ -163,7 +165,7 @@ struct ArtistListToolbar: ToolbarContent {
                     systemName: state.favoriteArtistsOnly ? "heart.fill" : "heart"
                 )
             }
-            .foregroundStyle(state.favoriteArtistsOnly ? Color.accentColor : Color.primary)
+            .foregroundStyle(state.favoriteArtistsOnly ? festivalAccentColor : Color.primary)
             .accessibilityLabel(
                 state.favoriteArtistsOnly
                 ? Text("artists.all.button")

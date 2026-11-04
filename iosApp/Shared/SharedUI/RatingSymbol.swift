@@ -10,7 +10,7 @@ struct RatingSymbol: View {
     var body: some View {
         if rating <= 0 {
             Text("No Rating")
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
         } else {
             RatingGlyphs(
                 rating: rating, iconName: settings.likeIcon, spread: circleRadius,
@@ -133,10 +133,10 @@ private struct RatingSymbolPreviewBounds: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(width: 25, height: 25)
-            .overlay(
+            .overlay {
                 Rectangle()
                     .strokeBorder(Color.secondary.opacity(0.35), lineWidth: 0.5)
-            )
+            }
     }
 }
 

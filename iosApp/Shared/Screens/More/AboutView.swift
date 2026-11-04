@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct AboutView: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
 
     @EnvironmentObject private var dataStore: DataStore
 
@@ -28,7 +29,7 @@ struct AboutView: View {
             Section(header: Text("about.developer.header")) {
                 Text("about.developer.content")
                 NavigationLink("about.donate.title", value: AppNavigationRoute.donation)
-                    .foregroundColor(.accentColor)
+                    .foregroundStyle(festivalAccentColor)
 
                 if let githubUrl {
                     Link("about.github.title", destination: githubUrl)

@@ -256,7 +256,7 @@ struct ScheduleTimelineEventCell: View {
                     maxWidth: .infinity,
                     alignment: contentFrameAlignment
                 )
-                .foregroundColor(tagForegroundColor)
+                .foregroundStyle(tagForegroundColor)
                 .padding(.top, 3)
                 .textCase(.uppercase)
                 .lineLimit(1)
@@ -277,7 +277,7 @@ struct ScheduleTimelineEventCell: View {
                 maxWidth: .infinity,
                 alignment: contentFrameAlignment
             )
-            .foregroundColor(cellForegroundColor)
+            .foregroundStyle(cellForegroundColor)
             .lineLimit(2)
             .lineSpacing(1)
             .minimumScaleFactor(usesLeadingLayout ? 0.85 : 0.75)

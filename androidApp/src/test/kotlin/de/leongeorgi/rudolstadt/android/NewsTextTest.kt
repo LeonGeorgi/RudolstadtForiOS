@@ -40,6 +40,68 @@ class NewsTextTest {
 
     private val styles = TextLinkStyles()
 
+    @Test
+    fun selectableParagraphsKeepFormattingMailAnnotationsAndTheFinalBlankLine() {
+        val source =
+            AnnotatedString.Builder("Kontakt\nE-Mail\n")
+                .apply {
+                    addStyle(SpanStyle(fontWeight = FontWeight.Bold), 0, 7)
+                    addLink(LinkAnnotation.Url("mailto:band@example.com"), 8, 14)
+                    addStringAnnotation("inline-control", "mail-badge", 8, 14)
+                }
+                .toAnnotatedString()
+        val paragraphs = newsTextParagraphs(source)
+        assertEquals(listOf("Kontakt", "E-Mail", ""), paragraphs.map { it.text })
+        assertEquals(FontWeight.Bold, paragraphs[0].spanStyles.single().item.fontWeight)
+        assertEquals(
+            "mailto:band@example.com",
+            (paragraphs[1].getLinkAnnotations(0, 6).single().item as LinkAnnotation.Url).url,
+        )
+        assertEquals(
+            "mail-badge",
+            paragraphs[1].getStringAnnotations("inline-control", 0, 6).single().item,
+        )
+    }
+
+    @Test
+    fun previewBlocksPreserveSurroundingFormattingAndInlineArtistAndMailLinks() {
+        val source =
+            AnnotatedString.Builder(
+                    "Band\n\nhttps://example.com/info\n\nKontakt: music27@example.com"
+                )
+                .apply { addStyle(SpanStyle(fontWeight = FontWeight.Bold), 0, 4) }
+                .toAnnotatedString()
+        val text = linkedNewsText(AnnotatedString(""), source, listOf(artist(1, "Band")), styles) {}
+        val blocks = newsArticleBlocks(text.content)
+        assertEquals(3, blocks.size)
+        val first = (blocks[0] as NewsArticleBlock.Text).value
+        assertEquals("Band", visible(first.text))
+        assertEquals(FontWeight.Bold, first.spanStyles.first().item.fontWeight)
+        assertEquals(1, artistLinks(first).size)
+        val preview = blocks[1] as NewsArticleBlock.Preview
+        assertEquals("https://example.com/info", text.webLinks.getValue(preview.linkID).url)
+        val last = (blocks[2] as NewsArticleBlock.Text).value
+        assertEquals("Kontakt: music27@example.com", last.text)
+        assertEquals(1, newsArticleBlocks(last).size)
+    }
+
+    @Test
+    fun adjacentPreviewsDoNotProduceBlankTextBlocks() {
+        val text =
+            linkedNewsText(
+                AnnotatedString(""),
+                AnnotatedString("https://example.com/one\n\nhttps://example.com/two"),
+                emptyList(),
+                styles,
+            ) {}
+        val blocks = newsArticleBlocks(text.content)
+        assertEquals(2, blocks.size)
+        assertEquals(
+            listOf("https://example.com/one", "https://example.com/two"),
+            blocks.map { text.webLinks.getValue((it as NewsArticleBlock.Preview).linkID).url },
+        )
+    }
+
     private fun visible(text: String) = text.replace("\uFFFC", "").replace("\u2060", "")
 
     private fun artist(id: Long, name: String) =

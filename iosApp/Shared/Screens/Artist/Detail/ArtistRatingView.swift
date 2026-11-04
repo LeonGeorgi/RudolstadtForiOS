@@ -211,6 +211,7 @@ struct ArtistRatingPopoverButton: View {
 }
 
 private struct ArtistRatingPalette: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     private enum Layout {
         static let regularContentWidth: CGFloat = 250
         static let accessibilityContentWidth: CGFloat = 260
@@ -417,14 +418,14 @@ private struct ArtistRatingPalette: View {
                         )
                     )
                     .foregroundStyle(
-                        isSelected ? Color.accentColor : Color.secondary
+                        isSelected ? festivalAccentColor : Color.secondary
                     )
 
                 if !compact {
                     Text(label)
                         .font(.caption2)
                         .foregroundStyle(
-                            isSelected ? Color.accentColor : Color.primary
+                            isSelected ? festivalAccentColor : Color.primary
                         )
                         .multilineTextAlignment(.center)
                         .lineLimit(dynamicTypeSize.isAccessibilitySize ? 3 : 2)
@@ -437,7 +438,7 @@ private struct ArtistRatingPalette: View {
             )
             .background(
                 isSelected
-                    ? Color.accentColor.opacity(0.12)
+                    ? festivalAccentColor.opacity(0.12)
                     : Color.secondary.opacity(0.06),
                 in: RoundedRectangle(cornerRadius: 12, style: .continuous)
             )
@@ -445,7 +446,7 @@ private struct ArtistRatingPalette: View {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .strokeBorder(
                         isSelected
-                            ? Color.accentColor.opacity(0.45)
+                            ? festivalAccentColor.opacity(0.45)
                             : Color.clear,
                         lineWidth: 1
                     )

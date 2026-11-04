@@ -30,7 +30,7 @@ struct StageDetailInteractiveMap: View {
                     .accessibilityLabel(Text("Close map"))
                 }
 
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         StageMapView.openInMaps(stage: stage)
                     } label: {

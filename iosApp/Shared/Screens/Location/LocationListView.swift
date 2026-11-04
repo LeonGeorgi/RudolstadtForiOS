@@ -120,7 +120,7 @@ private struct LocationSearchList: View {
             }
             rows(result.ungrouped)
         }
-        .searchable(text: $searchTerm).disableAutocorrection(true).navigationTitle(
+        .searchable(text: $searchTerm).autocorrectionDisabled(true).navigationTitle(
             "locations.title")
     }
 

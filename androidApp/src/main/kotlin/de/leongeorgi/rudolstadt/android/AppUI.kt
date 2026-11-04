@@ -59,8 +59,14 @@ internal data class AppUI(
 ) {
     fun navigate(destination: String) = nav.navigate("${nav.currentSection()}/$destination")
 
-    fun artist(id: Long, event: Long? = null) =
-        navigate("artist/$id" + (event?.let { "?event=$it" } ?: ""))
+    fun artist(id: Long, event: Long? = null, scrollToHighlightedEvent: Boolean = false) {
+        val query =
+            listOfNotNull(
+                event?.let { "event=$it" },
+                "focus=true".takeIf { scrollToHighlightedEvent },
+            )
+        navigate("artist/$id" + if (query.isEmpty()) "" else "?${query.joinToString("&")}")
+    }
 
     val showsEventDetails: Boolean
         get() = content.capabilities.eventDetails != null || state.settings.alwaysShowEventDetails
@@ -90,6 +96,8 @@ internal fun AppRoot(model: AppModel, state: AppState, incoming: Intent?, handle
     val error = stringResource(R.string.storage_error)
     LaunchedEffect(model, error) { model.storageErrors.collect { snackbar.showSnackbar(error) } }
     Surface(Modifier.fillMaxSize()) {
+        if (state.settingsFailed || !state.settingsReady || state.content == null)
+            AppStatusBar(overPhoto = false)
         if (state.settingsFailed) {
             Status(stringResource(R.string.storage_read_error), model::readSettings)
         } else if (!state.settingsReady) Status()
@@ -122,7 +130,11 @@ internal fun AppRoot(model: AppModel, state: AppState, incoming: Intent?, handle
                                     model.selectEdition(target.key)
                                 else {
                                     if (content.artists[link.artistID] != null)
-                                        ui.artist(link.artistID)
+                                        ui.artist(
+                                            link.artistID,
+                                            link.selectedEventID(content.events.values.toList()),
+                                            scrollToHighlightedEvent = true,
+                                        )
                                     else
                                         Toast.makeText(
                                                 context,
@@ -143,6 +155,7 @@ internal fun AppRoot(model: AppModel, state: AppState, incoming: Intent?, handle
                         }
                         val entry by nav.currentBackStackEntryAsState()
                         val route = entry?.destination?.route ?: "program"
+                        if (!route.contains("/artist/")) AppStatusBar(overPhoto = false)
                         val destinations = appSections
                         val selectedSection = nav.currentSection()
                         val labels =

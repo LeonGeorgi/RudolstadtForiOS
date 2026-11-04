@@ -13,9 +13,11 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.leongeorgi.rudolstadt.android.data.text
+import de.leongeorgi.rudolstadt.discovery.ArtistPublicLink
 import de.leongeorgi.rudolstadt.festival.ProgramArtist
 import de.leongeorgi.rudolstadt.festival.ProgramOccurrence
 import de.leongeorgi.rudolstadt.profile.ProfileMutation
@@ -194,6 +196,7 @@ internal fun ConcertActions(
     rate: () -> Unit,
 ) {
     val app = LocalApp.current
+    val context = LocalContext.current
     val saved = event.eventID in app.state.profile.saved
     if (!expanded) return
     ModalBottomSheet(
@@ -245,6 +248,17 @@ internal fun ConcertActions(
                 ActionRow(stringResource(R.string.concert_details), Icons.Default.Info) {
                     dismiss()
                     app.event(event.eventID)
+                }
+            }
+            if (app.state.edition.definition.identity.festivalID == "rudolstadt") {
+                item {
+                    ActionRow(stringResource(R.string.share_concert), Icons.Default.Share) {
+                        val url = ArtistPublicLink(app.state.edition.year, event.artist.artistID, event.eventID).url()
+                        if (url != null) {
+                            dismiss()
+                            share(context, "${event.artist.name}\n$url")
+                        }
+                    }
                 }
             }
             item {

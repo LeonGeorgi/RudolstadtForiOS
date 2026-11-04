@@ -24,6 +24,49 @@ internal data class NewsText(
     val webLinks: Map<String, NewsWebLink>,
 )
 
+private const val WEB_PREVIEW_BLOCK = "news-web-preview-block"
+
+internal fun newsTextParagraphs(source: AnnotatedString): List<AnnotatedString> {
+    val paragraphs = mutableListOf<AnnotatedString>()
+    var start = 0
+    source.text.forEachIndexed { index, character ->
+        if (character == '\n') {
+            paragraphs += source.subSequence(start, index)
+            start = index + 1
+        }
+    }
+    paragraphs += source.subSequence(start, source.length)
+    return paragraphs
+}
+
+internal sealed interface NewsArticleBlock {
+    data class Text(val value: AnnotatedString) : NewsArticleBlock
+
+    data class Preview(val linkID: String) : NewsArticleBlock
+}
+
+internal fun newsArticleBlocks(source: AnnotatedString): List<NewsArticleBlock> {
+    val previews = source.getStringAnnotations(WEB_PREVIEW_BLOCK, 0, source.length)
+    if (previews.isEmpty()) return listOf(NewsArticleBlock.Text(source))
+    val blocks = mutableListOf<NewsArticleBlock>()
+    var cursor = 0
+    fun appendText(end: Int) {
+        var start = cursor
+        var trimmedEnd = end
+        while (start < trimmedEnd && source.text[start].isWhitespace()) start++
+        while (trimmedEnd > start && source.text[trimmedEnd - 1].isWhitespace()) trimmedEnd--
+        if (start < trimmedEnd)
+            blocks += NewsArticleBlock.Text(source.subSequence(start, trimmedEnd))
+    }
+    for (preview in previews.sortedBy { it.start }) {
+        appendText(preview.start)
+        blocks += NewsArticleBlock.Preview(preview.item)
+        cursor = preview.end
+    }
+    appendText(source.length)
+    return blocks
+}
+
 internal fun linkedNewsText(
     subtitle: AnnotatedString,
     content: AnnotatedString,
@@ -120,7 +163,10 @@ internal fun linkedNewsText(
             if (cursor < link.start) builder.append(source.subSequence(cursor, link.start))
             val tag = "web:$index:${link.start}"
             webLinks[tag] = NewsWebLink(TextMentionRange(link.start, link.end), url, label, email)
+            val start = builder.length
             builder.appendInlineContent(tag, label)
+            if (email == null)
+                builder.addStringAnnotation(WEB_PREVIEW_BLOCK, tag, start, builder.length)
             cursor = link.end
         }
         if (cursor < source.length) builder.append(source.subSequence(cursor, source.length))

@@ -27,6 +27,7 @@
 "artist.note.save" = "Speichern";
 "artist.note.cancel" = "Abbrechen";
 "artist.share" = "Künstler teilen";
+"event.share" = "Konzert teilen";
 "artist.share.unavailable.title" = "Künstler nicht verfügbar";
 "artist.share.unavailable.message" = "Dieser Künstler wurde im geladenen Programm nicht gefunden oder der Link gehört zu einem anderen Festivaljahr.";
 "artist.share.unavailable.ok" = "OK";
@@ -108,6 +109,7 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "event.save.alert.message" = "Die Veranstaltung wird deinem Zeitplan hinzugefügt.";
 "Save \"<%@>\" at <%@> <%@>?" = "\"%1$@\" am %2$@ %3$@ speichern?";
 "event.remove" = "Entfernen";
+"event.remove.alert.cancel" = "Abbrechen";
 "event.remove.alert.title" = "\"%1$@\" am %2$@ %3$@ entfernen?";
 "event.remove.alert.message" = "Die Veranstaltung wird aus deinem Zeitplan entfernt.";
 
@@ -150,6 +152,19 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "schedule.day.release" = "Loslassen zum Wechseln";
 "schedule.title" = "Zeitplan";
 "schedule.plan.title" = "Mein Plan";
+"schedule.plan.free_time" = "Freie Zeit";
+"schedule.plan.recommended" = "Empfohlenes Konzert";
+"schedule.plan.show_recommendations" = "Empfehlungen einblenden";
+"schedule.plan.walk_minutes" = "%ld Min. Fußweg";
+"schedule.plan.walk_minutes_range" = "%ld–%ld Min. Fußweg";
+"schedule.plan.empty" = "An diesem Tag hast du noch keine Konzerte gemerkt.";
+"schedule.plan.conflict_with" = "Möglicher Zeitkonflikt mit %@";
+"schedule.plan.footpath" = "FUẞWEG";
+"schedule.plan.footpaths" = "FUẞWEGE";
+"schedule.plan.minutes" = "%ld Min.";
+"schedule.plan.minutes_range" = "%ld–%ld Min.";
+"schedule.plan.routes" = "Fußwege anzeigen";
+"schedule.plan.route_from_to" = "Fußweg von %@ nach %@";
 "schedule.plan.walking" = "ca. %ld Min. zu Fuß · %ld m";
 "schedule.plan.walking.unknown" = "Fußweg unbekannt";
 "schedule.plan.buffer" = "%ld Min. Zeitpuffer";
@@ -394,6 +409,8 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 
 "copy.link.title" = "Link kopieren";
 "news.open_link" = "Link öffnen";
+"news.open_artist" = "Künstler anzeigen";
+"news.open_stage" = "Ort anzeigen";
 "news.write_email" = "E-Mail schreiben";
 "copy.email.title" = "E-Mail-Adresse kopieren";
 "email.send.title" = "E-Mail senden";
@@ -580,6 +597,17 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "map.legend" = "Legende";
 
 "map.recenter" = "Karte zentrieren";
+"map.options" = "Kartenoptionen";
+"map.type.title" = "Kartentyp";
+"map.type.standard" = "Karte";
+"map.type.satellite" = "Satellit";
+"map.type.hybrid" = "Hybrid";
+"map.festival_area" = "Festivalgelände anzeigen";
+"map.locate_me" = "Eigenen Standort anzeigen";
+"map.location.permission.title" = "Standortzugriff erlauben";
+"map.location.permission.message" = "Damit die Karte deinen Standort anzeigen kann, benötigt die App die Erlaubnis, auf deinen Standort zuzugreifen. Du kannst sie in den Einstellungen erteilen.";
+"map.location.open_settings" = "Einstellungen öffnen";
+"map.location.cancel" = "Abbrechen";
 
 "map.user_location" = "Eigener Standort";
 

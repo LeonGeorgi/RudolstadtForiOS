@@ -2,6 +2,7 @@ import StoreKit
 import SwiftUI
 
 struct DonationView: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     @EnvironmentObject var iapManager: IAPManager
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -38,7 +39,7 @@ struct DonationView: View {
                         }
                         .listRowBackground(
                             isSelected
-                                ? Color.accentColor.opacity(colorScheme == .dark ? 0.24 : 0.12)
+                                ? festivalAccentColor.opacity(colorScheme == .dark ? 0.24 : 0.12)
                                 : nil
                         )
                         .accessibilityAddTraits(isSelected ? .isSelected : [])
@@ -97,7 +98,7 @@ struct DonationView: View {
         Group {
             Image(systemName: "heart")
                 .font(.system(size: heartSize))
-                .foregroundStyle(.tint)
+                .foregroundStyle(festivalAccentColor)
                 .frame(width: heartSize * 1.2)
                 .accessibilityHidden(true)
 
@@ -111,7 +112,7 @@ struct DonationView: View {
     private func selectedAmount(for product: Product) -> some View {
         Text(product.displayPrice)
             .font(.system(size: amountSize, weight: .semibold))
-            .foregroundStyle(.tint)
+            .foregroundStyle(festivalAccentColor)
             .lineLimit(1)
             .minimumScaleFactor(0.5)
             .frame(maxWidth: .infinity)
@@ -130,7 +131,7 @@ struct DonationView: View {
                 .frame(maxWidth: .infinity)
         }
         .controlSize(.large)
-        .tint(Color.accentColor)
+        .tint(festivalAccentColor)
 
         if #available(iOS 26.0, macOS 26.0, *) {
             button.buttonStyle(.glassProminent)
@@ -141,6 +142,7 @@ struct DonationView: View {
 }
 
 private struct DonationOptionLabel: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     let product: Product
@@ -149,7 +151,7 @@ private struct DonationOptionLabel: View {
     var body: some View {
         HStack {
             Image(systemName: "checkmark")
-                .foregroundStyle(.tint)
+                .foregroundStyle(festivalAccentColor)
                 .opacity(isSelected ? 1 : 0)
                 .accessibilityHidden(true)
 

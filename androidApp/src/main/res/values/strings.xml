@@ -67,6 +67,8 @@
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
     <string name="share">Share</string>
+    <string name="share_concert">Share concert</string>
+    <string name="share_artist">Share artist</string>
     <string name="similar">Similar artists</string>
     <string name="summary_ai">AI summary</string>
     <string name="summary_notice">Automatically generated; details may be inaccurate.</string>

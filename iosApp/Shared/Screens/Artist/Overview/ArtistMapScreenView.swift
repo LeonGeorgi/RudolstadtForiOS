@@ -10,10 +10,9 @@ struct ArtistMapScreenView: View {
             artists: artists,
             navigate: navigate
         )
-        .navigationBarTitle(navigationTitleKey)
+        .navigationTitle(navigationTitleKey)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(.visible, for: .tabBar)
-        .toolbarColorScheme(.dark, for: .navigationBar, .tabBar)
     }
 }

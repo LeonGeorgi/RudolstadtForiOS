@@ -268,6 +268,56 @@ struct ScheduleTimelineZoomTests {
     }
 }
 
+struct ScheduleTimelineViewportTests {
+    @Test
+    func onlyColumnsIntersectingTheRenderRegionArePrepared() {
+        let layout = ScheduleTimelineHorizontalLayout(stageCount: 8, timeWidth: 55, columnSpacing: 5)
+        #expect(layout.visibleColumnIndices(in: nil, columnWidth: 70) == Array(0..<8))
+        #expect(layout.visibleColumnIndices(
+            in: CGRect(x: 130, y: 0, width: 155, height: 500), columnWidth: 70) == [1, 2])
+        #expect(layout.visibleColumnIndices(
+            in: CGRect(x: 0, y: 0, width: 60, height: 500), columnWidth: 70).isEmpty)
+        #expect(layout.visibleColumnIndices(
+            in: CGRect(x: 1000, y: 0, width: 300, height: 500), columnWidth: 70).isEmpty)
+        #expect(layout.visibleColumnIndices(
+            in: CGRect(x: 280, y: 0, width: 105, height: 500), columnWidth: 105) == [2])
+    }
+
+    @Test
+    func keepsReserveOnEverySideOfTheViewport() {
+        let viewport = CGRect(x: 100, y: 200, width: 300, height: 400)
+        let bounds = ScheduleTimelineViewport.renderBounds(for: viewport, retaining: .null)
+        #expect(bounds == CGRect(x: -50, y: 0, width: 600, height: 800))
+    }
+
+    @Test
+    func smallScrollsReuseTheExistingCards() {
+        let initial = CGRect(x: 100, y: 200, width: 300, height: 400)
+        let bounds = ScheduleTimelineViewport.renderBounds(for: initial, retaining: .null)
+        let scrolled = initial.offsetBy(dx: 100, dy: 150)
+        #expect(ScheduleTimelineViewport.renderBounds(for: scrolled, retaining: bounds) == bounds)
+    }
+
+    @Test
+    func scrollingOrResizingBeyondTheReservePreparesANewRegion() {
+        let initial = CGRect(x: 100, y: 200, width: 300, height: 400)
+        let bounds = ScheduleTimelineViewport.renderBounds(for: initial, retaining: .null)
+        for viewport in [
+            initial.offsetBy(dx: 151, dy: 0), initial.offsetBy(dx: 0, dy: -201),
+            CGRect(x: 100, y: 200, width: 700, height: 800),
+        ] {
+            let updated = ScheduleTimelineViewport.renderBounds(for: viewport, retaining: bounds)
+            #expect(updated != bounds)
+            #expect(updated.contains(viewport))
+        }
+    }
+
+    @Test
+    func unknownViewportKeepsTheInitialFullLayoutAvailable() {
+        #expect(ScheduleTimelineViewport.renderBounds(for: .zero, retaining: .null).isNull)
+    }
+}
+
 struct ScheduleTimelineEventCellDetailLevelTests {
     @Test
     func cardDetailsGrowAcrossFiveSemanticZoomLevels() {
@@ -352,6 +402,32 @@ extension ScheduleTimelineZoomTests {
 
 @MainActor
 struct ScheduleTimelineEventPresentationTests {
+    @Test(arguments: [42.0, 60, 120])
+    func positionedCardsPreserveGapsDurationsAndColumnSpacing(heightPerHour: Double) throws {
+        let stage = TestFixtures.stage(id: 1)
+        let first = makeEvent(artist: TestFixtures.artist(id: 1))
+        let second = TestFixtures.event(
+            id: 2, dayInJuly: 2, timeAsString: "18:15", stage: stage,
+            artist: TestFixtures.artist(id: 2))
+        let column = ScheduleTimelineStagePresentation(
+            id: stage.id, stage: stage, title: "Stage", items: [
+                .gap(Gap(duration: 3600)), .event(prepare(first, duration: 45)),
+                .gap(Gap(duration: 1800)), .event(prepare(second, duration: 120)),
+            ])
+        #expect(column.events.map(\.id) == [first.id, second.id])
+        let firstPlacement = try #require(column.events.first)
+        let secondPlacement = try #require(column.events.last)
+        func frame(_ event: ScheduleTimelinePositionedEvent) -> CGRect {
+            event.frame(
+                columnIndex: 2, columnWidth: 105, timeWidth: 55,
+                columnSpacing: 5, heightPerHour: CGFloat(heightPerHour))
+        }
+        #expect(frame(firstPlacement) == CGRect(
+            x: 280, y: 1.25 * heightPerHour, width: 105, height: 0.75 * heightPerHour))
+        #expect(frame(secondPlacement) == CGRect(
+            x: 280, y: 2.5 * heightPerHour, width: 105, height: 2 * heightPerHour))
+    }
+
     @Test
     func preparesLocalizedLabelsAndKeepsKeywordOrder() {
         let details = ArtistDetails(
@@ -408,14 +484,14 @@ struct ScheduleTimelineEventPresentationTests {
     }
 
     private func prepare(
-        _ event: Event, locale: String = "de_DE", saved: Bool = false, rating: Int = 0,
+        _ event: Event, duration: Int = 60, locale: String = "de_DE", saved: Bool = false, rating: Int = 0,
         scheme: ColorScheme = .light
     ) -> ScheduleTimelineEventPresentation {
         let locale = Locale(identifier: locale)
         let formatter = ListFormatter()
         formatter.locale = locale
         return ScheduleTimelineEventPresentation(
-            event: event, duration: 60,
+            event: event, duration: duration,
             contextPreviewState: EventContextPreviewState(
                 isSaved: saved, artistRating: rating, artistIconName: nil,
                 friendProfilesWhoSavedEvent: [], artistNote: nil, isArtistSummaryEnabled: true),

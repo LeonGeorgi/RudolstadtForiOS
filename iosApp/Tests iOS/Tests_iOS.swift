@@ -127,6 +127,49 @@ final class NativeScreenshotTests: XCTestCase {
 final class NavigationRegressionTests: XCTestCase {
     override func setUpWithError() throws { continueAfterFailure = false }
 
+    @MainActor func testTimelineHeadersStayAlignedWhenZooming() {
+        let app = launch()
+        tapText("Do\\..*|Thu.*", in: app)
+        tapText("Sa\\..*|Sat.*", in: app)
+        func verifyAlignment(_ phase: String, stageNumber: Int = 2, artist: String = "La Vespa") {
+            let heading = app.buttons.matching(
+                NSPredicate(format: "label BEGINSWITH %@", "\(stageNumber), ")).firstMatch
+            let concert = app.buttons.matching(
+                NSPredicate(format: "label CONTAINS %@", artist)).firstMatch
+            let info = app.buttons.matching(
+                NSPredicate(format: "label == %@", "Endzeiten sind geschätzt")).firstMatch
+            require(heading)
+            require(concert)
+            require(info)
+            print("HEADER_ALIGNMENT \(phase) header=\(heading.frame) card=\(concert.frame) info=\(info.frame)")
+            XCTAssertEqual(heading.frame.midX, concert.frame.midX, accuracy: 1, phase)
+            XCTAssertEqual(heading.frame.width, concert.frame.width, accuracy: 1, phase)
+            XCTAssertGreaterThan(info.frame.midX, 0, phase)
+            XCTAssertLessThan(info.frame.maxX, 60, phase)
+        }
+        verifyAlignment("standard")
+        tapID("schedule-zoom-menu", in: app)
+        tapText("Details.*", in: app)
+        snapshot("timeline-detail-headers")
+        verifyAlignment("detail preset")
+        let concert = app.buttons.matching(
+            NSPredicate(format: "label CONTAINS %@", "La Vespa")).firstMatch
+        concert.pinch(withScale: 0.85, velocity: -0.5)
+        snapshot("timeline-pinch-headers")
+        verifyAlignment("pinch")
+        tapID("schedule-zoom-menu", in: app)
+        tapText("Standard.*", in: app)
+        verifyAlignment("reset")
+        app.swipeLeft()
+        app.swipeLeft()
+        verifyAlignment("scrolled", stageNumber: 19, artist: "Camila Morgenstern")
+        tapID("schedule-zoom-menu", in: app)
+        tapText("Details.*", in: app)
+        app.swipeUp()
+        snapshot("timeline-scrolled-detail-headers")
+        verifyAlignment("scrolled detail", stageNumber: 18, artist: "Knaute und Konsorten")
+    }
+
     @MainActor func testFestivalSelectionKeepsEveryTabUsable() {
         let app = launch(seeded: false)
         selectFestival("Rudolstadt 2026", in: app)
@@ -213,6 +256,110 @@ final class NavigationRegressionTests: XCTestCase {
         tapText("Close|Schließen", in: app)
         requireAbsent(id("stage-detail-35", in: app))
         require(id("festival-map", in: app))
+    }
+
+    @MainActor func testNewsInlineArtistLongPressKeepsArticleOpen() {
+        let app = launch()
+        tapID("ellipsis", in: app)
+        tapText("Neuigkeiten", in: app)
+        scrollTo(id("news-1746", in: app), in: app).tap()
+        let article = id("news-inline-content", in: app)
+        require(article)
+        article.coordinate(withNormalizedOffset: .zero)
+            .withOffset(CGVector(dx: 68, dy: 10))
+            .press(forDuration: 1.2)
+        XCTAssertEqual(app.state, .runningForeground)
+        require(article)
+        snapshot("news-inline-artist-long-press")
+        tapText("Künstler anzeigen", in: app)
+        require(id("artist-detail-208-theme-ready", in: app))
+    }
+
+    @MainActor func testScannerFailureCanBeDismissed() throws {
+        #if targetEnvironment(simulator)
+        let app = launch()
+        tapID("person.2.fill", in: app)
+        tapText("Freund hinzufügen", in: app)
+        tapID("qrcode.viewfinder", in: app)
+        let failure = app.alerts.firstMatch
+        require(failure)
+        snapshot("qr-scanner-unavailable")
+        failure.buttons["Fertig"].tap()
+        requireAbsent(app.navigationBars["Freundes-QR scannen"])
+        require(id("friends-edit-profile", in: app))
+        #else
+        throw XCTSkip("Requires a simulator without a usable camera")
+        #endif
+    }
+
+    @MainActor func testPersonalPlanFinalDesignAndActions() {
+        let app = launch()
+        tapText("Do\\..*", in: app)
+        tapText("So\\..*", in: app)
+        tapID("schedule-personal-plan", in: app)
+        require(app.scrollViews["schedule-personal-plan-screen"])
+        require(id("personal-plan-event-219", in: app))
+        XCTAssertFalse(app.staticTexts["Sonntag, 5. Juli"].exists)
+        require(text("Freie Zeit", in: app))
+        let saved = id("personal-plan-save-219", in: app)
+        let route = id("personal-plan-routes-349", in: app)
+        require(saved)
+        require(route)
+        XCTAssertGreaterThanOrEqual(saved.frame.width, 44)
+        XCTAssertGreaterThanOrEqual(route.frame.width, 44)
+        XCTAssertEqual(saved.frame.midX, route.frame.midX, accuracy: 1)
+        snapshot("personal-plan-final-saved")
+
+        saved.tap()
+        require(app.alerts.firstMatch)
+        app.alerts.firstMatch.buttons["Abbrechen"].tap()
+        require(id("personal-plan-event-219", in: app))
+
+        tapText("Filtern", in: app)
+        tapID("personal-plan-show-recommendations", in: app)
+        require(app.scrollViews["schedule-personal-plan-screen"])
+        require(text("Empfohlenes Konzert", in: app))
+        app.scrollViews["schedule-personal-plan-screen"].swipeDown()
+        app.scrollViews["schedule-personal-plan-screen"].swipeDown()
+        snapshot("personal-plan-final-recommendations")
+    }
+
+    @MainActor func testPersonalPlanConflictOnlyMarksTheLaterConcert() {
+        let app = launch()
+        tapText("Do\\..*", in: app)
+        tapText("So\\..*", in: app)
+        tapID("list.bullet", in: app)
+        let simultaneous = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS %@ AND label CONTAINS %@", "AltBadSeer Musi", "16:00"
+        )).firstMatch
+        scrollTo(simultaneous, in: app).press(forDuration: 1)
+        tapText("Speichern", in: app)
+        tapID("schedule-personal-plan", in: app)
+        require(text(".*Möglicher Zeitkonflikt mit.*", in: app))
+        require(id("personal-plan-save-219", in: app))
+        require(id("personal-plan-save-251", in: app))
+        snapshot("personal-plan-final-conflict")
+    }
+
+    @MainActor func testPersonalPlanEnglishDarkWithLargeText() {
+        let app = XCUIApplication()
+        app.launchArguments = [
+            "-screenshotMode", "YES", "-screenshotAppearance", "dark",
+            "-AppleLanguages", "(en)", "-AppleLocale", "en_US",
+            "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityM"
+        ]
+        app.launch()
+        require(id("schedule-screen", in: app), timeout: 60)
+        tapID("schedule-personal-plan", in: app)
+        tapText("Sun.*", in: app)
+        require(id("personal-plan-event-219", in: app))
+        require(text("Free time", in: app))
+        XCTAssertFalse(app.staticTexts["Sunday, July 5"].exists)
+        require(text("19:52", in: app))
+        let saved = id("personal-plan-save-219", in: app)
+        require(saved)
+        XCTAssertGreaterThanOrEqual(saved.frame.width, 44)
+        snapshot("personal-plan-final-english-dark-large-text")
     }
 
     @MainActor private func launch(seeded: Bool = true) -> XCUIApplication {

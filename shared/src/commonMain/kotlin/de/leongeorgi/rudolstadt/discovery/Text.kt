@@ -1,5 +1,7 @@
 package de.leongeorgi.rudolstadt.discovery
 
+import de.leongeorgi.rudolstadt.festival.ProgramOccurrence
+import io.ktor.http.Url
 import kotlinx.serialization.Serializable
 
 object TextSearch {
@@ -84,11 +86,15 @@ object CuratedLinks {
 }
 
 @Serializable
-data class ArtistPublicLink(val year: Int, val artistID: Long) {
+data class ArtistPublicLink(val year: Int, val artistID: Long, val eventID: Long? = null) {
     fun url(): String? =
-        if (year in 1000..9999 && artistID > 0)
-            "https://festival.leongeorgi.de/rudolstadt/$year/artists/$artistID"
+        if (year in 1000..9999 && artistID > 0 && (eventID == null || eventID > 0))
+            "https://festival.leongeorgi.de/rudolstadt/$year/artists/$artistID" +
+                (eventID?.let { "?event=$it" } ?: "")
         else null
+
+    fun selectedEventID(events: List<ProgramOccurrence>): Long? =
+        events.firstOrNull { it.eventID == eventID && it.artist.artistID == artistID }?.eventID
 
     companion object {
         fun parse(value: String): ArtistPublicLink? {
@@ -113,7 +119,10 @@ data class ArtistPublicLink(val year: Int, val artistID: Long) {
                     .removeSuffix("/")
             val artistPath = "$year/artists/$id"
             if (path != artistPath && path != "rudolstadt/$artistPath") return null
-            return ArtistPublicLink(year, id)
+            // Invalid or ambiguous optional selections must not break an artist link.
+            val event = runCatching { Url(value).parameters.getAll("event") }.getOrNull()
+                ?.singleOrNull()?.takeIf { Regex("[1-9]\\d*").matches(it) }?.toLongOrNull()
+            return ArtistPublicLink(year, id, event)
         }
     }
 }

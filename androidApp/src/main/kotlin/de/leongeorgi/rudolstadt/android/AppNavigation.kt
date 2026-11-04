@@ -49,10 +49,17 @@ internal fun FestivalNavHost(nav: NavHostController) {
                             defaultValue = -1L
                         }
                     )
-                composable("$section/artist/{id}?event={event}", arguments = eventArgument) {
+                composable(
+                    "$section/artist/{id}?event={event}&focus={focus}",
+                    arguments = eventArgument + navArgument("focus") {
+                        type = NavType.BoolType
+                        defaultValue = false
+                    },
+                ) {
                     ArtistScreen(
                         it.arguments?.getString("id")?.toLongOrNull(),
                         it.arguments?.getLong("event")?.takeIf { value -> value >= 0 },
+                        scrollToHighlightedEvent = it.arguments?.getBoolean("focus") == true,
                     )
                 }
                 composable("$section/place/{id}?event={event}", arguments = eventArgument) {

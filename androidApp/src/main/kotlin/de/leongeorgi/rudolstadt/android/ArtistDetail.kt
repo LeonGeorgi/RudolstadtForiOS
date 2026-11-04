@@ -39,10 +39,15 @@ import de.leongeorgi.rudolstadt.festival.*
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun ArtistScreen(id: Long?, highlightedEvent: Long? = null) {
+internal fun ArtistScreen(
+    id: Long?,
+    highlightedEvent: Long? = null,
+    scrollToHighlightedEvent: Boolean = false,
+) {
     val app = LocalApp.current
     val artist = app.content.artists[id]
     if (artist == null) {
+        AppStatusBar(overPhoto = false)
         Page(stringResource(R.string.artists_title)) { Status(stringResource(R.string.not_found)) }
         return
     }
@@ -93,7 +98,15 @@ internal fun ArtistScreen(id: Long?, highlightedEvent: Long? = null) {
                 }
             }
         val topPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 64.dp
-        ArtistDetailStatusBar(overPhoto)
+        LaunchedEffect(id, selectedEvent?.eventID, scrollToHighlightedEvent, twoColumns, hero) {
+            if (scrollToHighlightedEvent && selectedEvent != null) {
+                list.scrollToItem(
+                    (if (twoColumns) 0 else 1) + 2 + events.indexOf(selectedEvent),
+                    scrollOffset = if (hero) -with(density) { topPadding.roundToPx() } else 0,
+                )
+            }
+        }
+        AppStatusBar(overPhoto)
         Row(Modifier.widthIn(max = 1200.dp).fillMaxSize().align(Alignment.TopCenter)) {
             if (twoColumns) {
                 Column(
@@ -182,7 +195,7 @@ internal fun ArtistScreen(id: Long?, highlightedEvent: Long? = null) {
                             )
                         },
                     ) {
-                        Icon(Icons.Default.Share, stringResource(R.string.share))
+                        Icon(Icons.Default.Share, stringResource(R.string.share_artist))
                     }
                 }
             },
@@ -204,7 +217,7 @@ internal fun ArtistScreen(id: Long?, highlightedEvent: Long? = null) {
 }
 
 @Composable
-private fun ArtistDetailStatusBar(overPhoto: Boolean) {
+internal fun AppStatusBar(overPhoto: Boolean) {
     val context = LocalContext.current
     val window =
         remember(context) {
@@ -214,11 +227,9 @@ private fun ArtistDetailStatusBar(overPhoto: Boolean) {
                 ?.window
         }
     val light = !overPhoto && MaterialTheme.colorScheme.surface.luminance() > .5f
-    DisposableEffect(window, light) {
+    SideEffect {
         val controller = window?.let { WindowCompat.getInsetsController(it, it.decorView) }
-        val previous = controller?.isAppearanceLightStatusBars
         controller?.isAppearanceLightStatusBars = light
-        onDispose { if (previous != null) controller.isAppearanceLightStatusBars = previous }
     }
 }
 

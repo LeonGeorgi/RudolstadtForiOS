@@ -10,6 +10,7 @@ import RudolstadtCore
 import SwiftUI
 
 struct ScheduleListView: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     let events: [Event]
     var planFacts: PlanFacts? = nil
 
@@ -112,7 +113,7 @@ struct ScheduleListView: View {
     }
 
     private var savedEventBackground: Color {
-        Color.accentColor.opacity(colorScheme == .dark ? 0.24 : 0.12)
+        festivalAccentColor.opacity(colorScheme == .dark ? 0.24 : 0.12)
     }
 }
 

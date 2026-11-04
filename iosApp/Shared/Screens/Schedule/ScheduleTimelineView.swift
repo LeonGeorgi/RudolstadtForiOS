@@ -13,7 +13,43 @@ struct ScheduleTimelineStagePresentation: Identifiable {
     let id: FestivalPlaceID
     let stage: Stage
     let title: String
-    let items: [EventOrGap]
+    let events: [ScheduleTimelinePositionedEvent]
+
+    init(id: FestivalPlaceID, stage: Stage, title: String, items: [EventOrGap]) {
+        self.id = id
+        self.stage = stage
+        self.title = title
+        var startHours: CGFloat = 0.25
+        events = items.compactMap { item in
+            switch item {
+            case .event(let presentation):
+                defer { startHours += CGFloat(presentation.duration) / 60 }
+                return ScheduleTimelinePositionedEvent(
+                    presentation: presentation, startHours: startHours)
+            case .gap(let gap):
+                startHours += CGFloat(gap.duration) / 3600
+                return nil
+            }
+        }
+    }
+}
+
+struct ScheduleTimelinePositionedEvent: Identifiable {
+    let presentation: ScheduleTimelineEventPresentation
+    let startHours: CGFloat
+
+    var id: Int { presentation.event.id }
+
+    func frame(
+        columnIndex: Int, columnWidth: CGFloat, timeWidth: CGFloat,
+        columnSpacing: CGFloat, heightPerHour: CGFloat
+    ) -> CGRect {
+        CGRect(
+            x: timeWidth + columnSpacing + CGFloat(columnIndex) * (columnWidth + columnSpacing),
+            y: startHours * heightPerHour,
+            width: columnWidth,
+            height: CGFloat(presentation.duration) / 60 * heightPerHour)
+    }
 }
 
 struct ScheduleTimelineView: View {

@@ -172,11 +172,20 @@ private struct LoadedYouTubePlayerView: View {
                 unavailableView
             }
         )
+        #if os(iOS)
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase != .active {
+                pause()
+            }
+        }
+        #else
+        // Keep the overload available on macOS 12.
         .onChange(of: scenePhase) { newPhase in
             if newPhase != .active {
                 pause()
             }
         }
+        #endif
         .onDisappear {
             pause()
         }

@@ -126,7 +126,7 @@ enum DiscoverabilityTips {
         id: "discoverability.map.recenter",
         titleKey: "tip.map.recenter.title",
         messageKey: "tip.map.recenter.message",
-        systemImage: "scope"
+        systemImage: "target"
     )
 
     static let artistRating = AppDiscoverabilityTip(

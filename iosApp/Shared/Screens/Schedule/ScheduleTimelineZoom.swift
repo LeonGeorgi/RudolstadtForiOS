@@ -18,6 +18,15 @@ enum ScheduleTimelineZoom {
     static let minimumScaleReferenceDistance: CGFloat = 44
 }
 
+enum ScheduleTimelineViewport {
+    /// Keep a reserve around the viewport, and reuse it until scrolling reaches its edge.
+    static func renderBounds(for viewport: CGRect, retaining current: CGRect) -> CGRect {
+        guard viewport.width > 0, viewport.height > 0 else { return .null }
+        if !current.isNull, current.contains(viewport) { return current }
+        return viewport.insetBy(dx: -viewport.width / 2, dy: -viewport.height / 2)
+    }
+}
+
 enum ScheduleTimelineZoomPreset: String, CaseIterable {
     case overview
     case standard
@@ -99,6 +108,14 @@ struct ScheduleTimelineHorizontalLayout {
     let stageCount: Int
     let timeWidth: CGFloat
     let columnSpacing: CGFloat
+
+    func visibleColumnIndices(in bounds: CGRect?, columnWidth: CGFloat) -> [Int] {
+        (0..<stageCount).filter { index in
+            guard let bounds else { return true }
+            let x = timeWidth + columnSpacing + CGFloat(index) * (columnWidth + columnSpacing)
+            return x < bounds.maxX && x + columnWidth > bounds.minX
+        }
+    }
 
     func contentWidth(
         columnWidth: CGFloat,

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SharedProfileSavedEventRow: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     let event: Event
     var isSavedByCurrentUser = false
 
@@ -26,7 +27,7 @@ struct SharedProfileSavedEventRow: View {
                 Label("friends.detail.saved_with_you", systemImage: "checkmark.circle.fill")
                     .font(.caption.weight(.semibold))
                     .labelStyle(.iconOnly)
-                    .foregroundStyle(.tint)
+                    .foregroundStyle(festivalAccentColor)
                     .accessibilityLabel("friends.detail.saved_with_you")
             }
         }

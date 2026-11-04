@@ -16,7 +16,6 @@ struct ScheduleContentView: View {
 
     @EnvironmentObject private var profile: FestivalProfileStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @Environment(\.festivalData) private var festivalData
 
     let events: [Event]
     let displayMode: ScheduleDisplayMode
@@ -39,7 +38,7 @@ struct ScheduleContentView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if profile.userDataPolicy.savedEvents == .editable {
+            if !showsPlanTransitions && profile.userDataPolicy.savedEvents == .editable {
                 AppInlineTipView(
                     tip: DiscoverabilityTips.eventQuickActions,
                     currentTipID: currentTipID,
@@ -48,7 +47,7 @@ struct ScheduleContentView: View {
                 .padding(.top, 8)
             }
 
-            if !unplacedEvents.isEmpty {
+            if !showsPlanTransitions && !unplacedEvents.isEmpty {
                 Button {
                     unplacedNavigationPath.removeAll()
                     isShowingUnplacedEvents = true
@@ -68,19 +67,17 @@ struct ScheduleContentView: View {
                 Color(.systemBackground)
 
                 Group {
-                    if effectiveDisplayMode == .timeline {
+                    if showsPlanTransitions {
+                        PersonalPlanTimelineView(
+                            events: sections.scheduled,
+                            unknownTime: sections.unknownTime,
+                            unknownDate: sections.unknownDate
+                        )
+                        .id(selectedDay)
+                    } else if effectiveDisplayMode == .timeline {
                         ScheduleTimelineView(events: events, selectedDay: $selectedDay)
                     } else {
-                        ScheduleListView(
-                            events: sections.scheduled,
-                            planFacts: showsPlanTransitions
-                                ? PlanFactsCalculator.shared.calculate(
-                                    events: sections.scheduled,
-                                    durations: festivalData.eventDurations.coreMinutes,
-                                    defaultMinutes: 60,
-                                    transfer: festivalData.coreWalkingTransfers
-                                ) : nil
-                        )
+                        ScheduleListView(events: sections.scheduled)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

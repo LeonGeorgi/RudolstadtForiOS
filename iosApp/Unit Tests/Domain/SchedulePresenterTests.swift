@@ -1,3 +1,4 @@
+import RudolstadtCore
 import Testing
 @testable import Rudolstadt
 
@@ -72,6 +73,34 @@ struct SchedulePresenterTests {
             return
         }
         #expect(shownEvents.map(\.id) == [831, 832])
+    }
+
+    @Test
+    func personalTimelineUsesTheSavedEventsWithoutRemovingEarlierConcerts() {
+        let events = makeEvents(startingAt: 841, count: 3)
+        let data = TestFixtures.festivalData(events: events)
+        let entries = PlanDayTimeline.shared.entries(
+            events: Array(events.reversed()), transfer: data.coreWalkingTransfers)
+
+        #expect(entries.map(\.event).map(\.id) == [841, 842, 843])
+        #expect(entries.allSatisfy { !$0.hasDashedConnectorBefore })
+    }
+
+    @Test
+    func personalTimelineOnlyMarksTheConcertWithAnEarlierCollision() {
+        let first = TestFixtures.event(
+            id: 851, dayInJuly: 3, timeAsString: "19:00",
+            stage: TestFixtures.stage(id: 1), artist: TestFixtures.artist(id: 851))
+        let later = TestFixtures.event(
+            id: 852, dayInJuly: 3, timeAsString: "19:15",
+            stage: TestFixtures.stage(id: 1), artist: TestFixtures.artist(id: 852))
+        let data = TestFixtures.festivalData(events: [first, later])
+        let entries = PlanDayTimeline.shared.entries(
+            events: [later, first], transfer: data.coreWalkingTransfers)
+
+        #expect(entries.map(\.event.id) == [851, 852])
+        #expect(entries.map(\.hasConflict) == [false, true])
+        #expect(entries.last?.previousConflicts.map(\.id) == [851])
     }
 
     private func makeEvents(startingAt firstID: Int, count: Int) -> [Event] {

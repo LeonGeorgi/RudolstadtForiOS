@@ -73,3 +73,15 @@ extension Color {
         #endif
     }
 }
+
+private struct FestivalAccentColorKey: EnvironmentKey {
+    static let defaultValue = Color.rudolstadt
+}
+
+extension EnvironmentValues {
+    /// The festival color shared by system controls and custom artwork.
+    var festivalAccentColor: Color {
+        get { self[FestivalAccentColorKey.self] }
+        set { self[FestivalAccentColorKey.self] = newValue }
+    }
+}

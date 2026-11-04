@@ -166,10 +166,10 @@ private struct FriendSavedEventBadgesChrome: ViewModifier {
                 .padding(.horizontal, 8)
                 .padding(.vertical, 6)
                 .background(.regularMaterial, in: Capsule())
-                .overlay(
+                .overlay {
                     Capsule()
                         .strokeBorder(Color.white.opacity(0.35), lineWidth: 0.8)
-                )
+                }
                 .shadow(color: .black.opacity(0.12), radius: 8, y: 4)
         case .plainFloating, .plainInline, .plainFooter:
             content

@@ -1,7 +1,36 @@
 import MapKit
 import SwiftUI
 
+extension FestivalMapStyle {
+    @available(iOS 17, macOS 14, *)
+    var swiftUIStyle: MapStyle {
+        switch self {
+        case .standard: return .standard(elevation: .flat, pointsOfInterest: .excludingAll)
+        case .satellite: return .imagery(elevation: .flat)
+        case .hybrid: return .hybrid(elevation: .flat, pointsOfInterest: .excludingAll)
+        }
+    }
+}
+
 #if os(iOS)
+
+extension FestivalMapStyle {
+    @MainActor
+    var configuration: MKMapConfiguration {
+        switch self {
+        case .standard:
+            let configuration = MKStandardMapConfiguration(elevationStyle: .flat)
+            configuration.pointOfInterestFilter = .excludingAll
+            return configuration
+        case .satellite:
+            return MKImageryMapConfiguration(elevationStyle: .flat)
+        case .hybrid:
+            let configuration = MKHybridMapConfiguration(elevationStyle: .flat)
+            configuration.pointOfInterestFilter = .excludingAll
+            return configuration
+        }
+    }
+}
 
 struct FestivalMapCanvas: UIViewRepresentable {
     @Environment(\.colorScheme) private var colorScheme
@@ -10,6 +39,8 @@ struct FestivalMapCanvas: UIViewRepresentable {
     let selectedPlaceID: FestivalPlaceID?
     let focusTrigger: Int
     let showsUserLocation: Bool
+    let mapStyle: FestivalMapStyle
+    @Binding var followsUserLocation: Bool
     let isPlaceSheetPresented: Bool
     let onSelectPlace: (FestivalPlaceID) -> Void
 
@@ -21,9 +52,7 @@ struct FestivalMapCanvas: UIViewRepresentable {
         view.isRotateEnabled = false
         view.isPitchEnabled = false
         view.accessibilityIdentifier = "festival-map"
-        let configuration = MKStandardMapConfiguration(elevationStyle: .flat)
-        configuration.pointOfInterestFilter = MKPointOfInterestFilter.excludingAll
-        view.preferredConfiguration = configuration
+        context.coordinator.updateConfiguration(in: view)
         view.tintColor = .tintColor
         view.didLayout = { [weak view, weak coordinator = context.coordinator] in
             guard let view, let coordinator else { return }
@@ -35,6 +64,7 @@ struct FestivalMapCanvas: UIViewRepresentable {
     func updateUIView(_ view: MKMapView, context: Context) {
         let coordinator = context.coordinator
         coordinator.parent = self
+        coordinator.updateConfiguration(in: view)
         view.showsUserLocation = showsUserLocation
         coordinator.updateAnnotations(in: view)
         if coordinator.lastFocusTrigger != focusTrigger {
@@ -55,8 +85,15 @@ struct FestivalMapCanvas: UIViewRepresentable {
         private var lastStages: [Stage] = []
         private var lastColorScheme: ColorScheme?
         private var hasFocusedOverview = false
+        private var lastMapStyle: FestivalMapStyle?
 
         init(_ parent: FestivalMapCanvas) { self.parent = parent }
+
+        func updateConfiguration(in view: MKMapView) {
+            guard lastMapStyle != parent.mapStyle else { return }
+            view.preferredConfiguration = parent.mapStyle.configuration
+            lastMapStyle = parent.mapStyle
+        }
 
         func updateAnnotations(in view: MKMapView) {
             if lastStages != parent.stages || lastColorScheme != parent.colorScheme {
@@ -80,7 +117,19 @@ struct FestivalMapCanvas: UIViewRepresentable {
         }
 
         func performPendingFocus(in view: MKMapView) {
-            guard let ids = pendingFocus, view.bounds.width > 0, view.bounds.height > 120 else { return }
+            guard view.bounds.width > 0, view.bounds.height > 120 else { return }
+            if parent.followsUserLocation {
+                pendingFocus = nil
+                hasFocusedOverview = true
+                if view.userTrackingMode != .follow {
+                    view.setUserTrackingMode(.follow, animated: true)
+                }
+                return
+            }
+            if view.userTrackingMode != .none {
+                view.setUserTrackingMode(.none, animated: true)
+            }
+            guard let ids = pendingFocus else { return }
             pendingFocus = nil
             if !hasFocusedOverview {
                 focus(on: parent.stages, in: view, animated: false)
@@ -139,6 +188,14 @@ struct FestivalMapCanvas: UIViewRepresentable {
                 parent.selectedPlaceID != place.stage.id else { return }
             DispatchQueue.main.async { [weak self] in
                 self?.parent.onSelectPlace(place.stage.id)
+            }
+        }
+
+        func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
+            guard mode == .none, parent.followsUserLocation else { return }
+            DispatchQueue.main.async { [weak self, weak mapView] in
+                guard let self, let mapView, mapView.userTrackingMode == .none else { return }
+                self.parent.followsUserLocation = false
             }
         }
     }
@@ -214,17 +271,25 @@ final class FestivalMapAnnotation: NSObject, MKAnnotation {
 #endif
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    private let manager = CLLocationManager()
+    @Published private(set) var authorizationStatus: CLAuthorizationStatus
+    private let manager: CLLocationManager
     private var didConfigureManager = false
     private var isUpdatingLocation = false
     private var isTrackingRequested = false
 
-    override init() {
+    init(manager: CLLocationManager = CLLocationManager()) {
+        self.manager = manager
+        self.authorizationStatus = manager.authorizationStatus
         super.init()
+    }
+
+    var isLocationAccessDenied: Bool {
+        authorizationStatus == .denied || authorizationStatus == .restricted
     }
 
     func startLocationTracking() {
         isTrackingRequested = true
+        authorizationStatus = manager.authorizationStatus
         if !didConfigureManager {
             manager.delegate = self
             manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -241,7 +306,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         case .denied, .restricted:
-            return
+            manager.stopUpdatingLocation()
+            isUpdatingLocation = false
         @unknown default:
             return
         }
@@ -254,6 +320,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        authorizationStatus = manager.authorizationStatus
         if isTrackingRequested { startLocationTracking() }
     }
 }

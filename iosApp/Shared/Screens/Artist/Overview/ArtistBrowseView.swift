@@ -29,7 +29,7 @@ struct ArtistBrowseView: View {
             }
         }
         .searchable(text: $state.searchText)
-        .disableAutocorrection(true)
+        .autocorrectionDisabled(true)
         .navigationTitle(navigationTitleKey)
         .toolbar {
             ArtistListToolbar(

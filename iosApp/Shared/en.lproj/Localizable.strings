@@ -27,6 +27,7 @@
 "artist.note.save" = "Save";
 "artist.note.cancel" = "Cancel";
 "artist.share" = "Share artist";
+"event.share" = "Share concert";
 "artist.share.unavailable.title" = "Artist unavailable";
 "artist.share.unavailable.message" = "This artist was not found in the loaded program, or the link belongs to a different festival year.";
 "artist.share.unavailable.ok" = "OK";
@@ -108,6 +109,7 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "event.save.alert.message" = "The event will be added to your schedule.";
 "Save \"<%@>\" at <%@> <%@>?" = "Save \"%1$@\" at %2$@ %3$@?";
 "event.remove" = "Remove";
+"event.remove.alert.cancel" = "Cancel";
 "event.remove.alert.title" = "Remove \"%1$@\" at %2$@ %3$@ ?";
 "event.remove.alert.message" = "The event will be removed from your schedule.";
 
@@ -151,6 +153,19 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "schedule.day.release" = "Release to switch";
 "schedule.title" = "Schedule";
 "schedule.plan.title" = "My plan";
+"schedule.plan.free_time" = "Free time";
+"schedule.plan.recommended" = "Recommended concert";
+"schedule.plan.show_recommendations" = "Show recommendations";
+"schedule.plan.walk_minutes" = "%ld min walk";
+"schedule.plan.walk_minutes_range" = "%ld–%ld min walk";
+"schedule.plan.empty" = "You haven’t saved any concerts on this day yet.";
+"schedule.plan.conflict_with" = "Possible time conflict with %@";
+"schedule.plan.footpath" = "WALK";
+"schedule.plan.footpaths" = "WALKS";
+"schedule.plan.minutes" = "%ld min";
+"schedule.plan.minutes_range" = "%ld–%ld min";
+"schedule.plan.routes" = "Show walking routes";
+"schedule.plan.route_from_to" = "Walk from %@ to %@";
 "schedule.plan.walking" = "approx. %ld min walk · %ld m";
 "schedule.plan.walking.unknown" = "Walking time unknown";
 "schedule.plan.buffer" = "%ld min to spare";
@@ -394,6 +409,8 @@ I built this app in my spare time because I wanted a more convenient way to use 
 
 "copy.link.title" = "Copy link";
 "news.open_link" = "Open link";
+"news.open_artist" = "Show artist";
+"news.open_stage" = "Show location";
 "news.write_email" = "Write email";
 "copy.email.title" = "Copy email address";
 "email.send.title" = "Send an email";
@@ -581,6 +598,17 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "map.legend" = "Legend";
 
 "map.recenter" = "Recenter map";
+"map.options" = "Map options";
+"map.type.title" = "Map type";
+"map.type.standard" = "Map";
+"map.type.satellite" = "Satellite";
+"map.type.hybrid" = "Hybrid";
+"map.festival_area" = "Show festival area";
+"map.locate_me" = "Show my location";
+"map.location.permission.title" = "Allow location access";
+"map.location.permission.message" = "The app needs permission to access your location to show it on the map. You can grant access in Settings.";
+"map.location.open_settings" = "Open Settings";
+"map.location.cancel" = "Cancel";
 
 "map.user_location" = "Your location";
 

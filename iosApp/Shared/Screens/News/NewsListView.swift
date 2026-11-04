@@ -30,7 +30,7 @@ struct NewsListView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button {
                         refreshButtonDisabled = true
@@ -106,7 +106,7 @@ struct NewsListView: View {
             if news.filter({ $0.isInCurrentLanguage }).isEmpty {
                 Text("news.empty")
                     .multilineTextAlignment(.center)
-                    .foregroundColor(.gray)
+                    .foregroundStyle(.gray)
                     .padding(.bottom)
                     .padding()
             } else {
@@ -118,7 +118,7 @@ struct NewsListView: View {
             Text("news.error")
         } else {
             Text("news.error")
-                .foregroundColor(.red)
+                .foregroundStyle(.red)
         }
     }
 

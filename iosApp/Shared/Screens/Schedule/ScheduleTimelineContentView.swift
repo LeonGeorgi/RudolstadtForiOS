@@ -293,7 +293,7 @@ private struct ScheduleTimelineStageBar: View {
 
     var body: some View {
         ScheduleTimelineStageHeaders(
-            stages: stages, columnWidth: columnWidth,
+            stages: stages, scrollState: scrollState, columnWidth: columnWidth,
             timeWidth: timeWidth, stageHeaderHeight: height, columnSpacing: columnSpacing
         )
         .overlay(alignment: .topLeading) {
@@ -347,8 +347,9 @@ private struct ScheduleTimelineDayBody: View {
                 let position = currentTimeLinePosition(at: context.date)
                 ScheduleTimelineEventCanvas(
                     stages: stages, onToggleSaved: onToggleSaved,
-                    minimumSize: CGSize(width: width, height: height), columnWidth: columnWidth,
-                    timeWidth: timeWidth, stageHeaderHeight: 0, firstEventPadding: 0,
+                    scrollState: scrollState,
+                    size: CGSize(width: width, height: height), columnWidth: columnWidth,
+                    timeWidth: timeWidth,
                     columnSpacing: columnSpacing, heightPerHour: heightPerHour
                 )
                 .background(alignment: .topLeading) {
@@ -414,6 +415,7 @@ private struct ScheduleTimelineDayBody: View {
         private(set) var contentOffset: CGPoint = .zero
         private(set) var contentSize: CGSize = .zero
         private(set) var containerSize: CGSize = .zero
+        private(set) var renderBounds: CGRect = .null
 
         private(set) var horizontalOffset: CGFloat = 0
         private(set) var topOverscroll: CGFloat = 0
@@ -427,6 +429,11 @@ private struct ScheduleTimelineDayBody: View {
             contentSize: CGSize,
             containerSize: CGSize
         ) {
+            let renderBounds = ScheduleTimelineViewport.renderBounds(
+                for: CGRect(origin: contentOffset, size: containerSize), retaining: self.renderBounds)
+            if self.renderBounds != renderBounds {
+                self.renderBounds = renderBounds
+            }
             let topOverscroll = min(contentOffset.y, 0)
             if self.topOverscroll != topOverscroll {
                 self.topOverscroll = topOverscroll
@@ -681,7 +688,7 @@ private struct ScheduleTimelineScrollView<Content: View, PullContent: View>: Vie
                     ),
                     initialTouchGeometry: touchGeometry
                 )
-            zoomGestureSession = gestureSession
+            if zoomGestureSession == nil { zoomGestureSession = gestureSession }
             let magnification = touchGeometry.magnification(
                 relativeTo: gestureSession.initialTouchGeometry
             )
@@ -819,66 +826,55 @@ private struct ScheduleTimelineScrollView<Content: View, PullContent: View>: Vie
 #endif
 
 private struct ScheduleTimelineEventCanvas: View {
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
+    @Environment(\.accessibilitySwitchControlEnabled) private var switchControlEnabled
     let stages: [ScheduleTimelineStagePresentation]
     let onToggleSaved: (Event) -> Void
-    let minimumSize: CGSize
+    let scrollState: ScheduleTimelineScrollState
+    let size: CGSize
     let columnWidth: CGFloat
     let timeWidth: CGFloat
-    let stageHeaderHeight: CGFloat
-    let firstEventPadding: CGFloat
     let columnSpacing: CGFloat
     let heightPerHour: CGFloat
 
-    var body: some View {
-        HStack(alignment: .top, spacing: columnSpacing) {
-            Spacer()
-                .frame(width: timeWidth)
-
-            ForEach(stages) { column in
-                VStack(alignment: .leading, spacing: 0) {
-                    Spacer()
-                        .frame(
-                            height: stageHeaderHeight
-                                + firstEventPadding
-                                + heightPerHour * 0.25
-                        )
-
-                    events(column.items)
-
-                    Spacer()
-                }
-                .frame(width: columnWidth, alignment: .topLeading)
+    private var renderBounds: CGRect? {
+        #if os(iOS)
+            guard !voiceOverEnabled, !switchControlEnabled, !scrollState.renderBounds.isNull else {
+                return nil
             }
-
-            Spacer(minLength: 0)
-        }
-        .frame(
-            minWidth: minimumSize.width,
-            minHeight: minimumSize.height,
-            alignment: .topLeading
-        )
+            // Scroll metrics include the fixed stage bar; event positions start below it.
+            return scrollState.renderBounds.offsetBy(dx: 0, dy: -timelineStageHeaderHeight)
+        #else
+            return nil
+        #endif
     }
 
-    private func events(_ stageEvents: [EventOrGap]) -> some View {
-        ForEach(stageEvents.indices, id: \.self) { index in
-            switch stageEvents[index] {
-            case .event(let presentation):
-                let eventHeight = CGFloat(presentation.duration) / 60 * heightPerHour
-                ScheduleTimelineEventCell(
-                    width: columnWidth,
-                    height: eventHeight - 2,
-                    presentation: presentation,
-                    onToggleSaved: { onToggleSaved(presentation.event) }
-                )
-                .padding(.vertical, 1)
-            case .gap(let gap):
-                let gapHeight =
-                    CGFloat(gap.duration / (60 * 60))
-                    * heightPerHour
-                Spacer()
-                    .frame(width: columnWidth, height: gapHeight)
+    var body: some View {
+        let bounds = renderBounds
+        let layout = ScheduleTimelineHorizontalLayout(
+            stageCount: stages.count, timeWidth: timeWidth, columnSpacing: columnSpacing)
+        let columns = layout.visibleColumnIndices(in: bounds, columnWidth: columnWidth)
+            .map { (index: $0, stage: stages[$0]) }
+        ZStack(alignment: .topLeading) {
+            ForEach(columns, id: \.stage.id) { column in
+                ForEach(column.stage.events) { event in
+                    let frame = event.frame(
+                        columnIndex: column.index, columnWidth: columnWidth,
+                        timeWidth: timeWidth, columnSpacing: columnSpacing,
+                        heightPerHour: heightPerHour)
+                    if bounds?.intersects(frame) != false {
+                        ScheduleTimelineEventCell(
+                            width: frame.width, height: frame.height - 2,
+                            presentation: event.presentation,
+                            onToggleSaved: { onToggleSaved(event.presentation.event) }
+                        )
+                        .padding(.vertical, 1)
+                        .position(x: frame.midX, y: frame.midY)
+                    }
+                }
             }
         }
+        .frame(width: size.width, height: size.height, alignment: .topLeading)
     }
 }
 
@@ -924,9 +920,10 @@ private struct ScheduleTimelineTimeColumn: View {
                         .padding(.leading, 5)
                         .frame(
                             width: timeWidth,
-                            height: 0.5 * heightPerHour,
                             alignment: .trailing
                         )
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(height: 0.5 * heightPerHour)
                         .scaledToFill()
                         .minimumScaleFactor(0.83)
                         .opacity(
@@ -960,15 +957,15 @@ private struct ScheduleTimelineViewportGrid: View {
     var topFadeHeight: CGFloat? = nil
 
     var body: some View {
-        VStack(spacing: 0) {
-            ForEach(0..<rowCount, id: \.self) { _ in
-                Rectangle()
-                    .fill(Color.timelineSeparator)
-                    .frame(height: timelineGridLineThickness)
-                    .frame(height: heightPerHour * 0.5)
-                    .padding(0)
+        Path { path in
+            for index in 0..<rowCount {
+                let y = (CGFloat(index) + 0.5) * heightPerHour * 0.5
+                path.addRect(CGRect(
+                    x: 0, y: y - timelineGridLineThickness / 2,
+                    width: width, height: timelineGridLineThickness))
             }
         }
+        .fill(Color.timelineSeparator)
         .frame(width: width, height: height, alignment: .top)
         .clipped()
         .mask {
@@ -982,13 +979,31 @@ private struct ScheduleTimelineViewportGrid: View {
 }
 
 private struct ScheduleTimelineStageHeaders: View {
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
+    @Environment(\.accessibilitySwitchControlEnabled) private var switchControlEnabled
     let stages: [ScheduleTimelineStagePresentation]
+    let scrollState: ScheduleTimelineScrollState
     let columnWidth: CGFloat
     let timeWidth: CGFloat
     let stageHeaderHeight: CGFloat
     let columnSpacing: CGFloat
 
+    private var renderBounds: CGRect? {
+        #if os(iOS)
+            guard !voiceOverEnabled, !switchControlEnabled, !scrollState.renderBounds.isNull else {
+                return nil
+            }
+            return scrollState.renderBounds
+        #else
+            return nil
+        #endif
+    }
+
     var body: some View {
+        let layout = ScheduleTimelineHorizontalLayout(
+            stageCount: stages.count, timeWidth: timeWidth, columnSpacing: columnSpacing)
+        let columns = layout.visibleColumnIndices(in: renderBounds, columnWidth: columnWidth)
+            .map { (index: $0, stage: stages[$0]) }
         ZStack(alignment: .topLeading) {
             Color(.systemBackground)
 
@@ -1002,38 +1017,35 @@ private struct ScheduleTimelineStageHeaders: View {
             )
             .allowsHitTesting(false)
 
-            HStack(alignment: .top, spacing: columnSpacing) {
-                Spacer()
-                    .frame(width: timeWidth)
-
-                ForEach(stages) { column in
-                    let stage = column.stage
-                    NavigationLink(
-                        value: AppNavigationRoute.stage(
-                            id: stage.id,
-                            highlightedEventId: nil
-                        )
-                    ) {
-                        stageHeader(column)
-                    }
-                    .buttonStyle(.plain)
-                    .contextMenu {
-                        if stage.hasLocation {
-                            Button {
-                                StageMapView.openInMaps(stage: stage)
-                            } label: {
-                                Text("schedule.context.open_in_maps")
-                                Image(systemName: "map")
-                            }
-                        }
-                    } preview: {
-                        StagePreview(stage: stage)
-                    }
-                    .frame(width: columnWidth, height: stageHeaderHeight)
-                    .transition(.opacity)
+            ForEach(columns, id: \.stage.id) { column in
+                let stage = column.stage.stage
+                NavigationLink(
+                    value: AppNavigationRoute.stage(
+                        id: stage.id,
+                        highlightedEventId: nil
+                    )
+                ) {
+                    stageHeader(column.stage)
                 }
-
-                Spacer(minLength: 0)
+                .buttonStyle(.plain)
+                .contextMenu {
+                    if stage.hasLocation {
+                        Button {
+                            StageMapView.openInMaps(stage: stage)
+                        } label: {
+                            Text("schedule.context.open_in_maps")
+                            Image(systemName: "map")
+                        }
+                    }
+                } preview: {
+                    StagePreview(stage: stage)
+                }
+                .frame(width: columnWidth, height: stageHeaderHeight)
+                .position(
+                    x: timeWidth + columnSpacing
+                        + CGFloat(column.index) * (columnWidth + columnSpacing) + columnWidth / 2,
+                    y: stageHeaderHeight / 2)
+                .transition(.opacity)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -1075,18 +1087,16 @@ private struct ScheduleTimelineStageSeparatorGrid: View {
                 0
             )
 
-            ForEach(0...stageCount, id: \.self) { boundaryIndex in
-                ScheduleTimelineStageSeparator()
-                    .frame(height: separatorHeight)
-                    .position(
-                        x: timeWidth
-                            + columnSpacing / 2
-                            + CGFloat(boundaryIndex)
-                            * (columnWidth + columnSpacing)
-                            + horizontalOffset,
-                        y: topPadding + separatorHeight / 2
-                    )
+            Path { path in
+                for index in 0...stageCount {
+                    let x = timeWidth + columnSpacing / 2
+                        + CGFloat(index) * (columnWidth + columnSpacing) + horizontalOffset
+                    path.addRect(CGRect(
+                        x: x - timelineGridLineThickness / 2, y: topPadding,
+                        width: timelineGridLineThickness, height: separatorHeight))
+                }
             }
+            .fill(Color.timelineSeparator)
         }
     }
 }

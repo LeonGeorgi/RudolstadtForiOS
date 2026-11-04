@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-04",
+  "designFrame": "5FB66535-EFB4-44DF-A636-E1FF4BD8A01F",
+  "dayHeading": false,
+  "designContentStartYPoints": 154,
+  "simulator": {
+    "name": "Rudolstadt Screenshot Comparison",
+    "os": "iOS 27.0",
+    "logicalSize": [
+      402,
+      874
+    ],
+    "scale": 3,
+    "language": "de; en in dark accessibility capture",
+    "data": "Existing screenshotMode bundled festival and seeded profiles, Sunday; conflict added through normal visible UI."
+  },
+  "validation": {
+    "build": "succeeded with normal local signing",
+    "uiTests": {
+      "passed": 3,
+      "failed": 0,
+      "bundle": "/tmp/RudolstadtPlanFinal-UI-6.xcresult"
+    },
+    "checks": [
+      "saved and recommended concert hierarchy",
+      "absence of redundant day heading",
+      "shared right icon axis and 44-point controls",
+      "canceling removal preserves saved event",
+      "recommendation menu toggle",
+      "simultaneous-concert warning",
+      "English, dark appearance and accessibility text size",
+      "24-hour walking departure matches concert times"
+    ],
+    "localizationLint": "passed",
+    "diffWhitespaceCheck": "passed"
+  },
+  "pixelComparison": {
+    "bookmarkCropPixels": [
+      1044,
+      462,
+      1152,
+      630
+    ],
+    "method": "signed grayscale RGB=(max(simulator-sketch,0),max(sketch-simulator,0),max(simulator-sketch,0)); identical absolute crop, no alignment/scaling/blur",
+    "scope": "First bookmark only, where content is identical. Native SF Symbol rasterization differs slightly from the Sketch bitmap. Full screenshots use different concert/day data and are not evidence of full-screen pixel parity."
+  },
+  "snapshots": {
+    "saved": "simulator-saved.png",
+    "recommendations": "simulator-recommendations.png",
+    "conflict": "simulator-conflict.png",
+    "english-dark-large-text": "simulator-english-dark-large-text.png"
+  },
+  "sourceSHA256": "fcce0d0006f9d9e3dc09733e891f586340495d4f056e250f60e4a7a99b324bfe"
+}

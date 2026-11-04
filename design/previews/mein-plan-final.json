@@ -1,0 +1,32 @@
+{
+  "name": "26 · Mein Plan · Final · kompakter Tagesablauf",
+  "frameId": "5FB66535-EFB4-44DF-A636-E1FF4BD8A01F",
+  "pageId": "2C14FF28-77BE-49B1-AD24-3E32B8B6E47F",
+  "status": "Selected by user; final design for this concept round.",
+  "selection": {
+    "pause": "C · Zeitbruch",
+    "icons": "D · Status und Aktion"
+  },
+  "contentHeightPoints": 456,
+  "iconColumnCenterXPoints": 366,
+  "iconContainerSizePoints": 44,
+  "removedSupersededFrameIds": [
+    "7D9697CF-6DDA-42B3-984F-5A2348BE83F2",
+    "673F0BC6-FB7D-416E-AA19-C4742573C8C1",
+    "B091F2DE-FBE9-4E00-8854-6C63119E3A36",
+    "3EDE6FFF-1BC4-4E88-B3C0-2C760B01286A",
+    "40DD796F-0CA1-4312-9E91-44C520C081CB",
+    "4D22498A-67F0-4A4B-A03B-42E3539E37FC",
+    "0C40DF1A-8E6F-4D6F-80A9-A28139B40ACC",
+    "AFBB43D2-B94D-4D74-ABC2-2676F8FFBFC8"
+  ],
+  "removedUnusedComponentCount": 10,
+  "olderMeinPlanConceptsPreserved": true,
+  "localRecoveryBackup": "/Users/leon/Documents/Projekte/RudolstadtForiOS/design/recovery/2026-11-04-125427-before-mein-plan-final-selection",
+  "showDayHeading": false,
+  "contentStartYPoints": 154,
+  "removedDayHeadingSpacePoints": 54,
+  "revision": "Approved D with the redundant day heading removed at user request.",
+  "previewMatchesFinalSketchExport": true,
+  "implementationVerification": "../implementation-mein-plan-2026-11-04/verification.json"
+}

@@ -3,6 +3,41 @@ import Testing
 @testable import Rudolstadt
 
 @MainActor
+struct FestivalMapStylePreferencesTests {
+    @Test(arguments: FestivalMapStyle.allCases)
+    func mapStylePersistsAcrossStoreAndFestivalChanges(style: FestivalMapStyle) {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        let settings = UserSettings(userDefaults: defaults)
+        #expect(settings.mapStyle == .standard)
+
+        settings.mapStyle = style
+        settings.festivalEdition = .ludwigsburg2026
+
+        #expect(UserSettings(userDefaults: defaults).mapStyle == style)
+        #expect(TestFixtures.userSettings().mapStyle == .standard)
+    }
+
+    @Test
+    func unknownMapStyleFallsBackWithoutOverwritingTheStoredPreference() {
+        let defaults = TestFixtures.isolatedUserDefaults()
+        defaults.set("future-style", forKey: "view/map/style/v1")
+
+        #expect(UserSettings(userDefaults: defaults).mapStyle == .standard)
+        #expect(defaults.string(forKey: "view/map/style/v1") == "future-style")
+    }
+
+    @Test
+    func screenshotModeStartsWithTheStandardMap() {
+        let settings = TestFixtures.userSettings()
+        settings.mapStyle = .satellite
+
+        ScreenshotRuntime.configure(userSettings: settings)
+
+        #expect(settings.mapStyle == .standard)
+    }
+}
+
+@MainActor
 struct UserPreferencesStoreTests {
     @Test
     func alwaysShowEventDetailsDefaultsOffAndPersistsAcrossFestivalChanges() {

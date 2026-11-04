@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC52000230030001004F9471 /* PersonalPlanTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */; };
+		FC52000330030001004F9471 /* PersonalPlanTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */; };
 		12F57F438C89D8ADE35F8DCF /* Shared/Core/FestivalDurationResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BD785E2C3A746DB0F0E0F9 /* Shared/Core/FestivalDurationResolver.swift */; };
 		1ACD2AD1177B68294EF2BA2F /* Shared/Data/FestivalSourceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592B9CA3F6953CCF8CDEB9E /* Shared/Data/FestivalSourceAdapter.swift */; };
 		2B59811E9A4186FB002BFF6C /* Shared/Core/FestivalInterfaceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEAAB47D3D8E82F6B770A81 /* Shared/Core/FestivalInterfaceUtilities.swift */; };
@@ -398,6 +400,8 @@
 		FAD100062FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */; };
 		FB71000230010001004F9471 /* ProgramDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71000130010001004F9471 /* ProgramDiscoveryView.swift */; };
 		FB71000330010001004F9471 /* ProgramDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71000130010001004F9471 /* ProgramDiscoveryView.swift */; };
+		FC30000230020001004F9471 /* ArtistMapKitWorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC30000130020001004F9471 /* ArtistMapKitWorldMap.swift */; };
+		FC30000430020001004F9471 /* ArtistMapKitWorldMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC30000330020001004F9471 /* ArtistMapKitWorldMapTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -464,6 +468,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalPlanTimelineView.swift; sourceTree = "<group>"; };
 		0A2E36A802794C54B20DBD81 /* EventContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventContextMenu.swift; sourceTree = "<group>"; };
 		2616A060C2AB6AE75EE270BA /* Shared/Data/FestivalFeatureCatalogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/Data/FestivalFeatureCatalogs.swift; sourceTree = SOURCE_ROOT; };
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
@@ -697,6 +702,8 @@
 		FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingsPresentation.swift; sourceTree = "<group>"; };
 		FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift"; sourceTree = SOURCE_ROOT; };
 		FB71000130010001004F9471 /* ProgramDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDiscoveryView.swift; sourceTree = "<group>"; };
+		FC30000130020001004F9471 /* ArtistMapKitWorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistMapKitWorldMap.swift; sourceTree = "<group>"; };
+		FC30000330020001004F9471 /* ArtistMapKitWorldMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/ArtistMapKitWorldMapTests.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -875,6 +882,7 @@
 				32A1107C6295E7BA267D0F71 /* ArtistCell.swift */,
 				35143AB12F8E21FC006DA6B7 /* ArtistGridCell.swift */,
 				A100000D2F9A1001004F9471 /* ArtistWorldMapView.swift */,
+				FC30000130020001004F9471 /* ArtistMapKitWorldMap.swift */,
 				35143AB42F8E2510006DA6B7 /* ArtistImageNavigationTransition.swift */,
 			);
 			path = Overview;
@@ -926,6 +934,7 @@
 		32A11E880C7782C61DB1318E /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
+				FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */,
 				32A11314CA54C51CF1BFDF9D /* ScheduleListView.swift */,
 				32A11D4B68D9C986BBCB747A /* ScheduleRecommendationGenerator.swift */,
 				32A115F47BCFC96F1A0F8673 /* ScheduleEventCell.swift */,
@@ -1297,6 +1306,7 @@
 				44174B2FD9E0E7AFABB9418D /* Unit Tests/Domain/FestivalAdapterContractTests.swift */,
 				F98000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift */,
 				F99000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift */,
+				FC30000330020001004F9471 /* ArtistMapKitWorldMapTests.swift */,
 				FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */,
 				FC41000430020001004F9471 /* FriendRecommendationArtworkTests.swift */,
 				F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */,
@@ -1834,6 +1844,7 @@
 				FB71000230010001004F9471 /* ProgramDiscoveryView.swift in Sources */,
 				32A11561A68DE3A255681965 /* LocationListView.swift in Sources */,
 				32A1167A2316AC01B157FD8E /* ScheduleListView.swift in Sources */,
+				FC52000330030001004F9471 /* PersonalPlanTimelineView.swift in Sources */,
 				32A116BE192EE63EA4089774 /* ScheduleRecommendationGenerator.swift in Sources */,
 				3568726629C0239300520EC5 /* ScheduleTimelineView.swift in Sources */,
 				350573472857F312008932A9 /* MapView.swift in Sources */,
@@ -1878,6 +1889,7 @@
 				A10000182FA00001004F9471 /* ArtistListToolbar.swift in Sources */,
 				A10000192FA00001004F9471 /* ShownArtistTypes.swift in Sources */,
 				A100000C2F9A1001004F9471 /* ArtistWorldMapView.swift in Sources */,
+				FC30000230020001004F9471 /* ArtistMapKitWorldMap.swift in Sources */,
 				35D0A48C2A073AFF004C506D /* ColorExtensions.swift in Sources */,
 				32A115A10E8AE4441C178095 /* ArtistCell.swift in Sources */,
 				351359B02BE7A9D0007C0480 /* ArtistRatingView.swift in Sources */,
@@ -1981,6 +1993,7 @@
 				32A111D43D702F38C6382630 /* LocationListView.swift in Sources */,
 				35143AB62F8E2510006DA6B7 /* ArtistImageNavigationTransition.swift in Sources */,
 				32A112A1CF3EDC6BC9BECDE4 /* ScheduleListView.swift in Sources */,
+				FC52000230030001004F9471 /* PersonalPlanTimelineView.swift in Sources */,
 				32A119B72F0FE2BE1FCF50FB /* ScheduleRecommendationGenerator.swift in Sources */,
 				3568C7AB29F93B6700A7AA7D /* ScheduleTimelineContentView.swift in Sources */,
 				E40000032FE30001004F9471 /* ScheduleTimelineZoom.swift in Sources */,
@@ -2066,6 +2079,7 @@
 				CEA321B8BFF0C13B5C38151F /* Unit Tests/Domain/FestivalAdapterContractTests.swift in Sources */,
 				F98000122FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift in Sources */,
 				F99000122FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift in Sources */,
+				FC30000430020001004F9471 /* ArtistMapKitWorldMapTests.swift in Sources */,
 				FAD100062FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift in Sources */,
 				FC41000530020001004F9471 /* FriendRecommendationArtworkTests.swift in Sources */,
 				F90000142FF90001004F9471 /* StageLocationTests.swift in Sources */,

@@ -14,6 +14,22 @@ enum ScheduleDisplayMode: Int {
     case list = 1
 }
 
+enum FestivalMapStyle: String, CaseIterable, Identifiable {
+    case standard
+    case satellite
+    case hybrid
+
+    var id: Self { self }
+
+    var titleKey: LocalizedStringKey {
+        switch self {
+        case .standard: return "map.type.standard"
+        case .satellite: return "map.type.satellite"
+        case .hybrid: return "map.type.hybrid"
+        }
+    }
+}
+
 enum ScheduleDaySelectionStyle: Int {
     case toolbarMenu = 0
     case tabs = 1
@@ -168,6 +184,14 @@ final class UserPreferencesStore: ObservableObject {
         set {
             scheduleDaySelectionStyleRawValue = newValue.rawValue
         }
+    }
+
+    @UserDefault(key: "view/map/style/v1", defaultValue: "standard")
+    private var mapStyleRawValue: String
+
+    var mapStyle: FestivalMapStyle {
+        get { FestivalMapStyle(rawValue: mapStyleRawValue) ?? .standard }
+        set { mapStyleRawValue = newValue.rawValue }
     }
 
     // 0 - List

@@ -76,7 +76,7 @@ struct ArtistCountryListRouteView: View {
         .navigationTitle("\(emojiFlag(forRegionCode: countryCode) ?? "") \(navigationTitleText)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 CountryArtistLayoutPicker(layout: $layout)
             }
         }

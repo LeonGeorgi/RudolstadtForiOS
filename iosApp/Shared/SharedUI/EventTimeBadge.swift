@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct EventTimeBadge: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
     let event: Event
     var size: CGFloat = 52
     var headerColor: Color? = nil
@@ -24,7 +25,7 @@ struct EventTimeBadge: View {
                     if let headerColor {
                         headerColor.overlay(.black.opacity(0.30))
                     } else {
-                        Color.accentColor.opacity(0.18)
+                        festivalAccentColor.opacity(0.18)
                     }
                 }
 
@@ -44,10 +45,10 @@ struct EventTimeBadge: View {
         .frame(width: size, height: size)
         .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-        .overlay(
+        .overlay {
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 .stroke(.white.opacity(0.20), lineWidth: 0.5)
-        )
+        }
         .shadow(
             color: .black.opacity(0.14),
             radius: 2,

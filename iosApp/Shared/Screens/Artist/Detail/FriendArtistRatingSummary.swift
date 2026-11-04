@@ -166,10 +166,10 @@ struct FriendArtistRatingBadge: View {
             fontScale: style == .capsule ? 0.34 : 0.40 - 0.06 * min(max((badgeDiameter - 24) / 16, 0), 1),
             showsShadow: style != .detailInline
         )
-        .overlay(
+        .overlay {
             Circle()
                 .strokeBorder(Color(.systemBackground), lineWidth: borderLineWidth)
-        )
+        }
         .overlay(alignment: .bottomTrailing) {
             FriendArtistPreferenceDot(preference: entry.preference, style: style)
                 .opacity(preferenceOpacity)
@@ -201,10 +201,10 @@ private struct FriendArtistRemainingCountBadge: View {
             .foregroundStyle(.secondary)
             .frame(width: badgeDiameter, height: badgeDiameter)
             .background(.thinMaterial, in: Circle())
-            .overlay(
+            .overlay {
                 Circle()
                     .strokeBorder(Color(.systemBackground), lineWidth: 1.5)
-            )
+            }
             .accessibilityLabel(Text(accessibilityLabel))
     }
 
@@ -240,10 +240,10 @@ private struct FriendArtistPreferenceDot: View {
         ZStack {
             Circle()
                 .fill(dotColor)
-                .overlay(
+                .overlay {
                     Circle()
                         .strokeBorder(Color(.systemBackground), lineWidth: 1)
-                )
+                }
 
             if preference.rating > 0 {
                 CompactRatingGlyph(

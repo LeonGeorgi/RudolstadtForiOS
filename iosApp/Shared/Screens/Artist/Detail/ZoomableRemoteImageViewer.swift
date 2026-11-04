@@ -22,9 +22,11 @@ struct ZoomableRemoteImageViewer: View {
                     .padding(.trailing, 18)
             }
         }
-        .background(Color.black.opacity(backgroundOpacity).ignoresSafeArea())
+        .background {
+            Color.black.opacity(backgroundOpacity).ignoresSafeArea()
+        }
 #if os(iOS)
-        .background(ClearFullScreenBackground())
+        .background { ClearFullScreenBackground() }
 #endif
     }
 

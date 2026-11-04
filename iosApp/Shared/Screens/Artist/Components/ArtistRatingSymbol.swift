@@ -153,14 +153,14 @@ private struct ArtistRatingSymbolPreviewBounds: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(width: 34, height: 34)
-            .overlay(
+            .overlay {
                 Rectangle()
                     .strokeBorder(Color.secondary.opacity(0.35), lineWidth: 0.5)
-            )
-            .overlay(
+            }
+            .overlay {
                 Circle()
                     .strokeBorder(Color.secondary.opacity(0.35), lineWidth: 0.5)
-            )
+            }
     }
 }
 

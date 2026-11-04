@@ -45,6 +45,21 @@ Neue Künstlerlinks verwenden
 Die Apps akzeptieren zusätzlich die bisherigen Links unter
 `https://rudolstadt.leongeorgi.de/<jahr>/artists/<id>`.
 
+Ein bestimmtes Konzert kann optional als `?event=<konzert-id>` mitgeschickt werden,
+zum Beispiel `/rudolstadt/2026/artists/67?event=68`. Der Teilen-Button am Künstler
+erzeugt weiterhin den allgemeinen Künstlerlink; **Konzert teilen** im Konzertmenü
+ergänzt die Konzert-ID. Die Apps wählen den Jahrgang aus dem Pfad, prüfen, ob das
+Konzert zum Künstler gehört, und heben den passenden Termin hervor. Ungültige,
+doppelte oder nicht mehr verfügbare Konzertangaben fallen auf den Künstler zurück.
+Uhrzeit und Bühne stammen aus dem geladenen Programm und stehen nicht im Link.
+Ältere Apps können solche Links weiterhin als allgemeine Künstlerlinks öffnen.
+
+Query-Parameter ändern die statische Messenger-Vorschau nicht: Künstlerbild,
+Name und Beschreibung bleiben gleich; `og:url` verweist auf den Künstler ohne
+Konzertparameter. Es entstehen keine zusätzlichen Seiten oder Cloudflare-
+Build-Schritte pro Konzert. Nach einer App-Installation muss weiterhin der
+ursprüngliche Link mit seinem Parameter erneut geöffnet werden.
+
 Der Build liest `*_rudolstadt_data.json` sowie `*_archive.json` aus
 `shared/src/commonMain/resources/FestivalBackup/`. Bei derselben Jahreszahl hat
 das Live-Format Vorrang. Verborgene oder unbenannte Einträge werden ausgelassen.

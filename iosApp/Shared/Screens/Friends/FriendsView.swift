@@ -17,6 +17,7 @@
     }
 
     struct FriendsView: View {
+        @Environment(\.festivalAccentColor) private var festivalAccentColor
         @Environment(\.festivalEdition) private var edition
         @EnvironmentObject private var profile: FestivalProfileStore
         @EnvironmentObject private var friends: FriendProfilesStore
@@ -404,7 +405,7 @@
                         .font(.footnote)
                         .textCase(nil)
                         .buttonStyle(.plain)
-                        .foregroundStyle(.tint)
+                        .foregroundStyle(festivalAccentColor)
                         .disabled(profileSync.state.preparingShare)
                         .accessibilityLabel(Text(followedByCountText))
                         .accessibilityHint("friends.followed_by.details")
