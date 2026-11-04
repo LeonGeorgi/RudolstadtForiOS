@@ -1,0 +1,1448 @@
+{
+  "reviewDate": "2026-11-04",
+  "runtimeReferenceDate": "2026-11-03",
+  "scope": "22 Sketch-Zustände erneut verglichen; 45 benannte Text-/Komponentenbereiche gemessen. Kein neuer App-Build oder Simulatorlauf.",
+  "pixelPerfectAllScreens": false,
+  "rules": "../../docs/screenshots.md#sketch-abgleich-und-visuelle-abnahme",
+  "changes": [
+    "Gemeinsame variable SF-Pro-Schriftrollen, Gewichte, Optical Size, Laufweiten und Zeilenmetriken korrigiert und aktuelle editierbare Texte damit verknüpft.",
+    "UIKit-Secondary, SwiftUI-Secondary, Placeholder sowie Timeline-Metadaten und -Tags als getrennte Farbrollen geführt.",
+    "OpenType Monospaced Numbers in den gemeinsamen Plan-, Bühnen- und Timeline-Zeitstilen gespeichert.",
+    "Artist EventRow: zwei/drei Textzeilen mit zustandsabhängigen Abständen an 64 Instanzen korrigiert.",
+    "Stage EventRow: 65⅓-pt-Zeilen, Bildhöhe, Textgrundlinien und eine native Ein-Pixel-Trennlinie korrigiert.",
+    "Timeline: optionale Tags im Stack, zweizeilige Namen, eigene editierbare Textvariante für minimumScaleFactor 0.75 und transparente Kartenfarben korrigiert.",
+    "Profilzeilen, Bewertungsnamen/-beschreibungen, Nachrichtenleiste, Zähler und Datumstexte vereinheitlicht.",
+    "Sieben Tab-Leisten-Varianten bei Textposition und Textfarbe korrigiert; doppelte alte Spenden-Tab-Leiste und nicht zum Referenzzustand passende Home-Indikatoren ausgeblendet.",
+    "Verbleibende lokale Grundlinien und Positionen in Einrichtung, Leerzuständen, Spenden, Nachrichten und Konzertdetails korrigiert."
+  ],
+  "sharedStyles": {
+    "beforeCount": 38,
+    "afterCount": 63,
+    "addedIDs": [
+      "0A87C911-B912-44C6-A9E2-877282CFDC19",
+      "18F2ABD4-3461-41D1-8720-DA57E2107165",
+      "1F7408FA-9103-451A-BDCA-DBAEB7AA8DCE",
+      "1FE887D2-7D58-432E-A7F9-CFDF67C6B705",
+      "24267FAC-BE39-4524-A22D-CF9C322BD10C",
+      "288624BA-82D7-4224-A6FD-B8684C030D7B",
+      "2DBADD4F-ADB3-4195-BD58-CE27C2F052FF",
+      "2E8197D7-FA73-4A34-93F3-CB9B35C57759",
+      "44030462-DB4D-40E1-9F2B-7787D453FC94",
+      "6503FA66-49F7-410D-BD19-0DF0E23CED3F",
+      "67719AB9-E300-45B3-92EE-F36F7AB87AC8",
+      "71C4D446-F122-4C7B-882A-0EEE6668A7BB",
+      "831FBEF6-CBB1-4086-A64C-19B5CA4D4940",
+      "93731753-1B79-4009-A6D9-33C7FFD347F1",
+      "9432A950-81DC-432D-A291-4224978A325D",
+      "958B4746-579F-419A-814B-706283B23F11",
+      "9D6E1DCA-6226-4D36-99A2-D5EE265D4C02",
+      "A059F6A1-09C6-4C61-BBB8-0082503B1C6B",
+      "A66D3834-3D86-467D-8610-5F702486EB5B",
+      "B5793A43-F9EC-411B-92BA-A19B8D769E2F",
+      "B92859D4-9D98-4B42-B322-968EC672212E",
+      "C44580B1-3A25-4DE2-A279-0E3E6F201130",
+      "E2B0C6F3-1C79-4647-AA28-DB32034CD25C",
+      "E4FAB032-B4B4-4FEC-9E4A-0A9DD9D31BCA",
+      "F5859C42-7D6B-41C8-BF5B-D944565EB2CD"
+    ],
+    "modifiedExistingIDs": [
+      "041FD48E-8323-45EE-8CE6-2554109D2711",
+      "1CF0D193-ACA5-4623-B9CA-04AA9DA5CCCF",
+      "2DED9691-F7B6-4312-99FC-ADBD2849C1B6",
+      "35269180-8DF2-42B5-B8A9-7274E0FD1F3E",
+      "685C43A9-2CCC-476A-9733-BFFD60B68203",
+      "705D994B-75C4-43F8-BB70-EF882DA83E71",
+      "D37A3A1B-2960-4977-8F4B-575AB19E213D",
+      "D41DF4A4-8997-4F6E-B15F-17A8D39FF28E",
+      "DC78EBC8-E63C-475A-AFCF-8C945EF5F6CB",
+      "DE82111E-2FB6-495E-8974-DB6DE7505FFE",
+      "F0AB0B62-3DED-4298-A1B4-30F73804E2AA"
+    ],
+    "catalog": "shared-styles-2026-11-04.json"
+  },
+  "verification": {
+    "workspaceAndOriginalPagesSemanticallyEqual": true,
+    "androidReferencePageSemanticallyUnchanged": true,
+    "runtimeReferenceImagesUnchanged": true,
+    "textAndUIRemainEditable": true
+  },
+  "measurementMethod": "Mittlerer absoluter Graustufenfehler 0–255 innerhalb der benannten Rechtecke in Punkten bei @3×. Enthaltene Hintergründe/Materialien beeinflussen den Wert. Keine globale Passquote. diagnosticBestShiftSourcePixels dient nur der Diagnose; die Quellen und Kanalbilder werden nicht verschoben.",
+  "sourceTransforms": [],
+  "onlyMaskedArea": {
+    "topSourcePixels": 186,
+    "reason": "Obere Systemleiste"
+  },
+  "ignoredForJudgment": [
+    "Obere Systemleiste",
+    "Liquid-Glass-Materialeffekt; Text und Symbole darauf bleiben geprüft"
+  ],
+  "regions": [
+    {
+      "screen": "artist",
+      "region": "hero-title",
+      "rectPoints": [
+        16,
+        341,
+        155,
+        43
+      ],
+      "beforeError0to255": 6.87326831707927,
+      "afterError0to255": 1.682037175960657,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 1.682037175960657
+      }
+    },
+    {
+      "screen": "artist",
+      "region": "hero-intro",
+      "rectPoints": [
+        16,
+        414,
+        370,
+        51
+      ],
+      "beforeError0to255": 14.780610021786492,
+      "afterError0to255": 1.0078490254960843,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 1.0078490254960843
+      }
+    },
+    {
+      "screen": "donations",
+      "region": "intro",
+      "rectPoints": [
+        88,
+        178,
+        282,
+        66
+      ],
+      "beforeError0to255": 14.031497003128209,
+      "afterError0to255": 0.003390882823506937,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.003390882823506937
+      }
+    },
+    {
+      "screen": "donations",
+      "region": "amount",
+      "rectPoints": [
+        125,
+        267,
+        150,
+        62
+      ],
+      "beforeError0to255": 9.441911589008363,
+      "afterError0to255": 0.8146236559139785,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.8146236559139785
+      }
+    },
+    {
+      "screen": "concert",
+      "region": "artist-title",
+      "rectPoints": [
+        80,
+        291,
+        270,
+        36
+      ],
+      "beforeError0to255": 31.56786694101509,
+      "afterError0to255": 1.1183470507544582,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 1.1183470507544582
+      }
+    },
+    {
+      "screen": "concert",
+      "region": "section-heading",
+      "rectPoints": [
+        20,
+        393,
+        300,
+        29
+      ],
+      "beforeError0to255": 16.88086845466156,
+      "afterError0to255": 0.0,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.0
+      }
+    },
+    {
+      "screen": "stage",
+      "region": "first-event-time",
+      "rectPoints": [
+        84,
+        474,
+        44,
+        20
+      ],
+      "beforeError0to255": 68.07487373737374,
+      "afterError0to255": 0.0,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.0
+      }
+    },
+    {
+      "screen": "stage",
+      "region": "first-event-tag",
+      "rectPoints": [
+        131,
+        477,
+        106,
+        17
+      ],
+      "beforeError0to255": 28.07941793069429,
+      "afterError0to255": 0.06301640152916513,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.06301640152916513
+      }
+    },
+    {
+      "screen": "stage",
+      "region": "first-event-artist",
+      "rectPoints": [
+        84,
+        494,
+        250,
+        23
+      ],
+      "beforeError0to255": 15.86048309178744,
+      "afterError0to255": 0.002859903381642512,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.002859903381642512
+      }
+    },
+    {
+      "screen": "schedule",
+      "region": "compact-tagged-card",
+      "rectPoints": [
+        213,
+        253,
+        64,
+        55
+      ],
+      "beforeError0to255": 25.38939393939394,
+      "afterError0to255": 7.107133838383838,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 7.107133838383838
+      }
+    },
+    {
+      "screen": "schedule",
+      "region": "compact-no-tag-card",
+      "rectPoints": [
+        213,
+        373,
+        64,
+        48
+      ],
+      "beforeError0to255": 40.102322048611114,
+      "afterError0to255": 9.682291666666666,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 9.682291666666666
+      }
+    },
+    {
+      "screen": "schedule",
+      "region": "compact-long-title",
+      "rectPoints": [
+        213,
+        523,
+        64,
+        55
+      ],
+      "beforeError0to255": 31.511111111111113,
+      "afterError0to255": 5.772253787878788,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 1,
+        "y": 0,
+        "error0to255": 4.636584595959596
+      }
+    },
+    {
+      "screen": "schedule",
+      "region": "long-title-time-card",
+      "rectPoints": [
+        140,
+        373,
+        60,
+        50
+      ],
+      "beforeError0to255": 24.60548148148148,
+      "afterError0to255": 6.470259259259259,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 6.470259259259259
+      }
+    },
+    {
+      "screen": "friends",
+      "region": "large-title",
+      "rectPoints": [
+        16,
+        119,
+        190,
+        44
+      ],
+      "beforeError0to255": 9.694098883572568,
+      "afterError0to255": 0.0,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.0
+      }
+    },
+    {
+      "screen": "donations",
+      "region": "large-title",
+      "rectPoints": [
+        16,
+        119,
+        190,
+        44
+      ],
+      "beforeError0to255": 11.786642743221691,
+      "afterError0to255": 0.012799043062200957,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.012799043062200957
+      }
+    },
+    {
+      "screen": "setup-unavailable",
+      "region": "large-title",
+      "rectPoints": [
+        16,
+        119,
+        190,
+        44
+      ],
+      "beforeError0to255": 9.694098883572568,
+      "afterError0to255": 0.0,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.0
+      }
+    },
+    {
+      "screen": "friends",
+      "region": "profile-name",
+      "rectPoints": [
+        88,
+        606,
+        100,
+        24
+      ],
+      "beforeError0to255": 4.281203703703704,
+      "afterError0to255": 0.0028703703703703703,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.0028703703703703703
+      }
+    },
+    {
+      "screen": "friends",
+      "region": "profile-summary",
+      "rectPoints": [
+        88,
+        630,
+        260,
+        41
+      ],
+      "beforeError0to255": 17.231467583906607,
+      "afterError0to255": 0.045538878465707734,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.045538878465707734
+      }
+    },
+    {
+      "screen": "setup-unavailable",
+      "region": "intro",
+      "rectPoints": [
+        32,
+        182,
+        305,
+        27
+      ],
+      "beforeError0to255": 27.848775551507792,
+      "afterError0to255": 0.0,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.0
+      }
+    },
+    {
+      "screen": "setup-unavailable",
+      "region": "body",
+      "rectPoints": [
+        32,
+        403,
+        338,
+        90
+      ],
+      "beforeError0to255": 10.5635948571846,
+      "afterError0to255": 0.0246730951859157,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.0246730951859157
+      }
+    },
+    {
+      "screen": "setup-unavailable",
+      "region": "step-title",
+      "rectPoints": [
+        32,
+        292,
+        338,
+        24
+      ],
+      "beforeError0to255": 6.021230550076704,
+      "afterError0to255": 0.014203922857769011,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.014203922857769011
+      }
+    },
+    {
+      "screen": "setup-unavailable",
+      "region": "name-placeholder",
+      "rectPoints": [
+        86,
+        348,
+        200,
+        24
+      ],
+      "beforeError0to255": 3.4565046296296296,
+      "afterError0to255": 0.034837962962962966,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.034837962962962966
+      }
+    },
+    {
+      "screen": "setup-unavailable",
+      "region": "status-title",
+      "rectPoints": [
+        68,
+        550,
+        240,
+        22
+      ],
+      "beforeError0to255": 4.895833333333333,
+      "afterError0to255": 0.0,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.0
+      }
+    },
+    {
+      "screen": "setup-unavailable",
+      "region": "status-body",
+      "rectPoints": [
+        68,
+        572,
+        286,
+        36
+      ],
+      "beforeError0to255": 10.292519209185876,
+      "afterError0to255": 0.04994388327721661,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.04994388327721661
+      }
+    },
+    {
+      "screen": "friends-empty",
+      "region": "instructions",
+      "rectPoints": [
+        32,
+        267,
+        338,
+        69
+      ],
+      "beforeError0to255": 8.252251093388217,
+      "afterError0to255": 0.02514078266586628,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.02514078266586628
+      }
+    },
+    {
+      "screen": "personal-plan-empty",
+      "region": "empty-text",
+      "rectPoints": [
+        32,
+        261,
+        338,
+        48
+      ],
+      "beforeError0to255": 6.244206114398422,
+      "afterError0to255": 1.284461976769669,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 1.284461976769669
+      }
+    },
+    {
+      "screen": "ratings-five",
+      "region": "rating-name",
+      "rectPoints": [
+        96,
+        322,
+        150,
+        23
+      ],
+      "beforeError0to255": 3.763510466988728,
+      "afterError0to255": 0.7701771336553945,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.7701771336553945
+      }
+    },
+    {
+      "screen": "ratings-five",
+      "region": "rating-detail",
+      "rectPoints": [
+        96,
+        345,
+        150,
+        17
+      ],
+      "beforeError0to255": 3.134466230936819,
+      "afterError0to255": 1.184313725490196,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 1.184313725490196
+      }
+    },
+    {
+      "screen": "ratings-five",
+      "region": "ratings-subtitle",
+      "rectPoints": [
+        44,
+        281,
+        150,
+        20
+      ],
+      "beforeError0to255": 10.069185185185185,
+      "afterError0to255": 3.4849259259259258,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 3.4849259259259258
+      }
+    },
+    {
+      "screen": "ratings-seven",
+      "region": "rating-name",
+      "rectPoints": [
+        96,
+        262,
+        150,
+        23
+      ],
+      "beforeError0to255": 3.7643478260869565,
+      "afterError0to255": 0.7709500805152979,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.7709500805152979
+      }
+    },
+    {
+      "screen": "personal-plan",
+      "region": "day-title",
+      "rectPoints": [
+        24,
+        174,
+        300,
+        35
+      ],
+      "beforeError0to255": 3.6076507936507936,
+      "afterError0to255": 0.004158730158730159,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.004158730158730159
+      }
+    },
+    {
+      "screen": "personal-plan",
+      "region": "event-time",
+      "rectPoints": [
+        24,
+        233,
+        49,
+        24
+      ],
+      "beforeError0to255": 52.36007180650038,
+      "afterError0to255": 3.616213151927438,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 3.616213151927438
+      }
+    },
+    {
+      "screen": "personal-plan",
+      "region": "walking-time",
+      "rectPoints": [
+        24,
+        420,
+        49,
+        24
+      ],
+      "beforeError0to255": 21.17224111866969,
+      "afterError0to255": 1.3343726379440666,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 1.3343726379440666
+      }
+    },
+    {
+      "screen": "artist",
+      "region": "first-event-tag",
+      "rectPoints": [
+        76,
+        583,
+        230,
+        16
+      ],
+      "beforeError0to255": 5.731551932367149,
+      "afterError0to255": 0.013254830917874397,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.013254830917874397
+      }
+    },
+    {
+      "screen": "artist",
+      "region": "first-event-stage",
+      "rectPoints": [
+        76,
+        600,
+        240,
+        24
+      ],
+      "beforeError0to255": 24.336747685185184,
+      "afterError0to255": 0.006925154320987654,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.006925154320987654
+      }
+    },
+    {
+      "screen": "artist",
+      "region": "second-event-stage",
+      "rectPoints": [
+        76,
+        657,
+        240,
+        24
+      ],
+      "beforeError0to255": 14.170582561728395,
+      "afterError0to255": 0.009780092592592592,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.009780092592592592
+      }
+    },
+    {
+      "screen": "donations",
+      "region": "option-label",
+      "rectPoints": [
+        58,
+        364,
+        245,
+        24
+      ],
+      "beforeError0to255": 27.7151171579743,
+      "afterError0to255": 2.8806500377928947,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 2.8806500377928947
+      }
+    },
+    {
+      "screen": "donations",
+      "region": "option-price",
+      "rectPoints": [
+        309,
+        364,
+        62,
+        24
+      ],
+      "beforeError0to255": 10.57803166069295,
+      "afterError0to255": 3.107900238948626,
+      "diagnosticBestShiftSourcePixels": {
+        "x": -1,
+        "y": 0,
+        "error0to255": 1.343563321385902
+      }
+    },
+    {
+      "screen": "news-folk",
+      "region": "subtitle",
+      "rectPoints": [
+        16,
+        207,
+        370,
+        51
+      ],
+      "beforeError0to255": 15.711711711711711,
+      "afterError0to255": 4.718630395100983,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 4.718630395100983
+      }
+    },
+    {
+      "screen": "news-folk",
+      "region": "body-first-paragraph",
+      "rectPoints": [
+        16,
+        270,
+        370,
+        111
+      ],
+      "beforeError0to255": 21.851933014095177,
+      "afterError0to255": 0.004845385926467008,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.004845385926467008
+      }
+    },
+    {
+      "screen": "news-folk",
+      "region": "preview",
+      "rectPoints": [
+        16,
+        688,
+        370,
+        92
+      ],
+      "beforeError0to255": 5.017273795534665,
+      "afterError0to255": 4.859456195325761,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 4.859456195325761
+      }
+    },
+    {
+      "screen": "news-vandoliers",
+      "region": "first-line",
+      "rectPoints": [
+        16,
+        245,
+        370,
+        23
+      ],
+      "beforeError0to255": 36.63905209557384,
+      "afterError0to255": 7.063115289202246,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 1,
+        "y": 0,
+        "error0to255": 5.964355660007834
+      }
+    },
+    {
+      "screen": "news-vandoliers",
+      "region": "section-heading",
+      "rectPoints": [
+        16,
+        672,
+        370,
+        25
+      ],
+      "beforeError0to255": 26.635135135135137,
+      "afterError0to255": 0.0035555555555555557,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 0.0035555555555555557
+      }
+    },
+    {
+      "screen": "world-flat",
+      "region": "navigation-title",
+      "rectPoints": [
+        166,
+        73,
+        70,
+        23
+      ],
+      "beforeError0to255": 41.04734299516908,
+      "afterError0to255": 4.904761904761905,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 4.904761904761905
+      }
+    },
+    {
+      "screen": "world-dark",
+      "region": "navigation-title",
+      "rectPoints": [
+        166,
+        73,
+        70,
+        23
+      ],
+      "beforeError0to255": 37.46411318150449,
+      "afterError0to255": 2.7115251897860593,
+      "diagnosticBestShiftSourcePixels": {
+        "x": 0,
+        "y": 0,
+        "error0to255": 2.7115251897860593
+      }
+    }
+  ],
+  "states": [
+    {
+      "key": "artist",
+      "frame": "7B5E92BC-C03B-4675-B94B-323B208D2A65",
+      "runtime": {
+        "src": "assets/runtime-status-system-hero-en.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "e669f9975632db832d52b99c11deb34b727855c3b4818d885be7f27abb0738c6"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-artist.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "f0401b115279d1899c09e28c1b34e4df2d721e0e55512918fb3a91190a296b38"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-artist.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "8e709dfcb8887d5bb970d676f83180d1e4a5b944e4f47f4dfd611c5ec9cf35a5"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Restkonturen an Bewertungen, einzelnen Symbolen und Hero-/Bilddetails bleiben sichtbar."
+      }
+    },
+    {
+      "key": "stage",
+      "frame": "6EA0C31B-38F9-4927-A333-A18E128590A7",
+      "runtime": {
+        "src": "assets/runtime-verified-stage-classic-sat-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "8fea5899feeab80909eaad6703efccd3f0e0c91e227765a65bb221d118cbb01d"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-stage.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "331787369550434649569fe45f3993c152684db0eb0fc97f5be83009837cf0b4"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-stage.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "05dd6a2318357d1d285611014158fb7cfffa5dca6dd6a6b90a631be0af27bf41"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "MapKit-Kacheln, Marker, Attribution und einzelne Symbolkonturen bleiben verschieden; die gemessene erste Zeit- und Künstlerzeile stimmt überein."
+      }
+    },
+    {
+      "key": "stage-nearby",
+      "frame": "C4039BFB-5618-4E6D-8723-80A5F82425E2",
+      "runtime": {
+        "src": "assets/runtime-verified-stage-nearby-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "09b5e65b5b3534545028f1d717ada296c3573012b55173aaf9d943dc1cb0206d"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-stage-nearby.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "ceca889c5123bdbb48e2dd6ce5922f09059295a025528b0627001d908d419ea7"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-stage-nearby.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "d25b3c0df366228a94b854ed5202323f15c71aecfb367dc94d831b2f7a026420"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Einzelne Marker-/Symbolkonturen und Textdetails in den übrigen Ortszeilen sind noch sichtbar."
+      }
+    },
+    {
+      "key": "schedule",
+      "frame": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "runtime": {
+        "src": "assets/runtime-pass4-stop-harness10.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "3241bcb2dd3c13cda6a7655f3de8a2da38e73064b7f4266d4e9ab2fed7e5a01d"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-schedule.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "33ff768e0857f59a043bdbe48df4ff6fe2d6a608dd2c48c27451a5f5bd55fb80"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-schedule.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "2b160b9fa7fcae538e2954468efcd57d1ad2dfbf23e0282a881e122045928172"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Trotz korrigierter Umbrüche und Mindestskalierung verbleiben Konturen an Karten, Footer-Symbolen und einzelnen kleinen Glyphen. Keine Pixelgleichheit der ganzen Timeline."
+      }
+    },
+    {
+      "key": "donations",
+      "frame": "8EEF0E50-66C5-4AED-A599-E47C1B88654C",
+      "runtime": {
+        "src": "assets/runtime-donations-loading-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "82b28ee499409cfe049b83c58b4b89c8f2a2d41318a4191812ae110f418b869b"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-donations.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "63b96bb110fc7e473c4bbb61d0677bf67365637fa4d41c03dbfd53ea089aa22f"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-donations.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "99d103c180cc43eb9415d7944d464725aa0329ebf771272a05d22cb15c52c030"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Restkonturen am Betrag, an einzelnen Options-/Preisglyphen, Auswahlhaken und kleinen Fußtexten bleiben sichtbar."
+      }
+    },
+    {
+      "key": "friends",
+      "frame": "293853B4-58D5-4CA8-B5B3-4F3EB0E69A4A",
+      "runtime": {
+        "src": "assets/runtime-final-friends-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "f34cbc07486ce12009f6003844feb878eb4f1196e4374165d06d9d84cee46317"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-friends.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "47088f3c42a21fc0ecaa2f34d0d6f9895f5665d6a6ae3756fd6df63eeb501996"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-friends.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "25febf6270a421681d4b60446a089b9d9cfa510a0f7d6da575ca7072895dc02d"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Profilname und Profilbeschreibung stimmen im gemessenen Ausschnitt nahezu überein; Restkonturen in anderen Beschriftungen und Symbolen bleiben sichtbar."
+      }
+    },
+    {
+      "key": "friends-empty",
+      "frame": "FA918A79-9772-405A-ABA4-267A3ED749E0",
+      "runtime": {
+        "src": "assets/runtime-verified-friends-empty-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "b6b23605044923c1693beb6517aa7b87a37053148b0e53d2cbd2a07bedc02fd5"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-friends-empty.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "d69610c7a71e6d2cb31874a5ab335b193e78829901c77001b254712615fc0b32"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-friends-empty.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "fd86dd8908e18e18f218cd41a953b3509b7bcb52a10589b1fa1861ebe989898c"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Der gemessene Hinweistext stimmt nahezu überein; einzelne andere Beschriftungen und Symbole zeigen noch Restkonturen."
+      }
+    },
+    {
+      "key": "setup-unavailable",
+      "frame": "77D0D725-2267-48F8-B93C-0171B529D22B",
+      "runtime": {
+        "src": "assets/runtime-normal-friends-setup-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "513ff22f8a29f537be0033398f442133a2bb664653c29645e007767fc68cc4a8"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-setup-unavailable.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "0d5a4152bdd3680cb2ccaece81b407705201bc3338ccf64abc184412cde2fd58"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-setup-unavailable.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "202e42f0468c7e2f01f62f8313258464d86a0af5ac3dbd612f85407c4400d383"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Die gemessenen Titel, Hinweise und Statuszeilen stimmen nahezu überein; kleine Symbol-/Buttonkonturen sind noch sichtbar."
+      }
+    },
+    {
+      "key": "setup-ready",
+      "frame": "9AA15855-70F2-47C3-8682-58F189EB1615",
+      "runtime": {
+        "src": "assets/runtime-fixture-setup-ready-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "7f7dd4d937f50d1c8ab40af70fc8c50dbbcd14aa2ae9b6c5c7a388c2780c34b2"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-setup-ready.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "36cce037e678454644429d19588812bfcd4c70bf7d442f3fc1327d89f6baa40b"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-setup-ready.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "6014f2203e3ff82bbba4cc9b614aad04bb0f308bf40dbc020ebde4fc4c71c364"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Die gemeinsamen Einrichtungsstile sind übernommen; einzelne Symbol-/Buttonkonturen bleiben sichtbar."
+      }
+    },
+    {
+      "key": "personal-plan",
+      "frame": "DBFD8E30-493A-4856-94C7-89B693998ED1",
+      "runtime": {
+        "src": "assets/runtime-personal-plan-optimal-sunday-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "edc8b277e2093c7c0cbfd13af98e431329da1087a5f7d9e82eec48cd2548809d"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-personal-plan.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "160e1c31aa7417381929de22a96473b6447c183abf81db32000cefabe3f97765"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-personal-plan.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "bde7322ad6cea557a5fbeef444c768d366730ce1dd1c3c9eb4e5a342e7e64051"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Tabellarische Ziffern und Tagesüberschrift sind korrigiert. Restkonturen an Ziffern, weiteren Ereignistexten und Markierungen sind weiterhin sichtbar."
+      }
+    },
+    {
+      "key": "personal-plan-empty",
+      "frame": "297CD632-1153-473E-B265-19D5130B776B",
+      "runtime": {
+        "src": "assets/runtime-fixture-plan-friday-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "5a676f01a939378965dab229c08c9d35ef31dd6697fa4fc2e86bce57008b44b5"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-personal-plan-empty.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "b55a980a5a884b640964da0bee34535f3d7d821e37d3505073fd0cba9d223685"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-personal-plan-empty.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "6be4a215628560210720c5d7c8d6510231c7c9389218b91b1efef4026cee93d6"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Am zentrierten Leertext verbleiben feine Glyphenkonturen; das Kanalbild ist dort noch nicht vollständig schwarz."
+      }
+    },
+    {
+      "key": "world-flat",
+      "frame": "CD835233-E173-48D7-A1A6-54F41F2DE9A3",
+      "runtime": {
+        "src": "assets/runtime-final-world-flat-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "f32ad11c639884ef9e6b5494ad80734be15a1fcdbaee33e1ec01525bd287c7a3"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-world-flat.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "62f23982eb635f879969d9c9cfb7718850b220b92be761abed4feef611eb54c4"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-world-flat.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "9f2d54cbc1cbd11e180175f53d78e3ea8692811d718e1b939c201053eba11c65"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Ländergrenzen, Küsten und Kartenprojektion unterscheiden sich vom nativen MapKit-Renderer. Diese Unterschiede bleiben sichtbar und zählen weiterhin als Abweichungen."
+      }
+    },
+    {
+      "key": "world-globe",
+      "frame": "D4CB163C-3009-44A4-9F8E-86E004265E68",
+      "runtime": {
+        "src": "assets/runtime-final-world-globe-stable-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "b42e7869b5eaeb54eac8855cdb4d00918ed7aef554fd05dcad7886407c3f83d7"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-world-globe.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "a52b3471eec02a4612eaf711f3a7e5d2163d58d0d959e0c5abf86c15ee4add18"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-world-globe.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "4343e83273410f0d0231f2bedd26117a85834172f565869dec94203cba813e80"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Projektions-/Küstenabweichungen der editierbaren Vektorkarte und einzelne Bedienelement-Konturen bleiben sichtbar."
+      }
+    },
+    {
+      "key": "world-dark",
+      "frame": "366D5F37-12BC-441A-AF74-1659D23C83FD",
+      "runtime": {
+        "src": "assets/runtime-dark-world-globe-ready-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "65eaba7af6757fb578a4abe6de0d5cb584c9eff4bcf9419bb35fd30b9726b446"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-world-dark.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "302e1b9ee2286feb6a15e1964cf59dd8917a217f4aee288bc6f0293511772524"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-world-dark.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "1085a25fc722e447d1eb371b55a61862b75829d1ada74e381206f322875de2aa"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Dunkle Vektorkarte: Projektions-/Küstenabweichungen und einzelne Bedienelement-Konturen bleiben sichtbar."
+      }
+    },
+    {
+      "key": "concert",
+      "frame": "D3AE566B-4C0B-4C9D-8987-2494E2CB7625",
+      "runtime": {
+        "src": "assets/runtime-verified-concert-camila-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "5acba991d2dbac19de65c7a4aa17deebc8741bc4abf5858010d6729ae63d1d12"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-concert.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "3ae228628c394fbdf4d83f33e0fdf7dd92c52fe3241808adcac521ae7936fc4f"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-concert.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "8321a577acab14a38e2116a6a9bec5cd1eefad8695303c4817d135bf5204db6b"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Die gemessene Abschnittsüberschrift stimmt überein; Restkonturen an Datum/Uhrzeit, Künstlertext und Symbolen bleiben sichtbar."
+      }
+    },
+    {
+      "key": "news-vandoliers",
+      "frame": "CB390FA5-A2E2-4600-921C-80AB45D819E1",
+      "runtime": {
+        "src": "assets/runtime-verified-news-vandoliers-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "ec40175e066610de61c51722225847dda953ddd21d45dae471c0eff1ca577057"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-news-vandoliers.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "a120afe4cf847543f92aa5cbec3c7f2ffce59acb2ec131e9272a5596ae0767c0"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-news-vandoliers.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "e0e78ce6a37f6e3ff8d2dff28b7f3c92f32067d132152f1ac808a32473e9fb7e"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Inline-Unterstreichungen und die Kanten einzelner Inline-Anhänge weichen weiterhin ab; die gemessene Abschnittsüberschrift stimmt nahezu überein."
+      }
+    },
+    {
+      "key": "news-artist-menu",
+      "frame": "DCD7A1EB-4173-46F8-AA1C-18739C20C47B",
+      "runtime": {
+        "src": "assets/runtime-news-artist-menu.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "c746f9ab2c54b4d284be980333893b795e69a96d5503aa119243fca663a5df14"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-news-artist-menu.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "7eb20b2d26068c5ba0caf247a14a97469913b197cd4f001b6596d8276676abca"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-news-artist-menu.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "2b92e485ecec5223892050828ca9d1c77d51648bae53947f055e822bcbbbc538"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Inline-Unterstreichungen, Menü-Symbolkonturen und einzelne Menütext-Details bleiben sichtbar."
+      }
+    },
+    {
+      "key": "news-folk",
+      "frame": "12DB5D98-C4C0-4D96-BD5B-54EBE0D95548",
+      "runtime": {
+        "src": "assets/runtime-normal-news-folk-air-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "8c1516fa58a5900146f33cfc2d3d385ab83a1bf37de6b2ce90a64dca3e845d21"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-news-folk.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "0237f2b43489d308d306742ef2eb39af0e852c9cc12b75599e0decd81a3ab3d4"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-news-folk.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "e4de84d6edd60ffd1ecdc08331ef03085d5cffddc21ee02e146dee0b4c7d8321"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Fließtext stimmt im gemessenen Absatz nahezu überein. Unterstreichungen und Details der Link-Vorschau bleiben sichtbar verschieden."
+      }
+    },
+    {
+      "key": "news-mail",
+      "frame": "79EA3388-4B5D-465A-8618-1B6421EF9CEC",
+      "runtime": {
+        "src": "assets/runtime-normal-news-mail-loaded-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "a497a951241950de7ee94e21132ac59e48d8bff44488788b518a08de35faa638"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-news-mail.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "568cfbdaf2c4b52030a8d5e1e932310635339dad21cb9a5680538022ad156fef"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-news-mail.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "aefc4c05c34cb4746fbd8d99c10c4e08938ee3776e713691ec17561701de5015"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Der kalibrierte Artikeltext bleibt nahezu deckungsgleich. Feine Konturen des Mail-Anhangs und einzelner kleiner Texte/Symbole bleiben sichtbar."
+      }
+    },
+    {
+      "key": "news-mail-menu",
+      "frame": "1D82B274-0FF8-4AAA-9099-9686E2E64B61",
+      "runtime": {
+        "src": "assets/runtime-normal-news-mail-context-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "0529a9f84d9faef82a139ba5006b384d4b11d85acfa50838566ee39f19fbe83c"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-news-mail-menu.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "65ae81b60ac4494f7d9439f8443968103ca07cecc209dfac0a557ee8557051f6"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-news-mail-menu.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "1d0e5c20a3ccf7863633a595dd4b081ed66d86cfe0f9a061384b8317b1610aba"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Feine Konturen am Mail-Anhang und einzelnen Menütext-/Symbolteilen bleiben sichtbar."
+      }
+    },
+    {
+      "key": "ratings-seven",
+      "frame": "EB935AEC-2BC7-47AD-8169-164E0615815B",
+      "runtime": {
+        "src": "assets/runtime-fixture-seven-ratings-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "984c1d81a9495168629428bf2266a3deefd35024e3418fff9e62563cd0822d06"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-ratings-seven.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "f7967763757f29f4637c5bace8b59f93b6cdace6e444e724f33b374a0520bb24"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-ratings-seven.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "a1f0106cd86d7a1dc49a7f4f27372d21df6ca1cab4fdf67064b7dda3400c5c7a"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Namen, 12-pt-Bewertungstexte und Untertitel sind korrigiert; einzelne Herz-/Schließen-Konturen und feine Textkanten bleiben sichtbar."
+      }
+    },
+    {
+      "key": "ratings-five",
+      "frame": "CA0304D9-7259-41ED-A49D-10963A9AADD8",
+      "runtime": {
+        "src": "assets/runtime-fixture-five-ratings-de.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "75934d9e3256dcbda2c3356a4d502fc235215b01c442eeb369f5d67ad77fb808"
+      },
+      "before": {
+        "src": "assets/baseline-2026-11-04-ratings-five.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "d908b1a9d53d4e713e390799a35d0412997452d620791633b4f59badbe7e0380"
+      },
+      "after": {
+        "src": "assets/typography-final-2026-11-04-ratings-five.webp",
+        "width": 1206,
+        "height": 2622,
+        "sha256": "d0fa33ac664e5a8c822dd58f396eab7c81618d81e3c13bbfc90e0b602e289800"
+      },
+      "review": {
+        "date": "2026-11-04",
+        "result": "Gemeinsame Stile und Komponenten übernommen; Kanalbild und RGB-Differenz erneut geprüft.",
+        "remaining": "Namen, 12-pt-Bewertungstexte und Untertitel sind korrigiert; einzelne Herz-/Schließen-Konturen und feine Textkanten bleiben sichtbar."
+      }
+    }
+  ],
+  "preview": {
+    "src": "component-round-preview.png",
+    "sha256": "0d7284d47c4329310e8d25647949a7ff911d8955927044e8837db47b3729fc7b",
+    "note": "Benannte Ausschnitte der unveränderten Roh-Kanalbilder; keine zusätzliche Maskierung oder Schwellwert-Unterdrückung."
+  },
+  "phase": "Historischer Stand nach der Typografierunde, vor dem anschließenden PNG-Kartentausch."
+}

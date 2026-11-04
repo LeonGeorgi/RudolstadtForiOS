@@ -10,6 +10,7 @@
 - [Watch und Widget](apple/watch.md)
 - [Skripte und deren Tests](../scripts/README.md)
 - [Screenshot-Automation mit XCTest und UI Automator](screenshots.md)
+- [Sketch-Regeln: gemeinsame Stile, Komponenten und Kanalvergleich](screenshots.md#sketch-abgleich-und-visuelle-abnahme)
 
 `research/` enthält datierte Recherchen und Produktideen. `agents/` enthält die
 übernommenen Arbeitskonventionen; das Issue-Tracking verweist dort weiterhin auf

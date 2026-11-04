@@ -1,0 +1,156 @@
+{
+  "date": "2026-11-04",
+  "backup": "../recovery/Rudolstadt-before-map-cleanup-20261104.sketch",
+  "draftPolicy": "Nur bestätigte oder durch eine umgesetzte Endfassung eindeutig verworfene Gestaltungsalternativen entfernen. Offene Ideen, funktionale Zustände und zukünftige Entwürfe bleiben erhalten.",
+  "restoredEarlierBroadDeletion": true,
+  "meinPlanFullyPreserved": true,
+  "allSymbolSourcesPreserved": true,
+  "removed": [
+    {
+      "ok": true,
+      "page": "World Map",
+      "removed": [
+        {
+          "id": "448368E7-2CAC-44C0-93EE-D818244F13BD",
+          "name": "01–04 · Weltkarte · Akzentfarbe",
+          "type": "Artboard"
+        },
+        {
+          "id": "037B1F07-569B-435C-89A8-204C9AD762C0",
+          "name": "05–10 · Mehr Kontrast · Meerfarben",
+          "type": "Artboard"
+        }
+      ],
+      "remaining": 3,
+      "reason": "Überholte Weltkarten-Farboptionen; umgesetzt sind die drei aktuellen Simulatorzustände."
+    },
+    {
+      "ok": true,
+      "page": "Donations",
+      "removed": [
+        {
+          "id": "8E7AAFEB-7973-4820-A500-F3BF5B2E912E",
+          "name": "03–06 · Donations · Vier Designideen",
+          "type": "Artboard"
+        },
+        {
+          "id": "C93ECDF0-453A-4CBD-A6BC-6FF9C1D768EC",
+          "name": "07–09 · Ticketmotiv · Vertiefung",
+          "type": "Artboard"
+        },
+        {
+          "id": "655AB9E9-4532-4DDD-92F4-F13F15DB14B0",
+          "name": "Version 03 · Drei Variationen",
+          "type": "Artboard"
+        },
+        {
+          "id": "40236617-995A-4B9A-B7C9-83AC9A8C2C58",
+          "name": "03C · Arbeitsstand · Herz & Klartext",
+          "type": "Artboard"
+        },
+        {
+          "id": "8E4B67BD-1CAD-4AF9-BCDB-3A62F2BCC2DC",
+          "name": "03C · Native Auswahl · Schlichte Liste",
+          "type": "Artboard"
+        },
+        {
+          "id": "FDD156B5-8CE0-4217-BC27-222EC816008F",
+          "name": "03C · Arbeitsstand · Beschriftung",
+          "type": "Text"
+        },
+        {
+          "id": "BF90B5C2-B013-4C8B-8B00-1418F7F801F1",
+          "name": "03C · Arbeitsstand · Grundlage",
+          "type": "Text"
+        },
+        {
+          "id": "58666E45-F46D-4154-8590-9CE0E2A852C2",
+          "name": "03C · Native Auswahl · Beschriftung",
+          "type": "Text"
+        },
+        {
+          "id": "D16863A1-C774-436C-9620-76C66AD24479",
+          "name": "03C · Native Auswahl · Grundlage",
+          "type": "Text"
+        }
+      ],
+      "remaining": 8,
+      "reason": "Verworfene Spenden-Gestaltungsalternativen und Zwischenstände; native Endfassung sowie Lade-/Beispielzustände bleiben."
+    },
+    {
+      "ok": true,
+      "page": "Friends",
+      "removed": [
+        {
+          "id": "BF03733E-67AE-496A-B0E5-E508659AC152",
+          "name": "Konzept · Freundesempfehlungen · Entdecken",
+          "type": "Artboard"
+        }
+      ],
+      "remaining": 9,
+      "reason": "Nutzerwahl: Nur Zwei Spalten mit Blur behalten."
+    },
+    {
+      "ok": true,
+      "page": "Artist Detail",
+      "removed": [
+        {
+          "id": "AF8975CE-00E0-4E39-9D9B-51C452D0B475",
+          "name": "iOS · V2 · Natürlich · 01 Ausgangszustand",
+          "type": "Artboard"
+        },
+        {
+          "id": "8B15923E-4D33-40E2-9B25-D39FCF1AEC48",
+          "name": "iOS · V2 · Natürlich · 02 Freundesbewertungen",
+          "type": "Artboard"
+        },
+        {
+          "id": "3BEDA6D5-094E-4A0A-9393-B2F5DFAE2C79",
+          "name": "11 · V2 · Natürlichere Bewegung",
+          "type": "Text"
+        },
+        {
+          "id": "A0AEEFF5-126D-440B-989B-C4C7D3AAA1B7",
+          "name": "V2 · Bewegungsverhalten",
+          "type": "Text"
+        }
+      ],
+      "remaining": 36,
+      "reason": "Nutzerwahl: V3 Gummikette behalten, V2 Natürlich entfernen."
+    }
+  ],
+  "mapReplacements": [
+    {
+      "key": "world-flat",
+      "frame": "CD835233-E173-48D7-A1A6-54F41F2DE9A3",
+      "old": "9AF66B1A-ADEB-4BC8-B4D8-0B2F1D5A7C12",
+      "extra": []
+    },
+    {
+      "key": "world-globe",
+      "frame": "D4CB163C-3009-44A4-9F8E-86E004265E68",
+      "old": "4B82345B-4B6B-45E5-A692-95C230E8F08F",
+      "extra": [
+        "317D040C-3384-4DF6-886D-2FD051653BA8"
+      ]
+    },
+    {
+      "key": "world-dark",
+      "frame": "366D5F37-12BC-441A-AF74-1659D23C83FD",
+      "old": "B376F54D-BCEE-48BB-8F74-9F6444C49F4B",
+      "extra": [
+        "277E9277-71EE-4282-9BCD-00A2859C3CDE"
+      ]
+    }
+  ],
+  "userChoices": {
+    "friends": "Nur Zwei Spalten mit Blur behalten",
+    "ratingMotion": "Nur V3 Gummikette behalten"
+  },
+  "reopen": {
+    "success": true,
+    "elapsedMilliseconds": 1229,
+    "sketchVersion": "2026.3.1",
+    "note": "Einzelner Öffnungsvorgang mit bereits warmen System-Caches; kein kontrollierter Kaltstart-Benchmark."
+  }
+}

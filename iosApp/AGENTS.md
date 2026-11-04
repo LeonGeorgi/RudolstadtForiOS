@@ -121,6 +121,13 @@ Use this workflow only when the user explicitly asks to run the app and capture
 an iOS screen. The canonical App Store capture workflow and its options live in
 `../docs/screenshots.md`; do not duplicate or override it here.
 
+For Sketch parity work, also follow **Sketch-Abgleich und visuelle Abnahme** in
+`../docs/screenshots.md`. Correct shared typography, color variables, and symbol
+sources before individual screens, then re-export affected states and inspect
+the signed grayscale channel differences. Keep text editable and record dated
+references and remaining differences. Only the upper system bar and Liquid Glass
+material are excluded from judgment; labels and icons on glass still count.
+
 - Prefer an already booted suitable iOS 26 simulator and an already installed
   app. Avoid unnecessary builds and avoid leaving multiple simulators booted.
 - For automated captures, use the `Native Screenshots` scheme, bundle ID

@@ -1,0 +1,1845 @@
+{
+  "reviewDate": "2026-11-04",
+  "document": "/Users/leon/Documents/Projekte/RudolstadtKMP/design/Rudolstadt.sketch",
+  "styles": [
+    {
+      "id": "041FD48E-8323-45EE-8CE6-2554109D2711",
+      "name": "iOS/Timeline/Time axis",
+      "boundTextCount": 42,
+      "exampleLayer": "C1042504-963D-4341-A486-C07FCE5B280A",
+      "font": {
+        "family": "SF Pro",
+        "size": 12,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#3c3c4399",
+        "swatch": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8"
+      }
+    },
+    {
+      "id": "FE6A1237-C099-4BC7-88F8-304446F1BA48",
+      "name": "iOS/Friends/Privacy footer",
+      "boundTextCount": 1,
+      "exampleLayer": "4D09A912-C619-4EA0-A436-8E71240519A6",
+      "font": {
+        "family": "SF Pro",
+        "size": 13,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": 18,
+        "kerning": 0.5,
+        "alignment": "left",
+        "color": "#808080ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "D41DF4A4-8997-4F6E-B15F-17A8D39FF28E",
+      "name": "iOS/Friends/Rating name",
+      "boundTextCount": 13,
+      "exampleLayer": "AE8C0A26-F4A0-4134-89EE-35079A20567F",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "685C43A9-2CCC-476A-9733-BFFD60B68203",
+      "name": "iOS/Friends/Rating detail",
+      "boundTextCount": 14,
+      "exampleLayer": "2C6C1573-8EFF-4878-B7FA-BA8890C6C293",
+      "font": {
+        "family": "SF Pro",
+        "size": 12,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#3c3c4399",
+        "swatch": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8"
+      }
+    },
+    {
+      "id": "6CFFDEDF-6B33-4EB0-8C3D-2FB311E86983",
+      "name": "iOS/Timeline/Stage number",
+      "boundTextCount": 10,
+      "exampleLayer": "0D1FE3D3-005E-43F1-9591-B8CE8EBEC607",
+      "font": {
+        "family": "SF Pro",
+        "size": 11,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "24FA1BE8-B66F-47DC-91BC-D0BE933A7316",
+      "name": "iOS/Timeline/Stage name",
+      "boundTextCount": 10,
+      "exampleLayer": "0E4864AC-0600-4301-8000-E523406568C8",
+      "font": {
+        "family": "SF Pro",
+        "size": 11,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 510
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "FC01B044-F15D-412F-AA57-8516E8A5F9AA",
+      "name": "iOS/Timeline/Stage continuation",
+      "boundTextCount": 6,
+      "exampleLayer": "96B83E1B-3CB4-435A-9D46-D8F91CEB01A8",
+      "font": {
+        "family": "SF Pro",
+        "size": 11,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 510
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "1CF0D193-ACA5-4623-B9CA-04AA9DA5CCCF",
+      "name": "iOS/Friends/Ratings title",
+      "boundTextCount": 11,
+      "exampleLayer": "772EAA92-FE2E-49B1-901C-DD61798BCCB5",
+      "font": {
+        "family": "SF Pro",
+        "size": 22,
+        "weight": 9,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 22
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 700
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "705D994B-75C4-43F8-BB70-EF882DA83E71",
+      "name": "iOS/Friends/Ratings subtitle",
+      "boundTextCount": 11,
+      "exampleLayer": "2354CA89-912C-40D3-9787-8A209543605A",
+      "font": {
+        "family": "SF Pro",
+        "size": 15,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#3c3c4399",
+        "swatch": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8"
+      }
+    },
+    {
+      "id": "A989FA90-3F24-4D19-B9AE-43131792A95C",
+      "name": "iOS/Friends/Ratings transition title",
+      "boundTextCount": 1,
+      "exampleLayer": "6EF3C00D-03F3-4D25-A379-12B4022E072A",
+      "font": {
+        "family": "SF Pro",
+        "size": 18,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 18
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 510
+          }
+        },
+        "lineHeight": 24,
+        "kerning": 0.5,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "05974BFF-3C22-45DB-A9FA-8B54DB204BDE",
+      "name": "iOS/Friends/Ratings transition name",
+      "boundTextCount": 3,
+      "exampleLayer": "EE6BC15F-E2C4-4ABD-88E7-210FE809A28B",
+      "font": {
+        "family": "SF Pro",
+        "size": 16,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": 24,
+        "kerning": 0.5,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "A84C1354-5B8A-4430-B9E0-124BD6AD5F6A",
+      "name": "iOS/Native/Headline",
+      "boundTextCount": 13,
+      "exampleLayer": "D46F1FD6-E9D5-412B-BEE6-A6856B33E004",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "35269180-8DF2-42B5-B8A9-7274E0FD1F3E",
+      "name": "iOS/Stage/Event time · tabular",
+      "boundTextCount": 3,
+      "exampleLayer": "4F12A8C4-20CC-4D9B-BC92-34E91993E391",
+      "font": {
+        "family": "SF Pro",
+        "size": 15,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 510
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "8B4C87A0-515F-4E29-80B2-EABCB7C19A3B",
+      "name": "iOS/Native/Caption2 Semibold",
+      "boundTextCount": 7,
+      "exampleLayer": "643C62FD-2CD4-49B9-8A46-0854A983AC96",
+      "font": {
+        "family": "SF Pro",
+        "size": 11,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#3c3c4399",
+        "swatch": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8"
+      }
+    },
+    {
+      "id": "DE82111E-2FB6-495E-8974-DB6DE7505FFE",
+      "name": "iOS/Timeline/Card category",
+      "boundTextCount": 4,
+      "exampleLayer": "542CA1C9-19BA-4E2B-A870-949261A469FB",
+      "font": {
+        "family": "SF Pro",
+        "size": 8.5,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": 10,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#0000009c",
+        "swatch": "9C261063-14FA-413C-97DE-B4D9D9965A49"
+      }
+    },
+    {
+      "id": "D37A3A1B-2960-4977-8F4B-575AB19E213D",
+      "name": "iOS/Timeline/Card artist",
+      "boundTextCount": 3,
+      "exampleLayer": "D1CC78A8-54B6-4D06-B312-49AE570E2B45",
+      "font": {
+        "family": "SF Pro",
+        "size": 11.5,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 510
+          }
+        },
+        "lineHeight": 15,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#000000ff",
+        "swatch": "C97D5A73-ADA5-40AF-A0BD-24950681BAEC"
+      }
+    },
+    {
+      "id": "F0AB0B62-3DED-4298-A1B4-30F73804E2AA",
+      "name": "iOS/Timeline/Card time",
+      "boundTextCount": 4,
+      "exampleLayer": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F",
+      "font": {
+        "family": "SF Pro",
+        "size": 10.5,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 510
+          }
+        },
+        "lineHeight": 13,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#000000ad",
+        "swatch": "B57C7804-2386-409F-AAD2-F55AC253399D"
+      }
+    },
+    {
+      "id": "3C113C0A-99B8-4150-B360-7C172ABFA40A",
+      "name": "iOS/Native/Large title",
+      "boundTextCount": 7,
+      "exampleLayer": "1BA70813-DC9E-4826-8F25-2646B3A76BA6",
+      "font": {
+        "family": "SF Pro",
+        "size": 34,
+        "weight": 9,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 28
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 700
+          }
+        },
+        "lineHeight": 41,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#ffffffff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "18F82265-1C62-4125-99BC-AF740B76FE4E",
+      "name": "iOS/Native/Title tag",
+      "boundTextCount": 1,
+      "exampleLayer": "6BD4C448-462A-439D-8138-3E71AAF3D621",
+      "font": {
+        "family": "SF Pro",
+        "size": 12,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#ffffffff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "039A64C8-6CAA-408B-AD82-59586AD5975C",
+      "name": "iOS/Medium/Headline",
+      "boundTextCount": 0,
+      "exampleLayer": null,
+      "font": null
+    },
+    {
+      "id": "F6C61A12-D4E2-48E0-AC14-39FB565B75BB",
+      "name": "iOS/Medium/Subheadline Medium",
+      "boundTextCount": 0,
+      "exampleLayer": null,
+      "font": null
+    },
+    {
+      "id": "7FCE32CB-BBC1-4823-8261-9E5F44209683",
+      "name": "iOS/Medium/Large title",
+      "boundTextCount": 0,
+      "exampleLayer": null,
+      "font": null
+    },
+    {
+      "id": "2372D845-4F4C-4F86-B4EF-6FCD22E82E45",
+      "name": "iOS/Medium/Time axis",
+      "boundTextCount": 0,
+      "exampleLayer": null,
+      "font": null
+    },
+    {
+      "id": "8A8D5A52-6ABD-4D70-91E1-EB4D949B644A",
+      "name": "iOS/Medium/Title tag",
+      "boundTextCount": 0,
+      "exampleLayer": null,
+      "font": null
+    },
+    {
+      "id": "652DD156-FC31-4183-88BE-DC7045772F1E",
+      "name": "iOS/Medium/Nearby heading",
+      "boundTextCount": 0,
+      "exampleLayer": null,
+      "font": null
+    },
+    {
+      "id": "C4923006-A911-4413-8E05-89C36FFDD058",
+      "name": "iOS/Native/Nearby heading",
+      "boundTextCount": 5,
+      "exampleLayer": "3BD4DE1F-4E2C-405D-80A5-40F61A31FC51",
+      "font": {
+        "family": "SF Pro",
+        "size": 15,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#3c3c4399",
+        "swatch": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8"
+      }
+    },
+    {
+      "id": "DC78EBC8-E63C-475A-AFCF-8C945EF5F6CB",
+      "name": "iOS/Timeline/Card artist expanded",
+      "boundTextCount": 1,
+      "exampleLayer": "BC6F40AC-E6B0-4E83-A46A-90B060830619",
+      "font": {
+        "family": "SF Pro",
+        "size": 13,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": 13,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#000000ff",
+        "swatch": "C97D5A73-ADA5-40AF-A0BD-24950681BAEC"
+      }
+    },
+    {
+      "id": "5BEEA1B0-6FB2-44C3-A285-4313BBA863CB",
+      "name": "iOS/Native/Stage number",
+      "boundTextCount": 3,
+      "exampleLayer": "3C86D4EB-0CD2-407F-BE65-EA3FA3CF9A90",
+      "font": {
+        "family": "SF Pro Rounded",
+        "size": 13.8,
+        "weight": 8,
+        "axes": null,
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#ffffffff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "79EBB96B-34A5-48DA-BCD7-9C648F12DF67",
+      "name": "iOS/Native/Title2 Bold",
+      "boundTextCount": 17,
+      "exampleLayer": "A962F5C3-2D26-42A8-BDF0-556304BAE40E",
+      "font": {
+        "family": "SF Pro",
+        "size": 22,
+        "weight": 9,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 22
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 700
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "2DED9691-F7B6-4312-99FC-ADBD2849C1B6",
+      "name": "iOS/Native/Section heading",
+      "boundTextCount": 17,
+      "exampleLayer": "90EB2C44-16A0-46C5-844F-AADCDF87DC34",
+      "font": {
+        "family": "SF Pro",
+        "size": 15,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#3c3c4399",
+        "swatch": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8"
+      }
+    },
+    {
+      "id": "E4FAB032-B4B4-4FEC-9E4A-0A9DD9D31BCA",
+      "name": "iOS/Native/Subheadline/Paragraph Secondary",
+      "boundTextCount": 3,
+      "exampleLayer": "F044E788-BE0A-4962-B6B9-D3645EE65C74",
+      "font": {
+        "family": "SF Pro",
+        "size": 15,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": 20,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#00000080",
+        "swatch": "B5A816FC-3B4E-44B9-86D5-941178DA4F98"
+      }
+    },
+    {
+      "id": "831FBEF6-CBB1-4086-A64C-19B5CA4D4940",
+      "name": "iOS/Native/Body/Paragraph",
+      "boundTextCount": 15,
+      "exampleLayer": "9481B7A1-F560-4234-8286-D77AA3F61758",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": 22,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": "C97D5A73-ADA5-40AF-A0BD-24950681BAEC"
+      }
+    },
+    {
+      "id": "2E8197D7-FA73-4A34-93F3-CB9B35C57759",
+      "name": "iOS/Native/Body/Paragraph Secondary",
+      "boundTextCount": 6,
+      "exampleLayer": "487E6B0B-AF36-4209-93AB-6A02E860BF6C",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": 22,
+        "kerning": null,
+        "alignment": "right",
+        "color": "#3c3c4399",
+        "swatch": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8"
+      }
+    },
+    {
+      "id": "9D6E1DCA-6226-4D36-99A2-D5EE265D4C02",
+      "name": "iOS/Native/Body/Secondary",
+      "boundTextCount": 8,
+      "exampleLayer": "B624E228-745A-4A45-AAB2-294820799996",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#3c3c4399",
+        "swatch": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8"
+      }
+    },
+    {
+      "id": "1FE887D2-7D58-432E-A7F9-CFDF67C6B705",
+      "name": "iOS/Native/Subheadline/Secondary",
+      "boundTextCount": 1,
+      "exampleLayer": "7B4E808B-65EA-4B21-931B-06239FF2BA10",
+      "font": {
+        "family": "SF Pro",
+        "size": 15,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#3c3c4399",
+        "swatch": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8"
+      }
+    },
+    {
+      "id": "93731753-1B79-4009-A6D9-33C7FFD347F1",
+      "name": "iOS/Native/Title3 Semibold",
+      "boundTextCount": 6,
+      "exampleLayer": "ED19EE9D-B2A7-4B9B-9E51-C959AF6D852D",
+      "font": {
+        "family": "SF Pro",
+        "size": 20,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 20
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "A66D3834-3D86-467D-8610-5F702486EB5B",
+      "name": "iOS/Native/Body/Placeholder",
+      "boundTextCount": 2,
+      "exampleLayer": "6528396F-89DC-4727-8FFE-FE8E877DD14F",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#3c3c434c",
+        "swatch": "9796DA31-005E-4E82-9785-8F3C115094E4"
+      }
+    },
+    {
+      "id": "F5859C42-7D6B-41C8-BF5B-D944565EB2CD",
+      "name": "iOS/Native/Subheadline Semibold",
+      "boundTextCount": 2,
+      "exampleLayer": "D08BDCD4-2EE2-47B9-AB61-1571172229A0",
+      "font": {
+        "family": "SF Pro",
+        "size": 15,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "67719AB9-E300-45B3-92EE-F36F7AB87AC8",
+      "name": "iOS/Native/Footnote/Paragraph Secondary",
+      "boundTextCount": 1,
+      "exampleLayer": "64F75DB2-0CC7-4256-AD93-1F5CA3034B17",
+      "font": {
+        "family": "SF Pro",
+        "size": 13,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": 18,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#00000080",
+        "swatch": "B5A816FC-3B4E-44B9-86D5-941178DA4F98"
+      }
+    },
+    {
+      "id": "18F2ABD4-3461-41D1-8720-DA57E2107165",
+      "name": "iOS/Native/Body/Accent",
+      "boundTextCount": 1,
+      "exampleLayer": "EDBEB78D-E58B-4B81-8D95-7E63269E56CA",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#982f93ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "288624BA-82D7-4224-A6FD-B8684C030D7B",
+      "name": "iOS/Native/Body/Link",
+      "boundTextCount": 4,
+      "exampleLayer": "8277C9F6-929D-4386-B18F-ACC9D8C4306D",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": 22,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#982f93ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "9432A950-81DC-432D-A291-4224978A325D",
+      "name": "iOS/News/Inline subtitle",
+      "boundTextCount": 1,
+      "exampleLayer": "E087D01F-B119-4EEE-B26F-56A69E5B14B8",
+      "font": {
+        "family": "SF Pro",
+        "size": 20,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 20
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#982f93ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "C44580B1-3A25-4DE2-A279-0E3E6F201130",
+      "name": "iOS/Native/Large title/Primary",
+      "boundTextCount": 5,
+      "exampleLayer": "1E14A021-7767-4F24-8916-29F49965388A",
+      "font": {
+        "family": "SF Pro",
+        "size": 34,
+        "weight": 9,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 28
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 700
+          }
+        },
+        "lineHeight": 41,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": "C97D5A73-ADA5-40AF-A0BD-24950681BAEC"
+      }
+    },
+    {
+      "id": "24267FAC-BE39-4524-A22D-CF9C322BD10C",
+      "name": "iOS/Plan/Time · tabular",
+      "boundTextCount": 4,
+      "exampleLayer": "4A372A2B-F2A2-4EBA-BEC5-5F09F0F10156",
+      "font": {
+        "family": "SF Pro",
+        "size": 16,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "right",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "A059F6A1-09C6-4C61-BBB8-0082503B1C6B",
+      "name": "iOS/Native/Navigation title/On dark",
+      "boundTextCount": 1,
+      "exampleLayer": "8543AC76-47EF-4C6E-93B0-5C2845BBF555",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#ffffffff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "B5793A43-F9EC-411B-92BA-A19B8D769E2F",
+      "name": "iOS/Native/Navigation title",
+      "boundTextCount": 2,
+      "exampleLayer": "BA98B33B-EF00-4686-96A3-DECD0BFD8C0B",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "71C4D446-F122-4C7B-882A-0EEE6668A7BB",
+      "name": "iOS/Native/Title1 Bold",
+      "boundTextCount": 5,
+      "exampleLayer": "358C952F-BABE-4E30-A7EC-FFDC5E1E7073",
+      "font": {
+        "family": "SF Pro",
+        "size": 28,
+        "weight": 9,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 28
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 700
+          }
+        },
+        "lineHeight": 34,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": "C97D5A73-ADA5-40AF-A0BD-24950681BAEC"
+      }
+    },
+    {
+      "id": "E2B0C6F3-1C79-4647-AA28-DB32034CD25C",
+      "name": "iOS/News/Banner title",
+      "boundTextCount": 2,
+      "exampleLayer": "9A032171-F8EA-4076-BE48-50EEBF1F70A1",
+      "font": {
+        "family": "SF Pro",
+        "size": 15,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "0A87C911-B912-44C6-A9E2-877282CFDC19",
+      "name": "iOS/News/Banner subtitle",
+      "boundTextCount": 2,
+      "exampleLayer": "3A2961E1-75F6-4CB5-A97B-95B65207327A",
+      "font": {
+        "family": "SF Pro",
+        "size": 12,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#666666ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "2DBADD4F-ADB3-4195-BD58-CE27C2F052FF",
+      "name": "iOS/News/Unread count",
+      "boundTextCount": 3,
+      "exampleLayer": "08C377CD-A185-485F-B24D-2C1F98DF1DF0",
+      "font": {
+        "family": "SF Pro",
+        "size": 11,
+        "weight": 9,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 700
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#ffffffff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "958B4746-579F-419A-814B-706283B23F11",
+      "name": "iOS/Menu/Action",
+      "boundTextCount": 2,
+      "exampleLayer": "25B019CF-90B4-46BF-91B7-1A156B0BD944",
+      "font": {
+        "family": "SF Pro",
+        "size": 17,
+        "weight": 5,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 400
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "44030462-DB4D-40E1-9F2B-7787D453FC94",
+      "name": "iOS/Event/48pt badge day",
+      "boundTextCount": 1,
+      "exampleLayer": "B3831C5F-8118-42ED-934A-53BBFEA19638",
+      "font": {
+        "family": "SF Pro",
+        "size": 10.153846153846153,
+        "weight": 9,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 700
+          }
+        },
+        "lineHeight": null,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#171717ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "1F7408FA-9103-451A-BDCA-DBAEB7AA8DCE",
+      "name": "iOS/Donation/Selected amount",
+      "boundTextCount": 1,
+      "exampleLayer": "E0D14623-23DE-4567-82E9-E0037DF17A80",
+      "font": {
+        "family": "SF Pro",
+        "size": 48,
+        "weight": 8,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 28
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": 58,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#982f93ff",
+        "swatch": "8C68B19D-909F-4AB1-9E78-ACD919DDC92C"
+      }
+    },
+    {
+      "id": "B92859D4-9D98-4B42-B322-968EC672212E",
+      "name": "iOS/Native/Title3/Paragraph",
+      "boundTextCount": 5,
+      "exampleLayer": "484ECC92-4AB9-41BA-B81F-96EFA03D4C11",
+      "font": {
+        "family": "SF Pro",
+        "size": 20,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 20
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 590
+          }
+        },
+        "lineHeight": 25,
+        "kerning": null,
+        "alignment": "left",
+        "color": "#000000ff",
+        "swatch": null
+      }
+    },
+    {
+      "id": "6503FA66-49F7-410D-BD19-0DF0E23CED3F",
+      "name": "iOS/Timeline/Card artist/Minimum scale 0.75",
+      "boundTextCount": 2,
+      "exampleLayer": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3",
+      "font": {
+        "family": "SF Pro",
+        "size": 8.625,
+        "weight": 6,
+        "axes": {
+          "Width": {
+            "id": 2003072104,
+            "min": 30,
+            "max": 150,
+            "value": 100
+          },
+          "Optical Size": {
+            "id": 1869640570,
+            "min": 17,
+            "max": 28,
+            "value": 17
+          },
+          "Weight": {
+            "id": 2003265652,
+            "min": 1,
+            "max": 1000,
+            "value": 510
+          }
+        },
+        "lineHeight": 11.3333333,
+        "kerning": null,
+        "alignment": "center",
+        "color": "#000000ff",
+        "swatch": "C97D5A73-ADA5-40AF-A0BD-24950681BAEC"
+      }
+    }
+  ],
+  "swatches": [
+    {
+      "id": "C97D5A73-ADA5-40AF-A0BD-24950681BAEC",
+      "name": "iOS/Text/Primary",
+      "color": "#000000ff"
+    },
+    {
+      "id": "DA32C096-B2B5-48EB-8FD8-709B44B1D1A8",
+      "name": "iOS/Text/Secondary/UIKit label",
+      "color": "#3c3c4399"
+    },
+    {
+      "id": "3DC1E579-3ED8-4156-8851-5AC8340AC79D",
+      "name": "Schedule/Concert/Light",
+      "color": "#f5c5d266"
+    },
+    {
+      "id": "9E48AF17-1823-497E-8186-CB0310E4361B",
+      "name": "Schedule/Dance/Light",
+      "color": "#ebd39166"
+    },
+    {
+      "id": "65D00A26-3847-42E2-84BD-B3D0162E91F4",
+      "name": "Schedule/Street/Light",
+      "color": "#91e9d766"
+    },
+    {
+      "id": "B5A816FC-3B4E-44B9-86D5-941178DA4F98",
+      "name": "iOS/Text/Secondary/SwiftUI light",
+      "color": "#00000080"
+    },
+    {
+      "id": "9796DA31-005E-4E82-9785-8F3C115094E4",
+      "name": "iOS/Text/Placeholder",
+      "color": "#3c3c434c"
+    },
+    {
+      "id": "B57C7804-2386-409F-AAD2-F55AC253399D",
+      "name": "iOS/Timeline/Metadata",
+      "color": "#000000ad"
+    },
+    {
+      "id": "9C261063-14FA-413C-97DE-B4D9D9965A49",
+      "name": "iOS/Timeline/Tag",
+      "color": "#0000009c"
+    }
+  ],
+  "notes": [
+    "Font values are read from the first bound editable text, not inferred from style names.",
+    "Legacy iOS concepts remain in the document; this catalog is not a declaration that every legacy style is current.",
+    "OpenType monospaced numbers are stored natively in tabular time styles; font axes JSON alone does not describe that feature."
+  ]
+}

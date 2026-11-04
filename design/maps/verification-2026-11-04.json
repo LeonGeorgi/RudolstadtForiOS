@@ -1,0 +1,239 @@
+{
+  "date": "2026-11-04",
+  "backup": "../recovery/Rudolstadt-before-map-cleanup-20261104.sketch",
+  "currentSketch": "../Rudolstadt.sketch",
+  "beforeBytes": 175705661,
+  "afterBytes": 168995171,
+  "worldBefore": {
+    "layers": 8822,
+    "vectorPoints": 198973
+  },
+  "worldAfter": {
+    "layers": 115,
+    "vectorPoints": 192
+  },
+  "retainedPageCount": 17,
+  "semanticallyUnchangedPages": [
+    "App-Icons",
+    "App-Farben",
+    "Stage Detail",
+    "Concert Detail",
+    "News Detail",
+    "Schedule",
+    "Apple Watch",
+    "Web · Link-Fallback",
+    "Web · Support",
+    "Android · Pixelvergleich · Referenzen · 03.11.2026",
+    "Web · Privacy Policy",
+    "Mein Plan",
+    "Symbols"
+  ],
+  "meinPlanFullyUnchanged": true,
+  "symbolSourcesFullyUnchanged": true,
+  "unconfirmedDraftsRetained": true,
+  "approvedRemovedRoots": 16,
+  "mapControlsAndTextModelsUnchanged": true,
+  "mapPNGRegionsExactlyCopiedFromNativeReferences": true,
+  "workspaceAndOriginalPagesMatch": true,
+  "reopen": {
+    "success": true,
+    "elapsedMilliseconds": 1229,
+    "sketchVersion": "2026.3.1",
+    "note": "Einzelner Öffnungsvorgang mit bereits warmen System-Caches; kein kontrollierter Kaltstart-Benchmark."
+  },
+  "renderComparison": [
+    {
+      "key": "artist",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "stage",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "stage-nearby",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "schedule",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "donations",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "friends",
+      "exactlyUnchanged": false,
+      "differenceBBox": [
+        161,
+        2381,
+        1056,
+        2543
+      ],
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "friends-empty",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "setup-unavailable",
+      "exactlyUnchanged": false,
+      "differenceBBox": [
+        161,
+        2381,
+        1056,
+        2543
+      ],
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "setup-ready",
+      "exactlyUnchanged": false,
+      "differenceBBox": [
+        161,
+        2381,
+        1056,
+        2543
+      ],
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "personal-plan",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "personal-plan-empty",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "world-flat",
+      "exactlyUnchanged": false,
+      "differenceBBox": [
+        0,
+        0,
+        1206,
+        2549
+      ],
+      "mapSurfaceRGBMeanError0to255": [
+        0.0006489292667099286,
+        0.0006489292667099286,
+        0.0006489292667099286
+      ],
+      "mapInteriorExactlyNative": false
+    },
+    {
+      "key": "world-globe",
+      "exactlyUnchanged": false,
+      "differenceBBox": [
+        0,
+        353,
+        1206,
+        2618
+      ],
+      "mapSurfaceRGBMeanError0to255": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mapInteriorExactlyNative": true
+    },
+    {
+      "key": "world-dark",
+      "exactlyUnchanged": false,
+      "differenceBBox": [
+        0,
+        353,
+        1206,
+        2618
+      ],
+      "mapSurfaceRGBMeanError0to255": [
+        5.08420365655927e-06,
+        5.08420365655927e-06,
+        5.08420365655927e-06
+      ],
+      "mapInteriorExactlyNative": false
+    },
+    {
+      "key": "concert",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "news-vandoliers",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "news-artist-menu",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "news-folk",
+      "exactlyUnchanged": false,
+      "differenceBBox": [
+        161,
+        2381,
+        1134,
+        2543
+      ],
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "news-mail",
+      "exactlyUnchanged": false,
+      "differenceBBox": [
+        161,
+        2381,
+        1134,
+        2543
+      ],
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "news-mail-menu",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "ratings-seven",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    },
+    {
+      "key": "ratings-five",
+      "exactlyUnchanged": true,
+      "differenceBBox": null,
+      "unchangedOutsideTabBar": true
+    }
+  ],
+  "renderNote": "19 übrige aktuelle Screens stimmen außerhalb der Tab-Leiste pixelweise mit dem Export vor der Änderung überein. Nach dem Neuöffnen rendert Sketch bei einigen unveränderten Tab-Leisten feine Text-/Materialkonturen anders. Die betroffenen Seiten und Symbolmodelle sind unverändert; die vollständigen aktuellen Kanalbilder behalten diese Unterschiede bei.",
+  "sourceTransforms": [],
+  "onlyChannelMask": {
+    "topPixels": 186
+  },
+  "fileSHA256": "3916428505a67aa0848960854c61b681aeecf365f8f5d83187cfcfb31e78ca20"
+}

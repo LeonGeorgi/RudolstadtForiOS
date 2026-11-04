@@ -1,0 +1,91 @@
+{
+  "referenceDate": "2026-11-03",
+  "createdDate": "2026-11-04",
+  "purpose": "Native map surface only; never a flattened screen or text replacement.",
+  "assets": [
+    {
+      "key": "world-flat",
+      "src": "world-flat@3x.png",
+      "width": 1206,
+      "height": 2622,
+      "scale": 3,
+      "runtimeReference": "../audit-2026-11-03/assets/runtime-final-world-flat-de.webp",
+      "runtimeSHA256": "f32ad11c639884ef9e6b5494ad80734be15a1fcdbaee33e1ec01525bd287c7a3",
+      "nativeMapRectPixels": [
+        0,
+        348,
+        1206,
+        2142
+      ],
+      "nativeMapRectPoints": [
+        0,
+        116,
+        402,
+        598
+      ],
+      "outsideMapRect": "Solid map background; editable navigation, legal attribution and app controls remain separate Sketch layers.",
+      "backgroundRGB": [
+        214,
+        232,
+        242
+      ],
+      "sha256": "3d2d234efa757fc3ddff094f76bcf58d2f901e3e25f56f5daf166175e798dfba"
+    },
+    {
+      "key": "world-globe",
+      "src": "world-globe@3x.png",
+      "width": 1206,
+      "height": 2622,
+      "scale": 3,
+      "runtimeReference": "../audit-2026-11-03/assets/runtime-final-world-globe-stable-de.webp",
+      "runtimeSHA256": "b42e7869b5eaeb54eac8855cdb4d00918ed7aef554fd05dcad7886407c3f83d7",
+      "nativeMapRectPixels": [
+        0,
+        348,
+        1206,
+        2142
+      ],
+      "nativeMapRectPoints": [
+        0,
+        116,
+        402,
+        598
+      ],
+      "outsideMapRect": "Solid map background; editable navigation, legal attribution and app controls remain separate Sketch layers.",
+      "backgroundRGB": [
+        0,
+        0,
+        0
+      ],
+      "sha256": "6419a1cd254695e6be3a57326bf51b16696440e89c8b6a12a58bdd89b6281342"
+    },
+    {
+      "key": "world-dark",
+      "src": "world-dark@3x.png",
+      "width": 1206,
+      "height": 2622,
+      "scale": 3,
+      "runtimeReference": "../audit-2026-11-03/assets/runtime-dark-world-globe-ready-de.webp",
+      "runtimeSHA256": "65eaba7af6757fb578a4abe6de0d5cb584c9eff4bcf9419bb35fd30b9726b446",
+      "nativeMapRectPixels": [
+        0,
+        348,
+        1206,
+        2142
+      ],
+      "nativeMapRectPoints": [
+        0,
+        116,
+        402,
+        598
+      ],
+      "outsideMapRect": "Solid map background; editable navigation, legal attribution and app controls remain separate Sketch layers.",
+      "backgroundRGB": [
+        0,
+        0,
+        0
+      ],
+      "sha256": "0cb85495a79290a3071c73e0145631b8da6c9960e6727dbe2acd1123d17feda8"
+    }
+  ]
+}
