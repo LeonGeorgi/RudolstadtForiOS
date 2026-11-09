@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="How the unofficial Rudolstadt Festival app handles your festival data, iCloud sync and sharing with friends.">
+    <meta name="description" content="How the unofficial Rudolstadt Festival app handles your festival data, account sync and sharing with friends.">
     <title>Privacy Policy · Rudolstadt Festival App</title>
     <link rel="icon" type="image/png" href="rudolstadt/app-icon.png">
     <link rel="stylesheet" href="site.css">
@@ -26,14 +26,14 @@
             <div class="shell">
                 <h1>Privacy Policy</h1>
                 <p>How the app handles your festival data.</p>
-                <p class="updated">Last updated · <time datetime="2026-06-24">June 24, 2026</time></p>
+                <p class="updated">Last updated · <time datetime="2026-11-04">November 4, 2026</time></p>
             </div>
         </div>
         <div class="page-content privacy-layout shell">
             <aside class="policy-sidebar" aria-label="Policy overview">
                 <section class="callout" aria-labelledby="in-brief">
                     <h2 id="in-brief">In brief</h2>
-                    <p>Stored on your device. Synced via iCloud on iOS when available.</p>
+                    <p>Stored on your device. Signing in enables Firebase sync on iOS and Android.</p>
                     <p>Notes aren’t shared with friends.</p>
                     <p>No third-party analytics or advertising SDKs.</p>
                     <a class="mobile-jump" href="#policy">Jump to the policy <span aria-hidden="true">↓</span></a>
@@ -42,7 +42,7 @@
                     <h2 id="on-this-page">On this page</h2>
                     <ol>
                         <li><a href="#festival-data">Festival data</a></li>
-                        <li><a href="#icloud">Profile &amp; iCloud</a></li>
+                        <li><a href="#profile-sync">Profile &amp; sync</a></li>
                         <li><a href="#sharing">Sharing with friends</a></li>
                         <li><a href="#analytics">Analytics &amp; tracking</a></li>
                         <li><a href="#contact">Contact</a></li>
@@ -55,13 +55,16 @@
                     <p>The app downloads festival data from the <a href="https://www.rudolstadt-festival.de/datenschutz.html">official website of the "Rudolstadt Festival"</a>, including program information, artist details, locations, maps, and news.</p>
                     <a class="section-link" href="https://www.rudolstadt-festival.de/datenschutz.html">Festival website · Privacy policy <span aria-hidden="true">↗</span></a>
                 </section>
-                <section aria-labelledby="icloud">
-                    <h2 id="icloud">Your festival profile and iCloud sync</h2>
-                    <p>Data generated in the app, such as saved events, artist ratings, badge settings, and artist notes, is stored on your device. On iOS, the app can use Apple's iCloud service to keep this data up to date across your own devices. This sync uses CloudKit in the app's iCloud container. The data is not sent to a separate server operated by the developer and is not used for advertising or tracking.</p>
+                <section aria-labelledby="profile-sync">
+                    <h2 id="profile-sync">Your festival profile and account sync</h2>
+                    <p>Saved events, artist ratings, badge settings, and artist notes are stored on your device. You can use these features without an account. If you sign in with Apple, Google, an email link, or a secret account key, Firebase Authentication manages your account and the app sends your profile, including private notes, to the Firebase backend to sync your own devices. The account identifier separates your private profile from other users. Private note versions are retained for conflict recovery. Firestore data and profile-processing functions use the Frankfurt region. The data is not used for advertising or tracking. See <a href="https://policies.google.com/privacy">Google’s privacy policy</a>.</p>
+                    <p>Secret account keys are a separate sign-in option for standalone accounts without an email address. They cannot be added to Apple, Google or email accounts. The backend stores a hash of the key linked to your account, rather than the key itself. Anyone with the key can access the account and its private notes. Replacing a key prevents new sign-ins with the previous key; devices already signed in stay signed in. Request limits use hashed IP addresses or account identifiers with counters to reduce abuse. The hosting infrastructure also processes connection information when handling requests.</p>
+                    <p>The current app imports existing local profile data and keeps a local backup. It does not access previous CloudKit data or change previous CloudKit shares. Earlier app versions may still use those shares.</p>
+                    <p>You can delete your account in the app’s Account screen. This removes your Firebase account, synced profiles and private note history, shared profiles, friendships, invitations and account keys. Your current profile and unsent changes remain on the device for local use. Apple accounts require confirming the Apple sign-in again so its authorization can be revoked. A minimal deletion job containing the account identifier, hashed deletion receipts and processing metadata blocks old sessions and retries interrupted cleanup. It is removed automatically after a two-hour protection window and the next successful cleanup run. Shared abuse-prevention counters without account identifiers are separate from profile data.</p>
                 </section>
                 <section aria-labelledby="sharing">
                     <h2 id="sharing">Sharing with friends</h2>
-                    <p>If you choose to share your festival profile, invited friends can see your shared profile badge, saved events, and artist ratings through iCloud sharing. Artist notes are not included in shared profiles; they remain private to you and only sync across your own devices.</p>
+                    <p>Friendships apply across festivals and years. Each person independently chooses, per friend, whether to share saved events, artist ratings and current artist notes through Firebase. These choices apply to all festival editions; your name and profile color identify you to friends. Notes are private by default. Enabling note sharing gives that friend access to current note text across all festival editions. Note version history always remains restricted to your own account. Changing a friend’s permissions removes further access to the affected data categories across festivals. Ending a friendship removes further access to shared profiles; a device that is offline may keep a previously downloaded copy until it reconnects.</p>
                 </section>
                 <section aria-labelledby="analytics">
                     <h2 id="analytics">Analytics and tracking</h2>

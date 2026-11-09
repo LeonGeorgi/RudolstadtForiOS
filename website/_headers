@@ -3,3 +3,7 @@
 
 /.well-known/assetlinks.json
   Content-Type: application/json
+
+/rudolstadt/friends
+  Referrer-Policy: no-referrer
+  Cache-Control: no-store

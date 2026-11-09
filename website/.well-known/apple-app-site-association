@@ -4,7 +4,8 @@
       {
         "appIDs": ["RJYK9W2A39.de.leongeorgi.RudolstadtForiOS"],
         "components": [
-          { "/": "/rudolstadt/*/artists/*" }
+          { "/": "/rudolstadt/*/artists/*" },
+          { "/": "/rudolstadt/friends" }
         ]
       }
     ]
