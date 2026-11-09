@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-04",
+  "checkedTimelineCards": 43,
+  "checkedComponentExamples": 6,
+  "dataSource": "shared/src/commonMain/resources/FestivalBackup/2026_rudolstadt_data.json",
+  "liveFetch": "unavailable (DNS/network access); bundled API snapshot used",
+  "allPageAndLayerIDsPreserved": true,
+  "referenceUnchanged": true,
+  "changedPages": [
+    "Schedule",
+    "Symbols"
+  ],
+  "timelinePositionsMatchAPIStartTimes": true,
+  "titlesAreExactNamesOrDerivedPrefixes": true,
+  "estimatedHeightsPreserved": true,
+  "additionalMetadata": "shared/src/commonMain/resources/extra_data.json",
+  "images": {
+    "ios": {
+      "sizePx": [
+        804,
+        1748
+      ],
+      "beforeSha256": "8b4d52388e8012ca9151314ef36903fdde28afb51d9029ff33f9e5749d93d77d",
+      "afterSha256": "6f926da3081f451d85f7f28117af65e7278cd0efeb25ecfebdf8e370e6ab6370"
+    },
+    "android": {
+      "sizePx": [
+        804,
+        1830
+      ],
+      "beforeSha256": "5613a9bbedfe080cbad69b6119508d5d58e9d30ad8f1aaa75c4a44bb46e70497",
+      "afterSha256": "d1700483186a2ed5ae4555622de0c2dd0c7885e06572084124f5bcef6fa40e5e"
+    },
+    "ios-standard": {
+      "sizePx": [
+        804,
+        1748
+      ],
+      "beforeSha256": "df1a960563c4afe11de0e7b7ba305df3f73db499a66298d138bbe19d4e3cd77b",
+      "afterSha256": "8d9f63be413179a014dfd7f6812d2a842d913a470689bcf7967ecd4fe9dd21c6"
+    },
+    "components": {
+      "sizePx": [
+        1848,
+        1120
+      ],
+      "beforeSha256": "caf4afeae599e0690c761e79afb3ae2a28915eb9fe921d4a583bd697388bf794",
+      "afterSha256": "ea830865c4876bc42582906dc51b19e703526d530bc5e92da21b472c54a5e227"
+    }
+  },
+  "channels": "Gray(after)-Gray(before), gain 3; black equal, magenta lighter, green darker; no masking/alignment",
+  "reopen": {
+    "success": true,
+    "documentId": "2D1524E4-82B8-424A-AFB4-2B8AA4AEB9EE"
+  },
+  "runtimeComparison": false
+}

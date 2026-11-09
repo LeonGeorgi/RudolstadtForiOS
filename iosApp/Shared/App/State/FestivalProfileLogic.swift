@@ -64,26 +64,26 @@ private func profileContentHash(_ value: String) -> String {
 extension ProfileMutation {
     static func toggleSavedEvent(eventID: Int) -> ProfileMutation {
         ProfileMutation(
-            kind: "toggleSavedEvent", id: Int64(eventID), rating: 0, text: "", color: "")
+            kind: "toggleSavedEvent", id: Int64(eventID), rating: 0, text: "", hue: FestivalProfileBadge.defaultHue)
     }
-    static func updateBadge(name: String, colorHex: String) -> ProfileMutation {
+    static func updateBadge(name: String, hue: Double) -> ProfileMutation {
         ProfileMutation(
             kind: "updateBadge", id: 0, rating: 0,
             text: FestivalProfileBadge.normalizedName(name) ?? "",
-            color: FestivalProfileBadge.resolvedColorHex(colorHex))
+            hue: FestivalProfileBadge.resolvedHue(hue))
     }
     static func setArtistRating(artistID: Int, rating: Int) -> ProfileMutation {
         ProfileMutation(
-            kind: "setArtistRating", id: Int64(artistID), rating: Int32(rating), text: "", color: ""
+            kind: "setArtistRating", id: Int64(artistID), rating: Int32(rating), text: "", hue: FestivalProfileBadge.defaultHue
         )
     }
     static func setArtistIcon(artistID: Int, iconName: String) -> ProfileMutation {
         ProfileMutation(
-            kind: "setArtistIcon", id: Int64(artistID), rating: 0, text: iconName, color: "")
+            kind: "setArtistIcon", id: Int64(artistID), rating: 0, text: iconName, hue: FestivalProfileBadge.defaultHue)
     }
     static func setArtistNote(artistID: Int, noteText: String) -> ProfileMutation {
         ProfileMutation(
-            kind: "setArtistNote", id: Int64(artistID), rating: 0, text: noteText, color: "")
+            kind: "setArtistNote", id: Int64(artistID), rating: 0, text: noteText, hue: FestivalProfileBadge.defaultHue)
     }
 }
 
@@ -122,12 +122,12 @@ enum FestivalProfileSyncRecord: Codable, Equatable, Hashable, Sendable {
 extension CachedOwnerFestivalProfile {
     var domainProfile: PersonalProfile {
         PersonalProfile(
-            badgeName: badgeName, badgeColorHex: badgeColorHex,
+            badgeName: badgeName, badgeHue: FestivalProfileBadge.resolvedHue(badgeHue),
             savedEventIDs: KotlinCore.ids(savedEventIDs),
             artistPreferences: artistPreferences.map(\.core), artistNotes: artistNotes.map(\.core))
     }
     mutating func applyDomainProfile(_ profile: PersonalProfile) {
-        badgeName = profile.badgeName; badgeColorHex = profile.badgeColorHex
+        badgeName = profile.badgeName; badgeHue = profile.badgeHue
         savedEventIDs = profile.savedEventIDs.map(\.intValue)
         artistPreferences = profile.artistPreferences.map(\.native)
         artistNotes = profile.artistNotes.map {
@@ -156,7 +156,7 @@ extension CachedSharedFestivalProfile {
     var domain: SharedProfile {
         SharedProfile(
             id: id, title: title, ownerName: ownerName, badgeName: badgeName,
-            badgeColorHex: badgeColorHex,
+            badgeHue: badgeHue,
             festivalYear: festivalYear, savedEventIDs: savedEventIDs,
             artistPreferences: artistPreferences
         ).ordered()
@@ -165,7 +165,7 @@ extension CachedSharedFestivalProfile {
         self.init(
             id: value.profileID, title: value.title, ownerName: value.ownerName,
             badgeName: value.badgeName,
-            badgeColorHex: value.badgeColor, festivalYear: Int(value.year),
+            badgeHue: value.badgeHue, festivalYear: Int(value.year),
             savedEventIDs: value.saved.map(\.intValue),
             artistPreferences: value.preferences.map(\.native)
         )

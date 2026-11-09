@@ -69,7 +69,10 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable("pendingIntent", incoming)
+        val url = incoming?.data
+        val containsCredentials =
+            url?.host == "auth.festival.leongeorgi.de" || url?.path == "/rudolstadt/friends"
+        if (!containsCredentials) outState.putParcelable("pendingIntent", incoming)
         super.onSaveInstanceState(outState)
     }
 

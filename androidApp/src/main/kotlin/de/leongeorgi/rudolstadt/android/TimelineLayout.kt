@@ -2,7 +2,7 @@ package de.leongeorgi.rudolstadt.android
 
 import kotlin.math.roundToInt
 
-// Match the iOS timeline's 70-point cells plus 5-point column spacing.
+// Match the iOS timeline's 71-point cards plus 4-point column spacing.
 internal const val DEFAULT_TIMELINE_COLUMN_WIDTH = 75f
 internal const val TIMELINE_TIME_COLUMN_WIDTH = 58f
 

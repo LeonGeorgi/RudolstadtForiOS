@@ -15,6 +15,7 @@ import kotlinx.serialization.json.Json
 internal data class LocalSettings(
     val edition: String = Edition.current.key,
     val profiles: Map<String, PersonalProfile> = emptyMap(),
+    val ownProfileSync: Map<String, String> = emptyMap(),
     val readNews: Set<Long> = emptySet(),
     val knownNews: Set<Long> = emptySet(),
     val newsBaseline: Boolean = false,

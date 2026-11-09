@@ -176,7 +176,7 @@ struct ScheduleTimelineEventCell: View {
         let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
         return NavigationLink(value: festivalData.eventDestination(event, fallback: presentation.navigationRoute, alwaysShowDetails: settings.alwaysShowEventDetails)) {
             cardContent
-                .padding(.bottom, showsFooterIndicators ? 14 : 0)
+                .padding(.bottom, showsFooterIndicators ? footerIndicatorHeight + 8 : 0)
                 .padding(.horizontal, horizontalContentPadding)
                 .frame(width: width, height: height)
                 .background(
@@ -192,12 +192,12 @@ struct ScheduleTimelineEventCell: View {
 
     @ViewBuilder
     private var cardContent: some View {
-        VStack(alignment: contentHorizontalAlignment, spacing: 1) {
+        VStack(alignment: contentHorizontalAlignment, spacing: 0) {
             tagLabel
 
             if detailLevel == .compact {
                 artistName
-                    .padding(.top, hasVisibleTag ? 0 : 3)
+                    .padding(.top, hasVisibleTag ? 2 : 4)
 
                 Spacer(minLength: 0)
             } else {
@@ -208,7 +208,7 @@ struct ScheduleTimelineEventCell: View {
                     if detailLevel >= .time {
                         metadataText(presentation.timeText, weight: .medium)
                             .monospacedDigit()
-                            .padding(.top, 3)
+                            .padding(.top, 4)
                             .layoutPriority(1)
                     }
 
@@ -217,12 +217,12 @@ struct ScheduleTimelineEventCell: View {
                             originText,
                             lineLimit: originLineLimit
                         )
-                        .padding(.top, 1)
+                        .padding(.top, detailLevel >= .discovery ? 8 : 4)
                     }
 
                     if detailLevel >= .discovery, let tagsText = presentation.tagsText {
                         metadataText(tagsText, weight: .medium, lineLimit: 2)
-                            .padding(.top, 4)
+                            .padding(.top, 8)
                     }
 
                     if detailLevel >= .summary, let summaryText = presentation.summaryText {
@@ -231,16 +231,15 @@ struct ScheduleTimelineEventCell: View {
                             .foregroundStyle(tertiaryForegroundColor)
                             .lineLimit(summaryLineLimit)
                             .lineSpacing(1.5)
-                            .minimumScaleFactor(0.95)
                             .multilineTextAlignment(contentTextAlignment)
                             .frame(
                                 maxWidth: .infinity,
                                 alignment: contentFrameAlignment
                             )
-                            .padding(.top, 5)
+                            .padding(.top, 8)
                     }
                 }
-                .padding(.top, hasVisibleTag ? 3 : detailedContentTopPadding)
+                .padding(.top, hasVisibleTag ? 2 : detailedContentTopPadding)
 
                 Spacer(minLength: 0)
             }
@@ -257,10 +256,9 @@ struct ScheduleTimelineEventCell: View {
                     alignment: contentFrameAlignment
                 )
                 .foregroundStyle(tagForegroundColor)
-                .padding(.top, 3)
+                .padding(.top, 4)
                 .textCase(.uppercase)
                 .lineLimit(1)
-                .minimumScaleFactor(0.85)
                 .multilineTextAlignment(contentTextAlignment)
         }
     }
@@ -280,9 +278,9 @@ struct ScheduleTimelineEventCell: View {
             .foregroundStyle(cellForegroundColor)
             .lineLimit(2)
             .lineSpacing(1)
-            .minimumScaleFactor(usesLeadingLayout ? 0.85 : 0.75)
+            .truncationMode(.tail)
             .multilineTextAlignment(contentTextAlignment)
-            .padding(.vertical, 1)
+            .padding(.vertical, 0.5)
     }
 
     private func metadataText(
@@ -295,7 +293,6 @@ struct ScheduleTimelineEventCell: View {
             .foregroundStyle(metadataForegroundColor)
             .lineLimit(lineLimit)
             .lineSpacing(1)
-            .minimumScaleFactor(0.9)
             .multilineTextAlignment(contentTextAlignment)
             .frame(
                 maxWidth: .infinity,
@@ -325,10 +322,8 @@ struct ScheduleTimelineEventCell: View {
 
     private var horizontalContentPadding: CGFloat {
         switch detailLevel {
-        case .compact:
+        case .compact, .time:
             return 4
-        case .time:
-            return 5
         case .origin, .discovery, .summary:
             return 8
         }
@@ -367,7 +362,7 @@ struct ScheduleTimelineEventCell: View {
                     )
             }
             .padding(.horizontal, footerHorizontalPadding)
-            .padding(.bottom, 3)
+            .padding(.bottom, 4)
             .frame(maxWidth: .infinity, alignment: .bottom)
             .allowsHitTesting(false)
         }
@@ -376,13 +371,23 @@ struct ScheduleTimelineEventCell: View {
     @ViewBuilder
     private var footerRatingIndicator: some View {
         if artistRating != 0 {
-            ArtistRatingSymbol(rating: artistRating, iconName: artistIconName)
-                .font(.system(size: 10.8))
-                .foregroundStyle(cellSecondaryForegroundColor)
-                .shadow(
-                    color: savedRatingHaloColor,
-                    radius: isSaved ? 1.25 : 0
-                )
+            Group {
+                if artistRating > 0 {
+                    CompactRatingGlyph(
+                        rating: artistRating, iconName: settings.likeIcon,
+                        color: .red, size: 12, spread: 2,
+                        haloColor: savedRatingHaloColor)
+                } else {
+                    ArtistRatingSymbol(rating: artistRating, iconName: artistIconName)
+                }
+            }
+            .font(.system(size: 10.8))
+            .frame(width: footerIndicatorHeight, height: footerIndicatorHeight)
+            .foregroundStyle(cellSecondaryForegroundColor)
+            .shadow(
+                color: savedRatingHaloColor,
+                radius: isSaved ? 1.25 : 0
+            )
         }
     }
 
@@ -398,7 +403,7 @@ struct ScheduleTimelineEventCell: View {
     }
 
     private let footerIndicatorGap: CGFloat = 2
-    private let footerIndicatorHeight: CGFloat = 17
+    private let footerIndicatorHeight: CGFloat = 16
 
     private var footerHorizontalPadding: CGFloat {
         horizontalContentPadding
@@ -554,7 +559,7 @@ struct ScheduleTimelineEventCell: View {
                 title: "Maya's picks",
                 ownerName: "Maya",
                 badgeName: "Maya",
-                badgeColorHex: "#B54E9B",
+                badgeHue: 345,
                 festivalYear: DataStore.year,
                 savedEventIDs: [],
                 artistPreferences: []
@@ -564,7 +569,7 @@ struct ScheduleTimelineEventCell: View {
                 title: "Sam's weekend",
                 ownerName: "Sam",
                 badgeName: "Sam",
-                badgeColorHex: "#23867A",
+                badgeHue: 165,
                 festivalYear: DataStore.year,
                 savedEventIDs: [],
                 artistPreferences: []
@@ -574,7 +579,7 @@ struct ScheduleTimelineEventCell: View {
                 title: "Jo's route",
                 ownerName: "Jo",
                 badgeName: "Jo",
-                badgeColorHex: "#D49A1F",
+                badgeHue: 75,
                 festivalYear: DataStore.year,
                 savedEventIDs: [],
                 artistPreferences: []

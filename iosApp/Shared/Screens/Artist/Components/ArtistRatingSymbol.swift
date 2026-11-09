@@ -148,6 +148,81 @@ struct CompactRatingGlyph: View {
     }
 }
 
+struct AnimatedRatingHeartGlyph: View {
+    private struct Placement {
+        let scale: CGFloat
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        var isVisible = true
+    }
+
+    // Centers and scales in the assets' 24-point viewport, ordered core, right, left.
+    private static let placements: [[Placement]] = [
+        [
+            Placement(scale: 0.82, isVisible: false),
+            Placement(scale: 0.38, isVisible: false),
+            Placement(scale: 0.38, isVisible: false),
+        ],
+        [
+            Placement(scale: 1),
+            Placement(scale: 0.38, isVisible: false),
+            Placement(scale: 0.38, isVisible: false),
+        ],
+        [
+            Placement(scale: 0.78 / 1.35, x: -5.525, y: 2.5),
+            Placement(scale: 0.78 / 1.35, x: 5.525, y: -2.5),
+            Placement(scale: 0.38, x: -5.525, y: 2.5, isVisible: false),
+        ],
+        [
+            Placement(scale: 0.67 / 1.35, y: 6.56667),
+            Placement(scale: 0.67 / 1.35, x: 5.9, y: -3.28333),
+            Placement(scale: 0.67 / 1.35, x: -5.9, y: -3.28333),
+        ],
+    ]
+
+    let rating: Int
+    let color: Color
+    let size: CGFloat
+    let spread: CGFloat
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    var body: some View {
+        let rating = min(max(self.rating, 0), 3)
+        let placements = Self.placements[rating]
+        let artworkSize = size + spread * 2
+        let unit = artworkSize / 24
+        let isEmpty = rating == 0
+
+        ZStack {
+            Image(systemName: "heart")
+                .font(.system(size: size, weight: .semibold))
+                .foregroundStyle(color)
+                .opacity(isEmpty ? 1 : 0)
+                .animation(reduceMotion ? nil : .easeOut(duration: 0.135), value: isEmpty)
+
+            ForEach(placements.indices, id: \.self) { index in
+                let placement = placements[index]
+                let revealDelay = placement.isVisible ? Double(index) * 0.016 : 0
+
+                RatingHeartGlyph(rating: 1, color: color)
+                    .frame(width: artworkSize, height: artworkSize)
+                    .opacity(placement.isVisible ? 1 : 0)
+                    .animation(
+                        reduceMotion ? nil : .easeOut(duration: 0.135).delay(revealDelay),
+                        value: placement.isVisible
+                    )
+                    .scaleEffect(placement.scale)
+                    .offset(x: placement.x * unit, y: placement.y * unit)
+            }
+        }
+        .animation(
+            reduceMotion ? nil : .timingCurve(0.21, 0.76, 0.27, 1, duration: 0.285),
+            value: rating
+        )
+    }
+}
+
 #if DEBUG
 private struct ArtistRatingSymbolPreviewBounds: ViewModifier {
     func body(content: Content) -> some View {

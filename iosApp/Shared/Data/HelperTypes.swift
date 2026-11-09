@@ -129,7 +129,7 @@ struct PreviewAppEnvironment {
 
 private struct PreviewProfileSeed: Decodable {
     let badgeName: String
-    let badgeColorHex: String
+    let badgeHue: Double
     let savedEventIDs: [Int]
     let artistPreferences: [FestivalArtistPreference]
     let artistNotes: [FestivalArtistNote]
@@ -199,7 +199,8 @@ enum PreviewMockData {
                 recommendedEventIds: [],
                 estimatedEventDurations: estimatedEventDurations
             ),
-            generatedAt: ScreenshotRuntime.referenceDate
+            generatedAt: ScreenshotRuntime.referenceDate,
+            savedEventIDs: profile.savedEvents
         )
 
         return PreviewAppEnvironment(
@@ -237,13 +238,13 @@ enum PreviewMockData {
 
         let profile = FestivalProfileStore(
             userDefaults: userDefaults,
-            cloudKitEnabled: false
+            cloudSyncEnabled: false
         )
         let seed = loadProfileSeed()
 
         profile.updateBadge(
             name: seed?.badgeName ?? "Preview",
-            colorHex: seed?.badgeColorHex ?? FestivalProfileBadge.defaultColorHex
+            hue: seed?.badgeHue ?? FestivalProfileBadge.defaultHue
         )
 
         for preference in seed?.artistPreferences ?? [] {

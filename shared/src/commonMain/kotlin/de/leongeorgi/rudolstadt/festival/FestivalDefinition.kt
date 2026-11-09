@@ -34,6 +34,7 @@ data class FestivalDefinition(
     val includesAdmission: Boolean,
     val automaticPlanning: Boolean,
     val earliestDate: String? = null,
+    val artistNotesAccess: String = userAccess,
 ) {
     val metadata
         get() = programMetadata()
@@ -72,7 +73,7 @@ object FestivalDefinitions {
                 if (archive)
                     mapOf("de" to "Archiv · Rudolstadt $year", "en" to "Archive · Rudolstadt $year")
                 else null,
-            userAccess = if (archive) "readOnly" else "editable",
+            artistNotesAccess = if (archive) "readOnly" else "editable",
             dayBoundaryHour = 5,
             includesAreas = true,
             includesAdmission = true,

@@ -141,6 +141,9 @@ final class NavigationRegressionTests: XCTestCase {
             require(heading)
             require(concert)
             require(info)
+            if stageNumber == 2 {
+                XCTAssertTrue(heading.label.contains("Konzertbühne Heinepark"))
+            }
             print("HEADER_ALIGNMENT \(phase) header=\(heading.frame) card=\(concert.frame) info=\(info.frame)")
             XCTAssertEqual(heading.frame.midX, concert.frame.midX, accuracy: 1, phase)
             XCTAssertEqual(heading.frame.width, concert.frame.width, accuracy: 1, phase)
@@ -148,6 +151,7 @@ final class NavigationRegressionTests: XCTestCase {
             XCTAssertLessThan(info.frame.maxX, 60, phase)
         }
         verifyAlignment("standard")
+        snapshot("timeline-standard-headers")
         tapID("schedule-zoom-menu", in: app)
         tapText("Details.*", in: app)
         snapshot("timeline-detail-headers")
@@ -181,7 +185,7 @@ final class NavigationRegressionTests: XCTestCase {
         tapID("map.fill", in: app)
         require(text("Approximate positions derived from the site plan\\.|Ungefähre Positionen aus dem Lageplan.*", in: app))
         tapID("person.2.fill", in: app)
-        require(text("Shared plans and iCloud sharing are unavailable.*|Gemeinsame Pläne und iCloud-Freigaben sind.*", in: app))
+        require(text("Shared plans and sharing are unavailable.*|Gemeinsame Pläne und Freigaben sind.*", in: app))
         tapID("calendar", in: app)
         require(id("schedule-screen", in: app))
         selectFestival("Rudolstadt 2024", in: app)
@@ -292,6 +296,30 @@ final class NavigationRegressionTests: XCTestCase {
         #endif
     }
 
+    @MainActor func testPersonalPlanDetailNavigationPreservesTheBackStack() {
+        let app = launch()
+        tapText("Do[.].*", in: app)
+        tapText("So[.].*", in: app)
+        tapID("schedule-personal-plan", in: app)
+        let plan = app.scrollViews["schedule-personal-plan-screen"]
+        require(plan)
+
+        for _ in 0..<2 {
+            scrollTo(id("personal-plan-event-219", in: app), in: app).tap()
+            require(matchingID("artist-detail-.*-theme-ready|concert-detail-.*", in: app))
+            requireAbsent(plan)
+
+            back(in: app)
+            require(plan)
+            require(id("personal-plan-event-219", in: app))
+        }
+
+        back(in: app)
+        require(id("schedule-screen", in: app))
+        require(id("schedule-personal-plan", in: app))
+        requireAbsent(plan)
+    }
+
     @MainActor func testPersonalPlanFinalDesignAndActions() {
         let app = launch()
         tapText("Do\\..*", in: app)
@@ -318,7 +346,8 @@ final class NavigationRegressionTests: XCTestCase {
         tapText("Filtern", in: app)
         tapID("personal-plan-show-recommendations", in: app)
         require(app.scrollViews["schedule-personal-plan-screen"])
-        require(text("Empfohlenes Konzert", in: app))
+        require(app.descendants(matching: .any).matching(
+            NSPredicate(format: "value == %@", "Empfohlenes Konzert")).firstMatch)
         app.scrollViews["schedule-personal-plan-screen"].swipeDown()
         app.scrollViews["schedule-personal-plan-screen"].swipeDown()
         snapshot("personal-plan-final-recommendations")
@@ -448,4 +477,256 @@ final class NavigationRegressionTests: XCTestCase {
         attachment.lifetime = .keepAlways
         add(attachment)
     }
+}
+
+final class AccountLayoutTests: XCTestCase {
+    override func setUpWithError() throws { continueAfterFailure = false }
+
+    @MainActor private func openAccount(_ app: XCUIApplication) throws {
+        app.launchArguments = ["-screenshotAppearance", "light", "-AppleLanguages", "(de)", "-AppleLocale", "de_DE"]
+        app.launch()
+        let friends = app.tabBars.buttons["Freunde"]
+        XCTAssertTrue(friends.waitForExistence(timeout: 90))
+        let later = app.buttons["Später"]
+        if later.waitForExistence(timeout: 5), later.isHittable { later.tap() }
+        friends.tap()
+    }
+
+    @MainActor private func tap(_ element: XCUIElement, in app: XCUIApplication) throws {
+        XCTAssertTrue(element.waitForExistence(timeout: 25))
+        for _ in 0..<4 {
+            let later = app.buttons["Später"]
+            if later.exists && later.isHittable { later.tap() }
+            if element.isHittable { element.tap(); return }
+            app.swipeUp()
+        }
+        XCTFail("Element not hittable: \(element.label)")
+        throw CaptureError.unavailable
+    }
+
+    @MainActor private func capture(_ app: XCUIApplication, _ name: String) {
+        let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        attachment.name = "account-layout-\(name)"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+        let rows: [[String: Any]] = app.descendants(matching: .any).allElementsBoundByIndex
+            .filter { $0.isHittable && !$0.label.isEmpty }
+            .map { element in
+                let frame = element.frame
+                return ["label": element.label.hasPrefix("FF1-") ? "<test key>" : element.label,
+                        "type": element.elementType.rawValue,
+                        "x": frame.minX, "y": frame.minY,
+                        "width": frame.width, "height": frame.height]
+            }
+        if let json = try? JSONSerialization.data(withJSONObject: rows, options: [.prettyPrinted, .sortedKeys]) {
+            let metrics = XCTAttachment(data: json, uniformTypeIdentifier: "public.json")
+            metrics.name = "account-metrics-\(name)"
+            metrics.lifetime = .keepAlways
+            add(metrics)
+        }
+    }
+
+    @MainActor func testSignedOutLayouts() throws {
+        let app = XCUIApplication()
+        try openAccount(app)
+        XCTAssertTrue(app.buttons["Anonymes Konto erstellen"].waitForExistence(timeout: 20))
+        capture(app, "login")
+        try tap(app.buttons["Mit E-Mail anmelden"], in: app)
+        XCTAssertTrue(app.textFields["E-Mail-Adresse"].waitForExistence(timeout: 10))
+        capture(app, "email")
+        try tap(app.buttons["Zurück"], in: app)
+        try tap(app.buttons["Mit Schlüssel anmelden"], in: app)
+        XCTAssertTrue(app.secureTextFields["Geheimer Zugangsschlüssel"].waitForExistence(timeout: 10))
+        capture(app, "key-login")
+        try tap(app.buttons["Zurück"], in: app)
+        app.tabBars.buttons["Freunde"].tap()
+        XCTAssertTrue(app.buttons["Anonymes Konto erstellen"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["Freigabe an Freunde"].exists)
+        capture(app, "friends-login")
+    }
+
+    @MainActor func testAnonymousAccountLayoutsAndCleanup() throws {
+        let app = XCUIApplication()
+        try openAccount(app)
+        var keyImage: XCUIScreenshot?
+        if app.buttons["Anonymes Konto erstellen"].exists {
+            try tap(app.buttons["Anonymes Konto erstellen"], in: app)
+            let secured = app.buttons["Ich habe den Schlüssel gesichert"].firstMatch
+            XCTAssertTrue(secured.waitForExistence(timeout: 60))
+            keyImage = XCUIScreen.main.screenshot()
+            try tap(secured, in: app)
+        }
+        let profileMenu = app.buttons["friends-profile"]
+        XCTAssertTrue(profileMenu.waitForExistence(timeout: 30))
+        let sync = app.navigationBars.buttons.matching(
+            NSPredicate(format: "identifier == %@ AND enabled == true", "profile-sync")
+        ).firstMatch
+        try tap(sync, in: app)
+        XCTAssertTrue(profileMenu.exists)
+        XCTAssertFalse(app.staticTexts["Dein Profil ist synchronisiert."].exists)
+        try tap(profileMenu, in: app)
+        capture(app, "anonymous-account-menu")
+        try tap(app.buttons["Zugangsschlüssel"], in: app)
+        XCTAssertTrue(app.buttons["Schlüssel ersetzen"].waitForExistence(timeout: 30))
+        capture(app, "key-management")
+        try tap(app.buttons["Schlüssel ersetzen"], in: app)
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 10))
+        capture(app, "key-replacement-confirmation")
+        if keyImage == nil {
+            app.alerts.buttons["Schlüssel ersetzen"].tap()
+            let secured = app.buttons["Ich habe den Schlüssel gesichert"].firstMatch
+            XCTAssertTrue(secured.waitForExistence(timeout: 60))
+            keyImage = XCUIScreen.main.screenshot()
+            try tap(secured, in: app)
+        } else { app.alerts.buttons["Abbrechen"].tap() }
+        app.navigationBars.buttons.firstMatch.tap()
+        try tap(profileMenu, in: app)
+        try tap(app.buttons["Konto löschen …"], in: app)
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 10))
+        capture(app, "deletion-confirmation")
+        app.alerts.buttons["Konto löschen"].tap()
+        XCTAssertTrue(app.staticTexts["Das Konto und seine Cloud-Daten wurden gelöscht. Dein Profil bleibt auf diesem Gerät erhalten."].waitForExistence(timeout: 60))
+        if let keyImage {
+            let attachment = XCTAttachment(screenshot: keyImage)
+            attachment.name = "account-layout-revoked-test-key"
+            attachment.lifetime = .keepAlways
+            add(attachment)
+        }
+        capture(app, "deleted-account-login")
+    }
+
+    private enum CaptureError: Error { case unavailable }
+}
+
+final class FriendsLayoutTests: XCTestCase {
+    override func setUpWithError() throws { continueAfterFailure = false }
+
+    @MainActor private func capture(_ app: XCUIApplication, _ name: String) {
+        Thread.sleep(forTimeInterval: 1)
+        let image = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        image.name = "friends-layout-\(name)"
+        image.lifetime = .keepAlways
+        add(image)
+        let metrics = XCTAttachment(string: app.navigationBars.firstMatch.debugDescription)
+        metrics.name = "friends-metrics-\(name)"
+        metrics.lifetime = .keepAlways
+        add(metrics)
+    }
+
+    @MainActor private func tap(_ element: XCUIElement) {
+        XCTAssertTrue(element.waitForExistence(timeout: 30))
+        XCTAssertTrue(element.isHittable, "Expected a visible control: \(element.label)")
+        element.tap()
+    }
+
+    @MainActor private func openAllFriends(in app: XCUIApplication) {
+        let allFriends = app.buttons["friends-all"]
+        XCTAssertTrue(allFriends.waitForExistence(timeout: 45))
+        for _ in 0..<3 where !allFriends.isHittable {
+            app.swipeUp()
+        }
+        tap(allFriends)
+        XCTAssertTrue(app.navigationBars["Alle Freunde"].waitForExistence(timeout: 10))
+    }
+
+    @MainActor func testConnectedFriendLayouts() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-AppleLanguages", "(de)", "-AppleLocale", "de_DE"]
+        app.launch()
+        let friends = app.tabBars.buttons["Freunde"]
+        XCTAssertTrue(friends.waitForExistence(timeout: 90))
+        let later = app.buttons["Später"]
+        if later.waitForExistence(timeout: 20), later.isHittable { later.tap() }
+        tap(friends)
+        if app.buttons["Mit Schlüssel anmelden"].waitForExistence(timeout: 5) {
+            tap(app.buttons["Mit Schlüssel anmelden"])
+            let key = try XCTUnwrap(ProcessInfo.processInfo.environment["FRIENDS_TEST_KEY"])
+            let input = app.secureTextFields["Geheimer Zugangsschlüssel"]
+            tap(input)
+            input.typeText(key)
+            tap(app.buttons["Mit Schlüssel anmelden"])
+        }
+        let add = app.buttons["friends-add"]
+        XCTAssertTrue(add.waitForExistence(timeout: 60))
+        XCTAssertTrue(app.buttons["friends-all"].waitForExistence(timeout: 45))
+        Thread.sleep(forTimeInterval: 5)
+        capture(app, "full")
+        tap(add)
+        capture(app, "plus")
+        tap(app.buttons["Einladung erstellen"])
+        XCTAssertTrue(app.buttons["Einladung teilen"].waitForExistence(timeout: 30))
+        capture(app, "qr")
+        tap(app.navigationBars.buttons.firstMatch)
+        XCTAssertTrue(app.navigationBars.buttons["profile-sync"].exists)
+        tap(app.buttons["friends-profile"])
+        let editProfile = app.buttons["Profil bearbeiten"]
+        XCTAssertTrue(editProfile.waitForExistence(timeout: 10))
+        XCTAssertFalse(app.textFields["Name"].exists)
+        capture(app, "profile")
+        tap(editProfile)
+        let profileEditor = app.navigationBars["Profil bearbeiten"]
+        XCTAssertTrue(profileEditor.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.textFields["Name"].exists)
+        XCTAssertTrue(profileEditor.buttons["Speichern"].exists)
+        XCTAssertTrue(app.descendants(matching: .any)["friends-hue-wheel"].waitForExistence(timeout: 10))
+        capture(app, "color")
+        tap(profileEditor.buttons["Abbrechen"])
+        openAllFriends(in: app)
+        let row = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Test · Ben")).firstMatch
+        tap(row)
+        XCTAssertTrue(app.navigationBars["Test · Ben"].waitForExistence(timeout: 15))
+        app.swipeDown()
+        capture(app, "detail")
+        tap(app.navigationBars.buttons.firstMatch)
+        tap(app.navigationBars["Alle Freunde"].buttons.firstMatch)
+        let recommendations = app.buttons["friends-recommendations"]
+        for _ in 0..<3 where !recommendations.isHittable {
+            app.swipeDown()
+            Thread.sleep(forTimeInterval: 0.5)
+        }
+        tap(recommendations)
+        XCTAssertTrue(app.navigationBars["Freundesempfehlungen"].waitForExistence(timeout: 20))
+        Thread.sleep(forTimeInterval: 4)
+        capture(app, "recommendations")
+        tap(app.navigationBars.buttons.firstMatch)
+        tap(add)
+        tap(app.buttons["Einladung erstellen"])
+        XCTAssertTrue(app.buttons["Einladung teilen"].waitForExistence(timeout: 30))
+        tap(app.navigationBars.buttons.firstMatch)
+    }
+    @MainActor func testFriendDetailLayout() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-AppleLanguages", "(de)", "-AppleLocale", "de_DE"]
+        app.launch()
+        tap(app.tabBars.buttons["Freunde"])
+        openAllFriends(in: app)
+        let row = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Test · Ben")).firstMatch
+        tap(row)
+        XCTAssertTrue(app.navigationBars["Test · Ben"].waitForExistence(timeout: 15))
+        app.swipeDown()
+        capture(app, "detail")
+    }
+
+    @MainActor func testHomeFriendLayouts() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-AppleLanguages", "(de)", "-AppleLocale", "de_DE"]
+        app.launch()
+        let friends = app.tabBars.buttons["Freunde"]
+        XCTAssertTrue(friends.waitForExistence(timeout: 90))
+        tap(friends)
+        let add = app.buttons["friends-add"]
+        XCTAssertTrue(add.waitForExistence(timeout: 45))
+        Thread.sleep(forTimeInterval: 5)
+        capture(app, "full")
+        tap(add)
+        capture(app, "plus")
+        tap(app.buttons["Einladung erstellen"])
+        XCTAssertTrue(app.buttons["Einladung teilen"].waitForExistence(timeout: 30))
+        tap(app.navigationBars.buttons.firstMatch)
+        XCTAssertTrue(app.navigationBars.buttons["profile-sync"].exists)
+        tap(app.buttons["friends-profile"])
+        XCTAssertTrue(app.buttons["Profil bearbeiten"].waitForExistence(timeout: 10))
+        capture(app, "profile")
+    }
+
 }

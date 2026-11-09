@@ -115,9 +115,7 @@ struct ScheduleScreen: View {
         .toolbar {
             if !isPersonalPlan {
                 ToolbarItem(placement: .topBarLeading) {
-                    NavigationLink {
-                        ScheduleScreen(isPersonalPlan: true, selectedDay: selectedDay)
-                    } label: {
+                    NavigationLink(value: AppNavigationRoute.personalPlan(selectedDay: selectedDay)) {
                         Label("schedule.plan.title", systemImage: "calendar.badge.checkmark")
                     }
                     .labelStyle(.iconOnly)

@@ -1,0 +1,26 @@
+{
+  "source": "Fresh Android remote API cache from 2026-11-04",
+  "differences": [
+    {
+      "eventId": 128,
+      "snapshotTime": "16:00",
+      "liveTime": "15:30",
+      "snapshotArtist": "Rastak",
+      "liveArtist": "Rastak"
+    },
+    {
+      "eventId": 129,
+      "snapshotTime": "19:00",
+      "liveTime": "18:30",
+      "snapshotArtist": "RIAN",
+      "liveArtist": "RIAN"
+    },
+    {
+      "eventId": 195,
+      "snapshotTime": "17:00",
+      "liveTime": "17:00",
+      "snapshotArtist": "The String Company",
+      "liveArtist": "Antoní"
+    }
+  ]
+}

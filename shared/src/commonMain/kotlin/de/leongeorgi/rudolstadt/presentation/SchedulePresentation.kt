@@ -31,7 +31,7 @@ object SchedulePresentation {
                 filter,
                 profile.saved,
                 profile.positiveArtistIDs,
-                recommendation.eventIDs.toSet(),
+                (recommendation.eventIDs + recommendation.savedEventIDs).toSet(),
             ),
         )
     }

@@ -1,59 +1,82 @@
 import SwiftUI
 
 struct SharedProfileSavedEventRow: View {
-    @Environment(\.festivalAccentColor) private var festivalAccentColor
+    @Environment(\.locale) private var locale
+
     let event: Event
-    var isSavedByCurrentUser = false
+    var dayLabel: String? = nil
+
+    private var subtitle: String {
+        let stageName = event.stage.localizedName(locale: locale)
+        return [dayLabel, event.timeAsString, stageName.isEmpty ? nil : stageName]
+            .compactMap { $0 }
+            .joined(separator: " · ")
+    }
 
     var body: some View {
-        FestivalListRow(hasThirdLine: event.tag != nil) {
-            EventTimeBadge(event: event)
+        FestivalListRow {
+            ArtistListRowImage(artist: event.artist, loadingStyle: .quiet)
         } content: {
-            if let tag = event.tag {
-                Text(tag.localizedName.uppercased())
-                    .font(FestivalListRowStyle.tagFont)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-
             FestivalListRowTitle(event.artist.formattedName)
 
-            Text(event.stage.localizedName)
+            Text(subtitle)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-                .lineLimit(1)
-        } accessories: {
-            if isSavedByCurrentUser {
-                Label("friends.detail.saved_with_you", systemImage: "checkmark.circle.fill")
-                    .font(.caption.weight(.semibold))
-                    .labelStyle(.iconOnly)
-                    .foregroundStyle(festivalAccentColor)
-                    .accessibilityLabel("friends.detail.saved_with_you")
-            }
         }
-        .padding(.vertical, 2)
+        .accessibilityElement(children: .combine)
     }
 }
 
 struct SharedProfileRatedArtistRow: View {
+    @EnvironmentObject private var currentProfile: FestivalProfileStore
+
     let artist: Artist
     let preference: FestivalArtistPreference
 
     var body: some View {
         FestivalListRow {
-            ArtistListRowImage(artist: artist)
+            ArtistListRowImage(artist: artist, loadingStyle: .quiet)
         } content: {
             FestivalListRowTitle(artist.formattedName)
+            SharedProfileArtistRatingLabel(preference: preference)
         } accessories: {
-            if preference.rating != 0 {
-                ArtistRatingSymbol(rating: preference.rating, iconName: preference.iconName)
-                    .foregroundStyle(.secondary)
+            ArtistRatingListSlot(
+                rating: currentProfile.rating(for: artist.id),
+                iconName: currentProfile.iconName(forArtistID: artist.id),
+                reservesSpace: false
+            )
+        }
+        .accessibilityElement(children: .combine)
+    }
+}
+
+struct SharedProfileArtistRatingLabel: View {
+    @Environment(\.festivalAccentColor) private var festivalAccentColor
+
+    let preference: FestivalArtistPreference
+
+    var body: some View {
+        HStack(spacing: 5) {
+            if preference.rating > 0 {
+                CompactRatingGlyph(
+                    rating: preference.rating, iconName: preference.iconName ?? "heart.fill",
+                    color: festivalAccentColor, size: 12, spread: 2
+                )
+                .accessibilityHidden(true)
+                Text(String.localizedStringWithFormat(
+                    NSLocalizedString("friends.detail.rating_value", comment: ""), preference.rating))
             } else {
-                Text("No rating")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                if let iconName = preference.iconName {
+                    Image(systemName: iconName)
+                        .foregroundStyle(festivalAccentColor)
+                        .accessibilityHidden(true)
+                }
+                let key = "artist.icon.\(preference.iconName ?? "other")"
+                let label = NSLocalizedString(key, comment: "")
+                Text(label == key ? NSLocalizedString("artist.icon.other", comment: "") : label)
             }
         }
-        .padding(.vertical, 2)
+        .font(.footnote)
+        .foregroundStyle(.secondary)
     }
 }

@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function live(owner) {
+      return !exists(/databases/$(database)/documents/accountDeletions/$(owner));
+    }
+    function signedIn() { return request.auth != null && live(request.auth.uid); }
+    function notesShared(owner) {
+      return exists(/databases/$(database)/documents/friendships/$(owner)/friends/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/friendships/$(owner)/friends/$(request.auth.uid)).data.sharing.get('notes', false) == true;
+    }
+    match /users/{owner}/profileEditions/{edition}/{collection}/{record} {
+      allow read: if signedIn() && live(owner) &&
+        ((request.auth.uid == owner && collection in ['records', 'noteVersions']) ||
+         (collection == 'records' && notesShared(owner) && resource.data.value.kind == 'note'));
+      allow write: if false;
+    }
+    match /friendIdentities/{owner} {
+      allow get: if signedIn() && live(owner) && (request.auth.uid == owner ||
+        exists(/databases/$(database)/documents/friendships/$(request.auth.uid)/friends/$(owner)));
+      allow list, write: if false;
+    }
+    match /friendships/{owner}/friends/{friend} {
+      allow read: if signedIn() && request.auth.uid == owner;
+      allow write: if false;
+    }
+    match /friendProfileEditions/{edition}/profiles/{owner}/categories/{category} {
+      allow get: if signedIn() && live(owner) && category in ['savedEvents', 'ratings'] &&
+        (request.auth.uid == owner ||
+          (exists(/databases/$(database)/documents/friendships/$(owner)/friends/$(request.auth.uid)) &&
+           get(/databases/$(database)/documents/friendships/$(owner)/friends/$(request.auth.uid)).data.sharing[category] == true));
+      allow list, write: if false;
+    }
+    // Invitations, membership and profile writes are validated by callable functions.
+    match /{document=**} { allow read, write: if false; }
+  }
+}

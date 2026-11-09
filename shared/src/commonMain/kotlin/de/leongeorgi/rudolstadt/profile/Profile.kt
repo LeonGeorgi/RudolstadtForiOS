@@ -10,7 +10,7 @@ data class ArtistPreference(val artistID: Long, val rating: Int, val iconName: S
 @Serializable
 data class PersonalProfile(
     val badgeName: String? = null,
-    val badgeColorHex: String? = null,
+    val badgeHue: Double = ProfileReducer.defaultHue,
     val savedEventIDs: List<Long> = emptyList(),
     val artistPreferences: List<ArtistPreference> = emptyList(),
     val artistNotes: List<ArtistNote> = emptyList(),
@@ -22,14 +22,14 @@ data class ProfileMutation(
     val id: Long = 0,
     val rating: Int = 0,
     val text: String = "",
-    val color: String = "",
+    val hue: Double = ProfileReducer.defaultHue,
 )
 
 object ProfileReducer {
     fun normalize(profile: PersonalProfile): PersonalProfile =
         profile.copy(
             badgeName = normalizedName(profile.badgeName),
-            badgeColorHex = resolvedColor(profile.badgeColorHex),
+            badgeHue = resolvedHue(profile.badgeHue),
             savedEventIDs = profile.savedEventIDs.distinct().sorted(),
             artistPreferences =
                 profile.artistPreferences
@@ -54,7 +54,7 @@ object ProfileReducer {
                                 .toList()
                     )
                 "updateBadge" ->
-                    profile.copy(badgeName = mutation.text, badgeColorHex = mutation.color)
+                    profile.copy(badgeName = mutation.text, badgeHue = resolvedHue(mutation.hue))
                 "setArtistRating" -> {
                     if (mutation.rating == 0) preferences.remove(mutation.id)
                     else
@@ -90,20 +90,12 @@ object ProfileReducer {
     // Swift supplies grapheme-aware UI name truncation at its value boundary.
     fun normalizedName(value: String?): String? = value?.trim()?.takeIf { it.isNotEmpty() }
 
-    fun resolvedColor(value: String?): String =
-        value?.uppercase()?.takeIf { it in palette } ?: "#D75A3A"
+    const val defaultHue = 30.0
 
-    val palette =
-        listOf(
-            "#D75A3A",
-            "#D49A1F",
-            "#5E9F42",
-            "#23867A",
-            "#3D78E0",
-            "#6B5AE0",
-            "#B54E9B",
-            "#8B5A3C",
-        )
+    fun resolvedHue(value: Double?): Double {
+        if (value == null || !value.isFinite()) return defaultHue
+        return ((value % 360.0) + 360.0) % 360.0
+    }
 }
 
 data class SharedProfile(
@@ -111,7 +103,7 @@ data class SharedProfile(
     val title: String,
     val ownerName: String?,
     val badgeName: String?,
-    val badgeColor: String?,
+    val badgeHue: Double,
     val year: Int,
     val saved: List<Long>,
     val preferences: List<ArtistPreference>,

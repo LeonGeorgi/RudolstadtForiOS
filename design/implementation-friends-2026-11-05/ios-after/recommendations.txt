@@ -1,0 +1,36 @@
+Attributes: NavigationBar, 0x112deed00, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Freundesempfehlungen'
+Element subtree:
+ →NavigationBar, 0x112deed00, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Freundesempfehlungen'
+    Button, 0x112deee40, {{16.0, 62.0}, {44.0, 44.0}}, identifier: 'BackButton', label: 'Freunde'
+    StaticText, 0x112deef80, {{72.0, 73.7}, {189.3, 20.7}}, label: 'Freundesempfehlungen'
+    Other, 0x112def0c0, {{310.3, 66.0}, {71.7, 36.0}}
+      Other, 0x112def200, {{310.3, 66.0}, {71.7, 36.0}}
+        Button, 0x112def340, {{310.3, 66.0}, {71.7, 36.0}}, identifier: 'friend-recommendations-filter', label: 'Filtern'
+Path to element:
+ →Application, 0x112def980, pid: 94257, label: 'Rudolstadt'
+  ↳Window (Main), 0x112dec140, {{0.0, 0.0}, {402.0, 874.0}}
+   ↳Other, 0x112dedf40, {{0.0, 0.0}, {402.0, 874.0}}
+    ↳Other, 0x112dee080, {{0.0, 0.0}, {402.0, 874.0}}
+     ↳Other, 0x112dee1c0, {{0.0, 0.0}, {402.0, 874.0}}
+      ↳Other, 0x112dee300, {{0.0, 0.0}, {402.0, 874.0}}
+       ↳Other, 0x112dee440, {{0.0, 0.0}, {402.0, 874.0}}
+        ↳Other, 0x112dee580, {{0.0, 0.0}, {402.0, 874.0}}
+         ↳Other, 0x112dee6c0, {{0.0, 0.0}, {402.0, 874.0}}
+          ↳Other, 0x112dee800, {{0.0, 0.0}, {402.0, 874.0}}
+           ↳Other, 0x112dee940, {{0.0, 0.0}, {402.0, 874.0}}
+            ↳Other, 0x112deea80, {{0.0, 0.0}, {402.0, 874.0}}
+             ↳Other, 0x112deebc0, {{0.0, 0.0}, {402.0, 874.0}}
+              ↳NavigationBar, 0x112deed00, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Freundesempfehlungen'
+Query chain:
+ →Find: Target Application 'de.leongeorgi.RudolstadtForiOS'
+  Output: {
+    Application, 0x1134f4640, pid: 94257, label: 'Rudolstadt'
+  }
+  ↪︎Find: Descendants matching type NavigationBar
+    Output: {
+      NavigationBar, 0x11348abc0, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Freundesempfehlungen'
+    }
+    ↪︎Find: First Match
+      Output: {
+        NavigationBar, 0x113150000, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Freundesempfehlungen'
+      }

@@ -12,8 +12,10 @@ struct RecommendationDataStoreTests {
             recommendedEventIds: [Event.example.id],
             estimatedEventDurations: [Event.example.id: 90]
         )
+        let profile = TestFixtures.festivalProfileStore()
+        profile.toggleSavedEvent(Event.example)
         let store = DataStore(
-            festivalProfileStore: TestFixtures.festivalProfileStore(),
+            festivalProfileStore: profile,
             userSettings: TestFixtures.userSettings(),
             recommendationService: RecommendationServiceStub(snapshot: snapshot),
             loadInitialData: false
@@ -43,6 +45,7 @@ struct RecommendationDataStoreTests {
             return
         }
         #expect(result.eventIDs.map(\.intValue) == snapshot.recommendedEventIds)
+        #expect(result.savedEventIDs.map(\.intValue) == [Event.example.id])
         #expect(result.durations?.map { Int($0.minutes) } == [90])
         #expect(result.generatedAt?.date == generatedAt)
         #expect(result === store.recommendationStore.viewModel.current)

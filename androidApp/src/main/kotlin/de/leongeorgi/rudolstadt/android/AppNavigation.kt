@@ -51,10 +51,12 @@ internal fun FestivalNavHost(nav: NavHostController) {
                     )
                 composable(
                     "$section/artist/{id}?event={event}&focus={focus}",
-                    arguments = eventArgument + navArgument("focus") {
-                        type = NavType.BoolType
-                        defaultValue = false
-                    },
+                    arguments =
+                        eventArgument +
+                            navArgument("focus") {
+                                type = NavType.BoolType
+                                defaultValue = false
+                            },
                 ) {
                     ArtistScreen(
                         it.arguments?.getString("id")?.toLongOrNull(),
@@ -85,6 +87,20 @@ internal fun FestivalNavHost(nav: NavHostController) {
                     NewsDetail(it.arguments?.getString("id")?.toLongOrNull())
                 }
                 composable("$section/settings") { SettingsScreen() }
+                composable(
+                    "$section/personal-plan?day={day}",
+                    arguments =
+                        listOf(
+                            navArgument("day") {
+                                type = NavType.StringType
+                                defaultValue = ""
+                            }
+                        ),
+                ) {
+                    PersonalPlanScreen(it.arguments?.getString("day"))
+                }
+                composable("$section/friends") { FriendsScreen() }
+                composable("$section/account/key") { AccountKeysScreen() }
                 composable("$section/information") { InformationScreen() }
                 composable("$section/about") { AboutScreen() }
                 composable("$section/licenses") { LicensesScreen() }

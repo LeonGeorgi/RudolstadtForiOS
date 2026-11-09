@@ -9,9 +9,12 @@ final class RecommendationStore: KotlinStateStore<RecommendationState> {
         viewModel = model
         super.init(current: { model.current }, observe: model.observe)
     }
-    func update(_ snapshot: RecommendationSnapshot, generatedAt: Date, token: Int64? = nil) {
+    func update(
+        _ snapshot: RecommendationSnapshot, generatedAt: Date, token: Int64? = nil,
+        savedEventIDs: [Int] = []
+    ) {
         viewModel.complete(
             token: token ?? viewModel.beginRefresh(), result: snapshot,
-            now: generatedAt.timeIntervalSince1970)
+            now: generatedAt.timeIntervalSince1970, savedEventIDs: KotlinCore.ids(savedEventIDs))
     }
 }

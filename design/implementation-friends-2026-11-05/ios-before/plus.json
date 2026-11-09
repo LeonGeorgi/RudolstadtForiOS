@@ -1,0 +1,56 @@
+[
+  {
+    "height" : 44,
+    "id" : "",
+    "label" : "Vertikaler Rollbalken, 1 Seite",
+    "type" : 1,
+    "width" : 30,
+    "x" : 353,
+    "y" : 92
+  },
+  {
+    "height" : 30,
+    "id" : "",
+    "label" : "Horizontaler Rollbalken, 1 Seite",
+    "type" : 1,
+    "width" : 204,
+    "x" : 136,
+    "y" : 103
+  },
+  {
+    "height" : 42,
+    "id" : "qrcode",
+    "label" : "Einladung erstellen",
+    "type" : 9,
+    "width" : 250,
+    "x" : 136,
+    "y" : 72
+  },
+  {
+    "height" : 42,
+    "id" : "qrcode.viewfinder",
+    "label" : "QR-Code scannen",
+    "type" : 9,
+    "width" : 250,
+    "x" : 136,
+    "y" : 114
+  },
+  {
+    "height" : 18,
+    "id" : "qrcode",
+    "label" : "QR-Code",
+    "type" : 43,
+    "width" : 19.333333333333314,
+    "x" : 166.33333333333334,
+    "y" : 84.333333333333329
+  },
+  {
+    "height" : 18.999999999999986,
+    "id" : "qrcode.viewfinder",
+    "label" : "QR-Code scannen",
+    "type" : 43,
+    "width" : 20.333333333333343,
+    "x" : 166,
+    "y" : 125.66666666666667
+  }
+]

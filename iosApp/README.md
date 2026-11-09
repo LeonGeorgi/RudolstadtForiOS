@@ -47,5 +47,5 @@ werden ebenfalls geprüft.
 macOS und die kleinen Ländervorschauen verwenden ihre bisherige
 MapKit-Darstellung.
 
-[CloudKit](../docs/apple/cloudkit.md) · [Watch-Transport](../docs/apple/watch.md) ·
+[Firebase-Profile und Freunde](../docs/firebase-friends.md) · [Watch-Transport](../docs/apple/watch.md) ·
 [Festivaldaten](../docs/festival-data.md) · [Screenshot-Automation](../docs/screenshots.md)

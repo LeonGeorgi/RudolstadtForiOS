@@ -22,11 +22,20 @@ internal data class Edition(val definition: FestivalDefinition) {
     val live: Boolean
         get() = definition.identity.festivalID == "rudolstadt" && !archive
 
+    val supportsFirebaseFriends: Boolean
+        get() = definition.identity.festivalID == "rudolstadt"
+
+    val friendsEdition: String
+        get() = "${definition.identity.festivalID}-${definition.identity.editionID}"
+
     val experimental: Boolean
         get() = definition.editionKind == "experimental"
 
     val editable: Boolean
         get() = definition.userAccess == "editable"
+
+    val notesEditable: Boolean
+        get() = editable && definition.artistNotesAccess == "editable"
 
     companion object {
         val current =

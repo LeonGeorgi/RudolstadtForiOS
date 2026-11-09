@@ -1,0 +1,266 @@
+[
+  {
+    "height" : 83,
+    "label" : "Tableiste",
+    "type" : 22,
+    "width" : 402,
+    "x" : 0,
+    "y" : 791
+  },
+  {
+    "height" : 44,
+    "label" : "Neuigkeiten, 40 ungelesene Mitteilungen",
+    "type" : 1,
+    "width" : 360,
+    "x" : 21,
+    "y" : 737
+  },
+  {
+    "height" : 54,
+    "label" : "Orte",
+    "type" : 9,
+    "width" : 78.333333333333329,
+    "x" : 25,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Zeitplan",
+    "type" : 9,
+    "width" : 78.333333333333329,
+    "x" : 93.416666666666671,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Künstler",
+    "type" : 9,
+    "width" : 78.333333333333343,
+    "x" : 161.83333333333331,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Freunde",
+    "type" : 9,
+    "width" : 78.333333333333343,
+    "x" : 230.24999999999991,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Mehr",
+    "type" : 9,
+    "width" : 78.333333333333371,
+    "x" : 298.66666666666663,
+    "y" : 795
+  },
+  {
+    "height" : 44,
+    "label" : "Mehr",
+    "type" : 9,
+    "width" : 44,
+    "x" : 16,
+    "y" : 62
+  },
+  {
+    "height" : 40.666666666666671,
+    "label" : "Konto",
+    "type" : 48,
+    "width" : 93.333333333333329,
+    "x" : 16,
+    "y" : 119.66666666666667
+  },
+  {
+    "height" : 44,
+    "label" : "40, Play it again!, Festival-Highlights bei ARD Sounds und im Radio",
+    "type" : 9,
+    "width" : 360,
+    "x" : 21,
+    "y" : 737
+  },
+  {
+    "height" : 26.333333333333371,
+    "label" : "Karte einblenden",
+    "type" : 43,
+    "width" : 29.666666666666664,
+    "x" : 49.333333333333336,
+    "y" : 801.66666666666663
+  },
+  {
+    "height" : 25,
+    "label" : "Kalender",
+    "type" : 43,
+    "width" : 28.999999999999986,
+    "x" : 118.08333333333333,
+    "y" : 802.33333333333337
+  },
+  {
+    "height" : 33,
+    "label" : "Theatermasken, gefüllt",
+    "type" : 43,
+    "width" : 44.333333333333314,
+    "x" : 178.83333333333334,
+    "y" : 797.66666666666663
+  },
+  {
+    "height" : 26,
+    "label" : "Zwei Personen, gefüllt",
+    "type" : 43,
+    "width" : 37,
+    "x" : 250.91666666666663,
+    "y" : 802.66666666666663
+  },
+  {
+    "height" : 8.6666666666667425,
+    "label" : "Weitere",
+    "type" : 43,
+    "width" : 25,
+    "x" : 325.33333333333331,
+    "y" : 810.66666666666663
+  },
+  {
+    "height" : 18,
+    "label" : "Gefülltes Megafon",
+    "type" : 43,
+    "width" : 18.666667938232422,
+    "x" : 39.666666666666664,
+    "y" : 750
+  },
+  {
+    "height" : 13.333333333333258,
+    "label" : "40",
+    "type" : 48,
+    "width" : 15,
+    "x" : 50,
+    "y" : 742.33333333333337
+  },
+  {
+    "height" : 18,
+    "label" : "DANKE",
+    "type" : 48,
+    "width" : 51.333333333333329,
+    "x" : 73,
+    "y" : 742.83333333333337
+  },
+  {
+    "height" : 14.333333333333258,
+    "label" : "Es war wieder unfassbar schön mit euch!",
+    "type" : 48,
+    "width" : 231,
+    "x" : 73,
+    "y" : 760.83333333333337
+  },
+  {
+    "height" : 10.666666984558105,
+    "label" : "Weiter",
+    "type" : 43,
+    "width" : 6.3333334922790527,
+    "x" : 359.99999999999994,
+    "y" : 753.66666666666663
+  },
+  {
+    "height" : 619,
+    "label" : "Vertikaler Rollbalken, 2 Seiten",
+    "type" : 1,
+    "width" : 30,
+    "x" : 369,
+    "y" : 116
+  },
+  {
+    "height" : 20.333333333333343,
+    "label" : "Mein Profil",
+    "type" : 48,
+    "width" : 80.666666666666657,
+    "x" : 90,
+    "y" : 187
+  },
+  {
+    "height" : 18,
+    "label" : "Anonymes Konto",
+    "type" : 48,
+    "width" : 116,
+    "x" : 90,
+    "y" : 211.33333333333334
+  },
+  {
+    "height" : 52,
+    "label" : "Synchronisierung, Aktuell",
+    "type" : 9,
+    "width" : 370,
+    "x" : 16,
+    "y" : 283.33333333333331
+  },
+  {
+    "height" : 51.999999999999943,
+    "label" : "Freigabe an Freunde",
+    "type" : 9,
+    "width" : 370,
+    "x" : 16,
+    "y" : 335.33333333333337
+  },
+  {
+    "height" : 52,
+    "label" : "Zugangsschlüssel",
+    "type" : 9,
+    "width" : 370,
+    "x" : 16,
+    "y" : 422.33333333333331
+  },
+  {
+    "height" : 99.666666666666686,
+    "label" : "Der Schlüssel wird nur beim Erstellen angezeigt. Sichere ihn in deinem Passwortmanager. Ohne Schlüssel und angemeldetes Gerät kannst du dieses Konto nicht wieder öffnen.",
+    "type" : 48,
+    "width" : 370,
+    "x" : 16,
+    "y" : 509.33333333333331
+  },
+  {
+    "height" : 52,
+    "label" : "Abmelden",
+    "type" : 9,
+    "width" : 370,
+    "x" : 16,
+    "y" : 644
+  },
+  {
+    "height" : 52,
+    "label" : "Konto löschen …",
+    "type" : 9,
+    "width" : 370,
+    "x" : 16,
+    "y" : 696
+  },
+  {
+    "height" : 20.333343505859375,
+    "label" : "Synchronisierung, Aktuell",
+    "type" : 48,
+    "width" : 316,
+    "x" : 32,
+    "y" : 299.16665649414062
+  },
+  {
+    "height" : 20.333333333333371,
+    "label" : "Synchronisierung",
+    "type" : 48,
+    "width" : 132.66666666666666,
+    "x" : 32,
+    "y" : 299.16666666666663
+  },
+  {
+    "height" : 20.333333333333314,
+    "label" : "Freigabe an Freunde",
+    "type" : 48,
+    "width" : 156.33333333333334,
+    "x" : 32,
+    "y" : 351.16666666666674
+  },
+  {
+    "height" : 20.333333333333371,
+    "label" : "Zugangsschlüssel",
+    "type" : 48,
+    "width" : 137.33333333333331,
+    "x" : 32,
+    "y" : 438.16666666666669
+  }
+]

@@ -8,6 +8,7 @@ private enum PlanTimelineLayout {
     static let imageRadius: CGFloat = 8
     static let cardRadius = imageRadius + contentInset
     static let concertHeight: CGFloat = 56
+    static let recommendationHeight = imageSize + contentInset * 2
     static let sectionSpacing: CGFloat = 8
     static let timelineGutter: CGFloat = 32
     static let pauseHeight: CGFloat = 24
@@ -32,6 +33,7 @@ struct PersonalPlanTimelineView: View {
     @Environment(\.festivalData) private var festivalData
     @Environment(\.locale) private var locale
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @EnvironmentObject private var profile: FestivalProfileStore
     @ScaledMetric(relativeTo: .callout) private var timeWidth = 48.0
 
@@ -53,72 +55,74 @@ struct PersonalPlanTimelineView: View {
                     }
 
                     ForEach(entries, id: \.id) { entry in
-                        if entry.id != entries.first?.id {
-                            if entry.hasDashedConnectorBefore {
-                                timelineRow(isPause: true) {
-                                    Text("schedule.plan.free_time")
-                                        .font(.footnote)
-                                        .foregroundStyle(.secondary)
-                                        .padding(.leading, PlanTimelineLayout.rowInset)
-                                        .frame(minHeight: PlanTimelineLayout.pauseHeight)
-                                }
-                            } else {
-                                timelineRow {
-                                    Color.clear.frame(height: PlanTimelineLayout.sectionSpacing)
-                                }
-                                .accessibilityHidden(true)
-                            }
-                        }
-                        if !entry.incomingWalks.isEmpty {
-                            timelineRow(
-                                time: entry.departureTimestamp.map {
-                                    timeLabel(Date(timeIntervalSince1970: $0.doubleValue))
-                                }, marker: .walk
-                            ) {
-                                PlanWalkingContent(entry: entry)
-                            }
-                            timelineRow { Color.clear.frame(height: PlanTimelineLayout.sectionSpacing) }
-                                .accessibilityHidden(true)
-                        }
-
-                        VStack(spacing: 0) {
-                            timelineRow(
-                                time: entry.event.timeAsString,
-                                marker: .concert(
-                                    conflict: entry.hasConflict,
-                                    recommended: !profile.isEventSaved(entry.event.id)),
-                                isConcert: true
-                            ) {
-                                PlanConcertLink(event: entry.event)
-                            }
-                            if entry.hasConflict {
-                                timelineRow {
-                                    Label {
-                                        Text(conflictDescription(entry))
-                                    } icon: {
-                                        Image(systemName: "bolt")
-                                            .frame(width: 18)
+                        VStack(alignment: .leading, spacing: 0) {
+                            if entry.id != entries.first?.id {
+                                if entry.hasDashedConnectorBefore {
+                                    timelineRow(isPause: true) {
+                                        Text("schedule.plan.free_time")
+                                            .font(.footnote)
+                                            .foregroundStyle(.secondary)
+                                            .padding(.leading, PlanTimelineLayout.rowInset)
+                                            .frame(minHeight: PlanTimelineLayout.pauseHeight)
                                     }
-                                        .font(.caption)
-                                        .foregroundStyle(.red)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .padding(.leading, PlanTimelineLayout.rowInset)
-                                        .padding(.top, 4)
-                                        .padding(.bottom, 8)
+                                } else {
+                                    timelineRow {
+                                        Color.clear.frame(height: PlanTimelineLayout.sectionSpacing)
+                                    }
+                                    .accessibilityHidden(true)
                                 }
                             }
-                        }
-                        .padding(.top, entry.hasConflict ? 4 : 0)
-                        .background(alignment: .leading) {
-                            if entry.hasConflict {
-                                HStack(spacing: 0) {
-                                    Color.clear.frame(width: timeWidth + PlanTimelineLayout.timelineGutter)
-                                    RoundedRectangle(
-                                        cornerRadius: PlanTimelineLayout.cardRadius, style: .continuous)
-                                        .fill(Color.red.opacity(colorScheme == .dark ? 0.16 : 0.055))
-                                        .padding(.leading, -4)
+                            if !entry.incomingWalks.isEmpty {
+                                timelineRow(
+                                    time: entry.departureTimestamp.map {
+                                        timeLabel(Date(timeIntervalSince1970: $0.doubleValue))
+                                    }, marker: .walk
+                                ) {
+                                    PlanWalkingContent(entry: entry)
                                 }
-                                .accessibilityHidden(true)
+                                timelineRow { Color.clear.frame(height: PlanTimelineLayout.sectionSpacing) }
+                                    .accessibilityHidden(true)
+                            }
+
+                            VStack(spacing: 0) {
+                                timelineRow(
+                                    time: entry.event.timeAsString,
+                                    marker: .concert(
+                                        conflict: entry.hasConflict,
+                                        recommended: !profile.isEventSaved(entry.event.id)),
+                                    isConcert: true
+                                ) {
+                                    PlanConcertLink(event: entry.event)
+                                }
+                                if entry.hasConflict {
+                                    timelineRow {
+                                        Label {
+                                            Text(conflictDescription(entry))
+                                        } icon: {
+                                            Image(systemName: "bolt")
+                                                .frame(width: 18)
+                                        }
+                                            .font(.caption)
+                                            .foregroundStyle(.red)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            .padding(.leading, PlanTimelineLayout.rowInset)
+                                            .padding(.top, 4)
+                                            .padding(.bottom, 8)
+                                    }
+                                }
+                            }
+                            .padding(.top, entry.hasConflict ? 4 : 0)
+                            .background(alignment: .leading) {
+                                if entry.hasConflict {
+                                    HStack(spacing: 0) {
+                                        Color.clear.frame(width: timeWidth + PlanTimelineLayout.timelineGutter)
+                                        RoundedRectangle(
+                                            cornerRadius: PlanTimelineLayout.cardRadius, style: .continuous)
+                                            .fill(Color.red.opacity(colorScheme == .dark ? 0.16 : 0.055))
+                                            .padding(.leading, -4)
+                                    }
+                                    .accessibilityHidden(true)
+                                }
                             }
                         }
                     }
@@ -127,6 +131,10 @@ struct PersonalPlanTimelineView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 16)
+                .animation(
+                    reduceMotion ? nil : .default,
+                    value: [events.map(\.id), unknownTime.map(\.id), unknownDate.map(\.id)])
+                .animation(reduceMotion ? nil : .default, value: profile.savedEvents)
             }
             .accessibilityIdentifier("personal-plan-timeline")
         }
@@ -293,6 +301,10 @@ private struct PlanConcertLink: View {
 
     private var isSaved: Bool { profile.isEventSaved(event.id) }
 
+    private var textLeading: Font.Leading {
+        isSaved || dynamicType.isAccessibilitySize ? .standard : .tight
+    }
+
     var body: some View {
         NavigationLink(
             value: festivalData.eventDestination(event, alwaysShowDetails: settings.alwaysShowEventDetails)
@@ -300,30 +312,38 @@ private struct PlanConcertLink: View {
             HStack(spacing: 12) {
                 if !dynamicType.isAccessibilitySize {
                     ArtistImageView(artist: event.artist, fullImage: false, loadingStyle: .quiet)
-                        .frame(width: isSaved ? 48 : 32, height: isSaved ? 48 : 32)
+                        .frame(width: PlanTimelineLayout.imageSize, height: PlanTimelineLayout.imageSize)
                         .clipShape(RoundedRectangle(
-                            cornerRadius: PlanTimelineLayout.imageRadius, style: .continuous))
-                        .frame(width: PlanTimelineLayout.imageSize)
+                            cornerRadius: PlanTimelineLayout.imageRadius, style: .circular))
                         .accessibilityHidden(true)
                 }
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: isSaved || dynamicType.isAccessibilitySize ? 4 : 0.5) {
+                    if !isSaved {
+                        Text("schedule.plan.suggestion")
+                            .font(.caption2.weight(.medium).leading(textLeading))
+                            .foregroundStyle(accent)
+                    }
                     Text(event.artist.formattedName)
-                        .font(isSaved ? .callout.weight(.medium) : .callout)
-                        .foregroundStyle(isSaved ? Color.primary : Color.primary.opacity(0.72))
+                        .font(.callout.weight(.medium).leading(textLeading))
+                        .foregroundStyle(.primary)
                         .alignmentGuide(PlanConcertAlignment.value) { $0[VerticalAlignment.center] }
-                    Text(event.stage.localizedName).font(.footnote)
+                    Text(event.stage.localizedName)
+                        .font(.footnote.leading(textLeading))
                         .foregroundStyle(.secondary)
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.leading, PlanTimelineLayout.rowInset)
-            .padding(.vertical, PlanTimelineLayout.rowInset)
-            .frame(minHeight: isSaved ? PlanTimelineLayout.concertHeight : 48)
+            .padding(.vertical, isSaved ? PlanTimelineLayout.rowInset : PlanTimelineLayout.contentInset)
+            .frame(minHeight: isSaved
+                ? PlanTimelineLayout.concertHeight : PlanTimelineLayout.recommendationHeight)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel("\(event.timeAsString), \(event.artist.formattedName), \(event.stage.localizedName)")
+        .accessibilityValue(isSaved
+            ? Text("event.saved.value.saved") : Text("schedule.plan.recommended"))
         .accessibilityIdentifier("personal-plan-event-\(event.id)")
         .eventContextMenu(
             event: event,
@@ -331,29 +351,27 @@ private struct PlanConcertLink: View {
             onToggleSaved: { profile.toggleSavedEvent(event) }
         )
         .padding(.trailing, PlanTimelineLayout.trailingControlSize - PlanTimelineLayout.trailingControlOffset)
-        .overlay(alignment: Alignment(horizontal: .trailing, vertical: PlanConcertAlignment.value)) {
+        .overlay(alignment: .trailing) {
             trailingStatus
-                .alignmentGuide(PlanConcertAlignment.value) { $0[VerticalAlignment.center] }
                 .offset(x: PlanTimelineLayout.trailingControlOffset)
+        }
+        .overlay {
+            if !isSaved {
+                RoundedRectangle(cornerRadius: PlanTimelineLayout.cardRadius, style: .circular)
+                    .strokeBorder(accent.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
+                    .padding(.leading, -PlanTimelineLayout.rowInset)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+            }
         }
     }
 
-    @ViewBuilder
     private var trailingStatus: some View {
-        if isSaved {
-            EventSavedIcon(event: event, isSaved: true, foregroundColor: accent) {
-                profile.toggleSavedEvent(event)
-            }
-            .font(.system(size: statusSymbolSize))
-            .accessibilityIdentifier("personal-plan-save-\(event.id)")
-        } else {
-            Image(systemName: "wand.and.sparkles")
-                .font(.callout)
-                .foregroundStyle(.secondary)
-                .frame(width: PlanTimelineLayout.trailingControlSize,
-                       height: PlanTimelineLayout.trailingControlSize)
-                .accessibilityLabel(Text("schedule.plan.recommended"))
+        EventSavedIcon(event: event, isSaved: isSaved, foregroundColor: .primary) {
+            profile.toggleSavedEvent(event)
         }
+        .font(.system(size: statusSymbolSize))
+        .accessibilityIdentifier("personal-plan-save-\(event.id)")
     }
 }
 

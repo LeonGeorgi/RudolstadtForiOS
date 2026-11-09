@@ -126,6 +126,50 @@ class PresentationTests {
     }
 
     @Test
+    fun recommendationRefreshKeepsTheLastCompletePlanUntilItsReplacementIsReady() {
+        val vm = RecommendationViewModel()
+        val first = vm.beginRefresh()
+        val durations = listOf(EventMinutes(42, 60))
+        vm.update(first, listOf(42), durations, 100.0, savedEventIDs = listOf(7))
+        val observed = mutableListOf<RecommendationState>()
+        val observation = vm.observe { observed.add(it) }
+
+        val refresh = vm.beginRefresh()
+        assertEquals(LoadPhase.READY, vm.current.phase)
+        assertEquals(listOf(42L), vm.current.eventIDs)
+        assertEquals(durations, vm.current.durations)
+        assertEquals(100.0, vm.current.generatedAt)
+        assertEquals(listOf(7L), vm.current.savedEventIDs)
+
+        vm.inputsChanged()
+        vm.update(refresh, listOf(99), emptyList(), 101.0)
+        assertEquals(listOf(42L), vm.current.eventIDs)
+        assertEquals(listOf(7L), vm.current.savedEventIDs)
+        val replacement = vm.beginRefresh()
+        vm.update(replacement, listOf(43), emptyList(), 102.0)
+        assertEquals(listOf(43L), vm.current.eventIDs)
+        assertTrue(observed.all { it.phase == LoadPhase.READY })
+
+        vm.reset()
+        vm.update(replacement, listOf(42), durations, 103.0)
+        assertEquals(LoadPhase.LOADING, vm.current.phase)
+        assertTrue(vm.current.eventIDs.isEmpty())
+        assertNull(vm.current.durations)
+        assertTrue(vm.current.savedEventIDs.isEmpty())
+        observation.cancel()
+    }
+
+    @Test
+    fun anEmptyCompletedRecommendationStaysReadyDuringRefresh() {
+        val vm = RecommendationViewModel()
+        vm.update(vm.beginRefresh(), emptyList(), emptyList(), 100.0)
+        vm.beginRefresh()
+        assertEquals(LoadPhase.READY, vm.current.phase)
+        assertTrue(vm.current.eventIDs.isEmpty())
+        assertEquals(100.0, vm.current.generatedAt)
+    }
+
+    @Test
     fun eachRecommendationRequestPublishesLoadingAndThenOneCompleteResult() {
         val vm = RecommendationViewModel()
         val phases = mutableListOf<LoadPhase>()

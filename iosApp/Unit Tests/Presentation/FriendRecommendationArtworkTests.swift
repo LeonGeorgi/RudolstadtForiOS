@@ -71,7 +71,7 @@ struct FriendRecommendationArtworkTests {
     @Test(arguments: [1, 2])
     func cardUsesTwoLinesAndGrowsForAccessibilityText(contributionCount: Int) {
         let artist = TestFixtures.artist(id: 42, name: "Duo Ruut")
-        let badge = FestivalProfileBadge(displayName: "Anna", colorHex: "#23867A")
+        let badge = FestivalProfileBadge(displayName: "Anna", hue: 165)
         let event = TestFixtures.event(id: 1, dayInJuly: 3, timeAsString: "18:00",
                                        stage: TestFixtures.stage(id: 1), artist: artist)
         let contributions: [FriendArtistRecommendation.Contribution] = [
@@ -158,7 +158,7 @@ struct FriendRecommendationGridTests {
         contributionCount: Int, name: String = "Duo Ruut", dynamicTypeSize: DynamicTypeSize = .large
     ) -> CGSize {
         let artist = TestFixtures.artist(id: 42, name: name)
-        let badge = FestivalProfileBadge(displayName: "Anna", colorHex: "#23867A")
+        let badge = FestivalProfileBadge(displayName: "Anna", hue: 165)
         let event = TestFixtures.event(
             id: 1, dayInJuly: 3, timeAsString: "18:00",
             stage: TestFixtures.stage(id: 1), artist: artist

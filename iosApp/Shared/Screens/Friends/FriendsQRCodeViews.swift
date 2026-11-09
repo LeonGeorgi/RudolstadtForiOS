@@ -1,249 +1,17 @@
 #if os(iOS)
-import AVFoundation
-import CoreImage
-import CoreImage.CIFilterBuiltins
 import SwiftUI
+import AVFoundation
+import CoreImage.CIFilterBuiltins
 import UIKit
 
-struct MyProfileQRCodeSheetView: View {
-    let profile: FestivalProfileStore
+struct QRCodeImageCard: View {
+    let value: String
 
-    @Environment(\.dismiss) private var dismiss
-
-    @State private var inviteURL: URL?
-    @State private var errorMessage: String?
-    @State private var reloadToken = UUID()
-
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) {
-                    if let inviteURL {
-                        QRCodeImageCard(url: inviteURL)
-                        Text("friends.qr.my.description")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                        Button("friends.qr.generate_new_code") {
-                            reloadToken = UUID()
-                        }
-                    } else if let errorMessage {
-                        ContentUnavailableView(
-                            "friends.qr.unavailable.title",
-                            systemImage: "exclamationmark.triangle",
-                            description: Text(errorMessage)
-                        )
-                        Button("friends.try_again") {
-                            reloadToken = UUID()
-                        }
-                    } else {
-                        ProgressView("friends.qr.preparing_invite")
-                            .frame(maxWidth: .infinity, minHeight: 280)
-                    }
-                    Text("friends.privacy.body")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(24)
-            }
-            .navigationTitle("friends.qr.my.title")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("friends.done") {
-                        dismiss()
-                    }
-                }
-            }
-        }
-        .task(id: reloadToken) {
-            await loadInviteURL()
-        }
-    }
-
-    private func loadInviteURL() async {
-        inviteURL = nil
-        errorMessage = nil
-
-        do {
-            inviteURL = try await profile.prepareOneTimeShareURL()
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-    }
-}
-
-struct FriendProfileQRScannerSheetView: View {
-    let profile: FestivalProfileStore
-
-    @Environment(\.dismiss) private var dismiss
-
-    @State private var authorizationStatus: AVAuthorizationStatus = .notDetermined
-    @State private var isProcessingScan = false
-    @State private var errorMessage: String?
-    @State private var scannerResetToken = UUID()
-
-    var body: some View {
-        NavigationStack {
-            VStack(spacing: 20) {
-                switch authorizationStatus {
-                case .authorized:
-                    ZStack {
-                        QRCodeScannerView(
-                            onCodeDetected: handleScannedCode(_:),
-                            onFailure: handleScannerFailure(_:)
-                        )
-                        .id(scannerResetToken)
-                        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 28, style: .continuous)
-                                .strokeBorder(.white.opacity(0.8), lineWidth: 2)
-                        }
-                        .frame(maxWidth: .infinity, minHeight: 360)
-
-                        if isProcessingScan {
-                            Color.black.opacity(0.45)
-                                .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-                            ProgressView("friends.scanner.adding_profile")
-                                .tint(.white)
-                                .foregroundStyle(.white)
-                        }
-                    }
-
-                    Text("friends.scanner.instructions")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-
-                case .notDetermined:
-                    ProgressView("friends.scanner.requesting_camera")
-                        .frame(maxWidth: .infinity, minHeight: 320)
-
-                case .denied, .restricted:
-                    ContentUnavailableView(
-                        "friends.scanner.camera_access_needed.title",
-                        systemImage: "camera.fill",
-                        description: Text("friends.scanner.camera_access_needed.description")
-                    )
-
-                    Button("friends.open_settings") {
-                        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
-                            return
-                        }
-                        UIApplication.shared.open(settingsURL)
-                    }
-
-                @unknown default:
-                    ContentUnavailableView(
-                        "friends.scanner.unavailable.title",
-                        systemImage: "camera.metering.unknown",
-                        description: Text("friends.scanner.unavailable.description")
-                    )
-                }
-            }
-            .padding(24)
-            .navigationTitle("friends.scanner.title")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("friends.done") {
-                        dismiss()
-                    }
-                }
-            }
-        }
-        .task {
-            await requestCameraAccessIfNeeded()
-        }
-        .alert("friends.scanner.scan_failed.title", isPresented: Binding(
-            get: { errorMessage != nil },
-            set: { newValue in
-                if !newValue {
-                    errorMessage = nil
-                }
-            }
-        )) {
-            Button("friends.try_again") {
-                errorMessage = nil
-                restartScanner()
-            }
-            Button("friends.done", role: .cancel) {
-                errorMessage = nil
-                dismiss()
-            }
-        } message: {
-            Text(errorMessage ?? "")
-        }
-    }
-
-    private func requestCameraAccessIfNeeded() async {
-        authorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
-
-        switch authorizationStatus {
-        case .authorized, .denied, .restricted:
-            break
-        case .notDetermined:
-            let granted = await withCheckedContinuation { continuation in
-                AVCaptureDevice.requestAccess(for: .video) { granted in
-                    continuation.resume(returning: granted)
-                }
-            }
-            authorizationStatus = granted ? .authorized : .denied
-        @unknown default:
-            break
-        }
-    }
-
-    private func handleScannedCode(_ scannedValue: String) {
-        guard !isProcessingScan else {
-            return
-        }
-
-        guard let inviteURL = normalizedInviteURL(from: scannedValue) else {
-            errorMessage = friendsLocalizedString("friends.scanner.invalid_invite")
-            return
-        }
-
-        isProcessingScan = true
-        Task {
-            do {
-                try await profile.acceptShare(url: inviteURL)
-                dismiss()
-            } catch {
-                isProcessingScan = false
-                errorMessage = error.localizedDescription
-            }
-        }
-    }
-
-    private func handleScannerFailure(_ message: String) {
-        guard errorMessage == nil else {
-            return
-        }
-        errorMessage = message
-    }
-
-    private func restartScanner() {
-        isProcessingScan = false
-        scannerResetToken = UUID()
-    }
-
-    private func normalizedInviteURL(from scannedValue: String) -> URL? {
-        let trimmedValue = scannedValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard let inviteURL = URL(string: trimmedValue), inviteURL.scheme != nil else {
-            return nil
-        }
-        return inviteURL
-    }
-}
-
-private struct QRCodeImageCard: View {
-    let url: URL
+    init(url: URL) { value = url.absoluteString }
+    init(value: String) { self.value = value }
 
     private var qrCodeImage: UIImage? {
-        QRCodeRenderer.image(for: url)
+        QRCodeRenderer.image(for: value)
     }
 
     var body: some View {
@@ -272,9 +40,9 @@ private struct QRCodeImageCard: View {
 private enum QRCodeRenderer {
     private static let context = CIContext()
 
-    static func image(for url: URL) -> UIImage? {
+    static func image(for value: String) -> UIImage? {
         let filter = CIFilter.qrCodeGenerator()
-        filter.message = Data(url.absoluteString.utf8)
+        filter.message = Data(value.utf8)
         filter.correctionLevel = "M"
 
         guard let outputImage = filter.outputImage else {
@@ -290,7 +58,7 @@ private enum QRCodeRenderer {
     }
 }
 
-private struct QRCodeScannerView: UIViewControllerRepresentable {
+struct QRCodeScannerView: UIViewControllerRepresentable {
     let onCodeDetected: (String) -> Void
     let onFailure: (String) -> Void
 
@@ -307,7 +75,7 @@ private struct QRCodeScannerView: UIViewControllerRepresentable {
     ) {}
 }
 
-private final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     private let captureSession = AVCaptureSession()
     private let sessionQueue = DispatchQueue(label: "festival-profile-qr-scanner")
     private let onCodeDetected: (String) -> Void

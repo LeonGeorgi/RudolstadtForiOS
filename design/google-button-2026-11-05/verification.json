@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-05",
+  "platform": "iOS 27.0, iPhone 17 Pro, German, Light",
+  "build": "Normally signed arm64 build-for-testing passed",
+  "test": "AccountLayoutTests/testSignedOutLayouts passed; 1 test, 0 failures",
+  "scope": "Only provider button presentation and bundled brand assets changed; existing Google authentication adapter retained",
+  "google_button_bounds": [
+    {
+      "height": 50,
+      "label": "Mit Google anmelden",
+      "type": 9,
+      "width": 354,
+      "x": 24,
+      "y": 320.3333333333333
+    },
+    {
+      "height": 50,
+      "label": "Mit Google anmelden",
+      "type": 48,
+      "width": 354,
+      "x": 24,
+      "y": 320.3333333333333
+    }
+  ],
+  "font_source": "https://github.com/google/fonts/tree/main/ofl/googlesans",
+  "font_derivation": "Static wght=500, opsz=17, GRAD=0; subset U+0000–024F,U+2000–206F; names Google Sans Medium/GoogleSans-Medium; fontTools 4.68.0; SIL OFL 1.1 bundled",
+  "logo_source": "https://developers.google.com/static/identity/images/g-logo.png",
+  "guidelines": "https://developers.google.com/identity/branding-guidelines",
+  "comparison": "Original 1206x2622 files, unshifted and unscaled. Signed grayscale difference, only top 186px masked; separate full RGB difference. before-after.png is a display-only crop reduced to 1x.",
+  "not_verified": [
+    "Dark Mode rendering",
+    "Large Dynamic Type",
+    "Google OAuth authentication flow"
+  ],
+  "remaining": "Sketch/current simulator can differ in font rasterization, system chrome and live rotating news; no claim of full-screen pixel equality. Prior seven-state report is historical and remains intact.",
+  "sha256": {
+    "native-before.png": "1001fe60c06bdd8119f9c4680d900b403f47c9fdb6486b88a09e0341b68df70f",
+    "native-after.png": "c4a6e06b838ae4c1962a09fcaaa0b2ea12286c2fa553509c7b3dc1a0916c0d13",
+    "sketch.png": "8b2cd304d658701300454747c3002fb9eb46ee574d3c773fcd2374202dd606d0"
+  }
+}

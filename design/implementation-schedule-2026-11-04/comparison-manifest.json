@@ -1,0 +1,42 @@
+[
+  {
+    "platform": "ios",
+    "sizePx": [
+      1206,
+      2622
+    ],
+    "maskedTopPx": 186,
+    "gain": 3,
+    "crop": "213x174+630+1116",
+    "sources": [
+      {
+        "path": "ios-sketch.png",
+        "sha256": "dc0bf6903c7d3adaa47713712d9c466f61dc2b540c6d0527b216e96b5ef3f49c"
+      },
+      {
+        "path": "ios-standard.png",
+        "sha256": "71bcc8ea16baea9f3c5a40c384d4f926115b8e0b2a91dc1b3e5e07c7086cae10"
+      }
+    ]
+  },
+  {
+    "platform": "android",
+    "sizePx": [
+      804,
+      1830
+    ],
+    "maskedTopPx": 0,
+    "gain": 3,
+    "crop": "142x140+420+874",
+    "sources": [
+      {
+        "path": "android-sketch.png",
+        "sha256": "cab976971db3ce32859b935c19c48920f7ad9cb54e3be37792d51764106cf761"
+      },
+      {
+        "path": "android-final/standard.png",
+        "sha256": "eb5ebce62cb4513ac5064a3a30ae473c8fdd5ff4364969a07cd98a919084d28a"
+      }
+    ]
+  }
+]

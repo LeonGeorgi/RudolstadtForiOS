@@ -1,0 +1,56 @@
+[
+  {
+    "height" : 44,
+    "id" : "",
+    "label" : "Vertikaler Rollbalken, 1 Seite",
+    "type" : 1,
+    "width" : 30,
+    "x" : 353.66666666666669,
+    "y" : 92
+  },
+  {
+    "height" : 30,
+    "id" : "",
+    "label" : "Horizontaler Rollbalken, 1 Seite",
+    "type" : 1,
+    "width" : 203.33333333333334,
+    "x" : 136.66666666666666,
+    "y" : 103
+  },
+  {
+    "height" : 42,
+    "id" : "person.crop.circle",
+    "label" : "Mein Profil",
+    "type" : 9,
+    "width" : 250.00000000000003,
+    "x" : 136.66666666666666,
+    "y" : 72
+  },
+  {
+    "height" : 42,
+    "id" : "person.crop.circle.badge.checkmark",
+    "label" : "Konto",
+    "type" : 9,
+    "width" : 250.00000000000003,
+    "x" : 136.66666666666666,
+    "y" : 114
+  },
+  {
+    "height" : 19.666666666666671,
+    "id" : "person.crop.circle",
+    "label" : "Account",
+    "type" : 43,
+    "width" : 19.666666666666657,
+    "x" : 167,
+    "y" : 83.333333333333329
+  },
+  {
+    "height" : 20.999999999999986,
+    "id" : "person.crop.circle.badge.checkmark",
+    "label" : "Zugeschnittene Person in einem Kreis mit Häkchen-Badge",
+    "type" : 43,
+    "width" : 22.666666666666657,
+    "x" : 164,
+    "y" : 125.33333333333333
+  }
+]

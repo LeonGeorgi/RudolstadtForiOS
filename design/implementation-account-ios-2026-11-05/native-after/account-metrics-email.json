@@ -1,0 +1,194 @@
+[
+  {
+    "height" : 83,
+    "label" : "Tableiste",
+    "type" : 22,
+    "width" : 402,
+    "x" : 0,
+    "y" : 791
+  },
+  {
+    "height" : 44,
+    "label" : "Neuigkeiten, 40 ungelesene Mitteilungen",
+    "type" : 1,
+    "width" : 360,
+    "x" : 21,
+    "y" : 737
+  },
+  {
+    "height" : 54,
+    "label" : "Orte",
+    "type" : 9,
+    "width" : 78.333333333333329,
+    "x" : 25,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Zeitplan",
+    "type" : 9,
+    "width" : 78.333333333333329,
+    "x" : 93.416666666666671,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Künstler",
+    "type" : 9,
+    "width" : 78.333333333333343,
+    "x" : 161.83333333333331,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Freunde",
+    "type" : 9,
+    "width" : 78.333333333333343,
+    "x" : 230.24999999999991,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Mehr",
+    "type" : 9,
+    "width" : 78.333333333333371,
+    "x" : 298.66666666666663,
+    "y" : 795
+  },
+  {
+    "height" : 36,
+    "label" : "Zurück",
+    "type" : 9,
+    "width" : 36,
+    "x" : 20,
+    "y" : 66
+  },
+  {
+    "height" : 20.666666666666671,
+    "label" : "Mit E-Mail anmelden",
+    "type" : 48,
+    "width" : 162.33333333333331,
+    "x" : 119.66666666666669,
+    "y" : 73.666666666666657
+  },
+  {
+    "height" : 44,
+    "label" : "40, Play it again!, Festival-Highlights bei ARD Sounds und im Radio",
+    "type" : 9,
+    "width" : 360,
+    "x" : 21,
+    "y" : 737
+  },
+  {
+    "height" : 26.333333333333371,
+    "label" : "Karte einblenden",
+    "type" : 43,
+    "width" : 29.666666666666664,
+    "x" : 49.333333333333336,
+    "y" : 801.66666666666663
+  },
+  {
+    "height" : 25,
+    "label" : "Kalender",
+    "type" : 43,
+    "width" : 28.999999999999986,
+    "x" : 118.08333333333333,
+    "y" : 802.33333333333337
+  },
+  {
+    "height" : 33,
+    "label" : "Theatermasken, gefüllt",
+    "type" : 43,
+    "width" : 44.333333333333314,
+    "x" : 178.83333333333334,
+    "y" : 797.66666666666663
+  },
+  {
+    "height" : 26,
+    "label" : "Zwei Personen, gefüllt",
+    "type" : 43,
+    "width" : 37,
+    "x" : 250.91666666666663,
+    "y" : 802.66666666666663
+  },
+  {
+    "height" : 8.6666666666667425,
+    "label" : "Weitere",
+    "type" : 43,
+    "width" : 25,
+    "x" : 325.33333333333331,
+    "y" : 810.66666666666663
+  },
+  {
+    "height" : 18,
+    "label" : "Gefülltes Megafon",
+    "type" : 43,
+    "width" : 18.666667938232422,
+    "x" : 39.666666666666664,
+    "y" : 750
+  },
+  {
+    "height" : 13.333333333333258,
+    "label" : "40",
+    "type" : 48,
+    "width" : 15,
+    "x" : 50,
+    "y" : 742.33333333333337
+  },
+  {
+    "height" : 18,
+    "label" : "Play it again!",
+    "type" : 48,
+    "width" : 91,
+    "x" : 73,
+    "y" : 742.83333333333337
+  },
+  {
+    "height" : 14.333333333333258,
+    "label" : "Festival-Highlights bei ARD Sounds und im Radio",
+    "type" : 48,
+    "width" : 251.66666666666663,
+    "x" : 73,
+    "y" : 760.83333333333337
+  },
+  {
+    "height" : 10.666666984558105,
+    "label" : "Weiter",
+    "type" : 43,
+    "width" : 6.3333334922790527,
+    "x" : 359.99999999999994,
+    "y" : 753.66666666666663
+  },
+  {
+    "height" : 619,
+    "label" : "Vertikaler Rollbalken, 1 Seite",
+    "type" : 1,
+    "width" : 30,
+    "x" : 369,
+    "y" : 116
+  },
+  {
+    "height" : 50.333333333333314,
+    "label" : "Anmeldelink senden",
+    "type" : 9,
+    "width" : 354,
+    "x" : 24,
+    "y" : 240
+  },
+  {
+    "height" : 18,
+    "label" : "Anmeldelink manuell einfügen",
+    "type" : 48,
+    "width" : 205,
+    "x" : 24,
+    "y" : 314.33333333333331
+  },
+  {
+    "height" : 50.333333333333371,
+    "label" : "Anmeldung abschließen",
+    "type" : 9,
+    "width" : 354,
+    "x" : 24,
+    "y" : 416.33333333333331
+  }
+]

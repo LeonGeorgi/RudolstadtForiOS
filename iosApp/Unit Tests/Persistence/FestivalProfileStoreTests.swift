@@ -2,9 +2,7 @@ import RudolstadtCore
 import Combine
 import Foundation
 import Testing
-#if os(iOS)
-    import CloudKit
-#endif
+
 @testable import Rudolstadt
 
 @MainActor
@@ -26,8 +24,8 @@ struct FestivalProfileStoreTests {
 
         store.syncStore.syncState = .syncing
         store.syncStore.syncState = .idle
-        store.syncStore.iCloudStatus = .available
-        store.syncStore.iCloudStatus = .available
+        store.syncStore.accountStatus = .available
+        store.syncStore.accountStatus = .available
         let refreshDate = TestFixtures.date(dayInJuly: 3, hour: 12, minute: 0)
         store.syncStore.lastSuccessfulRefreshDate = refreshDate
         store.syncStore.lastSuccessfulRefreshDate = refreshDate
@@ -120,7 +118,7 @@ struct FestivalProfileStoreTests {
 
         let profileStore = FestivalProfileStore(
             userDefaults: userDefaults,
-            cloudKitEnabled: false
+            cloudSyncEnabled: false
         )
 
         #expect(profileStore.savedEvents == [17, 19])
@@ -221,11 +219,11 @@ struct FestivalProfileStoreTests {
 
         profileStore.updateBadge(
             name: "Leon Georgi",
-            colorHex: "#3D78E0"
+            hue: 255
         )
 
         #expect(profileStore.badgeName == "Leon Georgi")
-        #expect(profileStore.badgeColorHex == "#3D78E0")
+        #expect(profileStore.badgeHue == 255)
         #expect(profileStore.ownerBadge.initials == "LG")
     }
 
@@ -239,7 +237,7 @@ struct FestivalProfileStoreTests {
             legacyProfile: initialProfile
         )
         let profileStore = FestivalProfileStore(
-            cloudKitEnabled: false,
+            cloudSyncEnabled: false,
             persistence: persistence,
             waitBeforePersisting: {}
         )
@@ -252,7 +250,7 @@ struct FestivalProfileStoreTests {
             persistence.persistedCaches.last?.currentProfile.savedEventIDs
                 == [Event.example.id]
         )
-        #expect(profileStore.iCloudStatus == .unavailable("Cloud sync disabled"))
+        #expect(profileStore.accountStatus == .local)
     }
 
     @Test
@@ -297,53 +295,34 @@ struct FestivalProfileStoreTests {
             ])
     }
 
-    #if os(iOS)
-        @Test
-        func cloudKitMappingAndConflictPolicyAreCallableWithoutSyncEngine() {
-            let profileZoneID = CKRecordZone.ID(
-                zoneName: "ProfileZone",
-                ownerName: CKCurrentUserDefaultName
-            )
-            let notesZoneID = CKRecordZone.ID(
-                zoneName: "NotesZone",
-                ownerName: CKCurrentUserDefaultName
-            )
-            let recordID = FestivalProfileCloudRecordMapper.recordID(
-                for: .savedEvent(eventID: 42),
-                profileZoneID: profileZoneID,
-                notesZoneID: notesZoneID,
-                festivalYear: 2026
-            )
-            let record = CKRecord(
-                recordType: FestivalProfileStore.Constants.savedEventRecordType,
-                recordID: recordID
-            )
+}
 
-            #expect(recordID.recordName == "SavedEvent-2026-42")
-            #expect(
-                FestivalProfileCloudRecordMapper.payload(from: record)
-                == .change(FestivalProfileChange(
-                            value: .savedEvent(eventID: 42, isSaved: true),
-                            version: FestivalProfileChangeVersion(
-                                modifiedAt: .distantPast,
-                        changeID: FestivalProfileRecordValue.savedEvent(eventID: 42, isSaved: true).legacyChangeID
-                            )
-                        ))
-            )
-            #expect(
-                FestivalProfileSyncConflictPolicy.action(for: .serverRecordChanged)
-                    == .mergeServerRecord
-            )
-            #expect(
-                FestivalProfileSyncConflictPolicy.action(for: .zoneNotFound)
-                    == .recreateZoneAndRetry
-            )
-            #expect(
-                FestivalProfileSyncConflictPolicy.action(for: .networkUnavailable)
-                    == .waitForAutomaticRetry
-            )
-        }
-    #endif
+@MainActor
+struct FirebaseLocalProfileImportTests {
+    @Test
+    func localNotesSurviveImportEvenWithOpaqueLegacySystemFields() throws {
+        var profile = TestFixtures.cachedOwnerFestivalProfile()
+        profile.artistNotes = [FestivalArtistNote(artistID: 7, noteText: "PRIVATE LOCAL NOTE")]
+        profile.rootRecordSystemFieldsData = Data([1, 2, 3])
+        profile.artistNoteRecordSystemFieldsByName = ["old-note": Data([4, 5, 6])]
+        let raw = try JSONEncoder().encode(profile)
+        let restored = try JSONDecoder().decode(CachedOwnerFestivalProfile.self, from: raw)
+        let local = try OwnProfileData.shared.encodeLocal(journal: nil, profile: restored.domainProfile, changes: restored.domainChanges)
+        #expect(local.contains("PRIVATE LOCAL NOTE"))
+        #expect(restored.artistNotes == profile.artistNotes)
+        #expect(restored.rootRecordSystemFieldsData == profile.rootRecordSystemFieldsData)
+    }
+
+    @Test
+    func versionedNotesRoundTripThroughFirebasePayloadWithoutChangingTheirDates() throws {
+        let profile = PersonalProfile(badgeName: "Local", badgeHue: 30, savedEventIDs: [], artistPreferences: [], artistNotes: [ArtistNote(artistID: 7, noteText: "Note")])
+        let version = ProfileVersion(modifiedAt: 1234.123, changeID: "local-edit")
+        let value = ProfileRecordValue.artistNote(FestivalArtistNote(artistID: 7, noteText: "Note"))
+        let record = OwnProfileData.shared.record(change: ProfileRecordChange(value: value, version: version))
+        let payload = OwnProfileData.shared.encodeRecords(value: [record])
+        #expect(payload.contains("1234.123"))
+        #expect(profile.artistNotes.first?.noteText == record.value?.noteText)
+    }
 }
 
 struct FestivalProfilePersistenceTests {
@@ -528,7 +507,7 @@ struct FestivalProfileConflictTests {
     @Test
     func userEditTimeWinsIndependentlyOfDeliveryOrderAndEntity() {
         let store = FestivalProfileStore(
-            userDefaults: TestFixtures.isolatedUserDefaults(), cloudKitEnabled: false, now: { editDate }
+            userDefaults: TestFixtures.isolatedUserDefaults(), cloudSyncEnabled: false, now: { editDate }
         )
         store.setArtistNote(for: artist, note: "Local")
         store.setArtistRating(for: artist, rating: 3)
@@ -561,7 +540,7 @@ struct FestivalProfileConflictTests {
         let defaults = TestFixtures.isolatedUserDefaults()
         var clock = editDate
         let store = FestivalProfileStore(
-            userDefaults: defaults, cloudKitEnabled: false, now: { clock }, waitBeforePersisting: {}
+            userDefaults: defaults, cloudSyncEnabled: false, now: { clock }, waitBeforePersisting: {}
         )
         store.setArtistNote(for: artist, note: "Saved")
         store.setArtistRating(for: artist, rating: 3)
@@ -586,7 +565,7 @@ struct FestivalProfileConflictTests {
             #expect(deletion.version.date == clock)
         }
 
-        let reloaded = FestivalProfileStore(userDefaults: defaults, cloudKitEnabled: false)
+        let reloaded = FestivalProfileStore(userDefaults: defaults, cloudSyncEnabled: false)
         #expect(reloaded.pendingProfileRecords.count == 3)
         for value in values(note: "Old saved value", rating: 3, saved: true) {
             #expect(reloaded.mergeRemoteChange(change(value, seconds: 10)))
@@ -624,7 +603,7 @@ struct FestivalProfileConflictTests {
         let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
         var clock = editDate
         let store = FestivalProfileStore(
-            userDefaults: defaults, cloudKitEnabled: false, now: { clock }, waitBeforePersisting: {}
+            userDefaults: defaults, cloudSyncEnabled: false, now: { clock }, waitBeforePersisting: {}
         )
         let record = FestivalProfileSyncRecord.artistPreference(artistID: artist.id)
         store.setArtistRating(for: artist, rating: 1)
@@ -646,7 +625,7 @@ struct FestivalProfileConflictTests {
         let defaults = TestFixtures.isolatedUserDefaults()
         let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
         let store = FestivalProfileStore(
-            userDefaults: defaults, cloudKitEnabled: false, now: { editDate }, waitBeforePersisting: {}
+            userDefaults: defaults, cloudSyncEnabled: false, now: { editDate }, waitBeforePersisting: {}
         )
         let incoming = change(values(note: "Unchanged", rating: 2, saved: false)[0], seconds: -10)
         store.mergeRemoteChange(incoming)
@@ -662,7 +641,7 @@ struct FestivalProfileConflictTests {
         let defaults = TestFixtures.isolatedUserDefaults()
         let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
         let store = FestivalProfileStore(
-            userDefaults: defaults, cloudKitEnabled: false, now: { editDate }, waitBeforePersisting: {}
+            userDefaults: defaults, cloudSyncEnabled: false, now: { editDate }, waitBeforePersisting: {}
         )
         store.setArtistRating(for: artist, rating: 3)
         store.setArtistNote(for: artist, note: "Keep for retry")
@@ -676,7 +655,7 @@ struct FestivalProfileConflictTests {
         #expect(store.pendingProfileRecords == [noteRecord])
         #expect(store.noteText(for: artist) == "Keep for retry")
         await store.flushPendingPersistence()
-        let reloaded = FestivalProfileStore(userDefaults: defaults, cloudKitEnabled: false)
+        let reloaded = FestivalProfileStore(userDefaults: defaults, cloudSyncEnabled: false)
         #expect(reloaded.pendingProfileRecords == [noteRecord])
         #expect(reloaded.noteText(for: artist) == "Keep for retry")
     }
@@ -686,7 +665,7 @@ struct FestivalProfileConflictTests {
         let defaults = TestFixtures.isolatedUserDefaults()
         let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
         let store = FestivalProfileStore(
-            userDefaults: defaults, cloudKitEnabled: false, now: { editDate }, waitBeforePersisting: {}
+            userDefaults: defaults, cloudSyncEnabled: false, now: { editDate }, waitBeforePersisting: {}
         )
         store.toggleSavedEvent(event)
         await store.flushPendingPersistence()
@@ -710,7 +689,7 @@ struct FestivalProfileConflictTests {
         json["currentProfile"] = profile
         json.removeValue(forKey: "pendingProfileRecords")
         defaults.set(try JSONSerialization.data(withJSONObject: json), forKey: FestivalProfileStore.Constants.cacheKey(for: DataStore.year))
-        let store = FestivalProfileStore(userDefaults: defaults, cloudKitEnabled: false, now: { editDate })
+        let store = FestivalProfileStore(userDefaults: defaults, cloudSyncEnabled: false, now: { editDate })
         #expect(store.savedEvents == [event.id])
         #expect(store.rating(for: artist.id) == 3)
         #expect(store.noteText(for: artist) == "Before update")
@@ -734,85 +713,6 @@ struct FestivalProfileConflictTests {
         #expect(store.noteText(for: artist) == "Explicit new edit")
     }
 
-    #if os(iOS)
-        @Test
-        func cloudKitRoundTripsDeletionsAndKeepsUserDatesStableAcrossRetries() throws {
-            let zone = CKRecordZone.ID(zoneName: "TestZone", ownerName: CKCurrentUserDefaultName)
-            let root = CKRecord.ID(recordName: "Root", zoneID: zone)
-            let types = [
-                FestivalProfileStore.Constants.artistNoteRecordType,
-                FestivalProfileStore.Constants.artistPreferenceRecordType,
-            FestivalProfileStore.Constants.savedEventRecordType
-            ]
-            for (value, type) in zip(values(note: "", rating: 0, saved: false), types) {
-                var profile = TestFixtures.cachedOwnerFestivalProfile()
-                profile.applyDomainProfile(value.apply(profile: profile.domainProfile))
-                let expected = change(value, seconds: 0, id: "deletion")
-                profile.changeVersions = [
-                    value.record.key: CachedProfileChangeVersion(expected.version)
-                ]
-            let record = CKRecord(recordType: type, recordID: FestivalProfileCloudRecordMapper.recordID(
-                        for: value.record, profileZoneID: zone, notesZoneID: zone
-                    ))
-            for retryTime in [editDate.addingTimeInterval(100), editDate.addingTimeInterval(500)] {
-                _ = try #require(FestivalProfileCloudRecordMapper.populate(
-                    record, for: value.record, from: profile, updatedAt: retryTime, profileRootRecordID: root
-                        ))
-                    #expect(record["isDeleted"] as? Bool == true)
-                    #expect(record["updatedAt"] as? Date == editDate)
-                #expect(FestivalProfileCloudRecordMapper.payload(from: record) == .change(expected))
-                }
-            }
-        }
-
-        @Test
-        func legacyWriterTimestampIsOnlyAHistoricalFallback() throws {
-            let record = CKRecord(recordType: FestivalProfileStore.Constants.artistNoteRecordType)
-            record["artistID"] = artist.id as CKRecordValue
-            record["noteText"] = "Legacy writer" as CKRecordValue
-            record["updatedAt"] = editDate as CKRecordValue
-        guard case .change(let legacy) = FestivalProfileCloudRecordMapper.payload(from: record) else {
-                Issue.record("Expected a legacy note change")
-                return
-            }
-            #expect(legacy.version.date == editDate)
-            #expect(legacy.version.isLegacy)
-            // An older client can modify a record that already has the new fields.
-            record["userModifiedAt"] = editDate.addingTimeInterval(-10) as CKRecordValue
-            record["changeID"] = "previous-edit" as CKRecordValue
-            record["isDeleted"] = true as CKRecordValue
-            #expect(FestivalProfileCloudRecordMapper.payload(from: record) == .change(legacy))
-        }
-
-        @Test
-        func subMillisecondTransportRoundingDoesNotLeaveAnUploadPending() async throws {
-            let defaults = TestFixtures.isolatedUserDefaults()
-        let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults, festivalYear: DataStore.year)
-            let store = FestivalProfileStore(
-                userDefaults: defaults, cloudKitEnabled: false,
-                now: { editDate.addingTimeInterval(0.123456) }, waitBeforePersisting: {}
-            )
-            store.setArtistNote(for: artist, note: "Fractional edit time")
-            await store.flushPendingPersistence()
-            let profile = try #require(persistence.loadCache()?.currentProfile)
-            let zone = CKRecordZone.ID(zoneName: "TestZone", ownerName: CKCurrentUserDefaultName)
-            let record = CKRecord(recordType: FestivalProfileStore.Constants.artistNoteRecordType)
-        _ = try #require(FestivalProfileCloudRecordMapper.populate(
-            record, for: .artistNote(artistID: artist.id), from: profile, updatedAt: editDate,
-                    profileRootRecordID: CKRecord.ID(recordName: "Root", zoneID: zone)
-                ))
-            let date = try #require(record["userModifiedAt"] as? Date)
-        let transportedDate = Date(timeIntervalSince1970: (date.timeIntervalSince1970 * 1_000).rounded() / 1_000)
-            record["userModifiedAt"] = transportedDate as CKRecordValue
-            record["updatedAt"] = transportedDate as CKRecordValue
-        guard case .change(let echoed) = FestivalProfileCloudRecordMapper.payload(from: record) else {
-                Issue.record("Expected an echoed note")
-                return
-            }
-            store.acknowledgeUploadedChange(echoed)
-            #expect(store.pendingProfileRecords.isEmpty)
-        }
-    #endif
 }
 
 @MainActor
@@ -845,7 +745,7 @@ struct ArtistNoteEditingTests {
     @Test
     func syncWarningSurvivesPendingWorkAndDisappearsOnlyAfterRecovery() {
         let sync = FestivalProfileSyncStore()
-        sync.iCloudStatus = .available
+        sync.accountStatus = .available
         #expect(!sync.shouldWarnBeforeEditing)
         sync.recordFailure("Offline")
         #expect(sync.shouldWarnBeforeEditing)
@@ -855,7 +755,7 @@ struct ArtistNoteEditingTests {
         #expect(sync.shouldWarnBeforeEditing)
         sync.confirmSuccess()
         #expect(!sync.shouldWarnBeforeEditing)
-        sync.iCloudStatus = .unavailable("Signed out")
+        sync.accountStatus = .unavailable("Signed out")
         #expect(sync.shouldWarnBeforeEditing)
         sync.confirmSuccess()
         #expect(sync.shouldWarnBeforeEditing)

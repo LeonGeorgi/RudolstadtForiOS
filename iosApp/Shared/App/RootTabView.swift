@@ -16,6 +16,8 @@ struct RootTabView: View {
     var refreshOnForeground: () async -> Void = {}
     var pendingFestivalRoute: FestivalRoute? = nil
     var onFestivalRouteHandled: () -> Void = {}
+    var pendingFriendsLink = false
+    var onFriendsLinkHandled: () -> Void = {}
 
     @Environment(\.festivalEdition) private var edition
     @Environment(\.festivalData) private var festivalData
@@ -368,6 +370,12 @@ struct RootTabView: View {
             Button("artist.share.unavailable.ok", role: .cancel) {}
         } message: {
             Text("artist.share.unavailable.message")
+        }
+        .onChange(of: pendingFriendsLink, initial: true) { _, pending in
+            guard pending else { return }
+            selectedTab = .friends
+            friendsPath = NavigationPath()
+            onFriendsLinkHandled()
         }
         .onChange(of: pendingFestivalRoute, initial: true) { _, route in
             guard let route, route.identity == dataStore.metadata.identity else { return }

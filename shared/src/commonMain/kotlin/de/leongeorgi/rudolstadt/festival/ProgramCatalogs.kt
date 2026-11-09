@@ -122,9 +122,9 @@ class ProgramDistanceCatalog(
         }
     }
 
-    fun planningTransfer(from: String, to: String): ProgramWalkingTransfer? =
-        if (coordinates[from]?.isApproximate == true || coordinates[to]?.isApproximate == true) null
-        else walking(from, to)
+    // Approximate positions still support walking estimates. Keep their uncertainty
+    // in the result instead of dropping every transition from the planner.
+    fun planningTransfer(from: String, to: String): ProgramWalkingTransfer? = walking(from, to)
 }
 
 data class ProgramCapabilities(

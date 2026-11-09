@@ -30,7 +30,9 @@ only the small provider protocols it supports. `unsupported` omits a function;
 serve immutable loaded values; views do not perform per-row network requests.
 A map provider can offer geographic and illustrated SVG/image/PDF maps together,
 with source-defined categories and normalized positions. Distances and planning
-are separate capabilities; approximate map pins do not enable planning.
+are separate capabilities. When automatic planning is enabled, approximate
+positions can supply estimated walking times; the approximate-position flag and
+estimate source remain available to clients. Missing transfers remain unknown.
 
 Sources, calculations and screens use the same `FestivalData`, `Artist`, `Stage`
 and `Event` values. There is no intermediate snapshot model or presentation
@@ -50,10 +52,10 @@ to the source's program without translating entities into another representation
 for those integrations; it is no longer the interface consumed by app composition.
 Rudolstadt keeps its existing API/cache/backup files and personal profile formats.
 Other festivals use scoped local profiles; existing Ludwigsburg namespaces remain
-readable. CloudKit sharing and Watch transport remain restricted to the existing
-Rudolstadt integration and have not been generalized. The versioned Watch snapshot
-remains a separate transport format; personal profile and CloudKit schemas are
-unchanged.
+readable. Firebase synchronizes new concert bookmarks and artist ratings in
+current and archived Rudolstadt editions. Watch transport uses the current
+edition. The versioned
+Watch snapshot remains a separate transport format; old local profiles remain readable.
 
 Targeted `FestivalAdapterContractTests` cover optional features, both map kinds,
 non-numeric place IDs, logical festival days across midnight, duration independence,
@@ -138,9 +140,55 @@ festival permissions continue to use the existing app behavior. External source
 formats and personal profile schemas are unchanged; a festival source must supply
 the actual optional concert content.
 
+## Debug-only Fantasy Festival
+
+Apple Debug builds offer **Fantasy Festival 2027 · Debug** in the existing festival
+picker in Settings. The fixture has 150 real, well-known acts, 12 imaginary stages,
+and exactly 500 fictional concerts on 15–18 July 2027 (Europe/Berlin, festival-day
+boundary at 05:00). Late sets continue after midnight without adding a fifth day.
+It includes parallel sets, same-stage overlaps, different durations and long place
+names. All personal state uses the separate `fantasy/2027` namespace.
+The stage positions deliberately remain approximate. Automatic planning uses
+their estimated walking times and can combine several concerts per day.
+
+The source is `shared/src/debugResources/FantasyFestival`, deliberately outside
+`commonMain/resources`. Every act has its own distinct Commons photograph in
+`images/` and a smaller version in `thumbnails/`. `photos.json` and `CREDITS.md`
+retain the photographer, selected license, source page and source checksum.
+Artist descriptions include the image credit; **More → Photo credits** exposes
+the source pages and license links for all 150 photos.
+The dataset makes no claim that these appearances or venues exist.
+
+Descriptions use individual German and English Wikipedia excerpts with varied
+lengths and paragraph breaks, retained offline in `biographies.json`. Each source
+records the article, revision, contributor history and CC BY-SA 4.0 license.
+**More → Text sources and licenses** links the 300 source revisions and the text
+license. `CREDITS.md` also contains all attributions. The fixture has no persistent
+banner; its fictional nature is explained in **About the test festival**.
+
+`scripts/data/create_fantasy_festival.py` rebuilds the deterministic program from
+the curated roster and checked-in photo/biography manifests without network access. Use
+`--download` explicitly to acquire missing photo metadata and images; the importer
+requires a free Commons license and distinct source checksums. Existing images
+are retained. Image resizing uses macOS `sips`.
+Use `--download-descriptions` to acquire missing German and English Wikipedia
+biographies and their attribution metadata; the app itself never fetches them.
+
+Both the provider and its catalog registration are guarded by `#if DEBUG`.
+The Apple app targets run `scripts/ios/copy-fantasy-festival.sh`, which copies the
+fixture only for the Debug configuration and removes any prior copy for other
+configurations. Release builds cannot resolve the Fantasy identity; the existing
+selection model falls back to the default festival for an unregistered identity.
+
+`FantasyFestivalTests` checks the prepared program, festival-day assignment,
+unique decodable offline images, image-pipeline loading, isolated persistence and
+multi-stop daily recommendations with 30 and 150 positively rated artists.
+`ApproximatePlanningTests` covers estimated transfers, same-stage transitions,
+required walking time between concerts, and unavailable coordinates in the shared core.
+
 ## Festival archive
 
-Settings offers the current 2026 program and read-only archives for 2019 and
+Settings offers the current 2026 program and bundled archives for 2019 and
 2022–2025. The selection persists across launches and replaces the festival data
 throughout the regular app screens. There is no complete 2020 or 2021 program;
 the incomplete 2020 planning export is not offered as a festival archive.
@@ -148,11 +196,13 @@ the incomplete 2020 planning export is not offered as a festival archive.
 Composition lazily retains one DataStore per edition. Archive profiles read
 locally saved events, ratings, alternative icons and notes for that year only.
 They prefer the year-specific profile cache, then a matching old global cache,
-then the original per-year preferences. Reading an archive never migrates or
-writes profile storage, and CloudKit sync and editing are disabled. No personal
-data is recovered from CloudKit for an earlier year. Saved/liked filters remain
+then the original per-year preferences. Bookmarks and ratings can be edited.
+Signed-in edits sync and are shared with friends for the selected year. Existing
+local profile data is kept without uploading it simply by opening the archive.
+Archived artist notes are read-only. The Friends screen lists global friendships
+and displays shared data for the selected year. Saved/liked filters remain
 available; schedule filters and map preferences are scoped to each festival and edition. Watch transport stays attached to the current festival.
-News, shared profiles and travel information are not offered in the archive.
+News and travel information are not offered in the archive.
 Screenshot mode always selects the current festival.
 
 `RudolstadtArchiveDataProvider` loads immutable `FestivalBackup/<year>_archive.json`
@@ -191,7 +241,7 @@ The award concert is omitted because the downloaded timetable has conflicting
 times; the app displays its incomplete-import notice.
 
 Ratings, notes and saved events use a separate local persistence namespace. They
-never use Rudolstadt's profile cache, legacy migration or CloudKit zones. Sharing,
+never use Rudolstadt's profile cache, legacy migration or Firebase replicas. Sharing,
 Rudolstadt news/travel information, artist deep links and Watch publishing are not
 part of the integration. The official site plan is bundled as a zoomable PDF, with
 11 stage positions and 38 additional places/offers in `FestivalSitePlan`. The places

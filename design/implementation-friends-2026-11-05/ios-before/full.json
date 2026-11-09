@@ -1,0 +1,407 @@
+[
+  {
+    "height" : 83,
+    "id" : "",
+    "label" : "Tableiste",
+    "type" : 22,
+    "width" : 402,
+    "x" : 0,
+    "y" : 791
+  },
+  {
+    "height" : 44,
+    "id" : "unread-news-accessory",
+    "label" : "Neuigkeiten, 40 ungelesene Mitteilungen",
+    "type" : 1,
+    "width" : 360,
+    "x" : 21,
+    "y" : 737
+  },
+  {
+    "height" : 54,
+    "id" : "map.fill",
+    "label" : "Orte",
+    "type" : 9,
+    "width" : 78.333333333333329,
+    "x" : 25,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "id" : "calendar",
+    "label" : "Zeitplan",
+    "type" : 9,
+    "width" : 78.333333333333329,
+    "x" : 93.416666666666671,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "id" : "theatermasks.fill",
+    "label" : "Künstler",
+    "type" : 9,
+    "width" : 78.333333333333343,
+    "x" : 161.83333333333331,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "id" : "person.2.fill",
+    "label" : "Freunde",
+    "type" : 9,
+    "width" : 78.333333333333343,
+    "x" : 230.24999999999991,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "id" : "ellipsis",
+    "label" : "Mehr",
+    "type" : 9,
+    "width" : 78.333333333333371,
+    "x" : 298.66666666666663,
+    "y" : 795
+  },
+  {
+    "height" : 40.666666666666671,
+    "id" : "",
+    "label" : "Freunde",
+    "type" : 48,
+    "width" : 130.33333333333331,
+    "x" : 15.999999999999986,
+    "y" : 119.66666666666667
+  },
+  {
+    "height" : 44,
+    "id" : "",
+    "label" : "40, Schiene oder Straße?, Tipps für die Anreise",
+    "type" : 9,
+    "width" : 360,
+    "x" : 21,
+    "y" : 737
+  },
+  {
+    "height" : 26.333333333333371,
+    "id" : "map.fill",
+    "label" : "Karte einblenden",
+    "type" : 43,
+    "width" : 29.666666666666664,
+    "x" : 49.333333333333336,
+    "y" : 801.66666666666663
+  },
+  {
+    "height" : 25,
+    "id" : "calendar",
+    "label" : "Kalender",
+    "type" : 43,
+    "width" : 28.999999999999986,
+    "x" : 118.08333333333333,
+    "y" : 802.33333333333337
+  },
+  {
+    "height" : 33,
+    "id" : "theatermasks.fill",
+    "label" : "Theatermasken, gefüllt",
+    "type" : 43,
+    "width" : 44.333333333333314,
+    "x" : 178.83333333333334,
+    "y" : 797.66666666666663
+  },
+  {
+    "height" : 26,
+    "id" : "person.2.fill",
+    "label" : "Zwei Personen, gefüllt",
+    "type" : 43,
+    "width" : 37,
+    "x" : 250.91666666666663,
+    "y" : 802.66666666666663
+  },
+  {
+    "height" : 8.6666666666667425,
+    "id" : "ellipsis",
+    "label" : "Weitere",
+    "type" : 43,
+    "width" : 25,
+    "x" : 325.33333333333331,
+    "y" : 810.66666666666663
+  },
+  {
+    "height" : 18,
+    "id" : "megaphone.fill",
+    "label" : "Gefülltes Megafon",
+    "type" : 43,
+    "width" : 18.666667938232422,
+    "x" : 39.666666666666664,
+    "y" : 750
+  },
+  {
+    "height" : 13.333333333333258,
+    "id" : "",
+    "label" : "40",
+    "type" : 48,
+    "width" : 15,
+    "x" : 50,
+    "y" : 742.33333333333337
+  },
+  {
+    "height" : 18,
+    "id" : "",
+    "label" : "Straßenmusik",
+    "type" : 48,
+    "width" : 99.666666666666657,
+    "x" : 73,
+    "y" : 742.83333333333337
+  },
+  {
+    "height" : 14.333333333333258,
+    "id" : "",
+    "label" : "Aktuelle Änderungen",
+    "type" : 48,
+    "width" : 118.33333333333334,
+    "x" : 73,
+    "y" : 760.83333333333337
+  },
+  {
+    "height" : 10.666666984558105,
+    "id" : "chevron.right",
+    "label" : "Weiter",
+    "type" : 43,
+    "width" : 6.3333334922790527,
+    "x" : 359.99999999999994,
+    "y" : 753.66666666666663
+  },
+  {
+    "height" : 36,
+    "id" : "friends-add",
+    "label" : "Freunde hinzufügen",
+    "type" : 9,
+    "width" : 37.666666666666686,
+    "x" : 282.33333333333331,
+    "y" : 66
+  },
+  {
+    "height" : 36,
+    "id" : "friends-profile-menu",
+    "label" : "Mein Profil",
+    "type" : 9,
+    "width" : 46,
+    "x" : 336,
+    "y" : 66
+  },
+  {
+    "height" : 619,
+    "id" : "",
+    "label" : "Vertikaler Rollbalken, 2 Seiten",
+    "type" : 1,
+    "width" : 30,
+    "x" : 369,
+    "y" : 116
+  },
+  {
+    "height" : 54,
+    "id" : "",
+    "label" : "Freundesempfehlungen",
+    "type" : 9,
+    "width" : 370,
+    "x" : 16,
+    "y" : 168
+  },
+  {
+    "height" : 20.333333333333258,
+    "id" : "",
+    "label" : "Freunde",
+    "type" : 48,
+    "width" : 65.666666666666671,
+    "x" : 32,
+    "y" : 565.66666666666674
+  },
+  {
+    "height" : 20.333333333333258,
+    "id" : "",
+    "label" : "3",
+    "type" : 48,
+    "width" : 11,
+    "x" : 359,
+    "y" : 565.66666666666674
+  },
+  {
+    "height" : 80.333333333333371,
+    "id" : "",
+    "label" : "Demo · Alex, 16 Merker · 20 Bewertungen",
+    "type" : 9,
+    "width" : 370,
+    "x" : 16,
+    "y" : 596
+  },
+  {
+    "height" : 80.333333333333371,
+    "id" : "",
+    "label" : "Test · Ben, 10 Merker · 8 Bewertungen",
+    "type" : 9,
+    "width" : 370,
+    "x" : 16,
+    "y" : 676.33333333333326
+  },
+  {
+    "height" : 80.333333333333371,
+    "id" : "",
+    "label" : "Test · Clara, 9 Merker · 9 Bewertungen",
+    "type" : 9,
+    "width" : 370,
+    "x" : 16,
+    "y" : 756.66666666666663
+  },
+  {
+    "height" : 24,
+    "id" : "",
+    "label" : "Freundesempfehlungen",
+    "type" : 48,
+    "width" : 218.33333333333334,
+    "x" : 32,
+    "y" : 183
+  },
+  {
+    "height" : 15,
+    "id" : "chevron.right",
+    "label" : "Weiter",
+    "type" : 43,
+    "width" : 9,
+    "x" : 259.66666666666663,
+    "y" : 187.66666666666666
+  },
+  {
+    "height" : 42,
+    "id" : "",
+    "label" : "Demo · Alex badge",
+    "type" : 48,
+    "width" : 42,
+    "x" : 32,
+    "y" : 615.33333333333326
+  },
+  {
+    "height" : 20.333333333333258,
+    "id" : "",
+    "label" : "Demo · Alex",
+    "type" : 48,
+    "width" : 94.666666666666657,
+    "x" : 88,
+    "y" : 615
+  },
+  {
+    "height" : 18,
+    "id" : "",
+    "label" : "16 Merker · 20 Bewertungen",
+    "type" : 48,
+    "width" : 193.33333333333331,
+    "x" : 88,
+    "y" : 639.33333333333326
+  },
+  {
+    "height" : 42,
+    "id" : "",
+    "label" : "Test · Ben badge",
+    "type" : 48,
+    "width" : 42,
+    "x" : 32,
+    "y" : 695.66666666666663
+  },
+  {
+    "height" : 20.333333333333258,
+    "id" : "",
+    "label" : "Test · Ben",
+    "type" : 48,
+    "width" : 78,
+    "x" : 88,
+    "y" : 695.33333333333337
+  },
+  {
+    "height" : 18,
+    "id" : "",
+    "label" : "10 Merker · 8 Bewertungen",
+    "type" : 48,
+    "width" : 184.66666666666663,
+    "x" : 88,
+    "y" : 719.66666666666663
+  },
+  {
+    "height" : 20.333333333333371,
+    "id" : "",
+    "label" : "Test · Clara",
+    "type" : 48,
+    "width" : 89,
+    "x" : 88,
+    "y" : 775.66666666666663
+  },
+  {
+    "height" : 304,
+    "id" : "friend-recommendation-222",
+    "label" : "A Birchola, Demo · Alex möchte Sa. (21:00) hin",
+    "type" : 9,
+    "width" : 240,
+    "x" : 36,
+    "y" : 222
+  },
+  {
+    "height" : 304,
+    "id" : "friend-recommendation-244",
+    "label" : "Friendsbranntwein, Demo · Alex möchte So. (13:00) hin",
+    "type" : 9,
+    "width" : 240,
+    "x" : 288,
+    "y" : 222
+  },
+  {
+    "height" : 18,
+    "id" : "",
+    "label" : "A Birchola",
+    "type" : 48,
+    "width" : 72.666666666666671,
+    "x" : 52,
+    "y" : 473
+  },
+  {
+    "height" : 14.333333333333371,
+    "id" : "",
+    "label" : "Demo · Alex möchte Sa. (21:00) hin",
+    "type" : 1,
+    "width" : 199,
+    "x" : 52,
+    "y" : 494.83333333333331
+  },
+  {
+    "height" : 18,
+    "id" : "",
+    "label" : "Friendsbranntwein",
+    "type" : 48,
+    "width" : 134,
+    "x" : 304,
+    "y" : 473
+  },
+  {
+    "height" : 14.333333333333371,
+    "id" : "",
+    "label" : "Demo · Alex möchte So. (13:00) hin",
+    "type" : 1,
+    "width" : 199.66666666666669,
+    "x" : 304,
+    "y" : 494.83333333333331
+  },
+  {
+    "height" : 14.333333333333371,
+    "id" : "",
+    "label" : "Demo · Alex möchte Sa. (21:00) hin",
+    "type" : 48,
+    "width" : 199,
+    "x" : 52,
+    "y" : 494.83333333333331
+  },
+  {
+    "height" : 14.333333333333371,
+    "id" : "",
+    "label" : "Demo · Alex möchte So. (13:00) hin",
+    "type" : 48,
+    "width" : 199.66666666666669,
+    "x" : 304,
+    "y" : 494.83333333333331
+  }
+]

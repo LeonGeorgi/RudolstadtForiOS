@@ -2,6 +2,76 @@
     import Testing
     @testable import Rudolstadt
 
+    struct FriendProfileContentTests {
+        @Test
+        func sharedSavesMatchTheOccurrenceAndDiscoveriesContainTheRemainingSaves() {
+            let artist = TestFixtures.artist(id: 61)
+            let stage = TestFixtures.stage(id: 20)
+            let first = TestFixtures.event(
+                id: 1201, dayInJuly: 3, timeAsString: "18:00", stage: stage, artist: artist)
+            let second = TestFixtures.event(
+                id: 1202, dayInJuly: 3, timeAsString: "20:00", stage: stage, artist: artist)
+            let third = TestFixtures.event(
+                id: 1203, dayInJuly: 4, timeAsString: "18:00", stage: stage, artist: artist)
+            let program = TestFixtures.festivalData(events: [third, second, first])
+            let friend = TestFixtures.sharedFestivalProfile(savedEventIDs: [third.id, second.id, first.id, 9999])
+
+            let content = FriendProfileContent(
+                profile: friend, festivalData: program, ownSavedEventIDs: [second.id])
+
+            #expect(content.shared.map(\.id) == [second.id])
+            #expect(content.discoveries.map(\.id) == [first.id, third.id])
+            #expect(content.saved.map(\.id) == [first.id, second.id, third.id])
+        }
+
+        @Test
+        func discoveryRatingsAddPositiveRecommendationsForNewArtistsWithoutDuplicatingConcerts() {
+            let discoverable = TestFixtures.artist(id: 71)
+            let previouslySaved = TestFixtures.artist(id: 72)
+            let previouslyRated = TestFixtures.artist(id: 73)
+            let alreadySuggested = TestFixtures.artist(id: 74)
+            let marked = TestFixtures.artist(id: 75)
+            let artists = [discoverable, previouslySaved, previouslyRated, alreadySuggested, marked]
+            let stage = TestFixtures.stage(id: 20)
+            let events = artists.map { artist in
+                TestFixtures.event(
+                    id: artist.id + 1400, dayInJuly: 3, timeAsString: "18:00", stage: stage, artist: artist)
+            }
+            let ownSavedEvent = events[1]
+            let friendSavedEvent = events[3]
+            let preferences = artists.map { artist in
+                FestivalArtistPreference(artistID: artist.id, rating: artist.id == marked.id ? -1 : 3, iconName: nil)
+            }
+            let friend = TestFixtures.sharedFestivalProfile(
+                savedEventIDs: [friendSavedEvent.id], artistPreferences: preferences)
+
+            let content = FriendProfileContent(
+                profile: friend, festivalData: TestFixtures.festivalData(events: events),
+                ownSavedEventIDs: [ownSavedEvent.id], ownRatings: [String(previouslyRated.id): -1])
+
+            #expect(content.discoveryRatings.map(\.id) == [discoverable.id])
+            #expect(content.discoveries.map(\.id) == [friendSavedEvent.id])
+            #expect(content.ratings.count == artists.count)
+        }
+
+        @Test
+        func profileFromAnotherEditionDoesNotMatchReusedProgramIDs() {
+            let event = Event.example
+            let program = TestFixtures.festivalData(events: [event])
+            let friend = TestFixtures.sharedFestivalProfile(
+                savedEventIDs: [event.id],
+                artistPreferences: [.init(artistID: event.artist.id, rating: 3, iconName: nil)],
+                festivalYear: program.festivalYear - 1)
+
+            let content = FriendProfileContent(
+                profile: friend, festivalData: program, ownSavedEventIDs: [event.id])
+
+            #expect(content.saved.isEmpty)
+            #expect(content.ratings.isEmpty)
+            #expect(!content.hasDiscoveries)
+        }
+    }
+
     struct FriendArtistRecommendationTests {
         @Test
         func recommendationsExcludeOwnRatedArtists() {

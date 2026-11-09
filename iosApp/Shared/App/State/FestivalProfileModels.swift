@@ -18,11 +18,10 @@ struct FestivalArtistPreference: Codable, Hashable, Identifiable, Sendable {
 }
 
 struct FestivalProfileBadge: Hashable, Sendable {
-    static let defaultColorHex = ProfileReducer.shared.resolvedColor(value: nil)
-    static let paletteColorHexes = ProfileReducer.shared.palette
+    static let defaultHue = ProfileReducer.shared.resolvedHue(value: nil)
 
     var displayName: String
-    var colorHex: String
+    var hue: Double
 
     var initials: String {
         Self.initials(from: displayName)
@@ -39,23 +38,23 @@ struct FestivalProfileBadge: Hashable, Sendable {
         return String(trimmedName.prefix(40))
     }
 
-    static func resolvedColorHex(_ rawColorHex: String?) -> String {
-        ProfileReducer.shared.resolvedColor(value: rawColorHex)
+    static func resolvedHue(_ rawHue: Double?) -> Double {
+        ProfileReducer.shared.resolvedHue(value: rawHue.map { KotlinDouble(value: $0) })
     }
 
     static func ownerBadge(
         rawName: String?,
-        rawColorHex: String?
+        rawHue: Double?
     ) -> FestivalProfileBadge {
         FestivalProfileBadge(
             displayName: normalizedName(rawName) ?? "You",
-            colorHex: resolvedColorHex(rawColorHex)
+            hue: resolvedHue(rawHue)
         )
     }
 
     static func sharedBadge(
         rawName: String?,
-        rawColorHex: String?,
+        rawHue: Double?,
         ownerName: String?,
         title: String
     ) -> FestivalProfileBadge {
@@ -64,7 +63,7 @@ struct FestivalProfileBadge: Hashable, Sendable {
                 ?? normalizedName(ownerName)
                 ?? normalizedName(title)
                 ?? "Friend",
-            colorHex: resolvedColorHex(rawColorHex)
+            hue: resolvedHue(rawHue)
         )
     }
 
@@ -97,21 +96,22 @@ typealias SharedFestivalProfile = SharedProfile
 extension SharedProfile: @retroactive Identifiable, @unchecked @retroactive Sendable {
     public var id: String { profileID }
     var badge: FestivalProfileBadge {
-        .sharedBadge(rawName: badgeName, rawColorHex: badgeColor, ownerName: ownerName, title: title)
+        .sharedBadge(rawName: badgeName, rawHue: badgeHue, ownerName: ownerName, title: title)
     }
     convenience init(
         id: String, title: String, ownerName: String?, badgeName: String?,
-        badgeColorHex: String?, festivalYear: Int, savedEventIDs: [Int],
+        badgeHue: Double?, festivalYear: Int, savedEventIDs: [Int],
         artistPreferences: [FestivalArtistPreference]
     ) {
         self.init(
             profileID: id, title: title, ownerName: ownerName, badgeName: badgeName,
-            badgeColor: badgeColorHex, year: Int32(festivalYear), saved: KotlinCore.ids(savedEventIDs),
+            badgeHue: FestivalProfileBadge.resolvedHue(badgeHue), year: Int32(festivalYear), saved: KotlinCore.ids(savedEventIDs),
             preferences: artistPreferences.map(\.core))
     }
 }
 
-enum FestivalProfileICloudStatus: Equatable, Sendable {
+enum FestivalProfileAccountStatus: Equatable, Sendable {
+    case local
     case checking
     case available
     case unavailable(String)
@@ -139,9 +139,10 @@ final class FestivalProfileSyncStore: KotlinStateStore<SyncState> {
                 participants: Int32(newValue))
         }
     }
-    var iCloudStatus: FestivalProfileICloudStatus {
+    var accountStatus: FestivalProfileAccountStatus {
         get {
             switch state.account {
+            case "local": return .local
             case "available": return .available
             case "unavailable": return .unavailable(state.accountReason ?? "")
             default: return .checking
@@ -149,6 +150,7 @@ final class FestivalProfileSyncStore: KotlinStateStore<SyncState> {
         }
         set {
             switch newValue {
+            case .local: viewModel.account(status: "local", reason: nil)
             case .checking: viewModel.account(status: "checking", reason: nil)
             case .available: viewModel.account(status: "available", reason: nil)
             case .unavailable(let reason): viewModel.account(status: "unavailable", reason: reason)
@@ -213,9 +215,10 @@ extension FestivalProfileShareState {
     }
 }
 
-extension FestivalProfileICloudStatus {
+extension FestivalProfileAccountStatus {
     var logDescription: String {
         switch self {
+        case .local: return "local"
         case .checking:
             return "checking"
         case .available:
@@ -248,10 +251,12 @@ struct FestivalArtistNote: Codable, Hashable, Identifiable, Sendable {
     }
 }
 
+// Legacy system-field bytes below are retained only for decoding/backing up old local caches.
+// They are never interpreted or sent to a system cloud service.
 struct CachedOwnerFestivalProfile: Codable, Equatable, Sendable {
     var festivalYear: Int
     var badgeName: String?
-    var badgeColorHex: String?
+    var badgeHue: Double?
     var savedEventIDs: [Int]
     var artistPreferences: [FestivalArtistPreference]
     var artistNotes: [FestivalArtistNote]
@@ -270,7 +275,7 @@ struct CachedSharedFestivalProfile: Codable, Equatable, Sendable {
     var title: String
     var ownerName: String?
     var badgeName: String?
-    var badgeColorHex: String?
+    var badgeHue: Double?
     var festivalYear: Int
     var savedEventIDs: [Int]
     var artistPreferences: [FestivalArtistPreference]
@@ -283,7 +288,7 @@ struct FestivalProfileCache: Codable, Equatable, Sendable {
     var lastSuccessfulRefreshDate: Date?
     var privateStateSerializationData: Data?
     var sharedStateSerializationData: Data?
-    // Persist with the values, rather than relying on a later CKSyncEngine state event.
+    // Retained with the values so old local pending changes remain recoverable.
     var pendingProfileRecords: Set<FestivalProfileSyncRecord>? = nil
 }
 
@@ -297,12 +302,14 @@ final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @
     private let userDefaults: UserDefaults
     private let festivalYear: Int
     private let isReadOnly: Bool
+    private let isArchive: Bool
     private let namespace: String?
 
-    init(userDefaults: UserDefaults, festivalYear: Int, isReadOnly: Bool = false, namespace: String? = nil) {
+    init(userDefaults: UserDefaults, festivalYear: Int, isReadOnly: Bool = false, isArchive: Bool = false, namespace: String? = nil) {
         self.userDefaults = userDefaults
         self.festivalYear = festivalYear
         self.isReadOnly = isReadOnly
+        self.isArchive = isArchive
         self.namespace = namespace
     }
 
@@ -311,13 +318,13 @@ final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @
     }
 
     func loadCache() -> FestivalProfileCache? {
-        // Browsing an archive must not migrate, overwrite or remove stored profiles.
-        if !isReadOnly && namespace == nil { migrateLegacyCacheIfNeeded() }
+        // Archives may read the old global cache without moving or removing it.
+        if !isReadOnly && !isArchive && namespace == nil { migrateLegacyCacheIfNeeded() }
         let cacheKey = scopedKey(FestivalProfileStore.Constants.cacheKey(for: festivalYear))
         if let cache = decodedCache(forKey: cacheKey, expectedFestivalYear: festivalYear) {
             return cache
         }
-        guard isReadOnly && namespace == nil else { return nil }
+        guard (isReadOnly || isArchive) && namespace == nil else { return nil }
         return decodedCache(
             forKey: FestivalProfileStore.Constants.legacyCacheKey,
             expectedFestivalYear: festivalYear
@@ -403,7 +410,7 @@ final class UserDefaultsFestivalProfilePersistence: FestivalProfilePersisting, @
         return CachedOwnerFestivalProfile(
             festivalYear: festivalYear,
             badgeName: nil,
-            badgeColorHex: FestivalProfileBadge.defaultColorHex,
+            badgeHue: FestivalProfileBadge.defaultHue,
             savedEventIDs: savedEventIDs,
             artistPreferences: preferences,
             artistNotes: artistNotes,

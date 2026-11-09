@@ -48,25 +48,29 @@ struct SyncStatusView: View {
                 Text("sync.festival_data.footer")
             }
 
-            Section {
-                SyncStatusRow(title: "sync.row.icloud", value: profileSync.accountStatusText)
-                SyncStatusRow(title: "sync.row.sync", value: profileSync.syncStatusText)
-                SyncStatusRow(
-                    title: "sync.row.last_successful_sync",
-                    value: profileSync.lastSuccessfulRefreshText
-                )
+            if profile.usesFirebaseSync {
+                FirebaseOwnProfileStatusSection(store: profile.firebaseOwnProfile)
+            } else {
+                Section {
+                    SyncStatusRow(title: "sync.row.account", value: profileSync.accountStatusText)
+                    SyncStatusRow(title: "sync.row.sync", value: profileSync.syncStatusText)
+                    SyncStatusRow(
+                        title: "sync.row.last_successful_sync",
+                        value: profileSync.lastSuccessfulRefreshText
+                    )
 
-                Button {
-                    Task {
-                        await profile.refreshFromCloud()
+                    Button {
+                        Task {
+                            await profile.refreshFromCloud()
+                        }
+                    } label: {
+                        Label("sync.refresh.button", systemImage: "arrow.clockwise")
                     }
-                } label: {
-                    Label("sync.refresh.button", systemImage: "arrow.clockwise")
+                } header: {
+                    Text("sync.section.title")
+                } footer: {
+                    Text("sync.section.footer")
                 }
-            } header: {
-                Text("sync.section.title")
-            } footer: {
-                Text("sync.section.footer")
             }
         }
         .navigationTitle("more.sync.title")
@@ -157,6 +161,8 @@ struct SyncStatusView: View {
 private extension FestivalProfileSyncStore {
     var accountStatusText: String {
         switch state.account {
+        case "local":
+            return syncLocalizedString("profile.sync.signed_out")
         case "unavailable":
             return state.accountReason ?? ""
         case "available":

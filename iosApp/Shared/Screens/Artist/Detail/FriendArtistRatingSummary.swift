@@ -21,6 +21,10 @@ struct FriendArtistRatingSummary: Equatable {
     var remainingCount: Int {
         max(0, entries.count - 3)
     }
+
+    func badgeZIndex(at index: Int) -> Double {
+        Double(visibleEntries.count - index)
+    }
 }
 
 struct FriendArtistRatingsBubble: View {
@@ -46,7 +50,7 @@ struct FriendArtistRatingsBubble: View {
             ForEach(visibleEntries.indices, id: \.self) { index in
                 let entry = visibleEntries[index]
                 FriendArtistRatingBadge(entry: entry, style: style)
-                    .zIndex(Double(visibleEntries.count - index))
+                    .zIndex(summary.badgeZIndex(at: index))
             }
 
             if remainingCount > 0 {
@@ -137,6 +141,7 @@ struct FriendArtistRatingBadge: View {
     let entry: FriendArtistRatingSummary.Entry
     let style: FriendArtistRatingsBubble.Style
     var diameter: CGFloat? = nil
+    var borderOpacity = 1.0
     var preferenceOpacity = 1.0
 
     private var badgeDiameter: CGFloat {
@@ -162,13 +167,12 @@ struct FriendArtistRatingBadge: View {
     var body: some View {
         FestivalProfileBadgeAvatar(
             badge: entry.badge,
-            diameter: badgeDiameter,
-            fontScale: style == .capsule ? 0.34 : 0.40 - 0.06 * min(max((badgeDiameter - 24) / 16, 0), 1),
-            showsShadow: style != .detailInline
+            diameter: badgeDiameter
         )
         .overlay {
             Circle()
                 .strokeBorder(Color(.systemBackground), lineWidth: borderLineWidth)
+                .opacity(borderOpacity)
         }
         .overlay(alignment: .bottomTrailing) {
             FriendArtistPreferenceDot(preference: entry.preference, style: style)
@@ -180,7 +184,7 @@ struct FriendArtistRatingBadge: View {
     }
 }
 
-private struct FriendArtistRemainingCountBadge: View {
+struct FriendArtistRemainingCountBadge: View {
     let count: Int
     let style: FriendArtistRatingsBubble.Style
 
@@ -200,7 +204,13 @@ private struct FriendArtistRemainingCountBadge: View {
             .font(.system(size: 9, weight: .bold, design: .rounded))
             .foregroundStyle(.secondary)
             .frame(width: badgeDiameter, height: badgeDiameter)
-            .background(.thinMaterial, in: Circle())
+            .background {
+                if style == .detailInline {
+                    Circle().fill(Color(.secondarySystemBackground))
+                } else {
+                    Circle().fill(.thinMaterial)
+                }
+            }
             .overlay {
                 Circle()
                     .strokeBorder(Color(.systemBackground), lineWidth: 1.5)

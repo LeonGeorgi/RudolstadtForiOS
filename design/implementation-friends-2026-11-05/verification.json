@@ -1,0 +1,484 @@
+{
+  "date": "2026-11-05",
+  "locale": "de-DE",
+  "appearance": "light",
+  "scale": 3,
+  "sketchDocument": "../Rudolstadt.sketch",
+  "sketchEdited": false,
+  "devices": {
+    "ios": "iPhone 17 Pro · iOS 27.0 · 402×874 pt",
+    "android": "Android 36 · Google APIs ARM64 · 402×915 dp · 480 dpi"
+  },
+  "data": {
+    "project": "festival-friends-dev",
+    "account": "Test · Anna",
+    "friendCount": 3,
+    "source": "Vorbereitete Entwicklungskonten; regulärer App-Betrieb, kein Screenshot-Modus",
+    "reference": "Illustrative Profile und API-Künstler aus den Sketch-Entwürfen",
+    "credentials": "Privat über Test-Runner bereitgestellt; keine Zugangsschlüssel in diesen Artefakten"
+  },
+  "method": {
+    "alignment": false,
+    "crop": false,
+    "scale": false,
+    "blur": false,
+    "maskTopPixels": {
+      "ios": 186,
+      "android": 132
+    },
+    "formula": "d=Gray(native)-Gray(Sketch); RGB=(max(d,0),max(-d,0),max(d,0))",
+    "material": "Liquid-Glass-Material aus der Bewertung ausgenommen; Text und Symbole bleiben sichtbar"
+  },
+  "corrections": {
+    "ios": [
+      "Einzüge der Empfehlungsgalerie und Überschrift",
+      "Getrennte native Toolbar-Aktionen mit 42-pt-Profilavatar",
+      "Ausführliche Profilzähler und Zeilenabstände",
+      "Profilformular mit Abständen aus Sketch",
+      "Farbauswahl ohne zusätzliche Listenkarten, mit sichtbarer Beschriftung",
+      "Kompakter QR-Code und beide nativen sekundären Schaltflächen",
+      "Kompakter Detailkopf, transparenter Hintergrund und Festivalbezeichnung"
+    ],
+    "android": [
+      "264-dp-Empfehlungskarten mit passender Typografie",
+      "258-dp-Menüs an der rechten Toolbar-Kante",
+      "Profilformular und Farbauswahl mit korrigierter vertikaler Anordnung",
+      "304×280-dp-QR-Karte und Buttonabstände",
+      "140-dp-Empfehlungszeilen mit 20-sp-Titel und 12-sp-Aktivitäten",
+      "Hochauflösende Künstlerbilder auch in Empfehlungszeilen"
+    ]
+  },
+  "limitations": [
+    "Andere echte Namen, Profilfarben, Zähler, Bilder und Empfehlungen verhindern vollständige Pixelgleichheit.",
+    "Die iOS-Nachrichtenleiste ist im Live-Betrieb auch auf Unterseiten sichtbar und wechselt ihren Inhalt.",
+    "Android hat eine native Zurück-Aktion auf der Freunde-Unterseite; die große Sketch-App-Bar zeigt diese nicht.",
+    "Android-App-Bar beginnt im Emulator bei 118 px statt 132 px in Sketch (14 px / 4⅔ dp Unterschied der Systemleiste); Quellbilder bleiben unverändert.",
+    "iOS-Empfehlungen behalten ihren vorhandenen Filterbutton; die Sketch-Hauptansicht zeigt diesen Unterseiten-Button nicht.",
+    "Einrichtung, Leerzustand, Annahme, ungültige Einladung, Freundesprofil ohne Einträge, Kamera und Zugriffsverweigerung sind in diesem Vergleich nicht aufgenommen.",
+    "Dunkelmodus, große Schrift und Englisch sind nicht Teil dieser Aufnahmeserie."
+  ],
+  "tests": {
+    "android": {
+      "result": "passed",
+      "test": "FriendsLayoutTests.captureConnectedFriendLayouts",
+      "log": "/tmp/friends-visual-android-final3.log",
+      "states": 8
+    },
+    "ios": {
+      "result": "passed",
+      "test": "FriendsLayoutTests.testConnectedFriendLayouts",
+      "log": "/tmp/friends-visual-ios-final2.log",
+      "states": 8,
+      "homeRecheck": {
+        "result": "passed",
+        "test": "FriendsLayoutTests.testHomeFriendLayouts",
+        "log": "/tmp/friends-visual-ios-home-final2.log",
+        "states": 3
+      }
+    },
+    "compilation": "Native Screenshots build-for-testing and Android app/test APK builds passed",
+    "qrInvitations": "Captured invitations replaced after recording; no longer valid"
+  },
+  "captures": [
+    {
+      "platform": "ios",
+      "state": "full",
+      "frameID": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "reference": "sketch-before/FBF8D204-738D-48AA-8CA6-33EF5D260667.png",
+      "referenceSHA256": "4c5c19f923620556ec58bacf68a73c9d708067f902914c9161b75af4a3a90fc3",
+      "size": [
+        1206,
+        2622
+      ],
+      "artifacts": {
+        "before": {
+          "native": "ios-before/full.png",
+          "sha256": "a88e1484a4be6d49d37ba193f2700ac012f280a14e74e29ae72e86bb66bf5792",
+          "channels": "comparison-before/ios-full-channels.png",
+          "rgb": "comparison-before/ios-full-rgb.png"
+        },
+        "after": {
+          "native": "ios-after/full.png",
+          "sha256": "15dd381db9b4396394646cf3f521696924d71c36bddb19c4e9c9c8633dbbe2fb",
+          "channels": "comparison-after/ios-full-channels.png",
+          "rgb": "comparison-after/ios-full-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "state": "plus",
+      "frameID": "292CD7D0-CC68-43F8-93E2-DEA77CF1197E",
+      "reference": "sketch-before/292CD7D0-CC68-43F8-93E2-DEA77CF1197E.png",
+      "referenceSHA256": "ce8c5e500941966f08d8371d22a5c68b6a1a1a65322782fcebed0be32d05233e",
+      "size": [
+        1206,
+        2622
+      ],
+      "artifacts": {
+        "before": {
+          "native": "ios-before/plus.png",
+          "sha256": "3b014a1612e885f375148f25ba380b78eae26b72780e82afba45682536d25b48",
+          "channels": "comparison-before/ios-plus-channels.png",
+          "rgb": "comparison-before/ios-plus-rgb.png"
+        },
+        "after": {
+          "native": "ios-after/plus.png",
+          "sha256": "e4e7b6da81d61c96d332b7e0ed320be1d0de8b3d8b18842acebb14d90bfe95dd",
+          "channels": "comparison-after/ios-plus-channels.png",
+          "rgb": "comparison-after/ios-plus-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "state": "avatar",
+      "frameID": "4CCEA451-EF70-4E9E-8730-049475B432BE",
+      "reference": "sketch-before/4CCEA451-EF70-4E9E-8730-049475B432BE.png",
+      "referenceSHA256": "b1abd15808b595b16696c45151d7bd2ec231ce69a42d1bef19d314d8918a054b",
+      "size": [
+        1206,
+        2622
+      ],
+      "artifacts": {
+        "before": {
+          "native": "ios-before/avatar.png",
+          "sha256": "020411463a8caefbd7fd49faac5237ee3049f8b193f51df11ff1da2eb0bb5c5f",
+          "channels": "comparison-before/ios-avatar-channels.png",
+          "rgb": "comparison-before/ios-avatar-rgb.png"
+        },
+        "after": {
+          "native": "ios-after/avatar.png",
+          "sha256": "32a55a35b89a306ffd35c472e16f196277154b2d9d4929cdefb4e971eb1bbdfb",
+          "channels": "comparison-after/ios-avatar-channels.png",
+          "rgb": "comparison-after/ios-avatar-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "state": "qr",
+      "frameID": "87FC2A46-9F70-43BE-996F-0AA52D7DA8C1",
+      "reference": "sketch-before/87FC2A46-9F70-43BE-996F-0AA52D7DA8C1.png",
+      "referenceSHA256": "7360c8aa8803ce31f84789f14b98aa6448ed3e5e14f5ecb31868989ca7d1b98b",
+      "size": [
+        1206,
+        2622
+      ],
+      "artifacts": {
+        "before": {
+          "native": "ios-before/qr.png",
+          "sha256": "c5454dccfcc5d1f9a759dae0c311180ac90248ffeae8ecb484826fbacb7d9a5d",
+          "channels": "comparison-before/ios-qr-channels.png",
+          "rgb": "comparison-before/ios-qr-rgb.png"
+        },
+        "after": {
+          "native": "ios-after/qr.png",
+          "sha256": "a90bb6364fde44a595a1ec6ec423cf3cf71d6a45e59a1bb041e0469ebaacfbcb",
+          "channels": "comparison-after/ios-qr-channels.png",
+          "rgb": "comparison-after/ios-qr-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "state": "profile",
+      "frameID": "BD5D7BE3-D936-4F63-8990-83F89104DA82",
+      "reference": "sketch-before/BD5D7BE3-D936-4F63-8990-83F89104DA82.png",
+      "referenceSHA256": "d51891fc46b3f145f10dce93251fb4b86497797f094bb36bcff7a8c088424b2a",
+      "size": [
+        1206,
+        2622
+      ],
+      "artifacts": {
+        "before": {
+          "native": "ios-before/profile.png",
+          "sha256": "b609b8d4b0e96fa9ea81c81fde7a5319c32d52988569ca6a7c0022cbe05e41d3",
+          "channels": "comparison-before/ios-profile-channels.png",
+          "rgb": "comparison-before/ios-profile-rgb.png"
+        },
+        "after": {
+          "native": "ios-after/profile.png",
+          "sha256": "775b76a3b455607c7ac5b6098c5fab6de86e38a8a3d76c2e1c678530007dee2d",
+          "channels": "comparison-after/ios-profile-channels.png",
+          "rgb": "comparison-after/ios-profile-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "state": "color",
+      "frameID": "E0FA3CF1-4834-4883-9777-BCD9825CE073",
+      "reference": "sketch-before/E0FA3CF1-4834-4883-9777-BCD9825CE073.png",
+      "referenceSHA256": "174a6126d63649d759f0615be9c149bb1bcb4eac9fe5454cfcdc6fc57e6de95d",
+      "size": [
+        1206,
+        2622
+      ],
+      "artifacts": {
+        "before": {
+          "native": "ios-before/color.png",
+          "sha256": "3e58e526cbfe985cc84b39ed8d874e02f56265c44b21ff1b71e278673739a515",
+          "channels": "comparison-before/ios-color-channels.png",
+          "rgb": "comparison-before/ios-color-rgb.png"
+        },
+        "after": {
+          "native": "ios-after/color.png",
+          "sha256": "ea2be93b05ea8f01c738e093a8cb9fedc07e681d11df92b69cddcd354efde7f5",
+          "channels": "comparison-after/ios-color-channels.png",
+          "rgb": "comparison-after/ios-color-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "state": "detail",
+      "frameID": "66F331EE-D94E-4194-8EB5-8230DA7FE722",
+      "reference": "sketch-before/66F331EE-D94E-4194-8EB5-8230DA7FE722.png",
+      "referenceSHA256": "ad37b25d6790623f32e2e0a5bc689504bbac218d9f2821f3a465cdd22eb28a95",
+      "size": [
+        1206,
+        2622
+      ],
+      "artifacts": {
+        "before": {
+          "native": "ios-before/detail.png",
+          "sha256": "434cef495b3d9310ca195c05be899d113a6119be46ba6b8d0e009bc8899d479c",
+          "channels": "comparison-before/ios-detail-channels.png",
+          "rgb": "comparison-before/ios-detail-rgb.png"
+        },
+        "after": {
+          "native": "ios-after/detail.png",
+          "sha256": "508b9eab5ca7d83de5a794eee3e1270899d33c087801101dc4463c884c9c5a0b",
+          "channels": "comparison-after/ios-detail-channels.png",
+          "rgb": "comparison-after/ios-detail-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "state": "recommendations",
+      "frameID": "09377021-939A-4A12-BBC1-F6FF7187C07C",
+      "reference": "sketch-before/09377021-939A-4A12-BBC1-F6FF7187C07C.png",
+      "referenceSHA256": "5b0ec99865b01e6e53898f39b76f55f0b6f71c547abdeb2a04f9ca5650a3d3dc",
+      "size": [
+        1206,
+        2622
+      ],
+      "artifacts": {
+        "before": {
+          "native": "ios-before/recommendations.png",
+          "sha256": "861cb30b279380f609bdfb9f72bb2d3a26046cf55b08302d1e5ab5438aaaa23f",
+          "channels": "comparison-before/ios-recommendations-channels.png",
+          "rgb": "comparison-before/ios-recommendations-rgb.png"
+        },
+        "after": {
+          "native": "ios-after/recommendations.png",
+          "sha256": "5a5548569d6b17f8aa958194bf2ee22ff234febf82664e03378c7052e911d59c",
+          "channels": "comparison-after/ios-recommendations-channels.png",
+          "rgb": "comparison-after/ios-recommendations-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "state": "full",
+      "frameID": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "reference": "sketch-before/57855BDB-8CCD-443E-8408-B103FFFE6C71.png",
+      "referenceSHA256": "f72f38290a4f36afcd25eaca72838bf3e7fb0ca8e543479701a4c6f27107da9f",
+      "size": [
+        1206,
+        2745
+      ],
+      "artifacts": {
+        "before": {
+          "native": "android-before/full.png",
+          "sha256": "e7728084f9769e7c59c9ff9bdaa34279232d99086e6c2db26872d7f73ab686e8",
+          "channels": "comparison-before/android-full-channels.png",
+          "rgb": "comparison-before/android-full-rgb.png"
+        },
+        "after": {
+          "native": "android-after/full.png",
+          "sha256": "5b684045a5db0a3ad2cc799431bab3d7e064318fd1b5b47771aba63d13ff619a",
+          "channels": "comparison-after/android-full-channels.png",
+          "rgb": "comparison-after/android-full-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "state": "plus",
+      "frameID": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "reference": "sketch-before/855D2C71-6AB3-4CEE-927A-FD38E2E82509.png",
+      "referenceSHA256": "0be392916949951b40df475f44b56ce62672642f9210854912f17f1560530cf2",
+      "size": [
+        1206,
+        2745
+      ],
+      "artifacts": {
+        "before": {
+          "native": "android-before/plus.png",
+          "sha256": "eb78079d6b08d341239dd3e592dea9b6f8d24bb30973fe3ffd3ad9ed9940f285",
+          "channels": "comparison-before/android-plus-channels.png",
+          "rgb": "comparison-before/android-plus-rgb.png"
+        },
+        "after": {
+          "native": "android-after/plus.png",
+          "sha256": "77b3a0860ea825f47fcf6669c53b18887e386d1ea1069e15ad8d97f97f263e36",
+          "channels": "comparison-after/android-plus-channels.png",
+          "rgb": "comparison-after/android-plus-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "state": "avatar",
+      "frameID": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "reference": "sketch-before/3F8FB529-040F-472B-AE8B-C1293FCC3E6B.png",
+      "referenceSHA256": "42d08370a5380bc3f246793ebcff357d09ac3174d06b84c511e2a973d260f342",
+      "size": [
+        1206,
+        2745
+      ],
+      "artifacts": {
+        "before": {
+          "native": "android-before/avatar.png",
+          "sha256": "89419961e1f9a9dbc3a026484d13cdb4bb940ab28f163329fa02d309c2810d0b",
+          "channels": "comparison-before/android-avatar-channels.png",
+          "rgb": "comparison-before/android-avatar-rgb.png"
+        },
+        "after": {
+          "native": "android-after/avatar.png",
+          "sha256": "a8a68db4a8a62319c3b606beacb7c119053ed7069b838f076ed7c45a8c24a9c6",
+          "channels": "comparison-after/android-avatar-channels.png",
+          "rgb": "comparison-after/android-avatar-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "state": "qr",
+      "frameID": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "reference": "sketch-before/2B0D3982-8F55-4543-A30D-6ECABF8ED10D.png",
+      "referenceSHA256": "840567b63a5f90142d2f5416ba653300c6192b72a0f6d6d1e3b809809027cbdf",
+      "size": [
+        1206,
+        2745
+      ],
+      "artifacts": {
+        "before": {
+          "native": "android-before/qr.png",
+          "sha256": "222b83f704fba24fc2ea5dbef420d3ecb242f3abcf695c6b13d51be71d4160dc",
+          "channels": "comparison-before/android-qr-channels.png",
+          "rgb": "comparison-before/android-qr-rgb.png"
+        },
+        "after": {
+          "native": "android-after/qr.png",
+          "sha256": "02668fddef65f730fc46ad05feb406937e8aa4d3157a29136ccd4cbc6b6a5f90",
+          "channels": "comparison-after/android-qr-channels.png",
+          "rgb": "comparison-after/android-qr-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "state": "profile",
+      "frameID": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "reference": "sketch-before/FFFBBB37-1075-4128-A668-AFF1F6DC9E6E.png",
+      "referenceSHA256": "e810442b3a0dda13f939f2ced097cbb0da4c61ed4a5cbddaaa3e07c50b762546",
+      "size": [
+        1206,
+        2745
+      ],
+      "artifacts": {
+        "before": {
+          "native": "android-before/profile.png",
+          "sha256": "ec48b2eb153329f0e3a138a919378968d500b581bc1be20a5d5b5664e59dedfe",
+          "channels": "comparison-before/android-profile-channels.png",
+          "rgb": "comparison-before/android-profile-rgb.png"
+        },
+        "after": {
+          "native": "android-after/profile.png",
+          "sha256": "6be0cd0531129c6e10bfd776b675ac75a7d054ec7f9871d59d741b563cadd8c0",
+          "channels": "comparison-after/android-profile-channels.png",
+          "rgb": "comparison-after/android-profile-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "state": "color",
+      "frameID": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "reference": "sketch-before/18E43C9A-4927-4DDA-B208-D35DEB500A2F.png",
+      "referenceSHA256": "c46271c4f4fd3874b9996292aa5d0141d3a4ddca124126eb62578271ea5255de",
+      "size": [
+        1206,
+        2745
+      ],
+      "artifacts": {
+        "before": {
+          "native": "android-before/color.png",
+          "sha256": "4618645d5eca15be616aea081b891c2fb19da92c40146f779850f6311f9c551a",
+          "channels": "comparison-before/android-color-channels.png",
+          "rgb": "comparison-before/android-color-rgb.png"
+        },
+        "after": {
+          "native": "android-after/color.png",
+          "sha256": "9a30739ccb759f7c720aa8ad5bbab1c4ba738bc484191a2485568fd0e5baf8bb",
+          "channels": "comparison-after/android-color-channels.png",
+          "rgb": "comparison-after/android-color-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "state": "detail",
+      "frameID": "D4BF5770-768D-43C5-8827-3082FB018A43",
+      "reference": "sketch-before/D4BF5770-768D-43C5-8827-3082FB018A43.png",
+      "referenceSHA256": "d2ebfdec4234ffa8724df664d3566c7db6d42a916a23c294f1a28a5dc4918cdb",
+      "size": [
+        1206,
+        2745
+      ],
+      "artifacts": {
+        "before": {
+          "native": "android-before/detail.png",
+          "sha256": "fe4a864fcaca90a70d50302fb4b3cdac10373a3a7002de1af014310c18549d20",
+          "channels": "comparison-before/android-detail-channels.png",
+          "rgb": "comparison-before/android-detail-rgb.png"
+        },
+        "after": {
+          "native": "android-after/detail.png",
+          "sha256": "2e18a022cce089094bf9be6cfc18e5f1a46c0370d07560567624a69105a0f497",
+          "channels": "comparison-after/android-detail-channels.png",
+          "rgb": "comparison-after/android-detail-rgb.png"
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "state": "recommendations",
+      "frameID": "4F309228-4274-4AF5-8EA4-5C6D93E0447B",
+      "reference": "sketch-before/4F309228-4274-4AF5-8EA4-5C6D93E0447B.png",
+      "referenceSHA256": "0cbb69d7006ad3d0b17eb6f8763952ca8261e31bed574a94a23e0342a82371de",
+      "size": [
+        1206,
+        2745
+      ],
+      "artifacts": {
+        "before": {
+          "native": "android-before/recommendations.png",
+          "sha256": "03898b6d54620edc29f67607153ca963ae545db98858e72bf86fc8c79385ab14",
+          "channels": "comparison-before/android-recommendations-channels.png",
+          "rgb": "comparison-before/android-recommendations-rgb.png"
+        },
+        "after": {
+          "native": "android-after/recommendations.png",
+          "sha256": "0b2666ae8fc1feb21fc24adca42258f3e0027b0dac299da553b89600d97f4364",
+          "channels": "comparison-after/android-recommendations-channels.png",
+          "rgb": "comparison-after/android-recommendations-rgb.png"
+        }
+      }
+    }
+  ]
+}

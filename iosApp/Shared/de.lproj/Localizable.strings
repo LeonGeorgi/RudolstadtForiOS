@@ -92,7 +92,7 @@
 🙂 - leichtes Interesse
 😊 - großes Interesse
 😍 - sehr großes Interesse
-Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstlerliste. Deine Bewertung kann außerdem verwendet werden, um dir Vorschläge anzuzeigen, wann du Konzerte dieses Künstlers besuchen kannst. Bewertungen werden über iCloud zwischen deinen Geräten synchronisiert und können für eingeladene Freunde sichtbar sein, wenn du dein Festivalprofil teilst.";
+Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstlerliste. Deine Bewertung kann außerdem verwendet werden, um dir Vorschläge anzuzeigen, wann du Konzerte dieses Künstlers besuchen kannst. Nach der Anmeldung werden Bewertungen über dein Konto zwischen deinen Geräten synchronisiert und können für eingeladene Freunde sichtbar sein, wenn du dein Festivalprofil teilst.";
 "artist.ai.header" = "KI-Zusammenfassung";
 "artist.ai.footer" = "Kann Ungenauigkeiten enthalten.";
 "artist.ai.info.ok" = "OK";
@@ -154,6 +154,7 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "schedule.plan.title" = "Mein Plan";
 "schedule.plan.free_time" = "Freie Zeit";
 "schedule.plan.recommended" = "Empfohlenes Konzert";
+"schedule.plan.suggestion" = "Vorschlag";
 "schedule.plan.show_recommendations" = "Empfehlungen einblenden";
 "schedule.plan.walk_minutes" = "%ld Min. Fußweg";
 "schedule.plan.walk_minutes_range" = "%ld–%ld Min. Fußweg";
@@ -174,10 +175,9 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "schedule.plan.tight" = "Anschluss knapp";
 "schedule.plan.estimates" = "Endzeiten und Gehzeiten sind geschätzt.";
 "schedule.zoom.title" = "Zoom";
-"schedule.zoom.overview" = "Übersicht · 70 %";
-"schedule.zoom.standard" = "Standard · 100 %";
-"schedule.zoom.detail" = "Details · 200 %";
-"schedule.zoom.reset" = "Zurücksetzen";
+"schedule.zoom.overview" = "Übersicht";
+"schedule.zoom.standard" = "Standard";
+"schedule.zoom.detail" = "Details";
 "schedule.day.picker" = "Tag";
 "settings.schedule.day_selection" = "Tagesauswahl";
 "settings.schedule.day_selection.toolbar" = "Toolbar-Menü";
@@ -198,7 +198,6 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 
 "filter.button" = "Filtern";
 "filter.clear" = "Filter zurücksetzen";
-"filter.done" = "Fertig";
 "filter.no_events_available" = "Für die aktuellen Filtereinstellungen sind keine Veranstaltungen verfügbar.";
 "filter.artists.title" = "Künstler filtern";
 "filter.artisttypes.title" = "Künstlerart";
@@ -223,7 +222,7 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "more.sync.title" = "Daten & Sync";
 "more.friends.title" = "Freunde";
 "sync.section.title" = "Sync";
-"sync.row.icloud" = "iCloud";
+"sync.row.account" = "Konto";
 "sync.row.sync" = "Sync";
 "sync.row.last_successful_sync" = "Letzter Sync";
 "sync.refresh.button" = "Aktualisieren";
@@ -261,21 +260,8 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "friends.badge.save" = "Speichern";
 "friends.setup.title" = "Freunde einrichten";
 "friends.setup.next.badge" = "Lege zuerst deinen Namen und deine Badge-Farbe fest.";
-"friends.setup.next.icloud_checking" = "Als Nächstes wird deine iCloud-Verfügbarkeit geprüft.";
-"friends.setup.next.icloud_unavailable" = "Mache als Nächstes iCloud verfügbar, um dich mit Freunden zu verbinden.";
 "friends.setup.badge.section" = "1. Badge festlegen";
 "friends.setup.badge.ready" = "Badge ist bereit";
-"friends.setup.icloud.section" = "2. iCloud prüfen";
-"friends.setup.icloud.checking" = "Wird geprüft";
-"friends.setup.icloud.ready" = "Bereit";
-"friends.setup.icloud.unavailable" = "Nicht verfügbar";
-"friends.setup.icloud.retry" = "Erneut prüfen";
-"friends.setup.icloud.reason.unknown" = "Der iCloud-Status konnte nicht ermittelt werden.";
-"friends.setup.icloud.reason.no_account" = "Melde dich in den Einstellungen bei iCloud an, um dein Festivalprofil zu synchronisieren.";
-"friends.setup.icloud.reason.restricted" = "Die iCloud-Synchronisierung ist auf diesem Gerät eingeschränkt.";
-"friends.setup.icloud.reason.temporary" = "iCloud ist vorübergehend nicht verfügbar. Versuche es später erneut.";
-"friends.setup.icloud.reason.unavailable" = "iCloud ist derzeit nicht verfügbar. Versuche es später erneut.";
-"friends.setup.icloud.reason.disabled" = "Die iCloud-Synchronisierung ist für diese App deaktiviert.";
 "friends.setup.connect.preparing" = "Einladung wird vorbereitet …";
 "friends.actions.section" = "Verbinden";
 "friends.scan_qr" = "QR scannen";
@@ -285,11 +271,6 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "friends.together.no_friends" = "Füge einen Freund hinzu, um Empfehlungen aus Freundesplänen und Bewertungen zu sehen.";
 "friends.together.empty" = "Noch keine gespeicherten Konzerte oder Bewertungen von Freunden.";
 "friends.recommendations.title" = "Freundesempfehlungen";
-"friends.recommendations.empty" = "Keine passenden Freundesempfehlungen.";
-"friends.recommendations.filter.title" = "Freunde auswählen";
-"friends.recommendations.filter.all" = "Alle Freunde";
-"friends.recommendations.filter.results.one" = "%lld Empfehlung anzeigen";
-"friends.recommendations.filter.results.other" = "%lld Empfehlungen anzeigen";
 "friends.recommendations.detail.one" = "%lld Künstler aus Freundesplänen und Bewertungen";
 "friends.recommendations.detail.other" = "%lld Künstler aus Freundesplänen und Bewertungen";
 "friends.recommendations.score" = "Score %lld";
@@ -320,18 +301,21 @@ Du findest Künstler, die dich interessieren, unter \"Favoriten\" in der Künstl
 "friends.followed_by.details" = "Details anzeigen";
 "friends.privacy.section" = "Privatsphäre";
 "friends.privacy.summary" = "Dein Plan und deine Bewertungen sind geteilt.";
-"friends.privacy.body" = "Gespeicherte Veranstaltungen und Künstlerbewertungen können mit eingeladenen Freunden geteilt werden. Künstlernotizen bleiben privat und werden nur zwischen deinen eigenen Geräten synchronisiert.";
+"friends.privacy.body" = "Du bestimmst je Freund, ob Konzertmerker, Bewertungen und aktuelle Künstlernotizen geteilt werden. Die Auswahl gilt für alle Festivals. Notizen sind standardmäßig privat; der Notizverlauf bleibt immer privat.";
 "friends.share_unavailable.title" = "Teilen nicht verfügbar";
 "friends.alert.ok" = "OK";
 "friends.share_invite_link.accessibility" = "Einladungslink teilen";
 "friends.show_my_qr_code.accessibility" = "Meinen QR-Code anzeigen";
-"friends.count.saved_event.one" = "%lld gespeicherte Veranstaltung";
-"friends.count.saved_event.other" = "%lld gespeicherte Veranstaltungen";
-"friends.count.rated_artist.one" = "%lld bewerteter Künstler";
-"friends.count.rated_artist.other" = "%lld bewertete Künstler";
 "friends.profile.subtitle.format" = "%1$@ • %2$@";
 "friends.cloud_share.title" = "Rudolstadt-Festival-Auswahl";
 "friends.detail.subtitle" = "Geteiltes Festivalprofil";
+"friends.detail.shared" = "Beide gemerkt";
+"friends.detail.shared.empty" = "Ihr habt keine gemeinsamen Merker.";
+"friends.detail.discoveries" = "Von %@ entdeckt";
+"friends.detail.discoveries.empty" = "Hier gibt es gerade keine weiteren Tipps zu entdecken.";
+"friends.detail.saved_by" = "Merker von %@";
+"friends.detail.ratings_by" = "Bewertungen von %@";
+"friends.detail.rating_value" = "%lld von 3";
 "friends.detail.saved_events.section" = "Gespeicherte Veranstaltungen";
 "friends.detail.saved_events.empty" = "In diesem geteilten Profil sind keine Veranstaltungen gespeichert.";
 "friends.detail.day_header.format" = "%1$@, %2$lld. Juli";
@@ -390,7 +374,7 @@ Zur 34. Festival-Ausgabe begrüßt das Festival Österreich als Länderschwerpun
 
 Die App ist für das Festival 2026 aktuell.
 
-Die App enthält keine Drittanbieter-Analytics, keine Werbe-SDKs und kein Tracking. Deine Festivalprofildaten werden auf deinem Gerät gespeichert und können über Apples iCloud-Dienst zwischen deinen Geräten synchronisiert werden. Wenn du dein Profil teilst, können eingeladene Freunde dein geteiltes Badge, gespeicherte Veranstaltungen und Künstlerbewertungen sehen. Künstlernotizen bleiben privat.";
+Die App enthält keine Drittanbieter-Analytics, keine Werbe-SDKs und kein Tracking. Deine Festivalprofildaten werden lokal gespeichert und mit deinem Firebase-Konto zwischen deinen Geräten synchronisiert. Du entscheidest je Freund, ob Merker, Bewertungen und aktuelle Notizen geteilt werden. Diese Auswahl gilt für alle Festivals. Notizen sind standardmäßig privat; der Notizverlauf bleibt immer auf dein eigenes Konto beschränkt.";
 "about.developer.header" = "Über den Entwickler";
 "about.developer.content" = "Moin, ich bin Leon.
 Als ich 8 Jahre alt war, war ich das erste Mal auf dem Rudolstadt-Festival (damals noch das \"TFF Rudolstadt\"). Seitdem bin ich immer wieder auf das Festival gegangen und finde nach wie vor große Freude daran. Inzwischen habe ich meinen Master in Informatik abgeschlossen und bin mit einem DAAD-Stipendium nach Japan gegangen. Deshalb kann ich dieses Jahr leider nicht beim Festival dabei sein, aber ich hoffe trotzdem, dass euch die App eine schöne Zeit in Rudolstadt erleichtert.
@@ -559,13 +543,12 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "program.event.related" = "Künstler und Ort";
 
 "settings.festival_year" = "Festivaljahr";
-"settings.festival_year.archive_footer" = "Frühere Jahrgänge sind schreibgeschützt. Gespeicherte Termine, Bewertungen und Notizen des gewählten Jahres werden angezeigt.";
+"settings.festival_year.archive_footer" = "Auch in früheren Jahrgängen kannst du Konzerte merken und Künstler bewerten. Neue Einträge werden mit Freunden geteilt, wenn du angemeldet bist.";
 "settings.festival_year.current_footer" = "Aktuelles Festivalprogramm mit deinem persönlichen Plan. Frühere Jahrgänge sind als Archiv verfügbar.";
 "archive.close" = "Fertig";
 
 
 "archive.selected %@" = "Archiv %@";
-"archive.personal_data_unavailable" = "Geteilte Profile sind im Archiv nicht verfügbar.";
 "archive.additional_data_unavailable" = "Nachrichten und Anreisehinweise sind für diesen Jahrgang nicht archiviert.";
 
 // Experimental festival integration
@@ -573,7 +556,7 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "settings.festival.experimental_footer" = "Testeinbindung mit dem gesicherten Spielplan vom 20.–21. Juni 2026. Bewertungen, Notizen und gemerkte Termine werden separat auf diesem Gerät gespeichert. Keine Live-Aktualisierungen, Freigaben oder automatische Zeitplanoptimierung. Ein widersprüchlicher Termin wurde ausgelassen.";
 "festival.experimental.selected %@" = "Test: %@";
 "festival.experimental.additional_data_unavailable" = "Für dieses Festival sind keine Nachrichten oder Anreisehinweise eingebunden.";
-"festival.experimental.sharing_unavailable" = "Gemeinsame Pläne und iCloud-Freigaben sind für diese Testeinbindung nicht verfügbar. Deine Bewertungen, Notizen und gemerkten Termine bleiben auf diesem Gerät.";
+"festival.experimental.sharing_unavailable" = "Gemeinsame Pläne und Freigaben sind für diese Testeinbindung nicht verfügbar. Deine Bewertungen, Notizen und gemerkten Termine bleiben auf diesem Gerät.";
 "festival.locations_unavailable" = "Für diese Bühnen sind keine Kartenpositionen verfügbar.";
 
 // Official festival site plans
@@ -630,3 +613,215 @@ Ich habe diese App in meiner Freizeit gebaut, weil ich das Festivalprogramm bequ
 "program.event.duration" = "%lld Min.";
 
 "settings.always_show_event_details" = "Konzertdetailseiten immer anzeigen";
+
+/* Firebase friends — first cross-platform milestone */
+"firebase.friends.title" = "Freunde";
+"firebase.friends.login_intro" = "Melde dich an, um dein eigenes Profil zu synchronisieren und auf Wunsch Merker und Bewertungen mit Freunden zu teilen.";
+"firebase.friends.apple" = "Mit Apple anmelden";
+"firebase.friends.email" = "E-Mail-Adresse";
+"firebase.friends.send_email" = "Anmeldelink senden";
+"firebase.friends.email_sent" = "Der Anmeldelink wurde versendet. Öffne ihn auf diesem Gerät oder füge ihn unten ein.";
+"firebase.friends.confirm_email" = "Bestätige deine E-Mail-Adresse, um die Anmeldung abzuschließen.";
+"firebase.friends.login_link" = "Anmeldelink einfügen";
+"firebase.friends.finish_email" = "Anmeldung abschließen";
+"firebase.friends.name" = "Dein Profilname";
+"firebase.friends.consent" = "Mit dem Annehmen verbindet ihr eure Konten bei allen Festivals und teilt Bewertungen und Markierungen. Notizen bleiben privat.";
+"firebase.friends.activate" = "Freundesprofil einrichten";
+"firebase.friends.invite" = "Einladung erstellen";
+"firebase.friends.invite_lifetime" = "Einmal verwendbar, sieben Tage gültig. Eine neue Einladung ersetzt die vorherige.";
+"firebase.friends.scan" = "Einladung scannen";
+"firebase.friends.link" = "Einladungslink einfügen";
+"firebase.friends.open_link" = "Einladung öffnen";
+"firebase.friends.preview" = "Einladung prüfen";
+"firebase.friends.accept" = "Gegenseitig verbinden";
+"firebase.friends.dismiss" = "Schließen";
+"firebase.friends.empty" = "Noch keine Freunde verbunden. Lade jemanden ein oder öffne eine Einladung.";
+"firebase.friends.remove" = "Freundschaft beenden";
+"firebase.friends.remove_consent" = "Die Freundschaft und die Freigaben werden bei allen Festivals in beiden Richtungen beendet.";
+"firebase.friends.sign_out" = "Abmelden";
+"firebase.friends.retry" = "Profil erneut übertragen";
+"firebase.friends.error" = "Die Aktion konnte nicht abgeschlossen werden. Prüfe deine Verbindung und versuche es erneut. Einladungen können abgelaufen oder bereits verwendet sein.";
+"firebase.friends.publish_error" = "Deine Änderungen sind auf diesem Gerät gespeichert, konnten aber noch nicht an Freunde übertragen werden.";
+"firebase.friends.wrong_edition" = "Diese Einladung gehört zu einer anderen Festivalausgabe.";
+"firebase.friends.invalid_link" = "Dieser Link ist keine gültige Einladung.";
+"firebase.friends.unavailable" = "Die Freundesfunktion ist noch nicht eingerichtet.";
+"firebase.friends.share" = "Einladung teilen";
+"firebase.friends.details" = "Profil ansehen";
+"firebase.friends.counts" = "%ld Merker · %ld Bewertungen";
+
+"profile.sync.title" = "Eigenes Profil";
+"profile.sync.account" = "Firebase-Konto";
+"profile.sync.signed_out" = "Nicht angemeldet";
+"profile.sync.signed_in" = "Angemeldet";
+"profile.sync.login" = "Für die Synchronisierung anmelden";
+"profile.sync.retry" = "Synchronisierung wiederholen";
+"profile.sync.now" = "Jetzt synchronisieren";
+"profile.sync.footer" = "Dein Konto synchronisiert Merker, Bewertungen, Profilname, Farbe und Notizen zwischen deinen Geräten. Du bestimmst je Freund, was du freigibst; der Notizverlauf bleibt privat.";
+"profile.sync.loading" = "Lokale Profildaten werden geladen …";
+"profile.sync.local" = "Nur auf diesem Gerät. Melde dich zum Synchronisieren an.";
+"profile.sync.connecting" = "Warte auf die Verbindung zu Firebase …";
+"profile.sync.migrating" = "Bestehende Profildaten werden übernommen …";
+"profile.sync.syncing" = "Profiländerungen werden synchronisiert …";
+"profile.sync.ready" = "Dein Profil ist synchronisiert.";
+"profile.sync.error" = "Synchronisierung noch nicht abgeschlossen.";
+"profile.sync.error.local" = "Profildaten konnten auf diesem Gerät nicht sicher gespeichert werden. Bitte erneut versuchen. Vorhandene Daten werden nicht zurückgesetzt.";
+"profile.sync.error.connection" = "Firebase ist gerade nicht erreichbar. Deine Änderungen bleiben auf diesem Gerät gespeichert und werden bei Verbindung erneut übertragen.";
+"settings.festival.experimental_generic_footer" = "Experimentelles Festivalprogramm. Bewertungen, Notizen und gemerkte Termine werden separat auf diesem Gerät gespeichert.";
+
+"firebase.friends.google" = "Mit Google anmelden";
+"firebase.friends.auth_error" = "Die Anmeldung konnte nicht abgeschlossen werden. Prüfe deine Verbindung und versuche es erneut.";
+"firebase.friends.auth_configuration" = "Diese Anmeldeart ist noch nicht vollständig eingerichtet. Bitte versuche es später erneut.";
+"firebase.friends.account_conflict" = "Für diese E-Mail-Adresse besteht bereits ein Konto mit einer anderen Anmeldeart. Melde dich mit der bisher verwendeten Methode an.";
+
+"account.key.title" = "Zugangsschlüssel";
+"account.key.create_account" = "Neues Konto mit Schlüssel erstellen";
+"account.key.input" = "Geheimer Zugangsschlüssel";
+"account.key.sign_in" = "Mit Schlüssel anmelden";
+"account.key.scan" = "Schlüssel scannen";
+"account.key.add" = "Schlüssel erstellen";
+"account.key.replace" = "Schlüssel ersetzen";
+"account.key.replace_title" = "Zugangsschlüssel ersetzen?";
+"account.key.replace_warning" = "Ein vorhandener Schlüssel wird ersetzt und kann danach nicht mehr für neue Anmeldungen verwendet werden. Bereits angemeldete Geräte bleiben angemeldet.";
+"account.key.management_footer" = "Mit einem Zugangsschlüssel kannst du dieses Konto auf weiteren Geräten öffnen. Bewahre ihn wie ein Passwort auf.";
+"account.key.your_key" = "Dein Zugangsschlüssel";
+"account.key.copy" = "Schlüssel kopieren";
+"account.key.done" = "Ich habe den Schlüssel gesichert";
+"account.key.backup_warning" = "Dieser Schlüssel wird nur jetzt angezeigt. Sichere ihn in deinem Passwortmanager. Wer ihn besitzt, hat Zugriff auf dein Konto einschließlich privater Notizen. Gehen Schlüssel und alle angemeldeten Geräte verloren, ist keine Wiederherstellung möglich.";
+"account.key.qr_description" = "QR-Code zum Anmelden auf einem weiteren Gerät";
+"account.key.retry" = "Erneut prüfen";
+"account.key.error.invalid" = "Der Schlüssel ist ungültig oder nicht mehr gültig. Prüfe ihn und versuche es erneut.";
+"account.key.error.rate" = "Zu viele Versuche. Bitte versuche es später erneut.";
+"account.key.error.configuration" = "Die Schlüssel-Anmeldung ist noch nicht vollständig eingerichtet. Bitte versuche es später erneut.";
+"account.key.error.conflict" = "Der Schlüssel wurde auf einem anderen Gerät geändert. Prüfe den Kontostand erneut, bevor du einen neuen Schlüssel erstellst.";
+"account.key.error.connection" = "Die Schlüssel-Aktion konnte nicht abgeschlossen werden. Prüfe deine Verbindung und versuche es erneut.";
+
+"account.delete.action" = "Konto löschen";
+
+"account.delete.title" = "Konto endgültig löschen?";
+
+"account.delete.warning" = "Dein Konto und deine online gespeicherten Daten werden gelöscht, darunter deine privaten Notizen, Freundschaften und Einladungen.\n\nAuf diesem Gerät kannst du dein Profil weiter nutzen.";
+
+"account.delete.warning.apple %@" = "%@\n\nBestätige deine Anmeldung mit Apple noch einmal, um dein Konto zu löschen.";
+
+"account.delete.success" = "Das Konto und seine Cloud-Daten wurden gelöscht. Dein Profil bleibt auf diesem Gerät erhalten.";
+
+"account.delete.pending" = "Die Kontolöschung wird abgeschlossen. Dein Profil bleibt lokal erhalten. Andere Kontoaktionen sind bis zum Abschluss gesperrt.";
+
+"account.delete.retry" = "Löschung fortsetzen";
+
+"account.delete.error.local" = "Dein Profil konnte nicht zuverlässig lokal gespeichert werden. Prüfe den Gerätespeicher und setze die Löschung erneut fort.";
+
+"account.delete.error.auth" = "Die Bestätigung der Anmeldung konnte nicht abgeschlossen werden. Versuche die Kontolöschung erneut.";
+
+"account.delete.error.connection" = "Die Kontolöschung konnte noch nicht bestätigt werden. Prüfe deine Verbindung und setze die Löschung fort. Dein Profil bleibt lokal erhalten.";
+
+"account.title" = "Konto";
+
+"account.profile" = "Mein Profil";
+
+"account.anonymous" = "Anonymes Konto";
+
+"account.login" = "Anmelden";
+
+"account.cancel" = "Abbrechen";
+
+
+
+"account.friends" = "Freigabe an Freunde";
+
+"account.login.email" = "Mit E-Mail anmelden";
+
+"account.login.anonymous" = "Anonymes Konto erstellen";
+
+"account.login.intro" = "Synchronisiere Merker, Bewertungen und private Notizen zwischen deinen Geräten.";
+"account.login.friends_intro" = "Teile Einladungen und sieh, welche Konzerte deine Freunde vorgemerkt haben.";
+"account.login.without_email" = "Ohne E-Mail-Adresse";
+"account.login.email_hint" = "Wir schicken dir einen Anmeldelink an diese Adresse.";
+"account.login.link_sent" = "Anmeldelink gesendet";
+"account.login.link_resent" = "Link erneut gesendet";
+"account.login.open_email_link" = "Öffne den Link in deiner E-Mail auf diesem iPhone, um dich anzumelden.";
+"account.login.resend_link" = "Link erneut senden";
+"account.login.change_email" = "Adresse ändern";
+"account.login.request_new_link" = "Neuen Anmeldelink anfordern";
+"account.login.manual_link_hint" = "Falls du die E-Mail auf einem anderen Gerät liest.";
+
+"account.login.key_hint" = "Ohne E-Mail-Adresse. Sichere den Schlüssel für die Anmeldung auf weiteren Geräten in deinem Passwortmanager.";
+
+"account.login.privacy_hint" = "Notizen sind standardmäßig privat. Du bestimmst später je Freund, ob du sie freigibst.";
+
+"account.login.local_hint" = "Ohne Anmeldung bleiben deine Daten auf diesem Gerät.";
+
+"account.login.link_manually" = "Anmeldelink manuell einfügen";
+
+"account.privacy" = "Datenschutz";
+
+"account.key.recovery_hint" = "Der Schlüssel wird nur beim Erstellen angezeigt. Sichere ihn in deinem Passwortmanager. Ohne Schlüssel und angemeldetes Gerät kannst du dieses Konto nicht wieder öffnen.";
+
+"account.delete.short" = "Konto löschen …";
+
+"account.back" = "Zurück";
+
+"friends.global.save_name" = "Namen speichern";
+
+"friends.global.identity_footer" = "Dieser Name und deine Farbe sind für deine Freunde festivalübergreifend sichtbar.";
+
+"friends.global.loading" = "Freund wird geladen …";
+
+"friends.global.no_data" = "Aktuell sind keine freigegebenen Festivaldaten verfügbar.";
+
+"friends.sharing.mine" = "Meine Freigabe für diesen Freund";
+
+"friends.sharing.saved" = "Konzertmerker";
+
+"friends.sharing.ratings" = "Bewertungen und Symbole";
+
+"friends.sharing.name_only" = "Nur Name und Farbe";
+
+"friends.sharing.receiving" = "Für mich freigegeben";
+
+"friends.sharing.all_festivals" = "Diese Auswahl gilt für diesen Freund bei allen Festivals und Jahren. Notizen werden nur mit aktivierter Freigabe geteilt; ihr Verlauf bleibt privat. Ohne Auswahl sind nur Name und Farbe sichtbar.";
+
+"friends.sharing.invite_snapshot" = "Der Link verwendet die Auswahl beim Erstellen. Für eine andere Auswahl erstelle eine neue Einladung.";
+
+"friends.sharing.edit" = "Freigabe bearbeiten";
+
+"friends.sharing.save" = "Freigabe speichern";
+
+"friends.sharing.notes" = "Aktuelle Notizen";
+
+"friends.notes.unknown_artist" = "Künstler %lld";
+
+"account.key.standalone_only" = "Zugangsschlüssel sind ausschließlich für eigenständige Schlüssel-Konten verfügbar.";
+
+"friends.global.sharing_summary" = "Bewertungen und Markierungen werden bei allen Festivals mit deinen Freunden geteilt. Notizen bleiben privat.";
+
+"friends.ui.profile" = "Mein Profil";
+"friends.ui.setup" = "Profil einrichten";
+"friends.ui.name" = "Name";
+"friends.ui.name.prompt" = "Wie heißt du?";
+"friends.ui.color" = "Badge-Farbe";
+"friends.ui.hue" = "Farbton";
+"friends.ui.color.hint" = "Tippe auf den Farbkreis oder ziehe den Punkt, um die Badge-Farbe zu wählen.";
+"friends.ui.identity.hint" = "Name und Farbe erkennen deine Freunde in allen Festivals wieder.";
+"friends.ui.create.profile" = "Profil erstellen";
+"friends.ui.add" = "Freunde hinzufügen";
+"friends.ui.scan" = "QR-Code scannen";
+"friends.ui.empty" = "Noch keine Freunde";
+"friends.ui.all" = "Alle Freunde";
+"friends.ui.empty.description" = "Lade Freunde ein und entdeckt gemeinsam das Festival.";
+"friends.ui.recommendations.empty" = "Noch keine Empfehlungen aus deinen Freundeslisten.";
+"friends.ui.invitation" = "Einladung";
+"friends.ui.invite.hint" = "Teile den Code oder den Einladungslink.";
+"friends.ui.new.invite" = "Neue Einladung erstellen";
+"friends.ui.accept" = "Freundschaft annehmen";
+"friends.ui.invited.by" = "%@ möchte sich mit dir verbinden.";
+"friends.ui.scan.hint" = "Halte den Einladungs-QR-Code in den Rahmen.";
+"friends.ui.camera" = "Kein Zugriff auf die Kamera";
+"friends.ui.camera.hint" = "Erlaube den Kamerazugriff in den Einstellungen oder tippe auf einen Einladungslink, den du erhalten hast.";
+"friends.ui.settings" = "Systemeinstellungen öffnen";
+"friends.ui.no.content" = "Keine geteilten Inhalte";
+"friends.ui.no.content.hint" = "Für dieses Festivaljahr wurden keine Merker oder Bewertungen geteilt.";
+"friends.ui.saved.count" = "%ld Merker";
+"friends.ui.rating.count" = "%ld Bewertungen";
+
+"friends.ui.tap.badge" = "Tippe auf dein Badge, um die Farbe zu ändern.";

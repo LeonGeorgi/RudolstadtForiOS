@@ -1,0 +1,114 @@
+{
+  "ok": true,
+  "rows": [
+    {
+      "id": "ED216089-ED7E-4B0E-90E6-A551BDD70174",
+      "name": "Ramsch & Rosen",
+      "title": "Ramsch & Rosen",
+      "lines": 1,
+      "titleX": 164,
+      "titleBaseline": 197,
+      "timeBaseline": 197,
+      "dotX": 80,
+      "dotY": 192,
+      "titleLineCenterY": 192,
+      "iconCenterX": 374,
+      "iconCenterY": 192
+    },
+    {
+      "id": "D2DFC18B-A6F9-44A3-9D67-8522F91575A8",
+      "name": "Camila",
+      "title": "Camila Morgenstern",
+      "lines": 1,
+      "titleX": 164,
+      "titleBaseline": 289,
+      "timeBaseline": 289,
+      "dotX": 80,
+      "dotY": 284,
+      "titleLineCenterY": 284,
+      "iconCenterX": 374,
+      "iconCenterY": 284
+    },
+    {
+      "id": "4B699D90-F239-4C34-A8BC-8E71DD953EA2",
+      "name": "Clare Sands",
+      "title": "Clare Sands",
+      "lines": 1,
+      "titleX": 164,
+      "titleBaseline": 405,
+      "timeBaseline": 405,
+      "dotX": 80,
+      "dotY": 400,
+      "titleLineCenterY": 400,
+      "iconCenterX": 374,
+      "iconCenterY": 400
+    },
+    {
+      "id": "296D58D3-7B82-4FB0-B39D-0032D4C35B25",
+      "name": "Trio",
+      "title": "Trio Talan",
+      "lines": 1,
+      "titleX": 164,
+      "titleBaseline": 557,
+      "timeBaseline": 557,
+      "dotX": 80,
+      "dotY": 552,
+      "titleLineCenterY": 552,
+      "iconCenterX": 374,
+      "iconCenterY": 552
+    },
+    {
+      "id": "B69826C0-5407-4295-A081-9F5DD9E3713C",
+      "name": "Bulgarka",
+      "title": "Bulgarka Junior Quartet",
+      "lines": 1,
+      "titleX": 164,
+      "titleBaseline": 629,
+      "timeBaseline": 629,
+      "dotX": 80,
+      "dotY": 624,
+      "titleLineCenterY": 624,
+      "iconCenterX": 374,
+      "iconCenterY": 624
+    }
+  ],
+  "axes": {
+    "timeRight": 64,
+    "timeline": 80,
+    "photoColumn": 100,
+    "text": 164,
+    "trailingAction": 374
+  },
+  "spacing": {
+    "imageToText": 16,
+    "pauseHeight": 32,
+    "walkRowHeight": 40,
+    "interRowGap": 8,
+    "conflictInset": 8,
+    "conflictPhotoToCaption": 8,
+    "conflictBottom": 8
+  },
+  "corners": {
+    "conflict": 16,
+    "savedPhoto": 8,
+    "recommendationPhoto": 6,
+    "routeCircleDiameter": 40
+  },
+  "touchTarget": 48,
+  "date": "2026-11-04",
+  "frame": "CF18EC4E-83D2-4892-B6DB-006A872507A3",
+  "comparison": "Sketch before/after refinement; not an Android simulator comparison",
+  "changes": [
+    "Trailing action axis moved from x362 to x374 to match the top app bar action.",
+    "Artist text width increased from 174 to 186; Bulgarka Junior Quartet now fits on one line.",
+    "Conflict card resized from 294×120 to 302×88 with 8 point content insets and 16/8 concentric outer/photo radii.",
+    "Walking glyph reduced from 20 to 18 inside its 24 point timeline cutout.",
+    "Timeline children pinned to fixed leading/top coordinates to preserve node and pause alignment when its end changes."
+  ],
+  "channelImage": {
+    "file": "mein-plan-android-detail-channels.png",
+    "formula": "R=max(beforeGray-afterGray,0); G=B=max(afterGray-beforeGray,0)",
+    "equalPixels": "black",
+    "beforeBackup": "design/recovery/2026-11-04-before-android-detail-refinement/mein-plan-android@2x.png"
+  }
+}

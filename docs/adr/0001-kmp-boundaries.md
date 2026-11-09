@@ -2,6 +2,10 @@
 
 Status: umgesetzt, aktualisiert am 29. Oktober 2026.
 
+Die damalige CloudKit- und Apple-Beschränkung ist durch
+[ADR 0002](0002-firebase-friends.md) ersetzt. CloudKit ist entfernt; lokale
+Speicherformate bleiben als Importgrenze lesbar.
+
 ## Entscheidung
 
 `shared` ist ein KMP-Bibliotheksmodul mit Android-, JVM- und Apple-Targets,

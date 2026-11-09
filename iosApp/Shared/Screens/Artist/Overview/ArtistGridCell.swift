@@ -215,9 +215,9 @@ private struct ArtistGridCellPreview: View {
         artistID: Int
     ) -> FriendArtistRatingSummary {
         let badges = [
-            FestivalProfileBadge(displayName: "Maya", colorHex: "#B54E9B"),
-            FestivalProfileBadge(displayName: "Sam", colorHex: "#23867A"),
-            FestivalProfileBadge(displayName: "Jo", colorHex: "#D49A1F"),
+            FestivalProfileBadge(displayName: "Maya", hue: 345),
+            FestivalProfileBadge(displayName: "Sam", hue: 165),
+            FestivalProfileBadge(displayName: "Jo", hue: 75),
         ]
         let entries = badges.prefix(count).enumerated().map { index, badge in
             FriendArtistRatingSummary.Entry(

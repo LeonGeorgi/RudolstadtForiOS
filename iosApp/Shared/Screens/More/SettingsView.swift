@@ -27,6 +27,15 @@ struct SettingsView: View {
         )
     }
 
+    private var festivalFooterKey: String {
+        let edition = settings.festivalEdition
+        if edition == .ludwigsburg2026 { return "settings.festival.experimental_footer" }
+        if edition.isExperimental { return "settings.festival.experimental_generic_footer" }
+        return edition.isArchive
+            ? "settings.festival_year.archive_footer"
+            : "settings.festival_year.current_footer"
+    }
+
     var body: some View {
         List {
             Section {
@@ -37,11 +46,11 @@ struct SettingsView: View {
                 }
                 .accessibilityIdentifier("festival-year-picker")
             } footer: {
-                Text(LocalizedStringKey(settings.festivalEdition.isExperimental
-                    ? "settings.festival.experimental_footer"
-                    : settings.festivalEdition.isArchive
-                        ? "settings.festival_year.archive_footer"
-                        : "settings.festival_year.current_footer"))
+                if let message = settings.festivalEdition.metadata.notices.first?.message {
+                    Text(message.resolved())
+                } else {
+                    Text(LocalizedStringKey(festivalFooterKey))
+                }
             }
 
             if dataStore.hasNews {

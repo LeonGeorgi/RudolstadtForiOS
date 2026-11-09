@@ -120,8 +120,13 @@ data class ArtistPublicLink(val year: Int, val artistID: Long, val eventID: Long
             val artistPath = "$year/artists/$id"
             if (path != artistPath && path != "rudolstadt/$artistPath") return null
             // Invalid or ambiguous optional selections must not break an artist link.
-            val event = runCatching { Url(value).parameters.getAll("event") }.getOrNull()
-                ?.singleOrNull()?.takeIf { Regex("[1-9]\\d*").matches(it) }?.toLongOrNull()
+            val event = runCatching {
+                Url(value).parameters.getAll("event")
+            }
+                .getOrNull()
+                ?.singleOrNull()
+                ?.takeIf { Regex("[1-9]\\d*").matches(it) }
+                ?.toLongOrNull()
             return ArtistPublicLink(year, id, event)
         }
     }

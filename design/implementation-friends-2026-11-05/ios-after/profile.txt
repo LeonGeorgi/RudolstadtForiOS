@@ -1,0 +1,33 @@
+Attributes: NavigationBar, 0x1128fb340, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Mein Profil'
+Element subtree:
+ →NavigationBar, 0x1128fb340, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Mein Profil'
+    Button, 0x1128fb480, {{16.0, 62.0}, {44.0, 44.0}}, identifier: 'BackButton', label: 'Freunde'
+    StaticText, 0x1128fb5c0, {{158.7, 73.7}, {84.7, 20.7}}, label: 'Mein Profil'
+Path to element:
+ →Application, 0x1128f9680, pid: 94257, label: 'Rudolstadt'
+  ↳Window (Main), 0x1128f9540, {{0.0, 0.0}, {402.0, 874.0}}
+   ↳Other, 0x1128f9b80, {{0.0, 0.0}, {402.0, 874.0}}
+    ↳Other, 0x1128f9cc0, {{0.0, 0.0}, {402.0, 874.0}}
+     ↳Other, 0x1128f9e00, {{0.0, 0.0}, {402.0, 874.0}}
+      ↳Other, 0x1128f9f40, {{0.0, 0.0}, {402.0, 874.0}}
+       ↳Other, 0x1128fa080, {{0.0, 0.0}, {402.0, 874.0}}
+        ↳Other, 0x1128fa1c0, {{0.0, 0.0}, {402.0, 874.0}}
+         ↳Other, 0x1128fa300, {{0.0, 0.0}, {402.0, 874.0}}
+          ↳Other, 0x1128fbac0, {{0.0, 0.0}, {402.0, 874.0}}
+           ↳Other, 0x1128fa440, {{0.0, 0.0}, {402.0, 874.0}}
+            ↳Other, 0x1128fa580, {{0.0, 0.0}, {402.0, 874.0}}
+             ↳Other, 0x1128fa6c0, {{0.0, 0.0}, {402.0, 874.0}}
+              ↳NavigationBar, 0x1128fb340, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Mein Profil'
+Query chain:
+ →Find: Target Application 'de.leongeorgi.RudolstadtForiOS'
+  Output: {
+    Application, 0x112976940, pid: 94257, label: 'Rudolstadt'
+  }
+  ↪︎Find: Descendants matching type NavigationBar
+    Output: {
+      NavigationBar, 0x1129508c0, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Mein Profil'
+    }
+    ↪︎Find: First Match
+      Output: {
+        NavigationBar, 0x11293d680, {{0.0, 62.0}, {402.0, 54.0}}, identifier: 'Mein Profil'
+      }

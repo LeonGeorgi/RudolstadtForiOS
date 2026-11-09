@@ -5,6 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+// Keep ordinary builds usable before the Firebase project has been configured.
+if (file("google-services.json").exists()) apply(plugin = "com.google.gms.google-services")
+
 android {
     namespace = "de.leongeorgi.rudolstadt.android"
     compileSdk = 36
@@ -29,6 +32,16 @@ android {
 kotlin { jvmToolchain(17) }
 
 dependencies {
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.functions)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.google.code.scanner)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services)
+    implementation(libs.google.id)
+    implementation(libs.zxing)
     implementation(project(":shared"))
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)

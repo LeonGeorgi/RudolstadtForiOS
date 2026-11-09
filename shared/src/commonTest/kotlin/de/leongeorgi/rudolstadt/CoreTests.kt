@@ -180,7 +180,7 @@ class CoreTests {
         val original =
             PersonalProfile(
                 "Me",
-                "#D75A3A",
+                30.0,
                 listOf(3L, 1L, 3L),
                 listOf(ArtistPreference(1, -1, "star")),
                 listOf(ArtistNote(3, "Keep")),
@@ -195,7 +195,7 @@ class CoreTests {
     @Test
     fun noteDeletionAndUnsavingAreExplicit() {
         val original =
-            PersonalProfile(null, null, listOf(2L), artistNotes = listOf(ArtistNote(2, "text")))
+            PersonalProfile(null, 30.0, listOf(2L), artistNotes = listOf(ArtistNote(2, "text")))
         val deleted =
             ProfileReducer.apply(original, ProfileMutation("setArtistNote", 2, text = "  \n "))
         assertTrue(deleted.artistNotes.isEmpty())

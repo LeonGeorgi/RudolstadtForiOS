@@ -92,7 +92,7 @@ struct ArtistDetailView: View {
     }
 
     private func presentNoteEditor() {
-        guard !profile.isReadOnly, artist.isMetadataAvailable else { return }
+        guard profile.userDataPolicy.artistNotes == .editable, artist.isMetadataAvailable else { return }
         noteDraft = ArtistNoteDraft(noteText: artistNote)
         isEditAlertShown = false
         isShowingNoteEditor = true

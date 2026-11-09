@@ -1,0 +1,533 @@
+{
+  "date": "2026-11-05",
+  "document": "design/Rudolstadt.sketch",
+  "page": "Freunde · Abläufe · Firebase",
+  "pageId": "75E97F76-3307-4D85-95CE-EC8776D86E07",
+  "scope": "Sketch concepts only; application and backend code were not changed.",
+  "layout": {
+    "home": [
+      "Horizontal friend recommendations first",
+      "Friends below",
+      "Two toolbar entry points: plus and own avatar"
+    ],
+    "plus": [
+      "Create invitation",
+      "Scan QR code"
+    ],
+    "avatar": [
+      "My profile",
+      "Account"
+    ],
+    "incomingInvitationLink": "Tap the shared link outside the app -> directly display invitation -> confirm friendship. No manual link entry."
+  },
+  "removed": {
+    "permissionScreens": true,
+    "permissionChoicesInInvitation": true,
+    "permissionMenuEntry": true,
+    "manualInvitationLinkScreen": true,
+    "manualInvitationLinkMenuEntry": true,
+    "oldFollowerTerminologyInActiveScreens": true
+  },
+  "screens": {
+    "ios": 15,
+    "android": 15,
+    "contextNote": 1,
+    "exports": 30,
+    "points": {
+      "ios": [
+        402,
+        874
+      ],
+      "android": [
+        402,
+        915
+      ]
+    },
+    "exportScale": 2
+  },
+  "components": {
+    "ios": "Linked Apple iOS 27 UI Kit menus, navigation, lists, buttons, slider; existing local badge/artwork components retained.",
+    "android": "Linked Material 3 app bars, lists, action buttons and slider; existing app navigation and local artwork components retained.",
+    "androidNavigation": "Friends remains a child of More, consistent with appSections in AppNavigation.kt."
+  },
+  "verification": {
+    "savedAndReopened": true,
+    "allThirtyExportsReviewed": true,
+    "visibleRemovedControlTexts": [],
+    "invalidPrototypeLinks": [],
+    "removedScreenIdsAbsent": true,
+    "prototypeEdges": 60,
+    "prototypeSystemActions": "Native sharing and system-settings actions are represented by their buttons; the static Sketch prototype does not execute OS services.",
+    "staticStates": "Illustrative states and external link entry are documented; the prototype does not simulate editable forms, QR recognition, live invitation tokens, Firebase operations, or conditional data changes."
+  },
+  "sources": {
+    "profiles": "Leon, Aya and Mika are illustrative profiles; names, colors, counts and relationships are examples.",
+    "artists": "Existing Festival 2026 Sketch references and bundled API snapshot; images/card content retained rather than replaced with invented live data.",
+    "qr": "Explicit invalid vector design example, not a usable invitation or login key.",
+    "systemChrome": "Library/system illustration, not new native simulator captures."
+  },
+  "backups": [
+    "design/recovery/Rudolstadt-before-friends-firebase-layouts-2026-11-05.sketch",
+    "design/recovery/Rudolstadt-before-removing-friends-permissions-2026-11-05.sketch",
+    "design/recovery/Rudolstadt-before-removing-manual-invite-link-2026-11-05.sketch"
+  ],
+  "frameIds": {
+    "ios": {
+      "ok": true,
+      "full": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "empty": "7CC70A06-B379-406D-A6C2-0327706B6E0D",
+      "qr": "87FC2A46-9F70-43BE-996F-0AA52D7DA8C1",
+      "scan": "7012898B-3AF3-49C6-AE43-EC107334B17D",
+      "accept": "D94F2CAA-DF12-40EF-A5E9-15D3E31B286F",
+      "profile": "BD5D7BE3-D936-4F63-8990-83F89104DA82",
+      "detail": "66F331EE-D94E-4194-8EB5-8230DA7FE722",
+      "unshared": "FA63F7EB-9965-4D53-8558-859C1DD2B1F3",
+      "error": "971B7A54-5141-4CD2-9B21-2338BC9AF6F8",
+      "camera": "F391AE24-DBD2-4680-B9EB-D3FA76051214",
+      "recommendations": "09377021-939A-4A12-BBC1-F6FF7187C07C",
+      "plus": "292CD7D0-CC68-43F8-93E2-DEA77CF1197E",
+      "avatar": "4CCEA451-EF70-4E9E-8730-049475B432BE",
+      "setup": "68B1B6C4-E153-4263-AD59-E3E050A06A44",
+      "color": "E0FA3CF1-4834-4883-9777-BCD9825CE073"
+    },
+    "android": {
+      "full": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "empty": "6067D138-DADD-47CC-8FF7-61C17CF5B3C1",
+      "plus": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "avatar": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "qr": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "scan": "009BF15F-45DA-4C8B-8D89-335CD95CED9E",
+      "accept": "692C7203-5718-4EEE-908B-E3CBCFE3DDE9",
+      "profile": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "detail": "D4BF5770-768D-43C5-8827-3082FB018A43",
+      "unshared": "B0927616-2FC9-403C-95DA-7D2A1DA7F5D3",
+      "error": "EFFA5394-4C9D-4D1D-A6BD-F09C9F6695D7",
+      "camera": "2F6C3A40-881F-4D01-B8B9-5B22045AE523",
+      "recommendations": "4F309228-4274-4AF5-8EA4-5C6D93E0447B",
+      "setup": "FDDB40D9-A3EE-4147-A06F-39F248641EE9",
+      "color": "18E43C9A-4927-4DDA-B208-D35DEB500A2F"
+    }
+  },
+  "prototypeEdges": [
+    {
+      "id": "264255DA-0E0C-4444-8B41-27ED89133DD8",
+      "from": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "target": "292CD7D0-CC68-43F8-93E2-DEA77CF1197E",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "752D7CA1-B1DC-4E3F-AE6B-0EF242B4798A",
+      "from": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "target": "4CCEA451-EF70-4E9E-8730-049475B432BE",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "2634AA85-32A4-4CC1-81C3-BA35FB78BD72",
+      "from": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "target": "09377021-939A-4A12-BBC1-F6FF7187C07C",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "0D108D9E-DC44-4B87-B5CB-937E42AB84CC",
+      "from": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "target": "66F331EE-D94E-4194-8EB5-8230DA7FE722",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "0657A234-A9B0-4A80-834E-3050A427A0C8",
+      "from": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "target": "FA63F7EB-9965-4D53-8558-859C1DD2B1F3",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "7864900D-4BC8-402D-AE66-3CF1FCD2691A",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "target": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "1C5774C2-F6D0-4B38-9573-9DAF62FEA066",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "target": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "DEBA7681-558A-4489-8B3F-0DEFF127B156",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "target": "4F309228-4274-4AF5-8EA4-5C6D93E0447B",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "DD52F75B-6D32-47E7-8BB8-747F505A08F0",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "target": "D4BF5770-768D-43C5-8827-3082FB018A43",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "602D06E8-7114-453E-87F2-B610FAADE06F",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "target": "B0927616-2FC9-403C-95DA-7D2A1DA7F5D3",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "2F0D5F4C-1D66-48A1-8890-FEC072C7CC80",
+      "from": "4CCEA451-EF70-4E9E-8730-049475B432BE",
+      "target": "BD5D7BE3-D936-4F63-8990-83F89104DA82",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "8485043C-6D04-402B-9B76-BAAF13D77F1E",
+      "from": "4CCEA451-EF70-4E9E-8730-049475B432BE",
+      "target": "9FCA5337-F971-477B-BF66-B1E354C70F09",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "DE0D796A-48B5-4E69-9810-4C3FFF60C3A0",
+      "from": "4CCEA451-EF70-4E9E-8730-049475B432BE",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "83829A00-F30F-4A65-96C6-401E8B4FDF02",
+      "from": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "target": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "3DB74353-CE40-4E19-B77D-814E29AFFAC6",
+      "from": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "target": "A1FC9BD3-2D5D-41F1-9A8E-172931A0C1A4",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "7196282C-C041-4CA1-8E8F-186C517D03ED",
+      "from": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "4F92BBA8-2235-47F7-8053-F412E0899AFF",
+      "from": "292CD7D0-CC68-43F8-93E2-DEA77CF1197E",
+      "target": "87FC2A46-9F70-43BE-996F-0AA52D7DA8C1",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "179318A9-5BA1-4E4A-BA20-19DD6179E955",
+      "from": "292CD7D0-CC68-43F8-93E2-DEA77CF1197E",
+      "target": "7012898B-3AF3-49C6-AE43-EC107334B17D",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "8951A028-8C8C-478F-98F7-D1B5F8EB957C",
+      "from": "292CD7D0-CC68-43F8-93E2-DEA77CF1197E",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "AE3A39DB-BBDA-4D2E-A4D0-09D8B3CFDBCA",
+      "from": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "target": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "4B6366AF-1EED-4015-9741-C8C8E24BA08B",
+      "from": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "target": "009BF15F-45DA-4C8B-8D89-335CD95CED9E",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "B9326DD4-7620-4B0E-AFFA-02BCD4D1E5E5",
+      "from": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "59A03C5B-3507-4535-ABC0-D01E964B16B2",
+      "from": "87FC2A46-9F70-43BE-996F-0AA52D7DA8C1",
+      "target": "87FC2A46-9F70-43BE-996F-0AA52D7DA8C1",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "36C70605-BF82-4159-9D65-5D2A0FC26FCB",
+      "from": "87FC2A46-9F70-43BE-996F-0AA52D7DA8C1",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "A71B80BA-524F-4C21-A951-38F29E90A389",
+      "from": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "target": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "14A81ECC-4657-4D46-9D28-3D8C8DC105A1",
+      "from": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "9A9926C7-0A46-4BB7-A658-A4376E9098E8",
+      "from": "7012898B-3AF3-49C6-AE43-EC107334B17D",
+      "target": "D94F2CAA-DF12-40EF-A5E9-15D3E31B286F",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "676DCC9C-E8B7-4584-B9C8-7B3F6C8A4C67",
+      "from": "7012898B-3AF3-49C6-AE43-EC107334B17D",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "027E48B1-3402-45FA-A61F-C4A23F986342",
+      "from": "009BF15F-45DA-4C8B-8D89-335CD95CED9E",
+      "target": "692C7203-5718-4EEE-908B-E3CBCFE3DDE9",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "BFB97506-E5AA-40EB-A9E0-A43F72F16C84",
+      "from": "009BF15F-45DA-4C8B-8D89-335CD95CED9E",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "7E499672-BB22-4B5A-A995-2B6215CE3FC4",
+      "from": "D94F2CAA-DF12-40EF-A5E9-15D3E31B286F",
+      "target": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "4FD7339D-5726-47B4-9B6D-EF410F56504F",
+      "from": "D94F2CAA-DF12-40EF-A5E9-15D3E31B286F",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "8C2B1A08-8BEF-4BE9-9BF9-F652B9E0A475",
+      "from": "692C7203-5718-4EEE-908B-E3CBCFE3DDE9",
+      "target": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "62D9300C-DBBA-4081-B0A4-4BB3D7DAC7B3",
+      "from": "692C7203-5718-4EEE-908B-E3CBCFE3DDE9",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "277DA715-A6BE-4725-B41C-4C1D9B5EFB31",
+      "from": "BD5D7BE3-D936-4F63-8990-83F89104DA82",
+      "target": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "18DF550F-B428-477A-B9AF-AF64C6E20210",
+      "from": "BD5D7BE3-D936-4F63-8990-83F89104DA82",
+      "target": "E0FA3CF1-4834-4883-9777-BCD9825CE073",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "4AF96994-2285-42C6-8608-AE5F5AD85133",
+      "from": "BD5D7BE3-D936-4F63-8990-83F89104DA82",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "5FE57A8D-3EC6-46F4-A3C1-C5C4CDEC574E",
+      "from": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "target": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "D868A7D6-D2AC-4C3D-AB05-A9AAC50339D1",
+      "from": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "target": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "AF3A3F4E-8EF6-4CE0-B828-5669702F1BED",
+      "from": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "8B2F91D5-614C-453F-A8FF-7A4D3186105F",
+      "from": "E0FA3CF1-4834-4883-9777-BCD9825CE073",
+      "target": "BD5D7BE3-D936-4F63-8990-83F89104DA82",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "FA76A1B3-E1B2-43A8-AC92-5161545524E7",
+      "from": "E0FA3CF1-4834-4883-9777-BCD9825CE073",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "1D7FE3AE-8C52-49CA-B850-026B0959C749",
+      "from": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "target": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "2E10459C-ECAD-4064-B86F-EEF05D2B991B",
+      "from": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "241ADBB3-F78C-4419-ABCD-66B60B97F669",
+      "from": "68B1B6C4-E153-4263-AD59-E3E050A06A44",
+      "target": "7CC70A06-B379-406D-A6C2-0327706B6E0D",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "8F0448B2-74EB-4225-87B6-C4BDAFB2DFBE",
+      "from": "68B1B6C4-E153-4263-AD59-E3E050A06A44",
+      "target": "E0FA3CF1-4834-4883-9777-BCD9825CE073",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "7A51FAB6-2616-400B-A680-65B2AD4D7C3F",
+      "from": "68B1B6C4-E153-4263-AD59-E3E050A06A44",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "54B0898E-03A3-4916-B26F-EED6FD3B215C",
+      "from": "FDDB40D9-A3EE-4147-A06F-39F248641EE9",
+      "target": "6067D138-DADD-47CC-8FF7-61C17CF5B3C1",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "F53BE32E-2FF0-4CC9-BC9F-03C2B005F7B7",
+      "from": "FDDB40D9-A3EE-4147-A06F-39F248641EE9",
+      "target": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "back": false,
+      "valid": true
+    },
+    {
+      "id": "45A5693E-78D8-4DA2-8131-5D2378C8DE36",
+      "from": "FDDB40D9-A3EE-4147-A06F-39F248641EE9",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "2D63C16D-CC7C-4437-8FFC-602B24289EA1",
+      "from": "66F331EE-D94E-4194-8EB5-8230DA7FE722",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "C27DA528-6338-455C-A078-7084CEC90999",
+      "from": "D4BF5770-768D-43C5-8827-3082FB018A43",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "D34E3C7A-A24D-4DC5-8EFF-DF84DB506E92",
+      "from": "FA63F7EB-9965-4D53-8558-859C1DD2B1F3",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "DD765349-C6A6-4A73-9938-B3B9BDE6E085",
+      "from": "B0927616-2FC9-403C-95DA-7D2A1DA7F5D3",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "2EA829D1-669A-4F8A-B2A5-320EFB417BD4",
+      "from": "971B7A54-5141-4CD2-9B21-2338BC9AF6F8",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "54F9F20D-C4B5-4ACE-807B-2BAFD0F01982",
+      "from": "EFFA5394-4C9D-4D1D-A6BD-F09C9F6695D7",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "368B85A1-0D45-4EB2-A608-47BCAC3F9CD9",
+      "from": "F391AE24-DBD2-4680-B9EB-D3FA76051214",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "98219552-0229-401F-BAB0-53CA779ABCD2",
+      "from": "2F6C3A40-881F-4D01-B8B9-5B22045AE523",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "57E668E4-ED86-40D2-983C-CFBA3C8995E5",
+      "from": "09377021-939A-4A12-BBC1-F6FF7187C07C",
+      "target": "back",
+      "back": true,
+      "valid": true
+    },
+    {
+      "id": "4968C368-2CEC-4C92-8BBA-614EB3987204",
+      "from": "4F309228-4274-4AF5-8EA4-5C6D93E0447B",
+      "target": "back",
+      "back": true,
+      "valid": true
+    }
+  ]
+}

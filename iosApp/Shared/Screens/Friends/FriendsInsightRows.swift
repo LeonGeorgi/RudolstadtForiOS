@@ -1,6 +1,31 @@
 #if os(iOS)
 import SwiftUI
 
+struct FriendSectionLinkLabel: View {
+    let title: Text
+    var count: Int? = nil
+
+    var body: some View {
+        HStack(spacing: 7) {
+            title
+                .font(.title2.bold())
+                .foregroundStyle(.primary)
+            Image(systemName: "chevron.forward")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
+            if let count {
+                Spacer(minLength: 8)
+                Text(count, format: .number)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+        .contentShape(Rectangle())
+    }
+}
+
 struct FriendsSeeAllRow: View {
     var body: some View {
         Label("friends.together.see_all", systemImage: "list.bullet")
@@ -135,8 +160,7 @@ private struct FriendArtistRecommendationContributionRow: View {
         HStack(alignment: .center, spacing: 6) {
             if showsBadge {
                 FestivalProfileBadgeAvatar(
-                    badge: contribution.badge, diameter: badgeDiameter,
-                    fontScale: 0.4, showsShadow: false
+                    badge: contribution.badge, diameter: badgeDiameter
                 )
                 .accessibilityHidden(true)
             } else if !compact || showsRatingIcon {

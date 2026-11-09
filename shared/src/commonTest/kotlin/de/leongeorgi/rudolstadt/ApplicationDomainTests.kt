@@ -84,7 +84,7 @@ class ApplicationDomainTests {
                 "Friend",
                 null,
                 null,
-                null,
+                30.0,
                 2026,
                 listOf(8),
                 listOf(ArtistPreference(9, 3)),
@@ -120,6 +120,42 @@ class ApplicationDomainTests {
         val shown = SchedulePresentation.shown(listOf(occurrence), "interesting", profile, loading)
         assertEquals(LoadPhase.READY, shown.phase)
         assertSame(occurrence, shown.events.single())
+    }
+
+    @Test
+    fun unsavingAConcertKeepsItsRowUntilTheReplacementPlanDecidesWhetherToRecommendIt() {
+        for (remainsRecommended in listOf(true, false)) {
+            val events = listOf(event(1, 0), event(2, 60), event(3, 120))
+            val model = RecommendationViewModel()
+            model.update(
+                model.beginRefresh(),
+                listOf(2),
+                emptyList(),
+                100.0,
+                savedEventIDs = listOf(1),
+            )
+            val removed = ProfileState(PersonalProfile())
+            model.inputsChanged()
+
+            fun shown(profile: ProfileState = removed, filter: String = "optimal"): List<Long> {
+                val state = SchedulePresentation.shown(events, filter, profile, model.current)
+                assertEquals(LoadPhase.READY, state.phase)
+                return state.events.map { it.eventID }
+            }
+
+            // Preserve the full previous plan during both debounce and calculation.
+            assertEquals(listOf(1L, 2L), shown())
+            assertTrue(shown(filter = "saved").isEmpty())
+            val added = ProfileState(PersonalProfile(savedEventIDs = listOf(3)))
+            assertEquals(listOf(1L, 2L, 3L), shown(added))
+            val request = model.beginRefresh()
+            assertEquals(listOf(1L, 2L), shown())
+
+            val replacement = if (remainsRecommended) listOf(1L, 2L) else listOf(2L)
+            model.update(request, replacement, emptyList(), 101.0)
+            assertEquals(replacement, shown())
+            assertTrue(model.current.savedEventIDs.isEmpty())
+        }
     }
 
     @Test
@@ -289,8 +325,11 @@ class ApplicationDomainTests {
             FestivalDefinitions.rudolstadt(2025, true).metadata.editionKind,
         )
         assertEquals(
-            UserDataAccess.READ_ONLY,
+            UserDataAccess.EDITABLE,
             FestivalDefinitions.rudolstadt(2025, true).metadata.userDataPolicy.savedEvents,
         )
+        val archivePolicy = FestivalDefinitions.rudolstadt(2025, true).metadata.userDataPolicy
+        assertEquals(UserDataAccess.EDITABLE, archivePolicy.artistRatings)
+        assertEquals(UserDataAccess.READ_ONLY, archivePolicy.artistNotes)
     }
 }

@@ -29,7 +29,7 @@
 | App | Festival differences | Current: Rudolstadt 2026 | ✅ | ✅ | — |
 | App | Festival differences | Archives: 2025, 2024, 2023, 2022, 2019 | ✅ | ✅ | — |
 | App | Festival differences | Experimental: Ludwigsburg 2026 | ✅ | ✅ | — |
-| App | Festival differences | Archives: personal data read-only | ✅ | ✅ | — |
+| App | Festival differences | Archives: bookmarks and ratings editable, notes read-only | ✅ | ✅ | — |
 | App | Festival differences | Archives: visible archive notice | ✅ | ✅ | — |
 | App | Festival differences | Experimental: local personal data | ✅ | ✅ | — |
 | App | Festival differences | Experimental: friend sharing unavailable | ✅ | ✅ | Android: Sharing unavailable across all Android editions |

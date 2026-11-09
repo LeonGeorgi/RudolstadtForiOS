@@ -1,6 +1,6 @@
 {
   "badgeName": "Leon",
-  "badgeColorHex": "#3D78E0",
+  "badgeHue": 255,
   "savedEventIDs": [130, 46, 255, 350],
   "artistPreferences": [
     {
@@ -29,7 +29,7 @@
       "title": "Maya's picks",
       "ownerName": "Maya",
       "badgeName": "Maya",
-      "badgeColorHex": "#B54E9B",
+      "badgeHue": 345,
       "festivalYear": 2026,
       "savedEventIDs": [41, 130, 229, 346, 365, 389],
       "artistPreferences": [
@@ -68,7 +68,7 @@
       "title": "Sam's weekend",
       "ownerName": "Sam",
       "badgeName": "Sam",
-      "badgeColorHex": "#23867A",
+      "badgeHue": 165,
       "festivalYear": 2026,
       "savedEventIDs": [28, 46, 66, 73, 229, 357, 390],
       "artistPreferences": [
@@ -108,7 +108,7 @@
       "title": "Lina's route",
       "ownerName": "Lina",
       "badgeName": "Lina",
-      "badgeColorHex": "#D49A1F",
+      "badgeHue": 75,
       "festivalYear": 2026,
       "savedEventIDs": [24, 42, 51, 58, 346, 366, 395],
       "artistPreferences": [
@@ -143,7 +143,7 @@
       "title": "Noah's discoveries",
       "ownerName": "Noah",
       "badgeName": "Noah",
-      "badgeColorHex": "#5E9F42",
+      "badgeHue": 120,
       "festivalYear": 2026,
       "savedEventIDs": [43, 48, 52, 57, 68, 404],
       "artistPreferences": [

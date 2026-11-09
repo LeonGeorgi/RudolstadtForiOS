@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-04",
+  "kind": "Sketch design refinement; no new runtime comparison",
+  "images": {
+    "ios": {
+      "sizePx": [
+        804,
+        1748
+      ],
+      "beforeSha256": "f71a0d6c88207139d803748e7888de9a0faa7c1970ffd253b4b3c849f6fc1a91",
+      "afterSha256": "8b4d52388e8012ca9151314ef36903fdde28afb51d9029ff33f9e5749d93d77d",
+      "channelsSha256": "77e18885b55f4ef5c31632957b12309911f516f0d7108ce5fbf4de8c53a9fc1c",
+      "changedGrayPixels": 50079
+    },
+    "android": {
+      "sizePx": [
+        804,
+        1830
+      ],
+      "beforeSha256": "40fc50c0adbb379e7560f8c6d4c1f851c171dd88c5768813c5be35b804110275",
+      "afterSha256": "5613a9bbedfe080cbad69b6119508d5d58e9d30ad8f1aaa75c4a44bb46e70497",
+      "channelsSha256": "720a74ccb914500a5082f6947bea0a4307fae3faa0bb1e4be977d14f1a937702",
+      "changedGrayPixels": 49277
+    },
+    "ios-standard": {
+      "sizePx": [
+        804,
+        1748
+      ],
+      "beforeSha256": "2b776cf8009cc914b7a74905236f4bd182a58c434c59a82233131fb515abbb3d",
+      "afterSha256": "df1a960563c4afe11de0e7b7ba305df3f73db499a66298d138bbe19d4e3cd77b",
+      "channelsSha256": "53d9c24fa44f4fccb48867729914197c04a4d11afcfd2143ff3bc5540ba7f13c",
+      "changedGrayPixels": 50429
+    },
+    "components": {
+      "sizePx": [
+        1848,
+        1120
+      ],
+      "beforeSha256": "635ee4b8fbce2a563d71a454943054a3b40e236712ff6a791fb63ef93bcd8ed9",
+      "afterSha256": "caf4afeae599e0690c761e79afb3ae2a28915eb9fe921d4a583bd697388bf794",
+      "channelsSha256": "5eb5b4bda9aff66cdff015b70b2a27c5c70427385e80efcd542156fdcba4b1c2",
+      "changedGrayPixels": 49106
+    }
+  },
+  "channelFormula": "d = Gray(after) - Gray(before); RGB = (max(d,0), max(-d,0), max(d,0)); gain 3",
+  "legend": "black: equal; magenta: after lighter; green: after darker",
+  "alignment": "unaligned original exports at 2x; no masks, shifts or smoothing",
+  "changedPages": [
+    "Schedule",
+    "Symbols"
+  ],
+  "allPageAndLayerIDsPreserved": true,
+  "referenceFrameUnchanged": true,
+  "finiteFrames": true,
+  "timelineCardsWithOriginalPositionAndDuration": 43,
+  "visibleCardTextBounds": {
+    "checked": 90,
+    "overflows": 0
+  },
+  "reopen": {
+    "success": true,
+    "documentId": "2E66222C-E991-4EA5-B7B8-5AD6D74685F0"
+  },
+  "dataValidityNote": "Historical layout comparison before API correction; contained manually abbreviated names and unverified sample metadata.",
+  "supersededBy": "../schedule-api-correction-2026-11-04/verification.json"
+}

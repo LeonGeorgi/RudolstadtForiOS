@@ -78,77 +78,112 @@ struct FriendArtistRatingsPresentationModifier: ViewModifier {
     }
 }
 
+private enum FriendRatingsAnchor: Hashable {
+    case avatar(String)
+    case viewport
+}
+
 private struct FriendRatingsAvatarAnchors: PreferenceKey {
-    static let defaultValue: [String: Anchor<CGRect>] = [:]
-    static func reduce(value: inout [String: Anchor<CGRect>], nextValue: () -> [String: Anchor<CGRect>]) {
+    static let defaultValue: [FriendRatingsAnchor: Anchor<CGRect>] = [:]
+    static func reduce(
+        value: inout [FriendRatingsAnchor: Anchor<CGRect>],
+        nextValue: () -> [FriendRatingsAnchor: Anchor<CGRect>]
+    ) {
         value.merge(nextValue(), uniquingKeysWith: { _, new in new })
     }
 }
 
 private struct FriendArtistRatingsOverlay: View {
+    private typealias Motion = FriendArtistRatingsMotion
+    private typealias Entry = FriendArtistRatingSummary.Entry
+
+    private enum Phase: Equatable {
+        case waiting
+        case flying(Motion.Flight)
+        case open
+    }
+
     let artistName: String
     let presentation: FriendRatingsPresentation
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var expanded = false
-    @State private var closing = false
-    @State private var settled = false
-    @State private var openedAt = Date()
-    // Preserve the current pose when closing interrupts the opening animation.
-    @State private var returnStart = FriendArtistRatingsMotion.Values.expanded
-    @State private var avatarFrames: [String: CGRect] = [:]
+    @State private var phase = Phase.waiting
+    @State private var cardVisible = false
+    @State private var layout: [FriendRatingsAnchor: CGRect] = [:]
     @AccessibilityFocusState private var closeFocused: Bool
     @ScaledMetric(relativeTo: .body) private var rowHeight: CGFloat = 60
     @ScaledMetric(relativeTo: .title2) private var headerHeight: CGFloat = 96
 
-    var body: some View {
-        KeyframeAnimator(initialValue: closing ? returnStart : .init(), trigger: expanded) { values in
-            overlay(values: reduceMotion ? .expanded : values)
-        } keyframes: { initial in
-            FriendArtistRatingsMotion.Frames(opening: expanded, initial: initial)
-        }
-        .ignoresSafeArea()
-        .accessibilityAction(.escape, close)
-        .task {
-            openedAt = Date()
-            expanded = true
-            if !reduceMotion {
-                do {
-                    try await Task.sleep(for: .seconds(FriendArtistRatingsMotion.duration))
-                } catch { return }
-            }
-            guard !closing else { return }
-            settled = true
-            closeFocused = true
-        }
-        .task(id: closing) {
-            guard closing else { return }
-            if !reduceMotion {
-                do {
-                    try await Task.sleep(for: .seconds(FriendArtistRatingsMotion.duration))
-                } catch { return }
-            }
-            dismissWithoutTransition()
+    private var badgeCount: Int { presentation.summary.visibleEntries.count }
+    private var flightDuration: TimeInterval { Motion.duration(forFriendCount: presentation.summary.entries.count) }
+    private var settled: Bool { phase == .open }
+
+    private var isFlying: Bool {
+        if case .flying = phase { return true }
+        return false
+    }
+
+    private var playhead: TimeInterval {
+        if reduceMotion { return flightDuration }
+        switch phase {
+        case .waiting: return 0
+        case .flying(let flight): return flight.playhead(at: .now)
+        case .open: return flightDuration
         }
     }
 
-    private func overlay(values: FriendArtistRatingsMotion.Values) -> some View {
+    private var overflow: [Entry] {
+        guard let viewport = layout[.viewport] else { return [] }
+        return presentation.summary.entries.dropFirst(badgeCount).filter { entry in
+            guard let frame = layout[.avatar(entry.id)], !frame.isEmpty else { return false }
+            return viewport.contains(frame)
+        }
+    }
+
+    var body: some View {
+        TimelineView(.animation(paused: !isFlying || reduceMotion)) { _ in
+            overlay(at: playhead, overflow: overflow)
+        }
+        .ignoresSafeArea()
+        .accessibilityAction(.escape, close)
+        .task(id: phase) {
+            switch phase {
+            case .waiting:
+                break
+            case .open:
+                closeFocused = true
+            case .flying(let flight):
+                do {
+                    try await ContinuousClock().sleep(until: flight.deadline)
+                } catch { return }
+                guard phase == .flying(flight) else { return }
+                if flight.to == 0 {
+                    dismissWithoutTransition()
+                } else {
+                    phase = .open
+                }
+            }
+        }
+    }
+
+    private func overlay(at playhead: TimeInterval, overflow: [Entry]) -> some View {
         GeometryReader { geometry in
             let availableHeight = max(0, geometry.size.height - geometry.safeAreaInsets.top - geometry.safeAreaInsets.bottom - 40)
+            let reveal: Double = reduceMotion || cardVisible ? 1 : 0
             ZStack {
-                Color.black.opacity(0.28 * values.reveal)
+                Color.black.opacity(0.28 * reveal)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: close)
                     .accessibilityHidden(true)
 
-                card(values: values)
+                card(at: playhead, overflow: overflow)
                     .frame(
                         width: max(0, min(400, geometry.size.width - 40)),
                         height: min(availableHeight, headerHeight + rowHeight * CGFloat(presentation.summary.entries.count) + 12)
                     )
                     .background(.background, in: RoundedRectangle(cornerRadius: 28))
                     .shadow(color: .black.opacity(0.15), radius: 22, y: 12)
-                    .opacity(values.reveal)
+                    .opacity(reveal)
                     .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 20 + availableHeight / 2)
             }
             .overlayPreferenceValue(FriendRatingsAvatarAnchors.self) { anchors in
@@ -157,16 +192,23 @@ private struct FriendArtistRatingsOverlay: View {
                     Color.clear
                         .overlay {
                             if !settled && !reduceMotion {
-                                flyingBadges(
-                                    values: values,
-                                    frames: closing ? avatarFrames : frames,
-                                    geometry: proxy
-                                )
+                                flyingBadges(at: playhead, overflow: overflow, geometry: proxy)
                             }
                         }
                         .onChange(of: frames, initial: true) { _, frames in
-                            if !closing && !frames.isEmpty {
-                                avatarFrames = frames
+                            // Keep destinations fixed until the badges hand back to their rows.
+                            guard !isFlying, frames[.viewport] != nil else { return }
+                            layout = frames
+                            if phase == .waiting,
+                               reduceMotion || presentation.summary.visibleEntries.allSatisfy({
+                                   frames[.avatar($0.id)] != nil
+                               }) {
+                                phase = reduceMotion ? .open : .flying(
+                                    Motion.Flight(start: .now, from: 0, to: flightDuration)
+                                )
+                                withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.13)) {
+                                    cardVisible = true
+                                }
                             }
                         }
                 }
@@ -177,8 +219,9 @@ private struct FriendArtistRatingsOverlay: View {
         }
     }
 
-    private func card(values: FriendArtistRatingsMotion.Values) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
+    private func card(at playhead: TimeInterval, overflow: [Entry]) -> some View {
+        let fanIndices = Dictionary(uniqueKeysWithValues: overflow.enumerated().map { ($0.element.id, $0.offset) })
+        return VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 12) {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("artist.friend_ratings.title")
@@ -210,24 +253,37 @@ private struct FriendArtistRatingsOverlay: View {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(Array(presentation.summary.entries.enumerated()), id: \.element.id) { index, entry in
-                        row(entry: entry, index: index, values: values)
-                            .frame(minHeight: rowHeight)
+                        let fan = fanIndices[entry.id].map {
+                            Motion.fan(at: playhead, index: $0, count: overflow.count)
+                        }
+                        let progress = Motion.badgeProgress(at: playhead, index: min(index, badgeCount - 1))
+                        let appearance = fan.map { Motion.reveal(($0.spread - 0.65) / 0.35) }
+                            ?? Motion.reveal((progress - 0.85) / 0.15)
+                        let isAnimatedAvatar = index < badgeCount || fan != nil
+                        row(
+                            entry: entry,
+                            appearance: appearance,
+                            avatarOpacity: isAnimatedAvatar && !settled && !reduceMotion ? 0 : appearance
+                        )
+                        .frame(minHeight: rowHeight)
                     }
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 12)
             }
             .scrollDisabled(!settled)
+            .transformAnchorPreference(key: FriendRatingsAvatarAnchors.self, value: .bounds) {
+                $0[.viewport] = $1
+            }
         }
         .accessibilityIdentifier("artist-friend-ratings-overview")
     }
 
-    private func row(entry: FriendArtistRatingSummary.Entry, index: Int, values: FriendArtistRatingsMotion.Values) -> some View {
-        let appearance = reduceMotion ? 1 : FriendArtistRatingsMotion.reveal((values[index] - 0.85) / 0.15)
-        return HStack(spacing: 12) {
-            FestivalProfileBadgeAvatar(badge: entry.badge, diameter: 40, showsShadow: false)
-                .opacity(index < 3 && !settled && !reduceMotion ? 0 : appearance)
-                .anchorPreference(key: FriendRatingsAvatarAnchors.self, value: .bounds) { [entry.id: $0] }
+    private func row(entry: Entry, appearance: Double, avatarOpacity: Double) -> some View {
+        HStack(spacing: 12) {
+            FestivalProfileBadgeAvatar(badge: entry.badge, diameter: 40)
+                .opacity(avatarOpacity)
+                .anchorPreference(key: FriendRatingsAvatarAnchors.self, value: .bounds) { [.avatar(entry.id): $0] }
             VStack(alignment: .leading, spacing: 3) {
                 Text(entry.badge.displayName)
                     .font(.body.weight(.semibold))
@@ -247,35 +303,100 @@ private struct FriendArtistRatingsOverlay: View {
         .accessibilityLabel(Text("\(entry.badge.displayName), \(entry.ratingDescription)"))
     }
 
+    @ViewBuilder
     private func flyingBadges(
-        values: FriendArtistRatingsMotion.Values,
-        frames: [String: CGRect],
+        at playhead: TimeInterval,
+        overflow: [Entry],
         geometry: GeometryProxy
     ) -> some View {
-        ForEach(Array(presentation.summary.visibleEntries.enumerated()), id: \.element.id) { index, entry in
-            if let target = frames[entry.id] {
-                let origin = geometry.frame(in: .global).origin
-                let start = CGPoint(x: presentation.source.minX + 12 + CGFloat(index) * 20 - origin.x, y: presentation.source.midY - origin.y)
-                let end = CGPoint(x: target.midX, y: target.midY)
-                let progress = values[index]
-                let size = 24 + 16 * min(max(progress, 0), 1)
-                FriendArtistRatingBadge(
-                    entry: entry,
-                    style: .detailInline,
-                    diameter: size,
-                    preferenceOpacity: 1 - FriendArtistRatingsMotion.reveal((progress - 0.85) / 0.15)
-                )
-                    .position(FriendArtistRatingsMotion.point(from: start, to: end, index: index, progress: progress))
+        let origin = geometry.frame(in: .global).origin
+        let source = presentation.source.offsetBy(dx: -origin.x, dy: -origin.y)
+        let entries = presentation.summary.visibleEntries
+        if !entries.isEmpty {
+            let middle = entries.count / 2
+            let referenceStart = sourcePoint(index: middle, source: source)
+            let targetHeights = (entries + overflow).compactMap { layout[.avatar($0.id)]?.midY }
+            let control = Motion.controlPoint(
+                from: referenceStart,
+                to: target(for: entries[middle], fallback: referenceStart),
+                targetHeights: targetHeights
+            )
+            ZStack {
+                if presentation.summary.remainingCount > 0 {
+                    flyingOverflow(at: playhead, entries: overflow, source: source, control: control)
+                }
+                ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
+                    let start = sourcePoint(index: index, source: source)
+                    let progress = Motion.badgeProgress(at: playhead, index: index)
+                    FriendArtistRatingBadge(
+                        entry: entry,
+                        style: .detailInline,
+                        diameter: 24 + 16 * progress,
+                        borderOpacity: 1 - Motion.reveal((progress - 0.75) / 0.20),
+                        preferenceOpacity: 1 - Motion.reveal((progress - 0.85) / 0.15)
+                    )
+                    .position(Motion.point(
+                        from: start,
+                        to: target(for: entry, fallback: start),
+                        control: control,
+                        progress: progress
+                    ))
+                    .zIndex(presentation.summary.badgeZIndex(at: index))
+                }
             }
         }
     }
 
+    private func flyingOverflow(
+        at playhead: TimeInterval,
+        entries: [Entry],
+        source: CGRect,
+        control: CGPoint
+    ) -> some View {
+        let start = CGPoint(x: source.maxX - 12, y: source.midY)
+        let groupTarget = entries.first.map { target(for: $0, fallback: start) } ?? start
+        let counter = Motion.counter(at: playhead)
+        let hub = entries.isEmpty ? start : Motion.point(
+            from: start, to: groupTarget, control: control, progress: counter.progress
+        )
+
+        return ZStack {
+            ForEach(Array(entries.enumerated().reversed()), id: \.element.id) { index, entry in
+                let fan = Motion.fan(at: playhead, index: index, count: entries.count)
+                let destination = target(for: entry, fallback: groupTarget)
+                FestivalProfileBadgeAvatar(badge: entry.badge, diameter: 24 + 16 * fan.spread)
+                    .opacity(fan.opacity)
+                    .position(
+                        x: hub.x + (destination.x - groupTarget.x) * fan.spread,
+                        y: hub.y + (destination.y - groupTarget.y) * fan.spread
+                    )
+            }
+            FriendArtistRemainingCountBadge(count: presentation.summary.remainingCount, style: .detailInline)
+                .opacity(counter.opacity)
+                .position(hub)
+        }
+    }
+
+    private func sourcePoint(index: Int, source: CGRect) -> CGPoint {
+        CGPoint(x: source.minX + 12 + CGFloat(index) * 20, y: source.midY)
+    }
+
+    private func target(for entry: Entry, fallback: CGPoint) -> CGPoint {
+        guard let frame = layout[.avatar(entry.id)] else { return fallback }
+        return CGPoint(x: frame.midX, y: frame.midY)
+    }
+
     private func close() {
-        guard !closing else { return }
-        returnStart = settled ? .expanded : FriendArtistRatingsMotion.openingValue(at: Date().timeIntervalSince(openedAt))
-        settled = false
-        closing = true
-        expanded = false
+        if case .flying(let flight) = phase, flight.to == 0 { return }
+        let from = playhead
+        guard !reduceMotion, from > 0 else {
+            dismissWithoutTransition()
+            return
+        }
+        phase = .flying(Motion.Flight(start: .now, from: from, to: 0))
+        withAnimation(.easeInOut(duration: min(0.18, from))) {
+            cardVisible = false
+        }
     }
 
     private func dismissWithoutTransition() {

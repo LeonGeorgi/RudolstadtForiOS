@@ -52,6 +52,7 @@ data class CalendarDate(val year: Int, val month: Int, val day: Int)
 
 fun FestivalDefinition.programMetadata(): ProgramMetadata {
     val access = if (userAccess == "readOnly") UserDataAccess.READ_ONLY else UserDataAccess.EDITABLE
+    val notes = if (artistNotesAccess == "readOnly") UserDataAccess.READ_ONLY else access
     return ProgramMetadata(
         identity,
         name,
@@ -70,7 +71,7 @@ fun FestivalDefinition.programMetadata(): ProgramMetadata {
         if (notice != null && noticeID != null)
             listOf(ProgramNotice(noticeID, NoticeSeverity.WARNING, notice, null, emptyList()))
         else emptyList(),
-        UserDataPolicy(access, access, access),
+        UserDataPolicy(access, access, notes),
     )
 }
 

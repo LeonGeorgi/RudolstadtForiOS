@@ -30,7 +30,7 @@ final class AppServices {
             screenshotDefaults.removePersistentDomain(forName: suiteName)
             resolvedProfileStore = FestivalProfileStore(
                 userDefaults: screenshotDefaults,
-                cloudKitEnabled: false
+                cloudSyncEnabled: false
             )
         } else {
             resolvedProfileStore = festivalProfileStore ?? FestivalProfileStore(userDefaults: userSettings.userDefaults)
@@ -77,7 +77,19 @@ final class AppServices {
         }
 
 #if os(iOS)
-        CloudKitShareAcceptanceController.shared.profileStore = resolvedProfileStore
+        if resolvedProfileStore.usesFirebaseSync {
+            _ = resolvedProfileStore.firebaseOwnProfile
+            // Resume durable account deletion even if the friends screen is not opened.
+            _ = resolvedProfileStore.firebaseFriends
+        }
+        if FirebaseFriendsRuntime.isEnabled {
+            _ = resolvedProfileStore.firebaseFriends
+            for edition in FestivalEdition.availableEditions where edition.isArchive && edition.supportsFirebaseFriends {
+                if userSettings.userDefaults.data(forKey: FirebaseOwnProfileStore.journalKey(year: edition.year)) != nil {
+                    _ = self.dataStore(for: edition)
+                }
+            }
+        }
 #endif
     }
 
@@ -89,8 +101,23 @@ final class AppServices {
             store?.scheduleRecommendationRefresh()
         }
         editionDataStores[edition] = store
+        #if os(iOS)
+        if store.festivalProfileStore.usesFirebaseSync { _ = store.festivalProfileStore.firebaseOwnProfile }
+        #endif
         return store
     }
+
+#if os(iOS)
+    func selectFriendsEdition(_ edition: FestivalEdition) {
+        guard FirebaseFriendsRuntime.isEnabled else { return }
+        let friends = festivalProfileStore.firebaseFriends
+        if edition.supportsFirebaseFriends && edition.isArchive {
+            friends.showArchive(edition: edition.legacySelectionID, profile: dataStore(for: edition).festivalProfileStore)
+        } else {
+            friends.showArchive(edition: nil, profile: nil)
+        }
+    }
+#endif
 
     func refreshOnForeground() async {
         async let cloudRefresh: Void =
@@ -217,8 +244,8 @@ enum ScreenshotRuntime {
             profile.setArtistRating(for: firstDayEvents[1].artist, rating: 1)
         }
 
-        profile.updateBadge(name: "Leon", colorHex: "#8E3A9C")
-        profile.syncStore.iCloudStatus = .available
+        profile.updateBadge(name: "Leon", hue: 315)
+        profile.syncStore.accountStatus = .available
         profile.syncStore.acceptedShareParticipantCount = 2
 
         func firstEventIDs(for artistNames: [String]) -> [Int] {
@@ -244,7 +271,7 @@ enum ScreenshotRuntime {
                 title: "Aya's Festival",
                 ownerName: "Aya",
                 badgeName: "Aya",
-                badgeColorHex: "#3D78E0",
+                badgeHue: 255,
                 festivalYear: DataStore.year,
                 savedEventIDs: firstEventIDs(
                     for: ["Kitty, Daisy & Lewis", "RIAN", "Raquel Martins"]
@@ -256,7 +283,7 @@ enum ScreenshotRuntime {
                 title: "Mika's Festival",
                 ownerName: "Mika",
                 badgeName: "Mika",
-                badgeColorHex: "#B54E9B",
+                badgeHue: 345,
                 festivalYear: DataStore.year,
                 savedEventIDs: firstEventIDs(
                     for: ["RIAN", "Sara Curruchich", "Raquel Martins"]
@@ -267,12 +294,25 @@ enum ScreenshotRuntime {
     }
 }
 
+#if os(iOS)
+private struct FirebaseAccountProfileKey: EnvironmentKey {
+    static let defaultValue: FestivalProfileStore? = nil
+}
+
+extension EnvironmentValues {
+    var firebaseAccountProfile: FestivalProfileStore? {
+        get { self[FirebaseAccountProfileKey.self] }
+        set { self[FirebaseAccountProfileKey.self] = newValue }
+    }
+}
+#endif
+
 extension View {
     @MainActor
     func appEnvironment(_ services: AppServices, edition: FestivalEdition = .current) -> some View {
         let dataStore = services.dataStore(for: edition)
         let profile = dataStore.festivalProfileStore
-        return environmentObject(dataStore)
+        let view = environmentObject(dataStore)
             .environmentObject(services.userSettings)
             .environmentObject(profile)
             .environmentObject(profile.syncStore)
@@ -280,6 +320,12 @@ extension View {
             .environmentObject(dataStore.newsStore)
             .environmentObject(dataStore.recommendationStore)
             .environmentObject(services.iapManager)
+        #if os(iOS)
+        return view.environment(\.firebaseAccountProfile,
+            FirebaseFriendsRuntime.isEnabled && edition.supportsFirebaseFriends ? services.festivalProfileStore : nil)
+        #else
+        return view
+        #endif
     }
 }
 

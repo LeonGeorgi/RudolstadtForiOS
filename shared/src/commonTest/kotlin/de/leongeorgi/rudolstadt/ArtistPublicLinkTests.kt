@@ -8,10 +8,21 @@ class ArtistPublicLinkTests {
     @Test
     fun sharesAndParsesAnOptionalSelectedConcert() {
         val link = ArtistPublicLink(2026, 67, 68)
-        assertEquals("https://festival.leongeorgi.de/rudolstadt/2026/artists/67?event=68", link.url())
+        assertEquals(
+            "https://festival.leongeorgi.de/rudolstadt/2026/artists/67?event=68",
+            link.url(),
+        )
         assertEquals(link, ArtistPublicLink.parse(assertNotNull(link.url())))
-        assertEquals(link, ArtistPublicLink.parse("https://festival.leongeorgi.de/rudolstadt/2026/artists/67/?source=share&event=%36%38#concert"))
-        assertEquals(link, ArtistPublicLink.parse("https://rudolstadt.leongeorgi.de/2026/artists/67?event=68"))
+        assertEquals(
+            link,
+            ArtistPublicLink.parse(
+                "https://festival.leongeorgi.de/rudolstadt/2026/artists/67/?source=share&event=%36%38#concert"
+            ),
+        )
+        assertEquals(
+            link,
+            ArtistPublicLink.parse("https://rudolstadt.leongeorgi.de/2026/artists/67?event=68"),
+        )
         assertNull(ArtistPublicLink(2026, 67, 0).url())
         assertNull(ArtistPublicLink(2026, 67, -1).url())
     }
@@ -19,7 +30,19 @@ class ArtistPublicLinkTests {
     @Test
     fun invalidOrAmbiguousOptionalSelectionsFallBackToTheArtist() {
         val base = "https://festival.leongeorgi.de/rudolstadt/2026/artists/67"
-        for (query in listOf("event=", "event=no", "event=0", "event=-1", "event=+68", "event=068", "event=68&event=244", "event=68&event=68", "event=999999999999999999999999", "source=event%3D68")) {
+        for (query in
+            listOf(
+                "event=",
+                "event=no",
+                "event=0",
+                "event=-1",
+                "event=+68",
+                "event=068",
+                "event=68&event=244",
+                "event=68&event=68",
+                "event=999999999999999999999999",
+                "source=event%3D68",
+            )) {
             assertEquals(ArtistPublicLink(2026, 67), ArtistPublicLink.parse("$base?$query"), query)
         }
         assertEquals(ArtistPublicLink(2026, 67), ArtistPublicLink.parse("$base#?event=68"))
@@ -27,10 +50,20 @@ class ArtistPublicLinkTests {
 
     @Test
     fun onlySelectsAnExistingConcertBelongingToTheLinkedArtist() {
-        fun event(id: Long, artist: Long) = ProgramOccurrence(
-            id, 1000.0, 1000.0, ProgramPlace("stage", mapOf("en" to "Stage")),
-            ProgramArtist(artist, "Artist", false, ProgramArtistDetails(ProgramContent(emptyMap()))), emptyList(),
-        )
+        fun event(id: Long, artist: Long) =
+            ProgramOccurrence(
+                id,
+                1000.0,
+                1000.0,
+                ProgramPlace("stage", mapOf("en" to "Stage")),
+                ProgramArtist(
+                    artist,
+                    "Artist",
+                    false,
+                    ProgramArtistDetails(ProgramContent(emptyMap())),
+                ),
+                emptyList(),
+            )
         val events = listOf(event(68, 67), event(69, 23))
         assertEquals(68L, ArtistPublicLink(2026, 67, 68).selectedEventID(events))
         assertNull(ArtistPublicLink(2026, 67, 69).selectedEventID(events))

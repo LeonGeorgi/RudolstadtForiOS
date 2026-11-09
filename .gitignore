@@ -32,6 +32,13 @@ DerivedData/
 *.keystore
 keystore.properties
 key.properties
+GoogleService-Info.plist
+google-services.json
+**/node_modules/
+firebase/.firebase/
+firebase/.local/
+firebase/*-debug.log
+firebase/functions/*-debug.log
 *.p12
 *.p8
 *.mobileprovision

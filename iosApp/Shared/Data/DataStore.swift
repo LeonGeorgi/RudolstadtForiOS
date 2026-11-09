@@ -300,7 +300,7 @@ final class DataStore: ObservableObject {
             return await group.next() ?? RecommendationSnapshot(recommendedEventIds: [], estimatedEventDurations: [:])
         }
         guard !Task.isCancelled else { return }
-        recommendationStore.update(result, generatedAt: now, token: current)
+        recommendationStore.update(result, generatedAt: now, token: current, savedEventIDs: saved)
     }
 
     func scheduleRecommendationRefresh(now: Date = .now) {

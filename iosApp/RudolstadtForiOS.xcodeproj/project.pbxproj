@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FC52000230030001004F9471 /* PersonalPlanTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */; };
-		FC52000330030001004F9471 /* PersonalPlanTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */; };
 		12F57F438C89D8ADE35F8DCF /* Shared/Core/FestivalDurationResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BD785E2C3A746DB0F0E0F9 /* Shared/Core/FestivalDurationResolver.swift */; };
 		1ACD2AD1177B68294EF2BA2F /* Shared/Data/FestivalSourceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592B9CA3F6953CCF8CDEB9E /* Shared/Data/FestivalSourceAdapter.swift */; };
 		2B59811E9A4186FB002BFF6C /* Shared/Core/FestivalInterfaceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEAAB47D3D8E82F6B770A81 /* Shared/Core/FestivalInterfaceUtilities.swift */; };
@@ -232,24 +230,14 @@
 		C10000092FD00001004F9471 /* FestivalProfileModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000112FD00001004F9471 /* FestivalProfileModels.swift */; };
 		C100000A2FD00001004F9471 /* FestivalProfileStore+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000122FD00001004F9471 /* FestivalProfileStore+Helpers.swift */; };
 		C100000B2FD00001004F9471 /* FestivalProfileStore+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000122FD00001004F9471 /* FestivalProfileStore+Helpers.swift */; };
-		C100000C2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000132FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift */; };
-		C100000D2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000132FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift */; };
 		C20000012FE00001004F9471 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000002FE00001004F9471 /* AppLog.swift */; };
 		C20000022FE00001004F9471 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000002FE00001004F9471 /* AppLog.swift */; };
 		C20000042FE00001004F9471 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000032FE00001004F9471 /* AppServices.swift */; };
 		C20000052FE00001004F9471 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000032FE00001004F9471 /* AppServices.swift */; };
 		C20000072FE00001004F9471 /* FestivalDataGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000062FE00001004F9471 /* FestivalDataGate.swift */; };
 		C20000082FE00001004F9471 /* FestivalDataGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000062FE00001004F9471 /* FestivalDataGate.swift */; };
-		C200000A2FE00001004F9471 /* CloudKitShareAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000092FE00001004F9471 /* CloudKitShareAppDelegate.swift */; };
-		C200000B2FE00001004F9471 /* CloudKitShareAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20000092FE00001004F9471 /* CloudKitShareAppDelegate.swift */; };
 		C30000012FF00001004F9471 /* FestivalProfileLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000052FF00001004F9471 /* FestivalProfileLogic.swift */; };
 		C30000022FF00001004F9471 /* FestivalProfileLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000052FF00001004F9471 /* FestivalProfileLogic.swift */; };
-		C30000032FF00001004F9471 /* FestivalProfileCloudKitMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000062FF00001004F9471 /* FestivalProfileCloudKitMapping.swift */; };
-		C30000042FF00001004F9471 /* FestivalProfileCloudKitMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000062FF00001004F9471 /* FestivalProfileCloudKitMapping.swift */; };
-		C40000022FF50001004F9471 /* FestivalProfileSyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40000012FF50001004F9471 /* FestivalProfileSyncCoordinator.swift */; };
-		C40000032FF50001004F9471 /* FestivalProfileSyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40000012FF50001004F9471 /* FestivalProfileSyncCoordinator.swift */; };
-		C40000052FF50001004F9471 /* FestivalProfileSharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40000042FF50001004F9471 /* FestivalProfileSharingService.swift */; };
-		C40000062FF50001004F9471 /* FestivalProfileSharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40000042FF50001004F9471 /* FestivalProfileSharingService.swift */; };
 		CA1000010000000000000001 /* Shared/Core/KotlinCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1000010000000000000003 /* Shared/Core/KotlinCore.swift */; };
 		CA1000010000000000000002 /* Shared/Core/KotlinCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1000010000000000000003 /* Shared/Core/KotlinCore.swift */; };
 		CE1943E67FA6C6288E07DFAE /* Shared/Data/FestivalRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7741C627008D880FD3664853 /* Shared/Data/FestivalRegistry.swift */; };
@@ -288,15 +276,8 @@
 		E10000132FE00001004F9471 /* FriendsTogetherHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000062FE00001004F9471 /* FriendsTogetherHelpers.swift */; };
 		E10000142FE00001004F9471 /* FriendsTogetherListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000072FE00001004F9471 /* FriendsTogetherListView.swift */; };
 		E10000152FE00001004F9471 /* FriendsTogetherListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000072FE00001004F9471 /* FriendsTogetherListView.swift */; };
-		FC41000230020001004F9471 /* FriendRecommendationArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */; };
-		FC41000330020001004F9471 /* FriendRecommendationArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */; };
-		FC41000530020001004F9471 /* FriendRecommendationArtworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41000430020001004F9471 /* FriendRecommendationArtworkTests.swift */; };
 		E10000162FE00001004F9471 /* FriendsInsightRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000082FE00001004F9471 /* FriendsInsightRows.swift */; };
 		E10000172FE00001004F9471 /* FriendsInsightRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000082FE00001004F9471 /* FriendsInsightRows.swift */; };
-		E10000182FE00001004F9471 /* FriendsSharingSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000092FE00001004F9471 /* FriendsSharingSheets.swift */; };
-		E10000192FE00001004F9471 /* FriendsSharingSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000092FE00001004F9471 /* FriendsSharingSheets.swift */; };
-		E100001A2FE00001004F9471 /* FriendsCloudSharingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E100000A2FE00001004F9471 /* FriendsCloudSharingViews.swift */; };
-		E100001B2FE00001004F9471 /* FriendsCloudSharingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E100000A2FE00001004F9471 /* FriendsCloudSharingViews.swift */; };
 		E100001C2FE00001004F9471 /* FriendsQRCodeViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E100000B2FE00001004F9471 /* FriendsQRCodeViews.swift */; };
 		E100001D2FE00001004F9471 /* FriendsQRCodeViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E100000B2FE00001004F9471 /* FriendsQRCodeViews.swift */; };
 		E100001E2FE00001004F9471 /* SharedFestivalProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E100000C2FE00001004F9471 /* SharedFestivalProfileDetailView.swift */; };
@@ -354,8 +335,10 @@
 		F582E77621894A1E9C789C1E /* EventContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2E36A802794C54B20DBD81 /* EventContextMenu.swift */; };
 		F60000022FF10001004F9471 /* PatrickHand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */; };
 		F60000032FF10001004F9471 /* PatrickHand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */; };
+		F61000022FF10001004F9471 /* GoogleSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F61000012FF10001004F9471 /* GoogleSans-Medium.ttf */; };
 		F61000022FFF0001004F9471 /* FestivalListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61000012FFF0001004F9471 /* FestivalListRow.swift */; };
 		F61000032FFF0001004F9471 /* FestivalListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61000012FFF0001004F9471 /* FestivalListRow.swift */; };
+		F61000042FF10001004F9471 /* GoogleSans-OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = F61000032FF10001004F9471 /* GoogleSans-OFL.txt */; };
 		F90000142FF90001004F9471 /* StageLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90000042FF90001004F9471 /* StageLocationTests.swift */; };
 		F93000022FFB0001004F9471 /* FestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93000012FFB0001004F9471 /* FestivalDataProvider.swift */; };
 		F93000032FFB0001004F9471 /* FestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93000012FFB0001004F9471 /* FestivalDataProvider.swift */; };
@@ -391,6 +374,8 @@
 		F9A000032FFC0001004F9471 /* MapSheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A000012FFC0001004F9471 /* MapSheetPresentation.swift */; };
 		FA1000022FFD0001004F9471 /* DetailTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1000012FFD0001004F9471 /* DetailTags.swift */; };
 		FA1000032FFD0001004F9471 /* DetailTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1000012FFD0001004F9471 /* DetailTags.swift */; };
+		FA1100010000000000000002 /* FirebaseAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1100010000000000000001 /* FirebaseAccountView.swift */; };
+		FA1100020000000000000002 /* FirebaseLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1100020000000000000001 /* FirebaseLoginView.swift */; };
 		FA2000022FFD0001004F9471 /* DetailHeroHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2000012FFD0001004F9471 /* DetailHeroHeader.swift */; };
 		FA2000032FFD0001004F9471 /* DetailHeroHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2000012FFD0001004F9471 /* DetailHeroHeader.swift */; };
 		FA3000022FFD0001004F9471 /* EventAccessories.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3000012FFD0001004F9471 /* EventAccessories.swift */; };
@@ -398,10 +383,28 @@
 		FAD100022FFC1001004F9471 /* FriendArtistRatingsMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100012FFC1001004F9471 /* FriendArtistRatingsMotion.swift */; };
 		FAD100042FFC1001004F9471 /* FriendArtistRatingsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */; };
 		FAD100062FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */; };
+		FB1000000000000000000002 /* FirebaseFriendsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1000000000000000000001 /* FirebaseFriendsStore.swift */; };
+		FB1000010000000000000002 /* FirebaseFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1000010000000000000001 /* FirebaseFriendsView.swift */; };
+		FB1000020000000000000002 /* FirebaseOwnProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1000020000000000000001 /* FirebaseOwnProfileStore.swift */; };
+		FB1000030000000000000002 /* FirebaseOwnProfileStatusSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1000030000000000000001 /* FirebaseOwnProfileStatusSection.swift */; };
+		FB1000040000000000000002 /* AppNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1000040000000000000001 /* AppNotificationDelegate.swift */; };
+		FB1000200000000000000002 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FB1000200000000000000001 /* FirebaseAuth */; };
+		FB1000210000000000000002 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FB1000210000000000000001 /* FirebaseFirestore */; };
+		FB1000220000000000000002 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = FB1000220000000000000001 /* FirebaseFunctions */; };
+		FB1000230000000000000002 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = FB1000230000000000000001 /* GoogleSignIn */; };
+		FB1000240000000000000002 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FB1000240000000000000001 /* GoogleSignInSwift */; };
 		FB71000230010001004F9471 /* ProgramDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71000130010001004F9471 /* ProgramDiscoveryView.swift */; };
 		FB71000330010001004F9471 /* ProgramDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71000130010001004F9471 /* ProgramDiscoveryView.swift */; };
 		FC30000230020001004F9471 /* ArtistMapKitWorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC30000130020001004F9471 /* ArtistMapKitWorldMap.swift */; };
-		FC30000430020001004F9471 /* ArtistMapKitWorldMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC30000330020001004F9471 /* ArtistMapKitWorldMapTests.swift */; };
+		FC30000430020001004F9471 /* Unit Tests/Presentation/ArtistMapKitWorldMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC30000330020001004F9471 /* Unit Tests/Presentation/ArtistMapKitWorldMapTests.swift */; };
+		FC41000230020001004F9471 /* FriendRecommendationArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */; };
+		FC41000330020001004F9471 /* FriendRecommendationArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */; };
+		FC41000530020001004F9471 /* Unit Tests/Presentation/FriendRecommendationArtworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41000430020001004F9471 /* Unit Tests/Presentation/FriendRecommendationArtworkTests.swift */; };
+		FC52000230030001004F9471 /* PersonalPlanTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */; };
+		FC52000330030001004F9471 /* PersonalPlanTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */; };
+		FCFA00010000000000000001 /* Shared/Data/FantasyFestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFA00010000000000000003 /* Shared/Data/FantasyFestivalDataProvider.swift */; };
+		FCFA00010000000000000002 /* Shared/Data/FantasyFestivalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFA00010000000000000003 /* Shared/Data/FantasyFestivalDataProvider.swift */; };
+		FCFA00010000000000000004 /* Unit Tests/Domain/FantasyFestivalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFA00010000000000000005 /* Unit Tests/Domain/FantasyFestivalTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -468,7 +471,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalPlanTimelineView.swift; sourceTree = "<group>"; };
 		0A2E36A802794C54B20DBD81 /* EventContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventContextMenu.swift; sourceTree = "<group>"; };
 		2616A060C2AB6AE75EE270BA /* Shared/Data/FestivalFeatureCatalogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/Data/FestivalFeatureCatalogs.swift; sourceTree = SOURCE_ROOT; };
 		32A1107C6295E7BA267D0F71 /* ArtistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
@@ -606,15 +608,10 @@
 		C10000072FD00001004F9471 /* iOS/iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOS/iOS.entitlements; sourceTree = "<group>"; };
 		C10000112FD00001004F9471 /* FestivalProfileModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileModels.swift; sourceTree = "<group>"; };
 		C10000122FD00001004F9471 /* FestivalProfileStore+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FestivalProfileStore+Helpers.swift"; sourceTree = "<group>"; };
-		C10000132FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FestivalProfileStore+CloudKitEvent.swift"; sourceTree = "<group>"; };
 		C20000002FE00001004F9471 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		C20000032FE00001004F9471 /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
 		C20000062FE00001004F9471 /* FestivalDataGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalDataGate.swift; sourceTree = "<group>"; };
-		C20000092FE00001004F9471 /* CloudKitShareAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitShareAppDelegate.swift; sourceTree = "<group>"; };
 		C30000052FF00001004F9471 /* FestivalProfileLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileLogic.swift; sourceTree = "<group>"; };
-		C30000062FF00001004F9471 /* FestivalProfileCloudKitMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileCloudKitMapping.swift; sourceTree = "<group>"; };
-		C40000012FF50001004F9471 /* FestivalProfileSyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileSyncCoordinator.swift; sourceTree = "<group>"; };
-		C40000042FF50001004F9471 /* FestivalProfileSharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileSharingService.swift; sourceTree = "<group>"; };
 		CA1000010000000000000003 /* Shared/Core/KotlinCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/Core/KotlinCore.swift; sourceTree = SOURCE_ROOT; };
 		D10000032FD10001004F9471 /* EventTimeBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTimeBadge.swift; sourceTree = "<group>"; };
 		D10000062FD10001004F9471 /* FestivalProfileBadgeAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalProfileBadgeAvatar.swift; sourceTree = "<group>"; };
@@ -633,11 +630,7 @@
 		E10000052FE00001004F9471 /* FriendsLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsLocalization.swift; sourceTree = "<group>"; };
 		E10000062FE00001004F9471 /* FriendsTogetherHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTogetherHelpers.swift; sourceTree = "<group>"; };
 		E10000072FE00001004F9471 /* FriendsTogetherListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTogetherListView.swift; sourceTree = "<group>"; };
-		FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRecommendationArtwork.swift; sourceTree = "<group>"; };
-		FC41000430020001004F9471 /* FriendRecommendationArtworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FriendRecommendationArtworkTests.swift"; sourceTree = SOURCE_ROOT; };
 		E10000082FE00001004F9471 /* FriendsInsightRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsInsightRows.swift; sourceTree = "<group>"; };
-		E10000092FE00001004F9471 /* FriendsSharingSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSharingSheets.swift; sourceTree = "<group>"; };
-		E100000A2FE00001004F9471 /* FriendsCloudSharingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCloudSharingViews.swift; sourceTree = "<group>"; };
 		E100000B2FE00001004F9471 /* FriendsQRCodeViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsQRCodeViews.swift; sourceTree = "<group>"; };
 		E100000C2FE00001004F9471 /* SharedFestivalProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFestivalProfileDetailView.swift; sourceTree = "<group>"; };
 		E20000032FE10001004F9471 /* ArtistEventsBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistEventsBlock.swift; sourceTree = "<group>"; };
@@ -676,7 +669,9 @@
 		F50000062FE40001004F9471 /* StageWalkingDistanceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageWalkingDistanceProvider.swift; sourceTree = "<group>"; };
 		F50000092FE40001004F9471 /* FestivalSchedulePlanningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalSchedulePlanningTests.swift; sourceTree = "<group>"; };
 		F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "PatrickHand-Regular.ttf"; sourceTree = "<group>"; };
+		F61000012FF10001004F9471 /* GoogleSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "GoogleSans-Medium.ttf"; sourceTree = "<group>"; };
 		F61000012FFF0001004F9471 /* FestivalListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalListRow.swift; sourceTree = "<group>"; };
+		F61000032FF10001004F9471 /* GoogleSans-OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "GoogleSans-OFL.txt"; sourceTree = "<group>"; };
 		F90000042FF90001004F9471 /* StageLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageLocationTests.swift; sourceTree = "<group>"; };
 		F93000012FFB0001004F9471 /* FestivalDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalDataProvider.swift; sourceTree = "<group>"; };
 		F94000012FFC0001004F9471 /* RudolstadtArchiveDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RudolstadtArchiveDataProvider.swift; sourceTree = "<group>"; };
@@ -696,14 +691,26 @@
 		F99000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FestivalMapSheetTests.swift"; sourceTree = SOURCE_ROOT; };
 		F9A000012FFC0001004F9471 /* MapSheetPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSheetPresentation.swift; sourceTree = "<group>"; };
 		FA1000012FFD0001004F9471 /* DetailTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTags.swift; sourceTree = "<group>"; };
+		FA1100010000000000000001 /* FirebaseAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAccountView.swift; sourceTree = "<group>"; };
+		FA1100020000000000000001 /* FirebaseLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseLoginView.swift; sourceTree = "<group>"; };
 		FA2000012FFD0001004F9471 /* DetailHeroHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHeroHeader.swift; sourceTree = "<group>"; };
 		FA3000012FFD0001004F9471 /* EventAccessories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAccessories.swift; sourceTree = "<group>"; };
 		FAD100012FFC1001004F9471 /* FriendArtistRatingsMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingsMotion.swift; sourceTree = "<group>"; };
 		FAD100032FFC1001004F9471 /* FriendArtistRatingsPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendArtistRatingsPresentation.swift; sourceTree = "<group>"; };
 		FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift"; sourceTree = SOURCE_ROOT; };
+		FB1000000000000000000001 /* FirebaseFriendsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFriendsStore.swift; sourceTree = "<group>"; };
+		FB1000010000000000000001 /* FirebaseFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFriendsView.swift; sourceTree = "<group>"; };
+		FB1000020000000000000001 /* FirebaseOwnProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseOwnProfileStore.swift; sourceTree = "<group>"; };
+		FB1000030000000000000001 /* FirebaseOwnProfileStatusSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseOwnProfileStatusSection.swift; sourceTree = "<group>"; };
+		FB1000040000000000000001 /* AppNotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotificationDelegate.swift; sourceTree = "<group>"; };
 		FB71000130010001004F9471 /* ProgramDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDiscoveryView.swift; sourceTree = "<group>"; };
 		FC30000130020001004F9471 /* ArtistMapKitWorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistMapKitWorldMap.swift; sourceTree = "<group>"; };
-		FC30000330020001004F9471 /* ArtistMapKitWorldMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/ArtistMapKitWorldMapTests.swift"; sourceTree = SOURCE_ROOT; };
+		FC30000330020001004F9471 /* Unit Tests/Presentation/ArtistMapKitWorldMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/ArtistMapKitWorldMapTests.swift"; sourceTree = SOURCE_ROOT; };
+		FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRecommendationArtwork.swift; sourceTree = "<group>"; };
+		FC41000430020001004F9471 /* Unit Tests/Presentation/FriendRecommendationArtworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Presentation/FriendRecommendationArtworkTests.swift"; sourceTree = SOURCE_ROOT; };
+		FC52000130030001004F9471 /* PersonalPlanTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalPlanTimelineView.swift; sourceTree = "<group>"; };
+		FCFA00010000000000000003 /* Shared/Data/FantasyFestivalDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/Data/FantasyFestivalDataProvider.swift; sourceTree = SOURCE_ROOT; };
+		FCFA00010000000000000005 /* Unit Tests/Domain/FantasyFestivalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit Tests/Domain/FantasyFestivalTests.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -711,6 +718,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB1000220000000000000002 /* FirebaseFunctions in Frameworks */,
+				FB1000210000000000000002 /* FirebaseFirestore in Frameworks */,
+				FB1000200000000000000002 /* FirebaseAuth in Frameworks */,
+				FB1000240000000000000002 /* GoogleSignInSwift in Frameworks */,
+				FB1000230000000000000002 /* GoogleSignIn in Frameworks */,
 				F40000032FE20001004F9471 /* YouTubePlayerKit in Frameworks */,
 				B20000012FC00001004F9471 /* LazyPager in Frameworks */,
 				A10000502FBE0001004F9471 /* Nuke in Frameworks */,
@@ -897,6 +909,7 @@
 				356A65C62BE809360006761D /* DonationView.swift */,
 				32A11EABD81D0BA97B963376 /* MoreView.swift */,
 				C10000062FD00001004F9471 /* SyncStatusView.swift */,
+				FB1000030000000000000001 /* FirebaseOwnProfileStatusSection.swift */,
 				A10000222FA10001004F9471 /* Components */,
 				A10000232FA10001004F9471 /* Support */,
 			);
@@ -956,6 +969,7 @@
 				3551CC8028043DA2004F9471 /* DataModel.swift */,
 				3551CC8328043E8D004F9471 /* DataStore.swift */,
 				7741C627008D880FD3664853 /* Shared/Data/FestivalRegistry.swift */,
+				FCFA00010000000000000003 /* Shared/Data/FantasyFestivalDataProvider.swift */,
 				B592B9CA3F6953CCF8CDEB9E /* Shared/Data/FestivalSourceAdapter.swift */,
 				2616A060C2AB6AE75EE270BA /* Shared/Data/FestivalFeatureCatalogs.swift */,
 				36BD785E2C3A746DB0F0E0F9 /* Shared/Core/FestivalDurationResolver.swift */,
@@ -990,6 +1004,8 @@
 			isa = PBXGroup;
 			children = (
 				F60000012FF10001004F9471 /* PatrickHand-Regular.ttf */,
+				F61000012FF10001004F9471 /* GoogleSans-Medium.ttf */,
+				F61000032FF10001004F9471 /* GoogleSans-OFL.txt */,
 				A1B2C3D62F9A0001004F9471 /* Rudolstadt.icon */,
 				353596FB2F9324F800723570 /* ../shared/src/commonMain/resources/stage_walk_distances.json */,
 				A70000072FF20001004F9471 /* ../shared/src/commonMain/resources/2026_artist_similarities.json */,
@@ -1142,7 +1158,7 @@
 			children = (
 				3551CC4128043622004F9471 /* RudolstadtForiOSApp.swift */,
 				C20000032FE00001004F9471 /* AppServices.swift */,
-				C20000092FE00001004F9471 /* CloudKitShareAppDelegate.swift */,
+				FB1000040000000000000001 /* AppNotificationDelegate.swift */,
 				C20000062FE00001004F9471 /* FestivalDataGate.swift */,
 				3551CC4228043623004F9471 /* RootTabView.swift */,
 				A100001C2FA10001004F9471 /* Navigation */,
@@ -1173,16 +1189,14 @@
 			children = (
 				32A11FCEFCBC49CBBBDC6968 /* UserSettings.swift */,
 				C10000052FD00001004F9471 /* FestivalProfileStore.swift */,
-				C40000042FF50001004F9471 /* FestivalProfileSharingService.swift */,
-				C40000012FF50001004F9471 /* FestivalProfileSyncCoordinator.swift */,
+				FB1000000000000000000001 /* FirebaseFriendsStore.swift */,
+				FB1000020000000000000001 /* FirebaseOwnProfileStore.swift */,
 				C10000112FD00001004F9471 /* FestivalProfileModels.swift */,
 				D70000032FF40001004F9471 /* RecommendationStore.swift */,
 				D70000022FF40001004F9471 /* NewsStore.swift */,
 				D70000012FF40001004F9471 /* FriendProfilesStore.swift */,
 				C10000122FD00001004F9471 /* FestivalProfileStore+Helpers.swift */,
-				C10000132FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift */,
 				C30000052FF00001004F9471 /* FestivalProfileLogic.swift */,
-				C30000062FF00001004F9471 /* FestivalProfileCloudKitMapping.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -1284,13 +1298,14 @@
 			isa = PBXGroup;
 			children = (
 				E10000032FE00001004F9471 /* FriendsView.swift */,
+				FB1000010000000000000001 /* FirebaseFriendsView.swift */,
+				FA1100020000000000000001 /* FirebaseLoginView.swift */,
+				FA1100010000000000000001 /* FirebaseAccountView.swift */,
 				E10000052FE00001004F9471 /* FriendsLocalization.swift */,
 				E10000062FE00001004F9471 /* FriendsTogetherHelpers.swift */,
 				E10000072FE00001004F9471 /* FriendsTogetherListView.swift */,
 				E10000082FE00001004F9471 /* FriendsInsightRows.swift */,
 				FC41000130020001004F9471 /* FriendRecommendationArtwork.swift */,
-				E10000092FE00001004F9471 /* FriendsSharingSheets.swift */,
-				E100000A2FE00001004F9471 /* FriendsCloudSharingViews.swift */,
 				E100000B2FE00001004F9471 /* FriendsQRCodeViews.swift */,
 				E100000C2FE00001004F9471 /* SharedFestivalProfileDetailView.swift */,
 			);
@@ -1304,11 +1319,12 @@
 				A71000042FF30001004F9471 /* ArtistShareLinkTests.swift */,
 				F100000E2F990001004F9471 /* FestivalDateUtilitiesTests.swift */,
 				44174B2FD9E0E7AFABB9418D /* Unit Tests/Domain/FestivalAdapterContractTests.swift */,
+				FCFA00010000000000000005 /* Unit Tests/Domain/FantasyFestivalTests.swift */,
 				F98000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift */,
 				F99000112FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift */,
-				FC30000330020001004F9471 /* ArtistMapKitWorldMapTests.swift */,
+				FC30000330020001004F9471 /* Unit Tests/Presentation/ArtistMapKitWorldMapTests.swift */,
 				FAD100052FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift */,
-				FC41000430020001004F9471 /* FriendRecommendationArtworkTests.swift */,
+				FC41000430020001004F9471 /* Unit Tests/Presentation/FriendRecommendationArtworkTests.swift */,
 				F10000092F990001004F9471 /* FriendArtistRecommendationTests.swift */,
 				F10000062F990001004F9471 /* RecommendationServiceTests.swift */,
 				A700000A2FF20001004F9471 /* ArtistSimilarityTests.swift */,
@@ -1388,6 +1404,8 @@
 				3551CC4428043624004F9471 /* Sources */,
 				3551CC4528043624004F9471 /* Frameworks */,
 				3551CC4628043624004F9471 /* Resources */,
+				FCFA00010000000000000006 /* Debug Fantasy Festival */,
+				FB1000300000000000000001 /* Firebase Configuration */,
 				B14400572FE50001004F9471 /* Embed Watch Content */,
 			);
 			buildRules = (
@@ -1397,6 +1415,11 @@
 			);
 			name = "RudolstadtForiOS (iOS)";
 			packageProductDependencies = (
+				FB1000220000000000000001 /* FirebaseFunctions */,
+				FB1000210000000000000001 /* FirebaseFirestore */,
+				FB1000200000000000000001 /* FirebaseAuth */,
+				FB1000240000000000000001 /* GoogleSignInSwift */,
+				FB1000230000000000000001 /* GoogleSignIn */,
 				B20000022FC00001004F9471 /* LazyPager */,
 				A10000512FBE0001004F9471 /* Nuke */,
 				35CF4849285B7E4E00D13B6F /* NukeUI */,
@@ -1414,6 +1437,7 @@
 				3551CC4A28043624004F9471 /* Sources */,
 				3551CC4B28043624004F9471 /* Frameworks */,
 				3551CC4C28043624004F9471 /* Resources */,
+				FCFA00010000000000000007 /* Debug Fantasy Festival */,
 			);
 			buildRules = (
 			);
@@ -1568,6 +1592,8 @@
 			);
 			mainGroup = 3551CC3B28043622004F9471;
 			packageReferences = (
+				FB1000100000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				FB1000110000000000000001 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				B20000032FC00001004F9471 /* XCRemoteSwiftPackageReference "SwiftUI-LazyPager" */,
 				35CF4848285B7E4E00D13B6F /* XCRemoteSwiftPackageReference "Nuke" */,
 				F40000022FE20001004F9471 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
@@ -1593,6 +1619,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F60000022FF10001004F9471 /* PatrickHand-Regular.ttf in Resources */,
+				F61000022FF10001004F9471 /* GoogleSans-Medium.ttf in Resources */,
+				F61000042FF10001004F9471 /* GoogleSans-OFL.txt in Resources */,
 				A1B2C3D42F9A0001004F9471 /* Rudolstadt.icon in Resources */,
 				353596FC2F9324F800723570 /* ../shared/src/commonMain/resources/stage_walk_distances.json in Resources */,
 				A70000082FF20001004F9471 /* ../shared/src/commonMain/resources/2026_artist_similarities.json in Resources */,
@@ -1748,6 +1776,54 @@
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/../scripts/ios/build-apple-framework.sh\"";
 		};
+		FB1000300000000000000001 /* Firebase Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/RudolstadtForiOS--iOS--Info.plist",
+				"$(SRCROOT)/../scripts/ios/prepare-firebase.sh",
+			);
+			name = "Firebase Configuration";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Firebase-App-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh \"$SRCROOT/../scripts/ios/prepare-firebase.sh\"";
+		};
+		FCFA00010000000000000006 /* Debug Fantasy Festival */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Debug Fantasy Festival";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh \"$SRCROOT/../scripts/ios/copy-fantasy-festival.sh\"";
+		};
+		FCFA00010000000000000007 /* Debug Fantasy Festival */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Debug Fantasy Festival";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh \"$SRCROOT/../scripts/ios/copy-fantasy-festival.sh\"";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1755,8 +1831,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB1000040000000000000002 /* AppNotificationDelegate.swift in Sources */,
+				FB1000030000000000000002 /* FirebaseOwnProfileStatusSection.swift in Sources */,
+				FB1000020000000000000002 /* FirebaseOwnProfileStore.swift in Sources */,
+				FB1000010000000000000002 /* FirebaseFriendsView.swift in Sources */,
+				FA1100020000000000000002 /* FirebaseLoginView.swift in Sources */,
+				FA1100010000000000000002 /* FirebaseAccountView.swift in Sources */,
+				FB1000000000000000000002 /* FirebaseFriendsStore.swift in Sources */,
 				CA1000010000000000000001 /* Shared/Core/KotlinCore.swift in Sources */,
 				AAD60BE1817D9630736C96FB /* Shared/Data/FestivalRegistry.swift in Sources */,
+				FCFA00010000000000000001 /* Shared/Data/FantasyFestivalDataProvider.swift in Sources */,
 				BB8CCA7397DC69E59F9B242D /* Shared/Data/FestivalSourceAdapter.swift in Sources */,
 				910F0EA92A9E2ABAC2AACFD5 /* Shared/Data/FestivalFeatureCatalogs.swift in Sources */,
 				12F57F438C89D8ADE35F8DCF /* Shared/Core/FestivalDurationResolver.swift in Sources */,
@@ -1794,7 +1878,6 @@
 				F50000072FE40001004F9471 /* StageWalkingDistanceProvider.swift in Sources */,
 				A70000022FF20001004F9471 /* ArtistSimilarityCatalog.swift in Sources */,
 				3551CC6928043624004F9471 /* RudolstadtForiOSApp.swift in Sources */,
-				C200000A2FE00001004F9471 /* CloudKitShareAppDelegate.swift in Sources */,
 				C20000072FE00001004F9471 /* FestivalDataGate.swift in Sources */,
 				32A11D09A42D86B69106B718 /* NewsItemDetailView.swift in Sources */,
 				35514C452DD0E2A20004137D /* DataConverter.swift in Sources */,
@@ -1805,16 +1888,12 @@
 				32A118717C7FB0F1F9082736 /* NewsListView.swift in Sources */,
 				32A11BA62FC30F92BA9668FA /* UserSettings.swift in Sources */,
 				C10000012FD00001004F9471 /* FestivalProfileStore.swift in Sources */,
-				C40000052FF50001004F9471 /* FestivalProfileSharingService.swift in Sources */,
-				C40000022FF50001004F9471 /* FestivalProfileSyncCoordinator.swift in Sources */,
 				C10000092FD00001004F9471 /* FestivalProfileModels.swift in Sources */,
 				D72000032FF40001004F9471 /* RecommendationStore.swift in Sources */,
 				D72000022FF40001004F9471 /* NewsStore.swift in Sources */,
 				D72000012FF40001004F9471 /* FriendProfilesStore.swift in Sources */,
 				C100000B2FD00001004F9471 /* FestivalProfileStore+Helpers.swift in Sources */,
-				C100000D2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */,
 				C30000022FF00001004F9471 /* FestivalProfileLogic.swift in Sources */,
-				C30000042FF00001004F9471 /* FestivalProfileCloudKitMapping.swift in Sources */,
 				32A11D471C05E7D81DC6B78D /* ArtistImageView.swift in Sources */,
 				32A11C4891712FA79641C202 /* StageDetailView.swift in Sources */,
 				D30000022FBE0001004F9471 /* StageDetailInteractiveMap.swift in Sources */,
@@ -1872,8 +1951,6 @@
 				E10000152FE00001004F9471 /* FriendsTogetherListView.swift in Sources */,
 				E10000172FE00001004F9471 /* FriendsInsightRows.swift in Sources */,
 				FC41000330020001004F9471 /* FriendRecommendationArtwork.swift in Sources */,
-				E10000192FE00001004F9471 /* FriendsSharingSheets.swift in Sources */,
-				E100001B2FE00001004F9471 /* FriendsCloudSharingViews.swift in Sources */,
 				E100001D2FE00001004F9471 /* FriendsQRCodeViews.swift in Sources */,
 				E100001F2FE00001004F9471 /* SharedFestivalProfileDetailView.swift in Sources */,
 				32A116DBBEBAB380329768B0 /* ArtistListView.swift in Sources */,
@@ -1918,6 +1995,7 @@
 			files = (
 				CA1000010000000000000002 /* Shared/Core/KotlinCore.swift in Sources */,
 				CE1943E67FA6C6288E07DFAE /* Shared/Data/FestivalRegistry.swift in Sources */,
+				FCFA00010000000000000002 /* Shared/Data/FantasyFestivalDataProvider.swift in Sources */,
 				1ACD2AD1177B68294EF2BA2F /* Shared/Data/FestivalSourceAdapter.swift in Sources */,
 				948BF27EADC2EFB7ACE879AA /* Shared/Data/FestivalFeatureCatalogs.swift in Sources */,
 				6BC06EF05FA9967FF448F2C3 /* Shared/Core/FestivalDurationResolver.swift in Sources */,
@@ -1936,7 +2014,6 @@
 				F50000052FE40001004F9471 /* SchedulePlanning.swift in Sources */,
 				F50000082FE40001004F9471 /* StageWalkingDistanceProvider.swift in Sources */,
 				A70000032FF20001004F9471 /* ArtistSimilarityCatalog.swift in Sources */,
-				C200000B2FE00001004F9471 /* CloudKitShareAppDelegate.swift in Sources */,
 				C20000082FE00001004F9471 /* FestivalDataGate.swift in Sources */,
 				32A11EB5EC53FC5A4C48B3D8 /* NewsItemDetailView.swift in Sources */,
 				35143AC42F8E71AE006DA6B7 /* ArtistDetailSections.swift in Sources */,
@@ -1954,16 +2031,12 @@
 				35143AC22F8E7094006DA6B7 /* ArtistDetailHeaderView.swift in Sources */,
 				32A112281C396A44DF12BBB1 /* UserSettings.swift in Sources */,
 				C10000022FD00001004F9471 /* FestivalProfileStore.swift in Sources */,
-				C40000062FF50001004F9471 /* FestivalProfileSharingService.swift in Sources */,
-				C40000032FF50001004F9471 /* FestivalProfileSyncCoordinator.swift in Sources */,
 				C10000082FD00001004F9471 /* FestivalProfileModels.swift in Sources */,
 				D71000032FF40001004F9471 /* RecommendationStore.swift in Sources */,
 				D71000022FF40001004F9471 /* NewsStore.swift in Sources */,
 				D71000012FF40001004F9471 /* FriendProfilesStore.swift in Sources */,
 				C100000A2FD00001004F9471 /* FestivalProfileStore+Helpers.swift in Sources */,
-				C100000C2FD00001004F9471 /* FestivalProfileStore+CloudKitEvent.swift in Sources */,
 				C30000012FF00001004F9471 /* FestivalProfileLogic.swift in Sources */,
-				C30000032FF00001004F9471 /* FestivalProfileCloudKitMapping.swift in Sources */,
 				32A11109B3E2EF29D23B96E8 /* ArtistImageView.swift in Sources */,
 				32A11E9B874719DD76F77CD0 /* StageDetailView.swift in Sources */,
 				D30000032FBE0001004F9471 /* StageDetailInteractiveMap.swift in Sources */,
@@ -2008,8 +2081,6 @@
 				E10000142FE00001004F9471 /* FriendsTogetherListView.swift in Sources */,
 				E10000162FE00001004F9471 /* FriendsInsightRows.swift in Sources */,
 				FC41000230020001004F9471 /* FriendRecommendationArtwork.swift in Sources */,
-				E10000182FE00001004F9471 /* FriendsSharingSheets.swift in Sources */,
-				E100001A2FE00001004F9471 /* FriendsCloudSharingViews.swift in Sources */,
 				E100001C2FE00001004F9471 /* FriendsQRCodeViews.swift in Sources */,
 				E100001E2FE00001004F9471 /* SharedFestivalProfileDetailView.swift in Sources */,
 				32A112BC323E026BE8507F8E /* ArtistListView.swift in Sources */,
@@ -2077,11 +2148,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA321B8BFF0C13B5C38151F /* Unit Tests/Domain/FestivalAdapterContractTests.swift in Sources */,
+				FCFA00010000000000000004 /* Unit Tests/Domain/FantasyFestivalTests.swift in Sources */,
 				F98000122FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapZoomTests.swift in Sources */,
 				F99000122FFC0001004F9471 /* Unit Tests/Presentation/FestivalMapSheetTests.swift in Sources */,
-				FC30000430020001004F9471 /* ArtistMapKitWorldMapTests.swift in Sources */,
+				FC30000430020001004F9471 /* Unit Tests/Presentation/ArtistMapKitWorldMapTests.swift in Sources */,
 				FAD100062FFC1001004F9471 /* Unit Tests/Presentation/FriendArtistRatingsMotionTests.swift in Sources */,
-				FC41000530020001004F9471 /* FriendRecommendationArtworkTests.swift in Sources */,
+				FC41000530020001004F9471 /* Unit Tests/Presentation/FriendRecommendationArtworkTests.swift in Sources */,
 				F90000142FF90001004F9471 /* StageLocationTests.swift in Sources */,
 				A71000052FF30001004F9471 /* ArtistShareLinkTests.swift in Sources */,
 				B14400322FE50001004F9471 /* WatchSnapshotTests.swift in Sources */,
@@ -2338,7 +2410,7 @@
 					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "RudolstadtForiOS--iOS--Info.plist";
+				INFOPLIST_FILE = "$(DERIVED_FILE_DIR)/Firebase-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Rudolstadt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Scan a friend's QR code to add their shared festival profile.";
@@ -2356,6 +2428,7 @@
 				MARKETING_VERSION = 2026.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-ObjC",
 					"-framework",
 					RudolstadtCore,
 				);
@@ -2387,7 +2460,7 @@
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "RudolstadtForiOS--iOS--Info.plist";
+				INFOPLIST_FILE = "$(DERIVED_FILE_DIR)/Firebase-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Rudolstadt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Scan a friend's QR code to add their shared festival profile.";
@@ -2405,6 +2478,7 @@
 				MARKETING_VERSION = 2026.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-ObjC",
 					"-framework",
 					RudolstadtCore,
 				);
@@ -2888,6 +2962,22 @@
 				minimumVersion = 2.0.5;
 			};
 		};
+		FB1000100000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = exactVersion;
+				version = 12.19.3;
+			};
+		};
+		FB1000110000000000000001 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2910,6 +3000,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F40000022FE20001004F9471 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
 			productName = YouTubePlayerKit;
+		};
+		FB1000200000000000000001 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB1000100000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		FB1000210000000000000001 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB1000100000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		FB1000220000000000000001 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB1000100000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		FB1000230000000000000001 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB1000110000000000000001 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		FB1000240000000000000001 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB1000110000000000000001 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

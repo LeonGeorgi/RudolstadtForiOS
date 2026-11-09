@@ -1,0 +1,143 @@
+{
+  "date": "2026-11-05",
+  "reason": "Native Systemkomponenten haben Vorrang vor der geometrischen Nachbildung der Sketch-Entwürfe.",
+  "changes": {
+    "ios": [
+      "Einzelne ToolbarItem-Elemente ohne eigene Glasfläche oder HStack",
+      "Profil und Farbauswahl als Form; Speichern als confirmationAction",
+      "Keine erzwungenen Mindestzeilenhöhen und Listeneinzüge",
+      "Einladung mit primärer Teilen-Aktion und sekundärer Erneuern-Aktion"
+    ],
+    "android": [
+      "DropdownMenu ohne feste Breite, Offset oder eigene Form/Farbe",
+      "MaterialTheme-Schriftrollen ohne manuelle Schriftgrößen und Zeilenhöhen",
+      "Fließende Formularanordnung statt fester Leerflächen",
+      "Empfehlungszeilen wachsen mit ihrem Inhalt"
+    ]
+  },
+  "tests": {
+    "ios": {
+      "result": "passed",
+      "states": 8,
+      "log": "/tmp/friends-native-ios-test.log"
+    },
+    "android": {
+      "result": "passed",
+      "states": 8,
+      "log": "/tmp/friends-native-android-test2.log",
+      "firstAttempt": "System UI des Emulators beim Kaltstart blockiert; nach Schließen des Systemdialogs erfolgreich."
+    }
+  },
+  "scope": {
+    "locale": "de-DE",
+    "appearance": "light",
+    "ios": "iPhone 17 Pro / iOS 27.0",
+    "android": "Android 36 / 402×915 dp",
+    "notCaptured": [
+      "Einrichtung",
+      "Leerzustand",
+      "Einladungsannahme",
+      "Kamera",
+      "Dunkelmodus",
+      "große Schrift"
+    ]
+  },
+  "captures": [
+    {
+      "platform": "ios",
+      "state": "full",
+      "image": "ios/full.png",
+      "sha256": "0d850a863ceac14a057bf0b98a5d15eeca65422362784e4d32aebf041e2309f9"
+    },
+    {
+      "platform": "ios",
+      "state": "plus",
+      "image": "ios/plus.png",
+      "sha256": "e07a51c003ae5c99f7e82c97244f8b7f53d4231e76e30433f2172836f905616f"
+    },
+    {
+      "platform": "ios",
+      "state": "avatar",
+      "image": "ios/avatar.png",
+      "sha256": "5ea8972900ca07900959dc5e2f1564abfd28526de693ebb6183b37dfd49fb768"
+    },
+    {
+      "platform": "ios",
+      "state": "qr",
+      "image": "ios/qr.png",
+      "sha256": "a5eab92c17c9424ca6a870975ece028531c08771185e65b343aa68c51e3e8ca3"
+    },
+    {
+      "platform": "ios",
+      "state": "profile",
+      "image": "ios/profile.png",
+      "sha256": "d4d3a89d130cf80d18ecfa43991daf1d6c9842b1ceb4dba3aa7b04ff7da963fd"
+    },
+    {
+      "platform": "ios",
+      "state": "color",
+      "image": "ios/color.png",
+      "sha256": "d98cd4a77e414b6f57d5daad2880b0d876c80cd5d6ad3f1298d73d82ccf41522"
+    },
+    {
+      "platform": "ios",
+      "state": "detail",
+      "image": "ios/detail.png",
+      "sha256": "fc0bb37f6240605144f9a4e0bf4b77bd16e2820dae895d1080387508d063f055"
+    },
+    {
+      "platform": "ios",
+      "state": "recommendations",
+      "image": "ios/recommendations.png",
+      "sha256": "3c9a66767bb52c36c13205043d4017d6a5aab7ac84238344a5384f884aaa9138"
+    },
+    {
+      "platform": "android",
+      "state": "full",
+      "image": "android/full.png",
+      "sha256": "b55c8bb64022009b641e0698e7de94098c58ddd30082c3e929ab7513e1b65b34"
+    },
+    {
+      "platform": "android",
+      "state": "plus",
+      "image": "android/plus.png",
+      "sha256": "e1a59cf69ad057c23a702f00c20588bc03b324bb21fa979ebc4f229eefefeb9a"
+    },
+    {
+      "platform": "android",
+      "state": "avatar",
+      "image": "android/avatar.png",
+      "sha256": "de9b84a86d0abc7e4de46444ed2b364f851be3bae751049dd8d58490aaa68e12"
+    },
+    {
+      "platform": "android",
+      "state": "qr",
+      "image": "android/qr.png",
+      "sha256": "d310b62aafe3eefd67053b2ad3660f0700a769abea20fa759cb15372f4eec515"
+    },
+    {
+      "platform": "android",
+      "state": "profile",
+      "image": "android/profile.png",
+      "sha256": "735a16f7e3c2df3f7bd8c90fde40747bb9b1ef188d8d5cd708708e367757bb9f"
+    },
+    {
+      "platform": "android",
+      "state": "color",
+      "image": "android/color.png",
+      "sha256": "a0917784de911034a056fdd7470393fbf689f965e613492aa1437ed36e35dc15"
+    },
+    {
+      "platform": "android",
+      "state": "detail",
+      "image": "android/detail.png",
+      "sha256": "701a49d74152f7cf0df15b874c3778b04c6fd68b347c593de598409e8c2bad8b"
+    },
+    {
+      "platform": "android",
+      "state": "recommendations",
+      "image": "android/recommendations.png",
+      "sha256": "f2c374113ac2294c558195a55f94286b830d71161576d4b9cc7a82b23dd15549"
+    }
+  ]
+}

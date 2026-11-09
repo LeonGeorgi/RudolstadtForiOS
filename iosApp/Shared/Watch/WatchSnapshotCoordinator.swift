@@ -175,10 +175,10 @@ final class WatchSnapshotCoordinator {
         if updatedAt != nil || !profileStore.acceptedFriendProfiles.isEmpty {
             return WatchFriendSnapshot(state: .available, updatedAt: updatedAt)
         }
-        switch profileStore.iCloudStatus {
+        switch profileStore.accountStatus {
         case .checking:
             return WatchFriendSnapshot(state: .loading, updatedAt: nil)
-        case .available, .unavailable:
+        case .available, .local, .unavailable:
             return WatchFriendSnapshot(state: .unavailable, updatedAt: nil)
         }
     }

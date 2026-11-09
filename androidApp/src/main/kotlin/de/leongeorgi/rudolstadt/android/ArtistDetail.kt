@@ -137,7 +137,7 @@ internal fun ArtistScreen(
                         event,
                         conflicts[event.eventID].orEmpty(),
                         event.eventID == highlightedEvent,
-                        index > 0,
+                        Modifier.detailListSegment(index, events.size, 4.dp),
                     )
                 }
                 videos.forEach { (video, link) ->
@@ -152,7 +152,15 @@ internal fun ArtistScreen(
                 }
                 if (similar.isNotEmpty()) {
                     item(key = "similar") { Heading(stringResource(R.string.similar)) }
-                    items(similar, key = { "similar${it.artistID}" }) { ArtistRow(it) }
+                    itemsIndexed(similar, key = { _, artist -> "similar${artist.artistID}" }) { index, artist ->
+                        ArtistRow(
+                            artist,
+                            modifier = Modifier.detailListSegment(index, similar.size),
+                            colors = ListItemDefaults.colors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                            ),
+                        )
+                    }
                 }
             }
         }
@@ -432,8 +440,8 @@ private fun ArtistDetailRating(artist: ProgramArtist, rate: () -> Unit) {
         else MaterialTheme.colorScheme.onPrimary
     val glyphs: @Composable () -> Unit = {
         Box(Modifier.size(32.dp), contentAlignment = Alignment.Center) {
-            if (rating > 0 && !app.state.settings.flames)
-                RatingHeartIcon(rating, Modifier.size(32.dp), tint = tint)
+            if (rating >= 0 && !app.state.settings.flames)
+                AnimatedRatingHeartIcon(rating, Modifier.size(32.dp), tint = tint)
             else if (rating > 0)
                 repeat(rating) { index ->
                     val shift = (index - (rating - 1) / 2f) * 9
@@ -450,8 +458,7 @@ private fun ArtistDetailRating(artist: ProgramArtist, rate: () -> Unit) {
                 Icon(
                     if (rating < 0)
                         negativeSymbol(app.state.profile.icons[artist.artistID.toString()])
-                    else if (app.state.settings.flames) Icons.Default.LocalFireDepartment
-                    else Icons.Default.FavoriteBorder,
+                    else Icons.Default.LocalFireDepartment,
                     null,
                     Modifier.size(24.dp),
                     tint = tint,
@@ -488,7 +495,7 @@ private fun ArtistDetailIntro(artist: ProgramArtist, largeText: Boolean, editNot
             .firstOrNull { it.language == app.language }
             ?.takeIf { app.state.settings.summaries && it.text.isNotBlank() }
     val note = app.state.profile.notes[artist.artistID.toString()].orEmpty().trim()
-    val editable = app.state.edition.editable && artist.isMetadataAvailable
+    val editable = app.state.edition.notesEditable && artist.isMetadataAvailable
     if (summary == null && note.isEmpty() && !editable) return
     val summaryContent: @Composable () -> Unit = {
         if (summary != null) {
@@ -545,105 +552,99 @@ private fun ArtistDetailEvent(
     event: ProgramOccurrence,
     conflicts: List<ProgramOccurrence>,
     highlighted: Boolean,
-    divider: Boolean,
+    modifier: Modifier,
 ) {
     val app = LocalApp.current
     val saved = event.eventID in app.state.profile.saved
     var menu by rememberSaveable(event.eventID) { mutableStateOf(false) }
     var rate by rememberSaveable(event.eventID) { mutableStateOf(false) }
     val saveLabel = stringResource(if (saved) R.string.unsave_event else R.string.save_event)
-    Column {
-        if (divider)
-            HorizontalDivider(
-                Modifier.padding(start = 76.dp, end = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant,
+    Row(
+        modifier.fillMaxWidth()
+            .background(
+                if (highlighted) MaterialTheme.colorScheme.secondaryContainer
+                else MaterialTheme.colorScheme.surfaceContainer
             )
-        Row(
-            Modifier.fillMaxWidth()
-                .background(
-                    if (highlighted) MaterialTheme.colorScheme.primary.copy(alpha = .09f)
-                    else Color.Transparent
-                )
-                .combinedClickable(
-                    onClick = {
-                        if (app.showsEventDetails) app.event(event.eventID)
-                        else app.place(event.stage.placeKey, event.eventID)
-                    },
-                    onLongClickLabel = stringResource(R.string.concert_actions),
-                    onLongClick = { menu = true },
-                )
-                .semantics(mergeDescendants = true) {
-                    selected = highlighted
-                    if (app.state.edition.editable)
-                        customActions =
-                            listOf(
-                                CustomAccessibilityAction(saveLabel) {
-                                    app.model.saveEvent(event.eventID)
-                                    true
-                                }
-                            )
-                }
-                .padding(start = 16.dp, end = 8.dp, top = 6.dp, bottom = 6.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            EventTimeBadge(event)
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                event.tags
-                    .let { tags -> tags.firstOrNull { it.showsOnTimeline } ?: tags.firstOrNull() }
-                    ?.let { tag ->
-                        Text(
-                            tag.titles.text(app.language).uppercase(),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            .combinedClickable(
+                onClick = {
+                    if (app.showsEventDetails) app.event(event.eventID)
+                    else app.place(event.stage.placeKey, event.eventID)
+                },
+                onLongClickLabel = stringResource(R.string.concert_actions),
+                onLongClick = { menu = true },
+            )
+            .semantics(mergeDescendants = true) {
+                selected = highlighted
+                if (app.state.edition.editable)
+                    customActions =
+                        listOf(
+                            CustomAccessibilityAction(saveLabel) {
+                                app.model.saveEvent(event.eventID)
+                                true
+                            }
                         )
-                    }
-                Text(
-                    event.stage.names.text(app.language),
-                    style = MaterialTheme.typography.titleSmall,
-                )
-                conflicts.forEach { conflict ->
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(
-                            Icons.Default.Info,
-                            null,
-                            Modifier.size(14.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        Text(
-                            stringResource(R.string.artist_event_conflict, conflict.artist.name),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                }
             }
-            if (app.state.edition.editable)
-                IconToggleButton(
-                    checked = saved,
-                    onCheckedChange = { app.model.saveEvent(event.eventID) },
-                    modifier = Modifier.size(48.dp),
-                ) {
-                    Icon(
-                        if (saved) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
-                        saveLabel,
-                        tint =
-                            if (saved) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.onSurfaceVariant,
+            .heightIn(min = 64.dp)
+            .padding(start = 8.dp, end = 4.dp, top = 6.dp, bottom = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        EventTimeBadge(event)
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            event.tags
+                .let { tags -> tags.firstOrNull { it.showsOnTimeline } ?: tags.firstOrNull() }
+                ?.let { tag ->
+                    Text(
+                        tag.titles.text(app.language).uppercase(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-            else if (saved)
-                Icon(Icons.Default.Bookmark, saveLabel, tint = MaterialTheme.colorScheme.primary)
-            Icon(
-                Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                null,
-                Modifier.size(16.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            Text(
+                event.stage.names.text(app.language),
+                style = MaterialTheme.typography.titleSmall,
             )
+            conflicts.forEach { conflict ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        Icons.Default.Info,
+                        null,
+                        Modifier.size(14.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Text(
+                        stringResource(R.string.artist_event_conflict, conflict.artist.name),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
         }
+        if (app.state.edition.editable)
+            IconToggleButton(
+                checked = saved,
+                onCheckedChange = { app.model.saveEvent(event.eventID) },
+                modifier = Modifier.size(48.dp),
+            ) {
+                Icon(
+                    if (saved) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                    saveLabel,
+                    tint =
+                        if (saved) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        else if (saved)
+            Icon(Icons.Default.Bookmark, saveLabel, tint = MaterialTheme.colorScheme.primary)
+        Icon(
+            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+            null,
+            Modifier.size(16.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
     ConcertActions(event, menu, { menu = false }, { rate = true })
     if (rate) RatingSheet(event.artist) { rate = false }

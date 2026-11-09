@@ -157,7 +157,7 @@ struct FestivalDataStoreTests {
         defaults.set(["1": 3], forKey: "2026/ratings")
         defaults.set(["1": "Rudolstadt note"], forKey: "2026/artistNotes")
         let settings = UserSettings(userDefaults: defaults)
-        let current = FestivalProfileStore(userDefaults: defaults, cloudKitEnabled: false)
+        let current = FestivalProfileStore(userDefaults: defaults, cloudSyncEnabled: false)
         let services = AppServices(userSettings: settings, festivalProfileStore: current,
                                    festivalAdapter: FestivalRegistry.rudolstadt(year: 2026, source: FestivalDataProviderStub(), archive: false, includesSupplementaryInformation: false))
         let before = defaults.persistentDomain(forName: suiteName) as NSDictionary?
@@ -861,7 +861,7 @@ struct FestivalArchiveTests {
             defaults.set(["4": "Note \(edition.year)"], forKey: "\(edition.year)/artistNotes")
         }
         let settings = UserSettings(userDefaults: defaults)
-        let profile = FestivalProfileStore(userDefaults: defaults, cloudKitEnabled: false)
+        let profile = FestivalProfileStore(userDefaults: defaults, cloudSyncEnabled: false)
         let currentData = TestFixtures.festivalData(events: [])
         let services = AppServices(
             userSettings: settings, festivalProfileStore: profile,
@@ -879,7 +879,18 @@ struct FestivalArchiveTests {
             #expect(archive.festivalProfileStore.savedEvents == [edition.year])
             #expect(archive.festivalProfileStore.rating(for: 4) == edition.year % 3 + 1)
             #expect(archive.festivalProfileStore.artistNotes["4"] == "Note \(edition.year)")
-            #expect(archive.festivalProfileStore.isReadOnly)
+            #expect(archive.festivalProfileStore.userDataPolicy.savedEvents == .editable)
+            #expect(archive.festivalProfileStore.userDataPolicy.artistRatings == .editable)
+            #expect(archive.festivalProfileStore.userDataPolicy.artistNotes == .readOnly)
+            let concert = try #require(data.events.first { $0.artist.isMetadataAvailable && $0.id != edition.year })
+            archive.festivalProfileStore.toggleSavedEvent(concert)
+            archive.festivalProfileStore.setArtistRating(for: concert.artist, rating: 3)
+            archive.festivalProfileStore.setArtistNote(forArtistID: 4, note: "Changed")
+            await archive.festivalProfileStore.flushPendingPersistence()
+            let restored = FestivalRegistry.makeProfileStore(metadata: edition.metadata, defaults: defaults)
+            #expect(restored.savedEvents.contains(concert.id))
+            #expect(restored.rating(for: concert.artist.id) == 3)
+            #expect(restored.artistNotes["4"] == "Note \(edition.year)")
             #expect(services.dataStore(for: edition) === archive)
         }
         #expect(services.dataStore(for: .current).festivalProfileStore === profile)
@@ -914,7 +925,7 @@ struct FestivalArchiveTests {
             defaults.set(try JSONEncoder().encode(older), forKey: legacyKey)
         }
         let before = (defaults.persistentDomain(forName: suiteName) ?? [:]) as NSDictionary
-        let archive = FestivalProfileStore(userDefaults: defaults, readOnlyFestivalYear: 2024, cloudKitEnabled: true)
+        let archive = FestivalProfileStore(userDefaults: defaults, readOnlyFestivalYear: 2024, cloudSyncEnabled: true)
         #expect(archive.savedEvents == (["wrongYear", "corruptCache"].contains(source) ? [42] : [99]))
         #expect(archive.rating(for: 8) == -1)
         #expect(archive.iconName(forArtistID: 8) == "zzz")
@@ -960,7 +971,7 @@ struct FestivalArchiveTests {
     func loadingArchiveAndSwitchingBackPreservesCurrentProfileAndNewsState() async throws {
         let defaults = TestFixtures.isolatedUserDefaults()
         let settings = UserSettings(userDefaults: defaults)
-        let profile = FestivalProfileStore(userDefaults: defaults, cloudKitEnabled: false)
+        let profile = FestivalProfileStore(userDefaults: defaults, cloudSyncEnabled: false)
         let artist = TestFixtures.artist(id: 176)
         let event = TestFixtures.event(
             id: 509, dayInJuly: 3, timeAsString: "18:00",
@@ -988,7 +999,7 @@ struct FestivalArchiveTests {
         }
         #expect(data.events.contains { $0.id == 509 })
         #expect(data.festivalYear == 2024)
-        #expect(archive.festivalProfileStore.isReadOnly)
+        #expect(archive.festivalProfileStore.userDataPolicy.savedEvents == .editable)
         #expect(archive.festivalProfileStore.savedEvents.isEmpty)
         #expect(archive.festivalProfileStore.ratings.isEmpty)
         #expect(archive.festivalProfileStore.artistNotes.isEmpty)
@@ -1059,7 +1070,7 @@ struct FestivalArchiveTests {
         defaults.set([888], forKey: "2024/savedEvents")
         let before = (defaults.persistentDomain(forName: suiteName) ?? [:]) as NSDictionary
         let archive = FestivalProfileStore(
-            userDefaults: defaults, readOnlyFestivalYear: 2024, cloudKitEnabled: true
+            userDefaults: defaults, readOnlyFestivalYear: 2024, cloudSyncEnabled: true
         )
         let data = try await RudolstadtArchiveDataProvider(year: 2024).refresh()
         let artist = try #require(data.artists.first)
@@ -1069,7 +1080,7 @@ struct FestivalArchiveTests {
         archive.setArtistRating(for: artist, rating: 3)
         archive.setArtistIcon(for: artist, icon: "zzz")
         archive.setArtistNote(for: artist, note: "Must not be saved")
-        archive.updateBadge(name: "Must not be saved", colorHex: "#000000")
+        archive.updateBadge(name: "Must not be saved", hue: 0)
         archive.persistCache(immediately: true)
         await archive.flushPendingPersistence()
 

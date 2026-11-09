@@ -13,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.*
@@ -24,6 +25,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -56,6 +58,7 @@ internal data class AppUI(
     val content: FestivalContent,
     val nav: NavHostController,
     val language: String,
+    val onAccountLoginVisibilityChanged: (Boolean) -> Unit,
 ) {
     fun navigate(destination: String) = nav.navigate("${nav.currentSection()}/$destination")
 
@@ -111,10 +114,26 @@ internal fun AppRoot(model: AppModel, state: AppState, incoming: Intent?, handle
                         if (state.loadFailed) ({ model.refresh(true) }) else null,
                     )
                 } else {
-                    val ui = AppUI(model, state, content, nav, language)
+                    var accountLoginVisible by remember { mutableStateOf(false) }
+                    val ui = AppUI(model, state, content, nav, language) {
+                        accountLoginVisible = it
+                    }
                     CompositionLocalProvider(LocalApp provides ui) {
                         LaunchedEffect(incoming, content) {
                             incoming ?: return@LaunchedEffect
+                            if (
+                                incoming.data?.toString()?.let(model.friends.controller::receive) ==
+                                    true
+                            ) {
+                                if (!state.edition.supportsFirebaseFriends)
+                                    model.selectEdition(Edition.current.key)
+                                else {
+                                    nav.selectSection("more")
+                                    nav.navigate("more/friends") { launchSingleTop = true }
+                                    handled()
+                                }
+                                return@LaunchedEffect
+                            }
                             val link = incoming.data?.toString()?.let(ArtistPublicLink::parse)
                             if (link != null) {
                                 val target =
@@ -180,7 +199,7 @@ internal fun AppRoot(model: AppModel, state: AppState, incoming: Intent?, handle
                                 it.languageCode == language && it.newsID !in state.settings.readNews
                             }
                         val navigationType =
-                            if (route.contains("/stage-map/")) NavigationSuiteType.None
+                            if (accountLoginVisible || route.contains("/stage-map/")) NavigationSuiteType.None
                             else
                                 NavigationSuiteScaffoldDefaults.navigationSuiteType(
                                     currentWindowAdaptiveInfo()
@@ -215,7 +234,13 @@ internal fun AppRoot(model: AppModel, state: AppState, incoming: Intent?, handle
                                                 Icon(icons[i], stringResource(labels[i]))
                                             }
                                         },
-                                        label = { Text(stringResource(labels[i])) },
+                                        label = {
+                                            Text(
+                                                stringResource(labels[i]),
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis,
+                                            )
+                                        },
                                     )
                                 }
                             },
@@ -232,6 +257,7 @@ internal fun Page(
     title: String,
     back: Boolean = true,
     actions: @Composable RowScope.() -> Unit = {},
+    onBack: (() -> Unit)? = null,
     content: @Composable (Modifier) -> Unit,
 ) {
     val app = LocalApp.current
@@ -267,7 +293,9 @@ internal fun Page(
                 },
                 navigationIcon = {
                     if (back)
-                        IconButton(onClick = { app.nav.popBackStack() }) {
+                        IconButton(
+                            onClick = { if (onBack != null) onBack() else app.nav.popBackStack() }
+                        ) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
                         }
                 },
@@ -415,12 +443,18 @@ internal fun Body(content: ProgramContent?) {
 }
 
 @Composable
-internal fun ArtistRow(artist: ProgramArtist, onClick: (() -> Unit)? = null) {
+internal fun ArtistRow(
+    artist: ProgramArtist,
+    modifier: Modifier = Modifier,
+    colors: ListItemColors = ListItemDefaults.colors(),
+    onClick: (() -> Unit)? = null,
+) {
     val app = LocalApp.current
     var rating by remember(artist.artistID) { mutableStateOf(false) }
     ListItem(
+        colors = colors,
         modifier =
-            Modifier.combinedClickable(
+            modifier.combinedClickable(
                 onClick = { onClick?.invoke() ?: app.artist(artist.artistID) },
                 onLongClick = {
                     if (app.state.edition.editable && artist.isMetadataAvailable) rating = true
@@ -439,6 +473,20 @@ internal fun ArtistRow(artist: ProgramArtist, onClick: (() -> Unit)? = null) {
     )
     if (rating) RatingSheet(artist) { rating = false }
 }
+
+internal fun segmentedListShape(first: Boolean, last: Boolean): RoundedCornerShape {
+    val top = if (first) 20.dp else 5.dp
+    val bottom = if (last) 20.dp else 5.dp
+    return RoundedCornerShape(topStart = top, topEnd = top, bottomStart = bottom, bottomEnd = bottom)
+}
+
+internal fun Modifier.detailListSegment(index: Int, count: Int, verticalPadding: Dp = 0.dp): Modifier =
+    padding(
+        start = 16.dp,
+        end = 16.dp,
+        top = if (index == 0) verticalPadding else 2.dp,
+        bottom = if (index == count - 1) verticalPadding else 0.dp,
+    ).clip(segmentedListShape(first = index == 0, last = index == count - 1))
 
 @Composable
 internal fun ArtistRating(id: Long, showEmpty: Boolean = false) {
@@ -534,6 +582,8 @@ internal fun EventRow(
     highlighted: Boolean = false,
     showArtist: Boolean = true,
     showStage: Boolean = true,
+    modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
     onClick: (() -> Unit)? = null,
 ) {
     val app = LocalApp.current
@@ -555,12 +605,12 @@ internal fun EventRow(
             warning != null
     val background =
         if (highlighted) MaterialTheme.colorScheme.secondaryContainer
-        else MaterialTheme.colorScheme.surface
+        else containerColor
     Box {
         ListItem(
             colors = ListItemDefaults.colors(containerColor = background),
             modifier =
-                Modifier.combinedClickable(
+                modifier.combinedClickable(
                         onClick = { onClick?.invoke() ?: app.event(event.eventID) },
                         onLongClickLabel = stringResource(R.string.concert_actions),
                         onLongClick = { menu = true },

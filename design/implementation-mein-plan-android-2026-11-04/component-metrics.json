@@ -1,0 +1,95 @@
+{
+  "reference": "design/previews/mein-plan-android@2x.png",
+  "cropPx": [
+    0,
+    336,
+    804,
+    128
+  ],
+  "comparison": "Identical Ramsch & Rosen row at 2x; real programme differs elsewhere",
+  "roles": {
+    "title": {
+      "beforeMSE": 1739.2636160714285,
+      "afterMSE": 403.06108630952383,
+      "bestTranslationPx": {
+        "dx": 0,
+        "dy": 0
+      },
+      "note": "Residual glyph antialiasing differs between Sketch and Android."
+    },
+    "stage": {
+      "beforeMSE": 337.3532507739938,
+      "afterMSE": 337.3532507739938,
+      "bestTranslationPx": {
+        "dx": 0,
+        "dy": 0
+      },
+      "note": "Residual glyph antialiasing differs between Sketch and Android."
+    },
+    "time": {
+      "beforeMSE": 1381.7679545454546,
+      "afterMSE": 275.6265909090909,
+      "bestTranslationPx": {
+        "dx": 0,
+        "dy": 0
+      },
+      "note": "Residual glyph antialiasing differs between Sketch and Android."
+    },
+    "bookmark": {
+      "beforeMSE": 0.24134615384615385,
+      "afterMSE": 0.24134615384615385,
+      "bestTranslationPx": {
+        "dx": 0,
+        "dy": 0
+      },
+      "note": "Residual glyph antialiasing differs between Sketch and Android."
+    }
+  },
+  "recommendation": {
+    "sketchCropPx": [
+      0,
+      528,
+      804,
+      112
+    ],
+    "nativeCropPx": [
+      0,
+      640,
+      804,
+      112
+    ],
+    "registration": "Whole component aligned by its row bounds; different preceding real walking rows remain in the app.",
+    "roles": {
+      "title": {
+        "MSE": 685.667876344086,
+        "bestTranslationPx": [
+          0,
+          0
+        ]
+      },
+      "stage": {
+        "MSE": 240.9922600619195,
+        "bestTranslationPx": [
+          0,
+          0
+        ]
+      },
+      "time": {
+        "MSE": 175.94704545454545,
+        "bestTranslationPx": [
+          0,
+          0
+        ]
+      },
+      "sparkles": {
+        "MSE": 0.16064453125,
+        "bestTranslationPx": [
+          0,
+          0
+        ]
+      }
+    },
+    "nativeSource": "de-festival-recommendations.png"
+  },
+  "nativeSource": "de-festival-saved.png"
+}

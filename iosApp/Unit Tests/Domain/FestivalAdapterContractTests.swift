@@ -152,7 +152,7 @@ struct FestivalAdapterContractTests {
         let defaults = TestFixtures.isolatedUserDefaults()
         let persistence = UserDefaultsFestivalProfilePersistence(userDefaults: defaults,
             festivalYear: 0, namespace: fixture.metadata.identity.storageKey)
-        let original = FestivalProfileStore(cloudKitEnabled: false, persistence: persistence)
+        let original = FestivalProfileStore(cloudSyncEnabled: false, persistence: persistence)
         let artist = TestFixtures.artist(id: 1)
         original.setArtistNote(for: artist, note: "Existing note")
         await original.flushPendingPersistence()
@@ -169,7 +169,7 @@ struct FestivalAdapterContractTests {
         #expect(profile.rating(for: 1) == 3)
         #expect(profile.savedEvents == [1])
         await profile.flushPendingPersistence()
-        let restored = FestivalProfileStore(cloudKitEnabled: false, persistence: persistence)
+        let restored = FestivalProfileStore(cloudSyncEnabled: false, persistence: persistence)
         #expect(restored.artistNotes["1"] == "Existing note")
         #expect(restored.savedEvents == [1])
     }
@@ -178,7 +178,7 @@ struct FestivalAdapterContractTests {
     func oldLudwigsburgNamespaceRetainsRatingsNotesAndSavedEvents() async {
         let defaults = TestFixtures.isolatedUserDefaults()
         let identity = FestivalEdition.ludwigsburg2026.identity
-        let old = FestivalProfileStore(cloudKitEnabled: false,
+        let old = FestivalProfileStore(cloudSyncEnabled: false,
             persistence: UserDefaultsFestivalProfilePersistence(userDefaults: defaults,
                 festivalYear: 2026, namespace: "ludwigsburg-2026"))
         let artist = TestFixtures.artist(id: 1)

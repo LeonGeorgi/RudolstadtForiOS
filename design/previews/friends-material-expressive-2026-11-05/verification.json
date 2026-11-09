@@ -1,0 +1,560 @@
+{
+  "date": "2026-11-05",
+  "document": "design/Rudolstadt.sketch",
+  "page": "Freunde · Abläufe · Firebase",
+  "scope": "Android Friends concepts in Sketch. No app or backend code changed by this redesign.",
+  "changes": [
+    "Large Material app bar, tonal toolbar icon button and flat profile monograms.",
+    "Filled artwork cards with separate title/activity area, rather than iOS artwork gradients.",
+    "Grouped filled friend rows and profile summaries.",
+    "Material vibrant menus with the existing two actions each.",
+    "Outlined profile name fields and 56-point medium action buttons.",
+    "Full recommendations as an image-leading filled card list.",
+    "Material surfaces and typography for invitation, empty and error states."
+  ],
+  "preserved": [
+    "Recommendations above friends.",
+    "Plus: create invitation or scan QR.",
+    "Avatar: profile or account.",
+    "No permission controls or manual invitation link input.",
+    "External invitation links lead directly to invitation confirmation.",
+    "Existing global navigation: Friends remains a child of More.",
+    "Existing illustrative profile data and artist facts/artwork."
+  ],
+  "components": {
+    "library": "Material 3 Design Kit (Community)",
+    "libraryId": "5B483BCD-643B-40D7-8028-F5C164A029A8",
+    "linked": [
+      "App bar/Large/Flat",
+      "App bar/Small/Flat",
+      "Icon button - tonal/Square/Small/Default/Enabled",
+      "Menu/Vibrant/1",
+      "Button/Round/Medium/Enabled",
+      "Text field/Outlined/Enabled/Input text/False/False",
+      ".Building Blocks/Card states/Filled/Enabled",
+      "Native list items",
+      "Standard slider/Horizontal/Small/Enabled/50"
+    ],
+    "localSources": [
+      "Android/Friends/Recommendation · Material filled",
+      "Android/Friends/Main content · Material",
+      "Android/Friends/ProfileAvatar · Material monogram",
+      "Android/Friends/Recommendation row · Material filled"
+    ]
+  },
+  "screens": [
+    {
+      "id": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "name": "01 · Android · Freunde · Empfehlungen und Freunde"
+    },
+    {
+      "id": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "name": "04 · Android · Avatar-Menü · Profil und Konto"
+    },
+    {
+      "id": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "name": "03 · Android · Plus-Menü · Freunde hinzufügen"
+    },
+    {
+      "id": "6067D138-DADD-47CC-8FF7-61C17CF5B3C1",
+      "name": "02 · Android · Freunde · Noch keine Freunde"
+    },
+    {
+      "id": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "name": "05 · Android · Einladung · QR und Teilen"
+    },
+    {
+      "id": "009BF15F-45DA-4C8B-8D89-335CD95CED9E",
+      "name": "06 · Android · QR-Code scannen"
+    },
+    {
+      "id": "692C7203-5718-4EEE-908B-E3CBCFE3DDE9",
+      "name": "07 · Android · Einladung annehmen"
+    },
+    {
+      "id": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "name": "09 · Android · Mein Profil"
+    },
+    {
+      "id": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "name": "11 · Android · Badge-Farbton"
+    },
+    {
+      "id": "FDDB40D9-A3EE-4147-A06F-39F248641EE9",
+      "name": "10 · Android · Freundesprofil einrichten"
+    },
+    {
+      "id": "D4BF5770-768D-43C5-8827-3082FB018A43",
+      "name": "12 · Android · Freundesprofil · Aya"
+    },
+    {
+      "id": "B0927616-2FC9-403C-95DA-7D2A1DA7F5D3",
+      "name": "13 · Android · Freundesprofil · Noch keine Inhalte"
+    },
+    {
+      "id": "EFFA5394-4C9D-4D1D-A6BD-F09C9F6695D7",
+      "name": "08 · Android · Einladung abgelaufen"
+    },
+    {
+      "id": "2F6C3A40-881F-4D01-B8B9-5B22045AE523",
+      "name": "15 · Android · Kamera nicht verfügbar"
+    },
+    {
+      "id": "4F309228-4274-4AF5-8EA4-5C6D93E0447B",
+      "name": "14 · Android · Alle Empfehlungen"
+    }
+  ],
+  "verification": {
+    "savedAndReopened": true,
+    "androidScreensExported": 15,
+    "scale": 2,
+    "points": [
+      402,
+      915
+    ],
+    "allAndroidExportsVisuallyReviewed": true,
+    "prototypeEdges": 30,
+    "invalidPrototypeEdges": [],
+    "visibleIOSFriendsComponents": [],
+    "iOSFramesComparedWithBackup": 15,
+    "iOSFramesStructurallyChanged": [],
+    "temporaryInspectionFrameRemoved": true,
+    "simulatorComparison": false
+  },
+  "prototypeEdges": [
+    {
+      "id": "7864900D-4BC8-402D-AE66-3CF1FCD2691A",
+      "name": "Navigation · plus",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "to": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 288,
+        "y": 54,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "id": "1C5774C2-F6D0-4B38-9573-9DAF62FEA066",
+      "name": "Navigation · avatar",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "to": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 342,
+        "y": 54,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "id": "DEBA7681-558A-4489-8B3F-0DEFF127B156",
+      "name": "Navigation · recommendations",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "to": "4F309228-4274-4AF5-8EA4-5C6D93E0447B",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 16,
+        "y": 172,
+        "width": 370,
+        "height": 56
+      }
+    },
+    {
+      "id": "DD52F75B-6D32-47E7-8BB8-747F505A08F0",
+      "name": "Navigation · detail",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "to": "D4BF5770-768D-43C5-8827-3082FB018A43",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 16,
+        "y": 572,
+        "width": 370,
+        "height": 88
+      }
+    },
+    {
+      "id": "602D06E8-7114-453E-87F2-B610FAADE06F",
+      "name": "Navigation · unshared",
+      "from": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "to": "B0927616-2FC9-403C-95DA-7D2A1DA7F5D3",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 16,
+        "y": 662,
+        "width": 370,
+        "height": 88
+      }
+    },
+    {
+      "id": "7196282C-C041-4CA1-8E8F-186C517D03ED",
+      "name": "Menü schließen",
+      "from": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 0,
+        "y": 280,
+        "width": 402,
+        "height": 490
+      }
+    },
+    {
+      "id": "83829A00-F30F-4A65-96C6-401E8B4FDF02",
+      "name": "Navigation · profile",
+      "from": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "to": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 128,
+        "y": 104,
+        "width": 258,
+        "height": 48
+      }
+    },
+    {
+      "id": "3DB74353-CE40-4E19-B77D-814E29AFFAC6",
+      "name": "Navigation · account",
+      "from": "3F8FB529-040F-472B-AE8B-C1293FCC3E6B",
+      "to": "A1FC9BD3-2D5D-41F1-9A8E-172931A0C1A4",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 128,
+        "y": 152,
+        "width": 258,
+        "height": 48
+      }
+    },
+    {
+      "id": "B9326DD4-7620-4B0E-AFFA-02BCD4D1E5E5",
+      "name": "Menü schließen",
+      "from": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 0,
+        "y": 280,
+        "width": 402,
+        "height": 490
+      }
+    },
+    {
+      "id": "AE3A39DB-BBDA-4D2E-A4D0-09D8B3CFDBCA",
+      "name": "Navigation · qr",
+      "from": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "to": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 128,
+        "y": 104,
+        "width": 258,
+        "height": 48
+      }
+    },
+    {
+      "id": "4B6366AF-1EED-4015-9741-C8C8E24BA08B",
+      "name": "Navigation · scan",
+      "from": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "to": "009BF15F-45DA-4C8B-8D89-335CD95CED9E",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 128,
+        "y": 152,
+        "width": 258,
+        "height": 48
+      }
+    },
+    {
+      "id": "A71B80BA-524F-4C21-A951-38F29E90A389",
+      "name": "Navigation · qr",
+      "from": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "to": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 24,
+        "y": 640,
+        "width": 354,
+        "height": 50
+      }
+    },
+    {
+      "id": "14A81ECC-4657-4D46-9D28-3D8C8DC105A1",
+      "name": "Navigation · zurück",
+      "from": "2B0D3982-8F55-4543-A30D-6ECABF8ED10D",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "027E48B1-3402-45FA-A61F-C4A23F986342",
+      "name": "Navigation · accept",
+      "from": "009BF15F-45DA-4C8B-8D89-335CD95CED9E",
+      "to": "692C7203-5718-4EEE-908B-E3CBCFE3DDE9",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 16,
+        "y": 218,
+        "width": 370,
+        "height": 420
+      }
+    },
+    {
+      "id": "BFB97506-E5AA-40EB-A9E0-A43F72F16C84",
+      "name": "Navigation · zurück",
+      "from": "009BF15F-45DA-4C8B-8D89-335CD95CED9E",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "8C2B1A08-8BEF-4BE9-9BF9-F652B9E0A475",
+      "name": "Navigation · full",
+      "from": "692C7203-5718-4EEE-908B-E3CBCFE3DDE9",
+      "to": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 24,
+        "y": 396,
+        "width": 354,
+        "height": 56
+      }
+    },
+    {
+      "id": "62D9300C-DBBA-4081-B0A4-4BB3D7DAC7B3",
+      "name": "Navigation · zurück",
+      "from": "692C7203-5718-4EEE-908B-E3CBCFE3DDE9",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "5FE57A8D-3EC6-46F4-A3C1-C5C4CDEC574E",
+      "name": "Navigation · full",
+      "from": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "to": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 24,
+        "y": 480,
+        "width": 354,
+        "height": 56
+      }
+    },
+    {
+      "id": "AF3A3F4E-8EF6-4CE0-B828-5669702F1BED",
+      "name": "Navigation · zurück",
+      "from": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "D868A7D6-D2AC-4C3D-AB05-A9AAC50339D1",
+      "name": "Navigation · color",
+      "from": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "to": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 101,
+        "y": 140,
+        "width": 200,
+        "height": 144
+      }
+    },
+    {
+      "id": "1D7FE3AE-8C52-49CA-B850-026B0959C749",
+      "name": "Navigation · profile",
+      "from": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "to": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 24,
+        "y": 516.252860411899,
+        "width": 354,
+        "height": 56
+      }
+    },
+    {
+      "id": "2E10459C-ECAD-4064-B86F-EEF05D2B991B",
+      "name": "Navigation · zurück",
+      "from": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "54B0898E-03A3-4916-B26F-EED6FD3B215C",
+      "name": "Navigation · empty",
+      "from": "FDDB40D9-A3EE-4147-A06F-39F248641EE9",
+      "to": "6067D138-DADD-47CC-8FF7-61C17CF5B3C1",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 24,
+        "y": 480,
+        "width": 354,
+        "height": 56
+      }
+    },
+    {
+      "id": "45A5693E-78D8-4DA2-8131-5D2378C8DE36",
+      "name": "Navigation · zurück",
+      "from": "FDDB40D9-A3EE-4147-A06F-39F248641EE9",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "F53BE32E-2FF0-4CC9-BC9F-03C2B005F7B7",
+      "name": "Navigation · color",
+      "from": "FDDB40D9-A3EE-4147-A06F-39F248641EE9",
+      "to": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 101,
+        "y": 140,
+        "width": 200,
+        "height": 144
+      }
+    },
+    {
+      "id": "C27DA528-6338-455C-A078-7084CEC90999",
+      "name": "Navigation · zurück",
+      "from": "D4BF5770-768D-43C5-8827-3082FB018A43",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "DD765349-C6A6-4A73-9938-B3B9BDE6E085",
+      "name": "Navigation · zurück",
+      "from": "B0927616-2FC9-403C-95DA-7D2A1DA7F5D3",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "54F9F20D-C4B5-4ACE-807B-2BAFD0F01982",
+      "name": "Navigation · zurück",
+      "from": "EFFA5394-4C9D-4D1D-A6BD-F09C9F6695D7",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "98219552-0229-401F-BAB0-53CA779ABCD2",
+      "name": "Navigation · zurück",
+      "from": "2F6C3A40-881F-4D01-B8B9-5B22045AE523",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "id": "4968C368-2CEC-4C92-8BBA-614EB3987204",
+      "name": "Navigation · zurück",
+      "from": "4F309228-4274-4AF5-8EA4-5C6D93E0447B",
+      "to": "back",
+      "valid": true,
+      "hidden": false,
+      "frame": {
+        "x": 8,
+        "y": 44,
+        "width": 52,
+        "height": 52
+      }
+    }
+  ],
+  "limitations": [
+    "Static concepts do not simulate editable forms, QR recognition, Firebase data changes or native OS sharing/settings.",
+    "Scanner composition was retained after checking its native Material chrome.",
+    "Existing artist/profile examples are retained snapshots, not newly fetched live data. QR is an invalid vector illustration."
+  ],
+  "sources": {
+    "material": [
+      "https://m3.material.io/components/app-bars/",
+      "https://m3.material.io/components/menus/overview",
+      "https://m3.material.io/components/lists/overview"
+    ],
+    "data": "See design/previews/friends-firebase-2026-11-05/verification.json; existing artist references and illustrative profiles retained."
+  },
+  "backup": "design/recovery/Rudolstadt-before-android-material-expressive-2026-11-05.sketch"
+}

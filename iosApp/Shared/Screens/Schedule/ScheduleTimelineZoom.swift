@@ -9,9 +9,9 @@ enum ScheduleTimelineZoom {
     static let defaultHeightPerHour: CGFloat = 60
     static let minimumHeightPerHour: CGFloat = 42
     static let maximumHeightPerHour: CGFloat = 120
-    static let defaultColumnWidth: CGFloat = 70
+    static let defaultColumnWidth: CGFloat = 71
     static let minimumColumnWidth: CGFloat = 48
-    static let maximumColumnWidth: CGFloat = 140
+    static let maximumColumnWidth: CGFloat = 142
     static let minimumHeightChange: CGFloat = 0.25
     static let minimumColumnWidthChange: CGFloat = 0.25
     static let minimumContentOffsetChange: CGFloat = 0.5
@@ -32,16 +32,22 @@ enum ScheduleTimelineZoomPreset: String, CaseIterable {
     case standard
     case detail
 
-    var scale: CGFloat {
+    var heightPerHour: CGFloat {
         switch self {
-        case .overview: 0.7
-        case .standard: 1
-        case .detail: 2
+        case .overview: ScheduleTimelineZoom.minimumHeightPerHour
+        case .standard: ScheduleTimelineZoom.defaultHeightPerHour
+        case .detail: ScheduleTimelineZoom.maximumHeightPerHour
         }
     }
 
-    var heightPerHour: CGFloat { ScheduleTimelineZoom.defaultHeightPerHour * scale }
-    var columnWidth: CGFloat { ScheduleTimelineZoom.defaultColumnWidth * scale }
+    var columnWidth: CGFloat {
+        switch self {
+        case .overview: ScheduleTimelineZoom.minimumColumnWidth
+        case .standard: ScheduleTimelineZoom.defaultColumnWidth
+        case .detail: ScheduleTimelineZoom.maximumColumnWidth
+        }
+    }
+
     var titleKey: String { "schedule.zoom.\(rawValue)" }
 
     func matches(heightPerHour: CGFloat, columnWidth: CGFloat) -> Bool {

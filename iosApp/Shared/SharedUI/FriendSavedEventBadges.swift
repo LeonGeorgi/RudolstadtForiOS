@@ -78,8 +78,7 @@ struct FriendSavedEventBadges: View {
                 ForEach(visibleEntries) { entry in
                     FestivalProfileBadgeAvatar(
                         badge: entry.badge,
-                        diameter: badgeDiameter,
-                        fontScale: badgeFontScale
+                        diameter: badgeDiameter
                     )
                 }
 
@@ -134,15 +133,6 @@ struct FriendSavedEventBadges: View {
             return 16
         case .plainFloating, .plainInline:
             return 18
-        }
-    }
-
-    private var badgeFontScale: CGFloat {
-        switch style {
-        case .capsule:
-            return 0.34
-        case .plainFloating, .plainInline, .plainFooter:
-            return 0.5
         }
     }
 

@@ -21,25 +21,14 @@
         @EnvironmentObject private var profile: FestivalProfileStore
         @EnvironmentObject private var friends: FriendProfilesStore
         @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-        @State private var selectedProfileID: String?
-        @State private var isShowingFilter = false
-
-        private var friendProfiles: [SharedFestivalProfile] {
-            sortedFriendProfiles(friends.state.profiles)
-        }
-
-        private var selectedProfiles: [SharedFestivalProfile] {
-            guard let selectedProfileID else { return friendProfiles }
-            return friendProfiles.filter { $0.id == selectedProfileID }
-        }
 
         var body: some View {
             let recommendations = context.recommendations(
-                friendProfiles: selectedProfiles,
+                friendProfiles: sortedFriendProfiles(friends.state.profiles),
                 savedEventIDs: profile.savedEvents, ratings: profile.ratings)
             ScrollView {
                 if recommendations.isEmpty {
-                    Text("friends.recommendations.empty")
+                    Text("friends.ui.recommendations.empty")
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity)
                         .padding(24)
@@ -69,85 +58,6 @@
             .background(Color(uiColor: .systemGroupedBackground))
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("filter.button") { isShowingFilter = true }
-                        .accessibilityIdentifier("friend-recommendations-filter")
-                }
-            }
-            .sheet(isPresented: $isShowingFilter) {
-                filterSheet(recommendationCount: recommendations.count)
-            }
-            .onChange(of: friendProfiles.map(\.id)) { _, ids in
-                if let selectedProfileID, !ids.contains(selectedProfileID) {
-                    self.selectedProfileID = nil
-                }
-            }
-        }
-
-        private func filterSheet(recommendationCount: Int) -> some View {
-            NavigationStack {
-                List {
-                    filterOption(nil)
-                    ForEach(friendProfiles) { friend in
-                        filterOption(friend)
-                    }
-                }
-                .navigationTitle("friends.recommendations.filter.title")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("filter.done") { isShowingFilter = false }
-                    }
-                }
-                .safeAreaInset(edge: .bottom) {
-                    Button {
-                        isShowingFilter = false
-                    } label: {
-                        Text(String(
-                            format: friendsLocalizedString(
-                                recommendationCount == 1
-                                    ? "friends.recommendations.filter.results.one"
-                                    : "friends.recommendations.filter.results.other"
-                            ), Int64(recommendationCount)
-                        ))
-                        .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 16)
-                }
-            }
-            .presentationDetents([.medium, .large])
-            .presentationDragIndicator(.visible)
-        }
-
-        private func filterOption(_ friend: SharedFestivalProfile?) -> some View {
-            let isSelected = selectedProfileID == friend?.id
-            return Button {
-                selectedProfileID = friend?.id
-            } label: {
-                HStack(spacing: 12) {
-                    if let friend {
-                        FestivalProfileBadgeAvatar(
-                            badge: friend.badge, diameter: 24, showsShadow: false
-                        )
-                        .accessibilityHidden(true)
-                        Text(friend.badge.displayName)
-                    } else {
-                        Text("friends.recommendations.filter.all")
-                    }
-                    Spacer()
-                    if isSelected {
-                        Image(systemName: "checkmark")
-                            .foregroundStyle(.tint)
-                    }
-                }
-                .foregroundStyle(.primary)
-                .contentShape(Rectangle())
-            }
-            .accessibilityAddTraits(isSelected ? .isSelected : [])
         }
 
         private var navigationTitle: LocalizedStringKey {

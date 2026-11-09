@@ -8,7 +8,7 @@ coroutines = "1.11.0"
 ktor = "3.6.0"
 activity = "1.11.0"
 compose-bom = "2025.10.01"
-material3 = "1.5.0-alpha07"
+material3 = "1.5.0-alpha11"
 junit = "4.13.2"
 lifecycle = "2.9.4"
 navigation = "2.9.5"
@@ -19,11 +19,28 @@ work = "2.10.5"
 media3 = "1.8.0"
 test-runner = "1.7.0"
 uiautomator = "2.4.0"
+firebase-bom = "34.12.0"
+google-services = "4.4.4"
+code-scanner = "16.1.0"
+credentials = "1.6.0"
+google-id = "1.2.1"
+zxing = "3.5.4"
 
 [libraries]
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+firebase-functions = { module = "com.google.firebase:firebase-functions" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
+google-code-scanner = { module = "com.google.android.gms:play-services-code-scanner", version.ref = "code-scanner" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+androidx-credentials-play-services = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
+google-id = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "google-id" }
+zxing = { module = "com.google.zxing:core", version.ref = "zxing" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 ktfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
@@ -49,6 +66,7 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 
 [plugins]
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

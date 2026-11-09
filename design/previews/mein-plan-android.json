@@ -1,0 +1,233 @@
+{
+  "date": "2026-11-04",
+  "document": "design/Rudolstadt.sketch",
+  "page": "Mein Plan",
+  "androidFrame": {
+    "id": "CF18EC4E-83D2-4892-B6DB-006A872507A3",
+    "name": "27 · Android · Mein Plan · kompakter Tagesablauf",
+    "width": 402,
+    "height": 915
+  },
+  "referenceIOSFrame": "5FB66535-EFB4-44DF-A636-E1FF4BD8A01F",
+  "design": [
+    "Gewählte Pause C und Status-Icon-Variante D übertragen. Keine zusätzliche Tagesüberschrift.",
+    "Android UI aus bestehenden Sketch-Android-Screens: Roboto, Material-Farben, 48 dp Tabs, Top App Bar, feste Navigation.",
+    "Gemeinsame Android/Plan-Textstile und Symbol Sources für Konzertzeilen sowie Status- und Routen-Icons.",
+    "48 dp Bedienflächen; Konzertbilder 48 dp, Empfehlung 32 dp. Aktionen auf x374, Textbreite 186 dp; Beispieltitel passen einzeilig. Konzertzeile 64 dp, Konfliktkarte 88 dp."
+  ],
+  "validation": {
+    "sketchSavedClosedReopened": true,
+    "finalScreenshotAfterReopen": true,
+    "zipIntegrity": true,
+    "allGeometryFinite": true,
+    "retainedIOSLayersOnlyRepositioned": true,
+    "iosExportPixelDifference": 0,
+    "unrelatedPagesUnchanged": [
+      "App-Farben",
+      "App-Icons",
+      "Donations",
+      "Concert Detail",
+      "Apple Watch",
+      "World Map",
+      "Schedule",
+      "Web · Link-Fallback",
+      "Web · Support",
+      "Stage Detail",
+      "Friends",
+      "Android · Pixelvergleich · Referenzen · 03.11.2026",
+      "Orte",
+      "Web · Privacy Policy",
+      "News Detail",
+      "Artist Detail"
+    ],
+    "existingSymbolSourcesUnchanged": true,
+    "androidSimulatorComparison": "Implemented and checked in API 36 emulator: native UI regressions plus registered saved/recommendation component channel comparisons. See implementation report for data differences and limits."
+  },
+  "cleanup": {
+    "backup": "design/recovery/2026-11-04-133819-before-plan-cleanup-and-android/Rudolstadt.sketch",
+    "removedFrameCount": 14,
+    "removedRoots": [
+      {
+        "id": "A159EF1B-5B13-4772-91BF-5E8E7F02673B",
+        "name": "01 · Mein Plan · Gespeichert · iOS",
+        "type": "group"
+      },
+      {
+        "id": "DC5D0D34-935A-4D6A-9880-A422F8B4C3EA",
+        "name": "03 · Entwurf · Mein Tagesablauf · 17:10",
+        "type": "group"
+      },
+      {
+        "id": "F8576AD2-C531-4969-93E4-A102B7517E99",
+        "name": "05 · Visuelle Richtung · Konzertpfad",
+        "type": "group"
+      },
+      {
+        "id": "4F62D92B-C319-4A67-9561-E4745C321B9B",
+        "name": "07 · Visuell reduziert · Konzertpfad",
+        "type": "group"
+      },
+      {
+        "id": "B649D86F-D425-4B91-BAFD-2A4BAEC058D2",
+        "name": "10 · Tagesablauf · alle Konzerte sichtbar",
+        "type": "group"
+      },
+      {
+        "id": "1961208C-A8E2-4084-8E22-1BE034FF23D0",
+        "name": "11 · Einzelne Konflikte · nur mit früheren Konzerten",
+        "type": "group"
+      },
+      {
+        "id": "4224E055-83EE-43AC-A448-74F9B021B2CF",
+        "name": "12 · Empfehlungen einblenden · gemerkt und empfohlen",
+        "type": "group"
+      },
+      {
+        "id": "BD07794D-5230-48DD-A71B-78A016409F41",
+        "name": "13 · Timeline-Knoten · gefüllte Kreise mit weißen Icons",
+        "type": "group"
+      },
+      {
+        "id": "D0F8C30B-DC67-458B-A450-FB4AB88B8475",
+        "name": "14 · Gemerkte Konzerte · Lesezeichen in der Timeline",
+        "type": "group"
+      },
+      {
+        "id": "96C72513-800F-4248-AE82-F9F4F7FE123C",
+        "name": "15 · Ruhige Timeline · Status am Konzert",
+        "type": "group"
+      },
+      {
+        "id": "3FCC425C-CB3B-48F8-BD85-B32314842FF6",
+        "name": "16 · Gemerkt und empfohlen · klare visuelle Hierarchie",
+        "type": "group"
+      },
+      {
+        "id": "DBFD8E30-493A-4856-94C7-89B693998ED1",
+        "name": "17 · Aktueller Simulator · Sonntag · Mein Plan",
+        "type": "group"
+      },
+      {
+        "id": "684509C3-E38D-49AD-BE8C-C4C5BED4C36D",
+        "name": "04 · Entwurf · Überschneidung vergleichen",
+        "type": "group"
+      },
+      {
+        "id": "8A8FFAF7-69FF-4239-B611-CAFAD9450386",
+        "name": "06 · Visuelle Richtung · Konzertvergleich",
+        "type": "group"
+      },
+      {
+        "id": "185ECA44-208C-4043-866C-257A764CE0B0",
+        "name": "Vergleich · bisheriger Stand",
+        "type": "text"
+      },
+      {
+        "id": "27EE5091-44AA-49BB-939B-2D20C175C309",
+        "name": "Vergleich · neuer Entwurf",
+        "type": "text"
+      },
+      {
+        "id": "C42324E2-AE4E-43BE-B710-522826C71304",
+        "name": "Visuelle Weiterentwicklung · Titel",
+        "type": "text"
+      },
+      {
+        "id": "59428AD6-CDDC-44F2-BDBE-B46C08B7509A",
+        "name": "Visuelle Weiterentwicklung · Erläuterung",
+        "type": "text"
+      },
+      {
+        "id": "522AA63B-C7E1-42A1-91D9-C79BE4200D79",
+        "name": "10 · Regel für Konzert Endzeiten",
+        "type": "text"
+      },
+      {
+        "id": "4E07FC62-731F-44A6-ADFF-6385EC6C20E1",
+        "name": "11 · Konzept · Konflikt pro Konzert",
+        "type": "text"
+      },
+      {
+        "id": "DFEEA8E8-AAB4-4DCE-A10F-1B24573B9666",
+        "name": "12 · Gemerkt und empfohlen · Konzeptzustand",
+        "type": "text"
+      },
+      {
+        "id": "B670BA6C-7210-4731-9859-AD95AD083674",
+        "name": "13 · Gefüllte Timeline-Knoten · Größenvergleich",
+        "type": "text"
+      },
+      {
+        "id": "2DBE629F-8FD2-461B-BC5D-FDEC484E18C3",
+        "name": "14 · Lesezeichen für gemerkte Konzerte",
+        "type": "text"
+      },
+      {
+        "id": "0D5F36CD-C6F5-43EA-B91F-D5127B46C679",
+        "name": "15 · Chronologie und Konzertstatus getrennt",
+        "type": "text"
+      },
+      {
+        "id": "6D6CA8F8-63FA-4EB0-8D37-E3599C152CC7",
+        "name": "16 · Gemerkt und empfohlen · visuelle Hierarchie",
+        "type": "text"
+      },
+      {
+        "id": "9268ECFC-912C-46AF-9C3A-8F207265FCA0",
+        "name": "11 · Regeln · Konflikte nur rückwärts",
+        "type": "text"
+      },
+      {
+        "id": "ADD24C71-06BF-460B-B04B-A8240169375E",
+        "name": "Empfehlungen · Darstellung und Verhalten",
+        "type": "text"
+      },
+      {
+        "id": "621BEEC0-A532-4CF9-8432-7009B424DDA1",
+        "name": "Gefüllte Timeline-Knoten · Größen und Farben",
+        "type": "text"
+      },
+      {
+        "id": "9CD54CC4-96BC-4B57-9F4B-BAAB76ABEFC9",
+        "name": "Lesezeichen-Knoten · Darstellung und Priorität",
+        "type": "text"
+      },
+      {
+        "id": "6F778917-7849-48C2-8EA6-58067CAD1B85",
+        "name": "Ruhige Timeline · Chronologie und Status",
+        "type": "text"
+      },
+      {
+        "id": "8CB0B964-ACB0-4B90-A16B-ACBFE278C22C",
+        "name": "Gemerkt und empfohlen · schnelle Unterscheidung",
+        "type": "text"
+      }
+    ],
+    "keptDistinctStates": [
+      "02 · Leerzustand",
+      "08 · Zeitkonflikt",
+      "09 · Versetzter Konflikt",
+      "Codebasis und Entscheidungen",
+      "Empfehlungen-Menü"
+    ]
+  },
+  "exports": [
+    "design/previews/mein-plan-android@2x.png",
+    "design/previews/mein-plan-ios-android.png"
+  ],
+  "detailRefinement": {
+    "date": "2026-11-04",
+    "metrics": "design/previews/mein-plan-android-detail-metrics.json",
+    "channels": "design/previews/mein-plan-android-detail-channels.png",
+    "backup": "design/recovery/2026-11-04-before-android-detail-refinement/Rudolstadt.sketch",
+    "changedRoots": [
+      "27 · Android · Mein Plan · kompakter Tagesablauf",
+      "Android/Plan/Concert row · recommendation",
+      "Android/Plan/Concert row · saved",
+      "Android/Plan/Timeline · Walking · 24dp"
+    ],
+    "unrelatedContentUnchanged": true,
+    "baselineMismatches": 0
+  },
+  "implementationReport": "design/implementation-mein-plan-android-2026-11-04/verification.json"
+}

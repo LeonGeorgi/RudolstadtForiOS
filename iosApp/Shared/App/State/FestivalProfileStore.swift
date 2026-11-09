@@ -2,9 +2,6 @@ import Combine
 import Foundation
 import OSLog
 import RudolstadtCore
-#if os(iOS)
-    import CloudKit
-#endif
 
 @MainActor
 final class FestivalProfileStore: ObservableObject {
@@ -14,15 +11,7 @@ final class FestivalProfileStore: ObservableObject {
         static let legacyCacheKey = "festival-profile-cache-v1"
         static let migrationVersion = 1
         static let schemaVersion = 3
-        static let localMutationSyncDelayNanoseconds: UInt64 = 750_000_000
-        static let cloudKitContainerIdentifier = "iCloud.de.leongeorgi.RudolstadtForiOS"
-        static let profileRecordType = "FestivalProfile"
-        static let savedEventRecordType = "SavedEventPreference"
-        static let artistPreferenceRecordType = "ArtistPreference"
-        static let artistNoteRecordType = "ArtistNote"
         static let profileName = "My Festival Picks"
-        static let profileZoneName = "FestivalProfileZone-\(DataStore.year)"
-        static let notesZoneName = "FestivalProfileNotesZone-\(DataStore.year)"
 
         nonisolated static func cacheKey(for festivalYear: Int) -> String {
             "festival-profile-cache-\(festivalYear)-v1"
@@ -51,14 +40,16 @@ final class FestivalProfileStore: ObservableObject {
     var ratings: [String: Int] { state.ratings.mapValues(\.intValue) }
     var artistNotes: [String: String] { state.notes }
     var badgeName: String { FestivalProfileBadge.normalizedName(state.profile.badgeName) ?? "" }
-    var badgeColorHex: String { FestivalProfileBadge.resolvedColorHex(state.profile.badgeColorHex) }
+    var badgeHue: Double { FestivalProfileBadge.resolvedHue(state.profile.badgeHue) }
     let syncStore = FestivalProfileSyncStore()
     let friendProfilesStore = FriendProfilesStore()
     private var profileObservation: StateSubscription?
 
     let userDataPolicy: FestivalUserDataPolicy
     let isReadOnly: Bool
-    private let cloudKitEnabled: Bool
+    let usesFirebaseSync: Bool
+    let archiveSharing: Bool
+    private let firebaseDefaults: UserDefaults
     private let persistence: any FestivalProfilePersisting
     private let waitBeforePersisting: @Sendable () async -> Void
     private let now: () -> Date
@@ -70,20 +61,15 @@ final class FestivalProfileStore: ObservableObject {
     private let viewModel: ProfileViewModel
 
     #if os(iOS)
-        private lazy var syncCoordinator = FestivalProfileSyncCoordinator(
-            store: self, isEnabled: cloudKitEnabled, now: now
-        )
-        private lazy var sharingService = FestivalProfileSharingService(
-            store: self,
-            syncCoordinator: syncCoordinator,
-            isEnabled: cloudKitEnabled
-        )
+        lazy var firebaseFriends = FirebaseFriendsStore(profile: self)
+        lazy var firebaseOwnProfile = FirebaseOwnProfileStore(profile: self, defaults: firebaseDefaults)
     #endif
 
     init(
         userDefaults: UserDefaults = .standard,
         readOnlyFestivalYear: Int? = nil,
-        cloudKitEnabled: Bool = FestivalProfileStore.defaultCloudKitEnabled,
+        archiveFestivalYear: Int? = nil,
+        cloudSyncEnabled: Bool = FestivalProfileStore.defaultCloudSyncEnabled,
         now: @escaping () -> Date = { .now },
         persistence: (any FestivalProfilePersisting)? = nil,
         userDataPolicy: FestivalUserDataPolicy? = nil,
@@ -98,14 +84,21 @@ final class FestivalProfileStore: ObservableObject {
             )
         } else {
             resolvedPersistence = persistence ?? UserDefaultsFestivalProfilePersistence(
-                    userDefaults: userDefaults, festivalYear: DataStore.year
+                    userDefaults: userDefaults, festivalYear: archiveFestivalYear ?? DataStore.year,
+                    isArchive: archiveFestivalYear != nil
                 )
         }
+        self.archiveSharing = archiveFestivalYear != nil
         let access: FestivalUserDataAccess = readOnlyFestivalYear == nil ? .editable : .readOnly
         self.userDataPolicy = userDataPolicy ?? FestivalUserDataPolicy(savedEvents: access, artistRatings: access, artistNotes: access)
         self.isReadOnly = readOnlyFestivalYear != nil || (self.userDataPolicy.savedEvents != .editable
             && self.userDataPolicy.artistRatings != .editable && self.userDataPolicy.artistNotes != .editable)
-        self.cloudKitEnabled = cloudKitEnabled && !self.isReadOnly
+        #if os(iOS)
+            self.usesFirebaseSync = cloudSyncEnabled && !self.isReadOnly && FirebaseFriendsRuntime.isEnabled
+        #else
+            self.usesFirebaseSync = false
+        #endif
+        self.firebaseDefaults = userDefaults
         self.now = now
         self.persistence = resolvedPersistence
         self.waitBeforePersisting = waitBeforePersisting
@@ -132,23 +125,16 @@ final class FestivalProfileStore: ObservableObject {
         applyCurrentProfile(cache.currentProfile)
         applyAcceptedFriendProfiles()
         syncStore.lastSuccessfulRefreshDate = cache.lastSuccessfulRefreshDate
-        syncStore.shareState = cache.currentProfile.shareRecordName == nil ? .notShared : .shared
-        #if os(iOS)
-            syncCoordinator.restoreCachedState()
-            sharingService.restoreCachedState()
-        #endif
+        syncStore.shareState = .notShared
+
         AppLog.sync.info(
             "Loaded festival profile cache with \(self.savedEvents.count) saved events, \(self.ratings.count) ratings, and \(self.acceptedFriendProfiles.count) shared profiles"
         )
 
-        #if os(iOS)
-            syncCoordinator.start(sharingService: sharingService)
-        #else
-            setICloudStatus(.unavailable("Cloud sync is only available on iOS"))
-        #endif
+        syncStore.viewModel.account(status: "local", reason: nil)
     }
 
-    nonisolated static var defaultCloudKitEnabled: Bool {
+    nonisolated static var defaultCloudSyncEnabled: Bool {
         !ScreenshotRuntime.isEnabled
             && ProcessInfo.processInfo.environment[
                 "XCTestConfigurationFilePath"
@@ -214,8 +200,8 @@ final class FestivalProfileStore: ObservableObject {
         friendProfilesStore.state.profiles
     }
 
-    var iCloudStatus: FestivalProfileICloudStatus {
-        syncStore.iCloudStatus
+    var accountStatus: FestivalProfileAccountStatus {
+        syncStore.accountStatus
     }
 
     var syncState: FestivalProfileSyncState {
@@ -233,12 +219,12 @@ final class FestivalProfileStore: ObservableObject {
     var ownerBadge: FestivalProfileBadge {
         FestivalProfileBadge.ownerBadge(
             rawName: badgeName,
-            rawColorHex: badgeColorHex
+            rawHue: badgeHue
         )
     }
 
-    func updateBadge(name: String, colorHex: String) {
-        updateCurrentProfile(.updateBadge(name: name, colorHex: colorHex))
+    func updateBadge(name: String, hue: Double) {
+        updateCurrentProfile(.updateBadge(name: name, hue: hue))
     }
 
     func setArtistRating(for artist: Artist, rating: Int) {
@@ -273,45 +259,19 @@ final class FestivalProfileStore: ObservableObject {
 
     func refreshFromCloud(reason: String = "manual") async {
         #if os(iOS)
-            await syncCoordinator.refresh(reason: reason)
+            if usesFirebaseSync { firebaseOwnProfile.controller.retry(); return }
         #endif
     }
 
-    #if os(iOS)
-        func prepareShare() async throws -> CKShare {
-            try await sharingService.prepareShare()
-        }
-
-        func prepareOneTimeShareURL() async throws -> URL {
-            try await sharingService.prepareOneTimeShareURL()
-        }
-
-        func refreshShareParticipants() async {
-            await sharingService.refreshShareParticipants()
-        }
-
-        func acceptShare(metadata: CKShare.Metadata) async {
-            await sharingService.acceptShare(metadata: metadata)
-        }
-
-        func acceptShare(url: URL) async throws {
-            try await sharingService.acceptShare(url: url)
-        }
-
-        func cachedShare() -> CKShare? {
-            sharingService.cachedShare()
-        }
-    #endif
-
     // MARK: - Local State
 
-    // Internal sync/sharing access. Mutations stay on the main actor; callers
+    // Local persistence access. Mutations stay on the main actor; callers
     // publish and persist at the existing transaction boundaries.
     var cacheSnapshot: FestivalProfileCache { cache }
 
     func updateCache(_ update: (inout FestivalProfileCache) -> Void) {
         update(&cache)
-        // Import native persistence/CloudKit payloads at this boundary. Local actions
+        // Import native persistence payloads at this boundary. Local actions
         // mutate the shared state directly and only export a transport snapshot.
         restoreDomainProfile()
     }
@@ -346,7 +306,13 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     private func updateCurrentProfile(_ mutation: FestivalProfileMutation, metadataAvailable: Bool = true) {
-        let previous = viewModel.current
+        #if os(iOS)
+            if usesFirebaseSync {
+                guard viewModel.permits(mutation: mutation, metadataAvailable: metadataAvailable) else { return }
+                firebaseOwnProfile.controller.mutate(mutation: mutation)
+                return
+            }
+        #endif
         guard
             viewModel.mutate(
                 mutation: mutation,
@@ -356,9 +322,6 @@ final class FestivalProfileStore: ObservableObject {
         storeDomainProfile()
         applyCurrentProfile(cache.currentProfile)
         persistCache()
-        #if os(iOS)
-            syncCoordinator.profileDidChange(changes: viewModel.syncChanges(previous: previous))
-        #endif
     }
 
     func prepareFullUpload() -> [ProfileSyncAction] {
@@ -408,12 +371,21 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     private func applyCurrentProfile(_ profile: CachedOwnerFestivalProfile) {
-        syncStore.shareState = profile.shareRecordName == nil ? .notShared : .shared
         if viewModel.consumeRecommendationChange() {
             listeners[.recommendationInputs]?.forEach { $0() }
             listeners[.watchSnapshotInputs]?.forEach { $0() }
         }
     }
+
+    #if os(iOS)
+        func applyFirebaseProfile(_ profile: PersonalProfile) {
+            guard usesFirebaseSync else { return }
+            viewModel.restore(profile: profile, changes: [], pending: [])
+            cache.currentProfile.applyDomainProfile(profile)
+            applyCurrentProfile(cache.currentProfile)
+            persistCache()
+        }
+    #endif
 
     func persistCache(immediately: Bool = false) {
         guard !isReadOnly else { return }
@@ -433,6 +405,9 @@ final class FestivalProfileStore: ObservableObject {
     }
 
     private func applyAcceptedFriendProfiles() {
+        #if os(iOS)
+        guard !FirebaseFriendsRuntime.isEnabled else { return }
+        #endif
         let updatedProfiles = cache.sharedProfiles
             .map(Self.makeSharedProfile)
             .sorted { lhs, rhs in
@@ -446,11 +421,11 @@ final class FestivalProfileStore: ObservableObject {
         }
     }
 
-    func setICloudStatus(_ newStatus: FestivalProfileICloudStatus) {
-        if syncStore.iCloudStatus != newStatus {
-            syncStore.iCloudStatus = newStatus
+    func setAccountStatus(_ newStatus: FestivalProfileAccountStatus) {
+        if syncStore.accountStatus != newStatus {
+            syncStore.accountStatus = newStatus
             AppLog.sync.info(
-                "iCloud status changed to \(newStatus.logDescription, privacy: .public)"
+                "Account status changed to \(newStatus.logDescription, privacy: .public)"
             )
         }
     }

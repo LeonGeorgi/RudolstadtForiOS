@@ -17,11 +17,18 @@ struct ScheduleTimelineZoomTests {
     }
 
     @Test
+    func overviewPresetUsesBothGestureMinimums() {
+        let preset = ScheduleTimelineZoomPreset.overview
+        #expect(preset.heightPerHour == ScheduleTimelineZoom.minimumHeightPerHour)
+        #expect(preset.columnWidth == ScheduleTimelineZoom.minimumColumnWidth)
+    }
+
+    @Test
     func standardPresetRestoresBothAxesAfterIndependentPinchZoom() {
         let preset = ScheduleTimelineZoomPreset.standard
         #expect(preset.heightPerHour == ScheduleTimelineZoom.defaultHeightPerHour)
         #expect(preset.columnWidth == ScheduleTimelineZoom.defaultColumnWidth)
-        #expect(preset.matches(heightPerHour: 60, columnWidth: 70))
+        #expect(preset.matches(heightPerHour: 60, columnWidth: 71))
         #expect(!preset.matches(heightPerHour: 60, columnWidth: 105))
         #expect(!preset.matches(heightPerHour: 90, columnWidth: 70))
     }

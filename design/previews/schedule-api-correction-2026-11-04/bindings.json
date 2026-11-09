@@ -1,0 +1,1486 @@
+{
+  "ok": true,
+  "count": 49,
+  "bindings": [
+    {
+      "layerId": "410B1244-FE4C-4292-86AE-0D976275408C",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "sourceName": "Tamburica Cindrof",
+      "sourceTime": "11:00",
+      "frame": {
+        "x": 210,
+        "y": 252,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": "LÄNDERSCH…"
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Tamburica Cindrof"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Tamburica Cindrof"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "11:00"
+        }
+      ]
+    },
+    {
+      "layerId": "002C45B7-F099-40BD-8BEF-0A78E97A65F2",
+      "eventId": 127,
+      "artistId": 217,
+      "stageId": 4,
+      "sourceName": "La Vespa Cougourdon Ourchestra",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 135,
+        "y": 372,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "9D7D441B-6D4B-404A-A875-B71BFF977779_stringValue",
+          "value": "13:00"
+        },
+        {
+          "id": "8E352CEE-7B6C-4FFC-9380-01004993C0A3_stringValue",
+          "value": "La Vespa Cougour…"
+        },
+        {
+          "id": "3200DB49-37EC-4B1D-B5BA-4897A4D35AE0_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "8BB662F1-2767-45FE-81E5-7A553C819B76",
+      "eventId": 171,
+      "artistId": 213,
+      "stageId": 7,
+      "sourceName": "AltBadSeer Musi",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 210,
+        "y": 372,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "AltBadSeer Musi"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "AltBadSeer Musi"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "13:00"
+        }
+      ]
+    },
+    {
+      "layerId": "64AA3F08-DE50-4951-889D-3D49870C8A92",
+      "eventId": 156,
+      "artistId": 207,
+      "stageId": 8,
+      "sourceName": "Zgarda",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 285,
+        "y": 372,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Zgarda"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Zgarda"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "13:00"
+        }
+      ]
+    },
+    {
+      "layerId": "C14B01CF-3AD2-4415-B62F-07411451928D",
+      "eventId": 193,
+      "artistId": 245,
+      "stageId": 9,
+      "sourceName": "The Green Apple Sea",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 360,
+        "y": 372,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "The Green Apple Sea"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "The Green Apple Sea"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "13:00"
+        }
+      ]
+    },
+    {
+      "layerId": "31D710FD-9671-43B3-9851-144BAC437477",
+      "eventId": 128,
+      "artistId": 310,
+      "stageId": 4,
+      "sourceName": "Rastak",
+      "sourceTime": "16:00",
+      "frame": {
+        "x": 135,
+        "y": 552,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "29BAD552-AA34-4463-BB5E-EBA8ACBC1697_stringValue",
+          "value": "16:00"
+        },
+        {
+          "id": "EF65AC33-4245-49E9-854E-B6186CA623AF_stringValue",
+          "value": "Rastak"
+        },
+        {
+          "id": "63384D27-86DC-494F-85E6-17675627A0A5_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "31C6CCAA-3F8E-436C-9417-064E1231DCED",
+      "eventId": 389,
+      "artistId": 203,
+      "stageId": 7,
+      "sourceName": "Jugendfolkorchester",
+      "sourceTime": "15:30",
+      "frame": {
+        "x": 210,
+        "y": 522,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Jugendfolkorchester"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Jugendfolkorchester"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "15:30"
+        }
+      ]
+    },
+    {
+      "layerId": "BE385652-DE5A-4ADF-B2EF-4A48F4488372",
+      "eventId": 172,
+      "artistId": 144,
+      "stageId": 7,
+      "sourceName": "Thüringer Folkloretanzensemble",
+      "sourceTime": "16:30",
+      "frame": {
+        "x": 210,
+        "y": 582,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": "BÜHNENTANZ"
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Thüringer Folkloret…"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Thüringer Folkloret…"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "16:30"
+        }
+      ]
+    },
+    {
+      "layerId": "0B3449E2-8162-40EA-A270-F074CB4BEBE2",
+      "eventId": 119,
+      "artistId": 218,
+      "stageId": 3,
+      "sourceName": "Florian Paul & Die Kapelle der letzten Hoffnung",
+      "sourceTime": "17:00",
+      "frame": {
+        "x": 60,
+        "y": 612,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "9D7D441B-6D4B-404A-A875-B71BFF977779_stringValue",
+          "value": "17:00"
+        },
+        {
+          "id": "8E352CEE-7B6C-4FFC-9380-01004993C0A3_stringValue",
+          "value": "Florian Paul & Di…"
+        },
+        {
+          "id": "3200DB49-37EC-4B1D-B5BA-4897A4D35AE0_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "B1DF4941-0B9A-4F00-9795-DAEEAA97E911",
+      "eventId": 158,
+      "artistId": 302,
+      "stageId": 8,
+      "sourceName": "Clare Sands",
+      "sourceTime": "17:30",
+      "frame": {
+        "x": 285,
+        "y": 642,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "A555BD6B-EBC9-4976-B2AE-2653BF5A65B7_stringValue",
+          "value": "17:30"
+        },
+        {
+          "id": "B5E87BF8-58F5-4AA3-A577-382729222044_stringValue",
+          "value": "Clare Sands"
+        },
+        {
+          "id": "0262EC04-E69C-41A9-8B18-E805319CE0F3_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "224165B8-C850-4D7D-8546-E1D9EAA29B15",
+      "eventId": 129,
+      "artistId": 175,
+      "stageId": 4,
+      "sourceName": "RIAN",
+      "sourceTime": "19:00",
+      "frame": {
+        "x": 135,
+        "y": 732,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": "LÄNDERSCH…"
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "RIAN"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "RIAN"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "19:00"
+        }
+      ]
+    },
+    {
+      "layerId": "A02C48C0-16C1-41BB-A08C-C9642BDAFF3D",
+      "eventId": 175,
+      "artistId": 298,
+      "stageId": 7,
+      "sourceName": "Phønix & Embla",
+      "sourceTime": "19:00",
+      "frame": {
+        "x": 210,
+        "y": 732,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "19:00"
+        }
+      ]
+    },
+    {
+      "layerId": "A5D3FE44-11AF-42B7-AB29-A8D07D652445",
+      "eventId": 157,
+      "artistId": 298,
+      "stageId": 8,
+      "sourceName": "Phønix & Embla",
+      "sourceTime": "15:00",
+      "frame": {
+        "x": 285,
+        "y": 492,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "15:00"
+        }
+      ]
+    },
+    {
+      "layerId": "9514B766-4EB0-4B79-B5FC-ABAC999149E5",
+      "eventId": 194,
+      "artistId": 284,
+      "stageId": 9,
+      "sourceName": "Totally Cantoj Bassman",
+      "sourceTime": "15:00",
+      "frame": {
+        "x": 360,
+        "y": 492,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Totally Cantoj…"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Totally Cantoj…"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "15:00"
+        }
+      ]
+    },
+    {
+      "layerId": "28FCF7F9-B27E-4193-9299-19E9C013ED7E",
+      "eventId": 195,
+      "artistId": 279,
+      "stageId": 9,
+      "sourceName": "The String Company",
+      "sourceTime": "17:00",
+      "frame": {
+        "x": 360,
+        "y": 612,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "A555BD6B-EBC9-4976-B2AE-2653BF5A65B7_stringValue",
+          "value": "17:00"
+        },
+        {
+          "id": "B5E87BF8-58F5-4AA3-A577-382729222044_stringValue",
+          "value": "The String Company"
+        },
+        {
+          "id": "0262EC04-E69C-41A9-8B18-E805319CE0F3_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "D6835EDC-7C24-4C03-BA11-FCA2E4AA0265",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "sourceName": "Tamburica Cindrof",
+      "sourceTime": "11:00",
+      "frame": {
+        "x": 210,
+        "y": 293,
+        "width": 71,
+        "height": 70
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "11:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Tamburica Cindrof"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": "LÄNDERSCHWERP…"
+        }
+      ]
+    },
+    {
+      "layerId": "B48F858F-1DD0-4BA5-B8B0-4DA5CEC0EFD2",
+      "eventId": 127,
+      "artistId": 217,
+      "stageId": 4,
+      "sourceName": "La Vespa Cougourdon Ourchestra",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 135,
+        "y": 437,
+        "width": 71,
+        "height": 70
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "13:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "La Vespa Cougourd…"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "58242CE6-DC2D-48F8-9AB4-73F05B2DA7B6",
+      "eventId": 171,
+      "artistId": 213,
+      "stageId": 7,
+      "sourceName": "AltBadSeer Musi",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 210,
+        "y": 437,
+        "width": 71,
+        "height": 70
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "13:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "AltBadSeer Musi"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "F1D05CA1-C90E-4EB9-AE89-6FC331619CA1",
+      "eventId": 156,
+      "artistId": 207,
+      "stageId": 8,
+      "sourceName": "Zgarda",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 285,
+        "y": 437,
+        "width": 71,
+        "height": 70
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "13:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Zgarda"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "8749F51E-1969-4A92-B672-B2930C61C78F",
+      "eventId": 128,
+      "artistId": 310,
+      "stageId": 4,
+      "sourceName": "Rastak",
+      "sourceTime": "16:00",
+      "frame": {
+        "x": 135,
+        "y": 653,
+        "width": 71,
+        "height": 106
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "16:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Rastak"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "18C46643-D063-4083-8FAD-7A0D0A5BF127",
+      "eventId": 389,
+      "artistId": 203,
+      "stageId": 7,
+      "sourceName": "Jugendfolkorchester",
+      "sourceTime": "15:30",
+      "frame": {
+        "x": 210,
+        "y": 617,
+        "width": 71,
+        "height": 70
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "15:30"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Jugendfolkorchester"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "FB346BA6-9C34-482D-96B3-2B57DA3542B9",
+      "eventId": 172,
+      "artistId": 144,
+      "stageId": 7,
+      "sourceName": "Thüringer Folkloretanzensemble",
+      "sourceTime": "16:30",
+      "frame": {
+        "x": 210,
+        "y": 689,
+        "width": 71,
+        "height": 70
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "16:30"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Thüringer Folkloret…"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": "BÜHNENTANZ"
+        }
+      ]
+    },
+    {
+      "layerId": "7F23EC7A-21F8-4E23-868F-785F0C3D01D3",
+      "eventId": 119,
+      "artistId": 218,
+      "stageId": 3,
+      "sourceName": "Florian Paul & Die Kapelle der letzten Hoffnung",
+      "sourceTime": "17:00",
+      "frame": {
+        "x": 60,
+        "y": 725,
+        "width": 71,
+        "height": 106
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "17:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Florian Paul & Di…"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "32188E53-21F8-4175-8CDC-62784AC56E70",
+      "eventId": 157,
+      "artistId": 298,
+      "stageId": 8,
+      "sourceName": "Phønix & Embla",
+      "sourceTime": "15:00",
+      "frame": {
+        "x": 285,
+        "y": 581,
+        "width": 71,
+        "height": 70
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "15:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "47C3CA77-5542-4FD6-9424-D9A3DE37925C",
+      "eventId": 193,
+      "artistId": 245,
+      "stageId": 9,
+      "sourceName": "The Green Apple Sea",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 360,
+        "y": 437,
+        "width": 71,
+        "height": 70
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "13:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "The Green Apple Sea"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "52D1285F-DE5C-4304-B27D-0F00F6E759FB",
+      "eventId": 194,
+      "artistId": 284,
+      "stageId": 9,
+      "sourceName": "Totally Cantoj Bassman",
+      "sourceTime": "15:00",
+      "frame": {
+        "x": 360,
+        "y": 581,
+        "width": 71,
+        "height": 70
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "15:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Totally Cantoj…"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "C733B030-23E4-495C-8DA5-69BBF12FF8A8",
+      "eventId": 195,
+      "artistId": 279,
+      "stageId": 9,
+      "sourceName": "The String Company",
+      "sourceTime": "17:00",
+      "frame": {
+        "x": 360,
+        "y": 725,
+        "width": 71,
+        "height": 106
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "17:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "The String Company"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "F01A1558-80B4-45DB-9BED-5C446498A3A5",
+      "eventId": 158,
+      "artistId": 302,
+      "stageId": 8,
+      "sourceName": "Clare Sands",
+      "sourceTime": "17:30",
+      "frame": {
+        "x": 285,
+        "y": 761,
+        "width": 71,
+        "height": 106
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "17:30"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Clare Sands"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "C36CB5E5-C01D-4F5F-BE2C-A644B2AECF1D",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "sourceName": "Tamburica Cindrof",
+      "sourceTime": "11:00",
+      "frame": {
+        "x": 210,
+        "y": 252,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": "LÄNDERSCH…"
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Tamburica Cindrof"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Tamburica Cindrof"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "11:00"
+        }
+      ]
+    },
+    {
+      "layerId": "1BCE7FA3-A2E4-4AD4-9C0C-3ACCD66EE8C1",
+      "eventId": 127,
+      "artistId": 217,
+      "stageId": 4,
+      "sourceName": "La Vespa Cougourdon Ourchestra",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 135,
+        "y": 372,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "9D7D441B-6D4B-404A-A875-B71BFF977779_stringValue",
+          "value": "13:00"
+        },
+        {
+          "id": "8E352CEE-7B6C-4FFC-9380-01004993C0A3_stringValue",
+          "value": "La Vespa Cougour…"
+        },
+        {
+          "id": "3200DB49-37EC-4B1D-B5BA-4897A4D35AE0_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "5C0D548C-A6B8-4413-9D47-C84924F9F305",
+      "eventId": 171,
+      "artistId": 213,
+      "stageId": 7,
+      "sourceName": "AltBadSeer Musi",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 210,
+        "y": 372,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "AltBadSeer Musi"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "AltBadSeer Musi"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "13:00"
+        }
+      ]
+    },
+    {
+      "layerId": "E1BFB024-7AC7-4CAF-951F-0BA3CEE185CB",
+      "eventId": 156,
+      "artistId": 207,
+      "stageId": 8,
+      "sourceName": "Zgarda",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 285,
+        "y": 372,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Zgarda"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Zgarda"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "13:00"
+        }
+      ]
+    },
+    {
+      "layerId": "EBC96E43-358C-4452-860D-7BB8BF28B11F",
+      "eventId": 193,
+      "artistId": 245,
+      "stageId": 9,
+      "sourceName": "The Green Apple Sea",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 360,
+        "y": 372,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "The Green Apple Sea"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "The Green Apple Sea"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "13:00"
+        }
+      ]
+    },
+    {
+      "layerId": "6301664B-9787-4D31-8B14-EBA1714210EB",
+      "eventId": 128,
+      "artistId": 310,
+      "stageId": 4,
+      "sourceName": "Rastak",
+      "sourceTime": "16:00",
+      "frame": {
+        "x": 135,
+        "y": 552,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "29BAD552-AA34-4463-BB5E-EBA8ACBC1697_stringValue",
+          "value": "16:00"
+        },
+        {
+          "id": "EF65AC33-4245-49E9-854E-B6186CA623AF_stringValue",
+          "value": "Rastak"
+        },
+        {
+          "id": "63384D27-86DC-494F-85E6-17675627A0A5_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "659D7C45-6769-4478-ACB9-99E11C1674AC",
+      "eventId": 389,
+      "artistId": 203,
+      "stageId": 7,
+      "sourceName": "Jugendfolkorchester",
+      "sourceTime": "15:30",
+      "frame": {
+        "x": 210,
+        "y": 522,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Jugendfolkorchester"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Jugendfolkorchester"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "15:30"
+        }
+      ]
+    },
+    {
+      "layerId": "F1BDDFF1-B0A8-4DC3-9325-53106687D667",
+      "eventId": 172,
+      "artistId": 144,
+      "stageId": 7,
+      "sourceName": "Thüringer Folkloretanzensemble",
+      "sourceTime": "16:30",
+      "frame": {
+        "x": 210,
+        "y": 582,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": "BÜHNENTANZ"
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Thüringer Folkloret…"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Thüringer Folkloret…"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "16:30"
+        }
+      ]
+    },
+    {
+      "layerId": "C23E0712-DAD8-4F9A-9707-E58F2E108F4B",
+      "eventId": 119,
+      "artistId": 218,
+      "stageId": 3,
+      "sourceName": "Florian Paul & Die Kapelle der letzten Hoffnung",
+      "sourceTime": "17:00",
+      "frame": {
+        "x": 60,
+        "y": 612,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "9D7D441B-6D4B-404A-A875-B71BFF977779_stringValue",
+          "value": "17:00"
+        },
+        {
+          "id": "8E352CEE-7B6C-4FFC-9380-01004993C0A3_stringValue",
+          "value": "Florian Paul & Di…"
+        },
+        {
+          "id": "3200DB49-37EC-4B1D-B5BA-4897A4D35AE0_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "A20D5B70-41BB-4D08-9301-5C5903651421",
+      "eventId": 158,
+      "artistId": 302,
+      "stageId": 8,
+      "sourceName": "Clare Sands",
+      "sourceTime": "17:30",
+      "frame": {
+        "x": 285,
+        "y": 642,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "A555BD6B-EBC9-4976-B2AE-2653BF5A65B7_stringValue",
+          "value": "17:30"
+        },
+        {
+          "id": "B5E87BF8-58F5-4AA3-A577-382729222044_stringValue",
+          "value": "Clare Sands"
+        },
+        {
+          "id": "0262EC04-E69C-41A9-8B18-E805319CE0F3_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "0DAEDB16-D466-4912-B3C0-4334C64FDED3",
+      "eventId": 129,
+      "artistId": 175,
+      "stageId": 4,
+      "sourceName": "RIAN",
+      "sourceTime": "19:00",
+      "frame": {
+        "x": 135,
+        "y": 732,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": "LÄNDERSCH…"
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "RIAN"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "RIAN"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "19:00"
+        }
+      ]
+    },
+    {
+      "layerId": "C2A62842-C2EE-4258-ADA8-60C37D685CFE",
+      "eventId": 175,
+      "artistId": 298,
+      "stageId": 7,
+      "sourceName": "Phønix & Embla",
+      "sourceTime": "19:00",
+      "frame": {
+        "x": 210,
+        "y": 732,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "19:00"
+        }
+      ]
+    },
+    {
+      "layerId": "2B943C61-A1DE-4088-9BCA-4E2CB792F754",
+      "eventId": 157,
+      "artistId": 298,
+      "stageId": 8,
+      "sourceName": "Phønix & Embla",
+      "sourceTime": "15:00",
+      "frame": {
+        "x": 285,
+        "y": 492,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "15:00"
+        }
+      ]
+    },
+    {
+      "layerId": "CA738BC5-3265-41F3-B3CB-D4C39B6F85AF",
+      "eventId": 194,
+      "artistId": 284,
+      "stageId": 9,
+      "sourceName": "Totally Cantoj Bassman",
+      "sourceTime": "15:00",
+      "frame": {
+        "x": 360,
+        "y": 492,
+        "width": 71,
+        "height": 58
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Totally Cantoj…"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Totally Cantoj…"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "15:00"
+        }
+      ]
+    },
+    {
+      "layerId": "CF6FD662-9BBE-48B5-B609-07FB6F2442EF",
+      "eventId": 195,
+      "artistId": 279,
+      "stageId": 9,
+      "sourceName": "The String Company",
+      "sourceTime": "17:00",
+      "frame": {
+        "x": 360,
+        "y": 612,
+        "width": 71,
+        "height": 88
+      },
+      "strings": [
+        {
+          "id": "A555BD6B-EBC9-4976-B2AE-2653BF5A65B7_stringValue",
+          "value": "17:00"
+        },
+        {
+          "id": "B5E87BF8-58F5-4AA3-A577-382729222044_stringValue",
+          "value": "The String Company"
+        },
+        {
+          "id": "0262EC04-E69C-41A9-8B18-E805319CE0F3_stringValue",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "layerId": "73CFA37B-C778-43BE-BCA7-EE0E7C5917F8",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "sourceName": "Tamburica Cindrof",
+      "sourceTime": "11:00",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "width": 71,
+        "height": 90
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": "LÄNDERSCH…"
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Tamburica Cindrof"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Tamburica Cindrof"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "11:00"
+        }
+      ]
+    },
+    {
+      "layerId": "FD9A7332-FEAB-49EE-84DF-BC478B62790B",
+      "eventId": 193,
+      "artistId": 245,
+      "stageId": 9,
+      "sourceName": "The Green Apple Sea",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 99,
+        "y": 0,
+        "width": 71,
+        "height": 90
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "The Green Apple Sea"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "The Green Apple Sea"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "13:00"
+        }
+      ]
+    },
+    {
+      "layerId": "6F78F907-396B-41CB-A4D6-69EE40E26745",
+      "eventId": 172,
+      "artistId": 144,
+      "stageId": 7,
+      "sourceName": "Thüringer Folkloretanzensemble",
+      "sourceTime": "16:30",
+      "frame": {
+        "x": 198,
+        "y": 0,
+        "width": 71,
+        "height": 90
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": "BÜHNENTANZ"
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Thüringer Folkloret…"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Thüringer Folkloret…"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "16:30"
+        }
+      ]
+    },
+    {
+      "layerId": "FEF6AB21-30BC-4DD1-8547-7695B45CC4FA",
+      "eventId": 175,
+      "artistId": 298,
+      "stageId": 7,
+      "sourceName": "Phønix & Embla",
+      "sourceTime": "19:00",
+      "frame": {
+        "x": 297,
+        "y": 0,
+        "width": 71,
+        "height": 90
+      },
+      "strings": [
+        {
+          "id": "542CA1C9-19BA-4E2B-A870-949261A469FB_stringValue",
+          "value": ""
+        },
+        {
+          "id": "3CE3AD20-C443-4F8B-8F93-C4A7838871C3_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "D1CC78A8-54B6-4D06-B312-49AE570E2B45_stringValue",
+          "value": "Phønix & Embla"
+        },
+        {
+          "id": "9A0E7B79-5E50-4F4F-AB70-4D1472866C3F_stringValue",
+          "value": "19:00"
+        }
+      ]
+    },
+    {
+      "layerId": "1D6B4C9A-B36A-4161-9DD9-60605EC9BCE7",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "sourceName": "Tamburica Cindrof",
+      "sourceTime": "11:00",
+      "frame": {
+        "x": 552,
+        "y": 0,
+        "width": 71,
+        "height": 90
+      },
+      "strings": [
+        {
+          "id": "B6538C9E-62BB-4824-8414-7BC61BBFD994_stringValue",
+          "value": "11:00"
+        },
+        {
+          "id": "7BAE1203-E942-43F2-8733-9297C63064FE_stringValue",
+          "value": "Tamburica Cindrof"
+        },
+        {
+          "id": "3FEBA816-57E4-44AC-BA8A-4998E5ED6909_stringValue",
+          "value": "LÄNDERSCHWERP…"
+        }
+      ]
+    },
+    {
+      "layerId": "E93601AF-5440-46B0-B362-F12B7CEAF9CA",
+      "eventId": 171,
+      "artistId": 213,
+      "stageId": 7,
+      "sourceName": "AltBadSeer Musi",
+      "sourceTime": "13:00",
+      "frame": {
+        "x": 396,
+        "y": 0,
+        "width": 128,
+        "height": 168
+      },
+      "strings": [
+        {
+          "id": "A11B291E-2BC5-4089-A8C1-83977C2F6918_stringValue",
+          "value": "Steirische Tanzmusik mit Gesang und…"
+        },
+        {
+          "id": "22B198D1-39F5-41B8-B362-4806C41BD8AE_stringValue",
+          "value": "Steirische Volksmusik • Landlertanz"
+        },
+        {
+          "id": "BA84B9E5-6A45-4635-9F88-A4B97791831F_stringValue",
+          "value": "🇦🇹 Österreich"
+        },
+        {
+          "id": "CE2153CE-9AF9-400E-BA86-243F08C64224_stringValue",
+          "value": "13:00"
+        },
+        {
+          "id": "BC6F40AC-E6B0-4E83-A46A-90B060830619_stringValue",
+          "value": "AltBadSeer Musi"
+        },
+        {
+          "id": "81F59EF2-EC48-43EA-904C-A4E22BA79ACA_stringValue",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}

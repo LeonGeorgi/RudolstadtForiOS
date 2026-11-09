@@ -1,4 +1,7 @@
-@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@file:OptIn(
+    androidx.compose.material3.ExperimentalMaterial3Api::class,
+    androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class,
+)
 
 package de.leongeorgi.rudolstadt.android
 
@@ -13,6 +16,8 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -20,6 +25,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -171,15 +177,41 @@ internal fun NewsDetail(id: Long?) {
         news.items.firstOrNull { it.newsID == id && it.languageCode == language }
             ?: news.items.firstOrNull { it.newsID == id }
     LaunchedEffect(message?.newsID) { message?.let { app.model.markRead(it.newsID) } }
-    Page(message?.shortDescription ?: stringResource(R.string.news_title)) { modifier ->
-        if (message == null)
+    if (message == null) {
+        Page(stringResource(R.string.news_title)) { modifier ->
             Box(modifier) {
                 Status(
                     if (app.state.newsRefreshing) null else stringResource(R.string.not_found),
                     if (!app.state.newsRefreshing) ({ app.model.refreshNews(true) }) else null,
                 )
             }
-        else {
+        }
+    } else {
+        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+        Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                LargeFlexibleTopAppBar(
+                    title = {
+                        // The app bar supplies Display Small expanded and Title Large collapsed.
+                        val compact =
+                            LocalTextStyle.current.fontSize ==
+                                MaterialTheme.typography.titleLarge.fontSize
+                        Text(
+                            message.shortDescription,
+                            maxLines = if (compact) 1 else Int.MAX_VALUE,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = { app.nav.popBackStack() }) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
+                        }
+                    },
+                    scrollBehavior = scrollBehavior,
+                )
+            },
+        ) { padding ->
             val mentions =
                 remember(message, app.content.program, app.language) {
                     val normalized =
@@ -250,18 +282,15 @@ internal fun NewsDetail(id: Long?) {
                         cache.close()
                     }
                 }
-            LazyColumn(modifier, contentPadding = PaddingValues(bottom = 24.dp)) {
-                item {
-                    Text(
-                        message.shortDescription,
-                        Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.headlineMedium,
-                    )
-                }
+            LazyColumn(
+                Modifier.fillMaxSize().padding(padding),
+                contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp),
+            ) {
                 item {
                     Text(
                         "${message.dateAsString} · ${message.timeAsString}",
                         Modifier.padding(horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.labelLarge,
                     )
                 }
@@ -326,8 +355,9 @@ private fun NewsArticleText(
                         Column {
                             paragraphs.forEach { paragraph ->
                                 val content: @Composable () -> Unit = {
-                                    Text(
+                                    NewsParagraph(
                                         paragraph,
+                                        mentions = text.inlineContent,
                                         style =
                                             if (subtitle) MaterialTheme.typography.titleLarge
                                             else MaterialTheme.typography.bodyLarge,
@@ -535,31 +565,40 @@ private fun NewsUrlChip(
                         )
                     }
             }
-            DropdownMenu(menu, { menu = false }) {
-                Text(
-                    email ?: url,
-                    Modifier.padding(horizontal = 16.dp, vertical = 8.dp).widthIn(max = 280.dp),
-                    style = MaterialTheme.typography.bodySmall,
-                )
-                DropdownMenuItem(
-                    text = { Text(openLabel) },
-                    onClick = {
-                        menu = false
-                        openURL(context, url)
-                    },
-                )
-                DropdownMenuItem(
-                    text = { Text(copyLabel) },
-                    onClick = {
-                        context
-                            .getSystemService(android.content.ClipboardManager::class.java)
-                            .setPrimaryClip(
-                                android.content.ClipData.newPlainText(label, email ?: url)
-                            )
-                        menu = false
-                    },
-                )
+            ExpressiveContextMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                ExpressiveMenuGroup {
+                    Text(
+                        email ?: url,
+                        Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                    ExpressiveMenuItem(
+                        label = openLabel,
+                        icon =
+                            if (email != null) Icons.Default.MailOutline
+                            else Icons.AutoMirrored.Filled.OpenInNew,
+                        onClick = {
+                            menu = false
+                            openURL(context, url)
+                        },
+                    )
+                    ExpressiveMenuItem(
+                        label = copyLabel,
+                        icon = Icons.Default.ContentCopy,
+                        onClick = {
+                            menu = false
+                            copyNewsText(context, label, email ?: url)
+                        },
+                    )
+                }
             }
         }
     }
+}
+
+internal fun copyNewsText(context: android.content.Context, label: String, text: String) {
+    context
+        .getSystemService(android.content.ClipboardManager::class.java)
+        .setPrimaryClip(android.content.ClipData.newPlainText(label, text))
 }

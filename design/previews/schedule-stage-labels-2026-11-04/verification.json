@@ -1,0 +1,159 @@
+{
+  "checkedStageLabels": 15,
+  "source": "shared/src/commonMain/resources/FestivalBackup/2026_rudolstadt_data.json",
+  "labels": [
+    {
+      "id": "0E4864AC-0600-4301-8000-E523406568C8",
+      "stageId": 3,
+      "text": "Große Bühne Heinepark",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "C9B5BDFD-CE1C-460A-A9A8-3DB887D6C145",
+      "stageId": 4,
+      "text": "Konzertbühne Heinepark",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "6F772ACD-3165-4A06-A094-155F64A2A086",
+      "stageId": 7,
+      "text": "Große Bühne Markt",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "56AD80AA-CCAA-4126-9389-CB8B8A530E1A",
+      "stageId": 8,
+      "text": "Neumarkt",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "4AB1C688-8159-465A-935F-5FDB009EB0C4",
+      "stageId": 9,
+      "text": "Schulplatz",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "D6DD5EF8-3B16-4618-BE6E-1BECA9FF5AE4",
+      "stageId": 3,
+      "text": "Große Bühne Heinepark",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "7C4F5DFA-2AE2-400C-BB62-F507FA092587",
+      "stageId": 4,
+      "text": "Konzertbühne Heinepark",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "425A9826-8CDF-4C23-934C-8E24A55B6DED",
+      "stageId": 7,
+      "text": "Große Bühne Markt",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "E1CEFD0A-9EBE-4029-B7A3-2AD646D90ED5",
+      "stageId": 8,
+      "text": "Neumarkt",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "E16ED1EC-1BE7-4120-BC49-B9566C4AD6F6",
+      "stageId": 9,
+      "text": "Schulplatz",
+      "font": {
+        "name": "SFPro-Medium",
+        "size": 10
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "FFCE85CF-405E-4FA0-B363-7C3215F3617D",
+      "stageId": 3,
+      "text": "Große Bühne Heinepark",
+      "font": {
+        "name": "RudolstadtAndroidUI-Medium",
+        "size": 11
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "5AD51C09-C3CD-4F9C-BAAA-D64A9CF05C7F",
+      "stageId": 4,
+      "text": "Konzertbühne Heinepark",
+      "font": {
+        "name": "RudolstadtAndroidUI-Medium",
+        "size": 11
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "225CDCE9-6C36-4D25-94F7-CBB008D8451B",
+      "stageId": 7,
+      "text": "Große Bühne Markt",
+      "font": {
+        "name": "RudolstadtAndroidUI-Medium",
+        "size": 11
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "D7FAA122-E380-40E0-BECF-81292715D351",
+      "stageId": 8,
+      "text": "Neumarkt",
+      "font": {
+        "name": "RudolstadtAndroidUI-Medium",
+        "size": 11
+      },
+      "uniformStyle": true
+    },
+    {
+      "id": "697B1D48-DA58-4806-A2EE-7496E8092D4F",
+      "stageId": 9,
+      "text": "Schulplatz",
+      "font": {
+        "name": "RudolstadtAndroidUI-Medium",
+        "size": 11
+      },
+      "uniformStyle": true
+    }
+  ],
+  "reopenSuccess": true,
+  "scope": "Sketch; no app code changes",
+  "channels": "Gray(after)-Gray(before); gain 3; black equal, magenta lighter, green darker; no alignment or masks"
+}

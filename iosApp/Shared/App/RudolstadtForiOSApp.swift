@@ -7,16 +7,19 @@
 
 import BackgroundTasks
 import SwiftUI
+#if os(iOS)
+import GoogleSignIn
+#endif
 
 @MainActor
 @main
 struct RudolstadtForiOSApp: App {
     private let services: AppServices
 
-#if os(iOS)
-    @UIApplicationDelegateAdaptor(CloudKitShareAppDelegate.self)
-    private var cloudKitShareAppDelegate
-#endif
+    #if os(iOS)
+        @UIApplicationDelegateAdaptor(AppNotificationDelegate.self)
+        private var notificationDelegate
+    #endif
 
     init() {
         services = AppServices()
@@ -44,6 +47,7 @@ private struct FestivalRootView: View {
 
     // Keep incoming links while the data gate is loading or showing a retry.
     @State private var pendingFestivalRoute: FestivalRoute?
+    @State private var pendingFriendsLink = false
 
     private var edition: FestivalEdition {
         settings.festivalEdition
@@ -54,11 +58,18 @@ private struct FestivalRootView: View {
             RootTabView(
                 refreshOnForeground: services.refreshOnForeground,
                 pendingFestivalRoute: pendingFestivalRoute,
-                onFestivalRouteHandled: { pendingFestivalRoute = nil; newsNavigation.clearRequestedRoute() }
+                onFestivalRouteHandled: { pendingFestivalRoute = nil; newsNavigation.clearRequestedRoute() },
+                pendingFriendsLink: pendingFriendsLink,
+                onFriendsLinkHandled: { pendingFriendsLink = false }
             )
         }
         .appEnvironment(services, edition: edition)
         .id(edition)
+        #if os(iOS)
+        .onChange(of: edition, initial: true) { _, edition in
+            services.selectFriendsEdition(edition)
+        }
+        #endif
         .onChange(of: newsNavigation.requestedRoute, initial: true) { _, route in
             guard let route, let adapter = FestivalRegistry.catalog.adapter(for: route.identity) else { return }
             settings.festivalEdition = FestivalEdition(metadata: adapter.metadata)
@@ -75,6 +86,14 @@ private struct FestivalRootView: View {
     }
 
     private func receiveArtistLink(_ url: URL) {
+        #if os(iOS)
+        if FirebaseFriendsRuntime.isEnabled, GIDSignIn.sharedInstance.handle(url) { return }
+        if FirebaseFriendsRuntime.isEnabled, services.festivalProfileStore.firebaseFriends.receive(url) {
+            if !edition.supportsFirebaseFriends { settings.festivalEdition = .current }
+            pendingFriendsLink = true
+            return
+        }
+        #endif
         for adapter in FestivalRegistry.catalog.adapters {
             if let destination = adapter.services.publicLinks.value?.destination(for: url) {
                 let metadata = adapter.metadata

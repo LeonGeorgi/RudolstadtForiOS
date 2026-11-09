@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-06",
+  "status": "complete",
+  "scope": "All badge variants, including historical/reference pages, account concepts and symbol templates; matching shared native UI components.",
+  "authorization": "User approved: Ja, alle Badge-Varianten vereinheitlichen",
+  "sketch": {
+    "document": "design/Rudolstadt.sketch",
+    "commonSources": [
+      {
+        "name": "iOS/Profile/Badge",
+        "symbolID": "68C2D979-F32E-4491-BAEF-E3B69181EDA2",
+        "instances": 103
+      },
+      {
+        "name": "Android/Profile/Badge",
+        "symbolID": "3474E3A6-9DF3-42E7-863D-3B9EA316BAD6",
+        "instances": 40
+      }
+    ],
+    "directInstancesMigrated": 80,
+    "unusedDuplicateSourcesRemoved": 11,
+    "renderedBadgeRatioAudit": {
+      "ok": true,
+      "checked": 414,
+      "mismatches": []
+    },
+    "remainingOldSourceReferences": 0,
+    "fontSizeToCircleDiameter": 0.4444444444444444,
+    "colors": "Original saturated profile colors restored; existing custom colors preserved",
+    "savedAndReopened": true,
+    "finalExports": 44,
+    "previewFolder": "unified-final",
+    "verifiedScreens": [
+      "Badge size guide 16–40",
+      "iOS friends",
+      "Android friends",
+      "Friends ratings"
+    ],
+    "nativeAndroidRows": "Existing native monogram hidden; shared badge occupies measured 40dp position; native row layout retained"
+  },
+  "code": {
+    "iOS": "iosApp/Shared/Screens/More/Components/FestivalProfileBadgeAvatar.swift",
+    "android": "androidApp/src/main/kotlin/de/leongeorgi/rudolstadt/android/ProfileBadgeAvatar.kt",
+    "changes": [
+      "One font-to-circle ratio in each native component",
+      "Removed per-caller iOS font/shadow/border variants",
+      "Android account and friend views use ProfileBadgeAvatar",
+      "Shared profile color calculation unchanged"
+    ],
+    "verification": {
+      "androidCompile": "ANDROID_HOME=/Users/leon/Library/Android/sdk ./gradlew --offline :androidApp:compileDebugKotlin — passed",
+      "kotlinFormatting": "ktfmt check on 4 changed files — passed",
+      "swiftSyntax": "swiftc -frontend -parse on 7 changed Swift files — passed",
+      "diffWhitespace": "passed",
+      "appRuntimeVisualCheck": "Not run",
+      "fullIOSBuild": "Not run"
+    }
+  }
+}

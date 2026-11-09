@@ -8,6 +8,8 @@ data class RecommendationState(
     val durations: List<EventMinutes>? = null,
     val generatedAt: Double? = null,
     val requestGeneration: Long = 0,
+    /** Saved inputs belonging to this completed plan, retained until its replacement is ready. */
+    val savedEventIDs: List<Long> = emptyList(),
 )
 
 class RecommendationViewModel {
@@ -42,21 +44,34 @@ class RecommendationViewModel {
 
     fun beginRefresh(): Long {
         generation++
-        cell.set(RecommendationState(durations = current.durations, requestGeneration = generation))
+        // A usable plan stays visible while its replacement is calculated.
+        cell.set(
+            if (current.phase == LoadPhase.READY) current.copy(requestGeneration = generation)
+            else RecommendationState(durations = current.durations, requestGeneration = generation)
+        )
         return generation
     }
 
-    fun update(token: Long, ids: List<Long>, durations: List<EventMinutes>, now: Double) {
+    fun update(
+        token: Long,
+        ids: List<Long>,
+        durations: List<EventMinutes>,
+        now: Double,
+        savedEventIDs: List<Long> = emptyList(),
+    ) {
         if (token == generation)
-            cell.set(RecommendationState(LoadPhase.READY, ids, durations, now, generation))
+            cell.set(
+                RecommendationState(LoadPhase.READY, ids, durations, now, generation, savedEventIDs)
+            )
     }
 
     fun complete(
         token: Long,
         result: de.leongeorgi.rudolstadt.planning.RecommendationResult,
         now: Double,
+        savedEventIDs: List<Long> = emptyList(),
     ) {
-        update(token, result.eventIDs, result.durations, now)
+        update(token, result.eventIDs, result.durations, now, savedEventIDs)
     }
 
     fun beginCalculation(hasProgram: Boolean, planning: String): Long? =

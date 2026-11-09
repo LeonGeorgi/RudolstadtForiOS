@@ -25,8 +25,10 @@ Fehler sind sichtbar. Fremde Veranstaltungsjahre werden vor Übernahme abgewiese
 Archive bleiben schreibgeschützt. Die Planung verwendet die echte Uhrzeit;
 vergangene Festivals erhalten keine künstlichen zukünftigen Vorschläge.
 
-CloudKit, Freunde, Apple-Watch-Integration und StoreKit-Spenden gehören zur
-Apple-Plattform und sind auf Android nicht eingebaut.
+Profilabgleich und Freunde verwenden die nativen Firebase-SDKs und gemeinsame
+Multiplatform-Controller. Private Notizen synchronisieren nur zwischen eigenen
+Geräten. Einrichtung: [Firebase](../docs/firebase-friends.md).
+Apple-Watch-Integration und StoreKit-Spenden bleiben auf Apple.
 
 Die Stadtkarte verwendet OpenFreeMap-Vektorkacheln mit einer Festival-Farbgestaltung
 auf Basis von Positron, MapLibre-Cache und dem integrierten Attributionsdialog (OpenMapTiles,

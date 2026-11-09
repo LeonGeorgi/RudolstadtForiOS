@@ -80,7 +80,7 @@ struct FestivalMapSheetTests {
     func placeRoutesOpenTheClassicDetailWithoutASheet(usesFestivalDestination: Bool) async throws {
         let stage = TestFixtures.stage(id: 101, stageNumber: 7)
         let settings = TestFixtures.userSettings()
-        let profile = FestivalProfileStore(userDefaults: settings.userDefaults, cloudKitEnabled: false)
+        let profile = FestivalProfileStore(userDefaults: settings.userDefaults, cloudSyncEnabled: false)
         let adapter = FestivalRegistry.rudolstadt(year: 2026, source: FestivalDataProviderStub(),
             archive: false, includesSupplementaryInformation: false)
         let data = try adapter.prepare(FestivalData(artists: [], areas: [], stages: [stage], events: []), source: .preview)
@@ -122,7 +122,7 @@ struct FestivalMapSheetTests {
     @Test
     func selectingAnotherPinKeepsTheSheetAtMediumHeight() async throws {
         let settings = TestFixtures.userSettings()
-        let profile = FestivalProfileStore(userDefaults: settings.userDefaults, cloudKitEnabled: false)
+        let profile = FestivalProfileStore(userDefaults: settings.userDefaults, cloudSyncEnabled: false)
         let adapter = FestivalRegistry.rudolstadt(year: 2026, source: FestivalDataProviderStub(),
             archive: false, includesSupplementaryInformation: false)
         let stages = [TestFixtures.stage(id: 101), TestFixtures.stage(id: 102)]

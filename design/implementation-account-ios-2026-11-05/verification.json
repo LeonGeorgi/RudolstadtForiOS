@@ -1,0 +1,116 @@
+{
+  "date": "2026-11-05",
+  "platform": "iOS",
+  "device": "iPhone 17 Pro",
+  "runtime": "iOS 27.0",
+  "build_sdk": "iOS Simulator 27.1",
+  "locale": "de_DE",
+  "appearance": "light",
+  "points": [
+    402,
+    874
+  ],
+  "pixels": [
+    1206,
+    2622
+  ],
+  "scale": 3,
+  "status": "Compared; visible implementation defects corrected; remaining differences documented. Not pixel-identical.",
+  "firebase": {
+    "project": "festival-friends-dev",
+    "mode": "Real SDK and DEV backend, screenshotMode disabled",
+    "synthetic_account_cleanup": "Confirmed by deletion success assertion in both canonical before and final after runs",
+    "key_images": "Attached only after account deletion; captured keys have been invalidated. Sketch QR is an explicitly invalid design example."
+  },
+  "tests": {
+    "scheme": "Native Screenshots",
+    "class": "AccountLayoutTests",
+    "before": {
+      "result": "passed",
+      "tests": 2,
+      "failures": 0,
+      "xcresult": "/tmp/RudolstadtAccountLayoutBeforeFinal.xcresult"
+    },
+    "after": {
+      "result": "passed",
+      "tests": 2,
+      "failures": 0,
+      "seconds": 205.372,
+      "xcresult": "/tmp/RudolstadtAccountLayoutTintFinal.xcresult"
+    },
+    "build": "Normally signed arm64 build-for-testing passed",
+    "tested_behaviors": [
+      "Direct login from account and Friends",
+      "Email and secret-key input pages",
+      "Anonymous account creation and one-time key display",
+      "Synchronization detail navigation",
+      "Key-management and replacement confirmation",
+      "Account deletion and return to login"
+    ]
+  },
+  "changes": [
+    "Shared native bordered capsule button: removed redundant minimum height; approximately 68pt -> 50.333pt. Secondary tint replaces primary tint.",
+    "Email and key entry use native underlined fields and separate actions matching the intended structure.",
+    "Removed duplicate key-secured toolbar action; retained the body confirmation.",
+    "Account feedback excludes unrelated invitation errors.",
+    "Sketch references preserve linked iOS 27 library components; added native tab/news accessory instances, disabled actions and an editable representation of the official Google SDK button.",
+    "Updated Sketch wording and spacing to actual app states; retained separate email-sent variant. Current privacy copy follows the concurrent per-friend notes work."
+  ],
+  "measured": {
+    "standard_button_height_before_pt": 68,
+    "standard_button_height_after_pt": 50.333,
+    "button_fill_before_rgb": [
+      198,
+      198,
+      203
+    ],
+    "button_fill_after_rgb": [
+      222,
+      222,
+      228
+    ],
+    "sketch_fill_rgb": [
+      227,
+      227,
+      232
+    ]
+  },
+  "comparison": {
+    "before": "comparison-before: original Sketch versus original native UI",
+    "after": "comparison-after: revised Sketch versus final native UI",
+    "intermediate": "comparison-to-original: intermediate corrected native captures versus original Sketch; retained for traceability",
+    "method": "No input alignment, translation, scaling, blur, or per-element masks. Signed grayscale channels RGB=(max(sim-sketch,0),max(sketch-sim,0),max(sim-sketch,0)); only top 186 pixels masked. Separate unmasked RGB differences and 50% overlays. Contact sheets alone use 1x display thumbnails.",
+    "pairs": 7,
+    "source_hashes": "comparison-before/comparisons.json and comparison-after/comparisons.json"
+  },
+  "remaining_differences": [
+    "Native large titles sit about 3pt below the library reference; native back-chevron tint differs on login subpages.",
+    "Actual List profile row is taller and has different avatar/text insets. Sketch keeps an illustrative LE badge; synthetic native account uses MP. Action label insets and synchronization disclosure also differ.",
+    "Standard native button fill remains 4-6 RGB levels darker than the Sketch library fill. Disabled-label contrast, fractional heights and font rasterization differ.",
+    "Apple SDK button uses native typography around 20pt versus the 17pt library approximation; Google shadow and label rendering differ slightly.",
+    "Tab and accessory glyph sizes/baselines, label weights, and glass rendering differ. Labels and symbols are retained in channel comparisons; glass material only is excluded from qualitative judgment.",
+    "News is live and rotates. Reference uses the observed public Programmheft headline; native captures show other live headlines with 40 unread items. No extra mask hides the content difference.",
+    "Secret-key and QR content intentionally differ. Sketch QR has a smaller graphic within a square white area; native uses a larger QR within a rounded, padded container.",
+    "The canonical before key capture is the replacement modal while the final after capture is the creation flow inside the tab navigation. This pair does not prove like-for-like full-screen before/after geometry."
+  ],
+  "not_verified": [
+    "Android emulator",
+    "Dark Mode",
+    "Large Dynamic Type",
+    "Other screen sizes",
+    "Real Apple/Google OAuth sign-in",
+    "Email-link dispatch/delivery",
+    "A separate already-signed-in email/provider account visual state"
+  ],
+  "sketch": {
+    "path": "design/Rudolstadt.sketch",
+    "page": "Konto & Sync · Konzepte",
+    "saved_and_reopened": true,
+    "sha256": "e67c95fdee8b3af9c66c7385fd56d5118950f516a05df8f32618738de124b471"
+  },
+  "logs": {
+    "/tmp/rudolstadt-account-layout-build-tint.log": "f88ff4845c7d964f0e3af8d61d8e4c797cb9cfe2a2532c420559e595a2828f17",
+    "/tmp/rudolstadt-account-layout-before-final.log": "7919068fa571a6d667b28cace4bbfed47400bc6aaf6b9348dc3de0697f099750",
+    "/tmp/rudolstadt-account-layout-tint-final.log": "7149a119c1702d528161d3616143d3951693e91c02200d8bea9927a97b047099"
+  }
+}

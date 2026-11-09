@@ -12,11 +12,11 @@ enum FestivalRegistry {
         let isRudolstadt = metadata.identity.festivalID == FestivalEdition.current.identity.festivalID
         if metadata.identity == FestivalEdition.current.identity || (isRudolstadt && metadata.editionKind == .archive) {
             return FestivalProfileStore(userDefaults: defaults,
-                readOnlyFestivalYear: metadata.editionKind == .archive ? Int(metadata.identity.editionID) : nil,
+                archiveFestivalYear: metadata.editionKind == .archive ? Int(metadata.identity.editionID) : nil,
                 userDataPolicy: metadata.userDataPolicy)
         }
         let policy = metadata.userDataPolicy
-        return FestivalProfileStore(cloudKitEnabled: false,
+        return FestivalProfileStore(cloudSyncEnabled: false,
             persistence: UserDefaultsFestivalProfilePersistence(userDefaults: defaults,
                 festivalYear: Int(metadata.identity.editionID) ?? 0,
                 isReadOnly: policy.savedEvents != .editable && policy.artistRatings != .editable && policy.artistNotes != .editable,
@@ -53,7 +53,11 @@ enum FestivalRegistry {
             includesAreas: definition.includesAreas,
             includesAdmission: definition.includesAdmission,
             offersAutomaticPlanning: definition.automaticPlanning, informationPages: [])
-        do { return try FestivalCatalog(adapters: [current] + archives + [ludwigsburg], defaultIdentity: current.metadata.identity) }
+        var adapters: [any FestivalAdapter] = [current] + archives + [ludwigsburg]
+        #if DEBUG
+        adapters.append(FantasyFestivalDataProvider.makeAdapter())
+        #endif
+        do { return try FestivalCatalog(adapters: adapters, defaultIdentity: current.metadata.identity) }
         catch { preconditionFailure("Invalid festival registration: \(error)") }
     }()
 
@@ -142,4 +146,7 @@ extension FestivalEdition {
         FestivalEdition(identity: FestivalIdentity(festivalID: "rudolstadt", editionID: String(year)))
     }
     var usesLiveServices: Bool { self == .current }
+    var supportsFirebaseFriends: Bool {
+        usesLiveServices || (identity.festivalID == Self.current.identity.festivalID && isArchive)
+    }
 }

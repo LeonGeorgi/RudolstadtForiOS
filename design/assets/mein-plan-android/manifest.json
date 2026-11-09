@@ -1,0 +1,16 @@
+{
+  "source": "Google Material Design Icons",
+  "usage": "Editable vector icons in Android Mein Plan Sketch components",
+  "assets": {
+    "route": {
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/master/src/maps/route/materialicons/24px.svg",
+      "license": "Apache-2.0",
+      "sha256": "d9c95c19ce4b5daff331d59d2b3c271c503f1ba6edf1801c19fb8c038c3a3f9e"
+    },
+    "auto-awesome": {
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/master/src/image/auto_awesome/materialicons/24px.svg",
+      "license": "Apache-2.0",
+      "sha256": "232622cbc42585d6c299ecc505e73f7d53cff9c76ef0d09432539b1f3fe5702e"
+    }
+  }
+}

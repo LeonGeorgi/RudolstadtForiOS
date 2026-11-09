@@ -253,7 +253,13 @@ internal fun ConcertActions(
             if (app.state.edition.definition.identity.festivalID == "rudolstadt") {
                 item {
                     ActionRow(stringResource(R.string.share_concert), Icons.Default.Share) {
-                        val url = ArtistPublicLink(app.state.edition.year, event.artist.artistID, event.eventID).url()
+                        val url =
+                            ArtistPublicLink(
+                                    app.state.edition.year,
+                                    event.artist.artistID,
+                                    event.eventID,
+                                )
+                                .url()
                         if (url != null) {
                             dismiss()
                             share(context, "${event.artist.name}\n$url")

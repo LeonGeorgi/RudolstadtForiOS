@@ -92,7 +92,7 @@
 🙂 - slight interest
 😊 - great interest
 😍 - very great interest
-You can find artists you are interested in under \"Favorites\" in the artist list. Your rating can also be used to suggest when you can attend concerts by the artist. Ratings sync through iCloud across your devices and can be visible to invited friends when you share your festival profile.";
+You can find artists you are interested in under \"Favorites\" in the artist list. Your rating can also be used to suggest when you can attend concerts by the artist. After sign-in, ratings sync through your account across your devices and can be visible to invited friends when you share your festival profile.";
 "artist.ai.header" = "AI summary";
 "artist.ai.footer" = "May contain inaccuracies.";
 "artist.ai.info.ok" = "OK";
@@ -155,6 +155,7 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "schedule.plan.title" = "My plan";
 "schedule.plan.free_time" = "Free time";
 "schedule.plan.recommended" = "Recommended concert";
+"schedule.plan.suggestion" = "Suggestion";
 "schedule.plan.show_recommendations" = "Show recommendations";
 "schedule.plan.walk_minutes" = "%ld min walk";
 "schedule.plan.walk_minutes_range" = "%ld–%ld min walk";
@@ -175,10 +176,9 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "schedule.plan.tight" = "Tight connection";
 "schedule.plan.estimates" = "End times and walking times are estimated.";
 "schedule.zoom.title" = "Zoom";
-"schedule.zoom.overview" = "Overview · 70%";
-"schedule.zoom.standard" = "Standard · 100%";
-"schedule.zoom.detail" = "Details · 200%";
-"schedule.zoom.reset" = "Reset";
+"schedule.zoom.overview" = "Overview";
+"schedule.zoom.standard" = "Standard";
+"schedule.zoom.detail" = "Details";
 "schedule.day.picker" = "Day";
 "settings.schedule.day_selection" = "Day selector";
 "settings.schedule.day_selection.toolbar" = "Toolbar menu";
@@ -199,7 +199,6 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 
 "filter.button" = "Filter";
 "filter.clear" = "Clear filters";
-"filter.done" = "Done";
 "filter.no_events_available" = "No events available for the current filter settings.";
 "filter.artists.title" = "Filter artists";
 "filter.artisttypes.title" = "Artist type";
@@ -223,7 +222,7 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "more.sync.title" = "Data & Sync";
 "more.friends.title" = "Friends";
 "sync.section.title" = "Sync";
-"sync.row.icloud" = "iCloud";
+"sync.row.account" = "Account";
 "sync.row.sync" = "Sync";
 "sync.row.last_successful_sync" = "Last Sync";
 "sync.refresh.button" = "Refresh";
@@ -261,21 +260,8 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "friends.badge.save" = "Save";
 "friends.setup.title" = "Set Up Friends";
 "friends.setup.next.badge" = "First choose your name and badge color.";
-"friends.setup.next.icloud_checking" = "Next, your iCloud availability is being checked.";
-"friends.setup.next.icloud_unavailable" = "Next, make iCloud available to connect with friends.";
 "friends.setup.badge.section" = "1. Choose Your Badge";
 "friends.setup.badge.ready" = "Badge is ready";
-"friends.setup.icloud.section" = "2. Check iCloud";
-"friends.setup.icloud.checking" = "Checking";
-"friends.setup.icloud.ready" = "Ready";
-"friends.setup.icloud.unavailable" = "Unavailable";
-"friends.setup.icloud.retry" = "Check Again";
-"friends.setup.icloud.reason.unknown" = "Your iCloud status could not be determined.";
-"friends.setup.icloud.reason.no_account" = "Sign in to iCloud in Settings to sync your festival profile.";
-"friends.setup.icloud.reason.restricted" = "iCloud sync is restricted on this device.";
-"friends.setup.icloud.reason.temporary" = "iCloud is temporarily unavailable. Try again later.";
-"friends.setup.icloud.reason.unavailable" = "iCloud is currently unavailable. Try again later.";
-"friends.setup.icloud.reason.disabled" = "iCloud sync is disabled for this app.";
 "friends.setup.connect.preparing" = "Preparing invitation…";
 "friends.actions.section" = "Connect";
 "friends.scan_qr" = "Scan QR";
@@ -285,11 +271,6 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "friends.together.no_friends" = "Add a friend to see recommendations from friend plans and ratings here.";
 "friends.together.empty" = "No saved concerts or friend ratings yet.";
 "friends.recommendations.title" = "Friend recommendations";
-"friends.recommendations.empty" = "No matching friend recommendations.";
-"friends.recommendations.filter.title" = "Choose friends";
-"friends.recommendations.filter.all" = "All friends";
-"friends.recommendations.filter.results.one" = "Show %lld recommendation";
-"friends.recommendations.filter.results.other" = "Show %lld recommendations";
 "friends.recommendations.detail.one" = "%lld artist from friend plans and ratings";
 "friends.recommendations.detail.other" = "%lld artists from friend plans and ratings";
 "friends.recommendations.score" = "Score %lld";
@@ -320,18 +301,21 @@ You can find artists you are interested in under \"Favorites\" in the artist lis
 "friends.followed_by.details" = "Show details";
 "friends.privacy.section" = "Privacy";
 "friends.privacy.summary" = "Your schedule and ratings are shared.";
-"friends.privacy.body" = "Saved events and artist ratings can be shared with invited friends. Artist notes stay private to you and sync only across your own devices.";
+"friends.privacy.body" = "You choose per friend whether to share saved concerts, ratings and current artist notes. Your choices apply across all festivals. Notes are private by default; note history always stays private.";
 "friends.share_unavailable.title" = "Share Unavailable";
 "friends.alert.ok" = "OK";
 "friends.share_invite_link.accessibility" = "Share Invite Link";
 "friends.show_my_qr_code.accessibility" = "Show My QR Code";
-"friends.count.saved_event.one" = "%lld saved event";
-"friends.count.saved_event.other" = "%lld saved events";
-"friends.count.rated_artist.one" = "%lld rated artist";
-"friends.count.rated_artist.other" = "%lld rated artists";
 "friends.profile.subtitle.format" = "%1$@ • %2$@";
 "friends.cloud_share.title" = "Rudolstadt Festival Picks";
 "friends.detail.subtitle" = "Shared festival profile";
+"friends.detail.shared" = "Both Saved";
+"friends.detail.shared.empty" = "You haven’t saved any of the same events.";
+"friends.detail.discoveries" = "Discovered by %@";
+"friends.detail.discoveries.empty" = "There are no more suggestions to discover here right now.";
+"friends.detail.saved_by" = "Saved by %@";
+"friends.detail.ratings_by" = "Ratings by %@";
+"friends.detail.rating_value" = "%lld of 3";
 "friends.detail.saved_events.section" = "Saved Events";
 "friends.detail.saved_events.empty" = "No saved events in this shared profile.";
 "friends.detail.day_header.format" = "%1$@, July %2$lld";
@@ -390,7 +374,7 @@ For its 34th edition, the festival welcomes Austria as the special guest country
 
 The app is up-to-date for the 2026 festival.
 
-The app does not include third-party analytics, advertising SDKs, or tracking. Your festival profile data is stored on your device and can sync through Apple's iCloud service across your devices. If you choose to share your profile, invited friends can see your shared badge, saved events, and artist ratings. Artist notes stay private to you.";
+The app does not include third-party analytics, advertising SDKs, or tracking. Your festival profile data is stored locally and syncs across your devices through your Firebase account. You choose per friend whether to share saved events, ratings and current notes across all festivals. Notes are private by default; note history is always limited to your own account.";
 "about.developer.header" = "About the developer";
 "about.developer.content" = "Hi, I'm Leon.
 When I was 8 years old, I went to the Rudolstadt Festival for the first time (at that time it was the \"TFF Rudolstadt\"). Since then, I have been going to the festival again and again and I still find great joy in it. I have now completed my master's degree in computer science and went to Japan with a DAAD scholarship. That means I cannot be at the festival this year, but I still hope the app helps you have a good time in Rudolstadt.
@@ -560,13 +544,12 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "program.event.related" = "Artist and venue";
 
 "settings.festival_year" = "Festival year";
-"settings.festival_year.archive_footer" = "Earlier editions are read-only. Saved events, ratings and notes from the selected year are shown.";
+"settings.festival_year.archive_footer" = "You can save concerts and rate artists in earlier editions. New entries are shared with friends when you’re signed in.";
 "settings.festival_year.current_footer" = "Current festival program with your personal schedule. Earlier editions are available as an archive.";
 "archive.close" = "Done";
 
 
 "archive.selected %@" = "Archive %@";
-"archive.personal_data_unavailable" = "Shared profiles are unavailable in the archive.";
 "archive.additional_data_unavailable" = "News and travel information have not been archived for this year.";
 
 // Experimental festival integration
@@ -574,7 +557,7 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "settings.festival.experimental_footer" = "Experimental integration using the saved schedule for 20–21 June 2026. Ratings, notes and saved events are stored separately on this device. No live updates, sharing or automatic schedule optimization. One inconsistent event was omitted.";
 "festival.experimental.selected %@" = "Test: %@";
 "festival.experimental.additional_data_unavailable" = "News and travel information are not included for this festival.";
-"festival.experimental.sharing_unavailable" = "Shared plans and iCloud sharing are unavailable for this experimental integration. Your ratings, notes and saved events stay on this device.";
+"festival.experimental.sharing_unavailable" = "Shared plans and sharing are unavailable for this experimental integration. Your ratings, notes and saved events stay on this device.";
 "festival.locations_unavailable" = "Map locations are unavailable for these stages.";
 
 // Official festival site plans
@@ -631,3 +614,215 @@ I built this app in my spare time because I wanted a more convenient way to use 
 "program.event.duration" = "%lld min";
 
 "settings.always_show_event_details" = "Always show concert detail pages";
+
+/* Firebase friends — first cross-platform milestone */
+"firebase.friends.title" = "Friends";
+"firebase.friends.login_intro" = "Sign in to sync your own profile and optionally share saved events and ratings with friends.";
+"firebase.friends.apple" = "Sign in with Apple";
+"firebase.friends.email" = "Email address";
+"firebase.friends.send_email" = "Send sign-in link";
+"firebase.friends.email_sent" = "Your sign-in link has been sent. Open it on this device or paste it below.";
+"firebase.friends.confirm_email" = "Confirm your email address to finish signing in.";
+"firebase.friends.login_link" = "Paste sign-in link";
+"firebase.friends.finish_email" = "Finish signing in";
+"firebase.friends.name" = "Your profile name";
+"firebase.friends.consent" = "Accepting connects your accounts across all festivals and shares ratings and saved events. Notes stay private.";
+"firebase.friends.activate" = "Set up friend profile";
+"firebase.friends.invite" = "Create invitation";
+"firebase.friends.invite_lifetime" = "Valid once for seven days. A new invitation replaces the previous one.";
+"firebase.friends.scan" = "Scan invitation";
+"firebase.friends.link" = "Paste invitation link";
+"firebase.friends.open_link" = "Open invitation";
+"firebase.friends.preview" = "Review invitation";
+"firebase.friends.accept" = "Connect and share with each other";
+"firebase.friends.dismiss" = "Close";
+"firebase.friends.empty" = "No friends connected yet. Invite someone or open an invitation.";
+"firebase.friends.remove" = "End friendship";
+"firebase.friends.remove_consent" = "The friendship and sharing end in both directions across all festivals.";
+"firebase.friends.sign_out" = "Sign out";
+"firebase.friends.retry" = "Retry publishing profile";
+"firebase.friends.error" = "The action could not be completed. Check your connection and try again. Invitations may have expired or already been used.";
+"firebase.friends.publish_error" = "Your changes are saved on this device but could not yet be published to friends.";
+"firebase.friends.wrong_edition" = "This invitation belongs to a different festival edition.";
+"firebase.friends.invalid_link" = "This link is not a valid invitation.";
+"firebase.friends.unavailable" = "The friends feature has not been configured yet.";
+"firebase.friends.share" = "Share invitation";
+"firebase.friends.details" = "View profile";
+"firebase.friends.counts" = "%ld saved concerts · %ld ratings";
+
+"profile.sync.title" = "Your profile";
+"profile.sync.account" = "Firebase account";
+"profile.sync.signed_out" = "Signed out";
+"profile.sync.signed_in" = "Signed in";
+"profile.sync.login" = "Sign in to sync";
+"profile.sync.retry" = "Retry synchronization";
+"profile.sync.now" = "Sync now";
+"profile.sync.footer" = "Your account syncs saved concerts, ratings, profile name, color and notes across your devices. You decide what to share with each friend; note history stays private.";
+"profile.sync.loading" = "Loading local profile data…";
+"profile.sync.local" = "Stored on this device. Sign in to sync.";
+"profile.sync.connecting" = "Waiting for a connection to Firebase…";
+"profile.sync.migrating" = "Importing existing profile data…";
+"profile.sync.syncing" = "Syncing profile changes…";
+"profile.sync.ready" = "Your profile is synced.";
+"profile.sync.error" = "Synchronization is not complete.";
+"profile.sync.error.local" = "Profile data could not be safely saved on this device. Please try again. Existing data will not be reset.";
+"profile.sync.error.connection" = "Firebase is currently unavailable. Your changes remain saved on this device and will be retried when connected.";
+"settings.festival.experimental_generic_footer" = "Experimental festival program. Ratings, notes and saved events are stored separately on this device.";
+
+"firebase.friends.google" = "Sign in with Google";
+"firebase.friends.auth_error" = "Sign-in could not be completed. Check your connection and try again.";
+"firebase.friends.auth_configuration" = "This sign-in method is not fully configured yet. Please try again later.";
+"firebase.friends.account_conflict" = "An account with this email address already uses another sign-in method. Sign in using your previous method.";
+
+"account.key.title" = "Access key";
+"account.key.create_account" = "Create a new account with a key";
+"account.key.input" = "Secret access key";
+"account.key.sign_in" = "Sign in with key";
+"account.key.scan" = "Scan key";
+"account.key.add" = "Create key";
+"account.key.replace" = "Replace key";
+"account.key.replace_title" = "Create an access key?";
+"account.key.replace_warning" = "Any existing key will be replaced and can no longer be used for new sign-ins. Devices that are already signed in will stay signed in.";
+"account.key.management_footer" = "Use an access key to open this account on another device. Keep it safe like a password.";
+"account.key.your_key" = "Your access key";
+"account.key.copy" = "Copy key";
+"account.key.done" = "I have saved the key";
+"account.key.backup_warning" = "This key is only shown now. Save it in your password manager. Anyone with it can access your account, including private notes. If you lose both the key and all signed-in devices, this account cannot be recovered.";
+"account.key.qr_description" = "QR code for signing in on another device";
+"account.key.retry" = "Check again";
+"account.key.error.invalid" = "The key is invalid or no longer valid. Check it and try again.";
+"account.key.error.rate" = "Too many attempts. Please try again later.";
+"account.key.error.configuration" = "Key sign-in is not fully configured yet. Please try again later.";
+"account.key.error.conflict" = "The key was changed on another device. Check the account status again before creating a new key.";
+"account.key.error.connection" = "The key operation could not be completed. Check your connection and try again.";
+
+"account.delete.action" = "Delete account";
+
+"account.delete.title" = "Permanently delete account?";
+
+"account.delete.warning" = "Your account and the data stored online will be deleted, including your private notes, friendships, and invitations.\n\nYou can keep using your profile on this device.";
+
+"account.delete.warning.apple %@" = "%@\n\nConfirm your Apple sign-in again to delete your account.";
+
+"account.delete.success" = "The account and its cloud data have been deleted. Your profile remains on this device.";
+
+"account.delete.pending" = "Account deletion is being completed. Your profile is kept locally. Other account actions are unavailable until completion.";
+
+"account.delete.retry" = "Continue deletion";
+
+"account.delete.error.local" = "Your profile could not be saved reliably on this device. Check device storage and retry deletion.";
+
+"account.delete.error.auth" = "Your sign-in could not be confirmed. Please try deleting the account again.";
+
+"account.delete.error.connection" = "Account deletion could not yet be confirmed. Check your connection and continue deletion. Your profile is kept locally.";
+
+"account.title" = "Account";
+
+"account.profile" = "My profile";
+
+"account.anonymous" = "Anonymous account";
+
+"account.login" = "Sign in";
+
+"account.cancel" = "Cancel";
+
+
+
+"account.friends" = "Sharing with friends";
+
+"account.login.email" = "Sign in with email";
+
+"account.login.anonymous" = "Create anonymous account";
+
+"account.login.intro" = "Sync saved events, ratings and private notes between your devices.";
+"account.login.friends_intro" = "Share invitations and see which concerts your friends have saved.";
+"account.login.without_email" = "Without an email address";
+"account.login.email_hint" = "We’ll send a sign-in link to this address.";
+"account.login.link_sent" = "Sign-in link sent";
+"account.login.link_resent" = "Sign-in link sent again";
+"account.login.open_email_link" = "Open the link in your email on this iPhone to sign in.";
+"account.login.resend_link" = "Resend link";
+"account.login.change_email" = "Change email address";
+"account.login.request_new_link" = "Request a new sign-in link";
+"account.login.manual_link_hint" = "Use this if you’re reading the email on another device.";
+
+"account.login.key_hint" = "No email address needed. Save the key in your password manager to sign in on other devices.";
+
+"account.login.privacy_hint" = "Notes are private by default. You can later choose whether to share them with each friend.";
+
+"account.login.local_hint" = "Without signing in, your data stays on this device.";
+
+"account.login.link_manually" = "Paste sign-in link manually";
+
+"account.privacy" = "Privacy";
+
+"account.key.recovery_hint" = "The key is only shown when created. Save it in your password manager. Without the key or a signed-in device, you cannot reopen this account.";
+
+"account.delete.short" = "Delete account…";
+
+"account.back" = "Back";
+
+"friends.global.save_name" = "Save name";
+
+"friends.global.identity_footer" = "Your friends can see this name and your color across all festivals.";
+
+"friends.global.loading" = "Loading friend…";
+
+"friends.global.no_data" = "No shared festival data is currently available.";
+
+"friends.sharing.mine" = "What I share with this friend";
+
+"friends.sharing.saved" = "Saved concerts";
+
+"friends.sharing.ratings" = "Ratings and symbols";
+
+"friends.sharing.name_only" = "Name and color only";
+
+"friends.sharing.receiving" = "Shared with me";
+
+"friends.sharing.all_festivals" = "These choices apply to this friend across all festivals and years. Notes are shared only when enabled; their history stays private. With no options selected, only your name and color are visible.";
+
+"friends.sharing.invite_snapshot" = "This link uses the choices made when it was created. Create a new invitation to use different choices.";
+
+"friends.sharing.edit" = "Edit sharing";
+
+"friends.sharing.save" = "Save sharing";
+
+"friends.sharing.notes" = "Current notes";
+
+"friends.notes.unknown_artist" = "Artist %lld";
+
+"account.key.standalone_only" = "Account keys are available only for standalone key accounts.";
+
+"friends.global.sharing_summary" = "Ratings and saved events are shared with your friends across all festivals. Notes stay private.";
+
+"friends.ui.profile" = "My profile";
+"friends.ui.setup" = "Set up profile";
+"friends.ui.name" = "Name";
+"friends.ui.name.prompt" = "What’s your name?";
+"friends.ui.color" = "Badge color";
+"friends.ui.hue" = "Hue";
+"friends.ui.color.hint" = "Tap the color ring or drag the marker to choose your badge color.";
+"friends.ui.identity.hint" = "Your friends recognize your name and color across all festivals.";
+"friends.ui.create.profile" = "Create profile";
+"friends.ui.add" = "Add friends";
+"friends.ui.scan" = "Scan QR code";
+"friends.ui.empty" = "No friends yet";
+"friends.ui.all" = "All Friends";
+"friends.ui.empty.description" = "Invite friends and discover the festival together.";
+"friends.ui.recommendations.empty" = "No recommendations from your friends yet.";
+"friends.ui.invitation" = "Invitation";
+"friends.ui.invite.hint" = "Share the code or invitation link.";
+"friends.ui.new.invite" = "Create new invitation";
+"friends.ui.accept" = "Accept friendship";
+"friends.ui.invited.by" = "%@ would like to connect with you.";
+"friends.ui.scan.hint" = "Place the invitation QR code inside the frame.";
+"friends.ui.camera" = "Camera access unavailable";
+"friends.ui.camera.hint" = "Allow camera access in Settings or tap an invitation link you received.";
+"friends.ui.settings" = "Open system settings";
+"friends.ui.no.content" = "No shared content";
+"friends.ui.no.content.hint" = "No saved concerts or ratings have been shared for this festival edition.";
+"friends.ui.saved.count" = "%ld saved concerts";
+"friends.ui.rating.count" = "%ld ratings";
+
+"friends.ui.tap.badge" = "Tap your badge to change its color.";

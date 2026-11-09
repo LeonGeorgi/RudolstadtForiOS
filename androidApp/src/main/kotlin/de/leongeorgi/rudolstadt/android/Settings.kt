@@ -29,6 +29,15 @@ internal fun MoreScreen() {
     Page(stringResource(R.string.more_title), back = false) { modifier ->
         LazyColumn(modifier, contentPadding = PaddingValues(bottom = 24.dp)) {
             item { SourceNotice() }
+            if (app.state.edition.supportsFirebaseFriends)
+                item {
+                    MenuItem(
+                        stringResource(R.string.firebase_friends_title),
+                        Icons.Default.People,
+                    ) {
+                        app.navigate("friends")
+                    }
+                }
             item {
                 MenuItem(stringResource(R.string.settings), Icons.Default.Settings) {
                     app.navigate("settings")
@@ -108,6 +117,7 @@ internal fun SettingsScreen() {
         }
     Page(stringResource(R.string.settings)) { modifier ->
         LazyColumn(modifier, contentPadding = PaddingValues(bottom = 32.dp)) {
+            item { OwnProfileSyncPanel() }
             item { Heading(stringResource(R.string.festival_edition)) }
             items(Edition.all, key = { it.key }) { edition ->
                 ListItem(

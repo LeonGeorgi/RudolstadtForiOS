@@ -1,0 +1,141 @@
+{
+  "date": "2026-11-06",
+  "document": "design/Rudolstadt.sketch",
+  "scope": "Six shared iOS profile badge symbol sources and their linked instances",
+  "references": [
+    "User-supplied Apple Music screenshot: colored monogram circle only; outer glass ring excluded",
+    "User-supplied Contacts screenshot: larger monogram badges"
+  ],
+  "appearance": {
+    "gradient": "Soft vertical two-stop gradient, light at top, darker at bottom",
+    "palettes": {
+      "Orange": [
+        "#EBB6A1",
+        "#BD7B6C"
+      ],
+      "Blue": [
+        "#ADC2DF",
+        "#7D7FB7"
+      ],
+      "Pink": [
+        "#DDB6D2",
+        "#A67BAA"
+      ]
+    },
+    "font": "SF Pro Rounded Medium",
+    "fontSizeToDiameter": 0.4444444444444444,
+    "textColor": "#FFFFFF",
+    "alignment": "Centered",
+    "outerGlass": "Not modified"
+  },
+  "verification": {
+    "savedAndReopened": true,
+    "screenshotChecks": [
+      "Friends overview",
+      "Profile",
+      "Large badge preview",
+      "Aya badge",
+      "Mika badge",
+      "Friends ratings"
+    ],
+    "exportedBefore": 18,
+    "exportedAfter": 18,
+    "addedLayers": 0,
+    "removedLayers": 0,
+    "symbolLinksPreserved": true,
+    "appImplementationChanged": false,
+    "simulatorRun": false
+  },
+  "frames": [
+    {
+      "id": "EB935AEC-2BC7-47AD-8169-164E0615815B",
+      "name": "iOS · Freunde-Bewertungen · 04 Geöffnet · 7 Freunde",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "CA0304D9-7259-41ED-A49D-10963A9AADD8",
+      "name": "iOS · Freunde-Bewertungen · 03 Geöffnet · 5 Freunde",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "293853B4-58D5-4CA8-B5B3-4F3EB0E69A4A",
+      "name": "01 · iOS · Freunde · Empfehlungen und Freunde",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "FA918A79-9772-405A-ABA4-267A3ED749E0",
+      "name": "02 · iOS · Freunde · Noch keine Freunde",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "9AA15855-70F2-47C3-8682-58F189EB1615",
+      "name": "Früherer Entwurf · iCloud-Einrichtung · ersetzt durch Firebase-Profil",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "77D0D725-2267-48F8-B93C-0171B529D22B",
+      "name": "04 · Aktueller Simulator · Einrichtung · iCloud nicht verfügbar",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "9FA5C429-4B42-4B36-A2A4-2CB0EE309984",
+      "name": "iOS · Friends · Full content · without fixed bottom bars",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "A1FC9BD3-2D5D-41F1-9A8E-172931A0C1A4",
+      "name": "Früherer Stand · getrennte Kontoseite · 04 · Konzept · Android · Konto",
+      "page": "Konto & Sync · Konzepte"
+    },
+    {
+      "id": "B11AB49A-3DD0-4453-ABC5-99B714A5A3F1",
+      "name": "Früherer Stand · getrennte Kontoseite · 07 · Konzept · Android · Anonymes Konto",
+      "page": "Konto & Sync · Konzepte"
+    },
+    {
+      "id": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "name": "01 · iOS · Freunde · Empfehlungen und Freunde",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "292CD7D0-CC68-43F8-93E2-DEA77CF1197E",
+      "name": "03 · iOS · Plus-Menü · Freunde hinzufügen",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "7CC70A06-B379-406D-A6C2-0327706B6E0D",
+      "name": "02 · iOS · Freunde · Noch keine Freunde",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "D94F2CAA-DF12-40EF-A5E9-15D3E31B286F",
+      "name": "07 · iOS · Einladung annehmen",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "BD5D7BE3-D936-4F63-8990-83F89104DA82",
+      "name": "09 · iOS · Mein Profil · Profil und Konto",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "E0FA3CF1-4834-4883-9777-BCD9825CE073",
+      "name": "11 · iOS · Badge-Farbton",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "68B1B6C4-E153-4263-AD59-E3E050A06A44",
+      "name": "10 · iOS · Freundesprofil einrichten",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "66F331EE-D94E-4194-8EB5-8230DA7FE722",
+      "name": "12 · iOS · Freundesprofil · Aya",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "FA63F7EB-9965-4D53-8558-859C1DD2B1F3",
+      "name": "13 · iOS · Freundesprofil · Noch keine Inhalte",
+      "page": "Freunde · Abläufe · Firebase"
+    }
+  ]
+}

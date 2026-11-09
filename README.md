@@ -4,7 +4,8 @@ Eigenständiges Projekt für native Apple- und Android-Apps mit gemeinsamem Kotl
 Der vollständige Apple-Code liegt in diesem Projekt; ein benachbarter Checkout von
 `RudolstadtForiOS` wird weder zum Bauen noch zur Laufzeit benötigt.
 Die Android-App bietet Programm, Künstler, Karten, Nachrichten und lokale persönliche Daten
-mit Jetpack Compose und Material 3. CloudKit und Freunde bleiben auf Apple.
+mit Jetpack Compose und Material 3. Profilabgleich und Freunde verwenden Firebase
+auf iOS und Android; die gemeinsame Logik liegt in Multiplatform.
 Sie lässt sich ohne Android Studio auf einem lokalen Emulator ausführen.
 
 ## Screenshots
@@ -93,7 +94,7 @@ Einstiegspunkte: [Dokumentation](docs/README.md),
 Alle folgenden Befehle gehen vom Projektstamm aus, sofern nicht anders angegeben.
 
 - `iosApp/`: Xcode-Projekt, unveränderte SwiftUI-Oberflächen und Apple-Integration
-  einschließlich CloudKit, Watch, Benachrichtigungen, StoreKit, Musikvorschau,
+  einschließlich nativer Firebase-Adapter, Watch, Benachrichtigungen, StoreKit, Musikvorschau,
   Bundle-/Dateizugriff und plattformeigener Formatierung.
 - `shared/src/commonMain/kotlin/`: Festivaldefinitionen, Datenkonvertierung,
   Kalender- und Festivaltage, Programmgültigkeit, Konzertdauern, Wegzeiten,
@@ -117,7 +118,8 @@ Quellenkonvertierung, Suche, Profile, Planung, Wegzeiten und Validierung verwend
 typisierte Kotlin-Rückgaben. Der JSON-Rückweg über Swift-Zwischenmodelle entfällt.
 JSON bleibt für externe Quellen und den Festplatten-Cache. Fehler werden
 weitergereicht und ersetzen kein bestätigtes Programm durch leere Daten.
-Rohdaten-Cache, UserDefaults, CloudKit und Watch behalten ihre bisherigen Formate.
+Rohdaten-Cache, bisherige lokale Profile und Watch behalten ihre lesbaren Formate.
+CloudKit ist entfernt; lokale Altdaten werden in Firebase übernommen.
 
 Auch die Festival-API-Antworten gehen direkt als JSON an Kotlin. `RudolstadtPayload`
 hält die geprüften Quelldaten und verworfenen Datensätze; Swift baut keine
@@ -133,7 +135,7 @@ Der gemeinsame Kern ist intern in `festival`, `planning`, `profile`, `discovery`
 `loading`, `news`, `presentation` und `interop` gegliedert. Die Fach-Packages
 hängen nicht von der Apple-Fassade `interop` ab. `loading` entscheidet über Cache-Gültigkeit und
 Fallbacks sowie darüber, welche Aktualisierung noch schreiben darf. Ktor führt
-HTTP-Abrufe und Parsing in Kotlin zusammen. Apple behält MainActor, CloudKit,
+HTTP-Abrufe und Parsing in Kotlin zusammen. Apple behält MainActor, native Firebase-SDKs,
 Ressourcenpfade und den bestehenden synchronen Datei- und PropertyList-Cache mit
 atomarem Ersatz. Ein gemeinsamer Abbruch-Token reicht Swift-Task-Abbruch bis zur
 Kotlin-Anfrage weiter. Der Cache-Startpfad startet weder Ktor noch Coroutines.
@@ -195,8 +197,7 @@ Baseline, Sprache und Benachrichtigungsberechtigung; Apple führt die Systemübe
 und Hintergrundtasks aus. Swift erzeugt keine zusätzliche Nachrichtenhierarchie.
 
 Profiländerungen, Record-Werte, Versionen, Tombstones und Uploadpläne kommen direkt
-aus `profile`. Die bisherigen UserDefaults-/CloudKit-Formate bleiben native
-Transportformate; insbesondere behält `CachedProfileChangeVersion` die bestehende
+aus `profile`. Die bisherigen lokalen UserDefaults-Formate bleiben lesbar; insbesondere behält `CachedProfileChangeVersion` die bestehende
 Foundation-Datumscodierung. `ColorMath` enthält die bisherige OKHSL/OKLab-Mathematik.
 Die ungenutzte Bildfarbextraktion samt Cache und zugehörigen Tests ist entfernt.
 Die Künstlerdetailansicht verwendet native Systemfarben. Die gemeinsame
@@ -232,7 +233,7 @@ Programme bleiben während der anschließenden Aktualisierung sichtbar.
 
 Sprachabhängige Unicode-Faltung, Sortierung und Datumsanzeige verwenden auf Apple
 weiter Foundation. Diese Systemdienste werden bei Bedarf an gemeinsame Algorithmen
-übergeben. SwiftUI-Layout, Assets, Lokalisierungen, Bundle-IDs, CloudKit-Container
+übergeben. SwiftUI-Layout, Assets, Lokalisierungen, Bundle-IDs
 und Deployment Targets bleiben erhalten. Der eigenständige Watch-Companion behält
 seinen nativen Transport.
 
@@ -325,11 +326,13 @@ Doppelte oder verworfene Datensätze werden gezählt. Remote-, Cache-, Backup-, 
 Preview- und Screenshot-Provenienz bleiben unterscheidbar. Stabile Entity-IDs werden
 in Kotlin als `Long` geführt, auch für die großen Ludwigsburg-Event-IDs.
 
-Die App kann vorhandene persönliche Daten weiterhin lesen. CloudKit und dessen
-Record-Systemfelder bleiben in Swift; die gemeinsamen Profile bearbeiten nur
-fachliche Werte. Versionsvergleiche, Tombstones und der Plan für geänderte Records
-werden gemeinsam berechnet. Die bestehenden Konflikt- und Persistenztests sichern
-diese Grenze ab.
+Die App übernimmt vorhandene lokale persönliche Daten einschließlich privater Notizen.
+`OwnProfileController` hält Journal, Versionen, Tombstones, Kontotrennung und
+Wiederholungen in Multiplatform. `FriendsController` steuert die getrennte Freigabe
+an Freunde ohne Notizen. Native Firebase- und Speicheradapter verbinden beide Apps.
+CloudKit ist vollständig entfernt; entfernte Altdaten werden ignoriert.
+Einrichtung und Abnahme: [Firebase](docs/firebase-friends.md),
+[Architekturentscheidung](docs/adr/0002-firebase-friends.md).
 
 ## Verifikation
 

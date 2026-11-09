@@ -65,6 +65,7 @@ struct ArtistRatingPopoverButton: View {
     private enum Layout {
         static let buttonSize: CGFloat = 50
         static let iconSize: CGFloat = 24
+        static let iconSpread: CGFloat = 6
         static let friendRatingsVerticalOffset: CGFloat = -30
     }
 
@@ -76,6 +77,9 @@ struct ArtistRatingPopoverButton: View {
     @EnvironmentObject private var profile: FestivalProfileStore
     @EnvironmentObject private var friends: FriendProfilesStore
     @State private var isShowingRatingPalette = false
+    #if os(iOS)
+    @State private var ratingSelectionFeedback = false
+    #endif
 
     private var rating: Int {
         profile.rating(for: artist.id)
@@ -157,11 +161,18 @@ struct ArtistRatingPopoverButton: View {
             arrowEdge: .bottom
         )
         .popover(isPresented: $isShowingRatingPalette) {
-            ArtistRatingPalette(artist: artist)
+            ArtistRatingPalette(artist: artist) {
                 #if os(iOS)
-                .presentationCompactAdaptation(.popover)
+                ratingSelectionFeedback.toggle()
                 #endif
+            }
+            #if os(iOS)
+            .presentationCompactAdaptation(.popover)
+            #endif
         }
+        #if os(iOS)
+        .sensoryFeedback(.selection, trigger: ratingSelectionFeedback)
+        #endif
     }
 
     private var triggerBackgroundColor: Color {
@@ -170,13 +181,20 @@ struct ArtistRatingPopoverButton: View {
 
     @ViewBuilder
     private var triggerIcon: some View {
-        if rating > 0 {
+        if rating >= 0 && settings.likeIcon == "heart.fill" {
+            AnimatedRatingHeartGlyph(
+                rating: rating,
+                color: .white,
+                size: Layout.iconSize,
+                spread: Layout.iconSpread
+            )
+        } else if rating > 0 {
             CompactRatingGlyph(
                 rating: rating,
                 iconName: settings.likeIcon,
                 color: .white,
                 size: Layout.iconSize,
-                spread: 6,
+                spread: Layout.iconSpread,
                 haloColor: .red
             )
         } else if let artistIcon {
@@ -228,6 +246,7 @@ private struct ArtistRatingPalette: View {
     }
 
     let artist: Artist
+    let onSelectionChanged: () -> Void
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -366,10 +385,12 @@ private struct ArtistRatingPalette: View {
                     buttonSize: positiveButtonSize(compact: compact),
                     iconSize: positiveIconSize(compact: compact)
                 ) { selectedRating in
+                    let didChange = rating != selectedRating
                     profile.setArtistRating(
                         for: artist,
                         rating: selectedRating
                     )
+                    if didChange { onSelectionChanged() }
                     dismiss()
                 }
                 .padding(3)
@@ -407,6 +428,7 @@ private struct ArtistRatingPalette: View {
 
         return Button {
             profile.setArtistIcon(for: artist, icon: icon)
+            if !isSelected { onSelectionChanged() }
             dismiss()
         } label: {
             VStack(spacing: compact ? 0 : 5) {
@@ -522,5 +544,5 @@ private struct PositiveArtistRatingPicker: View {
         currentTipID: nil
     )
     .environmentObject(UserSettings())
-    .environmentObject(FestivalProfileStore(cloudKitEnabled: false))
+    .environmentObject(FestivalProfileStore(cloudSyncEnabled: false))
 }

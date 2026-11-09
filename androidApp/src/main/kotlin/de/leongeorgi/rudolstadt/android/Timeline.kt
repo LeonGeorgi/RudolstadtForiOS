@@ -20,14 +20,18 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import de.leongeorgi.rudolstadt.android.data.*
 import de.leongeorgi.rudolstadt.festival.*
 import de.leongeorgi.rudolstadt.planning.*
@@ -83,7 +87,7 @@ internal fun ScheduleTimeline(
             }
         }
     val gutter = TIMELINE_TIME_COLUMN_WIDTH.dp
-    val headerHeight = 64.dp
+    val headerHeight = (64 + 28 * (LocalDensity.current.fontScale - 1).coerceAtLeast(0f)).dp
     val currentZoom by rememberUpdatedState(columnWidth to minuteHeight)
     val zoomLatest by rememberUpdatedState {
         old: Pair<Float, Float>,
@@ -124,33 +128,38 @@ internal fun ScheduleTimeline(
         )
     }
     Column(
-        Modifier.fillMaxSize().pointerInput(density) {
-            awaitEachGesture {
-                awaitFirstDown(requireUnconsumed = false)
-                var gestureZoom = currentZoom
-                do {
-                    val event = awaitPointerEvent(PointerEventPass.Initial)
-                    val touches = event.changes.filter { it.pressed && it.previousPressed }
-                    if (touches.size == 2) {
-                        val a = touches[0]
-                        val b = touches[1]
-                        val oldX = abs(a.previousPosition.x - b.previousPosition.x)
-                        val oldY = abs(a.previousPosition.y - b.previousPosition.y)
-                        val x =
-                            if (oldX > 40 * density) abs(a.position.x - b.position.x) / oldX else 1f
-                        val y =
-                            if (oldY > 40 * density) abs(a.position.y - b.position.y) / oldY else 1f
-                        val focus = event.calculateCentroid(useCurrent = false)
-                        val next =
-                            timelineZoom(gestureZoom.first, x, 72f, 192f) to
-                                timelineZoom(gestureZoom.second, y, .7f, 2.4f)
-                        zoomLatest(gestureZoom, next, focus)
-                        gestureZoom = next
-                        event.changes.forEach { it.consume() }
-                    }
-                } while (event.changes.any { it.pressed })
+        Modifier.fillMaxSize()
+            .semantics { testTagsAsResourceId = true }
+            .testTag("schedule-timeline")
+            .pointerInput(density) {
+                awaitEachGesture {
+                    awaitFirstDown(requireUnconsumed = false)
+                    var gestureZoom = currentZoom
+                    do {
+                        val event = awaitPointerEvent(PointerEventPass.Initial)
+                        val touches = event.changes.filter { it.pressed && it.previousPressed }
+                        if (touches.size == 2) {
+                            val a = touches[0]
+                            val b = touches[1]
+                            val oldX = abs(a.previousPosition.x - b.previousPosition.x)
+                            val oldY = abs(a.previousPosition.y - b.previousPosition.y)
+                            val x =
+                                if (oldX > 40 * density) abs(a.position.x - b.position.x) / oldX
+                                else 1f
+                            val y =
+                                if (oldY > 40 * density) abs(a.position.y - b.position.y) / oldY
+                                else 1f
+                            val focus = event.calculateCentroid(useCurrent = false)
+                            val next =
+                                timelineZoom(gestureZoom.first, x, 72f, 192f) to
+                                    timelineZoom(gestureZoom.second, y, .7f, 2.4f)
+                            zoomLatest(gestureZoom, next, focus)
+                            gestureZoom = next
+                            event.changes.forEach { it.consume() }
+                        }
+                    } while (event.changes.any { it.pressed })
+                }
             }
-        }
     ) {
         if (unplaced.isNotEmpty())
             TextButton(
@@ -174,15 +183,22 @@ internal fun ScheduleTimeline(
                         Column(
                             Modifier.width(columnWidth.dp)
                                 .height(headerHeight)
+                                .testTag("timeline-stage-${column.place.placeKey}")
                                 .clickable { app.place(column.place.placeKey) }
-                                .padding(horizontal = 4.dp, vertical = 4.dp),
+                                .padding(horizontal = 2.dp, vertical = 4.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(2.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
                         ) {
                             StageBadge(column.place, 24.dp)
                             Text(
                                 column.place.names.text(app.language),
-                                style = MaterialTheme.typography.labelSmall,
+                                modifier = Modifier.fillMaxWidth(),
+                                style =
+                                    MaterialTheme.typography.labelSmall.copy(
+                                        lineHeight = 14.sp,
+                                        letterSpacing = .1.sp,
+                                    ),
+                                textAlign = TextAlign.Center,
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
                             )
@@ -223,8 +239,8 @@ internal fun ScheduleTimeline(
                                 ((event.eventDuration?.minutes ?: 60) * minuteHeight).dp
                             TimelineConcert(
                                 event,
-                                columnWidth,
-                                cellHeight.value,
+                                columnWidth - 4,
+                                cellHeight.value - 2,
                                 facts?.transitions?.any {
                                     it.secondEventID == event.eventID && it.status == "impossible"
                                 } == true,
@@ -315,6 +331,7 @@ private fun TimelineConcert(
             border = if (saved) BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary) else null,
             modifier =
                 Modifier.fillMaxSize()
+                    .testTag("timeline-event-${event.eventID}")
                     .clipToBounds()
                     .combinedClickable(
                         onClick = { app.event(event.eventID) },
@@ -341,7 +358,7 @@ private fun TimelineConcert(
                         }
                     },
         ) {
-            Column(Modifier.padding(6.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Column(Modifier.padding(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 if (layout.showTime)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -369,7 +386,7 @@ private fun TimelineConcert(
                     }
                 Text(
                     event.artist.name,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.labelMedium.copy(letterSpacing = .1.sp),
                     maxLines = layout.titleLines,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -385,16 +402,17 @@ private fun TimelineConcert(
                                 color = LocalContentColor.current.copy(alpha = .8f),
                             )
                         }
-                if (layout.showOrigin)
+                val origin = if (layout.showOrigin) event.artist.countries(app.language) else ""
+                if (layout.showOrigin && origin.isNotBlank())
                     Text(
-                        event.artist.countries(app.language),
+                        origin,
                         style = MaterialTheme.typography.bodySmall,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
                 if (layout.showSummary)
                     event.artist.summaries
-                        .firstOrNull { it.language == app.language }
+                        .firstOrNull { it.language == app.language && it.text.isNotBlank() }
                         ?.let {
                             Text(
                                 it.text,

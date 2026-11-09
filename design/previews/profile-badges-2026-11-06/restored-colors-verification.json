@@ -1,0 +1,893 @@
+{
+  "date": "2026-11-06",
+  "status": "superseded_by_complete_unification",
+  "supersededBy": "complete-unification-verification.json",
+  "document": "design/Rudolstadt.sketch",
+  "changes": {
+    "restoredColors": {
+      "Gold": [
+        {
+          "position": 0,
+          "color": "#E1B34B"
+        },
+        {
+          "position": 1,
+          "color": "#C28B1A"
+        }
+      ],
+      "Orange": [
+        {
+          "position": 0,
+          "color": "#F08164"
+        },
+        {
+          "position": 0.286,
+          "color": "#E67052"
+        },
+        {
+          "position": 0.714,
+          "color": "#D35A39"
+        },
+        {
+          "position": 1,
+          "color": "#D55A3A"
+        }
+      ],
+      "Pink": [
+        {
+          "position": 0,
+          "color": "#D277BC"
+        },
+        {
+          "position": 0.286,
+          "color": "#C665AD"
+        },
+        {
+          "position": 0.714,
+          "color": "#B54E9B"
+        },
+        {
+          "position": 1,
+          "color": "#B54E9B"
+        }
+      ],
+      "Blue": [
+        {
+          "position": 0,
+          "color": "#689DFA"
+        },
+        {
+          "position": 0.286,
+          "color": "#558BED"
+        },
+        {
+          "position": 0.714,
+          "color": "#3C77DD"
+        },
+        {
+          "position": 1,
+          "color": "#3E77DF"
+        }
+      ],
+      "Green": [
+        {
+          "position": 0,
+          "color": "#7EB268"
+        },
+        {
+          "position": 1,
+          "color": "#56923D"
+        }
+      ],
+      "Teal": [
+        {
+          "position": 0,
+          "color": "#4F9E95"
+        },
+        {
+          "position": 1,
+          "color": "#207B70"
+        }
+      ],
+      "Violet": [
+        {
+          "position": 0,
+          "color": "#897BE6"
+        },
+        {
+          "position": 1,
+          "color": "#6253CE"
+        }
+      ],
+      "Brown": [
+        {
+          "position": 0,
+          "color": "#A27B63"
+        },
+        {
+          "position": 1,
+          "color": "#805337"
+        }
+      ]
+    },
+    "customColorsPreserved": {
+      "#d75a3a": "Orange",
+      "#d49a1f": "Gold",
+      "#5e9f42": "Green",
+      "#23867a": "Teal",
+      "#3d78e0": "Blue",
+      "#6b5ae0": "Violet",
+      "#b54e9b": "Pink",
+      "#8b5a3c": "Brown",
+      "#4f8ef0": "Custom/4F8EF0",
+      "#c65cad": "Custom/C65CAD"
+    },
+    "sourceFontRatio": 0.4444444444444444,
+    "sourcesValidated": {
+      "ok": true,
+      "checkedSources": 13,
+      "ratios": [
+        {
+          "source": "Android/Friends/SavedEventBadge/1",
+          "font": "Roboto",
+          "size": 8.88888888888889,
+          "diameter": 20
+        },
+        {
+          "source": "Android/Friends/SavedEventBadge/Large/1",
+          "font": "Roboto",
+          "size": 8.88888888888889,
+          "diameter": 20
+        },
+        {
+          "source": "iOS/Friends/SavedEventBadge/1",
+          "font": "SFProRounded-Medium",
+          "size": 8,
+          "diameter": 18
+        },
+        {
+          "source": "iOS/Friends/SavedEventBadge/Large/1",
+          "font": "SFProRounded-Medium",
+          "size": 8,
+          "diameter": 18
+        },
+        {
+          "source": "Android/Friends/ProfileAvatar",
+          "font": "Roboto",
+          "size": 10.6666666666667,
+          "diameter": 24
+        },
+        {
+          "source": "iOS/Profile/Badge",
+          "font": "SFProRounded-Medium",
+          "size": 10.6666666666667,
+          "diameter": 24
+        },
+        {
+          "source": "iOS/Friends/ProfileAvatar/Native gradient/Leon",
+          "font": "SFProRounded-Medium",
+          "size": 18.6666666667,
+          "diameter": 42
+        },
+        {
+          "source": "iOS/Friends/ProfileAvatar/Native gradient/Leon · ratings overlay · no shadow",
+          "font": "SFProRounded-Medium",
+          "size": 18.6666666667,
+          "diameter": 42
+        },
+        {
+          "source": "iOS/Friends/ProfileAvatar/Native gradient/Mika",
+          "font": "SFProRounded-Medium",
+          "size": 18.6666666667,
+          "diameter": 42
+        },
+        {
+          "source": "iOS/Friends/ProfileAvatar/Native gradient/Mika · ratings overlay · no shadow",
+          "font": "SFProRounded-Medium",
+          "size": 18.6666666667,
+          "diameter": 42
+        },
+        {
+          "source": "iOS/Friends/ProfileAvatar/Native gradient/Aya",
+          "font": "SFProRounded-Medium",
+          "size": 18.6666666667,
+          "diameter": 42
+        },
+        {
+          "source": "iOS/Friends/ProfileAvatar/Native gradient/Aya · ratings overlay · no shadow",
+          "font": "SFProRounded-Medium",
+          "size": 18.6666666667,
+          "diameter": 42
+        },
+        {
+          "source": "Android/Friends/ProfileAvatar · Material monogram",
+          "font": "Roboto",
+          "size": 17.7777777777778,
+          "diameter": 40
+        }
+      ],
+      "exportedAfterScreens": 44
+    },
+    "currentAndroidInstancesUsingCommonSource": 9,
+    "currentScheduleInstancesUsingCommonSource": 2,
+    "currentNestedFontOverridesCorrected": 12,
+    "nativeAndroidRowFontSizesCorrected": 2,
+    "savedEventSourceTextFramesCentered": true
+  },
+  "verification": {
+    "savedAndReopened": true,
+    "exportedAfterScreens": 44,
+    "screenshotChecks": [
+      "iOS friends overview",
+      "Android friends overview",
+      "Large iOS badge preview",
+      "Saved event symbol sources",
+      "Android account source",
+      "Badge size comparison"
+    ]
+  },
+  "remaining": {
+    "fontOverrides": [
+      {
+        "host": "5CEF65C0-AFDE-4E52-872F-0EABC072D362",
+        "page": "Friends · Referenzen und frühere Entwürfe",
+        "override": "A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 14.279999732971191,
+        "to": 18.666666666666668
+      },
+      {
+        "host": "DE746BEF-451C-48B4-A3C6-7D89467A8495",
+        "page": "Friends · Referenzen und frühere Entwürfe",
+        "override": "A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 14.279999732971191,
+        "to": 18.666666666666668
+      },
+      {
+        "host": "8A819719-530C-4246-9CB3-0C753381D3B0",
+        "page": "Friends · Referenzen und frühere Entwürfe",
+        "override": "55B0E4BD-3531-4E0F-96EA-CA733A235BC5/A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "8A819719-530C-4246-9CB3-0C753381D3B0",
+        "page": "Friends · Referenzen und frühere Entwürfe",
+        "override": "54595138-8852-41DD-92C2-73A495B6BA07/A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "3890E15D-C873-4F10-83D7-C63F7372B2AB",
+        "page": "Friends · Referenzen und frühere Entwürfe",
+        "override": "B76A9334-8DF1-4B58-B9F7-6C2E666AB925/A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "E7FFC0F9-CD74-4F12-B0C6-DA6120B52520",
+        "page": "Friends · Referenzen und frühere Entwürfe",
+        "override": "74685EB2-5BB7-45E4-832B-60D251B07CA2/A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "E7FFC0F9-CD74-4F12-B0C6-DA6120B52520",
+        "page": "Friends · Referenzen und frühere Entwürfe",
+        "override": "7C45CCE9-A37F-4CF5-897A-6B98FCE21EAF/A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "E8B3A652-06AA-4E71-AFA8-FF94B9281E5D",
+        "page": "Friends · Referenzen und frühere Entwürfe",
+        "override": "0AA0E449-38CE-44D7-AF7F-17DB8A3F1446/A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "C3AF2E8E-DBBE-41B1-AE32-209D59111F99",
+        "page": "Symbols",
+        "override": "43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 8.5,
+        "to": 7.111111111111111
+      },
+      {
+        "host": "9713112E-6E97-4616-A713-1B9C745CBD4B",
+        "page": "Symbols",
+        "override": "43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 9.5,
+        "to": 8
+      },
+      {
+        "host": "772B7778-A4F2-422B-9A46-9FAC8BE8A641",
+        "page": "Symbols",
+        "override": "43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 10.5,
+        "to": 8.88888888888889
+      },
+      {
+        "host": "6ED94DB3-93F5-4C13-BE9D-49D47CD5D81B",
+        "page": "Symbols",
+        "override": "204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 12.75,
+        "to": 10.666666666666666
+      },
+      {
+        "host": "434BC462-B4C7-4781-BBF8-9904AF193C4A",
+        "page": "Symbols",
+        "override": "204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 17,
+        "to": 14.222222222222221
+      },
+      {
+        "host": "B324AC08-690E-44F6-B4A9-A29C5A1D5B03",
+        "page": "Symbols",
+        "override": "204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 21,
+        "to": 17.77777777777778
+      },
+      {
+        "host": "FE16509B-C46C-4C89-B8DE-12861F50CB22",
+        "page": "Symbols",
+        "override": "0B2F37FD-4272-4002-B053-70F0B191D121/43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 8.5,
+        "to": 7.111111111111111
+      },
+      {
+        "host": "FE16509B-C46C-4C89-B8DE-12861F50CB22",
+        "page": "Symbols",
+        "override": "67BDC30F-FE7F-488C-BBAD-D93C195BD812/43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 8.5,
+        "to": 7.1111111111111125
+      },
+      {
+        "host": "FE16509B-C46C-4C89-B8DE-12861F50CB22",
+        "page": "Symbols",
+        "override": "DAD92A8C-D363-45B5-9840-B7B253443750/43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 8.5,
+        "to": 7.111111111111111
+      },
+      {
+        "host": "08E0B9FC-1145-4409-8FEA-D7C6FDE7E45F",
+        "page": "Symbols",
+        "override": "0B2F37FD-4272-4002-B053-70F0B191D121/43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 9.5,
+        "to": 8
+      },
+      {
+        "host": "08E0B9FC-1145-4409-8FEA-D7C6FDE7E45F",
+        "page": "Symbols",
+        "override": "67BDC30F-FE7F-488C-BBAD-D93C195BD812/43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 9.5,
+        "to": 8
+      },
+      {
+        "host": "08E0B9FC-1145-4409-8FEA-D7C6FDE7E45F",
+        "page": "Symbols",
+        "override": "DAD92A8C-D363-45B5-9840-B7B253443750/43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 9.5,
+        "to": 8
+      },
+      {
+        "host": "DA8A7A89-DAD3-4F20-B3A8-D63E09D14E8A",
+        "page": "Symbols",
+        "override": "0B2F37FD-4272-4002-B053-70F0B191D121/43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 10.5,
+        "to": 8.88888888888889
+      },
+      {
+        "host": "DA8A7A89-DAD3-4F20-B3A8-D63E09D14E8A",
+        "page": "Symbols",
+        "override": "67BDC30F-FE7F-488C-BBAD-D93C195BD812/43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 10.5,
+        "to": 8.888888888888893
+      },
+      {
+        "host": "DA8A7A89-DAD3-4F20-B3A8-D63E09D14E8A",
+        "page": "Symbols",
+        "override": "DAD92A8C-D363-45B5-9840-B7B253443750/43179DEF-95EC-45A4-9542-118CE252C77D_textSize",
+        "from": 10.5,
+        "to": 8.88888888888889
+      },
+      {
+        "host": "F9BAAF8A-38AF-47C3-BEB0-88AF979CE8DD",
+        "page": "Symbols",
+        "override": "10695510-454E-4C15-B204-09E0E457789C/204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 12.75,
+        "to": 10.666666666666668
+      },
+      {
+        "host": "F9BAAF8A-38AF-47C3-BEB0-88AF979CE8DD",
+        "page": "Symbols",
+        "override": "E0D99441-2A37-4D0E-A8CE-916E011AE31C/204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 12.75,
+        "to": 10.66666666666667
+      },
+      {
+        "host": "F9BAAF8A-38AF-47C3-BEB0-88AF979CE8DD",
+        "page": "Symbols",
+        "override": "40AE4FB7-8930-4F10-9CC6-F1D4ECDB52E8/204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 12.75,
+        "to": 10.666666666666666
+      },
+      {
+        "host": "C8BC8484-5866-4931-A4E5-64F03136A8CE",
+        "page": "Symbols",
+        "override": "10695510-454E-4C15-B204-09E0E457789C/204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 17,
+        "to": 14.222222222222221
+      },
+      {
+        "host": "C8BC8484-5866-4931-A4E5-64F03136A8CE",
+        "page": "Symbols",
+        "override": "E0D99441-2A37-4D0E-A8CE-916E011AE31C/204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 17,
+        "to": 14.222222222222225
+      },
+      {
+        "host": "C8BC8484-5866-4931-A4E5-64F03136A8CE",
+        "page": "Symbols",
+        "override": "40AE4FB7-8930-4F10-9CC6-F1D4ECDB52E8/204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 17,
+        "to": 14.222222222222221
+      },
+      {
+        "host": "F991BAB5-19DD-4232-A266-C4EC641291C0",
+        "page": "Symbols",
+        "override": "10695510-454E-4C15-B204-09E0E457789C/204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 21,
+        "to": 17.77777777777778
+      },
+      {
+        "host": "F991BAB5-19DD-4232-A266-C4EC641291C0",
+        "page": "Symbols",
+        "override": "E0D99441-2A37-4D0E-A8CE-916E011AE31C/204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 21,
+        "to": 17.777777777777786
+      },
+      {
+        "host": "F991BAB5-19DD-4232-A266-C4EC641291C0",
+        "page": "Symbols",
+        "override": "40AE4FB7-8930-4F10-9CC6-F1D4ECDB52E8/204C0FFE-0B5A-43F6-B4A1-FD5A08C0803E_textSize",
+        "from": 21,
+        "to": 17.77777777777778
+      },
+      {
+        "host": "636F6426-14CF-4A62-A57C-A36CA36A1F86",
+        "page": "Symbols",
+        "override": "0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 8.5,
+        "to": 7.111111111111111
+      },
+      {
+        "host": "032A7EBB-D1B9-4DE1-B14D-CC9B3672FB10",
+        "page": "Symbols",
+        "override": "0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 9.5,
+        "to": 8
+      },
+      {
+        "host": "D847EE81-28D8-4A28-BAC1-7B56715DA9C6",
+        "page": "Symbols",
+        "override": "0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 10.5,
+        "to": 8.88888888888889
+      },
+      {
+        "host": "FDC6E0D5-BC6B-4306-A5DC-1D99DF52C857",
+        "page": "Symbols",
+        "override": "CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 12.5,
+        "to": 10.666666666666666
+      },
+      {
+        "host": "49D16AE2-B4CB-4400-BB52-1DC12F426449",
+        "page": "Symbols",
+        "override": "CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 16.75,
+        "to": 14.222222222222221
+      },
+      {
+        "host": "FBD60913-FC43-46DF-AF81-85D138A00352",
+        "page": "Symbols",
+        "override": "CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 21,
+        "to": 17.77777777777778
+      },
+      {
+        "host": "F75BB549-D719-479C-92EB-451ED9B9BE87",
+        "page": "Symbols",
+        "override": "FFB49C84-DE6A-4A79-9419-D5999D4D3C25/0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 8.5,
+        "to": 7.111111111111111
+      },
+      {
+        "host": "F75BB549-D719-479C-92EB-451ED9B9BE87",
+        "page": "Symbols",
+        "override": "9D3E26A7-D961-45F4-A4BB-3021671B4AC0/0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 8.5,
+        "to": 7.111111111111111
+      },
+      {
+        "host": "F75BB549-D719-479C-92EB-451ED9B9BE87",
+        "page": "Symbols",
+        "override": "3FA2805A-B6E4-4608-B5EF-3DDDF6F98E72/0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 8.5,
+        "to": 7.111111111111111
+      },
+      {
+        "host": "73AE5C4A-9A15-4E35-8A4E-74F5221990C8",
+        "page": "Symbols",
+        "override": "FFB49C84-DE6A-4A79-9419-D5999D4D3C25/0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 9.5,
+        "to": 8
+      },
+      {
+        "host": "73AE5C4A-9A15-4E35-8A4E-74F5221990C8",
+        "page": "Symbols",
+        "override": "9D3E26A7-D961-45F4-A4BB-3021671B4AC0/0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 9.5,
+        "to": 8.000000000000002
+      },
+      {
+        "host": "73AE5C4A-9A15-4E35-8A4E-74F5221990C8",
+        "page": "Symbols",
+        "override": "3FA2805A-B6E4-4608-B5EF-3DDDF6F98E72/0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 9.5,
+        "to": 8
+      },
+      {
+        "host": "FDC9F821-CCD0-4860-87D8-53EF18BD1713",
+        "page": "Symbols",
+        "override": "FFB49C84-DE6A-4A79-9419-D5999D4D3C25/0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 10.5,
+        "to": 8.88888888888889
+      },
+      {
+        "host": "FDC9F821-CCD0-4860-87D8-53EF18BD1713",
+        "page": "Symbols",
+        "override": "9D3E26A7-D961-45F4-A4BB-3021671B4AC0/0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 10.5,
+        "to": 8.88888888888889
+      },
+      {
+        "host": "FDC9F821-CCD0-4860-87D8-53EF18BD1713",
+        "page": "Symbols",
+        "override": "3FA2805A-B6E4-4608-B5EF-3DDDF6F98E72/0FF73D4E-1BC2-4D43-9F5D-5557CF80F486_textSize",
+        "from": 10.5,
+        "to": 8.88888888888889
+      },
+      {
+        "host": "2A6B9B3F-4558-42A9-97B4-19E6988C9B5D",
+        "page": "Symbols",
+        "override": "BD41D4E2-96D6-4124-BBDF-F95D72A6C02A/CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 12.5,
+        "to": 10.666666666666666
+      },
+      {
+        "host": "2A6B9B3F-4558-42A9-97B4-19E6988C9B5D",
+        "page": "Symbols",
+        "override": "F972DFF3-CAFE-4B01-A484-8054B79D779B/CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 12.5,
+        "to": 10.666666666666668
+      },
+      {
+        "host": "2A6B9B3F-4558-42A9-97B4-19E6988C9B5D",
+        "page": "Symbols",
+        "override": "B30F0CC0-2DB4-42E6-B6E6-3C01139B891D/CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 12.5,
+        "to": 10.66666666666667
+      },
+      {
+        "host": "C2DCE261-CDCE-4973-AA3E-0BBB36FC03A8",
+        "page": "Symbols",
+        "override": "BD41D4E2-96D6-4124-BBDF-F95D72A6C02A/CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 16.75,
+        "to": 14.222222222222221
+      },
+      {
+        "host": "C2DCE261-CDCE-4973-AA3E-0BBB36FC03A8",
+        "page": "Symbols",
+        "override": "F972DFF3-CAFE-4B01-A484-8054B79D779B/CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 16.75,
+        "to": 14.222222222222221
+      },
+      {
+        "host": "C2DCE261-CDCE-4973-AA3E-0BBB36FC03A8",
+        "page": "Symbols",
+        "override": "B30F0CC0-2DB4-42E6-B6E6-3C01139B891D/CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 16.75,
+        "to": 14.222222222222221
+      },
+      {
+        "host": "15A4EB32-43E4-49F1-BB73-57DD7233D97E",
+        "page": "Symbols",
+        "override": "BD41D4E2-96D6-4124-BBDF-F95D72A6C02A/CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 21,
+        "to": 17.77777777777778
+      },
+      {
+        "host": "15A4EB32-43E4-49F1-BB73-57DD7233D97E",
+        "page": "Symbols",
+        "override": "F972DFF3-CAFE-4B01-A484-8054B79D779B/CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 21,
+        "to": 17.77777777777778
+      },
+      {
+        "host": "15A4EB32-43E4-49F1-BB73-57DD7233D97E",
+        "page": "Symbols",
+        "override": "B30F0CC0-2DB4-42E6-B6E6-3C01139B891D/CBE5E096-30AC-47CB-819E-6C57E3D02426_textSize",
+        "from": 21,
+        "to": 17.77777777777778
+      },
+      {
+        "host": "55B0E4BD-3531-4E0F-96EA-CA733A235BC5",
+        "page": "Symbols",
+        "override": "A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "54595138-8852-41DD-92C2-73A495B6BA07",
+        "page": "Symbols",
+        "override": "A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "0AA0E449-38CE-44D7-AF7F-17DB8A3F1446",
+        "page": "Symbols",
+        "override": "A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "B76A9334-8DF1-4B58-B9F7-6C2E666AB925",
+        "page": "Symbols",
+        "override": "A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "74685EB2-5BB7-45E4-832B-60D251B07CA2",
+        "page": "Symbols",
+        "override": "A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      },
+      {
+        "host": "7C45CCE9-A37F-4CF5-897A-6B98FCE21EAF",
+        "page": "Symbols",
+        "override": "A4B13280-4DA8-42C4-BA79-05B67CF93DA2_textSize",
+        "from": 10.6666666666667,
+        "to": 8
+      }
+    ],
+    "historicalIOSAvatarInstances": 14,
+    "fullSharedSymbolMigration": "Blocked by automatic approval review on historical/reference pages and Symbols templates.",
+    "nativeAndroidRowSharedSymbol": "Blocked by automatic approval review; existing row typography updated without restructuring."
+  },
+  "approvalRequested": "Unify remaining variants on reference/concept pages and Symbols templates; replacement of native row monograms with shared badge instances also requires approval following review rejection.",
+  "frames": [
+    {
+      "id": "293853B4-58D5-4CA8-B5B3-4F3EB0E69A4A",
+      "name": "01 · iOS · Freunde · Empfehlungen und Freunde",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "FA918A79-9772-405A-ABA4-267A3ED749E0",
+      "name": "02 · iOS · Freunde · Noch keine Freunde",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "9AA15855-70F2-47C3-8682-58F189EB1615",
+      "name": "Früherer Entwurf · iCloud-Einrichtung · ersetzt durch Firebase-Profil",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "77D0D725-2267-48F8-B93C-0171B529D22B",
+      "name": "04 · Aktueller Simulator · Einrichtung · iCloud nicht verfügbar",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "9FA5C429-4B42-4B36-A2A4-2CB0EE309984",
+      "name": "iOS · Friends · Full content · without fixed bottom bars",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "CB14EB7F-4816-4A69-B604-EF23FF59496A",
+      "name": "iOS · Components · Examples",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "25BB16F5-7524-47E3-B564-A5AA5B7A1F8D",
+      "name": "Konzept · Freundesempfehlungen · Zwei Spalten mit Blur",
+      "page": "Friends · Referenzen und frühere Entwürfe"
+    },
+    {
+      "id": "A1FC9BD3-2D5D-41F1-9A8E-172931A0C1A4",
+      "name": "Früherer Stand · getrennte Kontoseite · 04 · Konzept · Android · Konto",
+      "page": "Konto & Sync · Konzepte"
+    },
+    {
+      "id": "B11AB49A-3DD0-4453-ABC5-99B714A5A3F1",
+      "name": "Früherer Stand · getrennte Kontoseite · 07 · Konzept · Android · Anonymes Konto",
+      "page": "Konto & Sync · Konzepte"
+    },
+    {
+      "id": "FBF8D204-738D-48AA-8CA6-33EF5D260667",
+      "name": "01 · iOS · Freunde · Empfehlungen und Freunde",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "57855BDB-8CCD-443E-8408-B103FFFE6C71",
+      "name": "01 · Android · Freunde · Empfehlungen und Freunde",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "292CD7D0-CC68-43F8-93E2-DEA77CF1197E",
+      "name": "03 · iOS · Plus-Menü · Freunde hinzufügen",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "855D2C71-6AB3-4CEE-927A-FD38E2E82509",
+      "name": "03 · Android · Plus-Menü · Freunde hinzufügen",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "7CC70A06-B379-406D-A6C2-0327706B6E0D",
+      "name": "02 · iOS · Freunde · Noch keine Freunde",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "6067D138-DADD-47CC-8FF7-61C17CF5B3C1",
+      "name": "02 · Android · Freunde · Noch keine Freunde",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "D94F2CAA-DF12-40EF-A5E9-15D3E31B286F",
+      "name": "07 · iOS · Einladung annehmen",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "692C7203-5718-4EEE-908B-E3CBCFE3DDE9",
+      "name": "07 · Android · Einladung annehmen",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "BD5D7BE3-D936-4F63-8990-83F89104DA82",
+      "name": "09 · iOS · Mein Profil · Profil und Konto",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "FFFBBB37-1075-4128-A668-AFF1F6DC9E6E",
+      "name": "09 · Android · Mein Profil · oberer Scrollausschnitt",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "E0FA3CF1-4834-4883-9777-BCD9825CE073",
+      "name": "11 · iOS · Badge-Farbton",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "18E43C9A-4927-4DDA-B208-D35DEB500A2F",
+      "name": "11 · Android · Badge-Farbton",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "68B1B6C4-E153-4263-AD59-E3E050A06A44",
+      "name": "10 · iOS · Freundesprofil einrichten",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "FDDB40D9-A3EE-4147-A06F-39F248641EE9",
+      "name": "10 · Android · Freundesprofil einrichten",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "66F331EE-D94E-4194-8EB5-8230DA7FE722",
+      "name": "12 · iOS · Freundesprofil · Aya",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "D4BF5770-768D-43C5-8827-3082FB018A43",
+      "name": "12 · Android · Freundesprofil · Aya",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "FA63F7EB-9965-4D53-8558-859C1DD2B1F3",
+      "name": "13 · iOS · Freundesprofil · Noch keine Inhalte",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "B0927616-2FC9-403C-95DA-7D2A1DA7F5D3",
+      "name": "13 · Android · Freundesprofil · Noch keine Inhalte",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "09377021-939A-4A12-BBC1-F6FF7187C07C",
+      "name": "14 · iOS · Alle Empfehlungen",
+      "page": "Freunde · Abläufe · Firebase"
+    },
+    {
+      "id": "BE4897D0-8A1F-4096-A7F6-FE457E350651",
+      "name": "iOS · Artist Detail · Full content",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "7B5E92BC-C03B-4675-B94B-323B208D2A65",
+      "name": "iOS · Artist Detail · 402 × 874",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "7C29CDFC-6224-4423-A883-FAA9409AB13B",
+      "name": "04 · Konzerte & Freunde",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "7C18969B-4CEB-4819-BCA7-3FBB33F871AE",
+      "name": "01 · Kopf & Bewertungen",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "8C614CE2-F0B3-465A-8F3A-854D9ED1E5C9",
+      "name": "09 · iOS · Konzertdetails · Designentwurf",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "829A5342-B7B9-4D93-BC60-6D12DE016EBE",
+      "name": "iOS · Freunde-Bewertungen · 01 Ausgangszustand",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "EB935AEC-2BC7-47AD-8169-164E0615815B",
+      "name": "iOS · Freunde-Bewertungen · 04 Geöffnet · 7 Freunde",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "CA0304D9-7259-41ED-A49D-10963A9AADD8",
+      "name": "iOS · Freunde-Bewertungen · 03 Geöffnet · 5 Freunde",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "5913B9CD-E26C-4706-ADAA-D1625D076C0C",
+      "name": "iOS · V3 · Gummikette · 769 ms · Eingerastet",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "B26D07EA-A9F8-4C35-87A8-D8B63322030D",
+      "name": "iOS · V3 · Gummikette · 327 ms · In die Zeilen gleiten",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "5883F964-7FFC-44F3-820E-0158B176E5F3",
+      "name": "iOS · V3 · Gummikette · 269 ms · Aufrichten",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "0BEB382D-0509-46B6-A3E4-CA0CA94E7EB7",
+      "name": "iOS · V3 · Gummikette · 212 ms · Breiter Bogen",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "BA56CAC5-5E36-4AC4-BE9F-A327FC4D6AC1",
+      "name": "iOS · V3 · Gummikette · 115 ms · Flach nach links",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "30E8BBFD-D99C-486D-8152-ECD14D5624E3",
+      "name": "iOS · V3 · Gummikette · 0 ms · Ausgang",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "39C9E34F-090E-45DF-8A89-DC1DBA1EA59C",
+      "name": "iOS · Freunde-Bewertungen · 02 Entfalten",
+      "page": "Artist Detail"
+    },
+    {
+      "id": "A24518E6-75ED-4BD9-B2B7-D9FE53A04FA5",
+      "name": "Friends · SavedEventBadge · Größenvergleich · 16–40",
+      "page": "Symbols"
+    }
+  ]
+}

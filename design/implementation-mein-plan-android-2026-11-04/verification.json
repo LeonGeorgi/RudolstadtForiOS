@@ -1,0 +1,276 @@
+{
+  "date": "2026-11-04",
+  "screen": "Android · Mein Plan",
+  "entry": "Kalender-Check-Button im Zeitplan; gewählter Tag wird übernommen",
+  "implementation": "androidApp/src/main/kotlin/de/leongeorgi/rudolstadt/android/PersonalPlan.kt",
+  "reference": {
+    "file": "design/previews/mein-plan-android@2x.png",
+    "sketchFrameID": "CF18EC4E-83D2-4892-B6DB-006A872507A3",
+    "sha256": "e8c1da2447e63d13d3847ccbb598cfa35dc8bc7a7439a092e4bc1e9ba70da998"
+  },
+  "runtime": {
+    "emulator": "Rudolstadt_API_36",
+    "androidAPI": 36,
+    "capturePixels": [
+      804,
+      1830
+    ],
+    "logicalSizeDp": [
+      402,
+      915
+    ],
+    "densityDpi": 320,
+    "configs": [
+      {
+        "language": "de-DE",
+        "theme": "light",
+        "fontScale": 1.0,
+        "clock": "2026-07-04 06:00 UTC · Festivalmorgen",
+        "capturePixels": [
+          804,
+          1830
+        ],
+        "densityDpi": 320
+      },
+      {
+        "language": "en-US",
+        "theme": "dark",
+        "fontScale": 1.5,
+        "clock": "Stable current emulator time after festival-clock restoration",
+        "capturePixels": [
+          1080,
+          2400
+        ],
+        "logicalSizeDp": [
+          411.42857142857144,
+          914.2857142857143
+        ],
+        "densityDpi": 420
+      }
+    ]
+  },
+  "checks": {
+    "debugBuild": true,
+    "kotlinFormat": true,
+    "unitTests": {
+      "android": {
+        "tests": 34,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "shared": {
+        "tests": 173,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "nativeUI": [
+      "Day selection survives return navigation",
+      "Empty state and recommendation menu",
+      "Past saved concerts remain visible",
+      "Walking rows and routes controls",
+      "Conflicts with earlier concerts",
+      "Concert detail navigation",
+      "Removing a saved concert updates the plan",
+      "150% text: times remain single-line; content grows; navigation labels stay single-line"
+    ],
+    "coldEmulator": "Some initial 60-second readiness waits expired during cold Android/ART initialization and system ANRs. Final runner allows 180 seconds for the first programme entry, 20 seconds for following controls; no automatic retries. A further cold launch with the restored timeline settings showed an app ANR dialog; the emulator needed a warm-up. Startup performance is not certified by these functional checks.",
+    "finalNativeSuites": [
+      {
+        "configuration": "de-DE light 100% · festival clock",
+        "tests": 2,
+        "failures": 0,
+        "log": "de_festival-instrumentation.log"
+      },
+      {
+        "configuration": "en-US dark 150% · current clock",
+        "tests": 2,
+        "failures": 0,
+        "log": "en-dark-large-instrumentation.log"
+      }
+    ],
+    "androidNavigationLargeText": "Single-line labels with ellipsis and unchanged full accessibility labels",
+    "timeColumnLargeText": "Measured using the actual 14/20 text role; times remain single-line with scalable text"
+  },
+  "comparison": {
+    "method": "Grayscale signed difference: R=max(Sketch-native,0), G=B=max(native-Sketch,0); equal pixels black. No per-element image warping.",
+    "metrics": "component-metrics.json",
+    "matchingComponents": [
+      "Ramsch & Rosen saved row at identical coordinates",
+      "Camila Morgenstern recommendation row aligned by whole row bounds"
+    ],
+    "result": "Measured best text/icon translation: 0 pixels in both axes for the compared roles after the 0.5-sp title-baseline correction. Remaining glyph rasterization and image-resampling differences are visible in channel images.",
+    "limits": "No full-page pixel-equivalence claim. The real programme has additional incoming walks, 19/12 minute routes, confirmed/estimated durations and 19:00 concerts rather than the illustrative 8/6 minutes and 19:15 in Sketch."
+  },
+  "emulatorRecovery": {
+    "incident": "Initial UI fixture used shell operators unsupported by UiDevice.executeShellCommand, failed to seed the profile and removed the existing emulator preference file during cleanup.",
+    "restoredFrom": "artifacts/design-audit/2026-11-03/settings-final.json",
+    "verified": "Recovery backup was read back byte-for-byte; test transactions subsequently validate every seed and restoration.",
+    "protection": "The corrected tests require valid existing settings and save a private on-device backup before the first write; exceptions run verified restoration.",
+    "scope": "Dedicated local emulator; recovery backup contents are excluded from this report.",
+    "postTestProfileComparedWithBackup": true,
+    "clockAndDisplayRestoredAfterFestivalCapture": true,
+    "finalSettings": {
+      "displayPixels": [
+        1080,
+        2400
+      ],
+      "densityDpi": 420,
+      "fontScale": 1.0,
+      "automaticTime": true,
+      "languageForHandoff": "de-DE",
+      "themeForHandoff": "light"
+    },
+    "handoff": "My plan open on Saturday using the restored profile and theme, normal font and original emulator display."
+  },
+  "routingReference": "https://developers.google.com/maps/documentation/urls/get-started#directions-action",
+  "formatOnlyCleanup": [
+    "shared/src/commonMain/kotlin/de/leongeorgi/rudolstadt/discovery/Text.kt",
+    "shared/src/commonTest/kotlin/de/leongeorgi/rudolstadt/ArtistPublicLinkTests.kt",
+    "androidApp/src/main/kotlin/de/leongeorgi/rudolstadt/android/ArtistActions.kt"
+  ],
+  "artifacts": {
+    "de_festival-instrumentation.log": {
+      "bytes": 2278,
+      "sha256": "d547ca10f710460c2f4950b88cb1dbaa4fed08c3c6234fd5e82ae7a84a8d0fba"
+    },
+    "de-festival-after-removal.xml": {
+      "bytes": 59050,
+      "sha256": "d00d381da14688a949a5c5101054197061422feae60bf38adadc089fdaec48c0"
+    },
+    "de-festival-after-removal.png": {
+      "bytes": 170085,
+      "sha256": "d93f0996591ce2c76644ef3665dc4b5910f3ec5cca0c3ec40e1a3e9d9e419288"
+    },
+    "en-dark-large-saved.png": {
+      "bytes": 309401,
+      "sha256": "10ad8c2f9b73d26a7d9633f42458068f405adeeda804b35323af796cc7d5788d"
+    },
+    "en-dark-large-saved.xml": {
+      "bytes": 61437,
+      "sha256": "3757f6f2a40b533bbb6a608d384118db267b0199df10c8c34b5c3a07341703fb"
+    },
+    "en-dark-large-after-removal.png": {
+      "bytes": 242856,
+      "sha256": "b20689fb3a34dc3009e0fbfbadaac4959bffee9cfb00d28686c82976d38aec9b"
+    },
+    "en-dark-large-after-removal.xml": {
+      "bytes": 55134,
+      "sha256": "da778a17d93a59e7803d96a58396a362e62214ffde7c5dcdae35606f69126638"
+    },
+    "en-dark-large-empty.png": {
+      "bytes": 75757,
+      "sha256": "c21e63980da54986e0c54a980035326792be9675ba83be5de5cb2e9a54a3eed2"
+    },
+    "en-dark-large-empty.xml": {
+      "bytes": 41658,
+      "sha256": "d59b5eefad7584ffbfbfc39a255a9c95594f5da3ff5c2eaad8e313d3cb1a0a04"
+    },
+    "en-dark-large-recommendations.xml": {
+      "bytes": 61437,
+      "sha256": "3757f6f2a40b533bbb6a608d384118db267b0199df10c8c34b5c3a07341703fb"
+    },
+    "en-dark-large-recommendations.png": {
+      "bytes": 309401,
+      "sha256": "10ad8c2f9b73d26a7d9633f42458068f405adeeda804b35323af796cc7d5788d"
+    },
+    "en-dark-large-recommendation-menu.png": {
+      "bytes": 81106,
+      "sha256": "a1c4426177945130664dd00ff893c7f98746bd2eb6461c52625385aff6888954"
+    },
+    "en-dark-large-recommendation-menu.xml": {
+      "bytes": 15963,
+      "sha256": "9d82449850c6d37b417f6d4570867c5fdc6b8aafa51fc5d84c583d38874769d1"
+    },
+    "de-light-after-removal.png": {
+      "bytes": 139159,
+      "sha256": "28dc086ce40a340cf0fd459e000cd0f9ba61cfb548e6d3d09d659da6c1814525"
+    },
+    "de-light-after-removal.xml": {
+      "bytes": 54639,
+      "sha256": "26298d1032245cdd16499d10e746b4b84a8db9141de0edf998d0d0dd385763f6"
+    },
+    "ramsch-channels.png": {
+      "bytes": 19613,
+      "sha256": "b1a6f96bcd4f28328e5ff54d5a0527dee1f9c538a7dd1bf59390d2499363edbd"
+    },
+    "de-light-saved.png": {
+      "bytes": 180089,
+      "sha256": "5c3bfdaa3706418f6880cbeaecd84e3a866977e50571d9c018fa4e27f2ef42ce"
+    },
+    "de-light-saved.xml": {
+      "bytes": 61350,
+      "sha256": "4ebfbdb1e182e80de04c5e792c35cf5f24dbe392c455fc4686daf77b615cccb0"
+    },
+    "sketch-native-overview.png": {
+      "bytes": 415278,
+      "sha256": "46ba7c3cd3b938a1458ce5ef3272fd2325461af8c9b378fa97fc2418390cc6d6"
+    },
+    "de-light-recommendations.png": {
+      "bytes": 180089,
+      "sha256": "5c3bfdaa3706418f6880cbeaecd84e3a866977e50571d9c018fa4e27f2ef42ce"
+    },
+    "de-light-recommendations.xml": {
+      "bytes": 61350,
+      "sha256": "4ebfbdb1e182e80de04c5e792c35cf5f24dbe392c455fc4686daf77b615cccb0"
+    },
+    "de-festival-recommendation-menu.png": {
+      "bytes": 46274,
+      "sha256": "24e7ba05269557249ef85316b0d899a229bd34ac14a7110b3f5b57f72da38fc8"
+    },
+    "de-festival-recommendation-menu.xml": {
+      "bytes": 14982,
+      "sha256": "071891481572a23d92c12a206e92abb176c975fcceb1886ed8b7fde1b0260195"
+    },
+    "de-light-recommendation-menu.png": {
+      "bytes": 45700,
+      "sha256": "dc61b5f4a670dd9f6dd9d51563f878b523fce121e0d49b1a41a1f7c41efa0052"
+    },
+    "de-light-recommendation-menu.xml": {
+      "bytes": 15930,
+      "sha256": "cda759a67cdb0ca6bcaac4813e03b0ed5c37370c6125090907811778b4761781"
+    },
+    "de-light-empty.png": {
+      "bytes": 43264,
+      "sha256": "917e1460534a42a952924fed6c180b50170aed180797c0bac6a6aaf041b56209"
+    },
+    "de-light-empty.xml": {
+      "bytes": 41634,
+      "sha256": "4e94b0cd44d0a528f50f25628526333a8a177215f3ad1dca8648a5f2fcb293f6"
+    },
+    "de-festival-saved.png": {
+      "bytes": 181344,
+      "sha256": "04b1ace7e69b6c6f7469d1ec0c4ba7b1fa4357caf25988dc7eba01dfe1f4d9ef"
+    },
+    "de-festival-saved.xml": {
+      "bytes": 60403,
+      "sha256": "095e91ef2935d8c198dce7f9b496794d73f89b51c479b820db886a15fe0089b4"
+    },
+    "en-dark-large-instrumentation.log": {
+      "bytes": 2279,
+      "sha256": "fdadc6ffa06d09685010a4e61afc779d28a5425a5417483d348c3065419be93b"
+    },
+    "de-festival-empty.png": {
+      "bytes": 43914,
+      "sha256": "431875e2bcf2fcf15e8bf9df612fe31dd78725d63ab60244c9f070b11661b610"
+    },
+    "de-festival-empty.xml": {
+      "bytes": 40686,
+      "sha256": "467162975da7633f037e700e8de583146ca8c9379d0986099ae95d18189a94eb"
+    },
+    "de-festival-recommendations.xml": {
+      "bytes": 65789,
+      "sha256": "0068f680dc2154fef1c1017ee571b720ce0eaa3509cc1241f38fc1d9de7885b3"
+    },
+    "de-festival-recommendations.png": {
+      "bytes": 210709,
+      "sha256": "a8f2b56eab56f732cdbb2bd68252702bfe55822408ee00f65297fd04c4af7db7"
+    },
+    "camila-channels.png": {
+      "bytes": 15805,
+      "sha256": "530b40bfcf7e485dd465ca7dbea801d4afeea2287e210b49c8f0d7cb08aea2ed"
+    }
+  }
+}

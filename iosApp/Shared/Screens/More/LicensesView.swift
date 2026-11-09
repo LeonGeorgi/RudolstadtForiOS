@@ -173,6 +173,15 @@ private struct LicenseEntry: Identifiable {
             licenseText: silOpenFontLicense
         ),
         LicenseEntry(
+            id: "google-sans",
+            name: "Google Sans",
+            licenseName: "SIL Open Font License 1.1",
+            copyright: "Copyright 2025 The Google Sans Project Authors",
+            repositoryURL: URL(string: "https://github.com/googlefonts/googlesans"),
+            note: nil,
+            licenseText: silOpenFontLicense
+        ),
+        LicenseEntry(
             id: "natural-earth",
             name: "Natural Earth Admin 0 Countries",
             licenseName: NSLocalizedString("licenses.public_domain.title", comment: ""),

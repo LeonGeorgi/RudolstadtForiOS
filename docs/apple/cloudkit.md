@@ -1,17 +1,13 @@
-# CloudKit profile change tracking
+# Früherer CloudKit-Profilabgleich
 
-Profile schema version 3 adds three fields to `SavedEventPreference`,
-`ArtistPreference`, and `ArtistNote`: `userModifiedAt` (Date/Time), `changeID`
-(String), and `isDeleted` (Int64 boolean). Deploy these additive fields to the
-production CloudKit schema before releasing this version. No schema deployment
-is performed by the unit tests.
+Seit dem Firebase-Umstieg am 4. November 2026 ist CloudKit aus der aktiven App entfernt.
+Es gibt keine CloudKit-Engines, Freigabedialoge, Benachrichtigungen oder Entitlements mehr.
+Die App liest und verändert auch keine bisherigen Daten oder Freigaben in CloudKit.
 
-The user-edit timestamp stays fixed during upload retries. Removed values remain
-as versioned deletion records so offline devices cannot restore an older value.
-Notes retain their existing private record zone. Old records and local caches
-remain readable without receiving an artificial current edit timestamp.
+Ausschließlich vorhandene lokale Profile einschließlich privater Notizen werden in den
+neuen Abgleich übernommen. Das frühere Cacheformat bleibt dafür lesbar; enthaltene
+Systemfelder werden als opake Daten gesichert und nicht ausgewertet.
 
-Older app binaries do not understand deletion markers; update all participating
-devices, including friends' shared-profile readers, for consistent removals.
-Physical deletions from older clients have no user-edit timestamp: they remove
-legacy values, but cannot erase a newer, explicitly versioned local change.
+Aktuelle Architektur und Einrichtung:
+[Firebase-Entscheidung](../adr/0002-firebase-friends.md) und
+[Profilabgleich und Freunde](../firebase-friends.md).

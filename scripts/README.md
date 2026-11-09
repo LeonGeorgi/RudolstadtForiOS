@@ -69,6 +69,74 @@ Tests mit eingerichteter Analyseumgebung:
 .venv-analysis/bin/python -m unittest discover -s scripts/analysis -p '*_test.py'
 ```
 
+Der isolierte Zeitplan-Prototyp benötigt nur die Python-Standardbibliothek:
+
+```sh
+python3 -m unittest discover -s scripts/analysis -p 'benchmark_schedule_planner_test.py'
+python3 scripts/analysis/benchmark_schedule_planner.py --seeds 10 --budgets 0.1 1
+```
+
+Er vergleicht die bisherige Greedy-Auswahl mit einer budgetierten
+Branch-and-Bound-Suche auf Rudolstadt 2026 und dem fiktiven Debug-Festival.
+Bewertungen und gespeicherte Konzerte sind reproduzierbar erzeugte Testprofile.
+Bericht, Einzelmessungen und ausgewählte Konzerte stehen unter
+`artifacts/planner-benchmark/`. Startheuristik, Suchgewinn, bewiesene Optimalität
+und verbleibende Schranken werden getrennt ausgewiesen. Die Zeiten gelten für
+Python auf dem ausführenden Rechner; die App wird nicht verändert.
+
+`python3 scripts/analysis/compare_duration_weights.py` vergleicht auf denselben
+Testprofilen vier Zielfunktionen: nur Bewertung, Bewertung mal Dauer sowie zwei
+abgeschwächte Dauergewichtungen. Alle Varianten verwenden Bewertung² und sind
+bei 60 Minuten gleich gewichtet. Der Bericht unter
+`artifacts/planner-duration-weights/` zeigt Änderungen der Konzertauswahl und der
+Hörzeit je Bewertungsstufe. Die Dauern von Rudolstadt 2026 sind geschätzt; das
+Debug-Festival enthält explizite Dauern. Die gezielten Tests laufen mit
+`python3 -m unittest discover -s scripts/analysis -p 'compare_duration_weights_test.py'`.
+
+Die größere Operationsbudget-Simulation kombiniert Bewertungsanteile,
+Herzenverteilungen, 0/2/6/12 gespeicherte Konzerte, Planungszeitpunkte und Seeds.
+Standardmäßig entstehen 400 Szenarien mit jeweils 13 Budget-Checkpoints:
+
+```sh
+python3 scripts/analysis/simulate_planning_budgets.py
+python3 scripts/analysis/plot_planning_budgets.py
+```
+
+Die Simulation selbst nutzt die Standardbibliothek. Für die unabhängige
+Optimalitätsreferenz ist SciPy nötig (`--reference-seconds 0` deaktiviert sie);
+die Grafiken benötigen Matplotlib und NumPy. Ergebnisse, Profile, Code-Hashes,
+CSV und PNG/SVG stehen unter `artifacts/planner-simulation/`.
+Eine Operation zählt eine Kandidatenprüfung in Startheuristik, Schrankenbau oder
+Verzweigung; Datenaufbereitung und Sortierung liegen außerhalb dieses Budgets.
+Checkpoints stammen aus demselben Suchlauf, sodass mehr Budget nie zu einem
+schlechteren Score führt. Die Diagramme trennen absolute Zusatzscores und den
+Anteil am unabhängig nachgewiesenen Optimum. Budgetkurven mit Referenzqualität
+setzen eine aktivierte SciPy-Referenz voraus.
+
+`compare_search_strategies.py` spielt die eingefrorenen Profile aus diesem
+Versuch erneut ab und vergleicht die verbesserte Suche gegen die alten CSV-Werte:
+
+```sh
+python3 scripts/analysis/compare_search_strategies.py
+python3 scripts/analysis/plot_search_comparison.py
+```
+
+Die neue Variante (`solve(..., strategy="repair")`) verwendet aktive Bitsets,
+eine andere Verzweigungsreihenfolge, gültige Vervollständigungen der Teilpläne
+und begrenzte Planreparaturen. Der Solver-Standard `baseline` bleibt als
+Kontrollvariante erhalten. Beide beginnen mit denselben sechs Startheuristiken;
+alle Kandidatenprüfungen der zusätzlichen Schritte zählen zum Budget.
+Ergebnisse und PNG/SVG stehen unter `artifacts/planner-search-comparison/`.
+Der Vergleich zählt auch Verschlechterungen und weist schwierige Profile sowie
+die Seeds separat aus. Die Referenzoptima
+werden ausschließlich zur Auswertung verwendet.
+
+Die Beiträge der einzelnen Änderungen lassen sich getrennt prüfen:
+
+```sh
+python3 scripts/analysis/compare_search_strategies.py --strategies active-cover improved repair --maximum 100000 --output artifacts/planner-search-ablation
+```
+
 ## Apple-Werkzeuge
 
 `ios/build-apple-framework.sh` wird von Xcode mit dessen Build-Umgebung aufgerufen

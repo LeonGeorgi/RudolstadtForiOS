@@ -14,9 +14,14 @@ struct EventSavedIcon: View {
     let isSaved: Bool
     var symbolAlignment: Alignment = .center
     var foregroundColor: Color = .primary
+    var showsEmptyWhenReadOnly = false
     let onToggle: () -> Void
 
     @State var isAlertShown = false
+
+    private var bookmark: Image {
+        Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
+    }
 
     private var removalAlertTitle: String {
         String(
@@ -29,11 +34,11 @@ struct EventSavedIcon: View {
 
     var body: some View {
         if profile.userDataPolicy.savedEvents != .editable {
-            if isSaved {
-                Image(systemName: "bookmark.fill")
+            if isSaved || showsEmptyWhenReadOnly {
+                bookmark
                     .foregroundStyle(foregroundColor)
                     .frame(width: 44, height: 44, alignment: symbolAlignment)
-                    .accessibilityLabel(Text("event.saved.value.saved"))
+                    .accessibilityLabel(Text(isSaved ? "event.saved.value.saved" : "event.saved.value.not_saved"))
             }
         } else {
             Button {
@@ -43,15 +48,12 @@ struct EventSavedIcon: View {
                     onToggle()
                 }
             } label: {
-                Image(
-                    systemName: isSaved
-                        ? "bookmark.fill" : "bookmark"
-                )
-                .contentTransition(.symbolEffect(.replace))
-                .animation(.default, value: isSaved)
-                .foregroundStyle(foregroundColor)
-                .frame(width: 44, height: 44, alignment: symbolAlignment)
-                .contentShape(Rectangle())
+                bookmark
+                    .contentTransition(.symbolEffect(.replace))
+                    .animation(.default, value: isSaved)
+                    .foregroundStyle(foregroundColor)
+                    .frame(width: 44, height: 44, alignment: symbolAlignment)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel(

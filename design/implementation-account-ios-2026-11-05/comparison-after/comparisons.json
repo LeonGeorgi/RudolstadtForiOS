@@ -1,0 +1,86 @@
+[
+  {
+    "screen": "friends-login",
+    "compared": true,
+    "pixels": [
+      1206,
+      2622
+    ],
+    "reference": "design/implementation-account-ios-2026-11-05/reference-after/login.png",
+    "reference_sha256": "c8ef3c51a70ce634a19d6c94e5b46c4134c54953b6c369f7a61f2e6c3c180348",
+    "native": "design/implementation-account-ios-2026-11-05/native-after/friends-login.png",
+    "native_sha256": "1001fe60c06bdd8119f9c4680d900b403f47c9fdb6486b88a09e0341b68df70f"
+  },
+  {
+    "screen": "email",
+    "compared": true,
+    "pixels": [
+      1206,
+      2622
+    ],
+    "reference": "design/implementation-account-ios-2026-11-05/reference-after/email.png",
+    "reference_sha256": "8d9c743c78de05a935336a86fd314a1b02bda18931a68921ba1f897500d2c3ab",
+    "native": "design/implementation-account-ios-2026-11-05/native-after/email.png",
+    "native_sha256": "d85e7a694dc71c0ddd1621e4c95bc2267b63d2366fd04209d06253635ddda1ff"
+  },
+  {
+    "screen": "key-login",
+    "compared": true,
+    "pixels": [
+      1206,
+      2622
+    ],
+    "reference": "design/implementation-account-ios-2026-11-05/reference-after/key-login.png",
+    "reference_sha256": "80b812879981568e736b4f88ebb19e1b75d2c286628fea61f92f942897dc6d6a",
+    "native": "design/implementation-account-ios-2026-11-05/native-after/key-login.png",
+    "native_sha256": "8f97afe791e6b5d79d4016eea93b3f3722aa71701949eb6b7b1d31393e258ea2"
+  },
+  {
+    "screen": "anonymous-account",
+    "compared": true,
+    "pixels": [
+      1206,
+      2622
+    ],
+    "reference": "design/implementation-account-ios-2026-11-05/reference-after/anonymous-account.png",
+    "reference_sha256": "9cca2c1cfefe0be672545ccda973fea676713034be754dfa3c6f3e4d7d4e9a20",
+    "native": "design/implementation-account-ios-2026-11-05/native-after/anonymous-account.png",
+    "native_sha256": "43177a537c986f337cf1c2ceccf78029d3ff54f0d470ecad5b97ced2407a6820"
+  },
+  {
+    "screen": "key-management",
+    "compared": true,
+    "pixels": [
+      1206,
+      2622
+    ],
+    "reference": "design/implementation-account-ios-2026-11-05/reference-after/key-management.png",
+    "reference_sha256": "06f9c55066c48b05d2a9f2b1148493032bdac5951286b4995a646605c827b566",
+    "native": "design/implementation-account-ios-2026-11-05/native-after/key-management.png",
+    "native_sha256": "6b52625c41e6a390a1cefd466bc7c3d183e4695477fad3809242624052904ee4"
+  },
+  {
+    "screen": "sync",
+    "compared": true,
+    "pixels": [
+      1206,
+      2622
+    ],
+    "reference": "design/implementation-account-ios-2026-11-05/reference-after/sync.png",
+    "reference_sha256": "74651d03507f8416d940a5af839b4fa3439f25ca0be207b723a184365170751c",
+    "native": "design/implementation-account-ios-2026-11-05/native-after/sync.png",
+    "native_sha256": "a06807e3155ae53d830ab58bb824530f079c90a27afac0462b1f810398181400"
+  },
+  {
+    "screen": "revoked-test-key",
+    "compared": true,
+    "pixels": [
+      1206,
+      2622
+    ],
+    "reference": "design/implementation-account-ios-2026-11-05/reference-after/key-display.png",
+    "reference_sha256": "60c3541f6d051c88bdcaca3e8ff8334e571bf3632ceefe5ea6ccaaaa5795f5c1",
+    "native": "design/implementation-account-ios-2026-11-05/native-after/revoked-test-key.png",
+    "native_sha256": "e8e5185ff8d260254ef01d5906e0be3da51992d9609db69d1a752d2d9b34e4f5"
+  }
+]

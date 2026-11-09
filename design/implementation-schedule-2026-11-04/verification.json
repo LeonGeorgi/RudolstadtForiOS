@@ -1,0 +1,139 @@
+{
+  "date": "2026-11-04",
+  "status": "implementation-verified-with-documented-differences",
+  "implementation": {
+    "ios": {
+      "cardWidthPt": 71,
+      "columnGapPt": 4,
+      "columnPitchPt": 75,
+      "timeGutterPt": 58,
+      "compactTitlePt": 11.5,
+      "headerPt": 10,
+      "cardInsetPt": 4,
+      "ratingSizePt": 16,
+      "detailedInsetPt": 8,
+      "continuousCornerRadiusPt": 4
+    },
+    "android": {
+      "cardWidthDp": 71,
+      "columnPitchDp": 75,
+      "timeGutterDp": 58,
+      "titleSp": 12,
+      "titleLineHeightSp": 16,
+      "titleLetterSpacingSp": 0.1,
+      "headerSp": 11,
+      "headerLineHeightSp": 14,
+      "cardInsetDp": 4,
+      "cornerRadiusDp": 8
+    }
+  },
+  "data": "Existing API-backed presentation, complete names and optional metadata retained; no hardcoded programme substitutions",
+  "checks": {
+    "iosUnitTests": {
+      "tests": 20,
+      "failures": 0
+    },
+    "androidUnitTests": {
+      "tests": 34,
+      "failures": 0,
+      "scope": "Existing Android unit suite"
+    },
+    "iosNativeUI": {
+      "tests": 1,
+      "failures": 0,
+      "states": [
+        "standard",
+        "detail",
+        "pinch",
+        "reset",
+        "scrolled detail"
+      ],
+      "sourceCase": "Two-line AltBadSeer Musi above the 16 pt rating footer verified against Sketch",
+      "resultBundle": "/private/tmp/RudolstadtScheduleSpacingUI.xcresult",
+      "locale": "de-DE",
+      "displayPx": [
+        1206,
+        2622
+      ],
+      "device": "iPhone 17 · iOS 27.0 · dedicated screenshot simulator",
+      "data": "Bundled snapshot and seeded screenshot profile; network disabled"
+    },
+    "androidNativeUI": {
+      "tests": 1,
+      "failures": 0,
+      "durationSeconds": 30.214,
+      "locale": "de-DE",
+      "densityDpi": 320,
+      "displayPx": [
+        804,
+        1830
+      ],
+      "states": [
+        "standard",
+        "event details",
+        "zoom reset"
+      ],
+      "assertions": [
+        "complete API stage name",
+        "stage/card center alignment within 2 px",
+        "artist names from loaded source",
+        "start time from loaded source",
+        "event navigation",
+        "reset view"
+      ],
+      "captures": "android-final/",
+      "sourceExpectations": "android-final/source-expectations.json",
+      "device": "Fresh Rudolstadt_Schedule_Verifier · API 36 · arm64",
+      "data": "Live cache read by the app; source-derived expectations, no programme override"
+    },
+    "kotlinFormat": "ktfmt 0.64 dry-run passed for the three changed Kotlin files",
+    "whitespace": "git diff --check passed for schedule implementation and changed tests"
+  },
+  "privateEmulatorRecoveryBackup": "Shared-device snapshot kept private; newer parallel states were not overwritten. Own exclusive AVD original settings restored and verified.",
+  "emulatorIsolation": {
+    "sharedDevice": "Initial emulator reused by another chat; run interrupted by restart",
+    "exclusiveDevice": "emulator-5580 · Rudolstadt_API_36",
+    "privateBackups": "Stored outside repository; newer states were not overwritten",
+    "exclusiveSettingsRecovery": {
+      "verifiedByteForByte": true,
+      "originalSettingsSha256": "dc8517d4b62634f0b9932933f5b552fa8dcb8e1eed0f6c63fd268570164ee2e4",
+      "displayRestored": true,
+      "appLocaleRestored": "en-US",
+      "instanceStopped": true
+    },
+    "freshVerifier": "Rudolstadt_Schedule_Verifier · emulator-5582 · fresh private AVD, no user data",
+    "freshVerifierSettingsRestoredAndVerified": true,
+    "freshVerifierStopped": true
+  },
+  "sourceData": {
+    "ios": "Bundled 2026 snapshot in deterministic screenshot mode",
+    "android": "Live API cache from 2026-11-04",
+    "differenceReport": "live-source-differences.json",
+    "correction": "Earlier claims that 15:30 for Rastak and Antoní for event 195 were implementation errors were incorrect; the bundled snapshot is older than the live API."
+  },
+  "comparison": {
+    "method": "Signed grayscale difference, gain 3; black equal, magenta native brighter, green native darker",
+    "rgb": "Absolute RGB difference, gain 3; no masks",
+    "registration": "None: original same-size exports, no alignment, shifting, resampling or blur",
+    "fullPageParityClaimed": false,
+    "remainingDifferences": [
+      "Android live API content differs from dated Sketch fixture (Rastak, RIAN, event 195 artist)",
+      "News badge counts differ with source/profile state",
+      "Android native date-tab distribution and selected-tab background differ from Sketch",
+      "Android toolbar has four native actions; Sketch shows three",
+      "Android bottom navigation labels and spacing differ from Sketch",
+      "iOS stage badge gradient/outline differs from flat Sketch component",
+      "Native font rendering leaves small edge differences; system bar and Liquid Glass material excluded from judgment only",
+      "iOS time-axis numerals use native monospaced digits and differ from Sketch glyph metrics/alignment",
+      "iOS Phønix & Embla and partially clipped cards have different line wraps; no manual source-text substitutions applied",
+      "iOS news banner rotates between items; titles and lower visible grid differ from the dated Sketch capture",
+      "Toolbar and tab symbols retain platform-native glyphs and differ from Sketch paths"
+    ],
+    "matchedComponentEvidence": [
+      "Android AltBadSeer Musi card: same source rectangle, x420 y874 width142 height140",
+      "iOS AltBadSeer Musi and rating footer: same source rectangle, x630 y1116 width213 height174"
+    ],
+    "manifest": "comparison-manifest.json",
+    "rebuild": "python3 design/implementation-schedule-2026-11-04/compare.py"
+  }
+}

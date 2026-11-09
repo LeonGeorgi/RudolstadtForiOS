@@ -23,15 +23,22 @@ internal data class AppState(
     val source: String = "bundledBackup",
     val updatedAt: Double? = null,
     val newsRefreshing: Boolean = false,
+    val syncedProfile: PersonalProfile? = null,
 ) {
     val edition
         get() = Edition.find(settings.edition)
 
     val profile
-        get() = ProfileState(settings.profile(edition.key))
+        get() =
+            ProfileState(
+                if (edition.key == Edition.current.key)
+                    syncedProfile ?: settings.profile(edition.key)
+                else settings.profile(edition.key)
+            )
 }
 
 internal class AppModel(application: Application) : AndroidViewModel(application) {
+    val friends = FirebaseFriends(application)
     private var cityMap: OfflineCityMap? = null
     private var mapForeground = true
     val offlineMaps: OfflineCityMap
@@ -63,9 +70,35 @@ internal class AppModel(application: Application) : AndroidViewModel(application
     private val generation = RefreshGeneration()
     private var checkedAt = 0.0
     private var newsCheckedAt = 0.0
+    val ownProfile = FirebaseOwnProfile(application, friends, viewModelScope)
+    private val archiveProfiles = mutableMapOf<String, FirebaseOwnProfile>()
+    val accountDeletion =
+        AccountDeletionController(friends, ownProfile.controller, friends.accountActions)
+    private val ownProfileObservation =
+        ownProfile.controller.observe { value ->
+            if (value.initialized) {
+                val changed = mutableState.value.syncedProfile != value.profile
+                mutableState.update { it.copy(syncedProfile = value.profile) }
+                friends.controller.syncProfile(
+                    value.profile,
+                    value.uid,
+                    value.phase == OwnProfilePhase.READY,
+                )
+                if (changed && mutableState.value.content != null) recalculate()
+            }
+        }
 
     init {
         readSettings()
+        val initialOwn = ownProfile.controller.current
+        if (initialOwn.initialized) {
+            mutableState.update { it.copy(syncedProfile = initialOwn.profile) }
+            friends.controller.syncProfile(
+                initialOwn.profile,
+                initialOwn.uid,
+                initialOwn.phase == OwnProfilePhase.READY,
+            )
+        }
     }
 
     fun readSettings() {
@@ -79,10 +112,24 @@ internal class AppModel(application: Application) : AndroidViewModel(application
                         it.copy(settings = settings, settingsReady = true, settingsFailed = false)
                     }
                     if (!old.settingsReady || old.settings.edition != settings.edition) {
+                        val edition = Edition.find(settings.edition)
+                        if (!old.settingsReady) {
+                            for (archive in Edition.all) {
+                                if (archive.archive && archive.supportsFirebaseFriends &&
+                                    archive.key in settings.ownProfileSync
+                                ) profileSync(archive)
+                            }
+                        }
+                        if (edition.archive && edition.supportsFirebaseFriends) profileSync(edition)
+                        val archiveEdition =
+                            edition.friendsEdition.takeIf {
+                                edition.supportsFirebaseFriends && edition.archive
+                            }
+                        friends.controller.showArchive(archiveEdition)
                         loadEdition()
                         configureNewsNotifications(
                             getApplication(),
-                            settings.newsNotifications && Edition.find(settings.edition).live,
+                            settings.newsNotifications && edition.live,
                         )
                     } else if (
                         old.settings.profile().savedEventIDs != settings.profile().savedEventIDs ||
@@ -116,6 +163,11 @@ internal class AppModel(application: Application) : AndroidViewModel(application
     fun mutate(mutation: ProfileMutation) {
         val edition = mutableState.value.edition
         if (!edition.editable || !mutableState.value.settingsReady) return
+        if (mutation.kind == "setArtistNote" && !edition.notesEditable) return
+        if (edition.supportsFirebaseFriends) {
+            profileSync(edition).mutate(mutation)
+            return
+        }
         changeSettings { settings ->
             settings.copy(
                 profiles =
@@ -125,6 +177,12 @@ internal class AppModel(application: Application) : AndroidViewModel(application
             )
         }
     }
+
+    fun profileSync(edition: Edition): OwnProfileController =
+        if (edition == Edition.current) ownProfile.controller
+        else archiveProfiles.getOrPut(edition.key) {
+            FirebaseOwnProfile(getApplication(), friends, viewModelScope, edition)
+        }.controller
 
     fun saveEvent(id: Long) = mutate(ProfileMutation("toggleSavedEvent", id))
 
@@ -357,8 +415,14 @@ internal class AppModel(application: Application) : AndroidViewModel(application
         }
 
     override fun onCleared() {
+        accountDeletion.close()
+        friends.close()
+        ownProfileObservation.cancel()
+        ownProfile.close()
+        archiveProfiles.values.forEach { it.close() }
         cityMap?.close()
         repository.close()
+        super.onCleared()
     }
 }
 

@@ -6,13 +6,13 @@ enum TestFixtures {
     static func recommendationState(_ ids: [Int]? = nil) -> RecommendationState {
         RecommendationState(
             phase: ids == nil ? .loading : .ready, eventIDs: KotlinCore.ids(ids ?? []),
-            durations: nil, generatedAt: nil, requestGeneration: 0)
+            durations: nil, generatedAt: nil, requestGeneration: 0, savedEventIDs: [])
     }
 
     static func profileState(saved: [Int] = [], positive: [Int] = []) -> ProfileState {
         ProfileState(
             profile: PersonalProfile(
-                badgeName: nil, badgeColorHex: nil,
+                badgeName: nil, badgeHue: FestivalProfileBadge.defaultHue,
                 savedEventIDs: KotlinCore.ids(saved),
                 artistPreferences: positive.map {
                     ArtistPreference(artistID: Int64($0), rating: 1, iconName: nil)
@@ -58,7 +58,7 @@ enum TestFixtures {
         CachedOwnerFestivalProfile(
             festivalYear: festivalYear,
             badgeName: nil,
-            badgeColorHex: FestivalProfileBadge.defaultColorHex,
+            badgeHue: FestivalProfileBadge.defaultHue,
             savedEventIDs: savedEventIDs,
             artistPreferences: artistPreferences,
             artistNotes: artistNotes,
@@ -88,7 +88,7 @@ enum TestFixtures {
     static func festivalProfileStore() -> FestivalProfileStore {
         FestivalProfileStore(
             userDefaults: isolatedUserDefaults(),
-            cloudKitEnabled: false,
+            cloudSyncEnabled: false,
             now: { date(dayInJuly: 3, hour: 12, minute: 0) }
         )
     }
@@ -104,7 +104,7 @@ enum TestFixtures {
             title: "Friend Profile",
             ownerName: "Friend",
             badgeName: nil,
-            badgeColorHex: nil,
+            badgeHue: nil,
             festivalYear: festivalYear,
             savedEventIDs: savedEventIDs,
             artistPreferences: artistPreferences

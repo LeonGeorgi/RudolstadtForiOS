@@ -1,0 +1,727 @@
+{
+  "sourcePath": "shared/src/commonMain/resources/FestivalBackup/2026_rudolstadt_data.json",
+  "sourceSha256": "e2d6f7e1d51ebf5b849b771b81f85ccd2a04523aa3fd4599007dbb69ca6d61c9",
+  "liveFetch": "unavailable (DNS/network access); bundled API snapshot used",
+  "date": "2026-11-04",
+  "rows": [
+    {
+      "layerId": "410B1244-FE4C-4292-86AE-0D976275408C",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "artistName": "Tamburica Cindrof",
+      "time": "11:00",
+      "tags": [
+        "Länderschwerpunkt"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 252
+    },
+    {
+      "layerId": "002C45B7-F099-40BD-8BEF-0A78E97A65F2",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 127,
+      "artistId": 217,
+      "stageId": 4,
+      "artistName": "La Vespa Cougourdon Ourchestra",
+      "time": "13:00",
+      "tags": [],
+      "masterSymbolId": "23BF174C-7056-4105-9B6F-0D0F659E78C7",
+      "expectedY": 372
+    },
+    {
+      "layerId": "8BB662F1-2767-45FE-81E5-7A553C819B76",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 171,
+      "artistId": 213,
+      "stageId": 7,
+      "artistName": "AltBadSeer Musi",
+      "time": "13:00",
+      "tags": [],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 372
+    },
+    {
+      "layerId": "64AA3F08-DE50-4951-889D-3D49870C8A92",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 156,
+      "artistId": 207,
+      "stageId": 8,
+      "artistName": "Zgarda",
+      "time": "13:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 372
+    },
+    {
+      "layerId": "C14B01CF-3AD2-4415-B62F-07411451928D",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 193,
+      "artistId": 245,
+      "stageId": 9,
+      "artistName": "The Green Apple Sea",
+      "time": "13:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 372
+    },
+    {
+      "layerId": "31D710FD-9671-43B3-9851-144BAC437477",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 128,
+      "artistId": 310,
+      "stageId": 4,
+      "artistName": "Rastak",
+      "time": "16:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "325194CA-0BD3-47AD-967C-4645352F5BAE",
+      "expectedY": 552
+    },
+    {
+      "layerId": "31C6CCAA-3F8E-436C-9417-064E1231DCED",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 389,
+      "artistId": 203,
+      "stageId": 7,
+      "artistName": "Jugendfolkorchester",
+      "time": "15:30",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 522
+    },
+    {
+      "layerId": "BE385652-DE5A-4ADF-B2EF-4A48F4488372",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 172,
+      "artistId": 144,
+      "stageId": 7,
+      "artistName": "Thüringer Folkloretanzensemble",
+      "time": "16:30",
+      "tags": [
+        "Bühnentanz"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 582
+    },
+    {
+      "layerId": "0B3449E2-8162-40EA-A270-F074CB4BEBE2",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 119,
+      "artistId": 218,
+      "stageId": 3,
+      "artistName": "Florian Paul & Die Kapelle der letzten Hoffnung",
+      "time": "17:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "23BF174C-7056-4105-9B6F-0D0F659E78C7",
+      "expectedY": 612
+    },
+    {
+      "layerId": "B1DF4941-0B9A-4F00-9795-DAEEAA97E911",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 158,
+      "artistId": 302,
+      "stageId": 8,
+      "artistName": "Clare Sands",
+      "time": "17:30",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "389AD6EE-015F-433B-BEC3-74675D851AC1",
+      "expectedY": 642
+    },
+    {
+      "layerId": "224165B8-C850-4D7D-8546-E1D9EAA29B15",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 129,
+      "artistId": 175,
+      "stageId": 4,
+      "artistName": "RIAN",
+      "time": "19:00",
+      "tags": [
+        "Länderschwerpunkt"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 732
+    },
+    {
+      "layerId": "A02C48C0-16C1-41BB-A08C-C9642BDAFF3D",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 175,
+      "artistId": 298,
+      "stageId": 7,
+      "artistName": "Phønix & Embla",
+      "time": "19:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 732
+    },
+    {
+      "layerId": "A5D3FE44-11AF-42B7-AB29-A8D07D652445",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 157,
+      "artistId": 298,
+      "stageId": 8,
+      "artistName": "Phønix & Embla",
+      "time": "15:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 492
+    },
+    {
+      "layerId": "9514B766-4EB0-4B79-B5FC-ABAC999149E5",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 194,
+      "artistId": 284,
+      "stageId": 9,
+      "artistName": "Totally Cantoj Bassman",
+      "time": "15:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 492
+    },
+    {
+      "layerId": "28FCF7F9-B27E-4193-9299-19E9C013ED7E",
+      "frameId": "22526A58-7B7E-4EE0-92FD-2F536F8DF85B",
+      "platform": "ios",
+      "eventId": 195,
+      "artistId": 279,
+      "stageId": 9,
+      "artistName": "The String Company",
+      "time": "17:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "masterSymbolId": "389AD6EE-015F-433B-BEC3-74675D851AC1",
+      "expectedY": 612
+    },
+    {
+      "layerId": "D6835EDC-7C24-4C03-BA11-FCA2E4AA0265",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "artistName": "Tamburica Cindrof",
+      "time": "11:00",
+      "tags": [
+        "Länderschwerpunkt"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 293.0
+    },
+    {
+      "layerId": "B48F858F-1DD0-4BA5-B8B0-4DA5CEC0EFD2",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 127,
+      "artistId": 217,
+      "stageId": 4,
+      "artistName": "La Vespa Cougourdon Ourchestra",
+      "time": "13:00",
+      "tags": [],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 437.0
+    },
+    {
+      "layerId": "58242CE6-DC2D-48F8-9AB4-73F05B2DA7B6",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 171,
+      "artistId": 213,
+      "stageId": 7,
+      "artistName": "AltBadSeer Musi",
+      "time": "13:00",
+      "tags": [],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 437.0
+    },
+    {
+      "layerId": "F1D05CA1-C90E-4EB9-AE89-6FC331619CA1",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 156,
+      "artistId": 207,
+      "stageId": 8,
+      "artistName": "Zgarda",
+      "time": "13:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 437.0
+    },
+    {
+      "layerId": "8749F51E-1969-4A92-B672-B2930C61C78F",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 128,
+      "artistId": 310,
+      "stageId": 4,
+      "artistName": "Rastak",
+      "time": "16:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 653.0
+    },
+    {
+      "layerId": "18C46643-D063-4083-8FAD-7A0D0A5BF127",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 389,
+      "artistId": 203,
+      "stageId": 7,
+      "artistName": "Jugendfolkorchester",
+      "time": "15:30",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 617.0
+    },
+    {
+      "layerId": "FB346BA6-9C34-482D-96B3-2B57DA3542B9",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 172,
+      "artistId": 144,
+      "stageId": 7,
+      "artistName": "Thüringer Folkloretanzensemble",
+      "time": "16:30",
+      "tags": [
+        "Bühnentanz"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 689.0
+    },
+    {
+      "layerId": "7F23EC7A-21F8-4E23-868F-785F0C3D01D3",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 119,
+      "artistId": 218,
+      "stageId": 3,
+      "artistName": "Florian Paul & Die Kapelle der letzten Hoffnung",
+      "time": "17:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 725.0
+    },
+    {
+      "layerId": "32188E53-21F8-4175-8CDC-62784AC56E70",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 157,
+      "artistId": 298,
+      "stageId": 8,
+      "artistName": "Phønix & Embla",
+      "time": "15:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 581.0
+    },
+    {
+      "layerId": "47C3CA77-5542-4FD6-9424-D9A3DE37925C",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 193,
+      "artistId": 245,
+      "stageId": 9,
+      "artistName": "The Green Apple Sea",
+      "time": "13:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 437.0
+    },
+    {
+      "layerId": "52D1285F-DE5C-4304-B27D-0F00F6E759FB",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 194,
+      "artistId": 284,
+      "stageId": 9,
+      "artistName": "Totally Cantoj Bassman",
+      "time": "15:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 581.0
+    },
+    {
+      "layerId": "C733B030-23E4-495C-8DA5-69BBF12FF8A8",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 195,
+      "artistId": 279,
+      "stageId": 9,
+      "artistName": "The String Company",
+      "time": "17:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 725.0
+    },
+    {
+      "layerId": "F01A1558-80B4-45DB-9BED-5C446498A3A5",
+      "frameId": "421791D0-92A7-4C70-8C2E-54429C8BBF06",
+      "platform": "android",
+      "eventId": 158,
+      "artistId": 302,
+      "stageId": 8,
+      "artistName": "Clare Sands",
+      "time": "17:30",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "695E02C3-A7AE-45F2-B9DB-B34BC818A78F",
+      "expectedY": 761.0
+    },
+    {
+      "layerId": "C36CB5E5-C01D-4F5F-BE2C-A644B2AECF1D",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "artistName": "Tamburica Cindrof",
+      "time": "11:00",
+      "tags": [
+        "Länderschwerpunkt"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 252
+    },
+    {
+      "layerId": "1BCE7FA3-A2E4-4AD4-9C0C-3ACCD66EE8C1",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 127,
+      "artistId": 217,
+      "stageId": 4,
+      "artistName": "La Vespa Cougourdon Ourchestra",
+      "time": "13:00",
+      "tags": [],
+      "masterSymbolId": "23BF174C-7056-4105-9B6F-0D0F659E78C7",
+      "expectedY": 372
+    },
+    {
+      "layerId": "5C0D548C-A6B8-4413-9D47-C84924F9F305",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 171,
+      "artistId": 213,
+      "stageId": 7,
+      "artistName": "AltBadSeer Musi",
+      "time": "13:00",
+      "tags": [],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 372
+    },
+    {
+      "layerId": "E1BFB024-7AC7-4CAF-951F-0BA3CEE185CB",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 156,
+      "artistId": 207,
+      "stageId": 8,
+      "artistName": "Zgarda",
+      "time": "13:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 372
+    },
+    {
+      "layerId": "EBC96E43-358C-4452-860D-7BB8BF28B11F",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 193,
+      "artistId": 245,
+      "stageId": 9,
+      "artistName": "The Green Apple Sea",
+      "time": "13:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 372
+    },
+    {
+      "layerId": "6301664B-9787-4D31-8B14-EBA1714210EB",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 128,
+      "artistId": 310,
+      "stageId": 4,
+      "artistName": "Rastak",
+      "time": "16:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "325194CA-0BD3-47AD-967C-4645352F5BAE",
+      "expectedY": 552
+    },
+    {
+      "layerId": "659D7C45-6769-4478-ACB9-99E11C1674AC",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 389,
+      "artistId": 203,
+      "stageId": 7,
+      "artistName": "Jugendfolkorchester",
+      "time": "15:30",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 522
+    },
+    {
+      "layerId": "F1BDDFF1-B0A8-4DC3-9325-53106687D667",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 172,
+      "artistId": 144,
+      "stageId": 7,
+      "artistName": "Thüringer Folkloretanzensemble",
+      "time": "16:30",
+      "tags": [
+        "Bühnentanz"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 582
+    },
+    {
+      "layerId": "C23E0712-DAD8-4F9A-9707-E58F2E108F4B",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 119,
+      "artistId": 218,
+      "stageId": 3,
+      "artistName": "Florian Paul & Die Kapelle der letzten Hoffnung",
+      "time": "17:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "23BF174C-7056-4105-9B6F-0D0F659E78C7",
+      "expectedY": 612
+    },
+    {
+      "layerId": "A20D5B70-41BB-4D08-9301-5C5903651421",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 158,
+      "artistId": 302,
+      "stageId": 8,
+      "artistName": "Clare Sands",
+      "time": "17:30",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "389AD6EE-015F-433B-BEC3-74675D851AC1",
+      "expectedY": 642
+    },
+    {
+      "layerId": "0DAEDB16-D466-4912-B3C0-4334C64FDED3",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 129,
+      "artistId": 175,
+      "stageId": 4,
+      "artistName": "RIAN",
+      "time": "19:00",
+      "tags": [
+        "Länderschwerpunkt"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 732
+    },
+    {
+      "layerId": "C2A62842-C2EE-4258-ADA8-60C37D685CFE",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 175,
+      "artistId": 298,
+      "stageId": 7,
+      "artistName": "Phønix & Embla",
+      "time": "19:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 732
+    },
+    {
+      "layerId": "2B943C61-A1DE-4088-9BCA-4E2CB792F754",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 157,
+      "artistId": 298,
+      "stageId": 8,
+      "artistName": "Phønix & Embla",
+      "time": "15:00",
+      "tags": [
+        "Bühne"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 492
+    },
+    {
+      "layerId": "CA738BC5-3265-41F3-B3CB-D4C39B6F85AF",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 194,
+      "artistId": 284,
+      "stageId": 9,
+      "artistName": "Totally Cantoj Bassman",
+      "time": "15:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "masterSymbolId": "7EAFC7BB-476E-4EB7-BF4E-5434EFDE1CEC",
+      "expectedY": 492
+    },
+    {
+      "layerId": "CF6FD662-9BBE-48B5-B609-07FB6F2442EF",
+      "frameId": "FD0CA3C2-FC5F-470C-A13F-37D6B998E523",
+      "platform": "ios",
+      "eventId": 195,
+      "artistId": 279,
+      "stageId": 9,
+      "artistName": "The String Company",
+      "time": "17:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "masterSymbolId": "389AD6EE-015F-433B-BEC3-74675D851AC1",
+      "expectedY": 612
+    }
+  ],
+  "componentRows": [
+    {
+      "layerId": "73CFA37B-C778-43BE-BCA7-EE0E7C5917F8",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "platform": "ios",
+      "artistName": "Tamburica Cindrof",
+      "time": "11:00",
+      "tags": [
+        "Länderschwerpunkt"
+      ],
+      "expectedY": 0
+    },
+    {
+      "layerId": "FD9A7332-FEAB-49EE-84DF-BC478B62790B",
+      "eventId": 193,
+      "artistId": 245,
+      "stageId": 9,
+      "platform": "ios",
+      "artistName": "The Green Apple Sea",
+      "time": "13:00",
+      "tags": [
+        "Straßenmusik"
+      ],
+      "expectedY": 0
+    },
+    {
+      "layerId": "6F78F907-396B-41CB-A4D6-69EE40E26745",
+      "eventId": 172,
+      "artistId": 144,
+      "stageId": 7,
+      "platform": "ios",
+      "artistName": "Thüringer Folkloretanzensemble",
+      "time": "16:30",
+      "tags": [
+        "Bühnentanz"
+      ],
+      "expectedY": 0
+    },
+    {
+      "layerId": "FEF6AB21-30BC-4DD1-8547-7695B45CC4FA",
+      "eventId": 175,
+      "artistId": 298,
+      "stageId": 7,
+      "platform": "ios",
+      "artistName": "Phønix & Embla",
+      "time": "19:00",
+      "tags": [
+        "Bühne"
+      ],
+      "expectedY": 0
+    },
+    {
+      "layerId": "1D6B4C9A-B36A-4161-9DD9-60605EC9BCE7",
+      "eventId": 388,
+      "artistId": 314,
+      "stageId": 7,
+      "platform": "android",
+      "artistName": "Tamburica Cindrof",
+      "time": "11:00",
+      "tags": [
+        "Länderschwerpunkt"
+      ],
+      "expectedY": 0
+    }
+  ],
+  "expanded": {
+    "layerId": "E93601AF-5440-46B0-B362-F12B7CEAF9CA",
+    "eventId": 171,
+    "artistId": 213,
+    "stageId": 7,
+    "artistName": "AltBadSeer Musi",
+    "time": "13:00",
+    "tags": [],
+    "origin": "🇦🇹 Österreich",
+    "rawCountry": "AUT",
+    "keywords": [
+      "Steirische Volksmusik",
+      "Landlertanz"
+    ],
+    "summary": "Steirische Tanzmusik mit Gesang und rhythmischem Klatschen",
+    "metadataSourcePath": "shared/src/commonMain/resources/extra_data.json",
+    "metadataSourceSha256": "a6b2c38dc76ee6b1fc69da5e3f0eceba8fee2c742646ab25343bb253c981e080",
+    "metadataProvenance": "bundled enrichment used by app; not a field in festival API"
+  }
+}

@@ -4,14 +4,19 @@ enum FriendsTogetherListKind: Hashable {
     case recommendations
 }
 
+enum FriendProfileSection: String, Hashable {
+    case shared, discoveries, saved, ratings
+}
+
 enum AppNavigationRoute: Hashable {
     case festival(FestivalDestination)
+    case personalPlan(selectedDay: String?)
     case programDiscovery(tagID: String?)
     case artistWorldMap
     case artistCountry(code: String)
     case artist(id: Int, highlightedEventId: Int?, transitionSourceID: Int?)
     case stage(id: FestivalPlaceID, highlightedEventId: Int?)
-    case sharedFestivalProfile(profile: SharedFestivalProfile)
+    case sharedFestivalProfile(profile: SharedFestivalProfile, section: FriendProfileSection? = nil)
     case newsList
     case news(id: Int)
     case about
@@ -19,6 +24,9 @@ enum AppNavigationRoute: Hashable {
     case settings
     case syncStatus
     case friends
+    #if os(iOS)
+    case firebaseFriend(uid: String, section: FriendProfileSection? = nil)
+    #endif
     case friendsTogether(kind: FriendsTogetherListKind)
 }
 
@@ -38,11 +46,16 @@ struct AppNavigationDestination: View {
 
     @Environment(\.festivalData) private var festivalData
     @EnvironmentObject private var settings: UserSettings
+    #if os(iOS)
+    @Environment(\.firebaseAccountProfile) private var accountProfile
+    #endif
 
     var body: some View {
         switch route {
         case .festival(let destination):
             festivalDestination(destination)
+        case .personalPlan(let selectedDay):
+            ScheduleScreen(isPersonalPlan: true, selectedDay: selectedDay)
         case .programDiscovery(let tagID):
             ProgramDiscoveryView(tagID: tagID)
         case .artistWorldMap:
@@ -60,8 +73,8 @@ struct AppNavigationDestination: View {
             )
         case .stage(let id, let highlightedEventId):
             stageDestination(id: id, highlightedEventId: highlightedEventId)
-        case .sharedFestivalProfile(let profile):
-            SharedFestivalProfileDetailView(profile: profile)
+        case .sharedFestivalProfile(let profile, let section):
+            SharedFestivalProfileDetailView(profile: profile, section: section)
         case .newsList:
             FestivalNewsListView()
         case .news(let id):
@@ -76,6 +89,14 @@ struct AppNavigationDestination: View {
             SyncStatusView()
         case .friends:
             FriendsView()
+        #if os(iOS)
+        case .firebaseFriend(let uid, let section):
+            if let store = accountProfile?.firebaseFriends {
+                FirebaseAuthenticationGate(store: store) {
+                    LiveFirebaseFriendDetail(uid: uid, section: section)
+                }
+            }
+        #endif
         case .friendsTogether(let kind):
             FriendsTogetherListView(kind: kind)
         }

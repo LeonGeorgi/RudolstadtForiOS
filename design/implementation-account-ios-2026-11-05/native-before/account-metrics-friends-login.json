@@ -1,0 +1,242 @@
+[
+  {
+    "height" : 83,
+    "label" : "Tableiste",
+    "type" : 22,
+    "width" : 402,
+    "x" : 0,
+    "y" : 791
+  },
+  {
+    "height" : 44,
+    "label" : "Neuigkeiten, 40 ungelesene Mitteilungen",
+    "type" : 1,
+    "width" : 360,
+    "x" : 21,
+    "y" : 737
+  },
+  {
+    "height" : 54,
+    "label" : "Orte",
+    "type" : 9,
+    "width" : 78.333333333333329,
+    "x" : 25,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Zeitplan",
+    "type" : 9,
+    "width" : 78.333333333333329,
+    "x" : 93.416666666666671,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Künstler",
+    "type" : 9,
+    "width" : 78.333333333333343,
+    "x" : 161.83333333333331,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Freunde",
+    "type" : 9,
+    "width" : 78.333333333333343,
+    "x" : 230.24999999999991,
+    "y" : 795
+  },
+  {
+    "height" : 54,
+    "label" : "Mehr",
+    "type" : 9,
+    "width" : 78.333333333333371,
+    "x" : 298.66666666666663,
+    "y" : 795
+  },
+  {
+    "height" : 40.666666666666671,
+    "label" : "Anmelden",
+    "type" : 48,
+    "width" : 161.33333333333337,
+    "x" : 15.999999999999986,
+    "y" : 119.66666666666667
+  },
+  {
+    "height" : 44,
+    "label" : "40, Schiene oder Straße?, Tipps für die Anreise",
+    "type" : 9,
+    "width" : 360,
+    "x" : 21,
+    "y" : 737
+  },
+  {
+    "height" : 26.333333333333371,
+    "label" : "Karte einblenden",
+    "type" : 43,
+    "width" : 29.666666666666664,
+    "x" : 49.333333333333336,
+    "y" : 801.66666666666663
+  },
+  {
+    "height" : 25,
+    "label" : "Kalender",
+    "type" : 43,
+    "width" : 28.999999999999986,
+    "x" : 118.08333333333333,
+    "y" : 802.33333333333337
+  },
+  {
+    "height" : 33,
+    "label" : "Theatermasken, gefüllt",
+    "type" : 43,
+    "width" : 44.333333333333314,
+    "x" : 178.83333333333334,
+    "y" : 797.66666666666663
+  },
+  {
+    "height" : 26,
+    "label" : "Zwei Personen, gefüllt",
+    "type" : 43,
+    "width" : 37,
+    "x" : 250.91666666666663,
+    "y" : 802.66666666666663
+  },
+  {
+    "height" : 8.6666666666667425,
+    "label" : "Weitere",
+    "type" : 43,
+    "width" : 25,
+    "x" : 325.33333333333331,
+    "y" : 810.66666666666663
+  },
+  {
+    "height" : 18,
+    "label" : "Gefülltes Megafon",
+    "type" : 43,
+    "width" : 18.666667938232422,
+    "x" : 39.666666666666664,
+    "y" : 750
+  },
+  {
+    "height" : 13.333333333333258,
+    "label" : "40",
+    "type" : 48,
+    "width" : 15,
+    "x" : 50,
+    "y" : 742.33333333333337
+  },
+  {
+    "height" : 18,
+    "label" : "Schiene oder Straße?",
+    "type" : 48,
+    "width" : 153.33333333333334,
+    "x" : 73,
+    "y" : 742.83333333333337
+  },
+  {
+    "height" : 14.333333333333258,
+    "label" : "Tipps für die Anreise",
+    "type" : 48,
+    "width" : 117.33333333333334,
+    "x" : 73,
+    "y" : 760.83333333333337
+  },
+  {
+    "height" : 10.666666984558105,
+    "label" : "Weiter",
+    "type" : 43,
+    "width" : 6.3333334922790527,
+    "x" : 359.99999999999994,
+    "y" : 753.66666666666663
+  },
+  {
+    "height" : 619,
+    "label" : "Vertikaler Rollbalken, 2 Seiten",
+    "type" : 1,
+    "width" : 30,
+    "x" : 369,
+    "y" : 116
+  },
+  {
+    "height" : 42.333333333333343,
+    "label" : "Synchronisiere Merker, Bewertungen und private Notizen zwischen deinen Geräten.",
+    "type" : 48,
+    "width" : 317.33333333333331,
+    "x" : 24,
+    "y" : 192
+  },
+  {
+    "height" : 50,
+    "label" : "Mit Apple anmelden",
+    "type" : 9,
+    "width" : 354,
+    "x" : 24,
+    "y" : 258.33333333333331
+  },
+  {
+    "height" : 40,
+    "label" : "Über Google anmelden",
+    "type" : 9,
+    "width" : 354,
+    "x" : 24,
+    "y" : 325.33333333333331
+  },
+  {
+    "height" : 50.333333333333371,
+    "label" : "Mit E-Mail anmelden",
+    "type" : 9,
+    "width" : 354,
+    "x" : 24,
+    "y" : 382.33333333333331
+  },
+  {
+    "height" : 50.333333333333258,
+    "label" : "Anonymes Konto erstellen",
+    "type" : 9,
+    "width" : 354,
+    "x" : 24,
+    "y" : 444.66666666666669
+  },
+  {
+    "height" : 50.333333333333258,
+    "label" : "Mit Schlüssel anmelden",
+    "type" : 9,
+    "width" : 354,
+    "x" : 24,
+    "y" : 507
+  },
+  {
+    "height" : 51.666666666666742,
+    "label" : "Ohne E-Mail-Adresse. Sichere den Schlüssel für die Anmeldung auf weiteren Geräten in deinem Passwortmanager.",
+    "type" : 48,
+    "width" : 326,
+    "x" : 24,
+    "y" : 581.33333333333326
+  },
+  {
+    "height" : 33.666666666666629,
+    "label" : "Notizen sind standardmäßig privat. Du bestimmst später je Freund, ob du sie freigibst.",
+    "type" : 48,
+    "width" : 345,
+    "x" : 24,
+    "y" : 657
+  },
+  {
+    "height" : 15.666666666666742,
+    "label" : "Ohne Anmeldung bleiben deine Daten auf diesem Gerät.",
+    "type" : 48,
+    "width" : 340.33333333333331,
+    "x" : 24,
+    "y" : 714.66666666666663
+  },
+  {
+    "height" : 16.666666666666686,
+    "label" : "Über Google anmelden",
+    "type" : 48,
+    "width" : 143.66666666666666,
+    "x" : 71,
+    "y" : 337
+  }
+]

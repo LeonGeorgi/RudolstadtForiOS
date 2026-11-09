@@ -1,5 +1,6 @@
 @file:OptIn(
     androidx.compose.material3.ExperimentalMaterial3Api::class,
+    androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class,
     androidx.compose.ui.ExperimentalComposeUiApi::class,
 )
 
@@ -17,6 +18,7 @@ import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
@@ -37,6 +39,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
@@ -687,16 +692,20 @@ private fun PlaceContent(
     val nearby = app.content.details.nearby(place.placeKey)
     val programItems: LazyListScope.() -> Unit = {
         if (days.isNotEmpty()) {
+            val events = days.firstOrNull { it.dayID == day }?.events.orEmpty()
             item {
-                DayTabs(app.content.days.filter { d -> days.any { it.dayID == d.id } }, day) {
+                PlaceProgramDays(app.content.days.filter { d -> days.any { it.dayID == d.id } }, day) {
                     day = it
                 }
             }
-            items(
-                days.firstOrNull { it.dayID == day }?.events.orEmpty(),
-                key = { it.eventID },
-            ) {
-                EventRow(it, highlighted = it.eventID == highlightedEvent, showStage = false)
+            itemsIndexed(events, key = { _, event -> event.eventID }) { index, event ->
+                EventRow(
+                    event,
+                    highlighted = event.eventID == highlightedEvent,
+                    showStage = false,
+                    modifier = Modifier.detailListSegment(index, events.size, 8.dp),
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                )
             }
         }
     }
@@ -752,6 +761,56 @@ private fun PlaceContent(
                                 ?: app.place(near.place.placeKey)
                         },
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun PlaceProgramDays(days: List<ProgramDay>, selected: String, onSelect: (String) -> Unit) {
+    if (days.isEmpty()) return
+    val colors = MaterialTheme.colorScheme
+    val density = LocalDensity.current
+    val minimumDayWidth = 64.dp * density.fontScale.coerceAtLeast(1f)
+    val gap = ButtonGroupDefaults.ConnectedSpaceBetween
+    val scroll = rememberScrollState()
+    BoxWithConstraints(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
+        val width = maxOf(maxWidth, minimumDayWidth * days.size + gap * (days.size - 1))
+        val selectedIndex = days.indexOfFirst { it.id == selected }
+        LaunchedEffect(width, maxWidth, selectedIndex, density) {
+            if (width > maxWidth && selectedIndex >= 0) {
+                val offset = (minimumDayWidth + gap) * selectedIndex + (minimumDayWidth - maxWidth) / 2
+                scroll.scrollTo(with(density) { offset.roundToPx() }.coerceAtLeast(0))
+            }
+        }
+        Row(
+            Modifier.horizontalScroll(scroll).width(width).selectableGroup(),
+            horizontalArrangement = Arrangement.spacedBy(gap),
+        ) {
+            days.forEachIndexed { index, day ->
+                ToggleButton(
+                    checked = day.id == selected,
+                    onCheckedChange = { onSelect(day.id) },
+                    modifier = Modifier.weight(1f).semantics {
+                        role = Role.RadioButton
+                        this.selected = day.id == selected
+                    },
+                    shapes = when {
+                        days.size == 1 -> ToggleButtonDefaults.shapes()
+                        index == 0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
+                        index == days.lastIndex -> ButtonGroupDefaults.connectedTrailingButtonShapes()
+                        else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
+                    },
+                    colors = ToggleButtonDefaults.toggleButtonColors(
+                        containerColor = colors.surfaceContainerHigh,
+                        contentColor = colors.onSurfaceVariant,
+                        checkedContainerColor = colors.primary,
+                        checkedContentColor = colors.onPrimary,
+                    ),
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
+                ) {
+                    Text(dateTime(day.start, "EEE d"))
+                }
             }
         }
     }

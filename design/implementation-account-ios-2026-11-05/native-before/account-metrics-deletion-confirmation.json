@@ -1,0 +1,74 @@
+[
+  {
+    "height" : 428,
+    "label" : "Konto endgültig löschen?",
+    "type" : 7,
+    "width" : 320,
+    "x" : 41,
+    "y" : 237
+  },
+  {
+    "height" : 292,
+    "label" : "Vertikaler Rollbalken, 2 Seiten",
+    "type" : 1,
+    "width" : 30,
+    "x" : 328,
+    "y" : 237
+  },
+  {
+    "height" : 30,
+    "label" : "Horizontaler Rollbalken, 1 Seite",
+    "type" : 1,
+    "width" : 320,
+    "x" : 41,
+    "y" : 496
+  },
+  {
+    "height" : 136,
+    "label" : "Vertikaler Rollbalken, 1 Seite",
+    "type" : 1,
+    "width" : 30,
+    "x" : 328,
+    "y" : 529
+  },
+  {
+    "height" : 30,
+    "label" : "Horizontaler Rollbalken, 1 Seite",
+    "type" : 1,
+    "width" : 320,
+    "x" : 41,
+    "y" : 632
+  },
+  {
+    "height" : 20.333333333333314,
+    "label" : "Konto endgültig löschen?",
+    "type" : 48,
+    "width" : 260,
+    "x" : 71,
+    "y" : 259
+  },
+  {
+    "height" : 238.00000000000006,
+    "label" : "Dein Firebase-Konto, alle synchronisierten Daten einschließlich privater Notizen und Notizverlauf, Freundschaften, Einladungen und Zugangsschlüssel werden gelöscht. Das Profil auf diesem Gerät bleibt zur lokalen Nutzung erhalten. Andere Geräte verlieren den Cloud-Zugang. Diese Aktion kann nicht rückgängig gemacht werden. Bei Apple-Konten bestätigst du die Apple-Anmeldung erneut.",
+    "type" : 48,
+    "width" : 260,
+    "x" : 71,
+    "y" : 286.66666666666669
+  },
+  {
+    "height" : 48,
+    "label" : "Konto endgültig löschen",
+    "type" : 9,
+    "width" : 288,
+    "x" : 57,
+    "y" : 545
+  },
+  {
+    "height" : 48,
+    "label" : "Abbrechen",
+    "type" : 9,
+    "width" : 288,
+    "x" : 57,
+    "y" : 601
+  }
+]

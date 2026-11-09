@@ -79,6 +79,11 @@ internal fun ScheduleScreen() {
         stringResource(R.string.schedule_title),
         back = false,
         actions = {
+            IconButton(
+                onClick = { app.navigate("personal-plan?day=${android.net.Uri.encode(dayID)}") }
+            ) {
+                Icon(Icons.Default.EventAvailable, stringResource(R.string.personal_plan))
+            }
             Box {
                 IconButton(onClick = { filterMenu = true }) {
                     BadgedBox(badge = { if (filter != "all") Badge() }) {
@@ -234,7 +239,12 @@ internal fun ScheduleScreen() {
 }
 
 @Composable
-internal fun DayTabs(days: List<ProgramDay>, selected: String, onSelect: (String) -> Unit) {
+internal fun DayTabs(
+    days: List<ProgramDay>,
+    selected: String,
+    highlightSelection: Boolean = false,
+    onSelect: (String) -> Unit,
+) {
     if (days.isEmpty()) return
     val index = days.indexOfFirst { it.id == selected }.coerceAtLeast(0)
     PrimaryScrollableTabRow(index, edgePadding = 16.dp) {
@@ -243,6 +253,10 @@ internal fun DayTabs(days: List<ProgramDay>, selected: String, onSelect: (String
                 day.id == selected,
                 { onSelect(day.id) },
                 text = { Text(dateTime(day.start, "EEE d")) },
+                modifier =
+                    if (highlightSelection && day.id == selected)
+                        Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.03f))
+                    else Modifier,
             )
         }
     }

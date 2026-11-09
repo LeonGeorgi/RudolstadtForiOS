@@ -148,8 +148,8 @@ private struct ScheduleTimelineDayView: View {
     let onShowEndTimeInformation: () -> Void
     let onDayPull: (ScheduleTimelineDayPull.Direction) -> Void
 
-    private let timeWidth: CGFloat = 55
-    private let columnSpacing: CGFloat = 5
+    private let timeWidth: CGFloat = 56
+    private let columnSpacing: CGFloat = 4
     private let stageHeaderHeight = timelineStageHeaderHeight
 
     var body: some View {
@@ -601,12 +601,6 @@ private struct ScheduleTimelineScrollView<Content: View, PullContent: View>: Vie
                     }
                 }
             }
-            Divider()
-            Button {
-                applyZoomPreset(.standard)
-            } label: {
-                Label("schedule.zoom.reset", systemImage: "arrow.counterclockwise")
-            }
         } label: {
             Label("schedule.zoom.title", systemImage: "plus.magnifyingglass")
         }
@@ -1053,19 +1047,18 @@ private struct ScheduleTimelineStageHeaders: View {
     }
 
     private func stageHeader(_ column: ScheduleTimelineStagePresentation) -> some View {
-        VStack(alignment: .center, spacing: 5) {
-            StageNumber(stage: column.stage, size: 18, font: .caption2.weight(.semibold))
+        VStack(alignment: .center, spacing: 4) {
+            StageNumber(stage: column.stage, size: 16, font: .system(size: 11, weight: .semibold))
                 .monospacedDigit()
 
             Text(column.title)
-                .frame(width: columnWidth - 1)
+                .frame(width: columnWidth)
                 .frame(maxHeight: .infinity, alignment: .top)
-                .font(.caption2.weight(.medium))
-                .minimumScaleFactor(0.8)
+                .font(.system(size: 10, weight: .medium))
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
         }
-        .padding(.top, 5)
+        .padding(.top, 6)
         .padding(.bottom, 6)
         .frame(width: columnWidth, height: stageHeaderHeight)
         .contentShape(Rectangle())
