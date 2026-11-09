@@ -166,7 +166,7 @@ jobs:
           name: android-screenshots-tablet-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/captures/tablet
       - name: Install preview dependency
-        run: python -m pip install Pillow==12.3.0
+        run: python -m pip install Pillow==13.0.0
       - name: Prepare complete gallery and optimized README previews
         env:
           CAPTURE_ROOT: ${{ runner.temp }}/captures

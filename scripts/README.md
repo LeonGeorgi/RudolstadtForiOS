@@ -20,7 +20,7 @@ lokale Vorschau und Cloudflare-Einstellungen stehen in der
 die Ausgabe auf `master` und überträgt sie mit `website/publish.sh` in den
 Deployment-Branch `website-deploy`; Cloudflare veröffentlicht dessen fertige Dateien.
 
-Die Python-Importer benötigen Python 3.10 oder neuer. Der Ludwigsburg-Import und
+Die Python-Importer benötigen Python 3.11 oder neuer. Der Ludwigsburg-Import und
 seine Tests benötigen zusätzlich `pypdf`; die Kartenvorschau verwendet `pdftoppm`
 aus Poppler. Der Ruby-Linkfinder verwendet die Standardbibliothek; seine Tests
 verwenden Minitest 5.25.5 (`gem install minitest -v 5.25.5 --no-document`).

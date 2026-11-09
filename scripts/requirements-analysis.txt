@@ -5,7 +5,7 @@ scipy==1.18.1
 scikit-learn==1.9.1
 matplotlib==3.11.2
 hdbscan==0.8.44
-Pillow==12.3.0
+Pillow==13.0.0
 torch==2.14.1
 transformers==5.19.0
 sentence-transformers==6.1.0
